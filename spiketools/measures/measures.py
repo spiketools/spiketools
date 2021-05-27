@@ -1,4 +1,4 @@
-"""Functions to compute measures of interest."""
+"""Functions to compute measures of spiking activity."""
 
 import numpy as np
 
