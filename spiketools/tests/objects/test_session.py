@@ -1,4 +1,4 @@
-"""Tests for spike_tools.objects.session"""
+"""Tests for spiketools.objects.session"""
 
 from spiketools.objects.session import *
 

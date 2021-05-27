@@ -1,4 +1,4 @@
-"""Tests for spike_tools.objects.cell"""
+"""Tests for spiketools.objects.cell"""
 
 from spiketools.objects.cell import *
 
