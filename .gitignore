@@ -1,0 +1,8 @@
+# Ignore cache files
+**/__pycache__/**
+
+# Ignore coverage file
+.coverage
+
+# Ignore temp file for linter output
+_lint.txt

@@ -18,7 +18,7 @@
 ##########################################################################
 ## VARIABLES
 
-MODULE      = spike_tools
+MODULE      = spiketools
 LINT_FILE   = _lint.txt
 
 ##########################################################################
@@ -52,7 +52,7 @@ count-tests:
 # Run all tests
 run-tests:
 	@make coverage
-	@make doctests
+	#@make doctests
 
 # Run tests
 tests:
