@@ -3,6 +3,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+from spiketools.measures import compute_isis, compute_cv, compute_fano_factor
+
 ###################################################################################################
 ###################################################################################################
 
@@ -47,34 +49,22 @@ class Cell(object):
         return spike_train
 
 
-    def ISI(self, plot=False):
+    def ISI(self):
         """Compute and plot the ISI."""
 
-        ISI = np.diff(self.times)
-
-        if plot:
-            f, ISI_hist = plt.subplots(1, 1, figsize=(10, 4))
-            ISI_hist.hist(ISI)
-
-        return ISI
+        return compute_isis(self.times)
 
 
     def CV(self):
         """Compute coefficient of variation."""
 
-        ISI = self.ISI()
-        CV = np.std(ISI) / np.mean(ISI)
-
-        return CV
+        return compute_cv(self.ISI())
 
 
     def fano(self):
         """Compute fano factor."""
 
-        spiketrain = self.spike_train()
-        fano = np.var(spiketrain) / np.mean(spiketrain)
-
-        return fano
+        return compute_fano_factor(self.spike_train())
 
 
     def ISI_shuffle(self, random_state=None):
