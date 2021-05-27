@@ -9,9 +9,6 @@ SpikeTools
 .. |BuildStatus| image:: https://github.com/TomDonoghue/SpikeTools/actions/workflows/build.yml/badge.svg
 .. _BuildStatus: https://github.com/TomDonoghue/SpikeTools/actions/workflows/build.yml
 
-.. |License| image:: https://img.shields.io/pypi/l/spiketools.svg
-.. _License: https://opensource.org/licenses/Apache-2.0
-
 SpikeTools is a collection of tools and utilities for analyzing spiking data.
 
 WARNING: This module is in alpha development, and may change at any time.
