@@ -1,5 +1,7 @@
 """Functions for shuffling data."""
 
+from itertools import chain
+
 import numpy as np
 
 from spiketools.measures import compute_isis
@@ -33,7 +35,6 @@ def shuffle_isis(spike_times, random_state=None):
     return new_spike_times
 
 
-
 def varying_bin_circular_shuffle(spike_train, bin_width_range=[50, 2000], random_state=None):
     """Shuffle data with a circular shuffle.
 
@@ -53,7 +54,8 @@ def varying_bin_circular_shuffle(spike_train, bin_width_range=[50, 2000], random
 
     Notes
     -----
-    This approach shuffles data by creating bins of varying length and then circularly shuffling within those bins.
+    This approach shuffles data by creating bins of varying length and then
+    circularly shuffling within those bins.
     This should disturb the spike to spike structure in a dynamic way while also
     conserving structure uniformly across the distribution of lags.
     """
@@ -73,6 +75,7 @@ def varying_bin_circular_shuffle(spike_train, bin_width_range=[50, 2000], random
 
     left_edges = list(right_edges[:-1])
     left_edges.insert(0, 0)
+
     bins = [cbin for cbin in zip(left_edges, right_edges)]
 
     # sanity check : the bins should cover the whole length of the spike train
@@ -86,8 +89,8 @@ def varying_bin_circular_shuffle(spike_train, bin_width_range=[50, 2000], random
 
     # circularly shuffle each bin
     spike_shuff = []
-    for ind in range(len(bins)):
-        spike_shuff.append(np.roll(spike_train[bins[ind][0]:bins[ind][1]], shuffle_num[ind]))
+    for ind, cbin in enumerate(bins):
+        spike_shuff.append(np.roll(spike_train[cbin[0]:cbin[1]], shuffle_num[ind]))
 
     # chain them all back together
     spike_shuff = np.array(list(chain.from_iterable(spike_shuff)))

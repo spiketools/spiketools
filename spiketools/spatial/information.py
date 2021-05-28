@@ -26,7 +26,7 @@ def compute_I(spike_x, spike_z, bins, occupancy):
     """
 
     spike_map = np.histogram2d(spike_x, spike_z, bins=bins)[0]
-    info = _compute_spatial_information(spike_map, occupancy, bins)
+    info = _compute_spatial_information(spike_map, occupancy)
 
     return info
 
@@ -54,12 +54,12 @@ def skaggs1d(data, occupancy, bins=40):
     """
 
     spike_map = np.histogram(data, bins=bins)[0]
-    info = _compute_spatial_information(spike_map, occupancy, bins)
+    info = _compute_spatial_information(spike_map, occupancy)
 
     return info
 
 
-def _compute_spatial_information(spike_map, occupancy, bins):
+def _compute_spatial_information(spike_map, occupancy):
     """   """
 
     # Calculate average firing rate

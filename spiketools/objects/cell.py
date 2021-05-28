@@ -2,14 +2,14 @@
 
 import numpy as np
 
-from spiketools.stats import shuffle_isis
+from spiketools.stats.shuffle import shuffle_isis
 from spiketools.measures import create_spike_train
 from spiketools.measures import compute_isis, compute_cv, compute_fano_factor
 
 ###################################################################################################
 ###################################################################################################
 
-class Cell(object):
+class Cell():
     """A Session object.
 
     Parameters
@@ -67,4 +67,4 @@ class Cell(object):
     def ISI_shuffle(self, random_state=None):
         """Shuffle the ISI and return new spike times."""
 
-        return shuffle_isis(self.times)
+        return shuffle_isis(self.times, random_state=random_state)
