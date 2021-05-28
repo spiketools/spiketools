@@ -1,7 +1,7 @@
-SpikeTools
+spiketools
 ==========
 
-|ProjectStatus|_ |BuildStatus|_ |License|_
+|ProjectStatus|_ |BuildStatus|_
 
 .. |ProjectStatus| image:: http://www.repostatus.org/badges/latest/wip.svg
 .. _ProjectStatus: https://www.repostatus.org/#wip
@@ -9,9 +9,9 @@ SpikeTools
 .. |BuildStatus| image:: https://github.com/TomDonoghue/SpikeTools/actions/workflows/build.yml/badge.svg
 .. _BuildStatus: https://github.com/TomDonoghue/SpikeTools/actions/workflows/build.yml
 
-SpikeTools is a collection of tools and utilities for analyzing spiking data.
+`spiketools` is a collection of tools and utilities for analyzing spiking data.
 
-WARNING: This module is in alpha development, and may change at any time.
+WARNING: This module is in early development, and may change at any time.
 
 Overview
 --------
@@ -26,7 +26,7 @@ Upcoming.
 Dependencies
 ------------
 
-SpikeTools is written in Python, and requires Python >= 3.6 to run.
+`spiketools` is written in Python, and requires Python >= 3.6 to run.
 
 It has the following required dependencies:
 
@@ -35,6 +35,7 @@ It has the following required dependencies:
 - `matplotlib <https://github.com/matplotlib/matplotlib>`_
 
 There are also optional dependencies, which are not required for model fitting itself, but offer extra functionality:
+
 - `pytest <https://github.com/pytest-dev/pytest>`_ is needed to run the test suite locally
 
 We recommend using the `Anaconda <https://www.anaconda.com/distribution/>`_ distribution to manage these requirements.
