@@ -14,7 +14,7 @@ def compute_I(spike_x, spike_z, bins, occupancy):
         xx
     spike_z : 1d array
         xx
-    bins :
+    bins : xx
         xx
     occupancy :
         Occupancy.
@@ -60,7 +60,10 @@ def skaggs1d(data, occupancy, bins=40):
 
 
 def _compute_spatial_information(spike_map, occupancy):
-    """   """
+    """
+
+
+    """
 
     # Calculate average firing rate
     fr = np.nansum(spike_map) / np.nansum(occupancy)

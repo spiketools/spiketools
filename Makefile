@@ -52,7 +52,7 @@ count-tests:
 # Run all tests
 run-tests:
 	@make coverage
-	#@make doctests
+	@make doctests
 
 # Run tests
 tests:

@@ -11,7 +11,7 @@ def compute_spike_rate(spikes):
     Parameters
     ----------
     spikes : 1d array
-        Spike times.
+        Spike times, in seconds.
 
     Returns
     -------
@@ -28,7 +28,7 @@ def compute_isis(spikes):
     Parameters
     ----------
     spikes : 1d array
-        Spike times.
+        Spike times, in seconds.
 
     Returns
     -------
