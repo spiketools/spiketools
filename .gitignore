@@ -6,3 +6,6 @@
 
 # Ignore temp file for linter output
 _lint.txt
+
+# Ignore test files
+*/tests/test_files/*
