@@ -7,4 +7,6 @@ from spiketools.objects.session import *
 
 def test_session():
 
-    assert Session('SubjectCode', 'SessionCode', 'TaskCode')
+    assert Session(subject='SubjectCode',
+                   session='SessionCode',
+                   task='TaskCode')
