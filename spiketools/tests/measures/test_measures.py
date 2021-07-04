@@ -11,10 +11,10 @@ def test_compute_spike_rate():
 
     spikes = np.array([0.0, 0.5, 1.5, 2.])
 
-    fr = compute_spike_rate(spikes)
+    rate = compute_spike_rate(spikes)
 
-    assert isinstance(fr, float)
-    assert np.isclose(fr, 2.0)
+    assert isinstance(rate, float)
+    assert np.isclose(rate, 2.0)
 
 def test_compute_isis():
 
