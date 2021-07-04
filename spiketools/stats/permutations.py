@@ -1,4 +1,4 @@
-"""   """
+"""Permutation related functions."""
 
 import numpy as np
 

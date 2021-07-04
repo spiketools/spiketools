@@ -39,14 +39,13 @@ def poisson_train(frequency, duration, start_time=0, seed=None):
     ...     spike = next(spike_gen)
     """
 
-    cur_time = start_time
     rangen = np.random.mtrand.RandomState()
-
     if seed is not None:
         rangen.seed(seed)
 
     isi = 1. / frequency
 
+    cur_time = start_time
     while cur_time <= duration:
 
         cur_time += isi * rangen.exponential()

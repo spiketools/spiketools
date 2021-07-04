@@ -5,12 +5,12 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def create_spike_train(spike_times):
+def create_spike_train(spikes):
     """Convert spike times into a binary spike train.
 
     Parameters
     ----------
-    spike_times : 1d array
+    spikes : 1d array
         Spike times, in seconds.
 
     Returns
@@ -19,8 +19,10 @@ def create_spike_train(spike_times):
         Spike train.
     """
 
-    spike_train = np.zeros(np.ceil(spike_times[-1]).astype(int))
-    inds = [int(ind) for ind in spike_times if ind < spike_train.shape[-1]]
+    spike_train = np.zeros(np.ceil(spikes[-1]).astype(int))
+
+    inds = [int(ind) for ind in spikes if ind < spike_train.shape[-1]]
+
     spike_train[inds] = 1
 
     return spike_train
