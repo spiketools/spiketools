@@ -1,1 +1,1 @@
-"""Tests for the SpikeTools module."""
+"""Tests for the module."""
