@@ -44,10 +44,10 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges):
     """
 
     #x_bins = np.digitize(position[0, :], x_edges, right=True)
-    #z_bins = np.digitize(position[1, :], y_edges, right=True)
+    #y_bins = np.digitize(position[1, :], y_edges, right=True)
 
     x_bins = pd.cut(position[0, :], x_edges, labels=np.arange(len(x_edges) - 1))
-    y_bins = pd.cut(position[1, :], y_edges, labels=np.arange(len(z_edges) - 1))
+    y_bins = pd.cut(position[1, :], y_edges, labels=np.arange(len(y_edges) - 1))
 
     return x_bins, y_bins
 
@@ -94,21 +94,21 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Occupancy.
     """
 
-    x_edges, z_edges = compute_spatial_bin_edges(position, bins)
-    x_bins, z_bins = compute_spatial_bin_assignment(position, x_edges, z_edges)
+    x_edges, y_edges = compute_spatial_bin_edges(position, bins)
+    x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
     bin_width = compute_bin_width(timestamps)
 
     # TODO: refactor & drop DF here
     # Make a temporary pandas dataframe
     df = pd.DataFrame()
     df['xbins'] = x_bins
-    df['zbins'] = z_bins
+    df['ybins'] = y_bins
     df['bin_width'] = bin_width
 
     if np.any(speed):
         df = df[speed > speed_thresh]
 
-    df = df.groupby(['xbins', 'zbins'])['bin_width'].sum()
+    df = df.groupby(['xbins', 'ybins'])['bin_width'].sum()
 
     # occupancy time
     occ = np.squeeze(df.values.reshape(*bins, -1)) / 1000

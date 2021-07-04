@@ -1,7 +1,5 @@
 """Plots for spikes."""
 
-import seaborn as sns
-
 from spiketools.plts.utils import check_ax, savefig
 
 ###################################################################################################
@@ -52,6 +50,11 @@ def plot_firing_rates(rates, figsize=None, ax=None):
     ax = check_ax(ax, figsize)
 
     labels = ['U' + str(ind) for ind in range(len(rates))]
-    sns.barplot(x=labels, y=rates, ax=ax)
 
-    ax.set(xlabel='Units', ylabel='Firing Rate (Hz)', title='Firing Rates for all Units')
+    ax.bar(labels, rates)
+
+    ax.set(xlabel='Units',
+           ylabel='Firing Rate (Hz)',
+           title='Firing Rates for all Units')
+
+    ax.set_xlim([-0.5, len(rates)-0.5])
