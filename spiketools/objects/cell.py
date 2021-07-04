@@ -4,7 +4,7 @@ import numpy as np
 
 from spiketools.stats.shuffle import shuffle_isis
 from spiketools.measures import create_spike_train
-from spiketools.measures import compute_isis, compute_cv, compute_fano_factor
+from spiketools.measures import compute_isis, compute_cv, compute_fano_factor, compute_spike_rate
 
 ###################################################################################################
 ###################################################################################################
@@ -24,9 +24,14 @@ class Cell():
         Channel label.
     region : str
         Region label.
+    spikes : 1d array
+        Spike times.
+    cluster : 1d array
+        Spike cluster.
     """
 
-    def __init__(self, subject=None, session=None, task=None, channel=None, region=None):
+    def __init__(self, subject=None, session=None, task=None, channel=None,
+                 region=None, spikes=None, cluster=None):
         """Initialize a Cell object."""
 
         self.subject = subject
@@ -34,22 +39,26 @@ class Cell():
         self.task = task
         self.channel = channel
         self.region = region
-
-        # NOTE: need to update to add / load spike times and cluster information
-        self.times = None
-        self.cluster = None
+        self.spikes = spikes
+        self.cluster = cluster
 
 
     def spike_train(self):
         """Convert spike times into a spike train vector (binary)."""
 
-        return create_spike_train(self.times)
+        return create_spike_train(self.spikes)
+
+
+    def firing_rate(self):
+        """Compute average firing rate."""
+
+        return compute_spike_rate(self.spikes) * 1000
 
 
     def ISI(self):
-        """Compute and plot the ISI."""
+        """Compute inter-spike intervals."""
 
-        return compute_isis(self.times)
+        return compute_isis(self.spikes)
 
 
     def CV(self):
@@ -64,7 +73,7 @@ class Cell():
         return compute_fano_factor(self.spike_train())
 
 
-    def ISI_shuffle(self, random_state=None):
-        """Shuffle the ISI and return new spike times."""
+    def shuffle(self, random_state=None):
+        """Shuffle data to create new spike spikes."""
 
-        return shuffle_isis(self.times, random_state=random_state)
+        return shuffle_isis(self.spikes, random_state=random_state)
