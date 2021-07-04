@@ -36,6 +36,25 @@ def vec_perm(data, n_perms=1000):
     return perms
 
 
+def compute_empirical_pvalue(value, surrogates):
+    """Compute the empirical p-value from a distribution of surrogates.
+
+    Parameters
+    ----------
+    value : float
+        Test value.
+    surrogates : 1d array
+        Distribution of surrogates.
+
+    Returns
+    -------
+    float
+        The empirical p-value.
+    """
+
+    return sum(surrogates > value) / len(surrogates)
+
+
 def zscore_to_surrogates(value, surrogates):
     """Z-score a computed value relative to a distribution of surrogates.
 
