@@ -1,7 +1,5 @@
 """Cell object."""
 
-import numpy as np
-
 from spiketools.stats.shuffle import shuffle_isis
 from spiketools.measures import create_spike_train
 from spiketools.measures import compute_isis, compute_cv, compute_fano_factor, compute_spike_rate

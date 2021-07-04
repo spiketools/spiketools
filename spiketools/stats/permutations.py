@@ -1,6 +1,7 @@
 """Permutation related functions."""
 
 import numpy as np
+from scipy.stats import zmap
 
 ###################################################################################################
 ###################################################################################################
@@ -33,3 +34,22 @@ def vec_perm(data, n_perms=1000):
                                             writeable=False).copy()
 
     return perms
+
+
+def zscore_to_surrogates(value, surrogates):
+    """Z-score a computed value relative to a distribution of surrogates.
+
+    Parameters
+    ----------
+    value : float
+        Value to z-score.
+    surrogates : 1d array
+        Distribution of surrogates to compute the z-score against.
+
+    Returns
+    -------
+    float
+        The z-score of the given value.
+    """
+
+    return zmap(value, surrogates)[0]
