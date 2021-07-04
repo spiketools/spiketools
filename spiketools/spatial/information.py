@@ -5,49 +5,48 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def compute_I(spike_x, spike_z, bins, occupancy):
-    """Compute spatial information.
+def compute_spatial_information_2d(spike_x, spike_y, bins, occupancy):
+    """Compute spatial information across a 2d space.
 
     Parameters
     ----------
-    spike_x : 1d array
-        xx
-    spike_z : 1d array
-        xx
-    bins : xx
-        xx
-    occupancy :
-        Occupancy.
+    spike_x, spike_y : 1d array
+        Spike positions.
+    bins : list of int
+        Binning to use.
+    occupancy : 2d array
+        Occupancy of the space.
 
     Returns
     -------
-    I : ??
-        xx
+    info : float
+        Spike information rate for spatial information (bits/spike).
     """
 
-    spike_map = np.histogram2d(spike_x, spike_z, bins=bins)[0]
+    spike_map = np.histogram2d(spike_x, spike_y, bins=bins)[0]
     info = _compute_spatial_information(spike_map, occupancy)
 
     return info
 
 
-def skaggs1d(data, occupancy, bins=40):
-    """Compute Skaggs SI.
+def compute_spatial_information_1d(data, occupancy, bins=40):
+    """Compute spatial information across a 1d space using Skaggs information.
 
     Parameters
     ----------
-    data :
-        position
-    occupancy : ?
-        Occupancy.
+    data : 1d array
+        Spike positions.
+    occupancy : 1d array
+        Occupancy data.
     bins : int
-        xx
+        Number of bins to use.
 
     Returns
     -------
     info : float
-        Spike information rate (bits/spike).
+        Spike information rate for spatial information (bits/spike).
 
+    zOLD:
     :param xs: spike_position
     :param freq: sampling frequency
     :param min_occ: minimum occupancy
@@ -60,26 +59,32 @@ def skaggs1d(data, occupancy, bins=40):
 
 
 def _compute_spatial_information(spike_map, occupancy):
-    """
+    """Compute spatial information.
 
+    Parameters
+    ----------
+    spike_map : ndarray
+        Spike positions.
+    occupancy : ndarray
+        Occupancy.
 
+    Returns
+    -------
+    info : float
+        Spike information rate for spatial information (bits/spike).
     """
 
     # Calculate average firing rate
-    fr = np.nansum(spike_map) / np.nansum(occupancy)
-    if fr == 0.0:
+    rate = np.nansum(spike_map) / np.nansum(occupancy)
+    if rate == 0.0:
         return 0.0
 
-    # Compute the occupancy probability, per bin
+    # Compute the occupancy probability (per bin) & normalized spiking (by occupancy)
     occ_prob = occupancy / np.nansum(occupancy)
-
-    # Normalize spiking across space by occupancy
     spike_map_norm = spike_map / occupancy
 
-    # Create mask for selecting nonzero values
+    # Calculate the spatial information, using a mask for nonzero values
     nz = np.nonzero(spike_map_norm)
-
-    # Calculate the spatial information
-    info = np.nansum(occ_prob[nz] * spike_map_norm[nz] * np.log2(spike_map_norm[nz] / fr)) / fr
+    info = np.nansum(occ_prob[nz] * spike_map_norm[nz] * np.log2(spike_map_norm[nz] / rate)) / rate
 
     return info

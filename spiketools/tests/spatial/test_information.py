@@ -5,5 +5,11 @@ from spiketools.spatial.information import *
 ###################################################################################################
 ###################################################################################################
 
-def test_():
+def test_compute_spatial_information_2d():
+    pass
+
+def test_compute_spatial_information_1d():
+    pass
+
+def test_compute_spatial_information():
     pass
