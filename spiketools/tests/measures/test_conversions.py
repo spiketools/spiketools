@@ -14,6 +14,7 @@ def test_create_spike_train(tspikes):
     spike_train = create_spike_train(tspikes)
     assert isinstance(spike_train, np.ndarray)
     assert spike_train.shape[-1] > tspikes.shape[-1]
+    assert sum(spike_train) == tspikes.shape[-1]
 
 def test_convert_train_to_times():
 
@@ -26,16 +27,19 @@ def test_convert_train_to_times():
     assert isinstance(spikes, np.ndarray)
     assert spikes.shape[-1] == spike_inds.shape[-1]
 
-def test_convert_isis_to_spikes(tspikes):
+def test_convert_isis_to_spikes():
 
+    tspikes = np.array([0.5, 1.5, 2., 2.5, 3., 4., 5.])
     isis = compute_isis(tspikes)
 
     spikes1 = convert_isis_to_spikes(isis)
-    assert np.array_equal(spikes1, tspikes)
+    assert spikes1.shape[-1] == tspikes.shape[-1]
 
     spikes2 = convert_isis_to_spikes(isis, offset=2.)
-    assert np.array_equal(spikes2 - 2, tspikes)
     assert spikes2[0] == 2.
 
     spikes3 = convert_isis_to_spikes(isis, add_offset=False)
     assert len(spikes3) == len(isis)
+
+    spikes4 = convert_isis_to_spikes(isis, offset=tspikes[0])
+    assert np.array_equal(spikes4, tspikes)
