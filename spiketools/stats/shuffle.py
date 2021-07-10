@@ -111,41 +111,36 @@ def shuffle_bins(spikes, bin_width_range=[50, 2000], n_shuffles=1000, random_sta
 
     for ind in range(n_shuffles):
 
-        right_edges = []
-        edge = 0
-        while edge < (spike_train.shape[-1] - bin_width_range[0]):
-            edge += rng.randint(bin_width_range[0], bin_width_range[1])
-            right_edges.append(edge)
+        # Define the bins to use for shuffling
+        #  This create the maximum number of bins, then sub-selects to bins that tile the space
+        #  This approach is a little quicker than iterating through and stopping space is tiled
+        temp = rng.randint(bin_width_range[0], bin_width_range[1],
+                           int(spike_train.shape[-1] / bin_width_range[0]))
+        right_edges = np.cumsum(temp)
+        right_edges = right_edges[right_edges < spike_train.shape[-1]]
+        right_edges[-1] = spike_train.shape[-1]
 
-        if right_edges[-1] > spike_train.shape[-1]:
-            right_edges[-1] = spike_train.shape[-1]
-        else:
-            right_edges.append(spike_train.shape[-1])
-
-        left_edges = list(right_edges[:-1])
-        left_edges.insert(0, 0)
-
-        bins = [cbin for cbin in zip(left_edges, right_edges)]
+        # Define the left bin edges
+        left_edges = right_edges.copy()[:-1]
+        left_edges = np.insert(left_edges, 0, 0)
 
         # Error check: the bins should cover the whole length of the spike train
-        if np.sum([np.diff(cbin) for cbin in bins]) != spike_train.shape[-1]:
+        if np.sum([re - le for le, re in zip(left_edges, right_edges)]) != spike_train.shape[-1]:
             raise ValueError('Problem with bins covering the whole length.')
 
         # Assign a shuffle amount to each bin
+        #   QUESTION / CHECK: should the low range here be divided by two?
         shuffle_num = rng.uniform(low=bin_width_range[0] / 2,
                                   high=bin_width_range[1],
-                                  size=len(bins)).astype(int)
+                                  size=len(left_edges)).astype(int)
 
         # Circularly shuffle each bin
-        shuffled_train = []
-        for b_ind, cbin in enumerate(bins):
-            shuffled_train.append(np.roll(spike_train[cbin[0]:cbin[1]], shuffle_num[ind]))
-
-        # Combine the shuffled bins back together
-        shuffled_train_flat = np.concatenate(shuffled_train)
+        shuffled_train = np.zeros(len(spike_train))
+        for le, re, shuff in zip(left_edges, right_edges, shuffle_num):
+            shuffled_train[le:re] = np.roll(spike_train[le:re], shuff)
 
         # Convert back to spike times (with ms resolution) from the shuffled spike train
-        shuffled_spikes[ind, :] = convert_train_to_times(shuffled_train_flat)
+        shuffled_spikes[ind, :] = convert_train_to_times(shuffled_train)
 
     return shuffled_spikes
 
