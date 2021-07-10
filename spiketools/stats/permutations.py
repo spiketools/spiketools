@@ -11,15 +11,15 @@ def vec_perm(data, n_perms=1000):
 
     Parameters
     ----------
-    data :
-        xx
+    data : 1d array
+        Data to permute
     n_perms : int
         Number of permutations to do.
 
     Returns
     -------
-    perms :
-        xx
+    perms : 2d array
+        Permutations of the input data.
 
     Notes
     -----

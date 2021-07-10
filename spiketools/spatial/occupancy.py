@@ -43,6 +43,7 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges):
         Bin assignments for each position.
     """
 
+    # TODO: possible update / option for doing this with numpy
     #x_bins = np.digitize(position[0, :], x_edges, right=True)
     #y_bins = np.digitize(position[1, :], y_edges, right=True)
 
@@ -70,7 +71,7 @@ def compute_bin_width(timestamps):
 
 
 def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6, set_nan=False):
-    """Compute occupancy....
+    """Compute occupancy across spatial bin positions.
 
     Parameters
     ----------

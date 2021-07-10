@@ -101,6 +101,9 @@ def shuffle_bins(spikes, bin_width_range=[50, 2000], n_shuffles=1000, random_sta
     circularly shuffling within those bins.
     This should disturb the spike to spike structure in a dynamic way while also
     conserving structure uniformly across the distribution of lags.
+    This function can be a little slow when running a lot.
+    The main holdup is `np.roll` (unclear if / how to optimize).
+    The next biggest hold up is converting the spike train to spike times.
     """
 
     spike_train = create_spike_train(spikes)

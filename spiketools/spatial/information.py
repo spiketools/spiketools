@@ -45,11 +45,6 @@ def compute_spatial_information_1d(data, occupancy, bins=40):
     -------
     info : float
         Spike information rate for spatial information (bits/spike).
-
-    zOLD:
-    :param xs: spike_position
-    :param freq: sampling frequency
-    :param min_occ: minimum occupancy
     """
 
     spike_map = np.histogram(data, bins=bins)[0]
