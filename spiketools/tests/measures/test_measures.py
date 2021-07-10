@@ -21,9 +21,15 @@ def test_compute_isis():
     spikes = np.array([0.0, 0.5, 1.5, 2.])
 
     isis = compute_isis(spikes)
-
     assert isinstance(isis, np.ndarray)
+    assert isis.shape[-1] + 1 == spikes.shape[-1]
     assert np.allclose(isis, np.array([0.5, 1, 0.5]))
+
+    spikes2 = np.random.uniform(0., 10000., 100)
+
+    isis = compute_isis(spikes)
+    assert isis.shape[-1] + 1 == spikes.shape[-1]
+    assert sum(isis < 0) == 0
 
 def test_compute_cv():
 
