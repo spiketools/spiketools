@@ -23,8 +23,10 @@ def vec_perm(data, n_perms=1000):
 
     Notes
     -----
-    Code adapted from here:
-    https://stackoverflow.com/questions/46859304/
+    Code adapted from here: https://stackoverflow.com/questions/46859304/
+    This function doesn't have any randomness: for a given array it will
+    iterate through the same set of permutations.
+    This does a sequence of rotated permutations.
     """
 
     data_ext = np.concatenate((data, data[:-1]))
