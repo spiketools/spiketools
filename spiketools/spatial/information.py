@@ -1,5 +1,7 @@
 """Measures of spatial information."""
 
+import warnings
+
 import numpy as np
 
 ###################################################################################################
@@ -76,7 +78,9 @@ def _compute_spatial_information(spike_map, occupancy):
 
     # Compute the occupancy probability (per bin) & normalized spiking (by occupancy)
     occ_prob = occupancy / np.nansum(occupancy)
-    spike_map_norm = spike_map / occupancy
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=RuntimeWarning)
+        spike_map_norm = spike_map / occupancy
 
     # Calculate the spatial information, using a mask for nonzero values
     nz = np.nonzero(spike_map_norm)
