@@ -13,8 +13,8 @@ from spiketools.plts.utils import check_ax, savefig
 
 @savefig
 def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
-                    ignore_zero=False, title=None, cbar=False, cmap='Spectral_r',
-                    figsize=None, ax=None):
+                    ignore_zero=False, cbar=False, cmap=None, vmin=None, vmax=None,
+                    title=None, figsize=None, ax=None, **kwargs):
     """Plot a spatial heat map.
 
     Parameters
@@ -23,14 +23,24 @@ def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
         Measure to plot across a grided environment.
     transpose : bool, optional, default: False
         Whether to transpose the data before plotting.
+    smooth : bool, optional, default: False
+        Whether to smooth the data before plotting.
     ignore_zero : bool, optional, default: False
         If True, replaces 0's with NaN for plotting.
+    cbar : bool, optional, default: False
+        Whether to add a colorbar to the plot.
+    cmap : str, optional
+        Which colormap to use to plot.
+    vmin, vmax : float, optional
+        Min and max plot ranges.
     title : str, optional
         Title to add to the figure.
     figsize : list, optional
         Size to create the figure.
     ax : Axes, optional
         Axis object upon which to plot.
+    kwargs
+        Additional arguments to pass into the plot function.
     """
 
     ax = check_ax(ax, figsize=figsize)
@@ -45,7 +55,7 @@ def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
         data = deepcopy(data)
         data[data == 0.] = np.nan
 
-    im = ax.imshow(data)
+    im = ax.imshow(data, cmap=cmap, vmin=vmin, vmax=vmax, **kwargs)
 
     ax.set_xticks([])
     ax.set_yticks([])
