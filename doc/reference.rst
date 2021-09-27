@@ -12,4 +12,4 @@ Table of Contents
 Reference
 ~~~~~~~~~
 
-If you use this method, and/or want to refer to our approach, examples, and discussion points, please cite the Github repository.
+If you use this module please cite the Github repository.

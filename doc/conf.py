@@ -95,7 +95,6 @@ html_theme_options = {
     'navbar_sidebarrel': False,
     'navbar_links': [
         ("API", "api"),
-        ("FAQ", "faq"),
         ("Glossary", "glossary"),
         ("Tutorials", "auto_tutorials/index"),
         ("Examples", "auto_examples/index"),
