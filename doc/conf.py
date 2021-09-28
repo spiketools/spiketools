@@ -22,7 +22,7 @@ from sphinx_gallery.sorting import FileNameSortKey, ExplicitOrder
 
 # Set project information
 project = 'spiketools'
-copyright = '2018-{}, Thomas Donoghue'.format(date.today().year)
+copyright = '2021-{}, Thomas Donoghue'.format(date.today().year)
 author = 'Thomas Donoghue'
 
 # Get and set the current version number
@@ -98,7 +98,7 @@ html_theme_options = {
         ("Glossary", "glossary"),
         ("Tutorials", "auto_tutorials/index"),
         ("Examples", "auto_examples/index"),
-        ("Reference", "reference"),
+        #("Reference", "reference"),
         ("GitHub", "https://github.com/spiketools/spiketools", True),
     ],
 
