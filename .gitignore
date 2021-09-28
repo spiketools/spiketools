@@ -9,3 +9,9 @@ _lint.txt
 
 # Ignore test files
 */tests/test_files/*
+
+# Ignore files generated for the documentation
+doc/_build/
+doc/auto_examples/
+doc/auto_tutorials/
+doc/generated/
