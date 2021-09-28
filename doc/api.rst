@@ -16,10 +16,12 @@ Table of Contents
 Measures
 --------
 
-Words, words, words.
+Spike related measures and conversions, available in the `measures` sub-module.
 
 Measures
 ~~~~~~~~
+
+Spike measures.
 
 .. currentmodule:: spiketools.measures.measures
 .. autosummary::
@@ -33,7 +35,7 @@ Measures
 Conversions
 ~~~~~~~~~~~
 
-Words, words, words.
+Conversions between spike representations.
 
 .. currentmodule:: spiketools.measures.conversions
 .. autosummary::
@@ -46,7 +48,7 @@ Words, words, words.
 Objects
 -------
 
-Words, words, words.
+Object for managing spike-related data, available in the `objects` sub-module.
 
 .. currentmodule:: spiketools.objects
 .. autosummary::
@@ -58,7 +60,7 @@ Words, words, words.
 Spatial
 -------
 
-Words, words, words.
+Functionality for processing spatial data, available in the `spatial` sub-module.
 
 Occupancy
 ~~~~~~~~~
@@ -97,7 +99,7 @@ Information
 Statistics
 ----------
 
-Words, words, words.
+Statistical analyses, available in the `stats` sub-module.
 
 Generators
 ~~~~~~~~~~
@@ -135,7 +137,7 @@ Permutations
 Simulations
 -----------
 
-Words, words, words.
+Functionality for simulating spiking data, available in the `sims` sub-module.
 
 .. currentmodule:: spiketools.sims
 .. autosummary::
@@ -144,7 +146,7 @@ Words, words, words.
 Plots
 -----
 
-Words, words, words.
+Functions in the `plts` sub-module for visualizing spiking data and related measures.
 
 Spikes
 ~~~~~~
@@ -179,7 +181,7 @@ Stats
 Utilities
 ---------
 
-Words, words, words.
+Utility functions, in the `utils` sub-module.
 
 .. currentmodule:: spiketools.utils
 .. autosummary::
