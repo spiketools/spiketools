@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>spiketools.stats.shuffle &#8212; spiketools 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          spiketools</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../api.html">API</a></li>
+                <li><a href="../../../glossary.html">Glossary</a></li>
+                <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../../../auto_examples/index.html">Examples</a></li>
+                <li><a href="../../../reference.html">Reference</a></li>
+                <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for spiketools.stats.shuffle</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions for shuffling data.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">spiketools.measures</span> <span class="kn">import</span> <span class="n">compute_isis</span><span class="p">,</span> <span class="n">compute_spike_rate</span>
+<span class="kn">from</span> <span class="nn">spiketools.measures.conversions</span> <span class="kn">import</span> <span class="p">(</span><span class="n">create_spike_train</span><span class="p">,</span> <span class="n">convert_isis_to_spikes</span><span class="p">,</span>
+                                             <span class="n">convert_train_to_times</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">spiketools.stats.generators</span> <span class="kn">import</span> <span class="n">poisson_train</span>
+<span class="kn">from</span> <span class="nn">spiketools.stats.permutations</span> <span class="kn">import</span> <span class="n">vec_perm</span>
+
+<span class="c1">###################################################################################################</span>
+<span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="shuffle_spikes"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_spikes.html#spiketools.stats.shuffle.shuffle_spikes">[docs]</a><span class="k">def</span> <span class="nf">shuffle_spikes</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">approach</span><span class="o">=</span><span class="s1">&#39;ISI&#39;</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Shuffle spike</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Spike times.</span>
+<span class="sd">    approach : {&#39;ISI&#39;, &#39;BINCIRC&#39;, &#39;POISSON&#39;, &#39;CIRCULAR&#39;}</span>
+<span class="sd">        Which approach to take for shuffling spike times.</span>
+<span class="sd">    n_shuffles : int, optional, default: 1000</span>
+<span class="sd">        The number of shuffles to create.</span>
+<span class="sd">    random_state : int</span>
+<span class="sd">        Initialization value for the random state.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    shuffled_spikes : 2d array</span>
+<span class="sd">        Shuffled spike times.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">approach</span> <span class="o">==</span> <span class="s1">&#39;ISI&#39;</span><span class="p">:</span>
+        <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_isis</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">approach</span> <span class="o">==</span> <span class="s1">&#39;BINCIRC&#39;</span><span class="p">:</span>
+        <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_bins</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">approach</span> <span class="o">==</span> <span class="s1">&#39;POISSON&#39;</span><span class="p">:</span>
+        <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_poisson</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">approach</span> <span class="o">==</span> <span class="s1">&#39;CIRCULAR&#39;</span><span class="p">:</span>
+        <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_circular</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Shuffling approach not understood.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">shuffled_spikes</span></div>
+
+
+<div class="viewcode-block" id="shuffle_isis"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis">[docs]</a><span class="k">def</span> <span class="nf">shuffle_isis</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create shuffled spike times using permuted inter-spike intervals.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    isis : 1d array</span>
+<span class="sd">        Inter-spike intervals.</span>
+<span class="sd">    random_state : int</span>
+<span class="sd">        Initialization value for the random state.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    shuffled_spikes : 2d array</span>
+<span class="sd">        Shuffled spike times.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="n">isis</span> <span class="o">=</span> <span class="n">compute_isis</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+
+    <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_shuffles</span><span class="p">,</span> <span class="n">spikes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_shuffles</span><span class="p">):</span>
+        <span class="n">shuffled_spikes</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">convert_isis_to_spikes</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">isis</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">shuffled_spikes</span></div>
+
+
+<div class="viewcode-block" id="shuffle_bins"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_bins.html#spiketools.stats.shuffle.shuffle_bins">[docs]</a><span class="k">def</span> <span class="nf">shuffle_bins</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bin_width_range</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Shuffle data with a circular shuffle of the spike train.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Spike times.</span>
+<span class="sd">    bin_width_range : list of int</span>
+<span class="sd">        xx</span>
+<span class="sd">    random_state : int</span>
+<span class="sd">        Initialization value for the random state.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spike_time_diff : 2d array</span>
+<span class="sd">        Shuffled spike times.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This approach shuffles spikes by creating bins of varying length and then</span>
+<span class="sd">    circularly shuffling within those bins.</span>
+<span class="sd">    This should disturb the spike to spike structure in a dynamic way while also</span>
+<span class="sd">    conserving structure uniformly across the distribution of lags.</span>
+<span class="sd">    This function can be a little slow when running a lot.</span>
+<span class="sd">    The main holdup is `np.roll` (unclear if / how to optimize).</span>
+<span class="sd">    The next biggest hold up is converting the spike train to spike times.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">spike_train</span> <span class="o">=</span> <span class="n">create_spike_train</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_shuffles</span><span class="p">,</span> <span class="n">spikes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_shuffles</span><span class="p">):</span>
+
+        <span class="c1"># Define the bins to use for shuffling</span>
+        <span class="c1">#  This create the maximum number of bins, then sub-selects to bins that tile the space</span>
+        <span class="c1">#  This approach is a little quicker than iterating through and stopping space is tiled</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">bin_width_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bin_width_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                           <span class="nb">int</span><span class="p">(</span><span class="n">spike_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">bin_width_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">right_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="n">right_edges</span> <span class="o">=</span> <span class="n">right_edges</span><span class="p">[</span><span class="n">right_edges</span> <span class="o">&lt;</span> <span class="n">spike_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">right_edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">spike_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Define the left bin edges</span>
+        <span class="n">left_edges</span> <span class="o">=</span> <span class="n">right_edges</span><span class="o">.</span><span class="n">copy</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">left_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">left_edges</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Error check: the bins should cover the whole length of the spike train</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">re</span> <span class="o">-</span> <span class="n">le</span> <span class="k">for</span> <span class="n">le</span><span class="p">,</span> <span class="n">re</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left_edges</span><span class="p">,</span> <span class="n">right_edges</span><span class="p">)])</span> <span class="o">!=</span> <span class="n">spike_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Problem with bins covering the whole length.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Assign a shuffle amount to each bin</span>
+        <span class="c1">#   QUESTION / CHECK: should the low range here be divided by two?</span>
+        <span class="n">shuffle_num</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">bin_width_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                                  <span class="n">high</span><span class="o">=</span><span class="n">bin_width_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                  <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">left_edges</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># Circularly shuffle each bin</span>
+        <span class="n">shuffled_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spike_train</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">le</span><span class="p">,</span> <span class="n">re</span><span class="p">,</span> <span class="n">shuff</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left_edges</span><span class="p">,</span> <span class="n">right_edges</span><span class="p">,</span> <span class="n">shuffle_num</span><span class="p">):</span>
+            <span class="n">shuffled_train</span><span class="p">[</span><span class="n">le</span><span class="p">:</span><span class="n">re</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">spike_train</span><span class="p">[</span><span class="n">le</span><span class="p">:</span><span class="n">re</span><span class="p">],</span> <span class="n">shuff</span><span class="p">)</span>
+
+        <span class="c1"># Convert back to spike times (with ms resolution) from the shuffled spike train</span>
+        <span class="n">shuffled_spikes</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">convert_train_to_times</span><span class="p">(</span><span class="n">shuffled_train</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">shuffled_spikes</span></div>
+
+
+<div class="viewcode-block" id="shuffle_poisson"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_poisson.html#spiketools.stats.shuffle.shuffle_poisson">[docs]</a><span class="k">def</span> <span class="nf">shuffle_poisson</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Shuffle spikes based on a Poisson distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Spike times.</span>
+<span class="sd">    n_shuffles : int</span>
+<span class="sd">        The number of shuffles to create.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    shuffled_spikes : 2d array</span>
+<span class="sd">        Shuffled spike times.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Experimental implementation / has issues matching spike counts.</span>
+<span class="sd">    Not fully checked / tested / implemented yet.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="n">length</span> <span class="o">=</span> <span class="p">((</span><span class="n">spikes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">compute_spike_rate</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+    <span class="n">poisson_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ind</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">poisson_train</span><span class="p">(</span><span class="n">rate</span><span class="p">,</span> <span class="n">length</span><span class="p">)]</span> <span class="o">+</span> <span class="n">spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># NOTE: might be an issue with vec_perm here</span>
+    <span class="n">isis</span> <span class="o">=</span> <span class="n">vec_perm</span><span class="p">(</span><span class="n">compute_isis</span><span class="p">(</span><span class="n">poisson_spikes</span><span class="p">),</span> <span class="n">n_perms</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">)</span>
+
+    <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">isis</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">shuffled_spikes</span></div>
+
+
+<div class="viewcode-block" id="shuffle_circular"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_circular.html#spiketools.stats.shuffle.shuffle_circular">[docs]</a><span class="k">def</span> <span class="nf">shuffle_circular</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">shuffle_min</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Shuffle spikes based on circularly shifting the spike train.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Spike times.</span>
+<span class="sd">    shuffle_min : int</span>
+<span class="sd">        The minimum amount to rotate date, in terms of units of the spike train.</span>
+<span class="sd">    n_shuffles : int</span>
+<span class="sd">        The number of shuffles to create.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    shuffled_spikes : 2d array</span>
+<span class="sd">        Shuffled spike times.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">spike_train</span> <span class="o">=</span> <span class="n">create_spike_train</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="n">shuffles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">shuffle_min</span><span class="p">,</span>
+                                 <span class="n">high</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span><span class="o">-</span><span class="n">shuffle_min</span><span class="p">,</span>
+                                 <span class="n">size</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">)</span>
+
+    <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_shuffles</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">spikes</span><span class="p">)])</span>
+
+    <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">shuffle</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">shuffles</span><span class="p">):</span>
+        <span class="n">temp_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">spike_train</span><span class="p">,</span> <span class="n">shuffle</span><span class="p">)</span>
+        <span class="n">shuffled_spikes</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">convert_train_to_times</span><span class="p">(</span><span class="n">temp_train</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">shuffled_spikes</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018-2021, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

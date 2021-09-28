@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>API Documentation &#8212; spiketools 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          spiketools</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="#">API</a></li>
+                <li><a href="glossary.html">Glossary</a></li>
+                <li><a href="auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="auto_examples/index.html">Examples</a></li>
+                <li><a href="reference.html">Reference</a></li>
+                <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <section id="api-documentation">
+<span id="id1"></span><h1>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<p>API reference for the module.</p>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#measures" id="id3">Measures</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id2" id="id4">Measures</a></p></li>
+<li><p><a class="reference internal" href="#conversions" id="id5">Conversions</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#objects" id="id6">Objects</a></p></li>
+<li><p><a class="reference internal" href="#spatial" id="id7">Spatial</a></p>
+<ul>
+<li><p><a class="reference internal" href="#occupancy" id="id8">Occupancy</a></p></li>
+<li><p><a class="reference internal" href="#position" id="id9">Position</a></p></li>
+<li><p><a class="reference internal" href="#information" id="id10">Information</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#statistics" id="id11">Statistics</a></p>
+<ul>
+<li><p><a class="reference internal" href="#generators" id="id12">Generators</a></p></li>
+<li><p><a class="reference internal" href="#shuffle" id="id13">Shuffle</a></p></li>
+<li><p><a class="reference internal" href="#permutations" id="id14">Permutations</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#simulations" id="id15">Simulations</a></p></li>
+<li><p><a class="reference internal" href="#plots" id="id16">Plots</a></p>
+<ul>
+<li><p><a class="reference internal" href="#spikes" id="id17">Spikes</a></p></li>
+<li><p><a class="reference internal" href="#space" id="id18">Space</a></p></li>
+<li><p><a class="reference internal" href="#stats" id="id19">Stats</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#utilities" id="id20">Utilities</a></p></li>
+</ul>
+</div>
+<section id="measures">
+<h3><a class="toc-backref" href="#id3">Measures</a><a class="headerlink" href="#measures" title="Permalink to this headline">¶</a></h3>
+<p>Words, words, words.</p>
+<section id="id2">
+<h4><a class="toc-backref" href="#id4">Measures</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.measures.measures.compute_spike_rate.html#spiketools.measures.measures.compute_spike_rate" title="spiketools.measures.measures.compute_spike_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_spike_rate</span></code></a>(spikes)</p></td>
+<td><p>Estimate spike rate from a vector of spike times, in seconds.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.measures.measures.compute_isis.html#spiketools.measures.measures.compute_isis" title="spiketools.measures.measures.compute_isis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_isis</span></code></a>(spikes)</p></td>
+<td><p>Compute inter-spike intervals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.measures.measures.compute_cv.html#spiketools.measures.measures.compute_cv" title="spiketools.measures.measures.compute_cv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_cv</span></code></a>(isis)</p></td>
+<td><p>Compute coefficient of variation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.measures.measures.compute_fano_factor.html#spiketools.measures.measures.compute_fano_factor" title="spiketools.measures.measures.compute_fano_factor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_fano_factor</span></code></a>(spike_train)</p></td>
+<td><p>Compute the fano factor of a spike train.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="conversions">
+<h4><a class="toc-backref" href="#id5">Conversions</a><a class="headerlink" href="#conversions" title="Permalink to this headline">¶</a></h4>
+<p>Words, words, words.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.measures.conversions.create_spike_train.html#spiketools.measures.conversions.create_spike_train" title="spiketools.measures.conversions.create_spike_train"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_spike_train</span></code></a>(spikes)</p></td>
+<td><p>Convert spike times into a binary spike train.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_train_to_times</span></code></a>(train)</p></td>
+<td><p>Convert a spike train representation into spike times.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.measures.conversions.convert_isis_to_spikes.html#spiketools.measures.conversions.convert_isis_to_spikes" title="spiketools.measures.conversions.convert_isis_to_spikes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_isis_to_spikes</span></code></a>(isis[, offset, ...])</p></td>
+<td><p>Convert a sequence of inter-spike intervals to spike times.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="objects">
+<h3><a class="toc-backref" href="#id6">Objects</a><a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h3>
+<p>Words, words, words.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.objects.Cell.html#spiketools.objects.Cell" title="spiketools.objects.Cell"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cell</span></code></a>([subject, session, task, channel, ...])</p></td>
+<td><p>A Session object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.objects.Session.html#spiketools.objects.Session" title="spiketools.objects.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Session</span></code></a>([subject, session, task])</p></td>
+<td><p>A Session object.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="spatial">
+<h3><a class="toc-backref" href="#id7">Spatial</a><a class="headerlink" href="#spatial" title="Permalink to this headline">¶</a></h3>
+<p>Words, words, words.</p>
+<section id="occupancy">
+<h4><a class="toc-backref" href="#id8">Occupancy</a><a class="headerlink" href="#occupancy" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.spatial.occupancy.compute_spatial_bin_edges.html#spiketools.spatial.occupancy.compute_spatial_bin_edges" title="spiketools.spatial.occupancy.compute_spatial_bin_edges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_spatial_bin_edges</span></code></a>(position, bins)</p></td>
+<td><p>Compute spatial bin edges.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.spatial.occupancy.compute_spatial_bin_assignment.html#spiketools.spatial.occupancy.compute_spatial_bin_assignment" title="spiketools.spatial.occupancy.compute_spatial_bin_assignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_spatial_bin_assignment</span></code></a>(position, ...)</p></td>
+<td><p>Compute spatial bin assignment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.spatial.occupancy.compute_bin_width.html#spiketools.spatial.occupancy.compute_bin_width" title="spiketools.spatial.occupancy.compute_bin_width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_bin_width</span></code></a>(timestamps)</p></td>
+<td><p>Compute bin width.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.spatial.occupancy.compute_occupancy.html#spiketools.spatial.occupancy.compute_occupancy" title="spiketools.spatial.occupancy.compute_occupancy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_occupancy</span></code></a>(position, timestamps, bins)</p></td>
+<td><p>Compute occupancy across spatial bin positions.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="position">
+<h4><a class="toc-backref" href="#id9">Position</a><a class="headerlink" href="#position" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.spatial.position.compute_distance.html#spiketools.spatial.position.compute_distance" title="spiketools.spatial.position.compute_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_distance</span></code></a>(x1, y1, x2, y2)</p></td>
+<td><p>Compute the distance between two positions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.spatial.position.compute_distances.html#spiketools.spatial.position.compute_distances" title="spiketools.spatial.position.compute_distances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_distances</span></code></a>(xs, ys)</p></td>
+<td><p>Compute distances across a sequence of positions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.spatial.position.compute_cumulative_distances.html#spiketools.spatial.position.compute_cumulative_distances" title="spiketools.spatial.position.compute_cumulative_distances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_cumulative_distances</span></code></a>(xs, ys)</p></td>
+<td><p>Compute cumulative distance across a sequence of positions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.spatial.position.compute_speed.html#spiketools.spatial.position.compute_speed" title="spiketools.spatial.position.compute_speed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_speed</span></code></a>(xs, ys, bin_widths)</p></td>
+<td><p>Compute speeds across a sequence of positions.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="information">
+<h4><a class="toc-backref" href="#id10">Information</a><a class="headerlink" href="#information" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.spatial.information.compute_spatial_information_1d.html#spiketools.spatial.information.compute_spatial_information_1d" title="spiketools.spatial.information.compute_spatial_information_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_spatial_information_1d</span></code></a>(data, occupancy)</p></td>
+<td><p>Compute spatial information across a 1d space using Skaggs information.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.spatial.information.compute_spatial_information_2d.html#spiketools.spatial.information.compute_spatial_information_2d" title="spiketools.spatial.information.compute_spatial_information_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_spatial_information_2d</span></code></a>(spike_x, ...)</p></td>
+<td><p>Compute spatial information across a 2d space.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="statistics">
+<h3><a class="toc-backref" href="#id11">Statistics</a><a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h3>
+<p>Words, words, words.</p>
+<section id="generators">
+<h4><a class="toc-backref" href="#id12">Generators</a><a class="headerlink" href="#generators" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.stats.generators.poisson_train.html#spiketools.stats.generators.poisson_train" title="spiketools.stats.generators.poisson_train"><code class="xref py py-obj docutils literal notranslate"><span class="pre">poisson_train</span></code></a>(frequency, duration[, ...])</p></td>
+<td><p>Generator function for a Homogeneous Poisson train.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="shuffle">
+<h4><a class="toc-backref" href="#id13">Shuffle</a><a class="headerlink" href="#shuffle" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.stats.shuffle.shuffle_spikes.html#spiketools.stats.shuffle.shuffle_spikes" title="spiketools.stats.shuffle.shuffle_spikes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle_spikes</span></code></a>(spikes[, approach, ...])</p></td>
+<td><p>Shuffle spike</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis" title="spiketools.stats.shuffle.shuffle_isis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle_isis</span></code></a>(spikes[, n_shuffles, random_state])</p></td>
+<td><p>Create shuffled spike times using permuted inter-spike intervals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.stats.shuffle.shuffle_bins.html#spiketools.stats.shuffle.shuffle_bins" title="spiketools.stats.shuffle.shuffle_bins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle_bins</span></code></a>(spikes[, bin_width_range, ...])</p></td>
+<td><p>Shuffle data with a circular shuffle of the spike train.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.stats.shuffle.shuffle_poisson.html#spiketools.stats.shuffle.shuffle_poisson" title="spiketools.stats.shuffle.shuffle_poisson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle_poisson</span></code></a>(spikes[, n_shuffles, ...])</p></td>
+<td><p>Shuffle spikes based on a Poisson distribution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.stats.shuffle.shuffle_circular.html#spiketools.stats.shuffle.shuffle_circular" title="spiketools.stats.shuffle.shuffle_circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle_circular</span></code></a>(spikes[, shuffle_min, ...])</p></td>
+<td><p>Shuffle spikes based on circularly shifting the spike train.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="permutations">
+<h4><a class="toc-backref" href="#id14">Permutations</a><a class="headerlink" href="#permutations" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.stats.permutations.vec_perm.html#spiketools.stats.permutations.vec_perm" title="spiketools.stats.permutations.vec_perm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vec_perm</span></code></a>(data[, n_perms])</p></td>
+<td><p>Vectorized permutations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.stats.permutations.compute_empirical_pvalue.html#spiketools.stats.permutations.compute_empirical_pvalue" title="spiketools.stats.permutations.compute_empirical_pvalue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_empirical_pvalue</span></code></a>(value, surrogates)</p></td>
+<td><p>Compute the empirical p-value from a distribution of surrogates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.stats.permutations.zscore_to_surrogates.html#spiketools.stats.permutations.zscore_to_surrogates" title="spiketools.stats.permutations.zscore_to_surrogates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zscore_to_surrogates</span></code></a>(value, surrogates)</p></td>
+<td><p>Z-score a computed value relative to a distribution of surrogates.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="simulations">
+<h3><a class="toc-backref" href="#id15">Simulations</a><a class="headerlink" href="#simulations" title="Permalink to this headline">¶</a></h3>
+<p>Words, words, words.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+</tbody>
+</table>
+</section>
+<section id="plots">
+<h3><a class="toc-backref" href="#id16">Plots</a><a class="headerlink" href="#plots" title="Permalink to this headline">¶</a></h3>
+<p>Words, words, words.</p>
+<section id="spikes">
+<h4><a class="toc-backref" href="#id17">Spikes</a><a class="headerlink" href="#spikes" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spikes.plot_waveform.html#spiketools.plts.spikes.plot_waveform" title="spiketools.plts.spikes.plot_waveform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_waveform</span></code></a>(waveform[, ax])</p></td>
+<td><p>Plot a spike waveform.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.spikes.plot_isis.html#spiketools.plts.spikes.plot_isis" title="spiketools.plts.spikes.plot_isis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_isis</span></code></a>(isis[, bins, range, density, ax])</p></td>
+<td><p>Plot a distribution of ISIs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spikes.plot_firing_rates.html#spiketools.plts.spikes.plot_firing_rates" title="spiketools.plts.spikes.plot_firing_rates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_firing_rates</span></code></a>(rates[, figsize, ax])</p></td>
+<td><p>Plot a bar plot of firing rates for a group of neurons.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="space">
+<h4><a class="toc-backref" href="#id18">Space</a><a class="headerlink" href="#space" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.space.plot_space_heat.html#spiketools.plts.space.plot_space_heat" title="spiketools.plts.space.plot_space_heat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_space_heat</span></code></a>(data[, transpose, smooth, ...])</p></td>
+<td><p>Plot a spatial heat map.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="stats">
+<h4><a class="toc-backref" href="#id19">Stats</a><a class="headerlink" href="#stats" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.stats.plot_surrogates.html#spiketools.plts.stats.plot_surrogates" title="spiketools.plts.stats.plot_surrogates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_surrogates</span></code></a>(surrogates[, data_value, ...])</p></td>
+<td><p>Plot a distribution of surrogate data.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="utilities">
+<h3><a class="toc-backref" href="#id20">Utilities</a><a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h3>
+<p>Words, words, words.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.utils.restrict_range.html#spiketools.utils.restrict_range" title="spiketools.utils.restrict_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restrict_range</span></code></a>(spikes[, min_time, max_time])</p></td>
+<td><p>Restrict a vector of spike times to a specified range.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.utils.set_random_seed.html#spiketools.utils.set_random_seed" title="spiketools.utils.set_random_seed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_random_seed</span></code></a>([seed_val])</p></td>
+<td><p>Set the random seed value.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018-2021, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

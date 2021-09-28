@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>spiketools.spatial.information &#8212; spiketools 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          spiketools</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../api.html">API</a></li>
+                <li><a href="../../../glossary.html">Glossary</a></li>
+                <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../../../auto_examples/index.html">Examples</a></li>
+                <li><a href="../../../reference.html">Reference</a></li>
+                <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for spiketools.spatial.information</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Measures of spatial information.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1">###################################################################################################</span>
+<span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="compute_spatial_information_2d"><a class="viewcode-back" href="../../../generated/spiketools.spatial.information.compute_spatial_information_2d.html#spiketools.spatial.information.compute_spatial_information_2d">[docs]</a><span class="k">def</span> <span class="nf">compute_spatial_information_2d</span><span class="p">(</span><span class="n">spike_x</span><span class="p">,</span> <span class="n">spike_y</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute spatial information across a 2d space.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spike_x, spike_y : 1d array</span>
+<span class="sd">        Spike positions.</span>
+<span class="sd">    bins : list of int</span>
+<span class="sd">        Binning to use.</span>
+<span class="sd">    occupancy : 2d array</span>
+<span class="sd">        Occupancy of the space.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    info : float</span>
+<span class="sd">        Spike information rate for spatial information (bits/spike).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">spike_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram2d</span><span class="p">(</span><span class="n">spike_x</span><span class="p">,</span> <span class="n">spike_y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">_compute_spatial_information</span><span class="p">(</span><span class="n">spike_map</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">info</span></div>
+
+
+<div class="viewcode-block" id="compute_spatial_information_1d"><a class="viewcode-back" href="../../../generated/spiketools.spatial.information.compute_spatial_information_1d.html#spiketools.spatial.information.compute_spatial_information_1d">[docs]</a><span class="k">def</span> <span class="nf">compute_spatial_information_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute spatial information across a 1d space using Skaggs information.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : 1d array</span>
+<span class="sd">        Spike positions.</span>
+<span class="sd">    occupancy : 1d array</span>
+<span class="sd">        Occupancy data.</span>
+<span class="sd">    bins : int</span>
+<span class="sd">        Number of bins to use.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    info : float</span>
+<span class="sd">        Spike information rate for spatial information (bits/spike).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">spike_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">_compute_spatial_information</span><span class="p">(</span><span class="n">spike_map</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">info</span></div>
+
+
+<span class="k">def</span> <span class="nf">_compute_spatial_information</span><span class="p">(</span><span class="n">spike_map</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute spatial information.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spike_map : ndarray</span>
+<span class="sd">        Spike positions.</span>
+<span class="sd">    occupancy : ndarray</span>
+<span class="sd">        Occupancy.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    info : float</span>
+<span class="sd">        Spike information rate for spatial information (bits/spike).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Calculate average firing rate</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">spike_map</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occupancy</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rate</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Compute the occupancy probability (per bin) &amp; normalized spiking (by occupancy)</span>
+    <span class="n">occ_prob</span> <span class="o">=</span> <span class="n">occupancy</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occupancy</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+        <span class="n">spike_map_norm</span> <span class="o">=</span> <span class="n">spike_map</span> <span class="o">/</span> <span class="n">occupancy</span>
+
+    <span class="c1"># Calculate the spatial information, using a mask for nonzero values</span>
+    <span class="n">nz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">spike_map_norm</span><span class="p">)</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occ_prob</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">*</span> <span class="n">spike_map_norm</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">spike_map_norm</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">/</span> <span class="n">rate</span><span class="p">))</span> <span class="o">/</span> <span class="n">rate</span>
+
+    <span class="k">return</span> <span class="n">info</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018-2021, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>spiketools.objects.Cell &#8212; spiketools 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          spiketools</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../api.html">API</a></li>
+                <li><a href="../glossary.html">Glossary</a></li>
+                <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="../reference.html">Reference</a></li>
+                <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <section id="spiketools-objects-cell">
+<h1>spiketools.objects.Cell<a class="headerlink" href="#spiketools-objects-cell" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="spiketools.objects.Cell">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">spiketools.objects.</span></span><span class="sig-name descname"><span class="pre">Cell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spikes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/objects/cell.html#Cell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.objects.Cell" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Session object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>subject</strong><span class="classifier">str</span></dt><dd><p>Subject label.</p>
+</dd>
+<dt><strong>session</strong><span class="classifier">str</span></dt><dd><p>Session label.</p>
+</dd>
+<dt><strong>task</strong><span class="classifier">str</span></dt><dd><p>Task label.</p>
+</dd>
+<dt><strong>channel</strong><span class="classifier">str</span></dt><dd><p>Channel label.</p>
+</dd>
+<dt><strong>region</strong><span class="classifier">str</span></dt><dd><p>Region label.</p>
+</dd>
+<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times.</p>
+</dd>
+<dt><strong>cluster</strong><span class="classifier">1d array</span></dt><dd><p>Spike cluster.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spiketools.objects.Cell.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spikes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/objects/cell.html#Cell.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.objects.Cell.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Cell object.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#spiketools.objects.Cell.CV" title="spiketools.objects.Cell.CV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CV</span></code></a>()</p></td>
+<td><p>Compute coefficient of variation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#spiketools.objects.Cell.ISI" title="spiketools.objects.Cell.ISI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ISI</span></code></a>()</p></td>
+<td><p>Compute inter-spike intervals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#spiketools.objects.Cell.__init__" title="spiketools.objects.Cell.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([subject, session, task, channel, ...])</p></td>
+<td><p>Initialize a Cell object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#spiketools.objects.Cell.fano" title="spiketools.objects.Cell.fano"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fano</span></code></a>()</p></td>
+<td><p>Compute fano factor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#spiketools.objects.Cell.firing_rate" title="spiketools.objects.Cell.firing_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">firing_rate</span></code></a>()</p></td>
+<td><p>Compute average firing rate.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#spiketools.objects.Cell.shuffle" title="spiketools.objects.Cell.shuffle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle</span></code></a>([random_state])</p></td>
+<td><p>Shuffle data to create new spike spikes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#spiketools.objects.Cell.spike_train" title="spiketools.objects.Cell.spike_train"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spike_train</span></code></a>()</p></td>
+<td><p>Convert spike times into a spike train vector (binary).</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="spiketools.objects.Cell.CV">
+<span class="sig-name descname"><span class="pre">CV</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/objects/cell.html#Cell.CV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.objects.Cell.CV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute coefficient of variation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spiketools.objects.Cell.ISI">
+<span class="sig-name descname"><span class="pre">ISI</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/objects/cell.html#Cell.ISI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.objects.Cell.ISI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute inter-spike intervals.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spiketools.objects.Cell.fano">
+<span class="sig-name descname"><span class="pre">fano</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/objects/cell.html#Cell.fano"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.objects.Cell.fano" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute fano factor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spiketools.objects.Cell.firing_rate">
+<span class="sig-name descname"><span class="pre">firing_rate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/objects/cell.html#Cell.firing_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.objects.Cell.firing_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute average firing rate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spiketools.objects.Cell.shuffle">
+<span class="sig-name descname"><span class="pre">shuffle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/objects/cell.html#Cell.shuffle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.objects.Cell.shuffle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffle data to create new spike spikes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spiketools.objects.Cell.spike_train">
+<span class="sig-name descname"><span class="pre">spike_train</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/objects/cell.html#Cell.spike_train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.objects.Cell.spike_train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert spike times into a spike train vector (binary).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018-2021, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
