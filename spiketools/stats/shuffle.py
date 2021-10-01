@@ -200,7 +200,7 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000, random_state=No
     shuffled_spikes : 2d array
         Shuffled spike times.
 		
-	Notes
+    Notes
     -----
     The input shuffle_min should always be less than the number of spikes (of input spikes).
     """
