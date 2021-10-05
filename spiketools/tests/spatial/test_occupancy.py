@@ -29,7 +29,7 @@ def test_compute_spatial_bin_edges():
     position2 = position
     position[1, :] = position[0, :]
     np.random.shuffle(position2[0, :])
-    x_edges, y_edges = compute_spatial_bin_edges(position2, bins)
+    x_edges2, y_edges2 = compute_spatial_bin_edges(position2, bins)
     assert np.sum(x_edges2 == y_edges2) == bins[0]+1
 
 def test_compute_spatial_bin_assignment():
