@@ -191,7 +191,7 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000, random_state=No
     spikes : 1d array
         Spike times, in milliseconds.
     shuffle_min : int
-        The minimum amount to rotate date, in terms of units of the spike train.
+        The minimum amount to rotate data, in terms of units of the spike train.
     n_shuffles : int
         The number of shuffles to create.
 
@@ -202,7 +202,7 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000, random_state=No
 		
     Notes
     -----
-    The input shuffle_min should always be less than the number of spikes (of input spikes).
+    The input shuffle_min should always be less than the maximum time in which a spike occured.
     """
 
     spike_train = create_spike_train(spikes)
