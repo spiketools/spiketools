@@ -84,7 +84,7 @@ def shuffle_bins(spikes, bin_width_range=[50, 2000], n_shuffles=1000, random_sta
     Parameters
     ----------
     spikes : 1d array
-        Spike times.
+        Spike times, in milliseconds.
     bin_width_range : list of int
         xx
     random_state : int
@@ -189,9 +189,9 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000, random_state=No
     Parameters
     ----------
     spikes : 1d array
-        Spike times.
+        Spike times, in milliseconds.
     shuffle_min : int
-        The minimum amount to rotate date, in terms of units of the spike train.
+        The minimum amount to rotate data, in terms of units of the spike train.
     n_shuffles : int
         The number of shuffles to create.
 
@@ -199,6 +199,10 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000, random_state=No
     -------
     shuffled_spikes : 2d array
         Shuffled spike times.
+		
+    Notes
+    -----
+    The input shuffle_min should always be less than the maximum time in which a spike occured.
     """
 
     spike_train = create_spike_train(spikes)
