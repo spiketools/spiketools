@@ -24,41 +24,42 @@ spiketools
 .. |Publication| image:: XX
 .. _Publication: XX
 
-`spiketools` is a collection of tools and utilities for analyzing spiking data.
+``spiketools`` is a collection of tools and utilities for analyzing spiking data.
 
 WARNING: This module is in early development, and may change at any time.
 
 Overview
 --------
 
-`spiketools` is an open-source module for processing and analyzing single-unit activity from neuro-electrophysiological recordings.
+``spiketools`` is an open-source module for processing and analyzing single-unit activity from neuro-electrophysiological recordings.
 
 Available sub-modules in ``spiketools`` include:
 
-- ``measures`` : measures and conversions that can be applied to spike data
-- ``objects`` : objects that can be used to manage spike data
+- ``measures`` : measures and conversions that can be applied to spiking data
+- ``objects`` : objects that can be used to manage spiking data
 - ``spatial`` : space related functionality and measures
 - ``stats`` : statistical measures for analyzing spiking data
 - ``sim`` : simulations of spiking activity and related functionality
 - ``plts`` : plotting functions for visualizing spike data and related measures
 - ``utils`` : additional utilities for working with spiking data
 
-In terms of scope, note that `spiketools` is currently organized around analyses of single cell activity, and is not focused on
+In terms of scope, note that ``spiketools`` is currently organized around analyses of single cell activity, and is not focused on
 population measures (though this may be extended in the future).
-Note that `spiketools` does _not_ cover spike sorting. For spike sorting, see the
-`spikeinterface <https://github.com/SpikeInterface/>`_ module.
+
+Note that ``spiketools`` does *not* cover spike sorting. Check out
+`spikeinterface <https://github.com/SpikeInterface/>`_ for spike sorting.
 
 Documentation
 -------------
 
-Documentation for the ``spiketools`` is available
+Documentation for ``spiketools`` is available
 `here <https://spiketools.github.io/>`_.
 
 The documentation includes:
 
 - `Tutorials <https://spiketools.github.io/spiketools/auto_tutorials/index.html>`_: which describe and work through each sub-module
 - `Examples <https://spiketools.github.io/spiketools/auto_examples/index.html>`_: demonstrating example applications and workflows
-- `API List <https://spiketools.github.io/spiketools/api.html>`_: which lists and describes all the code and functionality available in the module
+- `API List <https://spiketools.github.io/spiketools/api.html>`_: which lists and describes everything available in the module
 - `Glossary <https://spiketools.github.io/spiketools/glossary.html>`_: which defines key terms used in the module
 
 If you have a question about using SpikeTools that doesn't seem to be covered by the documentation, feel free to
@@ -67,7 +68,7 @@ open an `issue <https://github.com/spiketools/spiketools/issues>`_ and ask!
 Dependencies
 ------------
 
-`spiketools` is written in Python, and requires Python >= 3.6 to run.
+``spiketools`` is written in Python, and requires Python >= 3.6 to run.
 
 It has the following required dependencies:
 
