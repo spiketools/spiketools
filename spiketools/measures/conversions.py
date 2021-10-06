@@ -11,7 +11,7 @@ def create_spike_train(spikes):
     Parameters
     ----------
     spikes : 1d array
-        Spike times, in seconds.
+        Spike times, in milliseconds.
 
     Returns
     -------
@@ -29,7 +29,7 @@ def create_spike_train(spikes):
 
 
 def convert_train_to_times(train):
-    """Convert a spike train representation into spike times.
+    """Convert a spike train representation into spike times, in milliseconds.
 
     Parameters
     ----------
@@ -39,7 +39,7 @@ def convert_train_to_times(train):
     Returns
     -------
     spikes : 1d array
-        Spike times.
+        Spike times, in milliseconds.
     """
 
     spikes = np.where(train)[0]
@@ -62,7 +62,7 @@ def convert_isis_to_spikes(isis, offset=0, add_offset=True):
     Returns
     -------
     spikes : 1d array
-        Spike times.
+        Spike times, in milliseconds.
     """
 
     spikes = np.cumsum(isis, axis=-1)
