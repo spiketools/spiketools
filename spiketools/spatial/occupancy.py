@@ -13,7 +13,8 @@ def compute_spatial_bin_edges(position, bins):
     ----------
     position : 2d array
         Position information across a 2D space.
-    bins : list of int
+    bins : 2 list of int [int, int]
+        The number of space for the 2 dimensions (bins=nx, ny). 
         Binning to use for dividing up the space.
 
     Returns
@@ -22,7 +23,7 @@ def compute_spatial_bin_edges(position, bins):
         Edge definitions for the spatial binning.
     """
 
-    _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :], bins=bins)
+    _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :], bins=(x_bins, y_binx))
 
     return x_edges, y_edges
 
