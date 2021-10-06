@@ -1,7 +1,5 @@
 """Functions for shuffling data."""
 
-from itertools import chain
-
 import numpy as np
 
 from spiketools.measures import compute_isis, compute_spike_rate
@@ -24,7 +22,7 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, random_state=None, *
         Which approach to take for shuffling spike times.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
-    random_state : int
+    random_state : int, optional
         Initialization value for the random state.
 
     Returns
@@ -37,7 +35,8 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, random_state=None, *
         shuffled_spikes = shuffle_isis(spikes, n_shuffles=n_shuffles, random_state=random_state)
 
     elif approach == 'BINCIRC':
-        shuffled_spikes = shuffle_bins(spikes, n_shuffles=n_shuffles, random_state=random_state, **kwargs)
+        shuffled_spikes = shuffle_bins(spikes, n_shuffles=n_shuffles,
+                                       random_state=random_state, **kwargs)
 
     elif approach == 'POISSON':
         shuffled_spikes = shuffle_poisson(spikes, n_shuffles=n_shuffles)
@@ -58,7 +57,9 @@ def shuffle_isis(spikes, n_shuffles=1000, random_state=None):
     ----------
     isis : 1d array
         Inter-spike intervals.
-    random_state : int
+    n_shuffles : int, optional, default: 1000
+        The number of shuffles to create.
+    random_state : int, optional
         Initialization value for the random state.
 
     Returns
@@ -86,8 +87,10 @@ def shuffle_bins(spikes, bin_width_range=[50, 2000], n_shuffles=1000, random_sta
     spikes : 1d array
         Spike times.
     bin_width_range : list of int
-        xx
-    random_state : int
+        Range of bin widths to shuffle by.
+    n_shuffles : int, optional, default: 1000
+        The number of shuffles to create.
+    random_state : int, optional
         Initialization value for the random state.
 
     Returns
@@ -155,8 +158,10 @@ def shuffle_poisson(spikes, n_shuffles=1000, random_state=None):
     ----------
     spikes : 1d array
         Spike times.
-    n_shuffles : int
+    n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
+    random_state : int, optional
+        Initialization value for the random state.
 
     Returns
     -------
@@ -171,7 +176,7 @@ def shuffle_poisson(spikes, n_shuffles=1000, random_state=None):
 
     rng = np.random.RandomState(random_state)
 
-    length = ((spikes[-1] - spikes[0]) / 1000)
+    length = (spikes[-1] - spikes[0]) / 1000
     rate = compute_spike_rate(spikes)
     poisson_spikes = [ind for ind in poisson_train(rate, length)] + spikes[0]
 
@@ -192,8 +197,10 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000, random_state=No
         Spike times.
     shuffle_min : int
         The minimum amount to rotate date, in terms of units of the spike train.
-    n_shuffles : int
+    n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
+    random_state : int, optional
+        Initialization value for the random state.
 
     Returns
     -------
