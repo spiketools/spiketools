@@ -42,14 +42,10 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges):
     x_bins, y_bins : 1d array
         Bin assignments for each position.
     """
-
-    # TODO: possible update / option for doing this with numpy
-    #x_bins = np.digitize(position[0, :], x_edges, right=True)
-    #y_bins = np.digitize(position[1, :], y_edges, right=True)
-
-    x_bins = pd.cut(position[0, :], x_edges, labels=np.arange(len(x_edges) - 1))
-    y_bins = pd.cut(position[1, :], y_edges, labels=np.arange(len(y_edges) - 1))
-
+    # replace pd.cut with np.digitize 
+    x_bins = np.digitize(position[0, :], x_edges, right=True)
+    y_bins = np.digitize(position[1, :], y_edges, right=True)
+    
     return x_bins, y_bins
 
 
