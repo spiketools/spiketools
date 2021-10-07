@@ -13,8 +13,8 @@ def compute_spatial_bin_edges(position, bins):
     ----------
     position : 2d array
         Position information across a 2D space.
-    bins : list of int
-        Binning to use for dividing up the space.
+    bins : list of [int, int]
+        The number of bins to divide up the space, defined as [number of x_bins, number of y_bins]. 
 
     Returns
     -------
