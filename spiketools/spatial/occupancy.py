@@ -6,7 +6,7 @@ import pandas as pd
 ###################################################################################################
 ###################################################################################################
 
-def compute_spatial_bin_edges(position, bins=[x_bins, y_bins]):
+def compute_spatial_bin_edges(position, bins):
     """Compute spatial bin edges.
 
     Parameters
