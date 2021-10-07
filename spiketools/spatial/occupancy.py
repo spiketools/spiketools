@@ -22,7 +22,7 @@ def compute_spatial_bin_edges(position, bins):
         Edge definitions for the spatial binning.
     """
 
-    _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :], bins=(x_bins, y_bins))
+    _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :], bins=bins)
 
     return x_edges, y_edges
 
