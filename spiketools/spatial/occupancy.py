@@ -21,16 +21,16 @@ def compute_spatial_bin_edges(position, bins):
     x_edges, y_edges : 1d array
         Edge definitions for the spatial binning.
 	
-	Examples
+    Examples
     --------
     Get bin edges for x-position = integers from 1 to 5, and y-position = integers from 6 to 10.
-	So, position points are: (1, 6), (2, 7), (3, 8), (4, 9), (5, 10).
+    So, position points are: (1, 6), (2, 7), (3, 8), (4, 9), (5, 10).
 	
     >>> from spiketools.occupancy import compute_spatial_bin_edges
-	>>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+    >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
     >>> bins = [5, 3]
     >>> x_edges, y_edges = compute_spatial_bin_edges(position, bins) 
-
+    >>>
     >>> # print x_edges and y_edges
     >>> print(f'The edges for the x-dimension are: {repr(x_edges)}')
     >>> print(f'The edges for the y-dimension are: {repr(y_edges)}')
