@@ -109,8 +109,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    position : 2d array</span>
 <span class="sd">        Position information across a 2D space.</span>
-<span class="sd">    bins : list of int</span>
-<span class="sd">        Binning to use for dividing up the space.</span>
+<span class="sd">    bins : list of [int, int]</span>
+<span class="sd">        The number of bins to divide up the space, defined as [number of x_bins, number of y_bins]. </span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -138,14 +138,10 @@
 <span class="sd">    x_bins, y_bins : 1d array</span>
 <span class="sd">        Bin assignments for each position.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># TODO: possible update / option for doing this with numpy</span>
-    <span class="c1">#x_bins = np.digitize(position[0, :], x_edges, right=True)</span>
-    <span class="c1">#y_bins = np.digitize(position[1, :], y_edges, right=True)</span>
-
-    <span class="n">x_bins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_edges</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">y_bins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y_edges</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_edges</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-
+    <span class="c1"># replace pd.cut with np.digitize </span>
+    <span class="n">x_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">y_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y_edges</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
     <span class="k">return</span> <span class="n">x_bins</span><span class="p">,</span> <span class="n">y_bins</span></div>
 
 

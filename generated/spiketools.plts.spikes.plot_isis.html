@@ -98,12 +98,22 @@
 <h1>spiketools.plts.spikes.plot_isis<a class="headerlink" href="#spiketools-plts-spikes-plot-isis" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.plts.spikes.plot_isis">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spikes.</span></span><span class="sig-name descname"><span class="pre">plot_isis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spikes.html#plot_isis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spikes.plot_isis" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spikes.</span></span><span class="sig-name descname"><span class="pre">plot_isis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spikes.html#plot_isis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spikes.plot_isis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a distribution of ISIs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>isis</strong><span class="classifier">1d array</span></dt><dd><p>Interspike intervals.</p>
+</dd>
+<dt><strong>bins</strong><span class="classifier">int or list, optional</span></dt><dd><p>Bin definition, either a number of bins to use, or bin definitions.</p>
+</dd>
+<dt><strong>range</strong><span class="classifier">tuple, optional</span></dt><dd><p>Range of the data to plot.</p>
+</dd>
+<dt><strong>density</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to draw a probability density.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
+</dd>
+<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.</p>
 </dd>
 </dl>
 </dd>

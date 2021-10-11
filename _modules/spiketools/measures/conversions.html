@@ -107,7 +107,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    spikes : 1d array</span>
-<span class="sd">        Spike times, in seconds.</span>
+<span class="sd">        Spike times, in milliseconds.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -125,7 +125,7 @@
 
 
 <div class="viewcode-block" id="convert_train_to_times"><a class="viewcode-back" href="../../../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times">[docs]</a><span class="k">def</span> <span class="nf">convert_train_to_times</span><span class="p">(</span><span class="n">train</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert a spike train representation into spike times.</span>
+    <span class="sd">&quot;&quot;&quot;Convert a spike train representation into spike times, in milliseconds.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -135,7 +135,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    spikes : 1d array</span>
-<span class="sd">        Spike times.</span>
+<span class="sd">        Spike times, in milliseconds.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">train</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -158,7 +158,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    spikes : 1d array</span>
-<span class="sd">        Spike times.</span>
+<span class="sd">        Spike times, in milliseconds.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">isis</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
