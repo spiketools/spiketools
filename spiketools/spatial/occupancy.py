@@ -78,7 +78,7 @@ def compute_bin_width(timestamps):
 
 
 def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
-                      area_range=None, set_nan=False):
+                      area_range=None, set_nan=False, normalize=False):
     """Compute occupancy across spatial bin positions.
 
     Parameters
@@ -98,6 +98,8 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     set_nan : bool, optional, default: False
         Whether to set zero occupancy locations as NaN.
+    normalize : bool, optional, default: False
+        Whether to normalize occupancy to sum to 1.
 
     Returns
     -------
@@ -105,24 +107,29 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Occupancy.
     """
 
+    # Compute spatial bins & binning
     x_edges, y_edges = compute_spatial_bin_edges(position, bins, area_range)
     x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
     bin_width = compute_bin_width(timestamps)
 
-    # TODO: refactor & drop DF here
     # Make a temporary pandas dataframe
-    df = pd.DataFrame()
-    df['xbins'] = x_bins
-    df['ybins'] = y_bins
-    df['bin_width'] = bin_width
+    df = pd.DataFrame({
+        'xbins' : pd.Categorical(x_bins, categories=list(range(bins[0])), ordered=True),
+        'ybins' : pd.Categorical(y_bins, categories=list(range(bins[1])), ordered=True),
+        'bin_width' : bin_width})
 
+    # Apply the speed threshold (dropping slow / stationary timepoints)
     if np.any(speed):
         df = df[speed > speed_thresh]
 
+    # Group each position into a spatial bin, summing total time spent there
     df = df.groupby(['xbins', 'ybins'])['bin_width'].sum()
 
-    # occupancy time
+    # Extract and re-organize occupancy into 2d array
     occ = np.squeeze(df.values.reshape(*bins, -1)) / 1000
+
+    if normalize:
+        occ = occ / np.sum(occ)
 
     if set_nan:
         occ[occ == 0.] = np.nan
