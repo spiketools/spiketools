@@ -60,8 +60,8 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges, include_edge=True
     return x_bins, y_bins
 
 
-def compute_bin_width(timestamps):
-    """Compute bin width.
+def compute_bin_time(timestamps):
+    """Compute the time duration of each position sample.
 
     Parameters
     ----------
@@ -110,20 +110,20 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     # Compute spatial bins & binning
     x_edges, y_edges = compute_spatial_bin_edges(position, bins, area_range)
     x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
-    bin_width = compute_bin_width(timestamps)
+    bin_time = compute_bin_time(timestamps)
 
     # Make a temporary pandas dataframe
     df = pd.DataFrame({
         'xbins' : pd.Categorical(x_bins, categories=list(range(bins[0])), ordered=True),
         'ybins' : pd.Categorical(y_bins, categories=list(range(bins[1])), ordered=True),
-        'bin_width' : bin_width})
+        'bin_time' : bin_time})
 
     # Apply the speed threshold (dropping slow / stationary timepoints)
     if np.any(speed):
         df = df[speed > speed_thresh]
 
     # Group each position into a spatial bin, summing total time spent there
-    df = df.groupby(['xbins', 'ybins'])['bin_width'].sum()
+    df = df.groupby(['xbins', 'ybins'])['bin_time'].sum()
 
     # Extract and re-organize occupancy into 2d array
     occ = np.squeeze(df.values.reshape(*bins, -1)) / 1000

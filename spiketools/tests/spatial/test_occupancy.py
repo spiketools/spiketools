@@ -22,14 +22,14 @@ def test_compute_spatial_bin_edges():
     # sorting check
     assert bool((np.sort(x_edges) == x_edges).sum())
     assert bool((np.sort(y_edges) == y_edges).sum())
-    
+
     # checks for two inputs such that one is the other one shuffled
     position = np.array([[1., 2., 3., 4.], [4., 1., 3., 2.]])
     bins = [4, 4]
     x_edges, y_edges = compute_spatial_bin_edges(position, bins)
     # check that bins are the same
     assert np.sum(x_edges == y_edges) == bins[0]+1
-    
+
     # test for regular input (x) and all zeros input (y)
     position = np.array([[1., 2., 3., 4.], [0., 0., 0., 0.]])
     x_edges, y_edges = compute_spatial_bin_edges(position, bins)
@@ -39,7 +39,7 @@ def test_compute_spatial_bin_edges():
 def test_compute_spatial_bin_assignment():
     pass
 
-def test_compute_bin_width():
+def test_compute_bin_time():
     pass
 
 def test_compute_occupancy():
