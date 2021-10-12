@@ -6,7 +6,7 @@ import pandas as pd
 ###################################################################################################
 ###################################################################################################
 
-def compute_spatial_bin_edges(position, bins):
+def compute_spatial_bin_edges(position, bins, area_range=None):
     """Compute spatial bin edges.
 
     Parameters
@@ -14,7 +14,10 @@ def compute_spatial_bin_edges(position, bins):
     position : 2d array
         Position information across a 2D space.
     bins : list of [int, int]
-        The number of bins to divide up the space, defined as [number of x_bins, number of y_bins]. 
+        The number of bins to divide up the space, defined as [number of x_bins, number of y_bins].
+    area_range : list of list
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+        Any values outside of this range will not be used to compute edges.
 
     Returns
     -------
@@ -22,12 +25,13 @@ def compute_spatial_bin_edges(position, bins):
         Edge definitions for the spatial binning.
     """
 
-    _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :], bins=bins)
+    _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :],
+                                         bins=bins, range=area_range)
 
     return x_edges, y_edges
 
 
-def compute_spatial_bin_assignment(position, x_edges, y_edges):
+def compute_spatial_bin_assignment(position, x_edges, y_edges, include_edge=True):
     """Compute spatial bin assignment.
 
     Parameters
@@ -36,16 +40,23 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges):
         Position information across a 2D space.
     x_edges, y_edges : 1d array
         Edge definitions for the spatial binning.
+        Values within the arrays should be monotonically increasing.
+    include_edge : bool, optional, default: True
+        Whether to include positions on the edge into the bin.
 
     Returns
     -------
     x_bins, y_bins : 1d array
         Bin assignments for each position.
     """
-    # replace pd.cut with np.digitize 
+
     x_bins = np.digitize(position[0, :], x_edges, right=True)
     y_bins = np.digitize(position[1, :], y_edges, right=True)
-    
+
+    if include_edge:
+        x_bins = _include_bin_edge(x_bins, len(x_edges) - 1)
+        y_bins = _include_bin_edge(y_bins, len(y_edges) - 1)
+
     return x_bins, y_bins
 
 
@@ -66,7 +77,8 @@ def compute_bin_width(timestamps):
     return np.append(np.diff(timestamps), 0)
 
 
-def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6, set_nan=False):
+def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
+                      area_range=None, set_nan=False):
     """Compute occupancy across spatial bin positions.
 
     Parameters
@@ -82,6 +94,8 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Should be the same length as timestamps.
     speed_thresh : float, optional
         Speed threshold to apply.
+    area_range : list of list
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     set_nan : bool, optional, default: False
         Whether to set zero occupancy locations as NaN.
 
@@ -91,7 +105,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Occupancy.
     """
 
-    x_edges, y_edges = compute_spatial_bin_edges(position, bins)
+    x_edges, y_edges = compute_spatial_bin_edges(position, bins, area_range)
     x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
     bin_width = compute_bin_width(timestamps)
 
@@ -114,3 +128,29 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         occ[occ == 0.] = np.nan
 
     return occ
+
+
+def _include_bin_edge(bin_pos, n_bins):
+    """Update bin assignment so last bin includes edge values.
+
+    Parameters
+    ----------
+    bin_pos : 1d array
+        The bin assignment for each position.
+    n_bins : int
+        The number of bins.
+
+    Returns
+    -------
+    bin_pos : 1d array
+        The bin assignment for each position.
+
+    Notes
+    -----
+    This functions assumes bin assignment done with `right=True`.
+    """
+
+    mask = bin_pos == n_bins
+    bin_pos[mask] = n_bins - 1
+
+    return bin_pos
