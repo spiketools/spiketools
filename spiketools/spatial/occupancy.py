@@ -95,18 +95,10 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     Get occupancy for points: (x, y) =  (1, 6), (2, 7), (3, 8), (4, 9), (5, 10), (0, 0), (1, 6), (2, 6), (5, 4).
     Timestamps was set to a linear space between 0 and 1000, sampled 9 times.
 
-    >>> import numpy as np
-    >>> import seaborn as sns
-    >>>
-    >>> from spiketools.occupancy import compute_occupancy, compute_spatial_bin_edges, compute_spatial_bin_assignment, compute_bin_width
-    >>>
     >>> position = np.array([[1, 2, 3, 4, 5, 0, 1, 2, 5], [6, 7, 8, 9, 10, 0, 6, 6, 4]])
     >>> timestamps = np.linspace(0, 1000, position.shape[1])
     >>> bins = [5, 5]
-    >>> occ = compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6, set_nan=False)
-    >>>
-    >>> # plot a very ugly heatmap
-    >>> sns.heatmap(occ)
+    >>> occ = compute_occupancy(position, timestamps, bins)
     """
 
     x_edges, y_edges = compute_spatial_bin_edges(position, bins)
