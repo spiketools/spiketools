@@ -14,7 +14,7 @@ from spiketools.plts.utils import check_ax, savefig
 @savefig
 def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
                     ignore_zero=False, cbar=False, cmap=None, vmin=None, vmax=None,
-                    title=None, figsize=None, ax=None, **kwargs):
+                    title=None, ax=None, **plt_kwargs):
     """Plot a spatial heat map.
 
     Parameters
@@ -35,15 +35,13 @@ def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
         Min and max plot ranges.
     title : str, optional
         Title to add to the figure.
-    figsize : list, optional
-        Size to create the figure.
     ax : Axes, optional
         Axis object upon which to plot.
-    kwargs
+    plt_kwargs
         Additional arguments to pass into the plot function.
     """
 
-    ax = check_ax(ax, figsize=figsize)
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
     if transpose:
         data = data.T
@@ -55,7 +53,7 @@ def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
         data = deepcopy(data)
         data[data == 0.] = np.nan
 
-    im = ax.imshow(data, cmap=cmap, vmin=vmin, vmax=vmax, **kwargs)
+    im = ax.imshow(data, cmap=cmap, vmin=vmin, vmax=vmax, **plt_kwargs)
 
     ax.set_xticks([])
     ax.set_yticks([])

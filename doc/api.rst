@@ -71,7 +71,7 @@ Occupancy
 
     compute_spatial_bin_edges
     compute_spatial_bin_assignment
-    compute_bin_width
+    compute_bin_time
     compute_occupancy
 
 Position
