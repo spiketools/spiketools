@@ -73,7 +73,7 @@ def compute_bin_time(timestamps):
     1d array
         Width, in time, of each bin.
 		
-	Examples
+    Examples
     --------
     Compute times between timestamp samples:
         
