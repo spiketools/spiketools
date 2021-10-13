@@ -50,12 +50,12 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges, include_edge=True
         Bin assignments for each position.
     """
 
-    x_bins = np.digitize(position[0, :], x_edges, right=True)
-    y_bins = np.digitize(position[1, :], y_edges, right=True)
+    x_bins = np.digitize(position[0, :], x_edges, right=False)
+    y_bins = np.digitize(position[1, :], y_edges, right=False)
 
     if include_edge:
-        x_bins = _include_bin_edge(x_bins, len(x_edges) - 1)
-        y_bins = _include_bin_edge(y_bins, len(y_edges) - 1)
+        x_bins = _include_bin_edge(position[0, :], x_bins, x_edges, side='left')
+        y_bins = _include_bin_edge(position[1, :], y_bins, y_edges, side='left')
 
     return x_bins, y_bins
 
@@ -137,27 +137,39 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     return occ
 
 
-def _include_bin_edge(bin_pos, n_bins):
+def _include_bin_edge(position, bin_pos, edges, side='left'):
     """Update bin assignment so last bin includes edge values.
 
     Parameters
     ----------
+    position : 1d array
+        The position values.
     bin_pos : 1d array
         The bin assignment for each position.
-    n_bins : int
-        The number of bins.
+    edges : 1d array
+        The bin edge definitions.
+    side : {'left', 'right'}
+        Which side was used to compute bin assignment.
 
     Returns
     -------
     bin_pos : 1d array
         The bin assignment for each position.
-
-    Notes
-    -----
-    This functions assumes bin assignment done with `right=True`.
     """
 
-    mask = bin_pos == n_bins
-    bin_pos[mask] = n_bins - 1
+    if side == 'left':
+
+        # If side left, right position == edge gets set as len(bins), so decrement by 1
+        mask = position == edges[-1]
+        bin_pos[mask] = bin_pos[mask] - 1
+
+    elif side == 'right':
+
+        # If side right, left position == edge gets set as 0, so increment by 1
+        mask = position == edges[0]
+        bin_pos[mask] = bin_pos[mask] + 1
+
+    else:
+        raise ValueError("Input for 'side' not understood.")
 
     return bin_pos
