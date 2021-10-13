@@ -109,7 +109,6 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
 	Examples
     --------
     Get occupancy for points: (x, y) =  (1, 6), (2, 7), (3, 8), (4, 9), (5, 10), (0, 0), (1, 6), (2, 6), (5, 4).
-    Timestamps was set to a linear space between 0 and 1000, sampled 9 times.
 
     >>> position = np.array([[1, 2, 3, 4, 5, 0, 1, 2, 5], [6, 7, 8, 9, 10, 0, 6, 6, 4]])
     >>> timestamps = np.linspace(0, 1000, position.shape[1])
