@@ -48,6 +48,15 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges, include_edge=True
     -------
     x_bins, y_bins : 1d array
         Bin assignments for each position.
+
+    Examples
+    --------
+    Compute bin assignment of position, given existing spatial bins:
+
+    >>> position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])
+    >>> x_edges = np.array([1, 2, 3, 4, 5])
+    >>> y_edges = np.array([6, 7, 8, 9, 10])
+    >>> x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
     """
 
     x_bins = np.digitize(position[0, :], x_edges, right=True)
