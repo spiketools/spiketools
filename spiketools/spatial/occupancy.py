@@ -72,6 +72,14 @@ def compute_bin_time(timestamps):
     -------
     1d array
         Width, in time, of each bin.
+		
+	Examples
+    --------
+    Compute times between timestamp samples:
+        
+    >>> timestamp = np.array([0, 10, 30, 60, 80, 90])
+    >>> compute_bin_time(timestamp)
+    array([10, 20, 30, 20, 10,  0])
     """
 
     return np.append(np.diff(timestamps), 0)
