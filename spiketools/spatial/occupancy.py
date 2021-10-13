@@ -12,12 +12,13 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
     Parameters
     ----------
     position : 2d array
-        Position information across a 2D space.
+        Position values across a 2D space.
     bins : list of [int, int]
-        The number of bins to divide up the space, defined as [number of x_bins, number of y_bins].
+        The number of bins to divide up the space.
+        This should be defined as [number of x_bins, number of y_bins].
     area_range : list of list
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
-        Any values outside of this range will not be used to compute edges.
+        Any values outside this range will be considered outliers, and not used to compute edges.
 
     Returns
     -------
@@ -48,6 +49,15 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges, include_edge=True
     -------
     x_bins, y_bins : 1d array
         Bin assignments for each position.
+
+    Notes
+    -----
+    - In the case of zero outliers (all positions are between edge ranges), the returned
+      values are encoded as bin position, with values between {1, n_bins}.
+    - If there are outliers (some position values that are outside the given edges definitons),
+      these are encoded as 0 (left side) or n_bins + 1 (right side).
+    - By default position values equal to the left-most & right-most edges are treated as
+      within the bounds (not treated as outliers), unless `include_edge` is set as False.
     """
 
     x_bins = np.digitize(position[0, :], x_edges, right=False)
@@ -155,6 +165,13 @@ def _include_bin_edge(position, bin_pos, edges, side='left'):
     -------
     bin_pos : 1d array
         The bin assignment for each position.
+
+    Notes
+    -----
+    For any position values that exactly match the left-most or right-most bin edges, by default
+    (from np.digitize), one of these sides will be considered an outlier. This is because bin
+    assignment is computed as `pos >= left_bin_edge & pos < right_bin_edge (flipped if right=True).
+    To address this, this function resets position values == edges as with the bin on the edge.
     """
 
     if side == 'left':
