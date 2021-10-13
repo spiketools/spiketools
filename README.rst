@@ -73,10 +73,11 @@ Dependencies
 It has the following required dependencies:
 
 - `numpy <https://github.com/numpy/numpy>`_
+- `pandas <https://github.com/pandas-dev/pandas>`_
 - `scipy <https://github.com/scipy/scipy>`_
 - `matplotlib <https://github.com/matplotlib/matplotlib>`_
 
-There are also optional dependencies, which are not required for model fitting itself, but offer extra functionality:
+There are also optional dependencies, that offer extra functionality:
 
 - `pytest <https://github.com/pytest-dev/pytest>`_ is needed to run the test suite locally
 
@@ -118,6 +119,7 @@ To file bug reports and/or ask questions about this project, please use the
 `Github issue tracker <https://github.com/spiketools/spiketools/issues>`_.
 
 To see and get involved in discussions about the module, check out:
+
 - the `issues board <https://github.com/spiketools/spiketools/issues>`_ for topics relating to code updates, bugs, and fixes
 - the `development page <https://github.com/spiketools/Development>`_ for discussion of potential major updates to the module
 
