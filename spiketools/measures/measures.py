@@ -74,7 +74,7 @@ def compute_cv(isis):
     
     >>> isis = [0.3, 0.6, 0.6, 0.2, 0.7]
     >>> compute_cv(isis)
-   0.4039733214513607
+    0.4039733214513607
     """
 
     return np.std(isis) / np.mean(isis)
