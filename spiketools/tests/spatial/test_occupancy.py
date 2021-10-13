@@ -14,54 +14,34 @@ def test_compute_spatial_bin_assignment():
     x_edges = np.array([0, 2, 4, 6, 8])
     y_edges = np.array([0, 2, 4, 6, 8])
 
-    # input type check
-    assert isinstance(position, np.ndarray)
-    assert isinstance(x_edges, np.ndarray)
-    assert isinstance(y_edges, np.ndarray)
-
     # test for simple input (position, x_edges, y_edges)
-    bin_assignment_test1 = compute_spatial_bin_assignment(position, x_edges, y_edges)
+    x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
 
     # output type check
-    assert isinstance(bin_assignment_test1[0], np.ndarray)
-    assert isinstance(bin_assignment_test1[1], np.ndarray)
+    assert isinstance(x_bins, np.ndarray)
+    assert isinstance(y_bins, np.ndarray)
 
     # output dimension check 
-    assert x_bins==y_bins
-    assert position[0].shape == bin_assignment_test1[0].shape 
-    assert position[1].shape == bin_assignment_test1[1].shape 
-
+    assert x_bins.all()==y_bins.all()
+    assert position[0].shape == x_bins.shape 
+    assert position[1].shape == y_bins.shape 
 
     # test 2: test with more random data 
-    a = []
-    b = []
-
-    for i in range (10):
-        np.array(a.append(np.random.uniform(0, 2)))
-        np.array(b.append(np.random.uniform(0, 2)))
-
-    position = np.vstack((a,b))
-    x_edges = np.array([0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2])
-    y_edges = np.array([0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2])
-
-    # input type check
-    assert isinstance(position, np.ndarray)
-    assert isinstance(x_edges, np.ndarray)
-    assert isinstance(y_edges, np.ndarray)
+    position = np.random.uniform(0, 2, (2, 10))
+    x_edges = np.arange(0, 2.2, 0.2)
+    y_edges = np.arange(0, 2.2, 0.2)
 
     # test for input position (randomly generated) and x_edges, y_edges 
-    bin_assignment_test2 = compute_spatial_bin_assignment(position, x_edges, y_edges)
+    x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
 
     # output type check
-    assert isinstance(bin_assignment_test2[0], np.ndarray)
-    assert isinstance(bin_assignment_test2[1], np.ndarray)
+    assert isinstance(x_bins, np.ndarray)
+    assert isinstance(y_bins, np.ndarray)
 
     # output dimension check 
-    assert x_bins==y_bins
-    assert position[1].shape == bin_assignment_test2[0].shape 
-    assert position[1].shape == bin_assignment_test2[1].shape 
-
-    pass
+    assert x_bins.all()==y_bins.all()
+    assert position[0].shape == x_bins.shape 
+    assert position[1].shape == y_bins.shape
 
 def test_compute_bin_width():
     pass
