@@ -10,12 +10,12 @@ def refractory(spikes, refractory, fs):
 
     Parameters
     ----------
-    spikes : 1d arrayy
-        xx
+    spikes : 1d array
+        Spike train.
     refractory : float
-        xx
+        The duration of the refractory period, after a spike, in seconds.
     fs : float
-        xx
+        The sampling rate.
 
     Returns
     -------
