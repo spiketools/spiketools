@@ -29,7 +29,7 @@ def compute_spatial_bin_edges(position, bins):
     >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
     >>> bins = [5, 4]
     >>> compute_spatial_bin_edges(position, bins)
-	(array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
+    (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
 
     _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :], bins=bins)
