@@ -67,6 +67,15 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges, include_edge=True
       these are encoded as 0 (left side) or n_bins + 1 (right side).
     - By default position values equal to the left-most & right-most edges are treated as
       within the bounds (not treated as outliers), unless `include_edge` is set as False.
+      
+    Examples
+    --------
+    Compute bin assignment of position, given existing spatial bins:
+
+    >>> position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])
+    >>> x_edges = np.array([1, 2, 3, 4, 5])
+    >>> y_edges = np.array([6, 7, 8, 9, 10])
+    >>> x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
     """
 
     x_bins = np.digitize(position[0, :], x_edges, right=False)
