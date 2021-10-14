@@ -23,6 +23,16 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
     -------
     x_edges, y_edges : 1d array
         Edge definitions for the spatial binning.
+	
+    Examples
+    --------
+    Compute bin edges for an example rectangular field, with x-range values of 1 - 5 & y-range values of 6 - 10:
+    So, position points are: (1, 6), (2, 7), (3, 8), (4, 9), (5, 10).
+
+    >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+    >>> bins = [5, 4]
+    >>> compute_spatial_bin_edges(position, bins)
+    (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
 
     _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :],
