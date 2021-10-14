@@ -21,7 +21,7 @@ def compute_distance(x1, y1, x2, y2):
         Distance between the two positions.
         
     Examples
-    -------
+    --------
     Compute distance between the two points (x1, y1) and (x2, y2):
 	
     >>> x1, x2 = 1, 5
@@ -47,7 +47,7 @@ def compute_distances(xs, ys):
         Vector of distances between positions.
         
     Examples
-    -------
+    --------
     Compute distances between vectors of x- and y-positions:
     
     >>> xs, ys = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
@@ -76,7 +76,7 @@ def compute_cumulative_distances(xs, ys):
         Cumulative distances.
     
     Examples
-    -------
+    --------
     Compute cumulative distances between vectors of x- and y-positions:
 	
     >>> xs, ys = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
@@ -103,7 +103,7 @@ def compute_speed(xs, ys, bin_widths):
         Vector of speeds across each position step.
 
     Examples
-    -------
+    --------
     Compute speeds across vectors of x- and y-positions:
 
     >>> xs, ys = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
