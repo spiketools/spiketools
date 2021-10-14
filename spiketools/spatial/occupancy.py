@@ -12,12 +12,12 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
     Parameters
     ----------
     position : 2d array
-        Position information across a 2D space.
+        Position values across a 2D space.
     bins : list of [int, int]
         The number of bins to divide up the space, defined as [number of x_bins, number of y_bins].
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
-        Any values outside of this range will not be used to compute edges.
+        Any values outside this range will be considered outliers, and not used to compute edges.
 
     Returns
     -------
@@ -58,14 +58,23 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges, include_edge=True
     -------
     x_bins, y_bins : 1d array
         Bin assignments for each position.
+
+    Notes
+    -----
+    - In the case of zero outliers (all positions are between edge ranges), the returned
+      values are encoded as bin position, with values between {1, n_bins}.
+    - If there are outliers (some position values that are outside the given edges definitons),
+      these are encoded as 0 (left side) or n_bins + 1 (right side).
+    - By default position values equal to the left-most & right-most edges are treated as
+      within the bounds (not treated as outliers), unless `include_edge` is set as False.
     """
 
-    x_bins = np.digitize(position[0, :], x_edges, right=True)
-    y_bins = np.digitize(position[1, :], y_edges, right=True)
+    x_bins = np.digitize(position[0, :], x_edges, right=False)
+    y_bins = np.digitize(position[1, :], y_edges, right=False)
 
     if include_edge:
-        x_bins = _include_bin_edge(x_bins, len(x_edges) - 1)
-        y_bins = _include_bin_edge(y_bins, len(y_edges) - 1)
+        x_bins = _include_bin_edge(position[0, :], x_bins, x_edges, side='left')
+        y_bins = _include_bin_edge(position[1, :], y_bins, y_edges, side='left')
 
     return x_bins, y_bins
 
@@ -164,15 +173,19 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     return occ
 
 
-def _include_bin_edge(bin_pos, n_bins):
+def _include_bin_edge(position, bin_pos, edges, side='left'):
     """Update bin assignment so last bin includes edge values.
 
     Parameters
     ----------
+    position : 1d array
+        The position values.
     bin_pos : 1d array
         The bin assignment for each position.
-    n_bins : int
-        The number of bins.
+    edges : 1d array
+        The bin edge definitions.
+    side : {'left', 'right'}
+        Which side was used to compute bin assignment.
 
     Returns
     -------
@@ -181,10 +194,25 @@ def _include_bin_edge(bin_pos, n_bins):
 
     Notes
     -----
-    This functions assumes bin assignment done with `right=True`.
+    For any position values that exactly match the left-most or right-most bin edges, by default
+    (from np.digitize), one of these sides will be considered an outlier. This is because bin
+    assignment is computed as `pos >= left_bin_edge & pos < right_bin_edge (flipped if right=True).
+    To address this, this function resets position values == edges as with the bin on the edge.
     """
 
-    mask = bin_pos == n_bins
-    bin_pos[mask] = n_bins - 1
+    if side == 'left':
+
+        # If side left, right position == edge gets set as len(bins), so decrement by 1
+        mask = position == edges[-1]
+        bin_pos[mask] = bin_pos[mask] - 1
+
+    elif side == 'right':
+
+        # If side right, left position == edge gets set as 0, so increment by 1
+        mask = position == edges[0]
+        bin_pos[mask] = bin_pos[mask] + 1
+
+    else:
+        raise ValueError("Input for 'side' not understood.")
 
     return bin_pos
