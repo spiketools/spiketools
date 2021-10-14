@@ -53,7 +53,7 @@ def convert_isis_to_spikes(isis, offset=0, add_offset=True):
     Parameters
     ----------
     isis : 1d array
-        xx
+        Distribution of interspike intervals.
     offset : float
         An offset value to add to generated spike times.
     add_offset : bool, optional, default: True
