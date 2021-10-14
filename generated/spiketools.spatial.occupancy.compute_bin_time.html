@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.spatial.occupancy.compute_bin_width &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.spatial.occupancy.compute_bin_time &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,12 +94,12 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-spatial-occupancy-compute-bin-width">
-<h1>spiketools.spatial.occupancy.compute_bin_width<a class="headerlink" href="#spiketools-spatial-occupancy-compute-bin-width" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-spatial-occupancy-compute-bin-time">
+<h1>spiketools.spatial.occupancy.compute_bin_time<a class="headerlink" href="#spiketools-spatial-occupancy-compute-bin-time" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.spatial.occupancy.compute_bin_width">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.occupancy.</span></span><span class="sig-name descname"><span class="pre">compute_bin_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/occupancy.html#compute_bin_width"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.occupancy.compute_bin_width" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute bin width.</p>
+<dt class="sig sig-object py" id="spiketools.spatial.occupancy.compute_bin_time">
+<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.occupancy.</span></span><span class="sig-name descname"><span class="pre">compute_bin_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/occupancy.html#compute_bin_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.occupancy.compute_bin_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the time duration of each position sample.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -114,6 +114,13 @@
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Compute times between timestamp samples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">timestamp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_bin_time</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
+<span class="go">array([10, 20, 30, 20, 10,  0])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
