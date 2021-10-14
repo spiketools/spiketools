@@ -10,7 +10,7 @@ def set_random_seed(seed_val=0):
 
     Parameters
     ----------
-    seed_val : int
+    seed_val : int, optional
         Value to set the random seed as.
     """
 

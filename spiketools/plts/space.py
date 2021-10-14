@@ -25,6 +25,8 @@ def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
         Whether to transpose the data before plotting.
     smooth : bool, optional, default: False
         Whether to smooth the data before plotting.
+    smoothing_kernel : float, optional, default: 1.5
+        Standard deviation of the gaussian kernel to apply for smoothing.
     ignore_zero : bool, optional, default: False
         If True, replaces 0's with NaN for plotting.
     cbar : bool, optional, default: False
@@ -68,7 +70,20 @@ def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
 
 
 def _smooth_data(data, sigma):
-    """Smooth data for plotting."""
+    """Smooth data for plotting, using a gaussian kernel.
+
+    Parameters
+    ----------
+    data : 2d array
+        Data to smooth.
+    sigma : float
+        Standard deviation of the gaussian kernel to apply for smoothing.
+
+    Returns
+    -------
+    data : 2d array
+        The smoothed data.
+    """
 
     data = deepcopy(data)
     data[np.isnan(data)] = 0

@@ -13,7 +13,7 @@ def vec_perm(data, n_perms=1000):
     ----------
     data : 1d array
         Data to permute
-    n_perms : int
+    n_perms : int, optional, default: 1000
         Number of permutations to do.
 
     Returns

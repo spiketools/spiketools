@@ -14,9 +14,8 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
     position : 2d array
         Position values across a 2D space.
     bins : list of [int, int]
-        The number of bins to divide up the space.
-        This should be defined as [number of x_bins, number of y_bins].
-    area_range : list of list
+        The number of bins to divide up the space, defined as [number of x_bins, number of y_bins].
+    area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
         Any values outside this range will be considered outliers, and not used to compute edges.
 
@@ -24,6 +23,16 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
     -------
     x_edges, y_edges : 1d array
         Edge definitions for the spatial binning.
+
+    Examples
+    --------
+    Compute bin edges for an example rectangular field, with x-range values of 1 - 5 & y-range values of 6 - 10:
+    So, position points are: (1, 6), (2, 7), (3, 8), (4, 9), (5, 10).
+
+    >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+    >>> bins = [5, 4]
+    >>> compute_spatial_bin_edges(position, bins)
+    (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
 
     _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :],
@@ -82,6 +91,14 @@ def compute_bin_time(timestamps):
     -------
     1d array
         Width, in time, of each bin.
+
+    Examples
+    --------
+    Compute times between timestamp samples:
+
+    >>> timestamp = np.array([0, 10, 30, 60, 80, 90])
+    >>> compute_bin_time(timestamp)
+    array([10, 20, 30, 20, 10,  0])
     """
 
     return np.append(np.diff(timestamps), 0)
@@ -104,7 +121,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Should be the same length as timestamps.
     speed_thresh : float, optional
         Speed threshold to apply.
-    area_range : list of list
+    area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     set_nan : bool, optional, default: False
         Whether to set zero occupancy locations as NaN.
@@ -115,6 +132,15 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     -------
     2d array
         Occupancy.
+
+    Examples
+    --------
+    Get occupancy for points: (x, y) =  (1, 6), (2, 7), (3, 8), (4, 9), (5, 10), (0, 0), (1, 6), (2, 6), (5, 4).
+
+    >>> position = np.array([[1, 2, 3, 4, 5, 0, 1, 2, 5], [6, 7, 8, 9, 10, 0, 6, 6, 4]])
+    >>> timestamps = np.linspace(0, 1000, position.shape[1])
+    >>> bins = [5, 5]
+    >>> occ = compute_occupancy(position, timestamps, bins)
     """
 
     # Compute spatial bins & binning

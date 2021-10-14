@@ -31,7 +31,7 @@ def compute_spatial_information_2d(spike_x, spike_y, bins, occupancy):
     return info
 
 
-def compute_spatial_information_1d(data, occupancy, bins=40):
+def compute_spatial_information_1d(data, occupancy, bins):
     """Compute spatial information across a 1d space using Skaggs information.
 
     Parameters
