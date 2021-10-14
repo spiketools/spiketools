@@ -101,7 +101,7 @@
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="poisson_train"><a class="viewcode-back" href="../../../generated/spiketools.stats.generators.poisson_train.html#spiketools.stats.generators.poisson_train">[docs]</a><span class="k">def</span> <span class="nf">poisson_train</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="poisson_train"><a class="viewcode-back" href="../../../generated/spiketools.stats.generators.poisson_train.html#spiketools.stats.generators.poisson_train">[docs]</a><span class="k">def</span> <span class="nf">poisson_train</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generator function for a Homogeneous Poisson train.</span>
 
 <span class="sd">    Parameters</span>
@@ -110,11 +110,10 @@
 <span class="sd">        The mean spiking frequency.</span>
 <span class="sd">    duration : float</span>
 <span class="sd">        Maximum duration.</span>
-<span class="sd">    start_time: float</span>
-<span class="sd">        Timestamp.</span>
-<span class="sd">    seed : int</span>
-<span class="sd">        Seed for the random number generator.</span>
-<span class="sd">        If None, this will be decided by np, which chooses the system time.</span>
+<span class="sd">    start_time: float, optional</span>
+<span class="sd">        Timestamp of the start time for the generated sequence.</span>
+<span class="sd">    random_state : int, optional</span>
+<span class="sd">        Initialization value for the random state.</span>
 
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
@@ -136,8 +135,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">rangen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">mtrand</span><span class="o">.</span><span class="n">RandomState</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">rangen</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">random_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rangen</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
 
     <span class="n">isi</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">frequency</span>
 

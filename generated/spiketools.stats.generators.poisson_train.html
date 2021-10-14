@@ -98,7 +98,7 @@
 <h1>spiketools.stats.generators.poisson_train<a class="headerlink" href="#spiketools-stats-generators-poisson-train" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.stats.generators.poisson_train">
-<span class="sig-prename descclassname"><span class="pre">spiketools.stats.generators.</span></span><span class="sig-name descname"><span class="pre">poisson_train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/generators.html#poisson_train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.generators.poisson_train" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.stats.generators.</span></span><span class="sig-name descname"><span class="pre">poisson_train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/generators.html#poisson_train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.generators.poisson_train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generator function for a Homogeneous Poisson train.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -107,10 +107,9 @@
 </dd>
 <dt><strong>duration</strong><span class="classifier">float</span></dt><dd><p>Maximum duration.</p>
 </dd>
-<dt><strong>start_time: float</strong></dt><dd><p>Timestamp.</p>
+<dt><strong>start_time: float, optional</strong></dt><dd><p>Timestamp of the start time for the generated sequence.</p>
 </dd>
-<dt><strong>seed</strong><span class="classifier">int</span></dt><dd><p>Seed for the random number generator.
-If None, this will be decided by np, which chooses the system time.</p>
+<dt><strong>random_state</strong><span class="classifier">int, optional</span></dt><dd><p>Initialization value for the random state.</p>
 </dd>
 </dl>
 </dd>

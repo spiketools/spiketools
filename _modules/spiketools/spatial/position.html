@@ -115,6 +115,15 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Distance between the two positions.</span>
+<span class="sd">        </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute distance between the two points (x1, y1) and (x2, y2):</span>
+<span class="sd">	</span>
+<span class="sd">    &gt;&gt;&gt; x1, x2 = 1, 5</span>
+<span class="sd">    &gt;&gt;&gt; y1, y2 = 6, 9</span>
+<span class="sd">    &gt;&gt;&gt; compute_distance(x1, y1, x2, y2)</span>
+<span class="sd">    5.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">]))</span></div>
@@ -132,6 +141,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    1d array</span>
 <span class="sd">        Vector of distances between positions.</span>
+<span class="sd">        </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute distances between vectors of x- and y-positions:</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; xs, ys = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])</span>
+<span class="sd">    &gt;&gt;&gt; compute_distances(xs, ys)</span>
+<span class="sd">    array([1.41421356, 1.41421356, 1.41421356, 1.41421356])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -153,6 +170,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    1d array</span>
 <span class="sd">        Cumulative distances.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute cumulative distances between vectors of x- and y-positions:</span>
+<span class="sd">	</span>
+<span class="sd">    &gt;&gt;&gt; xs, ys = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])</span>
+<span class="sd">    &gt;&gt;&gt; compute_cumulative_distances(xs, ys)</span>
+<span class="sd">    array([1.41421356, 2.82842712, 4.24264069, 5.65685425])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">compute_distances</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">))</span></div>
@@ -172,6 +197,15 @@
 <span class="sd">    -------</span>
 <span class="sd">    speed : 1d array</span>
 <span class="sd">        Vector of speeds across each position step.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute speeds across vectors of x- and y-positions:</span>
+
+<span class="sd">    &gt;&gt;&gt; xs, ys = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])</span>
+<span class="sd">    &gt;&gt;&gt; bin_width = np.array([1, 1, 0.5, 1])</span>
+<span class="sd">    &gt;&gt;&gt; compute_speed(xs, ys, bin_width)</span>
+<span class="sd">    array([1.41421356, 1.41421356, 2.82842712, 1.41421356])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">distances</span> <span class="o">=</span> <span class="n">compute_distances</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>

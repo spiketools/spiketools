@@ -103,12 +103,12 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>position</strong><span class="classifier">2d array</span></dt><dd><p>Position information across a 2D space.</p>
+<dt><strong>position</strong><span class="classifier">2d array</span></dt><dd><p>Position values across a 2D space.</p>
 </dd>
 <dt><strong>bins</strong><span class="classifier">list of [int, int]</span></dt><dd><p>The number of bins to divide up the space, defined as [number of x_bins, number of y_bins].</p>
 </dd>
-<dt><strong>area_range</strong><span class="classifier">list of list</span></dt><dd><p>Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
-Any values outside of this range will not be used to compute edges.</p>
+<dt><strong>area_range</strong><span class="classifier">list of list, optional</span></dt><dd><p>Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+Any values outside this range will be considered outliers, and not used to compute edges.</p>
 </dd>
 </dl>
 </dd>

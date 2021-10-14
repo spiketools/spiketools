@@ -121,6 +121,8 @@
 <span class="sd">        Whether to transpose the data before plotting.</span>
 <span class="sd">    smooth : bool, optional, default: False</span>
 <span class="sd">        Whether to smooth the data before plotting.</span>
+<span class="sd">    smoothing_kernel : float, optional, default: 1.5</span>
+<span class="sd">        Standard deviation of the gaussian kernel to apply for smoothing.</span>
 <span class="sd">    ignore_zero : bool, optional, default: False</span>
 <span class="sd">        If True, replaces 0&#39;s with NaN for plotting.</span>
 <span class="sd">    cbar : bool, optional, default: False</span>
@@ -164,7 +166,20 @@
 
 
 <span class="k">def</span> <span class="nf">_smooth_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Smooth data for plotting.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Smooth data for plotting, using a gaussian kernel.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : 2d array</span>
+<span class="sd">        Data to smooth.</span>
+<span class="sd">    sigma : float</span>
+<span class="sd">        Standard deviation of the gaussian kernel to apply for smoothing.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : 2d array</span>
+<span class="sd">        The smoothed data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">data</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
