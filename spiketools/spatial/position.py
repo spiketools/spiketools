@@ -81,7 +81,7 @@ def compute_cumulative_distances(xs, ys):
 	
     >>> xs, ys = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
     >>> compute_cumulative_distances(xs, ys)
-    array([1.41421356, 2.82842712, 4.24264069, 5.65685425])		
+    array([1.41421356, 2.82842712, 4.24264069, 5.65685425])
     """
 
     return np.cumsum(compute_distances(xs, ys))
