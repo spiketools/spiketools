@@ -76,16 +76,18 @@ def _compute_spatial_information(spike_map, occupancy):
     if rate == 0.0:
         return 0.0
 
-    # Compute the occupancy probability (per bin) & normalized spiking (by occupancy)
+    # Compute the occupancy probability (per bin)
     occ_prob = occupancy / np.nansum(occupancy)
-    # Ignore RuntimeWarning
-    warnings.simplefilter("ignore", category=RuntimeWarning)
-    spike_map_norm = spike_map / occupancy
-    # Reset warnings to default
-    warnings.resetwarnings()
+    
+    # Supress RunTime warnings for invalid values that might occur in the arrays during calculations
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=RuntimeWarning)
 
-    # Calculate the spatial information, using a mask for nonzero values
-    nz = np.nonzero(spike_map_norm)
-    info = np.nansum(occ_prob[nz] * spike_map_norm[nz] * np.log2(spike_map_norm[nz] / rate)) / rate
+        # Calculate the normalized spiking (by occupancy)
+        spike_map_norm = spike_map / occupancy
+
+        # Calculate the spatial information, using a mask for nonzero values
+        nz = np.nonzero(spike_map_norm)
+        info = np.nansum(occ_prob[nz] * spike_map_norm[nz] * np.log2(spike_map_norm[nz] / rate)) / rate
 
     return info
