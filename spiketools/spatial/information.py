@@ -23,6 +23,20 @@ def compute_spatial_information_2d(spike_x, spike_y, bins, occupancy):
     -------
     info : float
         Spike information rate for spatial information (bits/spike).
+
+    Examples
+    -------
+    Compute spatial information across a 2d space using spike x- and y-position, bins, and occupancy:
+    
+    >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+    >>> spike_x = [1, 2, 3, 4, 5]
+    >>> spike_y = [6, 7, 8, 9, 10]
+    >>> bins = [2, 4]
+    >>> # occupancy calculated with same bins and position, and with timestamps = np.linspace(0, 100000, position.shape[1])
+    >>> occupancy = np.array([[0,  0,  0,  0],
+    ...                       [0, 25, 25,  0]])
+    >>> compute_spatial_information_2d(spike_x, spike_y, bins, occupancy)
+    -0.2643856189774725
     """
 
     spike_map = np.histogram2d(spike_x, spike_y, bins=bins)[0]
@@ -47,6 +61,17 @@ def compute_spatial_information_1d(data, occupancy, bins):
     -------
     info : float
         Spike information rate for spatial information (bits/spike).
+
+
+    Examples
+    -------
+    Compute spatial information across a 1d space using spike position, occupancy, and bins:
+    
+    >>> data = [1, 2, 3, 4, 5]
+    >>> occupancy = np.array([0, 25, 25, 0])
+    >>> bins = [2, 4]
+    >>> compute_spatial_information_1d(data, occupancy, bins)
+    2.0
     """
 
     spike_map = np.histogram(data, bins=bins)[0]
