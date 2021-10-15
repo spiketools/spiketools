@@ -93,4 +93,4 @@ def test_compute_occupancy():
     assert occ.shape[0] == bins[0]
     assert occ.shape[1] == bins[1]
     # sum check (should be the same if binning is swapped)
-    assert np.sum(occ) == np.sum(compute_occupancy(position, timestamp, [bins[1], bins[0]]))
+    assert np.nansum(occ) == np.nansum(compute_occupancy(position, timestamp, [bins[1], bins[0]]))
