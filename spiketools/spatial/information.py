@@ -81,7 +81,7 @@ def _compute_spatial_information(spike_map, occupancy):
     # Ignore RuntimeWarning
     warnings.simplefilter("ignore", category=RuntimeWarning)
     spike_map_norm = spike_map / occupancy
-    # Reset warnings to defeault
+    # Reset warnings to default
     warnings.resetwarnings()
 
     # Calculate the spatial information, using a mask for nonzero values
