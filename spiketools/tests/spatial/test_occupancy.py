@@ -79,7 +79,15 @@ def test_compute_spatial_bin_assignment():
     assert position[1].shape == y_bins.shape
 
 def test_compute_bin_time():
-    pass
+    
+	# define a timestamp, with irregular times
+    timestamp = np.array([0, 10, 20, 30, 45, 50, 60, 70, 80, 90, 120])
+    bin_time = compute_bin_time(timestamp)
+	
+	# dimension check
+    assert bin_time.shape[0] == timestamp.shape[0]
+	# sum check
+    assert np.sum(np.diff(timestamp)) == np.sum(bin_time)
 
 def test_compute_occupancy():
     pass
