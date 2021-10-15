@@ -90,4 +90,15 @@ def test_compute_bin_time():
     assert np.sum(np.diff(timestamp)) == np.sum(bin_time)
 
 def test_compute_occupancy():
-    pass
+    
+    # define a position, timestamp, and bins
+    position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+    timestamp = np.linspace(0, 100000, position.shape[1])
+    bins = [4, 3]
+    occ = compute_occupancy(position, timestamp, bins)
+	
+    # dimension check
+    assert occ.shape[0] == bins[0]
+    assert occ.shape[1] == bins[1]
+    # sum check (should be the same if binning is swapped)
+    assert np.nansum(occ) == np.nansum(compute_occupancy(position, timestamp, [bins[1], bins[0]]))
