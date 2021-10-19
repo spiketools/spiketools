@@ -22,7 +22,7 @@ def test_compute_spatial_information_2d():
     spatial_information_2d_2 = compute_spatial_information_2d(spike_x, spike_y, bins, occupancy_2)
     spatial_information_2d_3 = compute_spatial_information_2d(spike_x, spike_y, bins, occupancy_3)
     
-    # dimention check: each of the calculated spatial informations should have a single output
+    # dimension check: each of the calculated spatial informations should have a single output
     assert np.array([spatial_information_2d_1, spatial_information_2d_2, spatial_information_2d_3]).shape[0] == 3
     # result check: should be the same for proportional occupancies
     assert np.isclose(spatial_information_2d_1, spatial_information_2d_2)
@@ -43,7 +43,7 @@ def test_compute_spatial_information_1d():
     spatial_information_1d_2 = compute_spatial_information_1d(data, occupancy_2, bins)
     spatial_information_1d_3 = compute_spatial_information_1d(data, occupancy_3, bins)
 
-    # dimention check: each of the calculated spatial informations should have a single output
+    # dimension check: each of the calculated spatial informations should have a single output
     assert np.array([spatial_information_1d_1, spatial_information_1d_2, spatial_information_1d_3]).shape[0] == 3
     # result check: should be the same for proportional occupancies
     assert np.isclose(spatial_information_1d_1, spatial_information_1d_2)
