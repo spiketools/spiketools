@@ -13,6 +13,7 @@ def sim_spiketrain_prob(p_spiking, n_samples):
         The probability (per sample) of spiking.
     n_samples : int, optional
         The number of samples to simulate.
+
     Returns
     -------
     spikes : 1d array
