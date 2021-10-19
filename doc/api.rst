@@ -96,6 +96,16 @@ Information
     compute_spatial_information_1d
     compute_spatial_information_2d
 
+Utilities
+~~~~~~~~~
+
+.. currentmodule:: spiketools.spatial.utils
+.. autosummary::
+   :toctree: generated/
+
+    get_pos_ranges
+    get_bin_width
+
 Statistics
 ----------
 
