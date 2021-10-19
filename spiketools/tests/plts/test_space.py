@@ -11,6 +11,22 @@ from spiketools.plts.space import *
 ###################################################################################################
 
 @plot_test
+def test_plot_positions():
+
+    positions = np.array([[1, 2, 3, 2, 4, 3, 2],
+                          [6, 7, 5, 6, 7, 6, 5]])
+
+    spike_pos = np.array([[2, 4, 2], [6, 7, 6]])
+    x_bins = [1, 2, 3, 4, 5]
+    y_bins = [6, 7, 8, 9]
+
+    # Test plot with just positions
+    plot_positions(positions)
+
+    # Test plot with all extras
+    plot_positions(positions, spike_pos, x_bins, y_bins)
+
+@plot_test
 def test_plot_space_heat():
 
     data = np.array([[0., 1., 2.], [0., 2., 1.], [0., 3., 2.]])
