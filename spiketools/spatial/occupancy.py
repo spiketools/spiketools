@@ -67,7 +67,7 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges, include_edge=True
       these are encoded as 0 (left side) or n_bins + 1 (right side).
     - By default position values equal to the left-most & right-most edges are treated as
       within the bounds (not treated as outliers), unless `include_edge` is set as False.
-      
+
     Examples
     --------
     Compute bin assignment of position, given existing spatial bins:
@@ -159,8 +159,8 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
 
     # Make a temporary pandas dataframe
     df = pd.DataFrame({
-        'xbins' : pd.Categorical(x_bins, categories=list(range(bins[0])), ordered=True),
-        'ybins' : pd.Categorical(y_bins, categories=list(range(bins[1])), ordered=True),
+        'xbins' : pd.Categorical(x_bins, categories=list(range(1, bins[0] + 1)), ordered=True),
+        'ybins' : pd.Categorical(y_bins, categories=list(range(1, bins[1] + 1)), ordered=True),
         'bin_time' : bin_time})
 
     # Apply the speed threshold (dropping slow / stationary timepoints)
