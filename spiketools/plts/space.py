@@ -12,6 +12,48 @@ from spiketools.plts.utils import check_ax, savefig
 ###################################################################################################
 
 @savefig
+def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
+                   ax=None, **plt_kwargs):
+    """Plot positions.
+
+    Parameters
+    ----------
+    positions : 2d array
+        Position data.
+    spike_positions : 2d array, optional
+        Positions values at which spikes occur.
+        If provided, these are added to the plot as red dots.
+    x_bins, y_bins : list of float
+        Bin edges for each axis.
+        If provided, these are used to draw grid lines on the plot.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    ax.plot(*positions, alpha=plt_kwargs.pop('alpha', 0.35), **plt_kwargs)
+
+    if spike_positions is not None:
+        ax.plot(spike_positions[0, :], spike_positions[1, :],
+                '.', color='red', alpha=0.35, ms=6)
+
+    if x_bins is not None:
+        ax.set_xticks(x_bins, minor=False);
+    if y_bins is not None:
+        ax.set_yticks(y_bins, minor=False);
+
+    ax.set_xticklabels([]); ax.set_yticklabels([]);
+    ax.xaxis.set_ticks_position('none')
+    ax.yaxis.set_ticks_position('none')
+
+    if x_bins is not None or y_bins is not None:
+        ax.grid()
+
+
+@savefig
 def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
                     ignore_zero=False, cbar=False, cmap=None, vmin=None, vmax=None,
                     title=None, ax=None, **plt_kwargs):
