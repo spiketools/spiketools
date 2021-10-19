@@ -23,6 +23,7 @@ def sim_spiketrain_prob(p_spiking, n_samples):
     -------
     n_samples is only used if p_spiking is a float, otherwise n_samples is just the length of p_spiking.
     """
+
     if isinstance(p_spiking, float):
         probs = np.ones(n_samples) * p_spiking
     else:
@@ -30,5 +31,5 @@ def sim_spiketrain_prob(p_spiking, n_samples):
 
     spikes = (probs > np.random.rand(*probs.shape))
     spikes = spikes.astype(int)
-	
+
     return spikes
