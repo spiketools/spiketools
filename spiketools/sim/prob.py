@@ -18,9 +18,9 @@ def sim_spiketrain_prob(p_spiking, n_samples):
     spikes : 1d array
         Simulated spike train.
 		
-	Notes
-	-------
-	n_samples is only used if p_spiking is a float, otherwise n_samples is just the length of p_spiking.
+    Notes
+    -------
+    n_samples is only used if p_spiking is a float, otherwise n_samples is just the length of p_spiking.
     """
     if isinstance(p_spiking, float):
         probs = np.ones(n_samples) * p_spiking
