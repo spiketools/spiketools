@@ -20,11 +20,8 @@ def test_plot_positions():
     x_bins = [1, 2, 3, 4, 5]
     y_bins = [6, 7, 8, 9]
 
-    # Test plot with just positions
-    plot_positions(positions)
-
-    # Test plot with all extras
-    plot_positions(positions, spike_pos, x_bins, y_bins)
+    plot_positions(positions, spike_pos, x_bins, y_bins,
+                   file_path=TEST_PLOTS_PATH, file_name='test_plot_positions_extra.png')
 
 @plot_test
 def test_plot_space_heat():
