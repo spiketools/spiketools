@@ -166,7 +166,16 @@ Space
 .. autosummary::
    :toctree: generated/
 
+    plot_positions
     plot_space_heat
+
+Trials
+~~~~~~
+.. currentmodule:: spiketools.plts.trials
+.. autosummary::
+   :toctree: generated/
+
+    plot_trial_rasters
 
 Stats
 ~~~~~
