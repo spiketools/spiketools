@@ -7,6 +7,7 @@ import numpy as np
 
 def sim_spiketrain_prob(p_spiking, n_samples):
     """Simulate spikes based on a probability of spiking per sample.
+
     Parameters
     ----------
     p_spiking : float or 1d array
