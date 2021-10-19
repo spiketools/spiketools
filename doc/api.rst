@@ -198,3 +198,10 @@ Utility functions, in the `utils` sub-module.
 
    restrict_range
    set_random_seed
+
+.. currentmodule:: spiketools.utils.data
+.. autosummary::
+   :toctree: generated/
+
+   get_value_by_time
+   get_value_by_time_range
