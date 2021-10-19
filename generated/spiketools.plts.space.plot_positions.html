@@ -3,8 +3,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Overview: module code &#8212; spiketools 0.1.0-dev documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>spiketools.plts.space.plot_positions &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -93,26 +94,34 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="spiketools/measures/conversions.html">spiketools.measures.conversions</a></li>
-<li><a href="spiketools/measures/measures.html">spiketools.measures.measures</a></li>
-<li><a href="spiketools/objects/cell.html">spiketools.objects.cell</a></li>
-<li><a href="spiketools/objects/session.html">spiketools.objects.session</a></li>
-<li><a href="spiketools/plts/space.html">spiketools.plts.space</a></li>
-<li><a href="spiketools/plts/spikes.html">spiketools.plts.spikes</a></li>
-<li><a href="spiketools/plts/stats.html">spiketools.plts.stats</a></li>
-<li><a href="spiketools/plts/trials.html">spiketools.plts.trials</a></li>
-<li><a href="spiketools/spatial/information.html">spiketools.spatial.information</a></li>
-<li><a href="spiketools/spatial/occupancy.html">spiketools.spatial.occupancy</a></li>
-<li><a href="spiketools/spatial/position.html">spiketools.spatial.position</a></li>
-<li><a href="spiketools/spatial/utils.html">spiketools.spatial.utils</a></li>
-<li><a href="spiketools/stats/generators.html">spiketools.stats.generators</a></li>
-<li><a href="spiketools/stats/permutations.html">spiketools.stats.permutations</a></li>
-<li><a href="spiketools/stats/shuffle.html">spiketools.stats.shuffle</a></li>
-<li><a href="spiketools/utils/data.html">spiketools.utils.data</a></li>
-<li><a href="spiketools/utils/spikes.html">spiketools.utils.spikes</a></li>
-<li><a href="spiketools/utils/utils.html">spiketools.utils.utils</a></li>
-</ul>
+  <section id="spiketools-plts-space-plot-positions">
+<h1>spiketools.plts.space.plot_positions<a class="headerlink" href="#spiketools-plts-space-plot-positions" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="spiketools.plts.space.plot_positions">
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.space.</span></span><span class="sig-name descname"><span class="pre">plot_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/space.html#plot_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.space.plot_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>positions</strong><span class="classifier">2d array</span></dt><dd><p>Position data.</p>
+</dd>
+<dt><strong>spike_positions</strong><span class="classifier">2d array, optional</span></dt><dd><p>Positions values at which spikes occur.
+If provided, these are added to the plot as red dots.</p>
+</dd>
+<dt><strong>x_bins, y_bins</strong><span class="classifier">list of float</span></dt><dd><p>Bin edges for each axis.
+If provided, these are used to draw grid lines on the plot.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
+</dd>
+<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
 
     </div>
       
