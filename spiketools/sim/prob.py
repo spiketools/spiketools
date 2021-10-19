@@ -6,29 +6,26 @@ import numpy as np
 ###################################################################################################
 
 def sim_spiketrain_prob(p_spiking, n_samples):
-    """Simulate spikes based on a probability of spiking per unit.
-
+    """Simulate spikes based on a probability of spiking per sample.
     Parameters
     ----------
     p_spiking : float or 1d array
-        The probability (per unit) of spiking.
+        The probability (per sample) of spiking.
     n_samples : int, optional
-        The number of samples per unit to simulate.
-
+        The number of samples to simulate.
     Returns
     -------
-    spikes : nd array
-        Simulated spike train per unit.
+    spikes : 1d array
+        Simulated spike train.
 		
 	Notes
 	-------
-	When p_spiking is an array, each unit corresponds to a row in spikes.
+	n_samples is only used if p_spiking is a float, otherwise n_samples is just the length of p_spiking.
     """
     if isinstance(p_spiking, float):
         probs = np.ones(n_samples) * p_spiking
     else:
-    # for many samples being simulated, each unit corresponds to one row
-        probs = np.ones((len(p_spiking), n_samples))* (p_spiking[:, np.newaxis])
+        probs = p_spiking
 
     spikes = (probs > np.random.rand(*probs.shape))
     spikes = spikes.astype(int)
