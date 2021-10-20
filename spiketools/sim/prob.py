@@ -34,7 +34,7 @@ def sim_spiketrain_prob(p_spiking, n_samples):
         if n_samples != None:
             probs = (np.ones(n_samples) * p_spiking)
         else:
-            raise ValueError("Input variable 'n_samples' must be defined if p_spiking is a float")
+            raise ValueError("Input variable 'n_samples' must be defined if 'p_spiking' is a float")
     else:
         probs = p_spiking
 
