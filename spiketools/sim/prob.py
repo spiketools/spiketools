@@ -26,7 +26,7 @@ def sim_spiketrain_prob(p_spiking, n_samples):
     """
 
     if isinstance(p_spiking, float):
-        probs = np.ones(n_samples) * p_spiking
+        probs = (np.ones(n_samples) * p_spiking) if n_samples != None else np.array([p_spiking])
     else:
         probs = p_spiking
 
