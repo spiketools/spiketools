@@ -57,7 +57,7 @@ def convert_train_to_times(train):
     """
 
     spikes = np.where(train)[0]
-    spikes = [x+1 for x in spikes]
+    spikes = np.array([x+1 for x in spikes])
     
     return spikes
 
