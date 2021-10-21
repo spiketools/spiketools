@@ -53,7 +53,7 @@ def convert_train_to_times(train):
     
     >>> spike_train = [0,0,0,1,0,1,0,0,1,1,1,1,0,1]
     >>> convert_train_to_times(spike_train)
-    [4, 6, 9, 10, 11, 12, 14]
+    array([ 4,  6,  9, 10, 11, 12, 14])
     """
 
     spikes = np.where(train)[0]
