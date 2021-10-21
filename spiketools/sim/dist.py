@@ -19,9 +19,21 @@ def sim_spiketrain_binom(p_spiking, n_samples=None):
     -------
     spikes : 1d array
         Simulated spike train.
+
+    Raises
+    -------
+    ValueError
+        If the input variable p_spiking is a float and n_samples is None.
+
+    Notes
+    -------
+    n_samples is only used if p_spiking is a float, otherwise n_samples is just the length of p_spiking.
     """
 
-    return np.random.binomial(1, p=p_spiking, size=n_samples)
+    if isinstance(p_spiking, float) & (n_samples == None):
+        raise ValueError("Input variable 'n_samples' must be defined if 'p_spiking' is a float")
+    else:
+        return np.random.binomial(1, p=p_spiking, size=n_samples)
 
 
 def sim_spiketrain_poisson(rate, n_samples, fs, bias=0):
