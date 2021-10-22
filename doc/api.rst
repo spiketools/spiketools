@@ -147,11 +147,39 @@ Permutations
 Simulations
 -----------
 
-Functionality for simulating spiking data, available in the `sims` sub-module.
+Functionality for simulating spiking data, available in the `sim` sub-module.
 
-.. currentmodule:: spiketools.sims
+.. currentmodule:: spiketools.sim
 .. autosummary::
    :toctree: generated/
+
+Probability
+~~~~~~~~~~~
+
+.. currentmodule:: spiketools.sim.prob
+.. autosummary::
+   :toctree: generated/
+
+    sim_spiketrain_prob
+
+Distribution
+~~~~~~~~~~~~
+
+.. currentmodule:: spiketools.sim.dist
+.. autosummary::
+   :toctree: generated/
+
+    sim_spiketrain_binom
+    sim_spiketrain_poisson
+
+Utilities
+~~~~~~~~~
+
+.. currentmodule:: spiketools.sim.utils
+.. autosummary::
+   :toctree: generated/
+
+    refractory
 
 Plots
 -----
