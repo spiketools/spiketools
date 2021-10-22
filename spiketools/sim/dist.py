@@ -43,7 +43,7 @@ def sim_spiketrain_poisson(rate, n_samples, fs, bias=0):
     ----------
     rate : float
         The firing rate of neuron to simulate.
-    n_samples : int, optional
+    n_samples : int
         The number of samples to simulate.
     fs : int
         The sampling rate.
