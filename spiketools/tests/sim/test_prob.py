@@ -5,8 +5,5 @@ from spiketools.sim.prob import *
 ###################################################################################################
 ###################################################################################################
 
-def test_sim_spiketrain_binom():
-    pass
-
-def test_sim_spiketrain_poisson():
+def test_sim_spiketrain_prob():
     pass
