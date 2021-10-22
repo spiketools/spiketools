@@ -71,7 +71,7 @@ class Cell():
         return compute_fano_factor(self.spike_train())
 
 
-    def shuffle(self, random_state=None):
+    def shuffle(self):
         """Shuffle data to create new spike spikes."""
 
-        return shuffle_isis(self.spikes, random_state=random_state)
+        return shuffle_isis(self.spikes)

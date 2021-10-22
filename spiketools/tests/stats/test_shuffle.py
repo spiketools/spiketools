@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from spiketools.utils import set_random_seed
+
 from spiketools.stats.shuffle import *
 
 ###################################################################################################
@@ -24,8 +26,10 @@ def test_shuffle_isis(tspikes):
     assert not np.array_equal(tspikes, shuffled)
 
     # Test that get a different answer with different random states
-    out1 = shuffle_isis(tspikes, n_shuffles=1, random_state=12)
-    out2 = shuffle_isis(tspikes, n_shuffles=1, random_state=21)
+    set_random_seed(12)
+    out1 = shuffle_isis(tspikes, n_shuffles=1)
+    set_random_seed(21)
+    out2 = shuffle_isis(tspikes, n_shuffles=1)
     assert not np.array_equal(out1, out2)
 
     # Test with more shuffles
@@ -41,8 +45,10 @@ def test_shuffle_bins(tspikes):
     assert not np.array_equal(tspikes, shuffled)
 
     # Test that get a different answer with different random states
-    out1 = shuffle_bins(tspikes, n_shuffles=1, random_state=12)
-    out2 = shuffle_bins(tspikes, n_shuffles=1, random_state=21)
+    set_random_seed(12)
+    out1 = shuffle_bins(tspikes, n_shuffles=1)
+    set_random_seed(21)
+    out2 = shuffle_bins(tspikes, n_shuffles=1)
     assert not np.array_equal(out1, out2)
 
     # Test with more shuffles
@@ -77,8 +83,10 @@ def test_shuffle_circular(tspikes):
     assert not np.array_equal(tspikes, shuffled)
 
     # Test that get a different answer with different random states
-    out1 = shuffle_circular(tspikes, 10, n_shuffles=1, random_state=12)
-    out2 = shuffle_circular(tspikes, 10, n_shuffles=1, random_state=21)
+    set_random_seed(12)
+    out1 = shuffle_circular(tspikes, 10, n_shuffles=1)
+    set_random_seed(21)
+    out2 = shuffle_circular(tspikes, 10, n_shuffles=1)
     assert not np.array_equal(out1, out2)
 
     # Test with more shuffles
