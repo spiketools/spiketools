@@ -5,7 +5,7 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def sim_spiketrain_prob(p_spiking, n_samples = None):
+def sim_spiketrain_prob(p_spiking, n_samples=None):
     """Simulate spikes based on a probability of spiking per sample.
 
     Parameters
