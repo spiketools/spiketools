@@ -197,15 +197,19 @@
     <span class="k">if</span> <span class="n">rate</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
 
-    <span class="c1"># Compute the occupancy probability (per bin) &amp; normalized spiking (by occupancy)</span>
+    <span class="c1"># Compute the occupancy probability (per bin)</span>
     <span class="n">occ_prob</span> <span class="o">=</span> <span class="n">occupancy</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occupancy</span><span class="p">)</span>
+    
+    <span class="c1"># Supress RunTime warnings for invalid values that might occur in the arrays during calculations</span>
     <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the normalized spiking (by occupancy)</span>
         <span class="n">spike_map_norm</span> <span class="o">=</span> <span class="n">spike_map</span> <span class="o">/</span> <span class="n">occupancy</span>
 
-    <span class="c1"># Calculate the spatial information, using a mask for nonzero values</span>
-    <span class="n">nz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">spike_map_norm</span><span class="p">)</span>
-    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occ_prob</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">*</span> <span class="n">spike_map_norm</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">spike_map_norm</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">/</span> <span class="n">rate</span><span class="p">))</span> <span class="o">/</span> <span class="n">rate</span>
+        <span class="c1"># Calculate the spatial information, using a mask for nonzero values</span>
+        <span class="n">nz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">spike_map_norm</span><span class="p">)</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occ_prob</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">*</span> <span class="n">spike_map_norm</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">spike_map_norm</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">/</span> <span class="n">rate</span><span class="p">))</span> <span class="o">/</span> <span class="n">rate</span>
 
     <span class="k">return</span> <span class="n">info</span>
 </pre></div>
