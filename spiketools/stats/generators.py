@@ -5,7 +5,7 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def poisson_train(frequency, duration, start_time=0, random_state=None):
+def poisson_train(frequency, duration, start_time=0):
     """Generator function for a Homogeneous Poisson train.
 
     Parameters
@@ -16,8 +16,6 @@ def poisson_train(frequency, duration, start_time=0, random_state=None):
         Maximum duration.
     start_time: float, optional
         Timestamp of the start time for the generated sequence.
-    random_state : int, optional
-        Initialization value for the random state.
 
     Yields
     ------
@@ -38,16 +36,12 @@ def poisson_train(frequency, duration, start_time=0, random_state=None):
     ...     spike = next(spike_gen)
     """
 
-    rangen = np.random.mtrand.RandomState()
-    if random_state is not None:
-        rangen.seed(random_state)
-
     isi = 1. / frequency
 
     cur_time = start_time
     while cur_time <= duration:
 
-        cur_time += isi * rangen.exponential()
+        cur_time += isi * np.random.exponential()
 
         if cur_time > duration:
             return
