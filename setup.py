@@ -21,6 +21,9 @@ setup(
     description = 'Module for analyzing spiking data.',
     long_description = long_description,
     python_requires = '>=3.6',
+    maintainer = 'Thomas Donoghue',
+    maintainer_email = 'tdonoghue.research@gmail.com',
+    url = 'https://github.com/spiketools/spiketools',
     packages = find_packages(),
     license = 'Apache License, 2.0',
     classifiers = [
@@ -39,8 +42,12 @@ setup(
         'Programming Language :: Python :: 3.9'
     ],
     platforms = 'any',
-    project_urls = {},
-    download_url = 'https://github.com/TomDonoghue/SpikeTools//releases',
+    project_urls = {
+        'Documentation' : 'https://spiketools.github.io/',
+        'Bug Reports' : 'https://github.com/spiketools/spike/issues',
+        'Source' : 'https://github.com/spiketools/spiketools'
+    },
+    download_url = 'https://github.com/spiketools/spiketools/releases',
     keywords = ['neuroscience', 'single units', 'spike analyses', 'electrophysiology'],
     install_requires = install_requires,
     tests_require = ['pytest'],
