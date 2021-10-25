@@ -69,7 +69,7 @@ def sim_spiketrain_poisson(rate, n_samples, fs, bias=0):
     --------
     Simulate a spike train from a Poisson distribution.
     
-    >>> sim_spiketrain_poisson(0.4, 10, 1000, bias=0)
+    >>> spikes = sim_spiketrain_poisson(0.4, 10, 1000, bias=0)
     """
 
     spikes = np.zeros(n_samples)
