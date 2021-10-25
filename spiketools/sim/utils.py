@@ -12,7 +12,7 @@ def refractory(spikes, refractory_time, fs):
     ----------
     spikes : 1d array
         Spike train.
-    refractory : float
+    refractory_time : float
         The duration of the refractory period, after a spike, in seconds.
     fs : float
         The sampling rate.
