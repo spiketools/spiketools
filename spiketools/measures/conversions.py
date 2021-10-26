@@ -55,11 +55,10 @@ def convert_train_to_times(train):
     
     >>> spike_train = [0,0,0,1,0,1,0,0,1,1,1,1,0,1]
     >>> convert_train_to_times(spike_train)
-    array([ 5,  7, 10, 11, 12, 13, 15])
+    array([ 4,  6,  9, 10, 11, 12, 14])
     """
 
     spikes = np.where(train)[0] + 1
-    spikes = np.array([x+1 for x in spikes])
     
     return spikes
 
@@ -86,10 +85,10 @@ def convert_isis_to_spikes(isis, offset=0, add_offset=True):
     Convert a sequence of 6 inter-spike intervals (ms) to their corresponding spike times (ms).
     
     >>> isis = [300, 600, 800, 200, 700]
-    >>> convert_isis_to_spikes(isis, offset=0, add_offset=True )
+    >>> convert_isis_to_spikes(isis, offset=0, add_offset=True)
     array([   0,  300,  900, 1700, 1900, 2600])
     """
-
+    
     spikes = np.cumsum(isis, axis=-1)
 
     if offset:
