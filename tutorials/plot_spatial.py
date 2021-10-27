@@ -34,9 +34,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # import all functions from spiketools.spatial
-from spiketools.spatial import *
+from spiketools.spatial.position import *
+from spiketools.spatial.occupancy import *
+from spiketools.spatial.utils import *
+from spiketools.spatial.information import *
 
-from spiketools.sim import sim_spiketrain_binom
+# import sim_spiketrain_binom to simulate spiketrain
+from spiketools.sim.dist import sim_spiketrain_binom
 
 ###################################################################################################
 
