@@ -17,3 +17,6 @@ def test_refractory():
     
     # output value check
     assert refractory_spikes.all == 0 or 1 
+    
+    # output accuracy check
+    assert (refractory_spikes == np.array([0, 1, 1, 0, 1])).all
