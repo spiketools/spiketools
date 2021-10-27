@@ -19,8 +19,9 @@ This tutorial primarily covers the ``spiketools.spatial`` module.
 # 1. Compute and plot distances and speed using position
 # 2. Divide position in spatial bin edges
 # 3. Compute spatial bin assignment using spatial bin edges
-# 4. Infinite-impulse-response (IIR) filter option
-# 5. Beta bandpass filter on a neural signal
+# 4. Compute time in each timestamp sample
+# 5. Compute and plot occupancy
+# 6. Compute 2D and 1D spatial information
 #
 
 ###################################################################################################
@@ -239,8 +240,3 @@ spatial_information_2d = compute_spatial_information_2d(spike_x, spike_y, bins, 
 print(f'The 2D spatial information is = {spatial_information_2d}')
 
 ###################################################################################################
-# Conclusion
-# ~~~~~~~~~~
-#
-# Words, words, words.
-#
