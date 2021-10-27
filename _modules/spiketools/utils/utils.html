@@ -101,16 +101,41 @@
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="set_random_seed"><a class="viewcode-back" href="../../../generated/spiketools.utils.set_random_seed.html#spiketools.utils.set_random_seed">[docs]</a><span class="k">def</span> <span class="nf">set_random_seed</span><span class="p">(</span><span class="n">seed_val</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="set_random_seed"><a class="viewcode-back" href="../../../generated/spiketools.utils.set_random_seed.html#spiketools.utils.set_random_seed">[docs]</a><span class="k">def</span> <span class="nf">set_random_seed</span><span class="p">(</span><span class="n">seed_value</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Set the random seed value.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    seed_val : int, optional</span>
+<span class="sd">    seed_value : int, optional</span>
 <span class="sd">        Value to set the random seed as.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This sets the random state of the global numpy state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed_val</span><span class="p">)</span></div>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed_value</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">set_random_state</span><span class="p">(</span><span class="n">seed_value</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set the random state in a RandomState object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    seed_value : int, optional</span>
+<span class="sd">        Value to set the random seed as.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    RandomState</span>
+<span class="sd">        An initialized numpy RandomState.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This sets the random state of a new RandomState object, independent of the global numpy state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed_value</span><span class="p">)</span>
 </pre></div>
 
     </div>

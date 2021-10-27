@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.stats.shuffle.shuffle_circular &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.sim.prob.sim_spiketrain_prob &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,32 +94,48 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-stats-shuffle-shuffle-circular">
-<h1>spiketools.stats.shuffle.shuffle_circular<a class="headerlink" href="#spiketools-stats-shuffle-shuffle-circular" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-sim-prob-sim-spiketrain-prob">
+<h1>spiketools.sim.prob.sim_spiketrain_prob<a class="headerlink" href="#spiketools-sim-prob-sim-spiketrain-prob" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.stats.shuffle.shuffle_circular">
-<span class="sig-prename descclassname"><span class="pre">spiketools.stats.shuffle.</span></span><span class="sig-name descname"><span class="pre">shuffle_circular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shuffles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/shuffle.html#shuffle_circular"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.shuffle.shuffle_circular" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shuffle spikes based on circularly shifting the spike train.</p>
+<dt class="sig sig-object py" id="spiketools.sim.prob.sim_spiketrain_prob">
+<span class="sig-prename descclassname"><span class="pre">spiketools.sim.prob.</span></span><span class="sig-name descname"><span class="pre">sim_spiketrain_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_spiking</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/prob.html#sim_spiketrain_prob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.prob.sim_spiketrain_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate spikes based on a probability of spiking per sample.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times, in milliseconds.</p>
+<dt><strong>p_spiking</strong><span class="classifier">float or 1d array</span></dt><dd><p>The probability (per sample) of spiking.</p>
 </dd>
-<dt><strong>shuffle_min</strong><span class="classifier">int</span></dt><dd><p>The minimum amount to rotate data, in terms of units of the spike train.</p>
-</dd>
-<dt><strong>n_shuffles</strong><span class="classifier">int, optional, default: 1000</span></dt><dd><p>The number of shuffles to create.</p>
+<dt><strong>n_samples</strong><span class="classifier">int, optional</span></dt><dd><p>The number of samples to simulate.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>shuffled_spikes</strong><span class="classifier">2d array</span></dt><dd><p>Shuffled spike times.</p>
+<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike train.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If the input variable p_spiking is a float and n_samples is None.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The input shuffle_min should always be less than the maximum time in which a spike occured.</p>
+<p>n_samples is only used if p_spiking is a float, otherwise n_samples is just the length of p_spiking.</p>
+<p class="rubric">Examples</p>
+<p>Simulate spike train of size n_samples, based on a probability of spiking per sample.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p_spiking</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim_spiketrain</span> <span class="o">=</span> <span class="n">sim_spiketrain_prob</span><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Simulate spike train based on a probability of spiking per sample over time.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p_spiking</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim_spiketrain</span> <span class="o">=</span> <span class="n">sim_spiketrain_prob</span><span class="p">(</span><span class="n">p_spiking</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

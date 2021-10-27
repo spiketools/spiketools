@@ -107,8 +107,8 @@
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="shuffle_spikes"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_spikes.html#spiketools.stats.shuffle.shuffle_spikes">[docs]</a><span class="k">def</span> <span class="nf">shuffle_spikes</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">approach</span><span class="o">=</span><span class="s1">&#39;ISI&#39;</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Shuffle spike</span>
+<div class="viewcode-block" id="shuffle_spikes"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_spikes.html#spiketools.stats.shuffle.shuffle_spikes">[docs]</a><span class="k">def</span> <span class="nf">shuffle_spikes</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">approach</span><span class="o">=</span><span class="s1">&#39;ISI&#39;</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Shuffle spikes.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -118,8 +118,6 @@
 <span class="sd">        Which approach to take for shuffling spike times.</span>
 <span class="sd">    n_shuffles : int, optional, default: 1000</span>
 <span class="sd">        The number of shuffles to create.</span>
-<span class="sd">    random_state : int, optional</span>
-<span class="sd">        Initialization value for the random state.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -128,11 +126,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">approach</span> <span class="o">==</span> <span class="s1">&#39;ISI&#39;</span><span class="p">:</span>
-        <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_isis</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_isis</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">approach</span> <span class="o">==</span> <span class="s1">&#39;BINCIRC&#39;</span><span class="p">:</span>
-        <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_bins</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">,</span>
-                                       <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_bins</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">approach</span> <span class="o">==</span> <span class="s1">&#39;POISSON&#39;</span><span class="p">:</span>
         <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_poisson</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">)</span>
@@ -146,7 +143,7 @@
     <span class="k">return</span> <span class="n">shuffled_spikes</span></div>
 
 
-<div class="viewcode-block" id="shuffle_isis"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis">[docs]</a><span class="k">def</span> <span class="nf">shuffle_isis</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="shuffle_isis"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis">[docs]</a><span class="k">def</span> <span class="nf">shuffle_isis</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create shuffled spike times using permuted inter-spike intervals.</span>
 
 <span class="sd">    Parameters</span>
@@ -155,8 +152,6 @@
 <span class="sd">        Inter-spike intervals.</span>
 <span class="sd">    n_shuffles : int, optional, default: 1000</span>
 <span class="sd">        The number of shuffles to create.</span>
-<span class="sd">    random_state : int, optional</span>
-<span class="sd">        Initialization value for the random state.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -164,18 +159,16 @@
 <span class="sd">        Shuffled spike times.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
-
     <span class="n">isis</span> <span class="o">=</span> <span class="n">compute_isis</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
 
     <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_shuffles</span><span class="p">,</span> <span class="n">spikes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
     <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_shuffles</span><span class="p">):</span>
-        <span class="n">shuffled_spikes</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">convert_isis_to_spikes</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">isis</span><span class="p">))</span>
+        <span class="n">shuffled_spikes</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">convert_isis_to_spikes</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">isis</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">shuffled_spikes</span></div>
 
 
-<div class="viewcode-block" id="shuffle_bins"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_bins.html#spiketools.stats.shuffle.shuffle_bins">[docs]</a><span class="k">def</span> <span class="nf">shuffle_bins</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bin_width_range</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="shuffle_bins"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_bins.html#spiketools.stats.shuffle.shuffle_bins">[docs]</a><span class="k">def</span> <span class="nf">shuffle_bins</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bin_width_range</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shuffle data with a circular shuffle of the spike train.</span>
 
 <span class="sd">    Parameters</span>
@@ -186,8 +179,6 @@
 <span class="sd">        Range of bin widths to shuffle by.</span>
 <span class="sd">    n_shuffles : int, optional, default: 1000</span>
 <span class="sd">        The number of shuffles to create.</span>
-<span class="sd">    random_state : int, optional</span>
-<span class="sd">        Initialization value for the random state.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -207,8 +198,6 @@
 
     <span class="n">spike_train</span> <span class="o">=</span> <span class="n">create_spike_train</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
 
-    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
-
     <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_shuffles</span><span class="p">,</span> <span class="n">spikes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
 
     <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_shuffles</span><span class="p">):</span>
@@ -216,8 +205,8 @@
         <span class="c1"># Define the bins to use for shuffling</span>
         <span class="c1">#  This create the maximum number of bins, then sub-selects to bins that tile the space</span>
         <span class="c1">#  This approach is a little quicker than iterating through and stopping space is tiled</span>
-        <span class="n">temp</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">bin_width_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bin_width_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                           <span class="nb">int</span><span class="p">(</span><span class="n">spike_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">bin_width_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">bin_width_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bin_width_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                 <span class="nb">int</span><span class="p">(</span><span class="n">spike_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">bin_width_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="n">right_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
         <span class="n">right_edges</span> <span class="o">=</span> <span class="n">right_edges</span><span class="p">[</span><span class="n">right_edges</span> <span class="o">&lt;</span> <span class="n">spike_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
         <span class="n">right_edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">spike_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -232,9 +221,9 @@
 
         <span class="c1"># Assign a shuffle amount to each bin</span>
         <span class="c1">#   QUESTION / CHECK: should the low range here be divided by two?</span>
-        <span class="n">shuffle_num</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">bin_width_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
-                                  <span class="n">high</span><span class="o">=</span><span class="n">bin_width_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                                  <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">left_edges</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">shuffle_num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">bin_width_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                                        <span class="n">high</span><span class="o">=</span><span class="n">bin_width_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                        <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">left_edges</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
         <span class="c1"># Circularly shuffle each bin</span>
         <span class="n">shuffled_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spike_train</span><span class="p">))</span>
@@ -247,7 +236,7 @@
     <span class="k">return</span> <span class="n">shuffled_spikes</span></div>
 
 
-<div class="viewcode-block" id="shuffle_poisson"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_poisson.html#spiketools.stats.shuffle.shuffle_poisson">[docs]</a><span class="k">def</span> <span class="nf">shuffle_poisson</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="shuffle_poisson"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_poisson.html#spiketools.stats.shuffle.shuffle_poisson">[docs]</a><span class="k">def</span> <span class="nf">shuffle_poisson</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shuffle spikes based on a Poisson distribution.</span>
 
 <span class="sd">    Parameters</span>
@@ -256,8 +245,6 @@
 <span class="sd">        Spike times.</span>
 <span class="sd">    n_shuffles : int, optional, default: 1000</span>
 <span class="sd">        The number of shuffles to create.</span>
-<span class="sd">    random_state : int, optional</span>
-<span class="sd">        Initialization value for the random state.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -269,8 +256,6 @@
 <span class="sd">    Experimental implementation / has issues matching spike counts.</span>
 <span class="sd">    Not fully checked / tested / implemented yet.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
 
     <span class="n">length</span> <span class="o">=</span> <span class="p">(</span><span class="n">spikes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">1000</span>
     <span class="n">rate</span> <span class="o">=</span> <span class="n">compute_spike_rate</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
@@ -284,7 +269,7 @@
     <span class="k">return</span> <span class="n">shuffled_spikes</span></div>
 
 
-<div class="viewcode-block" id="shuffle_circular"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_circular.html#spiketools.stats.shuffle.shuffle_circular">[docs]</a><span class="k">def</span> <span class="nf">shuffle_circular</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">shuffle_min</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="shuffle_circular"><a class="viewcode-back" href="../../../generated/spiketools.stats.shuffle.shuffle_circular.html#spiketools.stats.shuffle.shuffle_circular">[docs]</a><span class="k">def</span> <span class="nf">shuffle_circular</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">shuffle_min</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shuffle spikes based on circularly shifting the spike train.</span>
 
 <span class="sd">    Parameters</span>
@@ -295,22 +280,18 @@
 <span class="sd">        The minimum amount to rotate data, in terms of units of the spike train.</span>
 <span class="sd">    n_shuffles : int, optional, default: 1000</span>
 <span class="sd">        The number of shuffles to create.</span>
-<span class="sd">    random_state : int, optional</span>
-<span class="sd">        Initialization value for the random state.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    shuffled_spikes : 2d array</span>
 <span class="sd">        Shuffled spike times.</span>
-<span class="sd">		</span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    The input shuffle_min should always be less than the maximum time in which a spike occured.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">spike_train</span> <span class="o">=</span> <span class="n">create_spike_train</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
-
-    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
 
     <span class="n">shuffles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">shuffle_min</span><span class="p">,</span>
                                  <span class="n">high</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span><span class="o">-</span><span class="n">shuffle_min</span><span class="p">,</span>

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.stats.shuffle.shuffle_circular &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.sim.dist.sim_spiketrain_poisson &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,32 +94,29 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-stats-shuffle-shuffle-circular">
-<h1>spiketools.stats.shuffle.shuffle_circular<a class="headerlink" href="#spiketools-stats-shuffle-shuffle-circular" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-sim-dist-sim-spiketrain-poisson">
+<h1>spiketools.sim.dist.sim_spiketrain_poisson<a class="headerlink" href="#spiketools-sim-dist-sim-spiketrain-poisson" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.stats.shuffle.shuffle_circular">
-<span class="sig-prename descclassname"><span class="pre">spiketools.stats.shuffle.</span></span><span class="sig-name descname"><span class="pre">shuffle_circular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shuffles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/shuffle.html#shuffle_circular"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.shuffle.shuffle_circular" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shuffle spikes based on circularly shifting the spike train.</p>
+<dt class="sig sig-object py" id="spiketools.sim.dist.sim_spiketrain_poisson">
+<span class="sig-prename descclassname"><span class="pre">spiketools.sim.dist.</span></span><span class="sig-name descname"><span class="pre">sim_spiketrain_poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/dist.html#sim_spiketrain_poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.dist.sim_spiketrain_poisson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate spike train from a Poisson distribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times, in milliseconds.</p>
+<dt><strong>rate</strong><span class="classifier">float</span></dt><dd><p>The firing rate of neuron to simulate.</p>
 </dd>
-<dt><strong>shuffle_min</strong><span class="classifier">int</span></dt><dd><p>The minimum amount to rotate data, in terms of units of the spike train.</p>
+<dt><strong>n_samples</strong><span class="classifier">int</span></dt><dd><p>The number of samples to simulate.</p>
 </dd>
-<dt><strong>n_shuffles</strong><span class="classifier">int, optional, default: 1000</span></dt><dd><p>The number of shuffles to create.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>shuffled_spikes</strong><span class="classifier">2d array</span></dt><dd><p>Shuffled spike times.</p>
+<dt><strong>fs</strong><span class="classifier">int</span></dt><dd><p>The sampling rate.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>The input shuffle_min should always be less than the maximum time in which a spike occured.</p>
+<p class="rubric">Examples</p>
+<p>Simulate a spike train from a Poisson distribution.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">sim_spiketrain_poisson</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.utils.spikes &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.sim.utils &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -93,55 +93,39 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <h1>Source code for spiketools.utils.spikes</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Spike related utility functions.&quot;&quot;&quot;</span>
+  <h1>Source code for spiketools.sim.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Utilities for working with simulated spiking data.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="restrict_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.restrict_range.html#spiketools.utils.restrict_range">[docs]</a><span class="k">def</span> <span class="nf">restrict_range</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">min_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Restrict a vector of spike times to a specified range.</span>
-<span class="sd">    </span>
+<div class="viewcode-block" id="refractory"><a class="viewcode-back" href="../../../generated/spiketools.sim.utils.refractory.html#spiketools.sim.utils.refractory">[docs]</a><span class="k">def</span> <span class="nf">refractory</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">refractory_time</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Apply a refractory period to a simulated spike train.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    spikes : 1d array</span>
-<span class="sd">        Spike times.</span>
-<span class="sd">    min_time, max_time : float, optional, default: None</span>
-<span class="sd">        Mininum and/or maximum time to restrict spike times to.</span>
-<span class="sd">   </span>
-<span class="sd">   Returns</span>
+<span class="sd">        Spike train.</span>
+<span class="sd">    refractory_time : float</span>
+<span class="sd">        The duration of the refractory period, after a spike, in seconds.</span>
+<span class="sd">    fs : float</span>
+<span class="sd">        The sampling rate.</span>
+
+<span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    spikes : 1d array</span>
-<span class="sd">        Spike times, restricted to desired time range.</span>
-<span class="sd">        </span>
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    Select all spikes after a specific time point.</span>
-<span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; spikes = np.array([50, 100, 150, 200, 250, 300])</span>
-<span class="sd">    &gt;&gt;&gt; restrict_range(spikes, min_time=100, max_time=None)</span>
-<span class="sd">    array([100, 150, 200, 250, 300])</span>
-<span class="sd">    </span>
-<span class="sd">    Select all spikes before a specific time point.</span>
-<span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; spikes = np.array([50, 100, 150, 200, 250, 300])</span>
-<span class="sd">    &gt;&gt;&gt; restrict_range(spikes, min_time=None, max_time=250)</span>
-<span class="sd">    array([ 50, 100, 150, 200, 250])</span>
-<span class="sd">    </span>
-<span class="sd">    Restrict a vector of spike times to a specific range.</span>
-<span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; spikes = np.array([50, 100, 150, 200, 250, 300])</span>
-<span class="sd">    &gt;&gt;&gt; restrict_range(spikes, min_time=100, max_time=200)</span>
-<span class="sd">    array([100, 150, 200])</span>
+<span class="sd">        Spike train, with refractory period constraint applied.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">min_time</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">min_time</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">min_time</span>
-    <span class="n">max_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">max_time</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">max_time</span>
+    <span class="n">ref_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">refractory_time</span> <span class="o">/</span> <span class="n">fs</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">spikes</span><span class="p">[(</span><span class="n">spikes</span> <span class="o">&gt;=</span> <span class="n">min_time</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">spikes</span> <span class="o">&lt;=</span> <span class="n">max_time</span><span class="p">)]</span></div>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">spikes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">spikes</span><span class="p">[</span><span class="n">ind</span><span class="p">]:</span>
+            <span class="n">spikes</span><span class="p">[</span><span class="n">ind</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">ind</span><span class="o">+</span><span class="n">ref_len</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
+    <span class="k">return</span> <span class="n">spikes</span></div>
 </pre></div>
 
     </div>
