@@ -1,12 +1,37 @@
 """Tests for spiketools.sim.dist"""
 
+from pytest import raises
+
 from spiketools.sim.dist import *
 
 ###################################################################################################
 ###################################################################################################
 
 def test_sim_spiketrain_binom():
-    pass
+
+    # Simulate spike train based on a probability of spiking per sample over time.
+    p_spiking_1 = np.ones(100)
+    sim_spiketrain_1 = sim_spiketrain_binom(p_spiking_1)
+    
+    p_spiking_2 = np.array([0.3, 0.5, 0.1, 0.8])
+    sim_spiketrain_2 = sim_spiketrain_binom(p_spiking_2)
+    
+    # Simulate spike train of size n_samples, based on a probability of spiking per sample.
+    p_spiking_3 = 0.
+    n_samples = 100
+    sim_spiketrain_3 = sim_spiketrain_binom(p_spiking_3, n_samples)
+    
+    # value checks
+    np.nansum(sim_spiketrain_1) > 75
+    np.nansum(sim_spiketrain_2) < len(p_spiking_2)
+    np.nansum(sim_spiketrain_3) == 0
+    # dimension checks
+    len(sim_spiketrain_1) == len(p_spiking_1)
+    len(sim_spiketrain_2) == len(p_spiking_2)
+    len(sim_spiketrain_3) == n_samples
+    
+    with raises(ValueError):
+        sim_spiketrain_4 = sim_spiketrain_binom(p_spiking_3)
 
 def test_sim_spiketrain_poisson():
 
