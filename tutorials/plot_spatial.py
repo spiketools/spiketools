@@ -224,7 +224,15 @@ plt.xlabel('y spatial bin')
 
 ###################################################################################################
 
-# Calculate the spatial information for the x-dimension only
+# Simulate a spike train with chance level
+spike_train = sim_spiketrain_binom(0.5, n_samples=len(x_pos))
+# Get x and y positions corresponding
+spike_x = x_pos[np.where(spike_train == 1)]
+spike_y = y_pos[np.where(spike_train == 1)]
+
+###################################################################################################
+
+# Calculate the 1D spatial information (x-dimension only)
 data = spike_x
 x_occupancy = np.sum(occupancy, axis = 1)
 spatial_information_1d = compute_spatial_information_1d(data, x_occupancy, bins)
@@ -233,12 +241,6 @@ print(f'The 1D spatial information is = {spatial_information_1d}')
 ###################################################################################################
 
 # Compute the 2D spatial information for spikes
-# Simulate a spike train with chance level
-spike_train = sim_spiketrain_binom(0.5, n_samples=len(x_pos))
-# Get x and y positions corresponding
-spike_x = x_pos[np.where(spike_train == 1)]
-spike_y = y_pos[np.where(spike_train == 1)]
-
 spatial_information_2d = compute_spatial_information_2d(spike_x, spike_y, bins, occupancy)
 print(f'The 2D spatial information is = {spatial_information_2d}')
 
