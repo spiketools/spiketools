@@ -16,7 +16,7 @@ def test_refractory():
     assert refractory_spikes.shape == spikes.shape
 
     # output value check
-    assert refractory_spikes.all() == 0 or 1 
+    assert np.isin(spikes, [0, 1, 0, 0, 1]).all()
 
     # output accuracy check
     assert np.array_equal(refractory_spikes, np.array([0, 1, 0, 0, 1]))
