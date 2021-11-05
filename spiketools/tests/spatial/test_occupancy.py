@@ -79,24 +79,24 @@ def test_compute_spatial_bin_assignment():
     assert position[1].shape == y_bins.shape
 
 def test_compute_bin_time():
-    
+
     # define a timestamp, with irregular times
     timestamp = np.array([0, 10, 20, 30, 45, 50, 60, 70, 80, 90, 120])
     bin_time = compute_bin_time(timestamp)
-	
+
     # dimension check
     assert bin_time.shape[0] == timestamp.shape[0]
     # sum check
     assert np.sum(np.diff(timestamp)) == np.sum(bin_time)
 
 def test_compute_occupancy():
-    
+
     # define a position, timestamp, and bins
     position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
     timestamp = np.linspace(0, 100000, position.shape[1])
     bins = [4, 3]
     occ = compute_occupancy(position, timestamp, bins)
-	
+
     # dimension check
     assert occ.shape[0] == bins[0]
     assert occ.shape[1] == bins[1]

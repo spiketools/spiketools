@@ -7,7 +7,7 @@ from spiketools.spatial.information import _compute_spatial_information
 ###################################################################################################
 
 def test_compute_spatial_information_2d():
-    
+
     spike_x = [1, 2, 3, 4, 5]
     spike_y = [6, 7, 8, 9, 10]
     bins = [2, 4]
@@ -22,7 +22,7 @@ def test_compute_spatial_information_2d():
     spatial_information_2d_1 = compute_spatial_information_2d(spike_x, spike_y, bins, occupancy_1)
     spatial_information_2d_2 = compute_spatial_information_2d(spike_x, spike_y, bins, occupancy_2)
     spatial_information_2d_3 = compute_spatial_information_2d(spike_x, spike_y, bins, occupancy_3)
-    
+
     # dimension check: each of the calculated spatial informations should have a single output
     assert np.array([spatial_information_2d_1, spatial_information_2d_2, spatial_information_2d_3]).shape[0] == 3
     # result check: should be the same for proportional occupancies
@@ -31,7 +31,7 @@ def test_compute_spatial_information_2d():
     assert spatial_information_2d_1 > spatial_information_2d_3
 
 def test_compute_spatial_information_1d():
-    
+
     data = [1, 2, 3, 4, 5]
     bins = [2, 4]
     # make three different occupancies to compare compute_spatial_information_1d output
@@ -52,7 +52,7 @@ def test_compute_spatial_information_1d():
     assert spatial_information_1d_1 > spatial_information_1d_3
 
 def test_compute_spatial_information():
-    
+
     # 2d CASE:
     spike_x = [1, 2, 3, 4, 5]
     spike_y = [6, 7, 8, 9, 10]
@@ -68,7 +68,7 @@ def test_compute_spatial_information():
     spike_map_1d = np.histogram(data, bins=bins)[0]
     occupancy_1d = np.array([1, 250, 250, 1])
     spatial_information_1d_1 = _compute_spatial_information(spike_map_1d, occupancy_1d)
-    
+
     # dimension check: each of the calculated spatial informations should have a single output.
     # also checks that function behaves well with different input dimensions.
     assert np.array([spatial_information_2d_1, spatial_information_1d_1]).shape[0] == 2

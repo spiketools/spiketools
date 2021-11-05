@@ -6,7 +6,7 @@ from spiketools.sim.utils import *
 ###################################################################################################
 
 def test_refractory():
-    
+
     spikes = np.array([0, 1, 1, 0, 1])
     refractory_time = 0.002
     fs = 1000

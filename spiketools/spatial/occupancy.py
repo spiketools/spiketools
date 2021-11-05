@@ -26,7 +26,7 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
 
     Examples
     --------
-    Compute bin edges for an example rectangular field, with x-range values of 1 - 5 & y-range values of 6 - 10:
+    Compute bin edges for an example rectangular field, with x-range of 1 - 5 & y-range of 6 - 10:
     So, position points are: (1, 6), (2, 7), (3, 8), (4, 9), (5, 10).
 
     >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
@@ -144,7 +144,8 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
 
     Examples
     --------
-    Get occupancy for points: (x, y) =  (1, 6), (2, 7), (3, 8), (4, 9), (5, 10), (0, 0), (1, 6), (2, 6), (5, 4).
+    Get occupancy for points:
+    (x, y) =  (1, 6), (2, 7), (3, 8), (4, 9), (5, 10), (0, 0), (1, 6), (2, 6), (5, 4).
 
     >>> position = np.array([[1, 2, 3, 4, 5, 0, 1, 2, 5], [6, 7, 8, 9, 10, 0, 6, 6, 4]])
     >>> timestamps = np.linspace(0, 1000, position.shape[1])
