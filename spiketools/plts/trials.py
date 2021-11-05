@@ -30,11 +30,11 @@ def plot_trial_rasters(data, line=0, xlim=None, show_axis=False, ax=None, **plt_
     ax.eventplot(data)
 
     if line is not None:
-        ax.vlines(line, -1, len(data), lw=2.5, color='green', alpha=0.5);
+        ax.vlines(line, -1, len(data), lw=2.5, color='green', alpha=0.5)
 
     ax.set_xlim(xlim)
 
     ax.set(**plt_kwargs)
 
     if not show_axis:
-        ax.set_axis_off();
+        ax.set_axis_off()

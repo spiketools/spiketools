@@ -41,11 +41,12 @@ def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
                 '.', color='red', alpha=0.35, ms=6)
 
     if x_bins is not None:
-        ax.set_xticks(x_bins, minor=False);
+        ax.set_xticks(x_bins, minor=False)
     if y_bins is not None:
-        ax.set_yticks(y_bins, minor=False);
+        ax.set_yticks(y_bins, minor=False)
 
-    ax.set_xticklabels([]); ax.set_yticklabels([]);
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
     ax.xaxis.set_ticks_position('none')
     ax.yaxis.set_ticks_position('none')
 
