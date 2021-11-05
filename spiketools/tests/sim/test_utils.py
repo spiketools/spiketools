@@ -4,6 +4,7 @@ from spiketools.sim.utils import *
 
 ###################################################################################################
 ###################################################################################################
+
 def test_refractory():
     
     spikes = np.array([0, 1, 1, 0, 1])
@@ -15,8 +16,8 @@ def test_refractory():
     # output dimension check
     assert refractory_spikes.shape == spikes.shape
 
-    # output value check
-    assert np.isin(spikes, [0, 1, 0, 0, 1]).all()
+    # output value check - check all elements are 0 or 1
+    assert np.isin(spikes, [0, 1]).all()
 
-    # output accuracy check
+    # output accuracy check - check spike within refractory period is dropped
     assert np.array_equal(refractory_spikes, np.array([0, 1, 0, 0, 1]))
