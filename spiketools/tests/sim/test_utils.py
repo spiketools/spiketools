@@ -1,5 +1,7 @@
 """Tests for spiketools.sim.utils"""
 
+import numpy as np
+
 from spiketools.sim.utils import *
 
 ###################################################################################################
