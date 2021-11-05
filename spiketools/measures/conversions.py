@@ -24,12 +24,12 @@ def create_spike_train(spikes):
     
     >>> spikes = [250, 500, 750, 1000, 1250, 1500]
     >>> create_spike_train(spikes)
-    array([0., 0., 0., ..., 0., 0., 0.])
+    array([0., 0., 0., ..., 0., 0., 1.])
     """
 
-    spike_train = np.zeros(np.ceil(spikes[-1]).astype(int))
+    spike_train = np.zeros((np.ceil(spikes[-1]) + 1).astype(int))
 
-    inds = [int(ind) for ind in spikes if ind < spike_train.shape[-1]]
+    inds = [int(ind) for ind in spikes if ind <= spike_train.shape[-1]]
 
     spike_train[inds] = 1
 
