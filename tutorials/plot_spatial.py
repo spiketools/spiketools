@@ -30,11 +30,15 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-import all functions from spiketools.spatial
-from spiketools.spatial.position import compute_distance, compute_distances, compute_cumulative_distances, compute_speed
-from spiketools.spatial.occupancy import compute_spatial_bin_edges, compute_spatial_bin_assignment, compute_bin_time, compute_occupancy
+# import functions from spiketools.spatial
+from spiketools.spatial.position import (compute_distance, compute_distances, 
+                                         compute_cumulative_distances, compute_speed)
+from spiketools.spatial.occupancy import (compute_spatial_bin_edges, 
+                                          compute_spatial_bin_assignment, compute_bin_time, 
+										  compute_occupancy)
 from spiketools.spatial.utils import get_pos_ranges, get_bin_width
-from spiketools.spatial.information import compute_spatial_information_2d, compute_spatial_information_1d
+from spiketools.spatial.information import (compute_spatial_information_2d, 
+                                            compute_spatial_information_1d)
 
 # import sim_spiketrain_binom to simulate spiketrain
 from spiketools.sim.dist import sim_spiketrain_binom
@@ -76,7 +80,7 @@ print(f'The y-position ranges from {ranges[1][0]} to {ranges[1][1]}')
 ###################################################################################################
 
 # Plot positions (coordinates marked x are the actual points)
-plot_positions(position, alpha = 1, ls = '-', marker = 'x', c = 'tab:gray', markersize = 10)
+plot_positions(position, alpha=1, ls='-', marker='x', c='tab:gray', markersize=10)
 plt.title('Tracking')
 plt.xlabel('x-position')
 plt.ylabel('y-position')
@@ -96,38 +100,41 @@ speeds = compute_speed(x_pos, y_pos, bin_widths)
 
 ###################################################################################################
 
-f, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex = True)
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True)
 # plot distance traveled at each time
-plot_positions(np.append([x_pos[1:]], [dist_traveled], axis = 0), 
-               ax = ax1, alpha = 1, ls = '-', marker = 'x', c = 'tab:pink', markersize = 10)
+plot_positions(np.append([x_pos[1:]], [dist_traveled], axis=0), 
+               ax=ax1, alpha=1, ls='-', marker='x', c='tab:pink', markersize=10)
 ax1.set_title('Distance traveled at each point')
 ax1.set_xlabel('time (t)')
 ax1.set_ylabel('distance (u)')
 
 # plot cumulative distance traveled per time
-plot_positions(np.append([x_pos[1:]], [cumulative_dist_traveled], axis = 0),
-               ax = ax2, alpha = 1, ls = '-', marker = 'x', c = 'tab:olive', markersize = 10)
+plot_positions(np.append([x_pos[1:]], [cumulative_dist_traveled], axis=0),
+               ax=ax2, alpha=1, ls='-', marker='x', c='tab:olive', markersize=10)
 ax2.set_title('Cumulative distance traveled at each point')
 ax2.set_xlabel('time (t)')
 ax2.set_ylabel('distance (u)')
 
 # plot speed at each time point
-plot_positions(np.append([x_pos[1:]], [speeds], axis = 0),
-               ax = ax3, alpha = 1, ls = '-', marker = 'x', c = 'tab:cyan', markersize = 10)
+plot_positions(np.append([x_pos[1:]], [speeds], axis=0),
+               ax=ax3, alpha=1, ls='-', marker='x', c='tab:cyan', markersize=10)
 ax3.set_title('Speed at each point')
 ax3.set_xlabel('time (t)')
 ax3.set_ylabel('speed (u/t)')
 
 # add some padding between subplots
-f.tight_layout(pad = 0.05)
+fig.tight_layout(pad=0.05)
 # make figure bigger
-f.set_size_inches((15/2.54, 20/2.54))
+fig.set_size_inches((15/2.54, 20/2.54))
 
 ###################################################################################################
 # 2. Divide position in spatial bin edges and plot
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# Compute x- and y- spatial bin edges and plot spatial grid. 
+# Now, we want to divide the tracking space in bins. This allows us to analyze sub-regions of the
+# space, rather than specific points.
+# In order to get the sub-regions of the space, compute x- and y- spatial bin edges. 
+# As a visualization tool, we also want to plot spatial grid with the tracking on top. 
 #
 
 ###################################################################################################
@@ -143,10 +150,10 @@ print(f'The y spatial bins have width = {y_bins_spatial_width}')
 ###################################################################################################
 
 # Plot grid of spatial bins with tracking on top
-track = plot_positions(position, x_bins=x_edges, y_bins=y_edges,
-                   alpha = 1, ls = '-', marker = 'x', c = 'tab:gray', markersize = 10)
+plot_positions(position, x_bins=x_edges, y_bins=y_edges,
+               alpha=1, ls='-', marker='x', c='tab:gray', markersize=10)
 plt.title('Tracking and spatial bins')
-plt.legend(['Tracking'], loc = 'upper left')
+plt.legend(['Tracking'], loc='upper left')
 plt.xlabel('x-position')
 plt.ylabel('y-position')
 
@@ -183,7 +190,10 @@ print(f'The time widths of the the sampling bins are: {bin_widths}')
 # 5. Compute and plot occupancy
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# Compute occupancy using position, timestamps, bins and speed. Plot a heatmap of occupancy.
+# Now we are interested in how much time was spent in each bin of the spatial grid (each 
+# sub-region of the space).
+# For that, compute occupancy using position, timestamps, bins and speed. 
+# Also plot a heatmap of occupancy.
 #
 
 ###################################################################################################
@@ -192,7 +202,7 @@ print(f'The time widths of the the sampling bins are: {bin_widths}')
 occupancy = compute_occupancy(position, timestamps, bins, speed=np.insert(speeds, 0, 0))
 
 # Plot occupancy using a heatmap
-plot_space_heat(occupancy, transpose = True, title = 'Occupancy heatmap')
+plot_space_heat(occupancy, transpose=True, title='Occupancy heatmap')
 
 ###################################################################################################
 # 6. Compute 2D and 1D spatial information
@@ -212,7 +222,7 @@ spike_y = y_pos[np.where(spike_train == 1)]
 ###################################################################################################
 
 # Calculate the 1D spatial information (x-dimension only)
-x_occupancy = np.sum(occupancy, axis = 1)
+x_occupancy = np.sum(occupancy, axis=1)
 spatial_information_1d = compute_spatial_information_1d(spike_x, x_occupancy, bins)
 print(f'The 1D spatial information is = {spatial_information_1d}')
 
