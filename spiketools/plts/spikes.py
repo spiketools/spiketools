@@ -6,6 +6,7 @@ from spiketools.plts.utils import check_ax, savefig
 ###################################################################################################
 
 @savefig
+@set_plt_kwargs
 def plot_waveform(waveform, ax=None, **plt_kwargs):
     """Plot a spike waveform.
 
@@ -26,6 +27,7 @@ def plot_waveform(waveform, ax=None, **plt_kwargs):
 
 
 @savefig
+@set_plt_kwargs
 def plot_isis(isis, bins=None, range=None, density=False, ax=None, **plt_kwargs):
     """Plot a distribution of ISIs.
 
@@ -52,6 +54,7 @@ def plot_isis(isis, bins=None, range=None, density=False, ax=None, **plt_kwargs)
 
 
 @savefig
+@set_plt_kwargs
 def plot_firing_rates(rates, ax=None, **plt_kwargs):
     """Plot a bar plot of firing rates for a group of neurons.
 

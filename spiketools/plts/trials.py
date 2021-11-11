@@ -6,6 +6,7 @@ from spiketools.plts.utils import check_ax, savefig
 ###################################################################################################
 
 @savefig
+@set_plt_kwargs
 def plot_trial_rasters(data, line=0, xlim=None, show_axis=False, ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 

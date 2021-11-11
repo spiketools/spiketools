@@ -6,6 +6,7 @@ from spiketools.plts.utils import check_ax, savefig
 ###################################################################################################
 
 @savefig
+@set_plt_kwargs
 def plot_surrogates(surrogates, data_value=None, p_value=None, ax=None, **plt_kwargs):
     """Plot a distribution of surrogate data.
 
