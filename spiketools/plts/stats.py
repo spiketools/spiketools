@@ -25,6 +25,7 @@ def plot_surrogates(surrogates, data_value=None, p_value=None, ax=None, **plt_kw
         Additional arguments to pass into the plot function.
     """
 
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
     plot_hist(surrogates, ax=ax, **plt_kwargs)
 
     if data_value is not None:

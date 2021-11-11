@@ -16,10 +16,10 @@ def test_plot_hist():
     data = np.random.random(10)
 
     plot_hist(data,
-              file_path=TEST_PLOTS_PATH, file_name='test_plot_bar.png')
+              file_path=TEST_PLOTS_PATH, file_name='tplot_bar.png')
 
     plot_hist(data, average='median',
-              file_path=TEST_PLOTS_PATH, file_name='test_plot_bar_opts.png')
+              file_path=TEST_PLOTS_PATH, file_name='tplot_bar_opts.png')
 
 @plot_test
 def test_plot_bar():
@@ -27,7 +27,7 @@ def test_plot_bar():
     data = np.array([1., 2., 3.])
 
     plot_bar(data,
-            file_path=TEST_PLOTS_PATH, file_name='test_plot_bar.png')
+            file_path=TEST_PLOTS_PATH, file_name='tplot_bar.png')
 
     plot_bar(data, labels=['A1', 'A2', 'A3'],
-            file_path=TEST_PLOTS_PATH, file_name='test_plot_bar_labels.png')
+            file_path=TEST_PLOTS_PATH, file_name='tplot_bar_labels.png')

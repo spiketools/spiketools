@@ -18,4 +18,4 @@ def test_plot_surrogates():
     p_value = 0.049
 
     plot_surrogates(surrogates, data_value, p_value,
-                    file_path=TEST_PLOTS_PATH, file_name='test_plot_surrogates.png')
+                    file_path=TEST_PLOTS_PATH, file_name='tplot_surrogates.png')
