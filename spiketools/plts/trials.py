@@ -2,27 +2,30 @@
 
 import numpy as np
 
+from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.annotate import _add_significance_to_plot
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 from spiketools.utils.select import get_avg_func, get_var_func
+from spiketools.utils.base import flatten
 
 ###################################################################################################
 ###################################################################################################
 
 @savefig
 @set_plt_kwargs
-def plot_trial_rasters(data, line=0, xlim=None, show_axis=False, colors=None,
-                       ax=None, **plt_kwargs):
+def plot_trial_rasters(data, line=0, show_axis=False, colors=None, ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 
     Parameters
     ----------
-    trial_spikes : list of list of float
+    data : list of list
         Spike times per trial.
     line : float, optional, default: 0
         Position to draw a vertical line. If None, no line is drawn.
     show_axis : bool, optional, default: False
         Whether to show the axis around the plot.
+    colors : str or list of str
+        xx
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -30,6 +33,12 @@ def plot_trial_rasters(data, line=0, xlim=None, show_axis=False, colors=None,
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    if isinstance(data[0][0], list):
+        lens = [len(el) for el in data]
+        colors = DEFAULT_COLORS[0:len(lens)] if not colors else colors
+        colors = flatten([[col] * ll for col, ll in zip(colors, lens)])
+        data = flatten(data)
 
     ax.eventplot(data, colors=colors)
 
