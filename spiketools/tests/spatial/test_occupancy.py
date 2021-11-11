@@ -1,7 +1,8 @@
 """Tests for spiketools.spatial.occupancy"""
 
-from spiketools.spatial.occupancy import *
 import numpy as np
+
+from spiketools.spatial.occupancy import *
 
 ###################################################################################################
 ###################################################################################################
@@ -84,9 +85,8 @@ def test_compute_bin_time():
     timestamp = np.array([0, 10, 20, 30, 45, 50, 60, 70, 80, 90, 120])
     bin_time = compute_bin_time(timestamp)
 
-    # dimension check
+    # check dimensions & sum
     assert bin_time.shape[0] == timestamp.shape[0]
-    # sum check
     assert np.sum(np.diff(timestamp)) == np.sum(bin_time)
 
 def test_compute_occupancy():
@@ -97,8 +97,7 @@ def test_compute_occupancy():
     bins = [4, 3]
     occ = compute_occupancy(position, timestamp, bins)
 
-    # dimension check
+    # check dimensions & sum (should be the same if binning is swapped)
     assert occ.shape[0] == bins[0]
     assert occ.shape[1] == bins[1]
-    # sum check (should be the same if binning is swapped)
     assert np.nansum(occ) == np.nansum(compute_occupancy(position, timestamp, [bins[1], bins[0]]))
