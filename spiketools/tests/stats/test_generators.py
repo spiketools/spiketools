@@ -1,9 +1,17 @@
 """Tests for spiketools.stats.generators"""
 
-from spiketools.measures.measures import *
+import inspect
+
+from spiketools.stats.generators import *
 
 ###################################################################################################
 ###################################################################################################
 
-def test_():
-    pass
+def test_poisson_train():
+
+    ptrain = poisson_train(5., 10.)
+
+    assert inspect.isgenerator(ptrain)
+
+    val = next(ptrain)
+    assert isinstance(val, float)
