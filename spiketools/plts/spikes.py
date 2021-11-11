@@ -1,5 +1,6 @@
 """Plots for spikes."""
 
+from spiketools.plts.data import plot_bar
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 ###################################################################################################
@@ -68,14 +69,5 @@ def plot_firing_rates(rates, ax=None, **plt_kwargs):
         Additional arguments to pass into the plot function.
     """
 
-    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
-
-    labels = ['U' + str(ind) for ind in range(len(rates))]
-
-    ax.bar(labels, rates, **plt_kwargs)
-
-    ax.set(xlabel='Units',
-           ylabel='Firing Rate (Hz)',
-           title='Firing Rates for all Units')
-
-    ax.set_xlim([-0.5, len(rates)-0.5])
+    plot_bar(rates, labels=['U' + str(ind) for ind in range(len(rates))], ax=ax, **plt_kwargs,
+             xlabel='Units', ylabel='Firing Rate (Hz)', title='Firing Rates of all Units')
