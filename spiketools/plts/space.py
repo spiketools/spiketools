@@ -59,7 +59,7 @@ def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
 @set_plt_kwargs
 def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
                     ignore_zero=False, cbar=False, cmap=None, vmin=None, vmax=None,
-                    title=None, ax=None, **plt_kwargs):
+                    ax=None, **plt_kwargs):
     """Plot a spatial heat map.
 
     Parameters
@@ -105,9 +105,6 @@ def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
     ax.set_xticks([])
     ax.set_yticks([])
     ax.set_axis_off()
-
-    if title:
-        ax.set_title(title)
 
     if cbar:
         colorbar = plt.colorbar(im)

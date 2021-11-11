@@ -11,7 +11,8 @@ from spiketools.utils.select import get_avg_func, get_var_func
 
 @savefig
 @set_plt_kwargs
-def plot_trial_rasters(data, line=0, xlim=None, show_axis=False, ax=None, **plt_kwargs):
+def plot_trial_rasters(data, line=0, xlim=None, show_axis=False, colors=None,
+                       ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 
     Parameters
@@ -20,8 +21,6 @@ def plot_trial_rasters(data, line=0, xlim=None, show_axis=False, ax=None, **plt_
         Spike times per trial.
     line : float, optional, default: 0
         Position to draw a vertical line. If None, no line is drawn.
-    xlim : list of float, optional
-        Plot limits for the x-axis.
     show_axis : bool, optional, default: False
         Whether to show the axis around the plot.
     ax : Axes, optional
@@ -32,14 +31,10 @@ def plot_trial_rasters(data, line=0, xlim=None, show_axis=False, ax=None, **plt_
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    ax.eventplot(data)
+    ax.eventplot(data, colors=colors)
 
     if line is not None:
         ax.vlines(line, -1, len(data), lw=2.5, color='green', alpha=0.5)
-
-    ax.set_xlim(xlim)
-
-    ax.set(**plt_kwargs)
 
     if not show_axis:
         ax.set_axis_off()

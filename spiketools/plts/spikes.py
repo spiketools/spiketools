@@ -1,5 +1,6 @@
 """Plots for spikes."""
 
+from spiketools.utils.select import get_avg_func, get_var_func
 from spiketools.plts.data import plot_bar
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
@@ -8,13 +9,17 @@ from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_waveform(waveform, ax=None, **plt_kwargs):
+def plot_waveform(waveform, average=None, shade=None, add_traces=False, ax=None, **plt_kwargs):
     """Plot a spike waveform.
 
     Parameters
     ----------
-    waveform : 1d array
+    waveform : 1d or 2d array
         Voltage values of the spike waveform.
+    average : {'mean', 'median'}, optional
+        Averaging to apply to firing rate activity before plotting.
+    shade : {'sem', 'std'} or 1d array, optional
+        Measure of variance to compute and/or plot as shading.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -23,7 +28,23 @@ def plot_waveform(waveform, ax=None, **plt_kwargs):
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
+    if isinstance(shade, str):
+        shade = get_var_func(shade)(waveform, 0)
+
+    if isinstance(average, str):
+        all_waveforms = waveform
+        waveform = get_avg_func(average)(waveform, 0)
+
     ax.plot(waveform, **plt_kwargs)
+
+    if add_traces:
+        line = ax.lines[0]
+        ax.plot(line.get_xdata(), all_waveforms.T,
+                lw=1, alpha=0.5, color=line.get_color())
+
+    if shade is not None:
+        ax.fill_between(ax.lines[0].get_xdata(), waveform-shade, waveform+shade, alpha=0.25)
+
     ax.set(title='Spike Waveform')
 
 
