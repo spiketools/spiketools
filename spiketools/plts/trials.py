@@ -13,7 +13,7 @@ from spiketools.utils.base import flatten
 
 @savefig
 @set_plt_kwargs
-def plot_trial_rasters(data, line=0, show_axis=False, colors=None, ax=None, **plt_kwargs):
+def plot_rasters(data, line=0, show_axis=False, colors=None, ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 
     Parameters
@@ -51,9 +51,9 @@ def plot_trial_rasters(data, line=0, show_axis=False, colors=None, ax=None, **pl
 
 @savefig
 @set_plt_kwargs
-def plot_binned_spike_rates(x_vals, y_vals, average=None, shade=None, labels=None,
-                            stats=None, sig_level=0.05, ax=None, **plt_kwargs):
-    """Plot continuous spike rates.
+def plot_firing_rates(x_vals, y_vals, average=None, shade=None, labels=None,
+                      stats=None, sig_level=0.05, ax=None, **plt_kwargs):
+    """Plot continuous spike firing rates.
 
     Parameters
     ----------
