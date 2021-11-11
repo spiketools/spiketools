@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import gaussian_filter
 
-from spiketools.plts.utils import check_ax, savefig
+from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################

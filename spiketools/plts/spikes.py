@@ -1,6 +1,6 @@
 """Plots for spikes."""
 
-from spiketools.plts.utils import check_ax, savefig
+from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
