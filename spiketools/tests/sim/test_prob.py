@@ -2,6 +2,8 @@
 
 from pytest import raises
 
+from spiketools.tests.tsettings import N_SAMPLES
+
 from spiketools.sim.prob import *
 
 ###################################################################################################
@@ -18,8 +20,7 @@ def test_sim_spiketrain_prob():
 
     # Simulate spike train of size n_samples, based on a probability of spiking per sample
     p_spiking_3 = 0.
-    n_samples = 100
-    sim_spiketrain_3 = sim_spiketrain_prob(p_spiking_3, n_samples)
+    sim_spiketrain_3 = sim_spiketrain_prob(p_spiking_3, N_SAMPLES)
 
     # Value checks
     assert np.nansum(sim_spiketrain_1) > 75
@@ -28,7 +29,7 @@ def test_sim_spiketrain_prob():
     # Dimension checks
     assert len(sim_spiketrain_1) == len(p_spiking_1)
     assert len(sim_spiketrain_2) == len(p_spiking_2)
-    assert len(sim_spiketrain_3) == n_samples
+    assert len(sim_spiketrain_3) == N_SAMPLES
 
     with raises(ValueError):
         sim_spiketrain_4 = sim_spiketrain_prob(p_spiking_3)
