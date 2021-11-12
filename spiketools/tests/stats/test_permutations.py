@@ -12,18 +12,12 @@ def test_vec_perm():
     out = vec_perm(data)
     assert isinstance(out, np.ndarray)
 
-def test_compute_empirical_pvalue():
+def test_compute_empirical_pvalue(tdata):
 
-    value = 1.0
-    surrogates = np.array([0, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2])
-
-    p_value = compute_empirical_pvalue(value, surrogates)
+    p_value = compute_empirical_pvalue(1.5, tdata)
     assert isinstance(p_value, float)
 
-def test_zscore_to_surrogates():
+def test_zscore_to_surrogates(tdata):
 
-    value = 1.0
-    surrogates = np.array([0, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2])
-
-    zscore = zscore_to_surrogates(value, surrogates)
+    zscore = zscore_to_surrogates(1.5, tdata)
     assert isinstance(zscore, float)

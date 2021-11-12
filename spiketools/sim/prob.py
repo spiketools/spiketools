@@ -24,10 +24,11 @@ def sim_spiketrain_prob(p_spiking, n_samples=None):
     -------
     ValueError
         If the input variable p_spiking is a float and n_samples is None.
-		
+
     Notes
     -----
-    n_samples is only used if p_spiking is a float, otherwise n_samples is just the length of p_spiking.
+    n_samples is only used if p_spiking is a float.
+    Otherwise n_samples is just the length of p_spiking.
 
     Examples
     --------
@@ -44,10 +45,11 @@ def sim_spiketrain_prob(p_spiking, n_samples=None):
     """
 
     if isinstance(p_spiking, float):
-        if n_samples != None:
+        if n_samples is not None:
             probs = (np.ones(n_samples) * p_spiking)
         else:
-            raise ValueError("Input variable 'n_samples' must be defined if 'p_spiking' is a float")
+            msg = "Input variable 'n_samples' must be defined if 'p_spiking' is a float"
+            raise ValueError(msg)
     else:
         probs = p_spiking
 

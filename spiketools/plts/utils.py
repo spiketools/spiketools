@@ -1,9 +1,11 @@
-"""Plots utilities."""
+"""Plot utilities."""
 
 from functools import wraps
 from os.path import join as pjoin
 
 import matplotlib.pyplot as plt
+
+from spiketools.plts.settings import SET_KWARGS
 
 ###################################################################################################
 ###################################################################################################
@@ -57,5 +59,21 @@ def savefig(func):
 
         if close:
             plt.close()
+
+    return decorated
+
+
+def set_plt_kwargs(func):
+    """Collects and then sets plot kwargs that can be applied with 'set'."""
+
+    @wraps(func)
+    def decorated(*args, **kwargs):
+
+        setters = {arg : kwargs.pop(arg, None) for arg in SET_KWARGS}
+        setters = {arg : value for arg, value in setters.items() if value}
+
+        func(*args, **kwargs)
+
+        plt.gca().set(**setters)
 
     return decorated

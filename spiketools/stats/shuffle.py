@@ -157,15 +157,13 @@ def shuffle_poisson(spikes, n_shuffles=1000):
 
     Notes
     -----
-    Experimental implementation / has issues matching spike counts.
-    Not fully checked / tested / implemented yet.
+    This is an experimental implementation, and still has some issues matching spike counts.
     """
 
-    length = (spikes[-1] - spikes[0]) / 1000
+    length = (spikes[-1] - spikes[0])
     rate = compute_spike_rate(spikes)
     poisson_spikes = [ind for ind in poisson_train(rate, length)] + spikes[0]
 
-    # NOTE: might be an issue with vec_perm here
     isis = vec_perm(compute_isis(poisson_spikes), n_perms=n_shuffles)
 
     shuffled_spikes = np.cumsum(isis, axis=1) + spikes[0]
