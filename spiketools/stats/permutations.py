@@ -27,6 +27,17 @@ def vec_perm(data, n_perms=1000):
     This function doesn't have any randomness: for a given array it will
     iterate through the same set of permutations.
     This does a sequence of rotated permutations.
+
+    Examples
+    --------
+    Create 4 permutations for vector: [0, 5, 10, 15, 20]
+
+    >>> vec = np.array([0, 5, 10, 15, 20])
+    >>> vec_perm(vec, n_perms=4)
+    array([[ 0,  5, 10, 15, 20],
+           [ 5, 10, 15, 20,  0],
+           [10, 15, 20,  0,  5],
+           [15, 20,  0,  5, 10]])
     """
 
     data_ext = np.concatenate((data, data[:-1]))
@@ -52,6 +63,14 @@ def compute_empirical_pvalue(value, surrogates):
     -------
     float
         The empirical p-value.
+
+    Examples
+    --------
+    Compute empirical p-value of value given surrogates is 100 samples from normal distribution.
+
+    >>> value = 0.9
+    >>> surrogates = np.random.normal(size=100)
+    >>> pval = compute_empirical_pvalue(value, surrogates)
     """
 
     return sum(surrogates > value) / len(surrogates)
@@ -71,6 +90,14 @@ def zscore_to_surrogates(value, surrogates):
     -------
     float
         The z-score of the given value.
+
+    Examples
+    --------
+    Compute z-score of value given surrogates is 100 samples from normal distribution.
+
+    >>> value = 0.9
+    >>> surrogates = np.random.normal(size=100)
+    >>> zscore = zscore_to_surrogates(value, surrogates)
     """
 
     return zmap(value, surrogates)[0]
