@@ -11,11 +11,7 @@ from spiketools.plts.stats import *
 ###################################################################################################
 
 @plot_test
-def test_plot_surrogates():
+def test_plot_surrogates(tdata):
 
-    surrogates = np.array([1, 2, 4, 3, 5, 2, 4, 3, 5, 6, 2, 0, 1, 2, 3, 2])
-    data_value = 7
-    p_value = 0.049
-
-    plot_surrogates(surrogates, data_value, p_value,
+    plot_surrogates(tdata, data_value=2, p_value=0.049,
                     file_path=TEST_PLOTS_PATH, file_name='tplot_surrogates.png')

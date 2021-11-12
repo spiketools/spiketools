@@ -7,28 +7,19 @@ from spiketools.measures.measures import *
 ###################################################################################################
 ###################################################################################################
 
-def test_compute_spike_rate():
+def test_compute_spike_rate(tspikes_s):
 
-    spikes = np.array([0.0, 0.5, 1.5, 2.])
-
-    rate = compute_spike_rate(spikes)
+    rate = compute_spike_rate(tspikes_s)
 
     assert isinstance(rate, float)
     assert np.isclose(rate, 2.0)
 
-def test_compute_isis():
+def test_compute_isis(tspikes_s):
 
-    spikes = np.array([0.0, 0.5, 1.5, 2.])
-
-    isis = compute_isis(spikes)
+    isis = compute_isis(tspikes_s)
     assert isinstance(isis, np.ndarray)
-    assert isis.shape[-1] + 1 == spikes.shape[-1]
+    assert isis.shape[-1] + 1 == tspikes_s.shape[-1]
     assert np.allclose(isis, np.array([0.5, 1, 0.5]))
-
-    spikes2 = np.random.uniform(0., 10000., 100)
-
-    isis = compute_isis(spikes)
-    assert isis.shape[-1] + 1 == spikes.shape[-1]
     assert sum(isis < 0) == 0
 
 def test_compute_cv():
