@@ -1,7 +1,5 @@
 """Utilities for working with simulated spiking data."""
 
-import numpy as np
-
 ###################################################################################################
 ###################################################################################################
 
@@ -23,7 +21,7 @@ def refractory(spikes, refractory_time, fs):
         Spike train, with refractory period constraint applied.
     """
 
-    ref_len = int(refractory_time / fs)
+    ref_len = int(refractory_time * fs)
 
     for ind in range(spikes.shape[0]):
         if spikes[ind]:
