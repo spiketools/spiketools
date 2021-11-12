@@ -74,6 +74,7 @@ def set_plt_kwargs(func):
 
         func(*args, **kwargs)
 
-        plt.gca().set(**setters)
+        ax = kwargs['ax'] if 'ax' in kwargs and kwargs['ax'] is not None else plt.gca()
+        ax.set(**setters)
 
     return decorated
