@@ -40,8 +40,8 @@ from spiketools.plts.stats import plot_surrogates
 
 ###################################################################################################
 
-# Generate spike times for spikes at 10Hz for 1000 seconds
-poisson_generator = poisson_train(10, 1000)
+# Generate spike times for spikes at 10Hz for 100 seconds
+poisson_generator = poisson_train(10, 100)
 # get spike in seconds
 spikes_s = np.array([spike for spike in poisson_generator])
 # convert to milliseconds
