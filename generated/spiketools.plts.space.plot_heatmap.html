@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.spatial.occupancy.compute_spatial_bin_edges &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.plts.space.plot_heatmap &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,40 +94,40 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-spatial-occupancy-compute-spatial-bin-edges">
-<h1>spiketools.spatial.occupancy.compute_spatial_bin_edges<a class="headerlink" href="#spiketools-spatial-occupancy-compute-spatial-bin-edges" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-plts-space-plot-heatmap">
+<h1>spiketools.plts.space.plot_heatmap<a class="headerlink" href="#spiketools-plts-space-plot-heatmap" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.spatial.occupancy.compute_spatial_bin_edges">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.occupancy.</span></span><span class="sig-name descname"><span class="pre">compute_spatial_bin_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/occupancy.html#compute_spatial_bin_edges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.occupancy.compute_spatial_bin_edges" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute spatial bin edges.</p>
+<dt class="sig sig-object py" id="spiketools.plts.space.plot_heatmap">
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.space.</span></span><span class="sig-name descname"><span class="pre">plot_heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/space.html#plot_heatmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.space.plot_heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a spatial heat map.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>position</strong><span class="classifier">2d array</span></dt><dd><p>Position values across a 2D space.</p>
+<dt><strong>data</strong><span class="classifier">2d array</span></dt><dd><p>Measure to plot across a grided environment.</p>
 </dd>
-<dt><strong>bins</strong><span class="classifier">list of [int, int]</span></dt><dd><p>The number of bins to divide up the space, defined as [number of x_bins, number of y_bins].</p>
+<dt><strong>transpose</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to transpose the data before plotting.</p>
 </dd>
-<dt><strong>area_range</strong><span class="classifier">list of list, optional</span></dt><dd><p>Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
-Any values outside this range will be considered outliers, and not used to compute edges.</p>
+<dt><strong>smooth</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to smooth the data before plotting.</p>
+</dd>
+<dt><strong>smoothing_kernel</strong><span class="classifier">float, optional, default: 1.5</span></dt><dd><p>Standard deviation of the gaussian kernel to apply for smoothing.</p>
+</dd>
+<dt><strong>ignore_zero</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>If True, replaces 0’s with NaN for plotting.</p>
+</dd>
+<dt><strong>cbar</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to add a colorbar to the plot.</p>
+</dd>
+<dt><strong>cmap</strong><span class="classifier">str, optional</span></dt><dd><p>Which colormap to use to plot.</p>
+</dd>
+<dt><strong>vmin, vmax</strong><span class="classifier">float, optional</span></dt><dd><p>Min and max plot ranges.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Title to add to the figure.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
+</dd>
+<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>x_edges, y_edges</strong><span class="classifier">1d array</span></dt><dd><p>Edge definitions for the spatial binning.</p>
-</dd>
 </dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<p>Compute bin edges for an example rectangular field, with x-range of 1 - 5 &amp; y-range of 6 - 10:
-So, position points are: (1, 6), (2, 7), (3, 8), (4, 9), (5, 10).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_spatial_bin_edges</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
-<span class="go">(array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.plts.trials.plot_trial_rasters &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.plts.data.plot_bar &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,22 +94,18 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-plts-trials-plot-trial-rasters">
-<h1>spiketools.plts.trials.plot_trial_rasters<a class="headerlink" href="#spiketools-plts-trials-plot-trial-rasters" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-plts-data-plot-bar">
+<h1>spiketools.plts.data.plot_bar<a class="headerlink" href="#spiketools-plts-data-plot-bar" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.plts.trials.plot_trial_rasters">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.trials.</span></span><span class="sig-name descname"><span class="pre">plot_trial_rasters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/trials.html#plot_trial_rasters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.trials.plot_trial_rasters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot rasters across multiple trials.</p>
+<dt class="sig sig-object py" id="spiketools.plts.data.plot_bar">
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.data.</span></span><span class="sig-name descname"><span class="pre">plot_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/data.html#plot_bar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.data.plot_bar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot data in a bar graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>trial_spikes</strong><span class="classifier">list of list of float</span></dt><dd><p>Spike times per trial.</p>
+<dt><strong>data</strong><span class="classifier">list of float</span></dt><dd><p>Data to plot.</p>
 </dd>
-<dt><strong>line</strong><span class="classifier">float, optional, default: 0</span></dt><dd><p>Position to draw a vertical line. If None, no line is drawn.</p>
-</dd>
-<dt><strong>xlim</strong><span class="classifier">list of float, optional</span></dt><dd><p>Plot limits for the x-axis.</p>
-</dd>
-<dt><strong>show_axis</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to show the axis around the plot.</p>
+<dt><strong>labels</strong><span class="classifier">list of str</span></dt><dd><p>Labels for the bar plot.</p>
 </dd>
 <dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
 </dd>

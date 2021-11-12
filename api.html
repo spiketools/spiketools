@@ -136,9 +136,10 @@
 <li><p><a class="reference internal" href="#space" id="id24">Space</a></p></li>
 <li><p><a class="reference internal" href="#trials" id="id25">Trials</a></p></li>
 <li><p><a class="reference internal" href="#stats" id="id26">Stats</a></p></li>
+<li><p><a class="reference internal" href="#data" id="id27">Data</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#id4" id="id27">Utilities</a></p></li>
+<li><p><a class="reference internal" href="#id4" id="id28">Utilities</a></p></li>
 </ul>
 </div>
 <section id="measures">
@@ -424,14 +425,14 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spikes.plot_waveform.html#spiketools.plts.spikes.plot_waveform" title="spiketools.plts.spikes.plot_waveform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_waveform</span></code></a>(waveform[, ax])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spikes.plot_waveform.html#spiketools.plts.spikes.plot_waveform" title="spiketools.plts.spikes.plot_waveform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_waveform</span></code></a>(waveform[, average, shade, ...])</p></td>
 <td><p>Plot a spike waveform.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.spikes.plot_isis.html#spiketools.plts.spikes.plot_isis" title="spiketools.plts.spikes.plot_isis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_isis</span></code></a>(isis[, bins, range, density, ax])</p></td>
 <td><p>Plot a distribution of ISIs.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spikes.plot_firing_rates.html#spiketools.plts.spikes.plot_firing_rates" title="spiketools.plts.spikes.plot_firing_rates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_firing_rates</span></code></a>(rates[, ax])</p></td>
-<td><p>Plot a bar plot of firing rates for a group of neurons.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spikes.plot_unit_frs.html#spiketools.plts.spikes.plot_unit_frs" title="spiketools.plts.spikes.plot_unit_frs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_unit_frs</span></code></a>(rates[, ax])</p></td>
+<td><p>Plot firing rates for a group of neurons.</p></td>
 </tr>
 </tbody>
 </table>
@@ -447,7 +448,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.space.plot_positions.html#spiketools.plts.space.plot_positions" title="spiketools.plts.space.plot_positions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_positions</span></code></a>(positions[, spike_positions, ...])</p></td>
 <td><p>Plot positions.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.space.plot_space_heat.html#spiketools.plts.space.plot_space_heat" title="spiketools.plts.space.plot_space_heat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_space_heat</span></code></a>(data[, transpose, smooth, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.space.plot_heatmap.html#spiketools.plts.space.plot_heatmap" title="spiketools.plts.space.plot_heatmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_heatmap</span></code></a>(data[, transpose, smooth, ...])</p></td>
 <td><p>Plot a spatial heat map.</p></td>
 </tr>
 </tbody>
@@ -461,8 +462,11 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.trials.plot_trial_rasters.html#spiketools.plts.trials.plot_trial_rasters" title="spiketools.plts.trials.plot_trial_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trial_rasters</span></code></a>(data[, line, xlim, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_rasters</span></code></a>(data[, line, show_axis, colors, ax])</p></td>
 <td><p>Plot rasters across multiple trials.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.trials.plot_firing_rates.html#spiketools.plts.trials.plot_firing_rates" title="spiketools.plts.trials.plot_firing_rates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_firing_rates</span></code></a>(x_vals, y_vals[, average, ...])</p></td>
+<td><p>Plot continuous spike firing rates.</p></td>
 </tr>
 </tbody>
 </table>
@@ -481,9 +485,26 @@
 </tbody>
 </table>
 </section>
+<section id="data">
+<h4><a class="toc-backref" href="#id27">Data</a><a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.data.plot_bar.html#spiketools.plts.data.plot_bar" title="spiketools.plts.data.plot_bar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bar</span></code></a>(data[, labels, ax])</p></td>
+<td><p>Plot data in a bar graph.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.data.plot_hist.html#spiketools.plts.data.plot_hist" title="spiketools.plts.data.plot_hist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hist</span></code></a>(data[, average, ax])</p></td>
+<td><p>Plot data as a histogram.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 <section id="id4">
-<h3><a class="toc-backref" href="#id27">Utilities</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id28">Utilities</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>Utility functions, in the <cite>utils</cite> sub-module.</p>
 <table class="longtable docutils align-default">
 <colgroup>

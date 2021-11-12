@@ -123,12 +123,13 @@
 <span class="sd">    Examples</span>
 <span class="sd">    -------</span>
 <span class="sd">    Compute spatial information across a 2d space using spike x- and y-position, bins, and occupancy:</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])</span>
 <span class="sd">    &gt;&gt;&gt; spike_x = [1, 2, 3, 4, 5]</span>
 <span class="sd">    &gt;&gt;&gt; spike_y = [6, 7, 8, 9, 10]</span>
 <span class="sd">    &gt;&gt;&gt; bins = [2, 4]</span>
-<span class="sd">    &gt;&gt;&gt; # occupancy calculated with same bins and position, and with timestamps = np.linspace(0, 100000, position.shape[1])</span>
+<span class="sd">    &gt;&gt;&gt; # Used precomputed occupancy, calculated with same bins and position</span>
+<span class="sd">    &gt;&gt;&gt; #   Note: occupancy computed with timestamps as `np.linspace(0, 100000, position.shape[1])`</span>
 <span class="sd">    &gt;&gt;&gt; occupancy = np.array([[0,  0,  0,  0],</span>
 <span class="sd">    ...                       [0, 25, 25,  0]])</span>
 <span class="sd">    &gt;&gt;&gt; compute_spatial_information_2d(spike_x, spike_y, bins, occupancy)</span>
@@ -162,7 +163,7 @@
 <span class="sd">    Examples</span>
 <span class="sd">    -------</span>
 <span class="sd">    Compute spatial information across a 1d space using spike position, occupancy, and bins:</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; data = [1, 2, 3, 4, 5]</span>
 <span class="sd">    &gt;&gt;&gt; occupancy = np.array([0, 25, 25, 0])</span>
 <span class="sd">    &gt;&gt;&gt; bins = [2, 4]</span>
@@ -199,7 +200,7 @@
 
     <span class="c1"># Compute the occupancy probability (per bin)</span>
     <span class="n">occ_prob</span> <span class="o">=</span> <span class="n">occupancy</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occupancy</span><span class="p">)</span>
-    
+
     <span class="c1"># Supress RunTime warnings for invalid values that might occur in the arrays during calculations</span>
     <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>

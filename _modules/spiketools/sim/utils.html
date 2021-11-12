@@ -96,8 +96,6 @@
   <h1>Source code for spiketools.sim.utils</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Utilities for working with simulated spiking data.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
@@ -119,7 +117,7 @@
 <span class="sd">        Spike train, with refractory period constraint applied.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">ref_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">refractory_time</span> <span class="o">/</span> <span class="n">fs</span><span class="p">)</span>
+    <span class="n">ref_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">refractory_time</span> <span class="o">*</span> <span class="n">fs</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">spikes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
         <span class="k">if</span> <span class="n">spikes</span><span class="p">[</span><span class="n">ind</span><span class="p">]:</span>

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.plts.spikes.plot_firing_rates &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.plts.data.plot_hist &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,16 +94,19 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-plts-spikes-plot-firing-rates">
-<h1>spiketools.plts.spikes.plot_firing_rates<a class="headerlink" href="#spiketools-plts-spikes-plot-firing-rates" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-plts-data-plot-hist">
+<h1>spiketools.plts.data.plot_hist<a class="headerlink" href="#spiketools-plts-data-plot-hist" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.plts.spikes.plot_firing_rates">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spikes.</span></span><span class="sig-name descname"><span class="pre">plot_firing_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spikes.html#plot_firing_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spikes.plot_firing_rates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot a bar plot of firing rates for a group of neurons.</p>
+<dt class="sig sig-object py" id="spiketools.plts.data.plot_hist">
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.data.</span></span><span class="sig-name descname"><span class="pre">plot_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/data.html#plot_hist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.data.plot_hist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot data as a histogram.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rates</strong><span class="classifier">list of float</span></dt><dd><p>Firing rates.</p>
+<dt><strong>data</strong><span class="classifier">1d array</span></dt><dd><p>Data to plot.</p>
+</dd>
+<dt><strong>average</strong><span class="classifier">{‘median’, ‘mean’}, optional</span></dt><dd><p>Which kind of average to compute and add to the plot.
+If None, no average is plotted.</p>
 </dd>
 <dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
 </dd>

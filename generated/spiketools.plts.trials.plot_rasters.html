@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Computation times &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.plts.trials.plot_rasters &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -51,7 +51,7 @@
             
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
-                <li><a href="index.html">Tutorials</a></li>
+                <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
                 <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
@@ -94,34 +94,32 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="computation-times">
-<span id="sphx-glr-auto-tutorials-sg-execution-times"></span><h1>Computation times<a class="headerlink" href="#computation-times" title="Permalink to this headline">¶</a></h1>
-<p><strong>00:00.006</strong> total execution time for <strong>auto_tutorials</strong> files:</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 79%" />
-<col style="width: 12%" />
-<col style="width: 9%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="plot_spatial.html#sphx-glr-auto-tutorials-plot-spatial-py"><span class="std std-ref">Spatial Analyses</span></a> (<code class="docutils literal notranslate"><span class="pre">plot_spatial.py</span></code>)</p></td>
-<td><p>00:00.002</p></td>
-<td><p>0.0 MB</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="plot_measures.html#sphx-glr-auto-tutorials-plot-measures-py"><span class="std std-ref">Measures &amp; Conversions</span></a> (<code class="docutils literal notranslate"><span class="pre">plot_measures.py</span></code>)</p></td>
-<td><p>00:00.001</p></td>
-<td><p>0.0 MB</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="plot_sims.html#sphx-glr-auto-tutorials-plot-sims-py"><span class="std std-ref">Simulations</span></a> (<code class="docutils literal notranslate"><span class="pre">plot_sims.py</span></code>)</p></td>
-<td><p>00:00.001</p></td>
-<td><p>0.0 MB</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="plot_stats.html#sphx-glr-auto-tutorials-plot-stats-py"><span class="std std-ref">Statistical Analyses</span></a> (<code class="docutils literal notranslate"><span class="pre">plot_stats.py</span></code>)</p></td>
-<td><p>00:00.001</p></td>
-<td><p>0.0 MB</p></td>
-</tr>
-</tbody>
-</table>
+  <section id="spiketools-plts-trials-plot-rasters">
+<h1>spiketools.plts.trials.plot_rasters<a class="headerlink" href="#spiketools-plts-trials-plot-rasters" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="spiketools.plts.trials.plot_rasters">
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.trials.</span></span><span class="sig-name descname"><span class="pre">plot_rasters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/trials.html#plot_rasters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.trials.plot_rasters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot rasters across multiple trials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">list of list</span></dt><dd><p>Spike times per trial.</p>
+</dd>
+<dt><strong>line</strong><span class="classifier">float, optional, default: 0</span></dt><dd><p>Position to draw a vertical line. If None, no line is drawn.</p>
+</dd>
+<dt><strong>show_axis</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to show the axis around the plot.</p>
+</dd>
+<dt><strong>colors</strong><span class="classifier">str or list of str</span></dt><dd><p>xx</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
+</dd>
+<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

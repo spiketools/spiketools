@@ -115,7 +115,7 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Convert a spike train representation (assumed 1000 Hz sampling rate) into spike times, in milliseconds.</p>
+<p>Convert a spike train (assumed 1000 Hz sampling rate) into spike times, in milliseconds.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spike_train</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">convert_train_to_times</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span>
 <span class="go">array([ 4,  6,  9, 10, 11, 12, 14])</span>

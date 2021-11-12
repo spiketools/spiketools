@@ -117,14 +117,15 @@
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>n_samples is only used if p_spiking is a float, otherwise n_samples is just the length of p_spiking.</p>
+<p>n_samples is only used if p_spiking is a float.
+Otherwise n_samples is just the length of p_spiking.</p>
 <p class="rubric">Examples</p>
-<p>Simulate spike train from a binomial probability distribution (every sample shares the same probabiliy of spiking).</p>
+<p>Simulate spike train with every sample having the same probabiliy of spiking:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p_spiking</span> <span class="o">=</span> <span class="mf">0.7</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">sim_spiketrain_binom</span><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Simulate spike train from a binomial probability distribution (every sample has its own probability of spiking).</p>
+<p>Simulate spike train with every sample having its own probability of spiking:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p_spiking</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">sim_spiketrain_binom</span><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>

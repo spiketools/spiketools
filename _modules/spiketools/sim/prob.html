@@ -120,10 +120,11 @@
 <span class="sd">    -------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If the input variable p_spiking is a float and n_samples is None.</span>
-<span class="sd">		</span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    n_samples is only used if p_spiking is a float, otherwise n_samples is just the length of p_spiking.</span>
+<span class="sd">    n_samples is only used if p_spiking is a float.</span>
+<span class="sd">    Otherwise n_samples is just the length of p_spiking.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -140,10 +141,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">n_samples</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">n_samples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">probs</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">*</span> <span class="n">p_spiking</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input variable &#39;n_samples&#39; must be defined if &#39;p_spiking&#39; is a float&quot;</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Input variable &#39;n_samples&#39; must be defined if &#39;p_spiking&#39; is a float&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">probs</span> <span class="o">=</span> <span class="n">p_spiking</span>
 

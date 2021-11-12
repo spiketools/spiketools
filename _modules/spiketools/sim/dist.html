@@ -103,50 +103,51 @@
 
 <div class="viewcode-block" id="sim_spiketrain_binom"><a class="viewcode-back" href="../../../generated/spiketools.sim.dist.sim_spiketrain_binom.html#spiketools.sim.dist.sim_spiketrain_binom">[docs]</a><span class="k">def</span> <span class="nf">sim_spiketrain_binom</span><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Simulate spike train from a binomial probability distribution.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    p_spiking : float or 1d array</span>
 <span class="sd">        The probability (per sample) of spiking.</span>
 <span class="sd">    n_samples : int, optional</span>
 <span class="sd">        The number of samples to simulate.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Results</span>
 <span class="sd">    -------</span>
 <span class="sd">    spikes : 1d array</span>
 <span class="sd">        Simulated spike train.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Raises</span>
 <span class="sd">    -------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If the input variable p_spiking is a float and n_samples is None.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -------</span>
-<span class="sd">    n_samples is only used if p_spiking is a float, otherwise n_samples is just the length of p_spiking.</span>
-<span class="sd">    </span>
+<span class="sd">    n_samples is only used if p_spiking is a float.</span>
+<span class="sd">    Otherwise n_samples is just the length of p_spiking.</span>
+
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Simulate spike train from a binomial probability distribution (every sample shares the same probabiliy of spiking).</span>
-<span class="sd">    </span>
+<span class="sd">    Simulate spike train with every sample having the same probabiliy of spiking:</span>
+
 <span class="sd">    &gt;&gt;&gt; p_spiking = 0.7</span>
 <span class="sd">    &gt;&gt;&gt; spikes = sim_spiketrain_binom(p_spiking, n_samples=5)</span>
-<span class="sd">    </span>
-<span class="sd">    Simulate spike train from a binomial probability distribution (every sample has its own probability of spiking).</span>
-<span class="sd">    </span>
+
+<span class="sd">    Simulate spike train with every sample having its own probability of spiking:</span>
+
 <span class="sd">    &gt;&gt;&gt; p_spiking = np.array([0, 0.25, 0.5, 0.75, 1])</span>
 <span class="sd">    &gt;&gt;&gt; spikes = sim_spiketrain_binom(p_spiking, n_samples=5)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">n_samples</span> <span class="o">==</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">n_samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input variable &#39;n_samples&#39; must be defined if &#39;p_spiking&#39; is a float&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p_spiking</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span></div>
-    
-    
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p_spiking</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="sim_spiketrain_poisson"><a class="viewcode-back" href="../../../generated/spiketools.sim.dist.sim_spiketrain_poisson.html#spiketools.sim.dist.sim_spiketrain_poisson">[docs]</a><span class="k">def</span> <span class="nf">sim_spiketrain_poisson</span><span class="p">(</span><span class="n">rate</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Simulate spike train from a Poisson distribution.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    rate : float</span>
@@ -155,16 +156,16 @@
 <span class="sd">        The number of samples to simulate.</span>
 <span class="sd">    fs : int</span>
 <span class="sd">        The sampling rate.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Results</span>
 <span class="sd">    -------</span>
 <span class="sd">    spikes : 1d array</span>
 <span class="sd">        Simulated spike train.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    Simulate a spike train from a Poisson distribution.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &gt;&gt;&gt; spikes = sim_spiketrain_poisson(0.4, 10, 1000, bias=0)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 

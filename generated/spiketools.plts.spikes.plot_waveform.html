@@ -98,12 +98,16 @@
 <h1>spiketools.plts.spikes.plot_waveform<a class="headerlink" href="#spiketools-plts-spikes-plot-waveform" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.plts.spikes.plot_waveform">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spikes.</span></span><span class="sig-name descname"><span class="pre">plot_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waveform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spikes.html#plot_waveform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spikes.plot_waveform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spikes.</span></span><span class="sig-name descname"><span class="pre">plot_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waveform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shade</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_traces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spikes.html#plot_waveform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spikes.plot_waveform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a spike waveform.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>waveform</strong><span class="classifier">1d array</span></dt><dd><p>Voltage values of the spike waveform.</p>
+<dt><strong>waveform</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Voltage values of the spike waveform.</p>
+</dd>
+<dt><strong>average</strong><span class="classifier">{‘mean’, ‘median’}, optional</span></dt><dd><p>Averaging to apply to firing rate activity before plotting.</p>
+</dd>
+<dt><strong>shade</strong><span class="classifier">{‘sem’, ‘std’} or 1d array, optional</span></dt><dd><p>Measure of variance to compute and/or plot as shading.</p>
 </dd>
 <dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
 </dd>
