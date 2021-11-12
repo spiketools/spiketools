@@ -27,12 +27,13 @@ def compute_spatial_information_2d(spike_x, spike_y, bins, occupancy):
     Examples
     -------
     Compute spatial information across a 2d space using spike x- and y-position, bins, and occupancy:
-    
+
     >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
     >>> spike_x = [1, 2, 3, 4, 5]
     >>> spike_y = [6, 7, 8, 9, 10]
     >>> bins = [2, 4]
-    >>> # occupancy calculated with same bins and position, and with timestamps = np.linspace(0, 100000, position.shape[1])
+    >>> # Used precomputed occupancy, calculated with same bins and position
+    >>> #   Note: occupancy computed with timestamps as `np.linspace(0, 100000, position.shape[1])`
     >>> occupancy = np.array([[0,  0,  0,  0],
     ...                       [0, 25, 25,  0]])
     >>> compute_spatial_information_2d(spike_x, spike_y, bins, occupancy)
@@ -66,7 +67,7 @@ def compute_spatial_information_1d(data, occupancy, bins):
     Examples
     -------
     Compute spatial information across a 1d space using spike position, occupancy, and bins:
-    
+
     >>> data = [1, 2, 3, 4, 5]
     >>> occupancy = np.array([0, 25, 25, 0])
     >>> bins = [2, 4]
@@ -103,7 +104,7 @@ def _compute_spatial_information(spike_map, occupancy):
 
     # Compute the occupancy probability (per bin)
     occ_prob = occupancy / np.nansum(occupancy)
-    
+
     # Supress RunTime warnings for invalid values that might occur in the arrays during calculations
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=RuntimeWarning)

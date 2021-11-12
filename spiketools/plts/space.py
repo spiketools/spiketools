@@ -6,12 +6,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import gaussian_filter
 
-from spiketools.plts.utils import check_ax, savefig
+from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
 
 @savefig
+@set_plt_kwargs
 def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
                    ax=None, **plt_kwargs):
     """Plot positions.
@@ -41,11 +42,12 @@ def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
                 '.', color='red', alpha=0.35, ms=6)
 
     if x_bins is not None:
-        ax.set_xticks(x_bins, minor=False);
+        ax.set_xticks(x_bins, minor=False)
     if y_bins is not None:
-        ax.set_yticks(y_bins, minor=False);
+        ax.set_yticks(y_bins, minor=False)
 
-    ax.set_xticklabels([]); ax.set_yticklabels([]);
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
     ax.xaxis.set_ticks_position('none')
     ax.yaxis.set_ticks_position('none')
 
@@ -54,9 +56,10 @@ def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
 
 
 @savefig
-def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
-                    ignore_zero=False, cbar=False, cmap=None, vmin=None, vmax=None,
-                    title=None, ax=None, **plt_kwargs):
+@set_plt_kwargs
+def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
+                 ignore_zero=False, cbar=False, cmap=None, vmin=None, vmax=None,
+                 ax=None, **plt_kwargs):
     """Plot a spatial heat map.
 
     Parameters
@@ -102,9 +105,6 @@ def plot_space_heat(data, transpose=False, smooth=False, smoothing_kernel=1.5,
     ax.set_xticks([])
     ax.set_yticks([])
     ax.set_axis_off()
-
-    if title:
-        ax.set_title(title)
 
     if cbar:
         colorbar = plt.colorbar(im)
