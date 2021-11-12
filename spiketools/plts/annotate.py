@@ -26,7 +26,7 @@ def _add_significance_to_plot(stats, sig_level=0.05, x_vals=None, ax=None):
         ax = plt.gca()
 
     if not x_vals:
-        x_vals = plt.gca().lines[0].get_xdata()
+        x_vals = ax.lines[0].get_xdata()
 
     if not isinstance(stats[0], (float)):
         stats = [stat.pvalue for stat in stats]
