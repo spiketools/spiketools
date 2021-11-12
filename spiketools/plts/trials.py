@@ -36,15 +36,18 @@ def plot_rasters(data, line=0, colors=None, show_axis=False, ax=None, **plt_kwar
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    ind = 0
-    while True:
+    check = False
+    for ind in range(len(data)):
         try:
-            checker = data[ind][0]
-            break
-        except IndexError:
+            if isinstance(data[ind], float):
+                break
+            elif isinstance(data[ind][0], list):
+                check = True
+                break
+        except (IndexError, TypeError):
             ind += 1
 
-    if isinstance(checker, list):
+    if check:
         lens = [len(el) for el in data]
         colors = DEFAULT_COLORS[0:len(lens)] if not colors else colors
         colors = flatten([[col] * ll for col, ll in zip(colors, lens)])

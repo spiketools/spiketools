@@ -13,16 +13,16 @@ from spiketools.plts.trials import *
 @plot_test
 def test_plot_rasters():
 
+    data0 = [-500, -250, 250, 100]
     data1 = [[-750, -300, 125, 250, 750],
              [-500, -400, -50, 100, 125, 500, 800],
              [-850, -500, -250, 100, 400, 750, 950]]
     data2 = [data1, [[-400, 150, 500], [-500, 250, 800]]]
 
-    plot_rasters(data1,
-                 file_path=TEST_PLOTS_PATH, file_name='tplot_rasters1.png')
-
+    plot_rasters(data0, file_path=TEST_PLOTS_PATH, file_name='tplot_rasters0.png')
+    plot_rasters(data1, file_path=TEST_PLOTS_PATH, file_name='tplot_rasters1.png')
     plot_rasters(data2, colors=['blue', 'red'],
-                 file_path=TEST_PLOTS_PATH, file_name='tplot_rasters1.png')
+                 file_path=TEST_PLOTS_PATH, file_name='tplot_rasters2.png')
 
 
 @plot_test
