@@ -36,8 +36,8 @@ def plot_rasters(data, line=0, colors=None, show_axis=False, ax=None, **plt_kwar
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
+    ind = 0
     while True:
-        ind = 0
         try:
             checker = data[ind][0]
             break
