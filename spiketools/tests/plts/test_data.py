@@ -11,23 +11,19 @@ from spiketools.plts.data import *
 ###################################################################################################
 
 @plot_test
-def test_plot_hist():
+def test_plot_hist(tdata):
 
-    data = np.random.random(10)
-
-    plot_hist(data,
+    plot_hist(tdata,
               file_path=TEST_PLOTS_PATH, file_name='tplot_bar.png')
 
-    plot_hist(data, average='median',
+    plot_hist(tdata, average='median',
               file_path=TEST_PLOTS_PATH, file_name='tplot_bar_opts.png')
 
 @plot_test
 def test_plot_bar():
 
-    data = np.array([1., 2., 3.])
-
-    plot_bar(data,
+    plot_bar(np.array([1., 2., 3.]),
             file_path=TEST_PLOTS_PATH, file_name='tplot_bar.png')
 
-    plot_bar(data, labels=['A1', 'A2', 'A3'],
+    plot_bar(np.array([1., 2., 3.]), labels=['A1', 'A2', 'A3'],
             file_path=TEST_PLOTS_PATH, file_name='tplot_bar_labels.png')
