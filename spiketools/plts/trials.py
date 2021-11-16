@@ -13,7 +13,7 @@ from spiketools.utils.base import flatten
 
 @savefig
 @set_plt_kwargs
-def plot_rasters(data, line=0, colors=None, show_axis=False, ax=None, **plt_kwargs):
+def plot_rasters(data, line=0, colors=None, shade=None, show_axis=False, ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 
     Parameters
@@ -26,6 +26,8 @@ def plot_rasters(data, line=0, colors=None, show_axis=False, ax=None, **plt_kwar
     colors : str or list of str
         Color(s) to plot the raster ticks.
         If more than one, should be the length of data.
+    shade : list of float, optional
+        xx
     show_axis : bool, optional, default: False
         Whether to show the axis around the plot.
     ax : Axes, optional
@@ -61,6 +63,9 @@ def plot_rasters(data, line=0, colors=None, show_axis=False, ax=None, **plt_kwar
         for ll in line:
             ax.vlines(ll, *cur_ylim, lw=2.5, color='green', alpha=0.5)
         ax.set_ylim(cur_ylim)
+
+    if shade is not None:
+        ax.axvspan(*shade, alpha=0.25, color='red')
 
     if not show_axis:
         ax.set_axis_off()
