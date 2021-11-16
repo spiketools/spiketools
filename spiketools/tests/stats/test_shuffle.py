@@ -56,24 +56,24 @@ def test_shuffle_bins(tspikes):
     out_many = shuffle_bins(tspikes, n_shuffles=n_shuffles)
     assert out_many.shape == (n_shuffles, len(tspikes))
 
-
 def test_shuffle_poisson(tspikes):
-    # TO FIX / FINISH
 
     shuffled = shuffle_poisson(tspikes)
     assert isinstance(shuffled, np.ndarray)
-    #assert tspikes.shape[-1] == shuffled.shape[-1]
-    #assert not np.array_equal(tspikes, shuffled)
+    assert tspikes.shape[-1] == shuffled.shape[-1]
+    assert not np.array_equal(tspikes, shuffled)
 
     # Test that get a different answer with different random states
-    #out1 = shuffle_poisson(tspikes, n_shuffles=1, random_state=12)
-    #out2 = shuffle_poisson(tspikes, n_shuffles=1, random_state=21)
-    #assert not np.array_equal(out1, out2)
+    out1 = shuffle_poisson(tspikes, n_shuffles=1)
+    out2 = shuffle_poisson(tspikes, n_shuffles=1)
+    assert not np.array_equal(out1, out2)
 
     # Test with more shuffles
-    #n_shuffles = 5
-    #out_many = shuffle_poisson(tspikes, n_shuffles=n_shuffles)
-    #assert out_many.shape == (n_shuffles, len(tspikes))
+    #   Note: here we check the correct number of shuffles,
+    #     but not the exact number of spikes, which is not guaranteed
+    n_shuffles = 5
+    out_many = shuffle_poisson(tspikes, n_shuffles=n_shuffles)
+    assert out_many.shape[0] == n_shuffles
 
 def test_shuffle_circular(tspikes):
 
