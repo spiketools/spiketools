@@ -56,9 +56,11 @@ def plot_rasters(data, line=0, colors=None, show_axis=False, ax=None, **plt_kwar
     ax.eventplot(data, colors=colors)
 
     if line is not None:
+        cur_ylim = ax.get_ylim()
         line = [line] if isinstance(line, (int, float)) else line
         for ll in line:
-            ax.vlines(ll, -1, len(data), lw=2.5, color='green', alpha=0.5)
+            ax.vlines(ll, *cur_ylim, lw=2.5, color='green', alpha=0.5)
+        ax.set_ylim(cur_ylim)
 
     if not show_axis:
         ax.set_axis_off()
