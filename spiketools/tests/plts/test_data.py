@@ -11,6 +11,14 @@ from spiketools.plts.data import *
 ###################################################################################################
 
 @plot_test
+def test_plot_line():
+
+    data = np.random.random(10)
+
+    plot_line(data,
+              file_path=TEST_PLOTS_PATH, file_name='tplot_line.png')
+
+@plot_test
 def test_plot_hist():
 
     data = np.random.random(10)
