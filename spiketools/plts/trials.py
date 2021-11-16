@@ -27,7 +27,7 @@ def plot_rasters(data, line=0, colors=None, shade=None, show_axis=False, ax=None
         Color(s) to plot the raster ticks.
         If more than one, should be the length of data.
     shade : list of float, optional
-        xx
+        Region of the plot to shade in.
     show_axis : bool, optional, default: False
         Whether to show the axis around the plot.
     ax : Axes, optional
