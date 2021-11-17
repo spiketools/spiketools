@@ -232,6 +232,7 @@ Data
 .. autosummary::
    :toctree: generated/
 
+   plot_line
    plot_bar
    plot_hist
 

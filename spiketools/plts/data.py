@@ -9,6 +9,26 @@ from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
+def plot_line(data, ax=None, **plt_kwargs):
+    """Plot data as a line.
+
+    Parameters
+    ----------
+    data : 1d array
+        Data to plot.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    ax.plot(data, **plt_kwargs)
+
+
+@savefig
+@set_plt_kwargs
 def plot_hist(data, average=None, ax=None, **plt_kwargs):
     """Plot data as a histogram.
 
