@@ -1,5 +1,6 @@
 """Plot utilities."""
 
+import math
 from functools import wraps
 from os.path import join as pjoin
 
@@ -78,3 +79,45 @@ def set_plt_kwargs(func):
         ax.set(**setters)
 
     return decorated
+
+
+def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
+              wspace=None, hspace=None):
+    """Make a subplot with multiple axes.
+
+    Parameters
+    ----------
+    n_axes : int
+        The total number of axes to create in the figure.
+    n_cols : int, optional, default: 5
+        The number of columns in the figure.
+    figsize : tuple of float, optional
+        Size to make the overall figure.
+        If not given, is estimated from the number of axes.
+    row_size, col_size : float, optional
+        The size to use per row / column.
+        Only used if `figsize` is None.
+    wspace, hspace : float, optional
+        Spacing parameters
+        These get passed into `plt.subplots_adjust`.
+
+    Returns
+    -------
+    axes : 1d array of AxesSubplot
+        Collection of axes objects.
+    """
+
+    n_rows = math.ceil(n_axes / n_cols)
+
+    if not figsize:
+        figsize = (n_cols * col_size, n_rows * row_size)
+
+    _, axes = plt.subplots(n_rows, n_cols, figsize=figsize)
+
+    if wspace or hspace:
+        plt.subplots_adjust(wspace=wspace, hspace=hspace)
+
+    # Turn off axes for any extra subplots in last row
+    [x.axis('off') for x in axes.ravel()[n_axes:]];
+
+    return axes.flatten()
