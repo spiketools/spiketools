@@ -2,7 +2,6 @@
 
 import os
 
-from spiketools.tests.tutils import plot_test
 from spiketools.tests.tsettings import TEST_PLOTS_PATH
 
 from spiketools.plts.utils import *
@@ -66,7 +65,6 @@ def test_set_plt_kwargs():
     example_plot(title=title)
     assert plt.gca().get_title() == title
 
-@plot_test
 def test_make_axes():
 
     n_axes = 5
@@ -74,4 +72,5 @@ def test_make_axes():
     axes = make_axes(n_axes)
     assert len(axes) == n_axes
 
-    make_axes(2, 2, row_size=2, col_size=2, wspace=0.1, hspace=0.1)
+    axes = make_axes(n_axes, 2, row_size=2, col_size=2, wspace=0.1, hspace=0.1)
+    assert len(axes) == n_axes + 1
