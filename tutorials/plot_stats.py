@@ -137,7 +137,7 @@ fr_post = (len(np.where(spikes_pre_post>=time_pre)[0]))/time_post
 
 # Get firing rate difference between post and pre
 # This will be the value we compute the empirical p-value and the z-score for
-fr_diff = count_post - count_pre
+fr_diff = fr_post - fr_pre
 
 ###################################################################################################
 
