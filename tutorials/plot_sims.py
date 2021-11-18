@@ -8,6 +8,7 @@ This tutorial primarily covers the ``spiketools.sims`` module.
 """
 
 ###################################################################################################
+
 # Simulation spiking data
 # -----------------------
 #
@@ -114,6 +115,7 @@ spike_before = convert_train_to_times(spikes)
 plt.eventplot(spike_before)
 
 ###################################################################################################
+
 # Apply a 0.3 seconds refractory period to a simulated spike train with 1000 Hz sampling rate
 spike_ref = refractory(spikes, 0.3, 1000)
 
