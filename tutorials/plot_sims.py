@@ -109,13 +109,16 @@ spikes = sim_spiketrain_poisson(0.4, 50, 1000, bias=0)
 p_spiking = 0.7
 spikes = sim_spiketrain_binom(p_spiking, n_samples=50)
 
+# Convert binary spike train to spike times in milliseconds & plot the spike times
+spike_before = convert_train_to_times(spikes)
+plt.eventplot(spike_before)
+
+###################################################################################################
 # Apply a 0.3 seconds refractory period to a simulated spike train with 1000 Hz sampling rate
 spike_ref = refractory(spikes, 0.3, 1000)
 
-###################################################################################################
-
 # Convert binary spike train to spike times in milliseconds & plot the spike times
-spike_times = convert_train_to_times(spike_ref)
-plt.eventplot(spike_times)
+spike_after = convert_train_to_times(spike_ref)
+plt.eventplot(spike_after)
 
 ###################################################################################################
