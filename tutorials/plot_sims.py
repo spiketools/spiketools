@@ -8,7 +8,7 @@ This tutorial primarily covers the ``spiketools.sims`` module.
 """
 
 ###################################################################################################
-
+#
 # Simulation spiking data
 # -----------------------
 #
@@ -20,6 +20,7 @@ This tutorial primarily covers the ``spiketools.sims`` module.
 # 1. Simulate spikes based on spiking probabilities
 # 2. Simulate spikes based on different probability distributions
 # 3. Utilities for working with simulated spiking data
+#
 
 ###################################################################################################
 
@@ -37,7 +38,7 @@ from spiketools.sim.utils import refractory
 from spiketools.measures.conversions import convert_train_to_times
 
 ###################################################################################################
-
+#
 # 1. Simulate spikes based on spiking probabilities
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
@@ -74,7 +75,7 @@ plt.hist(spike_times, density=1, bins=50)
 plt.show()
 
 ###################################################################################################
-
+#
 # 2. Simulate spikes based on different probability distributions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
