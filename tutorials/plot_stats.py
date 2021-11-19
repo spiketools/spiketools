@@ -32,11 +32,17 @@ from spiketools.stats.shuffle import (shuffle_isis, shuffle_bins, shuffle_poisso
                                       shuffle_circular)
 from spiketools.stats.permutations import compute_empirical_pvalue, zscore_to_surrogates
 
-# import plot_rasters to plot spike trains
+# plot_rasters to plot spike trains
 from spiketools.plts.trials import plot_rasters
 
 # plot_surrogates as visualisation of surrogates
 from spiketools.plts.stats import plot_surrogates
+
+# restrict_range to restrict range of spike times
+from spiketools.utils.spikes import restrict_range
+
+# compute_spike_rate to calculate spike rates given spike times
+from spiketools.measures.measures import compute_spike_rate
 
 ###################################################################################################
 
@@ -71,7 +77,7 @@ shuffled_circular = shuffle_circular(spikes_ms, shuffle_min=200, n_shuffles=10)
 ###################################################################################################
 
 # Plot original spike train
-plot_rasters(spikes_ms[:], xlim=[0, 6000], ylim=[0.5, 1.5], title='Non-shuffled')
+plot_rasters(spikes_ms[:], xlim=[0, 6000], title='Non-shuffled', line=None)
 
 ###################################################################################################
 
@@ -79,16 +85,20 @@ plot_rasters(spikes_ms[:], xlim=[0, 6000], ylim=[0.5, 1.5], title='Non-shuffled'
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharey = True)
 
 # isis
-plot_rasters(shuffled_isis[:, :], xlim=[0, 6000], ax=ax1, title='Shuffle ISIS n_shuffles = 10')
+plot_rasters(shuffled_isis[:, :], xlim=[0, 6000], ax=ax1, 
+    title='Shuffle ISIS n_shuffles = 10', line=None)
 
 # poisson
-plot_rasters(shuffled_poisson[:, :], xlim=[0, 6000], ax=ax2, title='Shuffle poisson n_shuffles = 10')
+plot_rasters(shuffled_poisson[:, :], xlim=[0, 6000], ax=ax2, 
+    title='Shuffle poisson n_shuffles = 10', line=None)
 
 # shuffled bins
-plot_rasters(shuffled_bins[:, :], xlim=[0, 6000], ax=ax3, title='Shuffle bins n_shuffles = 10')
+plot_rasters(shuffled_bins[:, :], xlim=[0, 6000], ax=ax3, 
+    title='Shuffle bins n_shuffles = 10', line=None)
 
 # shuffled circular
-plot_rasters(shuffled_circular[:, :], xlim=[0, 6000], ax=ax4, title='Shuffle circular n_shuffles = 10')
+plot_rasters(shuffled_circular[:, :], xlim=[0, 6000], ax=ax4, 
+    title='Shuffle circular n_shuffles = 10', line=None)
 
 # Add some padding between subplots
 plt.subplots_adjust(hspace=0.3)
