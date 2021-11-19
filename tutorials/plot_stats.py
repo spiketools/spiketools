@@ -140,10 +140,10 @@ spikes_pre_post = np.append(spikes_s_pre, spikes_s_post)
 
 ###################################################################################################
 
-# Get firing rate (spikes/s) pre-event (on the initial time_pre seconds)
-fr_pre = (len(np.where(spikes_pre_post<time_pre)[0]))/time_pre
 # Get firing rate (spikes/s) post-event (on the final time_post seconds)
-fr_post = (len(np.where(spikes_pre_post>=time_pre)[0]))/time_post
+fr_post = compute_spike_rate(restrict_range(spikes_pre_post, min_time=time_pre, max_time=None))
+# Get firing rate (spikes/s) pre-event (on the initial time_pre seconds)
+fr_pre = compute_spike_rate(restrict_range(spikes_pre_post, min_time=None, max_time=time_pre))
 
 # Get firing rate difference between post and pre
 # This will be the value we compute the empirical p-value and the z-score for
@@ -159,8 +159,11 @@ shuff_spikes_pre_post = shuffle_isis(spikes_pre_post, n_shuffles=n_shuff)
 # This will be the surrogate distribution used to compute the empirical p-value and the z-score
 surr = np.zeros((n_shuff,))
 for shuff_i in range(n_shuff):
-    surr[shuff_i] = (((len(np.where(shuff_spikes_pre_post[shuff_i, :]>=time_pre)[0]))/time_post) -
-                     ((len(np.where(shuff_spikes_pre_post[shuff_i, :]<time_pre)[0]))/time_pre))
+    fr_post = (compute_spike_rate(restrict_range(shuff_spikes_pre_post[shuff_i, :], 
+                                                 min_time=time_pre, max_time=None)))
+    fr_pre = (compute_spike_rate(restrict_range(shuff_spikes_pre_post[shuff_i, :], 
+                                                min_time=None, max_time=time_pre)))
+    surr[shuff_i] = fr_post - fr_pre
 
 ###################################################################################################
 
