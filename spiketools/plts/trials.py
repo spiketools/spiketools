@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.annotate import _add_significance_to_plot
+from spiketools.plts.annotate import _add_significance_to_plot, _add_vlines
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 from spiketools.utils.select import get_avg_func, get_var_func
 from spiketools.utils.base import flatten
@@ -13,7 +13,7 @@ from spiketools.utils.base import flatten
 
 @savefig
 @set_plt_kwargs
-def plot_rasters(data, line=0, colors=None, shade=None, show_axis=False, ax=None, **plt_kwargs):
+def plot_rasters(data, vline=None, colors=None, shade=None, show_axis=False, ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 
     Parameters
@@ -21,8 +21,8 @@ def plot_rasters(data, line=0, colors=None, shade=None, show_axis=False, ax=None
     data : list of list of float
         Spike times per trial.
         Multiple conditions can also be passed in.
-    line : float, optional, default: 0
-        Position to draw a vertical line. If None, no line is drawn.
+    vline : float or list, optional
+        Position(s) to draw a vertical line. If None, no line is drawn.
     colors : str or list of str
         Color(s) to plot the raster ticks.
         If more than one, should be the length of data.
@@ -57,12 +57,7 @@ def plot_rasters(data, line=0, colors=None, shade=None, show_axis=False, ax=None
 
     ax.eventplot(data, colors=colors)
 
-    if line is not None:
-        cur_ylim = ax.get_ylim()
-        line = [line] if isinstance(line, (int, float)) else line
-        for ll in line:
-            ax.vlines(ll, *cur_ylim, lw=2.5, color='green', alpha=0.5)
-        ax.set_ylim(cur_ylim)
+    _add_vlines(vline, ax, lw=2.5, color='green', alpha=0.5)
 
     if shade is not None:
         ax.axvspan(*shade, alpha=0.25, color='red')

@@ -5,7 +5,7 @@ from itertools import repeat
 import numpy as np
 
 from spiketools.utils.select import get_avg_func
-
+from spiketools.plts.annotate import _add_vlines
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 ###################################################################################################
@@ -18,8 +18,10 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
 
     Parameters
     ----------
-    x_values : 1d or 2d array or list
+    x_values, y_values : 1d or 2d array or list of 1d array
         Data to plot on the x and y axis.
+    vline : float or list, optional
+        Position(s) to draw a vertical line. If None, no line is drawn.
     ax : Axes, optional
         Axis object upon which to plot.
     line : float or list, optional, default: 0
@@ -36,10 +38,7 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
     for x_vals, y_vals in zip(x_values, y_values):
         ax.plot(x_vals, y_vals, **plt_kwargs)
 
-    if vline is not None:
-        vline = [vline] if isinstance(vline, (int, float)) else vline
-        for line in vline:
-            ax.axvline(line)
+    _add_vlines(vline, ax)
 
 
 @savefig

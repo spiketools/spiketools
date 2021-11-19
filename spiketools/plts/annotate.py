@@ -5,6 +5,22 @@ import matplotlib.pyplot as plt
 ###################################################################################################
 ###################################################################################################
 
+def _add_vlines(vline, ax, **plt_kwargs):
+    """
+
+    Parameters
+    ----------
+    vline : float or list
+        xx
+    ax : Axes, optional
+        Axis object upon which to plot.
+    """
+
+    if vline is not None:
+        vline = [vline] if isinstance(vline, (int, float)) else vline
+        for line in vline:
+            ax.axvline(line)
+
 def _add_significance_to_plot(stats, sig_level=0.05, x_vals=None, ax=None):
     """Add markers to a plot to label statistical significance.
 
