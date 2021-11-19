@@ -11,12 +11,13 @@ from spiketools.plts.data import *
 ###################################################################################################
 
 @plot_test
-def test_plot_line(tdata):
+def test_plot_lines(tdata):
 
-    data = np.random.random(10)
+    data1 = np.random.random(10)
+    data2 = np.random.random(10)
 
-    plot_line(data,
-              file_path=TEST_PLOTS_PATH, file_name='tplot_line.png')
+    plot_lines(data1, data2, vline=0.5,
+               file_path=TEST_PLOTS_PATH, file_name='tplot_line.png')
 
 @plot_test
 def test_plot_hist(tdata):
