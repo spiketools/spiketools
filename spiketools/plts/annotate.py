@@ -11,7 +11,7 @@ def _add_vlines(vline, ax, **plt_kwargs):
     Parameters
     ----------
     vline : float or list
-        xx
+        Positions(s) of the vertical lines to add to the plot.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
