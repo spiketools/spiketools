@@ -1,11 +1,13 @@
 """Plots for statistical analyses and related visualizations."""
 
-from spiketools.plts.utils import check_ax, savefig
+from spiketools.plts.data import plot_hist
+from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
 
 @savefig
+@set_plt_kwargs
 def plot_surrogates(surrogates, data_value=None, p_value=None, ax=None, **plt_kwargs):
     """Plot a distribution of surrogate data.
 
@@ -24,8 +26,7 @@ def plot_surrogates(surrogates, data_value=None, p_value=None, ax=None, **plt_kw
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
-
-    ax.hist(surrogates, **plt_kwargs)
+    plot_hist(surrogates, ax=ax, **plt_kwargs)
 
     if data_value is not None:
         ax.axvline(data_value, color='k', linestyle='dashed', linewidth=2)

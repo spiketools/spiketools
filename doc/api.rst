@@ -195,7 +195,7 @@ Spikes
 
     plot_waveform
     plot_isis
-    plot_firing_rates
+    plot_unit_frs
 
 Space
 ~~~~~
@@ -205,7 +205,7 @@ Space
    :toctree: generated/
 
     plot_positions
-    plot_space_heat
+    plot_heatmap
 
 Trials
 ~~~~~~
@@ -213,7 +213,8 @@ Trials
 .. autosummary::
    :toctree: generated/
 
-    plot_trial_rasters
+    plot_rasters
+    plot_firing_rates
 
 Stats
 ~~~~~
@@ -223,6 +224,17 @@ Stats
    :toctree: generated/
 
     plot_surrogates
+
+Data
+~~~~
+
+.. currentmodule:: spiketools.plts.data
+.. autosummary::
+   :toctree: generated/
+
+   plot_line
+   plot_bar
+   plot_hist
 
 
 Utilities

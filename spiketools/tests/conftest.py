@@ -40,6 +40,30 @@ def tspikes():
 
 
 @pytest.fixture(scope='session')
+def tspikes_s():
+
+    yield np.array([0.0, 0.5, 1.5, 2.])
+
+
+@pytest.fixture(scope='session')
+def twaveform():
+
+    yield np.array([0, 0, 0, 1, 2, 3, 4, 5, 3, 1, 0, 0])
+
+
+@pytest.fixture(scope='session')
+def tisis():
+
+    yield np.array([0.1, 0.25, 0.4, 0.1, 0.05, 0.2, 0.125])
+
+
+@pytest.fixture(scope='session')
+def tdata():
+
+    yield np.random.random(10)
+
+
+@pytest.fixture(scope='session')
 def tcell(tspikes):
 
     yield Cell(subject='SubjectCode',
