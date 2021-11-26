@@ -23,7 +23,7 @@ def refractory(spikes, refractory_time, fs):
 
     Examples
     --------
-    Apply a 0.3 seconds refractory period to a binary spike train with 1000 Hz sampling rate.
+    Apply a 0.003 seconds refractory period to a binary spike train with 1000 Hz sampling rate.
 
     >>> spikes = np.array([0,1,1,1,0,1,1,1,0,1,1,1,1,0,1,1,0,1,0,])
     >>> refractory(spikes, 0.003, 1000)
