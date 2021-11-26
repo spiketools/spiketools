@@ -29,13 +29,14 @@ This tutorial primarily covers the ``spiketools.sims`` module.
 # import auxiliary libraries
 import numpy as np
 import matplotlib.pyplot as plt
-import random
 
-# import all functions from spiketools.sim and a supporting function from spiktool.measures
+# import all functions from spiketools.sim and helper functions from spiketools.measures and spiketools.plts
 from spiketools.sim.dist import sim_spiketrain_binom, sim_spiketrain_poisson
 from spiketools.sim.prob import sim_spiketrain_prob
 from spiketools.sim.utils import refractory
 from spiketools.measures.conversions import convert_train_to_times
+from spiketools.plts.trials import plot_rasters
+from spiketools.plts.data import plot_hist
 
 ###################################################################################################
 #
@@ -45,34 +46,36 @@ from spiketools.measures.conversions import convert_train_to_times
 
 ###################################################################################################
 
-# Simulate spike train of size n_samples based on a probability of spiking per sample
+# simulate spike train of size n_samples based on a probability of spiking per sample
 p_spiking = 0.7
-n_samples = 30
+n_samples = 100
 sim_spiketrain = sim_spiketrain_prob(p_spiking, n_samples)
 
-###################################################################################################
-
-# Convert binary spike train to spike times in milliseconds & plot the spike times
+# convert binary spike train to spike times in milliseconds
 spike_times = convert_train_to_times(sim_spiketrain)
-plt.eventplot(spike_times)
+
+# print the first 10 spikes from spike train and spike times
+print('Spike train data:', sim_spiketrain[:10])
+print('Spike times data:', spike_times[:10])
+
+# plot the spike times
+plot_rasters(spike_times)
 
 ###################################################################################################
 
-# Additionally, we can simulate spike train of size n_samples, based on a probability of spiking per sample.
-p_spiking = np.array([random.random() for i in range(1000)])
+# simulate spike train of size 1000, based on a probability of spiking per sample.
+p_spiking = np.random.random(1000)
 sim_spiketrain = sim_spiketrain_prob(p_spiking)
 
 ###################################################################################################
 
-# Convert binary spike train to spike times in milliseconds
+# convert binary spike train to spike times in milliseconds
 spike_times = convert_train_to_times(sim_spiketrain)
 
-# Plot the probability distribution of spike times
-plt.title('Probability Distribution of Spike Times')
-plt.xlabel('Spike Times (ms)')
-plt.ylabel('Probability')
-plt.hist(spike_times, density=1, bins=50)
-plt.show()
+# plot the probability distribution of spike times
+plot_hist(spike_times, density=1, bins=50,
+          xlabel='Spike Times (ms)', ylabel='Probability',
+          title='Probability Distribution of Spike Times')
 
 ###################################################################################################
 #
@@ -84,21 +87,25 @@ plt.show()
 
 ###################################################################################################
 
-# Simulate spike train from binomial probability distribution
+# simulate spike train from binomial probability distribution
 p_spiking = 0.7
-spikes = sim_spiketrain_binom(p_spiking, n_samples=50)
+spikes = sim_spiketrain_binom(p_spiking, n_samples=100)
 
-# Convert binary spike train to spike times in milliseconds & plot the spike times
-spike_times = convert_train_to_times(spikes)
-plt.eventplot(spike_times)
-
-###################################################################################################
-
-# Simulate spike train from poisson probability distribution
-spikes = sim_spiketrain_poisson(0.4, 50, 1000, bias=0)
+# convert binary spike train to spike times in milliseconds & plot the spike times
+spike_binomial = convert_train_to_times(spikes)
+plot_rasters(spike_binomial)
 
 ###################################################################################################
 
+# simulate spike train from poisson probability distribution
+spikes = sim_spiketrain_poisson(0.16, 100000, 1000, bias=0)
+
+# convert the simulated binary spike train to spike times in milliseconds & plot the spike times
+spike_poisson = convert_train_to_times(spikes)
+plot_rasters(spike_poisson)
+
+###################################################################################################
+#
 # 3. Utilities for working with simulated spiking data
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
@@ -107,21 +114,11 @@ spikes = sim_spiketrain_poisson(0.4, 50, 1000, bias=0)
 
 ###################################################################################################
 
-# Use the spike train simulated eariler from a binomial probability distribution
-p_spiking = 0.7
-spikes = sim_spiketrain_binom(p_spiking, n_samples=50)
+# apply a 0.003 seconds refractory period to the simulated spike train with 1000 Hz sampling rate
+spike_ref = refractory(spike_binomial, 0.003, 1000)
 
-# Convert binary spike train to spike times in milliseconds & plot the spike times
-spike_before = convert_train_to_times(spikes)
-plt.eventplot(spike_before)
-
-###################################################################################################
-
-# Apply a 0.3 seconds refractory period to a simulated spike train with 1000 Hz sampling rate
-spike_ref = refractory(spikes, 0.3, 1000)
-
-# Convert binary spike train to spike times in milliseconds & plot the spike times
-spike_after = convert_train_to_times(spike_ref)
-plt.eventplot(spike_after)
+# convert binary spike train to spike times in milliseconds & plot the spike times
+spike_times = convert_train_to_times(spike_ref)
+plt.eventplot(spike_times)
 
 ###################################################################################################
