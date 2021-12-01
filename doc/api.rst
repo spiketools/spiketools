@@ -232,7 +232,7 @@ Data
 .. autosummary::
    :toctree: generated/
 
-   plot_line
+   plot_lines
    plot_bar
    plot_hist
 
