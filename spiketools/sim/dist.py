@@ -15,7 +15,7 @@ def sim_spiketrain_binom(p_spiking, n_samples=None):
     n_samples : int, optional
         The number of samples to simulate.
 
-    Results
+    Returns
     -------
     spikes : 1d array
         Simulated spike train.
@@ -61,7 +61,7 @@ def sim_spiketrain_poisson(rate, n_samples, fs, bias=0):
     fs : int
         The sampling rate.
 
-    Results
+    Returns
     -------
     spikes : 1d array
         Simulated spike train.
