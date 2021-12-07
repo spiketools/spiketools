@@ -32,8 +32,10 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    x_values = repeat(x_values) if (isinstance(x_values, np.ndarray) and x_values.ndim == 1) else x_values
-    y_values = [y_values] if (isinstance(y_values, np.ndarray) and y_values.ndim == 1) else y_values
+    x_values = repeat(x_values) if (isinstance(x_values, np.ndarray) and x_values.ndim == 1) \
+        else x_values
+    y_values = [y_values] if (isinstance(y_values, np.ndarray) and y_values.ndim == 1) \
+        else y_values
 
     for x_vals, y_vals in zip(x_values, y_values):
         ax.plot(x_vals, y_vals, **plt_kwargs)

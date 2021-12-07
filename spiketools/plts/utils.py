@@ -118,6 +118,6 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
         plt.subplots_adjust(wspace=wspace, hspace=hspace)
 
     # Turn off axes for any extra subplots in last row
-    [x.axis('off') for x in axes.ravel()[n_axes:]];
+    [x.axis('off') for x in axes.ravel()[n_axes:]]
 
     return axes.flatten()
