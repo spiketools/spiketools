@@ -22,13 +22,12 @@ This tutorial primarily covers the ``spiketools.measures`` module.
 
 ###################################################################################################
 
-# sphinx_gallery_thumbnail_number = 1
+# sphinx_gallery_thumbnail_number = 2
 
 # import auxiliary libraries
 import numpy as np
-import matplotlib.pyplot as plt
 
-# import all functions from spiketools.measures
+# Import measure related functions
 from spiketools.measures.measures import compute_spike_rate, compute_isis, compute_cv, compute_fano_factor
 from spiketools.measures.conversions import create_spike_train, convert_train_to_times, convert_isis_to_spikes
 from spiketools.plts.spikes import plot_isis
@@ -87,6 +86,7 @@ plot_isis(isis, bins=None, range=None, density=False, ax=None)
 
 ###################################################################################################
 
+# Compute the coefficient of variation
 cv = compute_cv(isis)
 print('Coefficient of variation:', cv)
 
@@ -133,7 +133,7 @@ plot_rasters(spike_times)
 
 ###################################################################################################
 #
-# Finally, we can convert a vector of inter-spike intervals in millisecond to spike times in milliseconds.
+# Finally, we can convert a vector of inter-spike intervals to spike times.
 #
 
 ###################################################################################################
@@ -143,5 +143,3 @@ spike_times = convert_isis_to_spikes(isis, offset=0, add_offset=True)
 
 # plot the spike times
 plot_rasters(spike_times)
-
-###################################################################################################

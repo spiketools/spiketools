@@ -28,15 +28,18 @@ This tutorial primarily covers the ``spiketools.sims`` module.
 
 # import auxiliary libraries
 import numpy as np
-import matplotlib.pyplot as plt
 
-# import all functions from spiketools.sim and helper functions from spiketools.measures and spiketools.plts
+# Import simulation-related functions
 from spiketools.sim.dist import sim_spiketrain_binom, sim_spiketrain_poisson
 from spiketools.sim.prob import sim_spiketrain_prob
 from spiketools.sim.utils import refractory
-from spiketools.measures.conversions import convert_train_to_times
+
+# Import plot functions
 from spiketools.plts.trials import plot_rasters
 from spiketools.plts.data import plot_hist
+
+# Import utitilies
+from spiketools.measures.conversions import convert_train_to_times
 
 ###################################################################################################
 #
@@ -82,7 +85,7 @@ plot_hist(spike_times, density=1, bins=50,
 # 2. Simulate spikes based on different probability distributions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# Simulate spike train from binomial and poisson probability distributions.
+# Simulate spike train from binomial and Poisson probability distributions.
 #
 
 ###################################################################################################
@@ -97,7 +100,7 @@ plot_rasters(spike_binomial)
 
 ###################################################################################################
 
-# simulate spike train from poisson probability distribution
+# simulate spike train from a Poisson probability distribution
 spikes = sim_spiketrain_poisson(0.16, 100000, 1000, bias=0)
 
 # convert the simulated binary spike train to spike times in milliseconds & plot the spike times
@@ -119,6 +122,6 @@ spike_ref = refractory(spike_binomial, 0.003, 1000)
 
 # convert binary spike train to spike times in milliseconds & plot the spike times
 spike_times = convert_train_to_times(spike_ref)
-plt.eventplot(spike_times)
+plot_rasters(spike_times)
 
 ###################################################################################################
