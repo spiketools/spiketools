@@ -99,6 +99,8 @@
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
 <div class="viewcode-block" id="refractory"><a class="viewcode-back" href="../../../generated/spiketools.sim.utils.refractory.html#spiketools.sim.utils.refractory">[docs]</a><span class="k">def</span> <span class="nf">refractory</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">refractory_time</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Apply a refractory period to a simulated spike train.</span>
 
@@ -115,6 +117,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    spikes : 1d array</span>
 <span class="sd">        Spike train, with refractory period constraint applied.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Apply a 0.003 seconds refractory period to a binary spike train with 1000 Hz sampling rate.</span>
+
+<span class="sd">    &gt;&gt;&gt; spikes = np.array([0,1,1,1,0,1,1,1,0,1,1,1,1,0,1,1,0,1,0,])</span>
+<span class="sd">    &gt;&gt;&gt; refractory(spikes, 0.003, 1000)</span>
+<span class="sd">    array([0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ref_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">refractory_time</span> <span class="o">*</span> <span class="n">fs</span><span class="p">)</span>

@@ -100,7 +100,7 @@
 <dt class="sig sig-object py" id="spiketools.spatial.information.compute_spatial_information_1d">
 <span class="sig-prename descclassname"><span class="pre">spiketools.spatial.information.</span></span><span class="sig-name descname"><span class="pre">compute_spatial_information_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/information.html#compute_spatial_information_1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.information.compute_spatial_information_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute spatial information across a 1d space using Skaggs information.</p>
-<dl class="field-list">
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">1d array</span></dt><dd><p>Spike positions.</p>
@@ -115,34 +115,18 @@
 <dd class="field-even"><dl class="simple">
 <dt><strong>info</strong><span class="classifier">float</span></dt><dd><p>Spike information rate for spatial information (bits/spike).</p>
 </dd>
-<dt>Examples</dt><dd></dd>
-</dl>
-<blockquote>
-<div></div></blockquote>
-<dl class="simple">
-<dt>Compute spatial information across a 1d space using spike position, occupancy, and bins:</dt><dd></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-<span class="go">    ..</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">occupancy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="go">    ..</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
-<span class="go">    ..</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">compute_spatial_information_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
-<span class="go">    ..</span>
-</pre></div>
-</div>
-<dl class="simple">
-<dt>2.0</dt><dd></dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Compute spatial information across a 1d space using spike position, occupancy, and bins:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">occupancy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_spatial_information_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+<span class="go">2.0</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

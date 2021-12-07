@@ -100,16 +100,12 @@
 <dt class="sig sig-object py" id="spiketools.utils.restrict_range">
 <span class="sig-prename descclassname"><span class="pre">spiketools.utils.</span></span><span class="sig-name descname"><span class="pre">restrict_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/spikes.html#restrict_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.restrict_range" title="Permalink to this definition">¶</a></dt>
 <dd><p>Restrict a vector of spike times to a specified range.</p>
-<dl class="field-list">
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl>
-<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><blockquote>
-<div><p>Spike times.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>min_time, max_time<span class="classifier">float, optional, default: None</span></dt><dd><p>Mininum and/or maximum time to restrict spike times to.</p>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times.</p>
 </dd>
-</dl>
+<dt><strong>min_time, max_time</strong><span class="classifier">float, optional, default: None</span></dt><dd><p>Mininum and/or maximum time to restrict spike times to.</p>
 </dd>
 </dl>
 </dd>
@@ -121,19 +117,19 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Select all spikes after a specific time point.</p>
+<p>Select all spikes after a specific time point:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">300</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">restrict_range</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">min_time</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="go">array([100, 150, 200, 250, 300])</span>
 </pre></div>
 </div>
-<p>Select all spikes before a specific time point.</p>
+<p>Select all spikes before a specific time point:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">300</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">restrict_range</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">min_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
 <span class="go">array([ 50, 100, 150, 200, 250])</span>
 </pre></div>
 </div>
-<p>Restrict a vector of spike times to a specific range.</p>
+<p>Restrict a vector of spike times to a specific range:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">300</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">restrict_range</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">min_time</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
 <span class="go">array([100, 150, 200])</span>

@@ -253,15 +253,13 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    Experimental implementation / has issues matching spike counts.</span>
-<span class="sd">    Not fully checked / tested / implemented yet.</span>
+<span class="sd">    This is an experimental implementation, and still has some issues matching spike counts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">length</span> <span class="o">=</span> <span class="p">(</span><span class="n">spikes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">1000</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="p">(</span><span class="n">spikes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">rate</span> <span class="o">=</span> <span class="n">compute_spike_rate</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
     <span class="n">poisson_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ind</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">poisson_train</span><span class="p">(</span><span class="n">rate</span><span class="p">,</span> <span class="n">length</span><span class="p">)]</span> <span class="o">+</span> <span class="n">spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="c1"># NOTE: might be an issue with vec_perm here</span>
     <span class="n">isis</span> <span class="o">=</span> <span class="n">vec_perm</span><span class="p">(</span><span class="n">compute_isis</span><span class="p">(</span><span class="n">poisson_spikes</span><span class="p">),</span> <span class="n">n_perms</span><span class="o">=</span><span class="n">n_shuffles</span><span class="p">)</span>
 
     <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">isis</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>

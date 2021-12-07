@@ -111,26 +111,26 @@
 <span class="sd">    min_time, max_time : float, optional, default: None</span>
 <span class="sd">        Mininum and/or maximum time to restrict spike times to.</span>
 
-<span class="sd">   Returns</span>
+<span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    spikes : 1d array</span>
 <span class="sd">        Spike times, restricted to desired time range.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Select all spikes after a specific time point.</span>
+<span class="sd">    Select all spikes after a specific time point:</span>
 
 <span class="sd">    &gt;&gt;&gt; spikes = np.array([50, 100, 150, 200, 250, 300])</span>
 <span class="sd">    &gt;&gt;&gt; restrict_range(spikes, min_time=100, max_time=None)</span>
 <span class="sd">    array([100, 150, 200, 250, 300])</span>
 
-<span class="sd">    Select all spikes before a specific time point.</span>
+<span class="sd">    Select all spikes before a specific time point:</span>
 
 <span class="sd">    &gt;&gt;&gt; spikes = np.array([50, 100, 150, 200, 250, 300])</span>
 <span class="sd">    &gt;&gt;&gt; restrict_range(spikes, min_time=None, max_time=250)</span>
 <span class="sd">    array([ 50, 100, 150, 200, 250])</span>
 
-<span class="sd">    Restrict a vector of spike times to a specific range.</span>
+<span class="sd">    Restrict a vector of spike times to a specific range:</span>
 
 <span class="sd">    &gt;&gt;&gt; spikes = np.array([50, 100, 150, 200, 250, 300])</span>
 <span class="sd">    &gt;&gt;&gt; restrict_range(spikes, min_time=100, max_time=200)</span>

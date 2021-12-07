@@ -118,6 +118,13 @@
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Apply a 0.003 seconds refractory period to a binary spike train with 1000 Hz sampling rate.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">refractory</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="go">array([0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

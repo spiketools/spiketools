@@ -121,6 +121,16 @@
 This function doesn’t have any randomness: for a given array it will
 iterate through the same set of permutations.
 This does a sequence of rotated permutations.</p>
+<p class="rubric">Examples</p>
+<p>Create 4 permutations for vector: [0, 5, 10, 15, 20]</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vec_perm</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">n_perms</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([[ 0,  5, 10, 15, 20],</span>
+<span class="go">       [ 5, 10, 15, 20,  0],</span>
+<span class="go">       [10, 15, 20,  0,  5],</span>
+<span class="go">       [15, 20,  0,  5, 10]])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

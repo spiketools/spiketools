@@ -105,42 +105,118 @@ to download the full example code</p>
 <p>This tutorial primarily covers the <code class="docutils literal notranslate"><span class="pre">spiketools.measures</span></code> module.</p>
 <section id="applying-measures-conversions-to-spiking-data">
 <h2>Applying measures &amp; conversions to spiking data<a class="headerlink" href="#applying-measures-conversions-to-spiking-data" title="Permalink to this headline">¶</a></h2>
-<p>Words, words, words.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spiketools</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Settings</span>
-<span class="o">...</span>
-</pre></div>
-</div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Ellipsis
-</pre></div>
-</div>
-<section id="subtitle">
-<h3>Subtitle<a class="headerlink" href="#subtitle" title="Permalink to this headline">¶</a></h3>
-<p>Words, words, words.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Do some code stuff</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Hello World!
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Do more code stuff</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;More stuff!&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>More stuff!
+<section id="sections">
+<h3>Sections<a class="headerlink" href="#sections" title="Permalink to this headline">¶</a></h3>
+<p>This tutorial contains the following sections:</p>
+<ol class="arabic simple">
+<li><p>Compute measures of spiking activity</p></li>
+<li><p>Convert spiking data</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># import auxiliary libraries</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Import measure related functions</span>
+<span class="kn">from</span> <span class="nn">spiketools.measures.measures</span> <span class="kn">import</span> <span class="n">compute_spike_rate</span><span class="p">,</span> <span class="n">compute_isis</span><span class="p">,</span> <span class="n">compute_cv</span><span class="p">,</span> <span class="n">compute_fano_factor</span>
+<span class="kn">from</span> <span class="nn">spiketools.measures.conversions</span> <span class="kn">import</span> <span class="n">create_spike_train</span><span class="p">,</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">,</span> <a href="../generated/spiketools.measures.conversions.convert_isis_to_spikes.html#spiketools.measures.conversions.convert_isis_to_spikes" title="spiketools.measures.conversions.convert_isis_to_spikes" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_isis_to_spikes</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.plts.spikes</span> <span class="kn">import</span> <a href="../generated/spiketools.plts.spikes.plot_isis.html#spiketools.plts.spikes.plot_isis" title="spiketools.plts.spikes.plot_isis" class="sphx-glr-backref-module-spiketools-plts-spikes sphx-glr-backref-type-py-function"><span class="n">plot_isis</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.sim.prob</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.prob.sim_spiketrain_prob.html#spiketools.sim.prob.sim_spiketrain_prob" title="spiketools.sim.prob.sim_spiketrain_prob" class="sphx-glr-backref-module-spiketools-sim-prob sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_prob</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.plts.trials</span> <span class="kn">import</span> <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a>
 </pre></div>
 </div>
 </section>
-<section id="conclusion">
-<h3>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h3>
-<p>Words, words, words.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.001 seconds)</p>
+<section id="compute-measures-of-spiking-activity">
+<h3>Compute measures of spiking activity<a class="headerlink" href="#compute-measures-of-spiking-activity" title="Permalink to this headline">¶</a></h3>
+<p>First, we estimate spike rate from a vector of spike times, in milliseconds.</p>
+<p>Here, spike time refers to a representation of spiking activity based on listing the times at
+which spikes occur and spike rate measures how fast an individual neuron is firing. Examples of spike
+train and spike times are provided below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># generate a binary spike train and its corresponding spike times in milliseconds</span>
+<span class="n">p_spiking</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">spike_train</span> <span class="o">=</span> <a href="../generated/spiketools.sim.prob.sim_spiketrain_prob.html#spiketools.sim.prob.sim_spiketrain_prob" title="spiketools.sim.prob.sim_spiketrain_prob" class="sphx-glr-backref-module-spiketools-sim-prob sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_prob</span></a><span class="p">(</span><span class="n">p_spiking</span><span class="p">)</span>
+<span class="n">spike_times</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span>
+
+<span class="c1"># print the first 20 spikes in the binary spike train</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">spike_train</span><span class="p">[:</span><span class="mi">20</span><span class="p">])</span>
+
+<span class="c1"># plot the spike times</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_measures_001.png" srcset="../_images/sphx_glr_plot_measures_001.png" alt="plot measures" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0 0 1 1 1 0 0 0 1 1 0 1 0 0 1 1 0 0 0 0]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute the spike rate given a vector of spike times in milliseconds</span>
+<span class="n">spike_rate</span> <span class="o">=</span> <span class="n">compute_spike_rate</span><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The spike rate is&#39;</span><span class="p">,</span> <span class="n">spike_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The spike rate is 0.4948453608247423
+</pre></div>
+</div>
+<p>Then, we can compute the inter-spike intervals, measures of the time intervals between
+successive spikes, of that vector of spike times.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute the interval-spike intervals of a vector of spike times in milliseconds</span>
+<span class="n">isis</span> <span class="o">=</span> <span class="n">compute_isis</span><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
+
+<span class="c1"># plot the inter-spike intervals</span>
+<a href="../generated/spiketools.plts.spikes.plot_isis.html#spiketools.plts.spikes.plot_isis" title="spiketools.plts.spikes.plot_isis" class="sphx-glr-backref-module-spiketools-plts-spikes sphx-glr-backref-type-py-function"><span class="n">plot_isis</span></a><span class="p">(</span><span class="n">isis</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_measures_002.png" srcset="../_images/sphx_glr_plot_measures_002.png" alt="ISIs" class = "sphx-glr-single-img"/><p>Next, we can further compute the coefficient of variation of interval-spike intervals we just calculated.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the coefficient of variation</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">compute_cv</span><span class="p">(</span><span class="n">isis</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Coefficient of variation:&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Coefficient of variation: 0.5947301072930293
+</pre></div>
+</div>
+<p>Finally, we can compute the fano factor, which is a measure of the variability of unit firing, of a spike train.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the fano factor of a binary spike train</span>
+<span class="n">fano</span> <span class="o">=</span> <span class="n">compute_fano_factor</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fano factor: </span><span class="si">{:1.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fano</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Fano factor: 0.52
+</pre></div>
+</div>
+</section>
+<section id="convert-spiking-data">
+<h3>Convert spiking data<a class="headerlink" href="#convert-spiking-data" title="Permalink to this headline">¶</a></h3>
+<p>First, we convert a vector of spike times in milliseconds to a binary spike train, which is
+a representation of spiking activity in which spikes are.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># convert a vector of spike times in milliseconds to a binary spike train</span>
+<span class="n">spike_train</span> <span class="o">=</span> <span class="n">create_spike_train</span><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
+
+<span class="c1"># print the first 20 spikes in the binary spike train</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spike train:&#39;</span><span class="p">,</span> <span class="n">spike_train</span><span class="p">[:</span><span class="mi">20</span><span class="p">])</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Spike train: [0. 0. 0. 1. 1. 1. 0. 0. 0. 1. 1. 0. 1. 0. 0. 1. 1. 0. 0. 0.]
+</pre></div>
+</div>
+<p>Similarly, we can also convert binary spike train to spike times in milliseconds.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># convert a binary spike train to spike times in milliseconds</span>
+<span class="n">spike_times</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span>
+
+<span class="c1"># plot the spike times</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_measures_003.png" srcset="../_images/sphx_glr_plot_measures_003.png" alt="plot measures" class = "sphx-glr-single-img"/><p>Finally, we can convert a vector of inter-spike intervals to spike times.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># convert a vector of inter-spike intervals in milliseconds to spike times in milliseconds</span>
+<span class="n">spike_times</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_isis_to_spikes.html#spiketools.measures.conversions.convert_isis_to_spikes" title="spiketools.measures.conversions.convert_isis_to_spikes" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_isis_to_spikes</span></a><span class="p">(</span><span class="n">isis</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">add_offset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># plot the spike times</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_measures_004.png" srcset="../_images/sphx_glr_plot_measures_004.png" alt="plot measures" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.208 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-measures-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/08fc5a17b25fcdf8b4d116abdcaf62a4/plot_measures.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_measures.py</span></code></a></p>

@@ -96,12 +96,46 @@
   <h1>Source code for spiketools.plts.data</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Plots for various data.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.utils.select</span> <span class="kn">import</span> <span class="n">get_avg_func</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">spiketools.utils.select</span> <span class="kn">import</span> <span class="n">get_avg_func</span>
+<span class="kn">from</span> <span class="nn">spiketools.plts.annotate</span> <span class="kn">import</span> <span class="n">_add_vlines</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span><span class="p">,</span> <span class="n">savefig</span><span class="p">,</span> <span class="n">set_plt_kwargs</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="plot_lines"><a class="viewcode-back" href="../../../generated/spiketools.plts.data.plot_lines.html#spiketools.plts.data.plot_lines">[docs]</a><span class="nd">@savefig</span>
+<span class="nd">@set_plt_kwargs</span>
+<span class="k">def</span> <span class="nf">plot_lines</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">y_values</span><span class="p">,</span> <span class="n">vline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot data as a line.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x_values, y_values : 1d or 2d array or list of 1d array</span>
+<span class="sd">        Data to plot on the x and y axis.</span>
+<span class="sd">    vline : float or list, optional</span>
+<span class="sd">        Position(s) to draw a vertical line. If None, no line is drawn.</span>
+<span class="sd">    ax : Axes, optional</span>
+<span class="sd">        Axis object upon which to plot.</span>
+<span class="sd">    line : float or list, optional, default: 0</span>
+<span class="sd">        Position(s) to draw a vertical line. If None, no line is drawn.</span>
+<span class="sd">    plt_kwargs</span>
+<span class="sd">        Additional arguments to pass into the plot function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;figsize&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+    <span class="n">x_values</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="n">x_values</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x_values</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="n">x_values</span>
+    <span class="n">y_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">y_values</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">y_values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">y_values</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="n">y_values</span>
+
+    <span class="k">for</span> <span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">y_values</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">)</span>
+
+    <span class="n">_add_vlines</span><span class="p">(</span><span class="n">vline</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="plot_hist"><a class="viewcode-back" href="../../../generated/spiketools.plts.data.plot_hist.html#spiketools.plts.data.plot_hist">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>

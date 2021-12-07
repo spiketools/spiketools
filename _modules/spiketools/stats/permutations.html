@@ -123,6 +123,17 @@
 <span class="sd">    This function doesn&#39;t have any randomness: for a given array it will</span>
 <span class="sd">    iterate through the same set of permutations.</span>
 <span class="sd">    This does a sequence of rotated permutations.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Create 4 permutations for vector: [0, 5, 10, 15, 20]</span>
+
+<span class="sd">    &gt;&gt;&gt; vec = np.array([0, 5, 10, 15, 20])</span>
+<span class="sd">    &gt;&gt;&gt; vec_perm(vec, n_perms=4)</span>
+<span class="sd">    array([[ 0,  5, 10, 15, 20],</span>
+<span class="sd">           [ 5, 10, 15, 20,  0],</span>
+<span class="sd">           [10, 15, 20,  0,  5],</span>
+<span class="sd">           [15, 20,  0,  5, 10]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">data_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
@@ -148,6 +159,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        The empirical p-value.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute empirical p-value of value given surrogates is 100 samples from normal distribution.</span>
+
+<span class="sd">    &gt;&gt;&gt; value = 0.9</span>
+<span class="sd">    &gt;&gt;&gt; surrogates = np.random.normal(size=100)</span>
+<span class="sd">    &gt;&gt;&gt; pval = compute_empirical_pvalue(value, surrogates)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">surrogates</span> <span class="o">&gt;</span> <span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">surrogates</span><span class="p">)</span></div>
@@ -167,6 +186,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        The z-score of the given value.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute z-score of value given surrogates is 100 samples from normal distribution.</span>
+
+<span class="sd">    &gt;&gt;&gt; value = 0.9</span>
+<span class="sd">    &gt;&gt;&gt; surrogates = np.random.normal(size=100)</span>
+<span class="sd">    &gt;&gt;&gt; zscore = zscore_to_surrogates(value, surrogates)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">zmap</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">surrogates</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>

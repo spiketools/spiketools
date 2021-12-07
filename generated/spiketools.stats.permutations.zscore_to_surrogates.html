@@ -116,6 +116,13 @@
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Compute z-score of value given surrogates is 100 samples from normal distribution.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">value</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">surrogates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zscore</span> <span class="o">=</span> <span class="n">zscore_to_surrogates</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">surrogates</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

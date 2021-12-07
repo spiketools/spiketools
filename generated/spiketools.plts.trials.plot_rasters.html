@@ -98,18 +98,22 @@
 <h1>spiketools.plts.trials.plot_rasters<a class="headerlink" href="#spiketools-plts-trials-plot-rasters" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.plts.trials.plot_rasters">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.trials.</span></span><span class="sig-name descname"><span class="pre">plot_rasters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/trials.html#plot_rasters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.trials.plot_rasters" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.trials.</span></span><span class="sig-name descname"><span class="pre">plot_rasters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shade</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/trials.html#plot_rasters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.trials.plot_rasters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot rasters across multiple trials.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">list of list</span></dt><dd><p>Spike times per trial.</p>
+<dt><strong>data</strong><span class="classifier">list of list of float</span></dt><dd><p>Spike times per trial.
+Multiple conditions can also be passed in.</p>
 </dd>
-<dt><strong>line</strong><span class="classifier">float, optional, default: 0</span></dt><dd><p>Position to draw a vertical line. If None, no line is drawn.</p>
+<dt><strong>vline</strong><span class="classifier">float or list, optional</span></dt><dd><p>Position(s) to draw a vertical line. If None, no line is drawn.</p>
+</dd>
+<dt><strong>colors</strong><span class="classifier">str or list of str</span></dt><dd><p>Color(s) to plot the raster ticks.
+If more than one, should be the length of data.</p>
+</dd>
+<dt><strong>shade</strong><span class="classifier">list of float, optional</span></dt><dd><p>Region of the plot to shade in.</p>
 </dd>
 <dt><strong>show_axis</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to show the axis around the plot.</p>
-</dd>
-<dt><strong>colors</strong><span class="classifier">str or list of str</span></dt><dd><p>xx</p>
 </dd>
 <dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
 </dd>
