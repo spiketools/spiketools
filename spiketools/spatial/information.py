@@ -25,7 +25,7 @@ def compute_spatial_information_2d(spike_x, spike_y, bins, occupancy):
         Spike information rate for spatial information (bits/spike).
 
     Examples
-    -------
+    --------
     Compute spatial information across a 2d space using spike x- and y-position, bins, and occupancy:
 
     >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
@@ -65,7 +65,7 @@ def compute_spatial_information_1d(data, occupancy, bins):
 
 
     Examples
-    -------
+    --------
     Compute spatial information across a 1d space using spike position, occupancy, and bins:
 
     >>> data = [1, 2, 3, 4, 5]
