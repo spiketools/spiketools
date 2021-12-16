@@ -82,7 +82,7 @@ def set_plt_kwargs(func):
 
 
 def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
-              wspace=None, hspace=None):
+              wspace=None, hspace=None, **plt_kwargs):
     """Make a subplot with multiple axes.
 
     Parameters
@@ -100,6 +100,8 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
     wspace, hspace : float, optional
         Spacing parameters
         These get passed into `plt.subplots_adjust`.
+    **plt_kwargs
+        Extra arguments to pass to `plt.subplots`.
 
     Returns
     -------
@@ -112,7 +114,7 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
     if not figsize:
         figsize = (n_cols * col_size, n_rows * row_size)
 
-    _, axes = plt.subplots(n_rows, n_cols, figsize=figsize)
+    _, axes = plt.subplots(n_rows, n_cols, figsize=figsize, **plt_kwargs)
 
     if wspace or hspace:
         plt.subplots_adjust(wspace=wspace, hspace=hspace)
