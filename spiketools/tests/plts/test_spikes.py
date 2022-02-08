@@ -20,6 +20,17 @@ def test_plot_waveform(twaveform):
                   average='mean', shade='var', add_traces=True,
                   file_path=TEST_PLOTS_PATH, file_name='tplot_waveform2.png')
 
+@plot_test
+def test_plot_waveforms3d(twaveform):
+
+    plot_waveforms3d(np.arange(len(twaveform)), np.vstack([twaveform] *  3),
+                     file_path=TEST_PLOTS_PATH, file_name='tplot_waveforms3d.png')
+
+@plot_test
+def plot_spikehist2d(twaveform):
+
+    plot_spikehist2d(np.arange(len(twaveform)), np.vstack([twaveform] *  3),
+                     file_path=TEST_PLOTS_PATH, file_name='tplot_spikehist2d.png')
 
 @plot_test
 def test_plot_isis(tisis):
