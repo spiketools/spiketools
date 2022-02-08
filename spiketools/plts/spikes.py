@@ -1,5 +1,8 @@
 """Plots for spikes."""
 
+import numpy as np
+import matplotlib.pyplot as plt
+
 from spiketools.utils.select import get_avg_func, get_var_func
 from spiketools.plts.data import plot_bar
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
@@ -50,6 +53,30 @@ def plot_waveform(waveform, average=None, shade=None, add_traces=False, ax=None,
 
 @savefig
 @set_plt_kwargs
+def plot_waveforms3d(times, waveforms, **plt_kwargs):
+    """Plot waveforms on a 3D axis.
+
+    Parameters
+    ----------
+    times : 1d array
+        Time values corresponding to the waveforms.
+    waveforms : 2d array
+        Voltage values for the waveforms, with shape [n_times, n_waveforms].
+    """
+
+    plt.figure(figsize=plt_kwargs.pop('figsize', None))
+    ax = plt.subplot(projection='3d')
+    ys = np.ones(waveforms.shape[1])
+    for ind, waveform in enumerate(waveforms):
+        ax.plot(times, ys * ind, waveform)
+
+    # Set axis view orientation and hide axes
+    ax.view_init(None, None)
+    ax.axis('off')
+
+
+@savefig
+@set_plt_kwargs
 def plot_spikehist2d(times, waveforms, bins=(250, 50), cmap='viridis', ax=None, **plt_kwargs):
     """Plot a 2D histogram of spike waveforms.
 
@@ -68,31 +95,7 @@ def plot_spikehist2d(times, waveforms, bins=(250, 50), cmap='viridis', ax=None, 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
     times = np.vstack([times] * waveforms.shape[0])
-    plt.hist2d(times.flatten(), waveforms.flatten(), bins=bins, cmap=cmap)
-
-
-@savefig
-@set_plt_kwargs
-def plot_waveforms3d(times, waveforms, **plt_kwargs):
-    """Plot waveforms on a 3D axis.
-
-    Parameters
-    ----------
-    times : 1d array
-        Time values corresponding to the waveforms.
-    waveforms : 2d array
-        Voltage values for the waveforms, with shape [n_times, n_waveforms].
-    """
-
-    plt.figure(figsize=figsize=plt_kwargs.pop('figsize', None))
-    ax = plt.subplot(projection='3d')
-    ys = np.ones(waveforms.shape[1])
-    for ind, waveform in enumerate(waveforms):
-        ax.plot(times, ys * ind, waveform)
-
-    # Set axis view orientation and hide axes
-    ax.view_init(None, None)
-    ax.axis('off')
+    ax.hist2d(times.flatten(), waveforms.flatten(), bins=bins, cmap=cmap)
 
 
 @savefig
