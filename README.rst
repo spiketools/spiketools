@@ -1,10 +1,10 @@
 spiketools
 ==========
 
-|ProjectStatus|_ |BuildStatus|_
+|ProjectStatus|_ |Version|_ |BuildStatus|_ |Coverage|_ |License|_ |PythonVersions|_
 
-.. |ProjectStatus| image:: http://www.repostatus.org/badges/latest/wip.svg
-.. _ProjectStatus: https://www.repostatus.org/#wip
+.. |ProjectStatus| image:: http://www.repostatus.org/badges/latest/active.svg
+.. _ProjectStatus: https://www.repostatus.org/#active
 
 .. |Version| image:: https://img.shields.io/pypi/v/spiketools.svg
 .. _Version: https://pypi.python.org/pypi/spiketools/
@@ -26,8 +26,6 @@ spiketools
 
 ``spiketools`` is a collection of tools and utilities for analyzing spiking data.
 
-WARNING: This module is in early development, and may change at any time.
-
 Overview
 --------
 
@@ -43,11 +41,15 @@ Available sub-modules in ``spiketools`` include:
 - ``plts`` : plotting functions for visualizing spike data and related measures
 - ``utils`` : additional utilities for working with spiking data
 
-In terms of scope, note that ``spiketools`` is currently organized around analyses of single cell activity, and is not focused on
-population measures (though this may be extended in the future).
+Scope
+-----
 
-Note that ``spiketools`` does *not* cover spike sorting. Check out
-`spikeinterface <https://github.com/SpikeInterface/>`_ for spike sorting.
+``spiketools`` is currently organized around analyses of single cell activity.
+
+The current scope does not include population measures, though this may be extended in the future.
+
+Note that ``spiketools`` does *not* cover spike sorting.
+Check out `spikeinterface <https://github.com/SpikeInterface/>`_ for spike sorting.
 
 Documentation
 -------------
@@ -86,7 +88,17 @@ We recommend using the `Anaconda <https://www.anaconda.com/distribution/>`_ dist
 Installation
 ------------
 
-This module is currently in development, with no stable release version yet.
+The current release version of `spiketools` is the 0.X.X series.
+
+See the `changelog <https://spiketools.github.io/spiketools/changelog.html>`_ for notes on major version releases.
+
+**Stable Release Version**
+
+To install the latest stable release, you can use pip:
+
+.. code-block:: shell
+
+    $ pip install spiketools
 
 **Development Version**
 
