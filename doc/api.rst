@@ -194,8 +194,10 @@ Spikes
    :toctree: generated/
 
     plot_waveform
+    plot_waveforms3d
     plot_isis
     plot_unit_frs
+    plot_spikehist2d
 
 Space
 ~~~~~
