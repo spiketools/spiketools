@@ -46,3 +46,16 @@ def test_convert_ms_to_min():
     array = np.array([30000, 60000, 120000])
     output2 = convert_ms_to_min(array)
     assert np.array_equal(output2, np.array([0.5, 1.0, 2.0]))
+
+def test_split_time_value():
+
+    value = 3600 + 1800 + 30
+    hours, minutes, seconds = split_time_value(value)
+    assert (hours, minutes, seconds) == (1, 30, 30)
+
+def test_format_time_string():
+
+    hours, minutes, seconds = 1.0, 30.0, 45.0
+    output = format_time_string(hours, minutes, seconds)
+    for el in (hours, minutes, seconds):
+        assert str(el) in output

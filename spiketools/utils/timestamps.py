@@ -69,3 +69,41 @@ def convert_ms_to_min(ms):
     """
 
     return convert_sec_to_min(convert_ms_to_sec(ms))
+
+
+def split_time_value(sec):
+    """Split a time value from seconds to hours / minutes / seconds.
+
+    Parameters
+    ----------
+    sec : float
+        Time value, in seconds.
+
+    Returns
+    -------
+    hours, minutes, seconds : float
+        Time value, split up into hours, minutes, and seconds.
+    """
+
+    minutes, seconds = divmod(sec, 60)
+    hours, minutes = divmod(minutes, 60)
+
+    return hours, minutes, seconds
+
+
+def format_time_string(hours, minutes, seconds):
+    """Format a time value into a string.
+
+    Parameters
+    ----------
+    hours, minutes, seconds : float
+        Time value, represented as hours, minutes, and seconds.
+
+    Returns
+    -------
+    str
+        A string representation of the time value.
+    """
+
+    base = '{:1.2f} hours, {:1.2f} minutes, and {:1.2f} seconds.'
+    return base.format(hours, minutes, seconds)

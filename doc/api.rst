@@ -253,12 +253,8 @@ Utilities
 
 Utility functions, in the `utils` sub-module.
 
-.. currentmodule:: spiketools.utils
-.. autosummary::
-   :toctree: generated/
-
-   restrict_range
-   set_random_seed
+Data
+~~~~
 
 .. currentmodule:: spiketools.utils.data
 .. autosummary::
@@ -266,3 +262,27 @@ Utility functions, in the `utils` sub-module.
 
    get_value_by_time
    get_value_by_time_range
+
+Timestamps
+~~~~~~~~~~
+
+.. currentmodule:: spiketools.utils.timestamps
+.. autosummary::
+   :toctree: generated/
+
+   convert_ms_to_sec
+   convert_sec_to_min
+   convert_min_to_hour
+   convert_ms_to_min
+   split_time_value
+   format_time_string
+
+Data
+~~~~
+
+.. currentmodule:: spiketools.utils
+.. autosummary::
+   :toctree: generated/
+
+   restrict_range
+   set_random_seed
