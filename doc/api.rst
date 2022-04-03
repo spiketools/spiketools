@@ -259,7 +259,6 @@ Data
    plot_hist
    plot_polar_hist
 
-
 Utilities
 ---------
 
@@ -272,6 +271,7 @@ Data
 .. autosummary::
    :toctree: generated/
 
+   restrict_range
    get_value_by_time
    get_value_by_time_range
 
@@ -289,12 +289,12 @@ Timestamps
    split_time_value
    format_time_string
 
-Data
-~~~~
+Utils
+~~~~~
 
-.. currentmodule:: spiketools.utils
+.. currentmodule:: spiketools.utils.utils
 .. autosummary::
    :toctree: generated/
 
-   restrict_range
    set_random_seed
+   set_random_state

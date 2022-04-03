@@ -5,6 +5,48 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
+def restrict_range(values, min_time=None, max_time=None):
+    """Restrict a vector of time values to a specified range.
+
+    Parameters
+    ----------
+    values : 1d array
+        Array of time values.
+    min_time, max_time : float, optional, default: None
+        Mininum and/or maximum time to restrict time values to.
+
+    Returns
+    -------
+    1d array
+        Time values, restricted to desired time range.
+
+    Examples
+    --------
+    Select all values after a specific time point:
+
+    >>> values = np.array([50, 100, 150, 200, 250, 300])
+    >>> restrict_range(values, min_time=100, max_time=None)
+    array([100, 150, 200, 250, 300])
+
+    Select all values before a specific time point:
+
+    >>> values = np.array([50, 100, 150, 200, 250, 300])
+    >>> restrict_range(values, min_time=None, max_time=250)
+    array([ 50, 100, 150, 200, 250])
+
+    Restrict a time values to a specific range:
+
+    >>> values = np.array([50, 100, 150, 200, 250, 300])
+    >>> restrict_range(values, min_time=100, max_time=200)
+    array([100, 150, 200])
+    """
+
+    min_time = -np.inf if min_time is None else min_time
+    max_time = np.inf if max_time is None else max_time
+
+    return values[(values >= min_time) & (values <= max_time)]
+
+
 def get_value_by_time(times, values, time):
     """Get the value for a data array at a specific time point.
 
