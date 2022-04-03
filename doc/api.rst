@@ -45,6 +45,17 @@ Conversions between spike representations.
    convert_train_to_times
    convert_isis_to_spikes
 
+Circular
+~~~~~~~~
+
+Measures for working with circular data.
+
+.. currentmodule:: spiketools.measures.circular
+.. autosummary::
+   :toctree: generated/
+
+   bin_circular
+
 Objects
 -------
 
@@ -246,6 +257,7 @@ Data
    plot_lines
    plot_bar
    plot_hist
+   plot_polar_hist
 
 
 Utilities
