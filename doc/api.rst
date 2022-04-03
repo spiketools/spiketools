@@ -209,6 +209,15 @@ Space
     plot_positions
     plot_heatmap
 
+Task
+~~~~
+
+.. currentmodule:: spiketools.plts.task
+.. autosummary::
+   :toctree: generated/
+
+   plot_task_structure
+
 Trials
 ~~~~~~
 .. currentmodule:: spiketools.plts.trials
