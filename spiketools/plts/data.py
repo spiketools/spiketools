@@ -3,7 +3,9 @@
 from itertools import repeat
 
 import numpy as np
+import matplotlib.pyplot as plt
 
+from spiketools.measures.circular import bin_circular
 from spiketools.utils.select import get_avg_func
 from spiketools.plts.annotate import _add_vlines
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
@@ -94,3 +96,27 @@ def plot_bar(data, labels=None, ax=None, **plt_kwargs):
 
     ax.bar(labels, data, **plt_kwargs)
     ax.set(xlim=[-0.5, len(data)-0.5])
+
+
+@savefig
+@set_plt_kwargs
+def plot_polar_hist(data, bin_width=None, ax=None, **plt_kwargs):
+    """Plot a polar histogram.
+
+    Parameters
+    ----------
+    data : 1d array
+        Data to plot in a circular histogram.
+    bin_width : int, optional, default: 10
+        Width of the bins to use for the histogram.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    if not ax:
+        ax = plt.subplot(111, polar=True)
+
+    bin_edges, counts = bin_circular(data, bin_width=bin_width)
+    ax.bar(bin_edges[:-1], counts)
