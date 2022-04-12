@@ -22,10 +22,21 @@ def test_convert_train_to_times():
     spike_inds = np.array([12, 24, 36, 45, 76, 79, 90])
     for ind in spike_inds:
         train[ind] = 1
+    # Define expected spike times, for a fs of 1000
+    expected = (spike_inds / 1000) + 0.001
 
-    spikes = convert_train_to_times(train)
+    # Check spike train for sampling rate of 1000
+    spikes = convert_train_to_times(train, fs=1000)
     assert isinstance(spikes, np.ndarray)
     assert spikes.shape[-1] == spike_inds.shape[-1]
+    assert np.array_equal(spikes, expected)
+
+    # Check different sampling rate
+    spikes = convert_train_to_times(train, fs=500)
+    assert isinstance(spikes, np.ndarray)
+    assert spikes.shape[-1] == spike_inds.shape[-1]
+    assert np.array_equal(spikes, expected * 2)
+
 
 def test_convert_isis_to_spikes(tspikes):
 
