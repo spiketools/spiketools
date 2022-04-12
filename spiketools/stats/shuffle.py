@@ -78,7 +78,7 @@ def shuffle_bins(spikes, bin_width_range=[50, 2000], n_shuffles=1000):
     Parameters
     ----------
     spikes : 1d array
-        Spike times, in milliseconds.
+        Spike times.
     bin_width_range : list of int
         Range of bin widths to shuffle by.
     n_shuffles : int, optional, default: 1000
@@ -160,8 +160,8 @@ def shuffle_poisson(spikes, n_shuffles=1000):
     This is an experimental implementation, and still has some issues matching spike counts.
     """
 
-    length = (spikes[-1] - spikes[0])
     rate = compute_spike_rate(spikes)
+    length = (spikes[-1] - spikes[0])
     poisson_spikes = [ind for ind in poisson_train(rate, length)] + spikes[0]
 
     isis = vec_perm(compute_isis(poisson_spikes), n_perms=n_shuffles)
@@ -177,7 +177,7 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
     Parameters
     ----------
     spikes : 1d array
-        Spike times, in milliseconds.
+        Spike times.
     shuffle_min : int
         The minimum amount to rotate data, in terms of units of the spike train.
     n_shuffles : int, optional, default: 1000

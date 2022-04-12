@@ -20,7 +20,7 @@ def poisson_train(frequency, duration, start_time=0):
     Yields
     ------
     float
-        A relative spike time from t=start_time, in seconds (not ms).
+        A relative spike time from t=start_time, in seconds.
 
     Examples
     --------

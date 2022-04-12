@@ -36,13 +36,7 @@ def check_dir():
 @pytest.fixture(scope='session')
 def tspikes():
 
-    yield np.array([0.01, 1.5, 2., 2.5, 3., 4., 5.2501]) * 1000
-
-
-@pytest.fixture(scope='session')
-def tspikes_s():
-
-    yield np.array([0.0, 0.5, 1.5, 2.])
+    yield np.array([0.5, 1.5, 2., 2.5, 3., 3.75, 4.])
 
 
 @pytest.fixture(scope='session')
