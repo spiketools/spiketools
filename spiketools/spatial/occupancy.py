@@ -63,7 +63,7 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges, include_edge=True
     -----
     - In the case of zero outliers (all positions are between edge ranges), the returned
       values are encoded as bin position, with values between {1, n_bins}.
-    - If there are outliers (some position values that are outside the given edges definitons),
+    - If there are outliers (some position values that are outside the given edges definitions),
       these are encoded as 0 (left side) or n_bins + 1 (right side).
     - By default position values equal to the left-most & right-most edges are treated as
       within the bounds (not treated as outliers), unless `include_edge` is set as False.
@@ -114,7 +114,7 @@ def compute_bin_time(timestamps):
 
 
 def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
-                      area_range=None, set_nan=False, normalize=False):
+                      minimum=None, normalize=False, set_nan=False, area_range=None):
     """Compute occupancy across spatial bin positions.
 
     Parameters
@@ -130,12 +130,15 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Should be the same length as timestamps.
     speed_thresh : float, optional
         Speed threshold to apply.
-    area_range : list of list, optional
-        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
-    set_nan : bool, optional, default: False
-        Whether to set zero occupancy locations as NaN.
+    minimum : float, optional
+        The minimum required occupancy.
+        If defined, any values below this are set to zero.
     normalize : bool, optional, default: False
         Whether to normalize occupancy to sum to 1.
+    set_nan : bool, optional, default: False
+        Whether to set zero occupancy locations as NaN.
+    area_range : list of list, optional
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
 
     Returns
     -------
@@ -173,6 +176,9 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
 
     # Extract and re-organize occupancy into 2d array
     occ = np.squeeze(df.values.reshape(*bins, -1)) / 1000
+
+    if minimum:
+        occ[occ < minimum] = 0.
 
     if normalize:
         occ = occ / np.sum(occ)
