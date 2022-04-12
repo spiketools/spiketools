@@ -5,7 +5,7 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def refractory(spikes, refractory_time, fs=1000):
+def refractory(spike_train, refractory_time, fs=1000):
     """Apply a refractory period to a simulated spike train.
 
     Parameters

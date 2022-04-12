@@ -2,16 +2,20 @@
 
 import numpy as np
 
+from spiketools.utils.data import restrict_range
+
 ###################################################################################################
 ###################################################################################################
 
-def compute_spike_rate(spikes):
+def compute_spike_rate(spikes, start_time=None, stop_time=None):
     """Estimate spike rate from a vector of spike times, in seconds.
 
     Parameters
     ----------
     spikes : 1d array
         Spike times, in seconds.
+    start_time, stop_time : float, optional
+        Start and stop time of the range to compute the firing rate over.
 
     Returns
     -------
@@ -27,7 +31,14 @@ def compute_spike_rate(spikes):
     2.4
     """
 
-    return len(spikes) / (spikes[-1] - spikes[0])
+    start_time = spikes[0] if not start_time else start_time
+    stop_time = spikes[-1] if not stop_time else stop_time
+
+    # If there are spikes before or after requested start / stop time, restrict range
+    if np.any(np.array(spikes) < start_time) or np.any(np.array(spikes) > stop_time):
+        spikes = restrict_range(spikes, start_time, stop_time)
+
+    return len(spikes) / (stop_time - start_time)
 
 
 def compute_isis(spikes):
