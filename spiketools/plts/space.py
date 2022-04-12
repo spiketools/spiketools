@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import gaussian_filter
 
+from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 ###################################################################################################
@@ -19,8 +20,9 @@ def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
 
     Parameters
     ----------
-    positions : 2d array
+    positions : 2d array or list of 2d array
         Position data.
+        If a list, each elment of the list is plotted separately, on the same plot.
     spike_positions : 2d array, optional
         Positions values at which spikes occur.
         If provided, these are added to the plot as red dots.
@@ -35,7 +37,12 @@ def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    ax.plot(*positions, alpha=plt_kwargs.pop('alpha', 0.35), **plt_kwargs)
+    positions = [positions] if isinstance(positions, np.ndarray) else positions
+    for cur_positions in positions:
+        ax.plot(*cur_positions,
+                color=plt_kwargs.pop('color', DEFAULT_COLORS[0]),
+                alpha=plt_kwargs.pop('alpha', 0.35),
+                **plt_kwargs)
 
     if spike_positions is not None:
         ax.plot(spike_positions[0, :], spike_positions[1, :],
