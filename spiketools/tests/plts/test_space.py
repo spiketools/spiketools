@@ -13,15 +13,20 @@ from spiketools.plts.space import *
 @plot_test
 def test_plot_positions():
 
-    positions = np.array([[1, 2, 3, 2, 4, 3, 2],
+    positions = np.array([[1, 2, 3, 2, 3, 3, 2],
                           [6, 7, 5, 6, 7, 6, 5]])
-
-    spike_pos = np.array([[2, 4, 2], [6, 7, 6]])
+    spike_pos = np.array([[2, 3, 2],
+                          [6, 7, 6]])
     x_bins = [1, 2, 3, 4, 5]
     y_bins = [6, 7, 8, 9]
 
     plot_positions(positions, spike_pos, x_bins, y_bins,
                    file_path=TEST_PLOTS_PATH, file_name='tplot_positions.png')
+
+    # Test with list of positions input
+    positions_lst = [positions, positions + 1.5]
+    plot_positions(positions_lst, spike_pos, x_bins, y_bins,
+                   file_path=TEST_PLOTS_PATH, file_name='tplot_positions_lst.png')
 
 @plot_test
 def test_plot_heatmap():
