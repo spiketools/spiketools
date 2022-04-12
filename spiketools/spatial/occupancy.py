@@ -172,7 +172,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     df = df.groupby(['xbins', 'ybins'])['bin_time'].sum()
 
     # Extract and re-organize occupancy into 2d array
-    occ = np.squeeze(df.values.reshape(*bins, -1)) / 1000
+    occ = np.squeeze(df.values.reshape(*bins, -1))
 
     if normalize:
         occ = occ / np.sum(occ)

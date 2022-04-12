@@ -50,7 +50,7 @@ class Cell():
     def firing_rate(self):
         """Compute average firing rate."""
 
-        return compute_spike_rate(self.spikes) * 1000
+        return compute_spike_rate(self.spikes)
 
 
     def ISI(self):
