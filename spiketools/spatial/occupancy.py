@@ -105,9 +105,9 @@ def compute_bin_time(timestamps):
     --------
     Compute times between timestamp samples:
 
-    >>> timestamp = np.array([0, 10, 30, 60, 80, 90])
+    >>> timestamp = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])
     >>> compute_bin_time(timestamp)
-    array([10, 20, 30, 20, 10,  0])
+    array([1., 2., 3., 2., 1., 0.])
     """
 
     return np.append(np.diff(timestamps), 0)
@@ -151,7 +151,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     (x, y) =  (1, 6), (2, 7), (3, 8), (4, 9), (5, 10), (0, 0), (1, 6), (2, 6), (5, 4).
 
     >>> position = np.array([[1, 2, 3, 4, 5, 0, 1, 2, 5], [6, 7, 8, 9, 10, 0, 6, 6, 4]])
-    >>> timestamps = np.linspace(0, 1000, position.shape[1])
+    >>> timestamps = np.linspace(0, 30, position.shape[1])
     >>> bins = [5, 5]
     >>> occ = compute_occupancy(position, timestamps, bins)
     """
@@ -175,7 +175,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     df = df.groupby(['xbins', 'ybins'])['bin_time'].sum()
 
     # Extract and re-organize occupancy into 2d array
-    occ = np.squeeze(df.values.reshape(*bins, -1)) / 1000
+    occ = np.squeeze(df.values.reshape(*bins, -1))
 
     if minimum:
         occ[occ < minimum] = 0.

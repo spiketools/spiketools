@@ -24,21 +24,21 @@ def restrict_range(values, min_time=None, max_time=None):
     --------
     Select all values after a specific time point:
 
-    >>> values = np.array([50, 100, 150, 200, 250, 300])
-    >>> restrict_range(values, min_time=100, max_time=None)
-    array([100, 150, 200, 250, 300])
+    >>> values = np.array([5, 10, 15, 20, 25, 30])
+    >>> restrict_range(values, min_time=10, max_time=None)
+    array([10, 15, 20, 25, 30])
 
     Select all values before a specific time point:
 
-    >>> values = np.array([50, 100, 150, 200, 250, 300])
-    >>> restrict_range(values, min_time=None, max_time=250)
-    array([ 50, 100, 150, 200, 250])
+    >>> values = np.array([5, 10, 15, 20, 25, 30])
+    >>> restrict_range(values, min_time=None, max_time=25)
+    array([ 5, 10, 15, 20, 25])
 
     Restrict a time values to a specific range:
 
-    >>> values = np.array([50, 100, 150, 200, 250, 300])
-    >>> restrict_range(values, min_time=100, max_time=200)
-    array([100, 150, 200])
+    >>> values = np.array([5, 10, 15, 20, 25, 30])
+    >>> restrict_range(values, min_time=10, max_time=20)
+    array([10, 15, 20])
     """
 
     min_time = -np.inf if min_time is None else min_time
