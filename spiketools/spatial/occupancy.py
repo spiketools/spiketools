@@ -191,7 +191,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5, 9).
 
     >>> position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])
-    >>> timestamps = np.linspace(0, 1000, position.shape[1])
+    >>> timestamps = np.linspace(0, 1, position.shape[1])
     >>> bins = [5, 5]
     >>> occ = compute_occupancy(position, timestamps, bins)
 
@@ -199,10 +199,10 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     x = 1.5, 2.5, 3.5, 5.
 
     >>> position = np.array([1.5, 2.5, 3.5, 5])
-    >>> timestamps = np.linspace(0, 1000, position.shape[0])
+    >>> timestamps = np.linspace(0, 1, position.shape[0])
     >>> bins = [4]
     >>> compute_occupancy(position, timestamps, bins)
-    array([333.33333333, 333.33333333, 333.33333333, 0.        ])
+    array([0.33333333, 0.33333333, 0.33333333, 0.        ])
     """
 
     # 2d case
