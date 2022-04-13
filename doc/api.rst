@@ -274,7 +274,6 @@ Data
    restrict_range
    get_value_by_time
    get_value_by_time_range
-   epoch_trials
 
 Timestamps
 ~~~~~~~~~~
@@ -289,6 +288,15 @@ Timestamps
    convert_ms_to_min
    split_time_value
    format_time_string
+
+Trials
+~~~~~~
+
+.. currentmodule:: spiketools.utils.trials
+.. autosummary::
+   :toctree: generated/
+
+  epoch_trials
 
 Utils
 ~~~~~

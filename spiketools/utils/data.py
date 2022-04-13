@@ -91,33 +91,3 @@ def get_value_by_time_range(times, values, t_min, t_max):
     select = np.logical_and(times[:] >= t_min, times[:] <= t_max)
 
     return times[select], values[:].take(indices=np.where(select)[0], axis=-1)
-
-
-def epoch_trials(spikes, events, window):
-    """Epoch spiking data into trials.
-
-    Parameters
-    ----------
-    spikes : 1d array
-        Spike times.
-    events : 1d array
-        The set of event times to extract from the data.
-    window : list of [float, float]
-        The time window to extract around each event.
-
-    Returns
-    -------
-    trials : list of 1d array
-        Spike
-
-    Notes
-    -----
-    For each trial, the returned spike times will be relative to each event time, set as zero.
-    """
-
-    trials = []
-    for event in events:
-        trial = restrict_range(spikes, event + window[0], event + window[1])
-        trials.append(trial - event)
-
-    return trials
