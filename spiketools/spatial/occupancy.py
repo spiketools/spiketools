@@ -202,7 +202,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     >>> timestamps = np.linspace(0, 1000, position.shape[0])
     >>> bins = [4]
     >>> compute_occupancy(position, timestamps, bins)
-    array([0.33333333, 0.33333333, 0.33333333, 0.        ])
+    array([333.33333333, 333.33333333, 333.33333333, 0.        ])
     """
 
     # 2d case
@@ -245,7 +245,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         df = df.groupby(['xbins'])['bin_time'].sum()
 
     # Extract and re-organize occupancy into 2d array
-    occ = np.squeeze(df.values.reshape(*bins, -1)) / 1000
+    occ = np.squeeze(df.values.reshape(*bins, -1))
 
     if minimum:
         occ[occ < minimum] = 0.
