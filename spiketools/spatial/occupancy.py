@@ -98,13 +98,13 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
     >>> x_edges = np.array([1, 2, 3, 4, 5])
     >>> y_edges = np.array([6, 7, 8, 9, 10])
     >>> compute_spatial_bin_assignment(position, x_edges, y_edges)
-    (array([1, 2, 3, 4], dtype=int64), array([1, 2, 3, 4], dtype=int64))
+    (array([1, 2, 3, 4]), array([1, 2, 3, 4]))
 
     Compute bin assignment of 1d position, given existing 1d spatial bins:
     >>> position = np.array([1.5, 2.5, 3.5, 5])
     >>> x_edges = np.array([1, 2, 3, 4, 5])
     >>> compute_spatial_bin_assignment(position, x_edges)
-    array([1, 2, 3, 4], dtype=int64)
+    array([1, 2, 3, 4])
     """
 
     # 2d case
