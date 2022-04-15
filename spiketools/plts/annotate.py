@@ -41,6 +41,23 @@ def _add_shade(shade, ax, **plt_kwargs):
         ax.axvspan(*shade, **plt_kwargs)
 
 
+def _add_dots(positions, ax, **plt_kwargs):
+    """Add dots to a plot axis.
+
+    Parameters
+    ----------
+    positions : 2d array
+        Position values to plot dots.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    if positions is not None:
+        ax.plot(positions[0, :], positions[1, :], '.', **plt_kwargs)
+
+
 def _add_significance_to_plot(stats, sig_level=0.05, x_vals=None, ax=None):
     """Add markers to a plot to label statistical significance.
 

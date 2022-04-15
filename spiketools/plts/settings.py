@@ -10,3 +10,6 @@ SET_KWARGS = ['title', 'xlim', 'ylim', 'xlabel', 'ylabel']
 
 # Collect a list of the default matplotlib color cycle
 DEFAULT_COLORS = plt.rcParams['axes.prop_cycle'].by_key()['color']
+
+# Define default settings for plotting text
+TEXT_SETTINGS = {'fontdict' : {'fontsize' : 14}, 'ha' : 'center', 'va' : 'center'}
