@@ -9,6 +9,7 @@ from spiketools.measures.circular import bin_circular
 from spiketools.utils.select import get_avg_func
 from spiketools.plts.annotate import _add_vlines
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
+from spiketools.plts.settings import TEXT_SETTINGS
 
 ###################################################################################################
 ###################################################################################################
@@ -120,3 +121,34 @@ def plot_polar_hist(data, bin_width=None, ax=None, **plt_kwargs):
 
     bin_edges, counts = bin_circular(data, bin_width=bin_width)
     ax.bar(bin_edges[:-1], counts)
+
+
+@savefig
+@set_plt_kwargs
+def plot_text(text, xpos=0.5, ypos=0.5, show_axis=False, ax=None, **plt_kwargs):
+    """Plot text.
+
+    Parameters
+    ----------
+    text : str
+        The text to plot.
+    xpos, ypos : float, optional, default: 0.5
+        The x and y position to plot the text.
+    show_axis : bool, optional, default: False
+        Whether to show the axis of the plot.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax)
+
+    ax.text(xpos, ypos, text,
+            fontdict=plt_kwargs.pop('fontdict', TEXT_SETTINGS['fontdict']),
+            ha=plt_kwargs.pop('ha', TEXT_SETTINGS['ha']),
+            va=plt_kwargs.pop('va', TEXT_SETTINGS['va']),
+            **plt_kwargs)
+
+    if not show_axis:
+        ax.axis('off')

@@ -258,6 +258,7 @@ Data
    plot_bar
    plot_hist
    plot_polar_hist
+   plot_text
 
 Utilities
 ---------

@@ -44,3 +44,11 @@ def test_plot_polar_hist():
     data = np.array([45, 225, 250])
     plot_polar_hist(data, bin_width=90,
                     file_path=TEST_PLOTS_PATH, file_name='tplot_polar_hist.png')
+
+
+# Note: does not use `plot_test` since this plots does not add "data"
+def test_plot_polar_hist():
+
+    txt = 'This is a string.'
+    plot_text(txt,
+              file_path=TEST_PLOTS_PATH, file_name='tplot_text.png')
