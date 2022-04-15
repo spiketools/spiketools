@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import gaussian_filter
 
+from spiketools.plts.annotate import _add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
@@ -14,8 +15,8 @@ from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
-                   ax=None, **plt_kwargs):
+def plot_positions(positions, spike_positions=None, landmarks=None,
+                   x_bins=None, y_bins=None, ax=None, **plt_kwargs):
     """Plot positions.
 
     Parameters
@@ -23,10 +24,16 @@ def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
     positions : 2d array or list of 2d array
         Position data.
         If a list, each elment of the list is plotted separately, on the same plot.
-    spike_positions : 2d array, optional
-        Positions values at which spikes occur.
-        If provided, these are added to the plot as red dots.
-    x_bins, y_bins : list of float
+    spike_positions : 2d array or dict, optional
+        Position values of spikes, to indicate on the plot.
+        If array, defines the positions.
+        If dictionary, should include a 'positions' key plus additional plot arguments.
+    landmarks : 2d array or dict or list, optional
+        Position values of landmarks, to be added to the plot.
+        If array, defines the positions.
+        If dictionary, should include a 'positions' key plus additional plot arguments.
+        Multiple landmarks can be added by passing a list of arrays or a list of dictionaries.
+    x_bins, y_bins : list of float, optional
         Bin edges for each axis.
         If provided, these are used to draw grid lines on the plot.
     ax : Axes, optional
@@ -45,16 +52,26 @@ def plot_positions(positions, spike_positions=None, x_bins=None, y_bins=None,
                 **plt_kwargs)
 
     if spike_positions is not None:
-        ax.plot(spike_positions[0, :], spike_positions[1, :],
-                '.', color='red', alpha=0.35, ms=6)
+        defaults = {'color' : 'red', 'alpha' : 0.4, 'ms' : 6}
+        if isinstance(spike_positions, np.ndarray):
+            _add_dots(spike_positions, ax=ax, **defaults)
+        elif isinstance(spike_positions, dict):
+            _add_dots(spike_positions.pop('positions'), ax=ax, **{**defaults, **spike_positions})
+
+    if landmarks is not None:
+        defaults = defaults = {'alpha' : 0.85, 'ms' : 12}
+        for landmark in [landmarks] if not isinstance(landmarks, list) else landmarks:
+            if isinstance(landmark, np.ndarray):
+                _add_dots(landmark, ax=ax, **defaults)
+            elif isinstance(landmark, dict):
+                _add_dots(landmark.pop('positions'), ax=ax, **landmark)
 
     if x_bins is not None:
         ax.set_xticks(x_bins, minor=False)
     if y_bins is not None:
         ax.set_yticks(y_bins, minor=False)
 
-    ax.set_xticklabels([])
-    ax.set_yticklabels([])
+    ax.set(xticklabels=[], yticklabels=[])
     ax.xaxis.set_ticks_position('none')
     ax.yaxis.set_ticks_position('none')
 
