@@ -1,10 +1,12 @@
 """Tests for spiketools.plts.annotate"""
 
+import numpy as np
 import matplotlib.pyplot as plt
 
 from spiketools.tests.tutils import plot_test
 
-from spiketools.plts.annotate import _add_vlines, _add_shade, _add_significance_to_plot
+from spiketools.plts.annotate import (_add_vlines, _add_shade, _add_dots,
+                                      _add_significance_to_plot)
 
 ###################################################################################################
 ###################################################################################################
@@ -22,6 +24,13 @@ def test_add_vlines():
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
     _add_shade([2., 3.], ax=ax)
+
+@plot_test
+def test_add_dots():
+
+    _, ax = plt.subplots()
+    ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
+    _add_dots(np.array([[1, 2], [2, 3]]), ax=ax)
 
 @plot_test
 def test_add_significance_to_plot():
