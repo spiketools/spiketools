@@ -36,25 +36,25 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
     >>> compute_spatial_bin_edges(position, bins)
     (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
 
-	Compute bin edges for an example 1d space, with positions 1 through 5.
+    Compute bin edges for an example 1d space, with positions 1 through 5.
     >>> position = np.array([1, 2, 3, 4, 5])
     >>> bins = [5]
     >>> compute_spatial_bin_edges(position, bins)
     array([1. , 1.8, 2.6, 3.4, 4.2, 5. ])
     """
 
-    # 2d case
-    if (len(bins) == 2):
-        _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :],
-                                         bins=bins, range=area_range)
-
-        return x_edges, y_edges
-
-    # 1d case
-    else:
+    if position.ndim == 1:
         _, x_edges = np.histogram(position, bins=bins[0], range=area_range)
         
         return x_edges
+
+    elif position.ndim == 2:
+        _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :],
+                                         bins=bins, range=area_range)
+        return x_edges, y_edges
+
+    else:
+        raise ValueError('Position input should be 1d or 2d.')
 
 
 def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
@@ -107,8 +107,15 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
     array([1, 2, 3, 4])
     """
 
-    # 2d case
-    if (y_edges is not None):
+    if position.ndim == 1:
+        x_bins = np.digitize(position, x_edges, right=False)
+
+        if include_edge:
+            x_bins = _include_bin_edge(position, x_bins, x_edges, side='left')
+
+        return x_bins
+
+    elif position.ndim == 2:
         x_bins = np.digitize(position[0, :], x_edges, right=False)
         y_bins = np.digitize(position[1, :], y_edges, right=False)
 
@@ -118,14 +125,8 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
 
         return x_bins, y_bins
 
-    # 1d case
     else:
-        x_bins = np.digitize(position, x_edges, right=False)
-
-        if include_edge:
-            x_bins = _include_bin_edge(position, x_bins, x_edges, side='left')
-
-        return x_bins
+        raise ValueError('Position input should be 1d or 2d.')
 
 
 def compute_bin_time(timestamps):
@@ -205,8 +206,25 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     array([0.33333333, 0.33333333, 0.33333333, 0.        ])
     """
 
-    # 2d case
-    if (len(bins) == 2):
+    if position.ndim == 1:
+        # Compute spatial bins & binning
+        x_edges = compute_spatial_bin_edges(position, bins, area_range)
+        x_bins = compute_spatial_bin_assignment(position, x_edges)
+        bin_time = compute_bin_time(timestamps)
+
+        # Make a temporary pandas dataframe
+        df = pd.DataFrame({
+            'xbins' : pd.Categorical(x_bins, categories=list(range(1, bins[0] + 1)), ordered=True),
+            'bin_time' : bin_time})
+
+        # Apply the speed threshold (dropping slow / stationary timepoints)
+        if np.any(speed):
+            df = df[speed > speed_thresh]
+
+        # Group each position into a spatial bin, summing total time spent there
+        df = df.groupby(['xbins'])['bin_time'].sum()
+
+    elif position.ndim == 2:
         # Compute spatial bins & binning
         x_edges, y_edges = compute_spatial_bin_edges(position, bins, area_range)
         x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
@@ -225,26 +243,10 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         # Group each position into a spatial bin, summing total time spent there
         df = df.groupby(['xbins', 'ybins'])['bin_time'].sum()
 
-    # 1d case
     else:
-        # Compute spatial bins & binning
-        x_edges = compute_spatial_bin_edges(position, bins, area_range)
-        x_bins = compute_spatial_bin_assignment(position, x_edges)
-        bin_time = compute_bin_time(timestamps)
+        raise ValueError('Position input should be 1d or 2d.')
 
-        # Make a temporary pandas dataframe
-        df = pd.DataFrame({
-            'xbins' : pd.Categorical(x_bins, categories=list(range(1, bins[0] + 1)), ordered=True),
-            'bin_time' : bin_time})
-
-        # Apply the speed threshold (dropping slow / stationary timepoints)
-        if np.any(speed):
-            df = df[speed > speed_thresh]
-
-        # Group each position into a spatial bin, summing total time spent there
-        df = df.groupby(['xbins'])['bin_time'].sum()
-
-    # Extract and re-organize occupancy into 2d array
+    # Extract and re-organize occupancy into array
     occ = np.squeeze(df.values.reshape(*bins, -1))
 
     if minimum:

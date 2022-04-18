@@ -5,12 +5,12 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def get_pos_ranges(positions):
+def get_pos_ranges(position):
     """Compute the range of positions.
 
     Parameters
     ----------
-    positions : 1d or 2d array
+    position : 1d or 2d array
         Position data.
 
     Returns
@@ -27,7 +27,7 @@ def get_pos_ranges(positions):
     >>> get_pos_ranges(position)
     [[1.5, 5.0], [6.5, 9.0]]
 
-	Get 1D position ranges for:
+    Get 1D position ranges for:
     x = 1.5, 2.5, 3.5, 5.
 
     >>> position = np.array([1.5, 2.5, 3.5, 5])
@@ -37,14 +37,15 @@ def get_pos_ranges(positions):
 
     ranges = []
 
-    # 2+d case
-    if (len(positions.shape) > 1):
-        for dim in range(positions.shape[0]):
-            ranges.append([np.min(positions[dim, :]), np.max(positions[dim, :])])
+    if position.ndim == 1:
+        ranges.append([np.min(position[:]), np.max(position[:])])
 
-    # 1d case
+    elif position.ndim == 2:
+        for dim in range(position.shape[0]):
+            ranges.append([np.min(position[dim, :]), np.max(position[dim, :])])
+
     else:
-        ranges.append([np.min(positions[:]), np.max(positions[:])])
+        raise ValueError('Position input should be 1d or 2d.')
 
     return ranges
 
