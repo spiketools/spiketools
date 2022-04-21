@@ -7,7 +7,7 @@ We welcome all contributions to the project that extend or improve code and/or d
 This page includes information for how to get involved and contribute to the project, and guidelines for how to do so.
 
 This project adheres to a
-[code of conduct](https://github.com/TomDonoghue/SpikeTools/blob/main/CODE_OF_CONDUCT.md)
+[code of conduct](https://github.com/spiketools/spiketools/blob/main/CODE_OF_CONDUCT.md)
 that you are expected to uphold when participating in this project.
 
 On this page, you can find information on:
@@ -21,7 +21,7 @@ On this page, you can find information on:
 ## Reporting a Problem
 
 To report an issue with the code, please submit it to our
-[issue tracker](https://github.com/TomDonoghue/SpikeTools/issues).
+[issue tracker](https://github.com/spiketools/spiketools/issues).
 
 In doing so, please try to include the following:
 
@@ -38,23 +38,23 @@ We welcome all kinds of contributions to the project, including suggested featur
 If you have a new idea you would like to suggest or contribute, please do the following:
 
 1. Check if the idea is already being discussed on the
-   [issues](https://github.com/TomDonoghue/SpikeTools/issues)
+   [issues](https://github.com/spiketools/spiketools/issues)
 2. Check that your idea is within the [project scope](#project-scope)
-3. Open an [issue](https://github.com/TomDonoghue/SpikeTools/issues) describing
+3. Open an [issue](https://github.com/spiketools/spiketools/issues) describing
    what you would like to see added / changed, and why
 4. Indicate in the issue if the idea is something you would be willing to help implement
    - if so, project maintainers can give feedback to help make a plan for the contribution
 5. If you want to work on the contribution, follow the [contribution guidelines](#making-a-contribution) to do so
 
 If you are interested in getting involved and helping with the project, a great place to start is to visit the
-[issues](https://github.com/TomDonoghue/SpikeTools/issues) page
+[issues](https://github.com/spiketools/spiketools/issues) page
 and see if there is anything you would be interested in helping with. If so, join the conversation, and project developers can help get you started.
 
 ## Project Scope
 
 All contributions must be within the scope of the module.
 
-`SpikeTools` is a module for analyzing neural spiking data.
+`spiketools` is a module for analyzing neural spiking data.
 
 ## Making a Contribution
 
@@ -117,8 +117,8 @@ All code contributed to the module should follow these conventions:
         * If a new approach is added, a new tutorial or example may be appropriate
     * To build and check the documentation locally:
         * Install the requirements for the docsite (`pip install -r requirements-doc.txt`)
-        * Move to the `SpikeTools/doc` directory (`cd doc`)
+        * Move to the `spiketools/doc` directory (`cd doc`)
         * Run `make html` to create a local copy of the documentation website
-        * The documentation can then be opened in a web browser by opening the file `SpikeTools/doc/_build/html/index.html`
+        * The documentation can then be opened in a web browser by opening the file `spiketools/doc/_build/html/index.html`
 
 For more guidelines on how to write well formated and organized code, check out the [Python API Checklist](http://python.apichecklist.com).
