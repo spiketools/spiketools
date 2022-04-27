@@ -5,6 +5,29 @@ import matplotlib.pyplot as plt
 ###################################################################################################
 ###################################################################################################
 
+def color_pval(p_value, alpha=0.05, significant_color='red', null_color='black'):
+    """Return a text color based on the significance of a p-value.
+
+    Parameters
+    ----------
+    p_value : float
+        The p-value to check.
+    alpha : float, optional, default: 0.05
+        The significance level to check against.
+    signicant_color : str, optional, default: 'red'
+        The color for if the p-value is significant.
+    null_color : str, optional, default: 'black'
+        The color for if the p-value is not significant.
+
+    Returns
+    -------
+    color : str
+        Color value, reflecting the significance of the given p-value.
+    """
+
+    return significant_color if p_value < alpha else null_color
+
+
 def _add_vlines(vline, ax, **plt_kwargs):
     """Add vertical line(s) to a plot axis.
 
