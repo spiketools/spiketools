@@ -80,6 +80,7 @@ Occupancy
 .. autosummary::
    :toctree: generated/
 
+    compute_nbins
     compute_spatial_bin_edges
     compute_spatial_bin_assignment
     compute_bin_time
