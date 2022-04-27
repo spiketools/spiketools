@@ -58,6 +58,11 @@ def tdata():
 
 
 @pytest.fixture(scope='session')
+def tdata2d():
+
+    yield np.random.random((5, 2))
+
+@pytest.fixture(scope='session')
 def tcell(tspikes):
 
     yield Cell(subject='SubjectCode',
