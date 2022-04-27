@@ -154,6 +154,7 @@ Permutations
     vec_perm
     compute_empirical_pvalue
     zscore_to_surrogates
+    compute_surrogate_stats
 
 Simulations
 -----------
