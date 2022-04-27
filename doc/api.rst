@@ -157,6 +157,16 @@ Permutations
     zscore_to_surrogates
     compute_surrogate_stats
 
+ANOVA
+~~~~~
+
+.. currentmodule:: spiketools.stats.anova
+.. autosummary::
+   :toctree: generated/
+
+    create_dataframe
+    fit_anova
+
 Simulations
 -----------
 
