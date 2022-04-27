@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 
-from convnwb.modutils import safe_import, check_dependency
+from spiketools.modutils.dependencies import safe_import, check_dependency
 
 sm = safe_import('.api', 'statsmodels')
 smf = safe_import('.formula.api', 'statsmodels')
