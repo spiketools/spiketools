@@ -5,6 +5,23 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
+def get_range(data):
+    """Get the range of an array of data.
+
+    Parameters
+    ----------
+    data : array
+        Array of numerical data.
+
+    Returns
+    -------
+    min, max : float
+        Minimum and maximum values of the data array.
+    """
+
+    return np.nanmin(data), np.nanmax(data)
+
+
 def restrict_range(values, min_time=None, max_time=None):
     """Restrict a vector of time values to a specified range.
 

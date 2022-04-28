@@ -284,6 +284,7 @@ Data
 .. autosummary::
    :toctree: generated/
 
+   get_range
    restrict_range
    get_value_by_time
    get_value_by_time_range
