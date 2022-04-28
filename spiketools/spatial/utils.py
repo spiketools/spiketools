@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from spiketools.utils.data import get_range
+
 ###################################################################################################
 ###################################################################################################
 
@@ -15,7 +17,7 @@ def get_pos_ranges(position):
 
     Returns
     -------
-    ranges : list of list of float
+    ranges : list of float or list of list of float
         Ranges for each dimension in the spatial data.
 
     Examples
@@ -32,17 +34,16 @@ def get_pos_ranges(position):
 
     >>> position = np.array([1.5, 2.5, 3.5, 5])
     >>> get_pos_ranges(position)
-    [[1.5, 5.0]]
+    [1.5, 5.0]
     """
 
-    ranges = []
-
     if position.ndim == 1:
-        ranges.append([np.min(position[:]), np.max(position[:])])
+        ranges = [*get_range(position)]
 
     elif position.ndim == 2:
+        ranges = []
         for dim in range(position.shape[0]):
-            ranges.append([np.min(position[dim, :]), np.max(position[dim, :])])
+            ranges.append([*get_range(position[dim, :])])
 
     else:
         raise ValueError('Position input should be 1d or 2d.')
