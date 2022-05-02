@@ -5,46 +5,63 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def restrict_range(values, min_time=None, max_time=None):
-    """Restrict a vector of time values to a specified range.
+def get_range(data):
+    """Get the range of an array of data.
+
+    Parameters
+    ----------
+    data : array
+        Array of numerical data.
+
+    Returns
+    -------
+    min, max : float
+        Minimum and maximum values of the data array.
+    """
+
+    return np.nanmin(data), np.nanmax(data)
+
+
+def restrict_range(values, min_value=None, max_value=None):
+    """Restrict a vector of data to a specified range.
 
     Parameters
     ----------
     values : 1d array
-        Array of time values.
-    min_time, max_time : float, optional, default: None
-        Mininum and/or maximum time to restrict time values to.
+        Array of data.
+    min_value, max_value : float, optional, default: None
+        Mininum and/or maximum value to restrict input array to.
 
     Returns
     -------
     1d array
-        Time values, restricted to desired time range.
+        Data array, restricted to desired time range.
 
     Examples
     --------
-    Select all values after a specific time point:
+    Select all values greater than a specific value:
 
     >>> values = np.array([5, 10, 15, 20, 25, 30])
-    >>> restrict_range(values, min_time=10, max_time=None)
+    >>> restrict_range(values, min_value=10, max_value=None)
     array([10, 15, 20, 25, 30])
 
-    Select all values before a specific time point:
+    Select all values less than a specific value:
 
     >>> values = np.array([5, 10, 15, 20, 25, 30])
-    >>> restrict_range(values, min_time=None, max_time=25)
+    >>> restrict_range(values, min_value=None, max_value=25)
     array([ 5, 10, 15, 20, 25])
 
-    Restrict a time values to a specific range:
+    Restrict a data array to a specific range:
 
     >>> values = np.array([5, 10, 15, 20, 25, 30])
-    >>> restrict_range(values, min_time=10, max_time=20)
+    >>> restrict_range(values, min_value=10, max_value=20)
     array([10, 15, 20])
     """
 
-    min_time = -np.inf if min_time is None else min_time
-    max_time = np.inf if max_time is None else max_time
+    min_value = -np.inf if min_value is None else min_value
+    max_value = np.inf if max_value is None else max_value
 
-    return values[(values >= min_time) & (values <= max_time)]
+    return values[(values >= min_value) & (values <= max_value)]
 
 
 def get_value_by_time(times, values, time):

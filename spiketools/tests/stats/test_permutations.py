@@ -19,5 +19,11 @@ def test_compute_empirical_pvalue(tdata):
 
 def test_zscore_to_surrogates(tdata):
 
-    zscore = zscore_to_surrogates(1.5, tdata)
-    assert isinstance(zscore, float)
+    z_score = zscore_to_surrogates(1.5, tdata)
+    assert isinstance(z_score, float)
+
+def test_compute_surrogate_stats(tdata):
+
+    p_value, z_score = compute_surrogate_stats(1.5, tdata, True, True)
+    assert isinstance(p_value, float)
+    assert isinstance(z_score, float)

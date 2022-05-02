@@ -6,6 +6,23 @@ import pandas as pd
 ###################################################################################################
 ###################################################################################################
 
+def compute_nbins(bins):
+    """Compute the number of bins for a given bin definition.
+
+    Parameters
+    ----------
+    bins : list of [int, int]
+        Bin definition.
+
+    Returns
+    -------
+    n_bins : int
+        The total number of bins for the given bin definition.
+    """
+
+    return bins[0] * bins[1]
+
+
 def compute_spatial_bin_edges(position, bins, area_range=None):
     """Compute spatial bin edges.
 
@@ -45,7 +62,7 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
 
     if position.ndim == 1:
         _, x_edges = np.histogram(position, bins=bins[0], range=area_range)
-        
+
         return x_edges
 
     elif position.ndim == 2:

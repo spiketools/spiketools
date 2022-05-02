@@ -80,6 +80,7 @@ Occupancy
 .. autosummary::
    :toctree: generated/
 
+    compute_nbins
     compute_spatial_bin_edges
     compute_spatial_bin_assignment
     compute_bin_time
@@ -154,6 +155,17 @@ Permutations
     vec_perm
     compute_empirical_pvalue
     zscore_to_surrogates
+    compute_surrogate_stats
+
+ANOVA
+~~~~~
+
+.. currentmodule:: spiketools.stats.anova
+.. autosummary::
+   :toctree: generated/
+
+    create_dataframe
+    fit_anova
 
 Simulations
 -----------
@@ -272,6 +284,7 @@ Data
 .. autosummary::
    :toctree: generated/
 
+   get_range
    restrict_range
    get_value_by_time
    get_value_by_time_range

@@ -3,6 +3,8 @@
 import numpy as np
 from scipy.stats import zmap
 
+from spiketools.plts.stats import plot_surrogates
+
 ###################################################################################################
 ###################################################################################################
 
@@ -101,3 +103,38 @@ def zscore_to_surrogates(value, surrogates):
     """
 
     return zmap(value, surrogates)[0]
+
+
+def compute_surrogate_stats(data_value, surrogates, plot=True, verbose=True, **plt_kwargs):
+    """Compute surrogate statistics.
+
+    Parameters
+    ----------
+    data_value : float
+        Test value.
+    surrogates : 1d array
+        Distribution of surrogates values.
+    plot : bool, optional, default: True
+        Whether to display the plot of the surrogates values.
+    verbose : bool, optional, default: True
+        Whether to print the values of the p-value and z-score.
+
+    Returns
+    -------
+    p_val : float
+        The empirical p-value of the test value, as compared to the surrogates.
+    z_score : float
+        The z-score of the test value, as compared to the surrogates.
+    """
+
+    p_val = compute_empirical_pvalue(data_value, surrogates)
+    z_score = zscore_to_surrogates(data_value, surrogates)
+
+    if plot:
+        plot_surrogates(surrogates, data_value, p_val, **plt_kwargs)
+
+    if verbose:
+        print('p-value: {:4.2f}'.format(p_val))
+        print('z-score: {:4.2f}'.format(z_score))
+
+    return p_val, z_score

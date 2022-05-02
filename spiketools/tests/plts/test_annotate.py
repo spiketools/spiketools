@@ -5,11 +5,23 @@ import matplotlib.pyplot as plt
 
 from spiketools.tests.tutils import plot_test
 
+from spiketools.plts.annotate import *
 from spiketools.plts.annotate import (_add_vlines, _add_shade, _add_dots,
                                       _add_significance_to_plot)
 
 ###################################################################################################
 ###################################################################################################
+
+def test_color_pval():
+
+    out1 = color_pval(0.025)
+    assert out1 == 'red'
+
+    out2 = color_pval(0.50)
+    assert out2 == 'black'
+
+    out3 = color_pval(0.005, 0.01, 'green')
+    assert out3 == 'green'
 
 @plot_test
 def test_add_shade():

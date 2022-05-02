@@ -9,6 +9,11 @@ from spiketools.spatial.occupancy import *
 ###################################################################################################
 ###################################################################################################
 
+def test_compute_nbins():
+
+    out = compute_nbins([5, 5])
+    assert out == 25
+
 def test_compute_spatial_bin_edges():
 
     # checks for two inputs of the same size, different number of bins
