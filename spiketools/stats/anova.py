@@ -41,7 +41,7 @@ def create_dataframe(data, columns, drop_na=True):
 
 
 @check_dependency(sm, 'statsmodels')
-def fit_anova(df, formula, feature=None, return_type='f_val'):
+def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
     """Fit an ANOVA.
 
     Parameters
@@ -59,6 +59,9 @@ def fit_anova(df, formula, feature=None, return_type='f_val'):
             * 'f_val' : returns the F-value for the requested feature
             * 'results' : returns the full set of model results
             * 'model' : returns the fit model object
+    anova_type : {2, 3, 1}
+        Which type of ANOVA test to perform.
+        See `statsmodels.stats.anova.anova_lm` for details.
 
     Returns
     -------
@@ -78,7 +81,7 @@ def fit_anova(df, formula, feature=None, return_type='f_val'):
     if return_type == 'model':
         return model
 
-    results = sm.stats.anova_lm(model, typ=2)
+    results = sm.stats.anova_lm(model, typ=anova_type)
 
     if return_type == 'results':
         return results
