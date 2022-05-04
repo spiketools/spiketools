@@ -67,7 +67,7 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
 
     elif position.ndim == 2:
         _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :],
-                                         bins=bins, range=area_range)
+                                             bins=bins, range=area_range)
         return x_edges, y_edges
 
     else:
@@ -144,6 +144,32 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
 
     else:
         raise ValueError('Position input should be 1d or 2d.')
+
+
+def compute_bin_firing(bins, xbins, ybins=None):
+    """Compute firing per bin, given the bin assignment of each spike.
+
+    Parameters
+    ----------
+    bins : int or list of [int, int]
+        Bin definition.
+    xbins : 1d array
+        Bin assignment for the x-dimension for each spike.
+    ybins : 1d array, optional
+        Bin assignment for the y-dimension for each spike.
+
+    Returns
+    -------
+    bin_firing : 2d array
+        Amount of firing in each bin.
+    """
+
+    if ybins is None:
+        bin_firing = np.histogram(xbins, bins=bins)[0]
+    else:
+        bin_firing = np.histogram2d(xbins, ybins, bins=bins)[0]
+
+    return bin_firing
 
 
 def compute_bin_time(timestamps):

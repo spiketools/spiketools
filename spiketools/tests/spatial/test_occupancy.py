@@ -85,6 +85,17 @@ def test_compute_spatial_bin_assignment():
     assert position[0].shape == x_bins.shape
     assert position[1].shape == y_bins.shape
 
+def test_compute_bin_firing():
+
+    bins = [2, 2]
+    xbins = [0, 0, 0, 1]
+    ybins = [0, 0, 1, 1]
+
+    bin_firing = compute_bin_firing(bins, xbins, ybins)
+    assert isinstance(bin_firing, np.ndarray)
+    expected = np.array([[2, 1], [0, 1]])
+    assert np.array_equal(bin_firing, expected)
+
 def test_compute_bin_time():
 
     # define a timestamp, with irregular times
