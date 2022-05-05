@@ -20,6 +20,13 @@ def compute_nbins(bins):
     -------
     n_bins : int
         The total number of bins for the given bin definition.
+
+    Examples
+    --------
+    Compute the number of bins for a given bin definition:
+
+    >>> compute_nbins(bins=[4, 5])
+    20
     """
 
     return bins[0] * bins[1]
@@ -47,19 +54,18 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
 
     Examples
     --------
-    Compute bin edges for an example rectangular field, with x-range of 1 - 5 & y-range of 6 - 10:
-    So, position points are: (1, 6), (2, 7), (3, 8), (4, 9), (5, 10).
+    Compute bin edges for 1D position values:
 
-    >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
-    >>> bins = [5, 4]
-    >>> compute_spatial_bin_edges(position, bins)
-    (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
-
-    Compute bin edges for an example 1d space, with positions 1 through 5.
     >>> position = np.array([1, 2, 3, 4, 5])
-    >>> bins = [5]
-    >>> compute_spatial_bin_edges(position, bins)
+    >>> compute_spatial_bin_edges(position, bins=[5])
     array([1. , 1.8, 2.6, 3.4, 4.2, 5. ])
+
+    Compute bin edges for 2D position values, with x-range of 1-5 & y-range of 6-10:
+
+    >>> position = np.array([[1, 2, 3, 4, 5],
+    ...                      [6, 7, 8, 9, 10]])
+    >>> compute_spatial_bin_edges(position, bins=[5, 4])
+    (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
 
     if position.ndim == 1:
@@ -111,19 +117,21 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
 
     Examples
     --------
-    Compute bin assignment of position, given existing spatial bins:
+    Compute bin assignment for 1D position values, given precomputed bin edges:
 
-    >>> position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])
-    >>> x_edges = np.array([1, 2, 3, 4, 5])
-    >>> y_edges = np.array([6, 7, 8, 9, 10])
-    >>> compute_spatial_bin_assignment(position, x_edges, y_edges)
-    (array([0, 1, 2, 3]), array([0, 1, 2, 3]))
-
-    Compute bin assignment of 1d position, given existing 1d spatial bins:
     >>> position = np.array([1.5, 2.5, 3.5, 5])
     >>> x_edges = np.array([1, 2, 3, 4, 5])
     >>> compute_spatial_bin_assignment(position, x_edges)
     array([0, 1, 2, 3])
+
+    Compute bin assignment for 2D position values, given precomputed bin edges:
+
+    >>> position = np.array([[1.5, 2.5, 3.5, 5],
+    ...                      [6.5, 7.5, 8.5, 9]])
+    >>> x_edges = np.array([1, 2, 3, 4, 5])
+    >>> y_edges = np.array([6, 7, 8, 9, 10])
+    >>> compute_spatial_bin_assignment(position, x_edges, y_edges)
+    (array([0, 1, 2, 3]), array([0, 1, 2, 3]))
     """
 
     warning = "There are position values outside of the given bin ranges."
@@ -174,6 +182,17 @@ def compute_bin_firing(bins, xbins, ybins=None):
     -------
     bin_firing : 2d array
         Amount of firing in each bin.
+
+    Examples
+    --------
+    Compute the amount of firing per bin, given precomputed x & y bin for each spike:
+
+    >>> bins = [2, 2]
+    >>> xbins = [0, 0, 0, 1]
+    >>> ybins = [0, 0, 1, 1]
+    >>> compute_bin_firing(bins, xbins, ybins)
+    array([[2., 1.],
+           [0., 1.]])
     """
 
     if ybins is None:
@@ -243,21 +262,21 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
 
     Examples
     --------
-    Get 2D occupancy for a set of position values:
-
-    >>> position = np.array([[1.0, 1.5, 2.5, 3.5, 5],
-    ...                      [5.0, 6.5, 7.5, 8.5, 9]])
-    >>> timestamps = np.linspace(0, 1, position.shape[1])
-    >>> compute_occupancy(position, timestamps, bins=[2, 2])
-    array([[0.5 , 0.25],
-           [0.  , 0.25]])
-
-    Get 1D occupancy for positions for a set of position values:
+    Compute occupancy for a set of 1D position values:
 
     >>> position = np.array([1.0, 1.5, 2.5, 3.5, 5])
     >>> timestamps = np.linspace(0, 1, position.shape[0])
     >>> compute_occupancy(position, timestamps, bins=[4])
     array([0.5 , 0.25, 0.25, 0.  ])
+
+    Compute occupancy for a set of 2D position values:
+
+    >>> position = np.array([[1.0, 2.5, 1.5, 3.0, 3.5, 5.0],
+    ...                      [5.0, 7.5, 6.5, 5.0, 8.5, 9.0]])
+    >>> timestamps = np.linspace(0, 1, position.shape[1])
+    >>> compute_occupancy(position, timestamps, bins=[2, 2])
+    array([[0.4, 0.2],
+           [0.2, 0.2]])
     """
 
     if position.ndim == 1:
