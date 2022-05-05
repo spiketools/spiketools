@@ -177,9 +177,9 @@ def compute_bin_firing(bins, xbins, ybins=None):
     """
 
     if ybins is None:
-        bin_firing = np.histogram(xbins, bins=bins)[0]
+        bin_firing = np.histogram(xbins, bins=np.arange(0, bins[0] + 1))[0]
     else:
-        bin_firing = np.histogram2d(xbins, ybins, bins=bins)[0]
+        bin_firing = np.histogram2d(xbins, ybins, bins=[np.arange(0, bl + 1) for bl in bins])[0]
 
     return bin_firing
 
