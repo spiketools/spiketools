@@ -279,45 +279,42 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
            [0.2, 0.2]])
     """
 
+    # Initialize dictionary to collect data, adding bin time information
+    data_dict = {'bin_time' : compute_bin_time(timestamps)}
+
     if position.ndim == 1:
-        # Compute spatial bins & binning
+
+        # Spatially bin 1d position data, and collect into a dictionary
         x_edges = compute_spatial_bin_edges(position, bins, area_range)
         x_bins = compute_spatial_bin_assignment(position, x_edges)
-        bin_time = compute_bin_time(timestamps)
 
-        # Make a temporary pandas dataframe
-        df = pd.DataFrame({
-            'xbins' : pd.Categorical(x_bins, categories=list(range(0, bins[0])), ordered=True),
-            'bin_time' : bin_time})
-
-        # Apply the speed threshold (dropping slow / stationary timepoints)
-        if np.any(speed):
-            df = df[speed > speed_thresh]
-
-        # Group each position into a spatial bin, summing total time spent there
-        df = df.groupby(['xbins'])['bin_time'].sum()
+        # Add binned space information to data dictionary, and define how to group data
+        data_dict['xbins'] = pd.Categorical(x_bins, categories=list(range(0, bins[0])), ordered=True)
+        groupby = ['xbins']
 
     elif position.ndim == 2:
-        # Compute spatial bins & binning
+
+        # Spatially bin 1d position data, and collect into a dictionary
         x_edges, y_edges = compute_spatial_bin_edges(position, bins, area_range)
         x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
-        bin_time = compute_bin_time(timestamps)
 
-        # Make a temporary pandas dataframe
-        df = pd.DataFrame({
-            'xbins' : pd.Categorical(x_bins, categories=list(range(0, bins[0])), ordered=True),
-            'ybins' : pd.Categorical(y_bins, categories=list(range(0, bins[1])), ordered=True),
-            'bin_time' : bin_time})
-
-        # Apply the speed threshold (dropping slow / stationary timepoints)
-        if np.any(speed):
-            df = df[speed > speed_thresh]
-
-        # Group each position into a spatial bin, summing total time spent there
-        df = df.groupby(['xbins', 'ybins'])['bin_time'].sum()
+        # Add binned space information to data dictionary, and define how to group data
+        data_dict['xbins'] = pd.Categorical(x_bins, categories=list(range(0, bins[0])), ordered=True)
+        data_dict['ybins'] = pd.Categorical(y_bins, categories=list(range(0, bins[1])), ordered=True)
+        groupby = ['xbins', 'ybins']
 
     else:
         raise ValueError('Position input should be 1d or 2d.')
+
+    # Collect information together into a temporary dataframe
+    df = pd.DataFrame(data_dict)
+
+    # Apply the speed threshold (dropping slow / stationary timepoints)
+    if np.any(speed):
+        df = df[speed > speed_thresh]
+
+    # Group each position into a spatial bin, summing total time spent there
+    df = df.groupby(groupby)['bin_time'].sum()
 
     # Extract and re-organize occupancy into array
     occ = np.squeeze(df.values.reshape(*bins, -1))

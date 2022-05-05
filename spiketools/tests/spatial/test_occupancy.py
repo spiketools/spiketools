@@ -104,12 +104,21 @@ def test_compute_bin_time():
 
 def test_compute_occupancy():
 
-    # define a position, timestamp, and bins
+    # Test 1d case
+    bins = [3]
+    position = np.array([1, 2, 3, 5, 7, 9, 10])
+    timestamp = np.linspace(0, 30, len(position))
+    occ = compute_occupancy(position, timestamp, bins)
+    assert isinstance(occ, np.ndarray)
+    assert len(occ) == bins[0]
+
+    # Test 2d case
+    bins = [2, 4]
     position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
     timestamp = np.linspace(0, 30, position.shape[1])
-    occ = compute_occupancy(position, timestamp, BINS)
-
-    # check dimensions & sum (should be the same if binning is swapped)
+    occ = compute_occupancy(position, timestamp, bins)
+    assert isinstance(occ, np.ndarray)
     assert occ.shape[0] == BINS[0]
     assert occ.shape[1] == BINS[1]
-    assert np.nansum(occ) == np.nansum(compute_occupancy(position, timestamp, [BINS[1], BINS[0]]))
+    # Test flipped binning should get the same total occupancy
+    assert np.nansum(occ) == np.nansum(compute_occupancy(position, timestamp, [bins[1], bins[0]]))
