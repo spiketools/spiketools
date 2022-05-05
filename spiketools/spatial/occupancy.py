@@ -1,5 +1,7 @@
 """Spatial position and occupancy related functions."""
 
+import warnings
+
 import numpy as np
 import pandas as pd
 
@@ -124,11 +126,16 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
     array([1, 2, 3, 4])
     """
 
+    warning = "There are position values outside of the given bin ranges."
+
     if position.ndim == 1:
         x_bins = np.digitize(position, x_edges, right=False)
 
         if include_edge:
             x_bins = _include_bin_edge(position, x_bins, x_edges, side='left')
+
+        if np.any(x_bins == 0) or np.any(x_bins == len(x_edges)):
+            warnings.warn(warning)
 
         return x_bins
 
@@ -139,6 +146,11 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
         if include_edge:
             x_bins = _include_bin_edge(position[0, :], x_bins, x_edges, side='left')
             y_bins = _include_bin_edge(position[1, :], y_bins, y_edges, side='left')
+
+        x_check = np.any(x_bins == 0) or np.any(x_bins == len(x_edges))
+        y_check = np.any(y_bins == 0) or np.any(y_bins == len(y_edges))
+        if x_check or y_check:
+            warnings.warn(warning)
 
         return x_bins, y_bins
 
