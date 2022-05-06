@@ -171,7 +171,7 @@ def compute_bin_firing(bins, xbins, ybins=None):
 
     Parameters
     ----------
-    bins : int or list of [int, int]
+    bins : list of [int] or [int, int]
         Bin definition.
     xbins : 1d array
         Bin assignment for the x-dimension for each spike.
@@ -238,7 +238,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Position information across a 1D or 2D space.
     timestamps : 1d array
         Timestamps.
-    bins : list of int
+    bins : list of [int] or [int, int]
         Binning to use for dividing up the space.
     speed : 1d array
         Current speed for each position.
