@@ -87,7 +87,7 @@ def test_compute_bin_firing():
     xbins = [0, 0, 0, 1]
     ybins = [0, 0, 1, 1]
 
-    bin_firing = compute_bin_firing(bins, xbins, ybins)
+    bin_firing = compute_bin_firing(bins, xbins, ybins, transpose=False)
     assert isinstance(bin_firing, np.ndarray)
     expected = np.array([[2, 1], [0, 1]])
     assert np.array_equal(bin_firing, expected)
@@ -133,7 +133,7 @@ def test_compute_occupancy():
     bins = [2, 4]
     position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
     timestamp = np.linspace(0, 30, position.shape[1])
-    occ = compute_occupancy(position, timestamp, bins)
+    occ = compute_occupancy(position, timestamp, bins, transpose=False)
     assert isinstance(occ, np.ndarray)
     assert occ.shape[0] == BINS[0]
     assert occ.shape[1] == BINS[1]
