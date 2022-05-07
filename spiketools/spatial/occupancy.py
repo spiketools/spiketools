@@ -32,7 +32,7 @@ def compute_nbins(bins):
     return bins[0] * bins[1]
 
 
-def compute_spatial_bin_edges(position, bins, area_range=None):
+def compute_bin_edges(position, bins, area_range=None):
     """Compute spatial bin edges.
 
     Parameters
@@ -57,14 +57,14 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
     Compute bin edges for 1D position values:
 
     >>> position = np.array([1, 2, 3, 4, 5])
-    >>> compute_spatial_bin_edges(position, bins=[5])
+    >>> compute_bin_edges(position, bins=[5])
     array([1. , 1.8, 2.6, 3.4, 4.2, 5. ])
 
     Compute bin edges for 2D position values, with x-range of 1-5 & y-range of 6-10:
 
     >>> position = np.array([[1, 2, 3, 4, 5],
     ...                      [6, 7, 8, 9, 10]])
-    >>> compute_spatial_bin_edges(position, bins=[5, 4])
+    >>> compute_bin_edges(position, bins=[5, 4])
     (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
 
@@ -82,7 +82,7 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
         raise ValueError('Position input should be 1d or 2d.')
 
 
-def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
+def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     """Compute spatial bin assignment.
 
     Parameters
@@ -121,7 +121,7 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
 
     >>> position = np.array([1.5, 2.5, 3.5, 5])
     >>> x_edges = np.array([1, 2, 3, 4, 5])
-    >>> compute_spatial_bin_assignment(position, x_edges)
+    >>> compute_bin_assignment(position, x_edges)
     array([0, 1, 2, 3])
 
     Compute bin assignment for 2D position values, given precomputed bin edges:
@@ -130,7 +130,7 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
     ...                      [6.5, 7.5, 8.5, 9]])
     >>> x_edges = np.array([1, 2, 3, 4, 5])
     >>> y_edges = np.array([6, 7, 8, 9, 10])
-    >>> compute_spatial_bin_assignment(position, x_edges, y_edges)
+    >>> compute_bin_assignment(position, x_edges, y_edges)
     (array([0, 1, 2, 3]), array([0, 1, 2, 3]))
     """
 
@@ -335,8 +335,8 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
     if position.ndim == 1:
 
         # Spatially bin 1d position data, and collect into a dictionary
-        x_edges = compute_spatial_bin_edges(position, bins, area_range)
-        x_bins = compute_spatial_bin_assignment(position, x_edges)
+        x_edges = compute_bin_edges(position, bins, area_range)
+        x_bins = compute_bin_assignment(position, x_edges)
 
         # Add binned space information to data dictionary, and define how to group data
         data_dict['xbins'] = pd.Categorical(x_bins, categories=list(range(0, bins[0])), ordered=True)
@@ -345,8 +345,8 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
     elif position.ndim == 2:
 
         # Spatially bin 1d position data, and collect into a dictionary
-        x_edges, y_edges = compute_spatial_bin_edges(position, bins, area_range)
-        x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
+        x_edges, y_edges = compute_bin_edges(position, bins, area_range)
+        x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
 
         # Add binned space information to data dictionary, and define how to group data
         data_dict['xbins'] = pd.Categorical(x_bins, categories=list(range(0, bins[0])), ordered=True)

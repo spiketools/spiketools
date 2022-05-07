@@ -14,12 +14,12 @@ def test_compute_nbins():
     out = compute_nbins([5, 5])
     assert out == 25
 
-def test_compute_spatial_bin_edges():
+def test_compute_bin_edges():
 
     # checks for two inputs of the same size, different number of bins
     bins = [2, 4]
     position = np.array([[1., 2., 3., 4.], [0., 1., 2., 3.]])
-    x_edges, y_edges = compute_spatial_bin_edges(position, bins)
+    x_edges, y_edges = compute_bin_edges(position, bins)
 
     # dimension checks
     assert len(x_edges) == bins[0]+1
@@ -37,7 +37,7 @@ def test_compute_spatial_bin_edges():
 
     # checks for two inputs such that one is the other one shuffled
     position = np.array([[1., 2., 3., 4.], [4., 1., 3., 2.]])
-    x_edges, y_edges = compute_spatial_bin_edges(position, bins)
+    x_edges, y_edges = compute_bin_edges(position, bins)
 
     # check that bin ranges are the same
     assert x_edges[0] == y_edges[0]
@@ -45,18 +45,18 @@ def test_compute_spatial_bin_edges():
 
     # test for regular input (x) and all zeros input (y)
     position = np.array([[1., 2., 3., 4.], [0., 0., 0., 0.]])
-    x_edges, y_edges = compute_spatial_bin_edges(position, bins)
+    x_edges, y_edges = compute_bin_edges(position, bins)
 
     # all zeros case check
     assert np.sum(y_edges == np.linspace(-0.5, 0.5, bins[1] + 1)) == bins[1] + 1
 
-def test_compute_spatial_bin_assignment():
+def test_compute_bin_assignment():
 
     # test with simple data, checking accuracy
     position = np.array([[1, 3, 5, 7], [1, 3, 5, 7]])
     x_edges = np.array([0, 2, 4, 6, 8])
     y_edges = np.array([0, 2, 4, 6, 8])
-    x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
+    x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
     expected = np.array([0, 1, 2, 3])
     assert isinstance(x_bins, np.ndarray)
     assert isinstance(y_bins, np.ndarray)
@@ -67,7 +67,7 @@ def test_compute_spatial_bin_assignment():
     position = np.random.uniform(0, 2, (2, 10))
     x_edges = np.arange(0, 2.2, 0.2)
     y_edges = np.arange(0, 2.2, 0.2)
-    x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
+    x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
     assert isinstance(x_bins, np.ndarray)
     assert isinstance(y_bins, np.ndarray)
     assert position[0].shape == x_bins.shape
@@ -75,10 +75,10 @@ def test_compute_spatial_bin_assignment():
 
     # test warnings
     with warns(UserWarning):
-        _ = compute_spatial_bin_assignment(np.array([-1, 1, 2, 3]), np.array([0, 2, 4]))
+        _ = compute_bin_assignment(np.array([-1, 1, 2, 3]), np.array([0, 2, 4]))
     with warns(UserWarning):
-        _ = compute_spatial_bin_assignment(np.array([[-1, 1, 3, 4], [0, 1, 2, 3]]),
-                                           np.array([0, 2, 4]), np.array([0, 2, 4]))
+        _ = compute_bin_assignment(np.array([[-1, 1, 3, 4], [0, 1, 2, 3]]),
+                                   np.array([0, 2, 4]), np.array([0, 2, 4]))
 
 def test_compute_bin_firing():
 
