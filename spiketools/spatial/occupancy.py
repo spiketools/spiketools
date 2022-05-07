@@ -177,6 +177,9 @@ def compute_bin_firing(bins, xbins, ybins=None):
         Bin assignment for the x-dimension for each spike.
     ybins : 1d array, optional
         Bin assignment for the y-dimension for each spike.
+    occupancy : 1d or 2d array, optional
+        Occupancy across the spatial bins.
+        If provided, used to normalize bin firing.
 
     Returns
     -------
@@ -199,6 +202,9 @@ def compute_bin_firing(bins, xbins, ybins=None):
         bin_firing = np.histogram(xbins, bins=np.arange(0, bins[0] + 1))[0]
     else:
         bin_firing = np.histogram2d(xbins, ybins, bins=[np.arange(0, bl + 1) for bl in bins])[0]
+
+    if occupancy is not None:
+        bin_firing = normalize_bin_firing(bin_firing, occupancy)
 
     return bin_firing
 
