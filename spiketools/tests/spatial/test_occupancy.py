@@ -92,6 +92,23 @@ def test_compute_bin_firing():
     expected = np.array([[2, 1], [0, 1]])
     assert np.array_equal(bin_firing, expected)
 
+def test_normalize_bin_firing():
+
+    # Test with full samping of occupancy
+    bin_firing = np.array([[1, 2, 1], [1, 2, 1]])
+    occupancy = np.array([[1, 2, 1], [1, 2, 1]])
+    normed_bf = normalize_bin_firing(bin_firing, occupancy)
+    assert isinstance(normed_bf, np.ndarray)
+    assert np.all(normed_bf == 1.)
+
+    # Test with some empty occupancy values (expected nan output)
+    bin_firing = np.array([[0, 1, 0], [1, 2, 0]])
+    occupancy = np.array([[0, 2, 1], [1, 1, 0]])
+    normed_bf = normalize_bin_firing(bin_firing, occupancy)
+    assert isinstance(normed_bf, np.ndarray)
+    expected = np.array([[np.nan, 0.5, 0.], [1., 2., np.nan]])
+    assert np.array_equal(normed_bf, expected, equal_nan=True)
+
 def test_compute_bin_time():
 
     # define a timestamp, with irregular times

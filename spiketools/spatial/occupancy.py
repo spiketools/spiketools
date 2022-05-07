@@ -203,6 +203,43 @@ def compute_bin_firing(bins, xbins, ybins=None):
     return bin_firing
 
 
+def normalize_bin_firing(bin_firing, occupancy):
+    """Normalize binned firing by occupancy.
+
+    Parameters
+    ----------
+    bin_firing : 1d or 2d array
+        Spatially binned firing.
+    occupancy : 1d or 2d array
+        Spatially binned occupancy.
+
+    Returns
+    -------
+    normalized_bin_firing : 1d or 2d array
+        Normalized binned firing.
+
+    Notes
+    -----
+    For any bins in which the occupancy is zero, the output will NaN.
+
+    Examples
+    --------
+    Normalized a pre-computed 2D binned firing array by occupancy:
+
+    >>> bin_firing = np.array([[0, 1, 0], [1, 2, 0]])
+    >>> occupancy = np.array([[0, 2, 1], [1, 1, 0]])
+    >>> normalize_bin_firing(bin_firing, occupancy)
+    array([[nan, 0.5, 0. ],
+           [1. , 2. , nan]])
+    """
+
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore', category=RuntimeWarning)
+        normalized_bin_firing = bin_firing / occupancy
+
+    return normalized_bin_firing
+
+
 def compute_bin_time(timestamps):
     """Compute the time duration of each position sample.
 
