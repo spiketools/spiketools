@@ -166,7 +166,7 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
         raise ValueError('Position input should be 1d or 2d.')
 
 
-def compute_bin_firing(bins, xbins, ybins=None):
+def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
     """Compute firing per bin, given the bin assignment of each spike.
 
     Parameters
@@ -180,6 +180,8 @@ def compute_bin_firing(bins, xbins, ybins=None):
     occupancy : 1d or 2d array, optional
         Occupancy across the spatial bins.
         If provided, used to normalize bin firing.
+    transpose : bool, optional, default: True
+        Whether to transpose the output, so that x-bins lie on the x-axis of the array.
 
     Returns
     -------
@@ -194,14 +196,17 @@ def compute_bin_firing(bins, xbins, ybins=None):
     >>> xbins = [0, 0, 0, 1]
     >>> ybins = [0, 0, 1, 1]
     >>> compute_bin_firing(bins, xbins, ybins)
-    array([[2., 1.],
-           [0., 1.]])
+    array([[2., 0.],
+           [1., 1.]])
     """
 
     if ybins is None:
         bin_firing = np.histogram(xbins, bins=np.arange(0, bins[0] + 1))[0]
     else:
         bin_firing = np.histogram2d(xbins, ybins, bins=[np.arange(0, bl + 1) for bl in bins])[0]
+
+    if transpose:
+        bin_firing = bin_firing.T
 
     if occupancy is not None:
         bin_firing = normalize_bin_firing(bin_firing, occupancy)
@@ -271,8 +276,8 @@ def compute_bin_time(timestamps):
     return np.append(np.diff(timestamps), 0)
 
 
-def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
-                      minimum=None, normalize=False, set_nan=False, area_range=None):
+def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None, minimum=None,
+                      normalize=False, set_nan=False, area_range=None, transpose=True):
     """Compute occupancy across spatial bin positions.
 
     Parameters
@@ -297,11 +302,13 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Whether to set zero occupancy locations as NaN.
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+    transpose : bool, optional, default: True
+        Whether to transpose the output, so that x-bins lie on the x-axis of the array.
 
     Returns
     -------
-    occ : 1d or 2d array
-        Occupancy.
+    occupancy : 1d or 2d array
+        Computed occupancy across the space.
 
     Examples
     --------
@@ -360,18 +367,21 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
     df = df.groupby(groupby)['bin_time'].sum()
 
     # Extract and re-organize occupancy into array
-    occ = np.squeeze(df.values.reshape(*bins, -1))
+    occupancy = np.squeeze(df.values.reshape(*bins, -1))
 
     if minimum:
-        occ[occ < minimum] = 0.
+        occupancy[occupancy < minimum] = 0.
 
     if normalize:
-        occ = occ / np.sum(occ)
+        occupancy = occupancy / np.sum(occupancy)
 
     if set_nan:
-        occ[occ == 0.] = np.nan
+        occupancy[occupancy == 0.] = np.nan
 
-    return occ
+    if transpose:
+        occupancy = occupancy.T
+
+    return occupancy
 
 
 def _include_bin_edge(position, bin_pos, edges, side='left'):
