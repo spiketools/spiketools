@@ -1,5 +1,7 @@
 """Spatial position and occupancy related functions."""
 
+import warnings
+
 import numpy as np
 import pandas as pd
 
@@ -18,12 +20,19 @@ def compute_nbins(bins):
     -------
     n_bins : int
         The total number of bins for the given bin definition.
+
+    Examples
+    --------
+    Compute the number of bins for a given bin definition:
+
+    >>> compute_nbins(bins=[4, 5])
+    20
     """
 
     return bins[0] * bins[1]
 
 
-def compute_spatial_bin_edges(position, bins, area_range=None):
+def compute_bin_edges(position, bins, area_range=None):
     """Compute spatial bin edges.
 
     Parameters
@@ -45,19 +54,18 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
 
     Examples
     --------
-    Compute bin edges for an example rectangular field, with x-range of 1 - 5 & y-range of 6 - 10:
-    So, position points are: (1, 6), (2, 7), (3, 8), (4, 9), (5, 10).
+    Compute bin edges for 1D position values:
 
-    >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
-    >>> bins = [5, 4]
-    >>> compute_spatial_bin_edges(position, bins)
-    (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
-
-    Compute bin edges for an example 1d space, with positions 1 through 5.
     >>> position = np.array([1, 2, 3, 4, 5])
-    >>> bins = [5]
-    >>> compute_spatial_bin_edges(position, bins)
+    >>> compute_bin_edges(position, bins=[5])
     array([1. , 1.8, 2.6, 3.4, 4.2, 5. ])
+
+    Compute bin edges for 2D position values, with x-range of 1-5 & y-range of 6-10:
+
+    >>> position = np.array([[1, 2, 3, 4, 5],
+    ...                      [6, 7, 8, 9, 10]])
+    >>> compute_bin_edges(position, bins=[5, 4])
+    (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
 
     if position.ndim == 1:
@@ -67,14 +75,14 @@ def compute_spatial_bin_edges(position, bins, area_range=None):
 
     elif position.ndim == 2:
         _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :],
-                                         bins=bins, range=area_range)
+                                             bins=bins, range=area_range)
         return x_edges, y_edges
 
     else:
         raise ValueError('Position input should be 1d or 2d.')
 
 
-def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
+def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     """Compute spatial bin assignment.
 
     Parameters
@@ -94,35 +102,39 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
     Returns
     -------
     x_bins : 1d array
-        Bin assignments for each position.
+        Bin assignments for the x-dimension for each position.
     y_bins : 1d array
-        Bin assignments for each position, only returned in 2D case.
+        Bin assignments for the y-dimension for each position. Only returned in 2D case.
 
     Notes
     -----
     - In the case of zero outliers (all positions are between edge ranges), the returned
-      values are encoded as bin position, with values between {1, n_bins}.
+      values are encoded as bin position, with values between {0, n_bins-1}.
     - If there are outliers (some position values that are outside the given edges definitions),
-      these are encoded as 0 (left side) or n_bins + 1 (right side).
+      these are encoded as -1 (left side) or n_bins (right side). A warning will be raised.
     - By default position values equal to the left-most & right-most edges are treated as
       within the bounds (not treated as outliers), unless `include_edge` is set as False.
 
     Examples
     --------
-    Compute bin assignment of position, given existing spatial bins:
+    Compute bin assignment for 1D position values, given precomputed bin edges:
 
-    >>> position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])
-    >>> x_edges = np.array([1, 2, 3, 4, 5])
-    >>> y_edges = np.array([6, 7, 8, 9, 10])
-    >>> compute_spatial_bin_assignment(position, x_edges, y_edges)
-    (array([1, 2, 3, 4]), array([1, 2, 3, 4]))
-
-    Compute bin assignment of 1d position, given existing 1d spatial bins:
     >>> position = np.array([1.5, 2.5, 3.5, 5])
     >>> x_edges = np.array([1, 2, 3, 4, 5])
-    >>> compute_spatial_bin_assignment(position, x_edges)
-    array([1, 2, 3, 4])
+    >>> compute_bin_assignment(position, x_edges)
+    array([0, 1, 2, 3])
+
+    Compute bin assignment for 2D position values, given precomputed bin edges:
+
+    >>> position = np.array([[1.5, 2.5, 3.5, 5],
+    ...                      [6.5, 7.5, 8.5, 9]])
+    >>> x_edges = np.array([1, 2, 3, 4, 5])
+    >>> y_edges = np.array([6, 7, 8, 9, 10])
+    >>> compute_bin_assignment(position, x_edges, y_edges)
+    (array([0, 1, 2, 3]), array([0, 1, 2, 3]))
     """
+
+    warning = "There are position values outside of the given bin ranges."
 
     if position.ndim == 1:
         x_bins = np.digitize(position, x_edges, right=False)
@@ -130,7 +142,10 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
         if include_edge:
             x_bins = _include_bin_edge(position, x_bins, x_edges, side='left')
 
-        return x_bins
+        if np.any(x_bins == 0) or np.any(x_bins == len(x_edges)):
+            warnings.warn(warning)
+
+        return x_bins - 1
 
     elif position.ndim == 2:
         x_bins = np.digitize(position[0, :], x_edges, right=False)
@@ -140,10 +155,100 @@ def compute_spatial_bin_assignment(position, x_edges, y_edges=None, include_edge
             x_bins = _include_bin_edge(position[0, :], x_bins, x_edges, side='left')
             y_bins = _include_bin_edge(position[1, :], y_bins, y_edges, side='left')
 
-        return x_bins, y_bins
+        x_check = np.any(x_bins == 0) or np.any(x_bins == len(x_edges))
+        y_check = np.any(y_bins == 0) or np.any(y_bins == len(y_edges))
+        if x_check or y_check:
+            warnings.warn(warning)
+
+        return x_bins - 1, y_bins - 1
 
     else:
         raise ValueError('Position input should be 1d or 2d.')
+
+
+def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
+    """Compute firing per bin, given the bin assignment of each spike.
+
+    Parameters
+    ----------
+    bins : list of [int] or [int, int]
+        Bin definition.
+    xbins : 1d array
+        Bin assignment for the x-dimension for each spike.
+    ybins : 1d array, optional
+        Bin assignment for the y-dimension for each spike.
+    occupancy : 1d or 2d array, optional
+        Occupancy across the spatial bins.
+        If provided, used to normalize bin firing.
+    transpose : bool, optional, default: True
+        Whether to transpose the output, so that x-bins lie on the x-axis of the array.
+
+    Returns
+    -------
+    bin_firing : 2d array
+        Amount of firing in each bin.
+
+    Examples
+    --------
+    Compute the amount of firing per bin, given precomputed x & y bin for each spike:
+
+    >>> bins = [2, 2]
+    >>> xbins = [0, 0, 0, 1]
+    >>> ybins = [0, 0, 1, 1]
+    >>> compute_bin_firing(bins, xbins, ybins)
+    array([[2., 0.],
+           [1., 1.]])
+    """
+
+    if ybins is None:
+        bin_firing = np.histogram(xbins, bins=np.arange(0, bins[0] + 1))[0]
+    else:
+        bin_firing = np.histogram2d(xbins, ybins, bins=[np.arange(0, bl + 1) for bl in bins])[0]
+
+    if transpose:
+        bin_firing = bin_firing.T
+
+    if occupancy is not None:
+        bin_firing = normalize_bin_firing(bin_firing, occupancy)
+
+    return bin_firing
+
+
+def normalize_bin_firing(bin_firing, occupancy):
+    """Normalize binned firing by occupancy.
+
+    Parameters
+    ----------
+    bin_firing : 1d or 2d array
+        Spatially binned firing.
+    occupancy : 1d or 2d array
+        Spatially binned occupancy.
+
+    Returns
+    -------
+    normalized_bin_firing : 1d or 2d array
+        Normalized binned firing.
+
+    Notes
+    -----
+    For any bins in which the occupancy is zero, the output will NaN.
+
+    Examples
+    --------
+    Normalized a pre-computed 2D binned firing array by occupancy:
+
+    >>> bin_firing = np.array([[0, 1, 0], [1, 2, 0]])
+    >>> occupancy = np.array([[0, 2, 1], [1, 1, 0]])
+    >>> normalize_bin_firing(bin_firing, occupancy)
+    array([[nan, 0.5, 0. ],
+           [1. , 2. , nan]])
+    """
+
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore', category=RuntimeWarning)
+        normalized_bin_firing = bin_firing / occupancy
+
+    return normalized_bin_firing
 
 
 def compute_bin_time(timestamps):
@@ -171,8 +276,8 @@ def compute_bin_time(timestamps):
     return np.append(np.diff(timestamps), 0)
 
 
-def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
-                      minimum=None, normalize=False, set_nan=False, area_range=None):
+def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None, minimum=None,
+                      normalize=False, set_nan=False, area_range=None, transpose=True):
     """Compute occupancy across spatial bin positions.
 
     Parameters
@@ -181,7 +286,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Position information across a 1D or 2D space.
     timestamps : 1d array
         Timestamps.
-    bins : list of int
+    bins : list of [int] or [int, int]
         Binning to use for dividing up the space.
     speed : 1d array
         Current speed for each position.
@@ -197,85 +302,86 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=5e-6,
         Whether to set zero occupancy locations as NaN.
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+    transpose : bool, optional, default: True
+        Whether to transpose the output, so that x-bins lie on the x-axis of the array.
 
     Returns
     -------
-    occ : 1d or 2d array
-        Occupancy.
+    occupancy : 1d or 2d array
+        Computed occupancy across the space.
 
     Examples
     --------
-    Get 2D occupancy for positions:
-    (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5, 9).
+    Compute occupancy for a set of 1D position values:
 
-    >>> position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])
-    >>> timestamps = np.linspace(0, 1, position.shape[1])
-    >>> bins = [5, 5]
-    >>> occ = compute_occupancy(position, timestamps, bins)
-
-    Get 1D occupancy for positions:
-    x = 1.5, 2.5, 3.5, 5.
-
-    >>> position = np.array([1.5, 2.5, 3.5, 5])
+    >>> position = np.array([1.0, 1.5, 2.5, 3.5, 5])
     >>> timestamps = np.linspace(0, 1, position.shape[0])
-    >>> bins = [4]
-    >>> compute_occupancy(position, timestamps, bins)
-    array([0.33333333, 0.33333333, 0.33333333, 0.        ])
+    >>> compute_occupancy(position, timestamps, bins=[4])
+    array([0.5 , 0.25, 0.25, 0.  ])
+
+    Compute occupancy for a set of 2D position values:
+
+    >>> position = np.array([[1.0, 2.5, 1.5, 3.0, 3.5, 5.0],
+    ...                      [5.0, 7.5, 6.5, 5.0, 8.5, 9.0]])
+    >>> timestamps = np.linspace(0, 1, position.shape[1])
+    >>> compute_occupancy(position, timestamps, bins=[2, 2])
+    array([[0.4, 0.2],
+           [0.2, 0.2]])
     """
 
+    # Initialize dictionary to collect data, adding bin time information
+    data_dict = {'bin_time' : compute_bin_time(timestamps)}
+
     if position.ndim == 1:
-        # Compute spatial bins & binning
-        x_edges = compute_spatial_bin_edges(position, bins, area_range)
-        x_bins = compute_spatial_bin_assignment(position, x_edges)
-        bin_time = compute_bin_time(timestamps)
 
-        # Make a temporary pandas dataframe
-        df = pd.DataFrame({
-            'xbins' : pd.Categorical(x_bins, categories=list(range(1, bins[0] + 1)), ordered=True),
-            'bin_time' : bin_time})
+        # Spatially bin 1d position data, and collect into a dictionary
+        x_edges = compute_bin_edges(position, bins, area_range)
+        x_bins = compute_bin_assignment(position, x_edges)
 
-        # Apply the speed threshold (dropping slow / stationary timepoints)
-        if np.any(speed):
-            df = df[speed > speed_thresh]
-
-        # Group each position into a spatial bin, summing total time spent there
-        df = df.groupby(['xbins'])['bin_time'].sum()
+        # Add binned space information to data dictionary, and define how to group data
+        data_dict['xbins'] = pd.Categorical(x_bins, categories=list(range(0, bins[0])), ordered=True)
+        groupby = ['xbins']
 
     elif position.ndim == 2:
-        # Compute spatial bins & binning
-        x_edges, y_edges = compute_spatial_bin_edges(position, bins, area_range)
-        x_bins, y_bins = compute_spatial_bin_assignment(position, x_edges, y_edges)
-        bin_time = compute_bin_time(timestamps)
 
-        # Make a temporary pandas dataframe
-        df = pd.DataFrame({
-            'xbins' : pd.Categorical(x_bins, categories=list(range(1, bins[0] + 1)), ordered=True),
-            'ybins' : pd.Categorical(y_bins, categories=list(range(1, bins[1] + 1)), ordered=True),
-            'bin_time' : bin_time})
+        # Spatially bin 1d position data, and collect into a dictionary
+        x_edges, y_edges = compute_bin_edges(position, bins, area_range)
+        x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
 
-        # Apply the speed threshold (dropping slow / stationary timepoints)
-        if np.any(speed):
-            df = df[speed > speed_thresh]
-
-        # Group each position into a spatial bin, summing total time spent there
-        df = df.groupby(['xbins', 'ybins'])['bin_time'].sum()
+        # Add binned space information to data dictionary, and define how to group data
+        data_dict['xbins'] = pd.Categorical(x_bins, categories=list(range(0, bins[0])), ordered=True)
+        data_dict['ybins'] = pd.Categorical(y_bins, categories=list(range(0, bins[1])), ordered=True)
+        groupby = ['xbins', 'ybins']
 
     else:
         raise ValueError('Position input should be 1d or 2d.')
 
+    # Collect information together into a temporary dataframe
+    df = pd.DataFrame(data_dict)
+
+    # Apply the speed threshold (dropping slow / stationary timepoints)
+    if np.any(speed):
+        df = df[speed > speed_thresh]
+
+    # Group each position into a spatial bin, summing total time spent there
+    df = df.groupby(groupby)['bin_time'].sum()
+
     # Extract and re-organize occupancy into array
-    occ = np.squeeze(df.values.reshape(*bins, -1))
+    occupancy = np.squeeze(df.values.reshape(*bins, -1))
 
     if minimum:
-        occ[occ < minimum] = 0.
+        occupancy[occupancy < minimum] = 0.
 
     if normalize:
-        occ = occ / np.sum(occ)
+        occupancy = occupancy / np.sum(occupancy)
 
     if set_nan:
-        occ[occ == 0.] = np.nan
+        occupancy[occupancy == 0.] = np.nan
 
-    return occ
+    if transpose:
+        occupancy = occupancy.T
+
+    return occupancy
 
 
 def _include_bin_edge(position, bin_pos, edges, side='left'):

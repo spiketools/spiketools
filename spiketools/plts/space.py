@@ -110,6 +110,12 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
+
+    Notes
+    -----
+    This function uses `plt.imshow` to visualize the matrix.
+    Note that in doing so, it defaults to settings the origin to 'lower'.
+    This setting can be overwritten by passing in a value for `origin`.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
@@ -124,10 +130,11 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
         data = deepcopy(data)
         data[data == 0.] = np.nan
 
-    im = ax.imshow(data, cmap=cmap, vmin=vmin, vmax=vmax, **plt_kwargs)
+    im = ax.imshow(data, cmap=cmap, vmin=vmin, vmax=vmax,
+                   origin=plt_kwargs.pop('origin', 'lower'),
+                   **plt_kwargs)
 
-    ax.set_xticks([])
-    ax.set_yticks([])
+    ax.set(xticks=[], yticks=[])
     ax.set_axis_off()
 
     if cbar:

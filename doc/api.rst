@@ -81,8 +81,10 @@ Occupancy
    :toctree: generated/
 
     compute_nbins
-    compute_spatial_bin_edges
-    compute_spatial_bin_assignment
+    compute_bin_edges
+    compute_bin_assignment
+    compute_bin_firing
+    normalize_bin_firing
     compute_bin_time
     compute_occupancy
 
@@ -105,8 +107,7 @@ Information
 .. autosummary::
    :toctree: generated/
 
-    compute_spatial_information_1d
-    compute_spatial_information_2d
+    compute_spatial_information
 
 Utilities
 ~~~~~~~~~
