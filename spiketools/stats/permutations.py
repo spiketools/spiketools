@@ -105,7 +105,7 @@ def zscore_to_surrogates(value, surrogates):
     return zmap(value, surrogates)[0]
 
 
-def compute_surrogate_stats(data_value, surrogates, plot=True, verbose=True, **plt_kwargs):
+def compute_surrogate_stats(data_value, surrogates, plot=False, verbose=False, **plt_kwargs):
     """Compute surrogate statistics.
 
     Parameters
@@ -114,9 +114,9 @@ def compute_surrogate_stats(data_value, surrogates, plot=True, verbose=True, **p
         Test value.
     surrogates : 1d array
         Distribution of surrogates values.
-    plot : bool, optional, default: True
+    plot : bool, optional, default: False
         Whether to display the plot of the surrogates values.
-    verbose : bool, optional, default: True
+    verbose : bool, optional, default: False
         Whether to print the values of the p-value and z-score.
 
     Returns
