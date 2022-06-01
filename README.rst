@@ -79,6 +79,7 @@ It has the following required dependencies:
 
 There are also optional dependencies, that offer extra functionality:
 
+- `statsmodels <https://github.com/statsmodels/statsmodels>`_ is needed for some statistical measures, for example ANOVAs
 - `pytest <https://github.com/pytest-dev/pytest>`_ is needed to run the test suite locally
 
 We recommend using the `Anaconda <https://www.anaconda.com/distribution/>`_ distribution to manage these requirements.
