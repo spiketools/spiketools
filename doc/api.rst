@@ -177,6 +177,16 @@ Functionality for simulating spiking data, available in the `sim` sub-module.
 .. autosummary::
    :toctree: generated/
 
+Spike Times
+~~~~~~~~~~~
+
+.. currentmodule:: spiketools.sim.times
+.. autosummary::
+   :toctree: generated/
+
+   sim_spiketimes
+   sim_spiketimes_poisson
+
 Spike Trains
 ~~~~~~~~~~~~
 
