@@ -127,7 +127,7 @@ def plot_isis(isis, bins=None, range=None, density=False, ax=None, **plt_kwargs)
 
 @savefig
 @set_plt_kwargs
-def plot_unit_frs(rates, ax=None, **plt_kwargs):
+def plot_firing_rates(rates, ax=None, **plt_kwargs):
     """Plot firing rates for a group of neurons.
 
     Parameters

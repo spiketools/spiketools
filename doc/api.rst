@@ -220,7 +220,7 @@ Spikes
     plot_waveform
     plot_waveforms3d
     plot_isis
-    plot_unit_frs
+    plot_firing_rates
     plot_spikehist2d
 
 Space
