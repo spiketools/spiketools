@@ -249,7 +249,7 @@ Trials
    :toctree: generated/
 
     plot_rasters
-    plot_firing_rates
+    plot_rate_by_time
 
 Stats
 ~~~~~
