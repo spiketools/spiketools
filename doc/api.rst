@@ -41,7 +41,7 @@ Conversions between spike representations.
 .. autosummary::
    :toctree: generated/
 
-   create_spike_train
+   convert_times_to_train
    convert_train_to_times
    convert_isis_to_spikes
 

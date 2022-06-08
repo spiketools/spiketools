@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.measures import compute_isis, compute_firing_rate
-from spiketools.measures.conversions import (create_spike_train, convert_isis_to_spikes,
+from spiketools.measures.conversions import (convert_times_to_train, convert_isis_to_spikes,
                                              convert_train_to_times)
 from spiketools.stats.generators import poisson_train
 from spiketools.stats.permutations import vec_perm
@@ -100,7 +100,7 @@ def shuffle_bins(spikes, bin_width_range=[50, 2000], n_shuffles=1000):
     The next biggest hold up is converting the spike train to spike times.
     """
 
-    spike_train = create_spike_train(spikes)
+    spike_train = convert_times_to_train(spikes)
 
     shuffled_spikes = np.zeros([n_shuffles, spikes.shape[-1]])
 
@@ -193,7 +193,7 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
     The input shuffle_min should always be less than the maximum time in which a spike occured.
     """
 
-    spike_train = create_spike_train(spikes)
+    spike_train = convert_times_to_train(spikes)
 
     shuffles = np.random.randint(low=shuffle_min,
                                  high=len(spike_train)-shuffle_min,

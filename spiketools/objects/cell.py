@@ -1,7 +1,7 @@
 """Cell object."""
 
 from spiketools.stats.shuffle import shuffle_isis
-from spiketools.measures import create_spike_train
+from spiketools.measures import convert_times_to_train
 from spiketools.measures import compute_isis, compute_cv, compute_fano_factor, compute_firing_rate
 
 ###################################################################################################
@@ -44,7 +44,7 @@ class Cell():
     def spike_train(self):
         """Convert spike times into a spike train vector (binary)."""
 
-        return create_spike_train(self.spikes)
+        return convert_times_to_train(self.spikes)
 
 
     def firing_rate(self):

@@ -9,9 +9,9 @@ from spiketools.measures.conversions import *
 ###################################################################################################
 ###################################################################################################
 
-def test_create_spike_train(tspikes):
+def test_convert_times_to_train(tspikes):
 
-    spike_train = create_spike_train(tspikes)
+    spike_train = convert_times_to_train(tspikes)
     assert isinstance(spike_train, np.ndarray)
     assert spike_train.shape[-1] > tspikes.shape[-1]
     assert sum(spike_train) == tspikes.shape[-1]

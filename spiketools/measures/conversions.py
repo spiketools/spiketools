@@ -5,7 +5,7 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def create_spike_train(spikes, fs=1000, length=None):
+def convert_times_to_train(spikes, fs=1000, length=None):
     """Convert spike times into a binary spike train.
 
     Parameters
@@ -28,7 +28,7 @@ def create_spike_train(spikes, fs=1000, length=None):
     Convert 6 spike times into a corresponding binary spike train
 
     >>> spikes = [0.002, 0.250, 0.500, 0.750, 1.000, 1.250, 1.500]
-    >>> create_spike_train(spikes)
+    >>> convert_times_to_train(spikes)
     array([0, 0, 1, ..., 0, 0, 1])
     """
 
