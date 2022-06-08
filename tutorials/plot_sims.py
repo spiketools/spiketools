@@ -31,7 +31,8 @@ import numpy as np
 
 # Import simulation-related functions
 from spiketools.sim.train import sim_spiketrain_binom, sim_spiketrain_poisson, sim_spiketrain_prob
-from spiketools.sim.utils import refractory
+from spiketools.sim.times import sim_spiketimes
+from spiketools.sim.utils import apply_refractory_times
 
 # Import plot functions
 from spiketools.plts.trials import plot_rasters
@@ -87,6 +88,7 @@ plot_hist(spike_times, density=1, bins=50,
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # Simulate spike train from binomial and Poisson probability distributions.
+# Simulate spike times from Poisson probability distribution.
 #
 
 ###################################################################################################
@@ -102,10 +104,17 @@ plot_rasters(spike_binomial)
 ###################################################################################################
 
 # Simulate spike train from a Poisson probability distribution
-spikes = sim_spiketrain_poisson(0.16, 100000, 1000, bias=0)
+spikes = sim_spiketrain_poisson(16, 1000, 1000, bias=0)
 
 # Convert the simulated binary spike train to spike times in seconds & plot the spike times
 spike_poisson = convert_train_to_times(spikes, fs=1000)
+plot_rasters(spike_poisson)
+
+###################################################################################################
+
+# Simulate spike times from a Poisson probability distribution
+spike_poisson = sim_spiketimes(.16, 100, 'poisson')
+# Plot the spike times
 plot_rasters(spike_poisson)
 
 ###################################################################################################
@@ -119,7 +128,7 @@ plot_rasters(spike_poisson)
 ###################################################################################################
 
 # Apply a 0.003 seconds refractory period to the simulated spike train with 1000 Hz sampling rate
-spike_ref = refractory(spike_binomial, 0.003, 1000)
+spike_ref = apply_refractory_times(spike_binomial, 0.003, 1000)
 
 # Convert binary spike train to spike times in seconds & plot the spike times
 spike_times = convert_train_to_times(spike_ref, fs=1000)

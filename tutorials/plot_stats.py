@@ -26,7 +26,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Import statistics-related functions
-from spiketools.stats.generators import poisson_train
+from spiketools.stats.generators import poisson_generator
 from spiketools.stats.shuffle import (shuffle_isis, shuffle_bins, shuffle_poisson,
                                       shuffle_circular)
 from spiketools.stats.permutations import compute_surrogate_stats
@@ -42,7 +42,7 @@ from spiketools.measures.measures import compute_firing_rate
 ###################################################################################################
 
 # Generate spike times for spikes at 10Hz for 100 seconds
-poisson_generator = poisson_train(10, 100)
+poisson_generator = poisson_generator(10, 100)
 # get spike times in seconds
 spikes_s = np.array([spike for spike in poisson_generator])
 # make sure there are not multiple spikes within the same millisecond
@@ -121,12 +121,12 @@ fig.set_size_inches((40/2.54, 20/2.54))
 # Simulate change in firing rate given an event
 # Generate pre-event spike times: spikes at 5 Hz for 3 seconds (time_pre)
 time_pre = 3
-poisson_generator_pre = poisson_train(5, time_pre)
+poisson_generator_pre = poisson_generator(5, time_pre)
 spikes_s_pre = np.array([spike for spike in poisson_generator_pre])
 
 # Generate pre-event spike times: spikes at 10 Hz for 3 seconds (time_post)
 time_post = 3
-poisson_generator_post = poisson_train(10, time_post)
+poisson_generator_post = poisson_generator(10, time_post)
 # add time_pre to the output, since we will stack the pre and the post
 spikes_s_post = np.array([spike for spike in poisson_generator_post]) + time_pre
 
