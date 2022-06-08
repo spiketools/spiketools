@@ -43,7 +43,7 @@ Conversions between spike representations.
 
    convert_times_to_train
    convert_train_to_times
-   convert_isis_to_spikes
+   convert_isis_to_times
 
 Circular
 ~~~~~~~~

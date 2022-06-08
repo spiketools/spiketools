@@ -72,7 +72,7 @@ def convert_train_to_times(train, fs=1000):
     return spikes
 
 
-def convert_isis_to_spikes(isis, offset=0, add_offset=True):
+def convert_isis_to_times(isis, offset=0, add_offset=True):
     """Convert a sequence of inter-spike intervals to spike times.
 
     Parameters
@@ -94,7 +94,7 @@ def convert_isis_to_spikes(isis, offset=0, add_offset=True):
     Convert a sequence of 6 inter-spike intervals to their corresponding spike times, in seconds.
 
     >>> isis = [0.3, 0.6, 0.8, 0.2, 0.7]
-    >>> convert_isis_to_spikes(isis, offset=0, add_offset=True)
+    >>> convert_isis_to_times(isis, offset=0, add_offset=True)
     array([0. , 0.3, 0.9, 1.7, 1.9, 2.6])
     """
 

@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.measures import compute_isis, compute_firing_rate
-from spiketools.measures.conversions import (convert_times_to_train, convert_isis_to_spikes,
+from spiketools.measures.conversions import (convert_times_to_train, convert_isis_to_times,
                                              convert_train_to_times)
 from spiketools.stats.generators import poisson_train
 from spiketools.stats.permutations import vec_perm
@@ -67,7 +67,7 @@ def shuffle_isis(spikes, n_shuffles=1000):
 
     shuffled_spikes = np.zeros([n_shuffles, spikes.shape[-1]])
     for ind in range(n_shuffles):
-        shuffled_spikes[ind, :] = convert_isis_to_spikes(np.random.permutation(isis))
+        shuffled_spikes[ind, :] = convert_isis_to_times(np.random.permutation(isis))
 
     return shuffled_spikes
 

@@ -38,18 +38,18 @@ def test_convert_train_to_times():
     assert np.array_equal(spikes, expected * 2)
 
 
-def test_convert_isis_to_spikes(tspikes):
+def test_convert_isis_to_times(tspikes):
 
     isis = compute_isis(tspikes)
 
-    spikes1 = convert_isis_to_spikes(isis)
+    spikes1 = convert_isis_to_times(isis)
     assert spikes1.shape[-1] == tspikes.shape[-1]
 
-    spikes2 = convert_isis_to_spikes(isis, offset=2.)
+    spikes2 = convert_isis_to_times(isis, offset=2.)
     assert spikes2[0] == 2.
 
-    spikes3 = convert_isis_to_spikes(isis, add_offset=False)
+    spikes3 = convert_isis_to_times(isis, add_offset=False)
     assert len(spikes3) == len(isis)
 
-    spikes4 = convert_isis_to_spikes(isis, offset=tspikes[0])
+    spikes4 = convert_isis_to_times(isis, offset=tspikes[0])
     assert np.array_equal(spikes4, tspikes)
