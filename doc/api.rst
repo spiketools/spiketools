@@ -218,7 +218,7 @@ Spikes
 Space
 ~~~~~
 
-.. currentmodule:: spiketools.plts.space
+.. currentmodule:: spiketools.plts.spatial
 .. autosummary::
    :toctree: generated/
 
