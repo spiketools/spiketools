@@ -9,9 +9,9 @@ from spiketools.measures.conversions import *
 ###################################################################################################
 ###################################################################################################
 
-def test_create_spike_train(tspikes):
+def test_convert_times_to_train(tspikes):
 
-    spike_train = create_spike_train(tspikes)
+    spike_train = convert_times_to_train(tspikes)
     assert isinstance(spike_train, np.ndarray)
     assert spike_train.shape[-1] > tspikes.shape[-1]
     assert sum(spike_train) == tspikes.shape[-1]
@@ -38,18 +38,18 @@ def test_convert_train_to_times():
     assert np.array_equal(spikes, expected * 2)
 
 
-def test_convert_isis_to_spikes(tspikes):
+def test_convert_isis_to_times(tspikes):
 
     isis = compute_isis(tspikes)
 
-    spikes1 = convert_isis_to_spikes(isis)
+    spikes1 = convert_isis_to_times(isis)
     assert spikes1.shape[-1] == tspikes.shape[-1]
 
-    spikes2 = convert_isis_to_spikes(isis, offset=2.)
+    spikes2 = convert_isis_to_times(isis, offset=2.)
     assert spikes2[0] == 2.
 
-    spikes3 = convert_isis_to_spikes(isis, add_offset=False)
+    spikes3 = convert_isis_to_times(isis, add_offset=False)
     assert len(spikes3) == len(isis)
 
-    spikes4 = convert_isis_to_spikes(isis, offset=tspikes[0])
+    spikes4 = convert_isis_to_times(isis, offset=tspikes[0])
     assert np.array_equal(spikes4, tspikes)

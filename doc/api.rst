@@ -27,7 +27,7 @@ Spike measures.
 .. autosummary::
    :toctree: generated/
 
-   compute_spike_rate
+   compute_firing_rate
    compute_isis
    compute_cv
    compute_fano_factor
@@ -41,9 +41,9 @@ Conversions between spike representations.
 .. autosummary::
    :toctree: generated/
 
-   create_spike_train
+   convert_times_to_train
    convert_train_to_times
-   convert_isis_to_spikes
+   convert_isis_to_times
 
 Circular
 ~~~~~~~~
@@ -177,22 +177,14 @@ Functionality for simulating spiking data, available in the `sim` sub-module.
 .. autosummary::
    :toctree: generated/
 
-Probability
-~~~~~~~~~~~
+Spike Trains
+~~~~~~~~~~~~
 
-.. currentmodule:: spiketools.sim.prob
+.. currentmodule:: spiketools.sim.train
 .. autosummary::
    :toctree: generated/
 
     sim_spiketrain_prob
-
-Distribution
-~~~~~~~~~~~~
-
-.. currentmodule:: spiketools.sim.dist
-.. autosummary::
-   :toctree: generated/
-
     sim_spiketrain_binom
     sim_spiketrain_poisson
 
@@ -220,13 +212,13 @@ Spikes
     plot_waveform
     plot_waveforms3d
     plot_isis
-    plot_unit_frs
+    plot_firing_rates
     plot_spikehist2d
 
 Space
 ~~~~~
 
-.. currentmodule:: spiketools.plts.space
+.. currentmodule:: spiketools.plts.spatial
 .. autosummary::
    :toctree: generated/
 
@@ -249,7 +241,7 @@ Trials
    :toctree: generated/
 
     plot_rasters
-    plot_firing_rates
+    plot_rate_by_time
 
 Stats
 ~~~~~

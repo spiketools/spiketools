@@ -39,7 +39,7 @@ def test_plot_isis(tisis):
               file_path=TEST_PLOTS_PATH, file_name='tplot_isis.png')
 
 @plot_test
-def test_plot_unit_frs():
+def test_plot_firing_rates():
 
-    plot_unit_frs(np.array([2.5, 0.5, 1.2, 3.4]),
-                  file_path=TEST_PLOTS_PATH, file_name='tplot_units_frs.png')
+    plot_firing_rates(np.array([2.5, 0.5, 1.2, 3.4]),
+                      file_path=TEST_PLOTS_PATH, file_name='tplot_firing_rates.png')

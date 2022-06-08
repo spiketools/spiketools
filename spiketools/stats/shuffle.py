@@ -2,8 +2,8 @@
 
 import numpy as np
 
-from spiketools.measures import compute_isis, compute_spike_rate
-from spiketools.measures.conversions import (create_spike_train, convert_isis_to_spikes,
+from spiketools.measures import compute_isis, compute_firing_rate
+from spiketools.measures.conversions import (convert_times_to_train, convert_isis_to_times,
                                              convert_train_to_times)
 from spiketools.stats.generators import poisson_train
 from spiketools.stats.permutations import vec_perm
@@ -67,7 +67,7 @@ def shuffle_isis(spikes, n_shuffles=1000):
 
     shuffled_spikes = np.zeros([n_shuffles, spikes.shape[-1]])
     for ind in range(n_shuffles):
-        shuffled_spikes[ind, :] = convert_isis_to_spikes(np.random.permutation(isis))
+        shuffled_spikes[ind, :] = convert_isis_to_times(np.random.permutation(isis))
 
     return shuffled_spikes
 
@@ -100,7 +100,7 @@ def shuffle_bins(spikes, bin_width_range=[50, 2000], n_shuffles=1000):
     The next biggest hold up is converting the spike train to spike times.
     """
 
-    spike_train = create_spike_train(spikes)
+    spike_train = convert_times_to_train(spikes)
 
     shuffled_spikes = np.zeros([n_shuffles, spikes.shape[-1]])
 
@@ -160,7 +160,7 @@ def shuffle_poisson(spikes, n_shuffles=1000):
     This is an experimental implementation, and still has some issues matching spike counts.
     """
 
-    rate = compute_spike_rate(spikes)
+    rate = compute_firing_rate(spikes)
     length = (spikes[-1] - spikes[0])
     poisson_spikes = [ind for ind in poisson_train(rate, length)] + spikes[0]
 
@@ -193,7 +193,7 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
     The input shuffle_min should always be less than the maximum time in which a spike occured.
     """
 
-    spike_train = create_spike_train(spikes)
+    spike_train = convert_times_to_train(spikes)
 
     shuffles = np.random.randint(low=shuffle_min,
                                  high=len(spike_train)-shuffle_min,
