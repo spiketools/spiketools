@@ -2,7 +2,7 @@
 
 from spiketools.stats.shuffle import shuffle_isis
 from spiketools.measures import create_spike_train
-from spiketools.measures import compute_isis, compute_cv, compute_fano_factor, compute_spike_rate
+from spiketools.measures import compute_isis, compute_cv, compute_fano_factor, compute_firing_rate
 
 ###################################################################################################
 ###################################################################################################
@@ -50,7 +50,7 @@ class Cell():
     def firing_rate(self):
         """Compute average firing rate."""
 
-        return compute_spike_rate(self.spikes)
+        return compute_firing_rate(self.spikes)
 
 
     def ISI(self):

@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.measures import compute_isis, compute_spike_rate
+from spiketools.measures import compute_isis, compute_firing_rate
 from spiketools.measures.conversions import (create_spike_train, convert_isis_to_spikes,
                                              convert_train_to_times)
 from spiketools.stats.generators import poisson_train
@@ -160,7 +160,7 @@ def shuffle_poisson(spikes, n_shuffles=1000):
     This is an experimental implementation, and still has some issues matching spike counts.
     """
 
-    rate = compute_spike_rate(spikes)
+    rate = compute_firing_rate(spikes)
     length = (spikes[-1] - spikes[0])
     poisson_spikes = [ind for ind in poisson_train(rate, length)] + spikes[0]
 

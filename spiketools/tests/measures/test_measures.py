@@ -7,9 +7,9 @@ from spiketools.measures.measures import *
 ###################################################################################################
 ###################################################################################################
 
-def test_compute_spike_rate(tspikes):
+def test_compute_firing_rate(tspikes):
 
-    rate = compute_spike_rate(tspikes)
+    rate = compute_firing_rate(tspikes)
 
     assert isinstance(rate, float)
     assert np.isclose(rate, 2.0)

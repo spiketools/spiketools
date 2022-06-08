@@ -7,8 +7,8 @@ from spiketools.utils.data import restrict_range
 ###################################################################################################
 ###################################################################################################
 
-def compute_spike_rate(spikes, start_time=None, stop_time=None):
-    """Estimate spike rate from a vector of spike times, in seconds.
+def compute_firing_rate(spikes, start_time=None, stop_time=None):
+    """Estimate firing rate from a vector of spike times, in seconds.
 
     Parameters
     ----------
@@ -27,7 +27,7 @@ def compute_spike_rate(spikes, start_time=None, stop_time=None):
     Compute spike rate of 6 spikes
 
     >>> spikes = [0.5, 1, 1.5, 2, 2.5, 3]
-    >>> compute_spike_rate(spikes)
+    >>> compute_firing_rate(spikes)
     2.4
     """
 

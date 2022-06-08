@@ -27,7 +27,7 @@ Spike measures.
 .. autosummary::
    :toctree: generated/
 
-   compute_spike_rate
+   compute_firing_rate
    compute_isis
    compute_cv
    compute_fano_factor
