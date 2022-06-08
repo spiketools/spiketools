@@ -177,22 +177,14 @@ Functionality for simulating spiking data, available in the `sim` sub-module.
 .. autosummary::
    :toctree: generated/
 
-Probability
-~~~~~~~~~~~
+Spike Trains
+~~~~~~~~~~~~
 
-.. currentmodule:: spiketools.sim.prob
+.. currentmodule:: spiketools.sim.train
 .. autosummary::
    :toctree: generated/
 
     sim_spiketrain_prob
-
-Distribution
-~~~~~~~~~~~~
-
-.. currentmodule:: spiketools.sim.dist
-.. autosummary::
-   :toctree: generated/
-
     sim_spiketrain_binom
     sim_spiketrain_poisson
 
