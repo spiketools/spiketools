@@ -2,8 +2,6 @@
 
 import numpy as np
 
-from spiketools.sim.utils import refractory
-
 ###################################################################################################
 ###################################################################################################
 
@@ -167,7 +165,7 @@ def sim_spiketrain_poisson(rate, n_samples, fs=1000):
     --------
     Simulate a spike train from a Poisson distribution:
 
-    >>> spikes = sim_spiketrain_poisson(0.4, 10, 1000, bias=0)
+    >>> spikes = sim_spiketrain_poisson(0.4, 10, 1000)
     """
 
     spikes = np.zeros(n_samples)

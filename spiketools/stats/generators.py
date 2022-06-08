@@ -27,7 +27,7 @@ def poisson_generator(rate, duration, start_time=0):
     --------
     Create a Poisson generator and sample from it:
 
-    >>> gen = poisson_train(20, duration=np.inf)
+    >>> gen = poisson_generator(20, duration=np.inf)
     >>> for ind in range(10):
     ...     sample = next(gen)
     """
