@@ -2,10 +2,12 @@
 
 import numpy as np
 
+from spiketools.sim.utils import apply_refractory_train
+
 ###################################################################################################
 ###################################################################################################
 
-def sim_spiketrain(spike_param, n_samples, method, **kwargs):
+def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
     """Simulate a spike train.
 
     Parameters
@@ -18,6 +20,8 @@ def sim_spiketrain(spike_param, n_samples, method, **kwargs):
         The number of samples to simulate.
     method : {'prob', 'binom', 'poisson'}
         The method to use for the simulation.
+    refractory : float, optional
+        The refractory period to apply to the simulated data.
     **kwargs
         Additional keyword arguments.
 
@@ -38,6 +42,9 @@ def sim_spiketrain(spike_param, n_samples, method, **kwargs):
     """
 
     train = SPIKETRAIN_FUNCS[method](spike_param, n_samples, **kwargs)
+
+    if refractory:
+        train = apply_refractory_train(train, refractory)
 
     return train
 
