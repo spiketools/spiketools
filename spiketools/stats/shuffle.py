@@ -5,7 +5,7 @@ import numpy as np
 from spiketools.measures import compute_isis, compute_firing_rate
 from spiketools.measures.conversions import (convert_times_to_train, convert_isis_to_spikes,
                                              convert_train_to_times)
-from spiketools.stats.generators import poisson_train
+from spiketools.stats.generators import poisson_generator
 from spiketools.stats.permutations import vec_perm
 
 ###################################################################################################
@@ -162,7 +162,7 @@ def shuffle_poisson(spikes, n_shuffles=1000):
 
     rate = compute_firing_rate(spikes)
     length = (spikes[-1] - spikes[0])
-    poisson_spikes = [ind for ind in poisson_train(rate, length)] + spikes[0]
+    poisson_spikes = [ind for ind in poisson_generator(rate, length)] + spikes[0]
 
     isis = vec_perm(compute_isis(poisson_spikes), n_perms=n_shuffles)
 

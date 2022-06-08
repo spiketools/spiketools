@@ -21,7 +21,7 @@ def sim_spiketrain(spike_param, n_samples, method, **kwargs):
     method : {'prob', 'binom', 'poisson'}
         The method to use for the simulation.
     **kwargs
-        Additional keyword arguments
+        Additional keyword arguments.
 
     Returns
     -------
@@ -39,9 +39,7 @@ def sim_spiketrain(spike_param, n_samples, method, **kwargs):
     >>> train = sim_spiketrain(5, 10, method='poisson')
     """
 
-    func = SPIKETRAIN_FUNCS[method]
-
-    train = func(spike_param, n_samples, **kwargs)
+    train = SPIKETRAIN_FUNCS[method](spike_param, n_samples, **kwargs)
 
     return train
 
