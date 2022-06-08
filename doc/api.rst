@@ -184,6 +184,7 @@ Spike Trains
 .. autosummary::
    :toctree: generated/
 
+    sim_spiketrain
     sim_spiketrain_prob
     sim_spiketrain_binom
     sim_spiketrain_poisson

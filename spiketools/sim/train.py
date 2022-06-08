@@ -2,9 +2,40 @@
 
 import numpy as np
 
+from spiketools.sim.utils import refractory
+
 ###################################################################################################
 ###################################################################################################
 
+def sim_spiketrain(spike_param, n_samples, method, **kwargs):
+    """Simulate a spike train.
+
+    Parameters
+    ----------
+    spike_param : float
+        Parameter value that controls the simulated spiking. rate or probability.
+        For `prob` or `binom` methods, this is the probability of spiking.
+        For `poisson`, this is the spike rate.
+    n_samples : int
+        The number of samples to simulate.
+    method : {'prob', 'binom', 'poisson'}
+        The method to use for the simulation.
+    **kwargs
+        Additional keyword arguments
+
+    Returns
+    -------
+    train : 1d array
+        Simulated spike train.
+    """
+
+    func = SPIKETRAIN_FUNCS[method]
+
+    train = func(spike_param, n_samples, **kwargs)
+
+    return train
+
+###################################################################################################
 ## Probability based simulations
 
 def sim_spiketrain_prob(p_spiking, n_samples=None):
@@ -61,6 +92,7 @@ def sim_spiketrain_prob(p_spiking, n_samples=None):
     return spikes
 
 
+###################################################################################################
 ## Distribution based simulations
 
 def sim_spiketrain_binom(p_spiking, n_samples=None):
@@ -107,7 +139,7 @@ def sim_spiketrain_binom(p_spiking, n_samples=None):
     return np.random.binomial(1, p=p_spiking, size=n_samples)
 
 
-def sim_spiketrain_poisson(rate, n_samples, fs, bias=0):
+def sim_spiketrain_poisson(rate, n_samples, fs=1000, bias=0):
     """Simulate spike train from a Poisson distribution.
 
     Parameters
@@ -141,3 +173,10 @@ def sim_spiketrain_poisson(rate, n_samples, fs, bias=0):
     spikes[mask] = 1
 
     return spikes
+
+###################################################################################################
+## COLLECT SIM FUNCTION OPTIONS TOGETHER
+
+SPIKETRAIN_FUNCS = {'prob' : sim_spiketrain_prob,
+                    'binom' : sim_spiketrain_binom,
+                    'poisson' : sim_spiketrain_poisson}
