@@ -131,7 +131,7 @@ Generators
 .. autosummary::
    :toctree: generated/
 
-    poisson_train
+    poisson_generator
 
 Shuffle
 ~~~~~~~

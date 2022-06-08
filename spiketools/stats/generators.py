@@ -5,39 +5,34 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def poisson_train(frequency, duration, start_time=0):
-    """Generator function for a Homogeneous Poisson train.
+def poisson_generator(rate, duration, start_time=0):
+    """Generator function for a Homogeneous Poisson distribution.
 
     Parameters
     ----------
-    frequency : float
-        The mean spiking frequency.
+    rate : float
+        The average rate for the generator.
     duration : float
-        Maximum duration.
+        Maximum duration. After this time, the generator will return.
     start_time: float, optional
         Timestamp of the start time for the generated sequence.
 
     Yields
     ------
     float
-        A relative spike time from t=start_time, in seconds.
+        A sample from the distribution.
+        Sample is a relative value, based on `start_time`, in seconds.
 
     Examples
     --------
-    Make a list of spikes at 20 Hz for 3 seconds:
+    Create a Poisson generator and sample from it:
 
-    >>> poisson_generator = poisson_train(20, 3)
-    >>> spikes = [spike for spike in poisson_generator]
-
-    Sample spikes continuously from a generator:
-
-    >>> spike_gen = poisson_train(20, duration=np.inf)
+    >>> gen = poisson_train(20, duration=np.inf)
     >>> for ind in range(10):
-    ...     spike = next(spike_gen)
+    ...     sample = next(gen)
     """
 
-    isi = 1. / frequency
-
+    isi = 1. / rate
     cur_time = start_time
     while cur_time <= duration:
 
