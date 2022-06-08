@@ -21,7 +21,7 @@ This tutorial primarily covers the ``spiketools.stats`` module.
 
 # sphinx_gallery_thumbnail_number = 3
 
-# import auxiliary libraries
+# Import auxiliary libraries
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -37,7 +37,7 @@ from spiketools.plts.stats import plot_surrogates
 
 # Import measures & utilities
 from spiketools.utils.data import restrict_range
-from spiketools.measures.measures import compute_spike_rate
+from spiketools.measures.measures import compute_firing_rate
 
 ###################################################################################################
 
@@ -66,7 +66,7 @@ spikes_s = np.unique((spikes_s*1000).astype(int)) / 1000
 
 # Shuffle spike ms using the four described methods
 shuffled_isis = shuffle_isis(spikes_s, n_shuffles=10)
-shuffled_bins = shuffle_bins(spikes_s, bin_width_range=[50, 200], n_shuffles=10)
+shuffled_bins = shuffle_bins(spikes_s, bin_width_range=[5000, 7000], n_shuffles=10)
 shuffled_poisson = shuffle_poisson(spikes_s, n_shuffles=10)
 shuffled_circular = shuffle_circular(spikes_s, shuffle_min=200, n_shuffles=10)
 
@@ -136,10 +136,10 @@ spikes_pre_post = np.append(spikes_s_pre, spikes_s_post)
 ###################################################################################################
 
 # Get firing rate (spikes/s) post-event (on the final time_post seconds)
-fr_post = compute_spike_rate(restrict_range(spikes_pre_post, min_value=time_pre, max_value=None))
+fr_post = compute_firing_rate(restrict_range(spikes_pre_post, min_value=time_pre, max_value=None))
 
 # Get firing rate (spikes/s) pre-event (on the initial time_pre seconds)
-fr_pre = compute_spike_rate(restrict_range(spikes_pre_post, min_value=None, max_value=time_pre))
+fr_pre = compute_firing_rate(restrict_range(spikes_pre_post, min_value=None, max_value=time_pre))
 
 # Get firing rate difference between post and pre
 # This will be the value we compute the empirical p-value and the z-score for
@@ -155,9 +155,9 @@ shuff_spikes_pre_post = shuffle_isis(spikes_pre_post, n_shuffles=n_shuff)
 # This will be the surrogate distribution used to compute the empirical p-value and the z-score
 surr = np.zeros((n_shuff,))
 for ind in range(n_shuff):
-    fr_post = (compute_spike_rate(restrict_range(shuff_spikes_pre_post[ind, :],
+    fr_post = (compute_firing_rate(restrict_range(shuff_spikes_pre_post[ind, :],
                                                  min_value=time_pre, max_value=None)))
-    fr_pre = (compute_spike_rate(restrict_range(shuff_spikes_pre_post[ind, :],
+    fr_pre = (compute_firing_rate(restrict_range(shuff_spikes_pre_post[ind, :],
                                                 min_value=None, max_value=time_pre)))
     surr[ind] = fr_post - fr_pre
 

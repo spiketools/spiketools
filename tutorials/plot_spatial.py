@@ -25,11 +25,11 @@ This tutorial primarily covers the ``spiketools.spatial`` module.
 
 # sphinx_gallery_thumbnail_number = 1
 
-# import auxiliary libraries
+# Import auxiliary libraries
 import numpy as np
 import matplotlib.pyplot as plt
 
-# import functions from spiketools.spatial
+# Import functions from spiketools.spatial
 from spiketools.spatial.position import (compute_distance, compute_distances,
                                          compute_cumulative_distances, compute_speed)
 from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignment,
@@ -38,11 +38,11 @@ from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignm
 from spiketools.spatial.utils import get_pos_ranges, get_bin_width
 from spiketools.spatial.information import compute_spatial_information
 
-# import sim_spiketrain_binom to simulate spiketrain
-from spiketools.sim.dist import sim_spiketrain_binom
+# Import spiketrain simulation function
+from spiketools.sim.train import sim_spiketrain_binom
 
-# import plot_positions and plot_space_heat to plot position and occupancy
-from spiketools.plts.space import plot_positions, plot_heatmap
+# Import plotting functions
+from spiketools.plts.spatial import plot_positions, plot_heatmap
 
 ###################################################################################################
 
@@ -83,6 +83,7 @@ print(f'The y-position ranges from {ranges[1][0]} to {ranges[1][1]}')
 plot_positions(position, alpha=1, ls='-', marker='x', color='tab:gray', markersize=10,
                title='Tracking', xlabel='x-position', ylabel='y-position')
 plt.legend(['coordinates'])
+plt.show()
 
 ###################################################################################################
 
@@ -148,6 +149,7 @@ plot_positions(position, x_bins=x_edges, y_bins=y_edges,
                alpha=1, ls='-', marker='x', color='tab:gray', markersize=10,
                title='Tracking and spatial bins', xlabel='x-position', ylabel='y-position')
 plt.legend(['Tracking'], loc='upper left')
+plt.show()
 
 ###################################################################################################
 # 3. Compute spatial bin assignment using spatial bin edges
