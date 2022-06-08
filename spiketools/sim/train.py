@@ -27,6 +27,16 @@ def sim_spiketrain(spike_param, n_samples, method, **kwargs):
     -------
     train : 1d array
         Simulated spike train.
+
+    Examples
+    --------
+    Simulate a spike train based on probability of spiking:
+
+    >>> train = sim_spiketrain(0.1, 10, method='prob')
+
+    Simulate a spike train based on a Poisson distribution:
+
+    >>> train = sim_spiketrain(5, 10, method='poisson')
     """
 
     func = SPIKETRAIN_FUNCS[method]
@@ -60,18 +70,18 @@ def sim_spiketrain_prob(p_spiking, n_samples=None):
 
     Notes
     -----
-    n_samples is only used if p_spiking is a float.
-    Otherwise n_samples is just the length of p_spiking.
+    `n_samples` is only used if p_spiking is a float.
+    Otherwise `n_samples` is just the length of p_spiking.
 
     Examples
     --------
-    Simulate spike train of size n_samples, based on a probability of spiking per sample.
+    Simulate a spike train based on a probability of spiking per sample:
 
     >>> p_spiking = 0.3
     >>> n_samples = 10
     >>> sim_spiketrain = sim_spiketrain_prob(p_spiking, n_samples)
 
-    Simulate spike train based on a probability of spiking per sample over time.
+    Simulate spike train based on a probability of spiking per sample over time:
 
     >>> p_spiking = np.array([0.3, 0.5, 0.6])
     >>> sim_spiketrain = sim_spiketrain_prob(p_spiking)
@@ -90,7 +100,6 @@ def sim_spiketrain_prob(p_spiking, n_samples=None):
     spikes = spikes.astype(int)
 
     return spikes
-
 
 ###################################################################################################
 ## Distribution based simulations
@@ -117,12 +126,12 @@ def sim_spiketrain_binom(p_spiking, n_samples=None):
 
     Notes
     -------
-    n_samples is only used if p_spiking is a float.
-    Otherwise n_samples is just the length of p_spiking.
+    `n_samples` is only used if p_spiking is a float.
+    Otherwise `n_samples` is just the length of `p_spiking`.
 
     Examples
     --------
-    Simulate spike train with every sample having the same probabiliy of spiking:
+    Simulate a spike train based on a probability of spiking per sample:
 
     >>> p_spiking = 0.7
     >>> spikes = sim_spiketrain_binom(p_spiking, n_samples=5)
@@ -139,7 +148,7 @@ def sim_spiketrain_binom(p_spiking, n_samples=None):
     return np.random.binomial(1, p=p_spiking, size=n_samples)
 
 
-def sim_spiketrain_poisson(rate, n_samples, fs=1000, bias=0):
+def sim_spiketrain_poisson(rate, n_samples, fs=1000):
     """Simulate spike train from a Poisson distribution.
 
     Parameters
@@ -148,7 +157,7 @@ def sim_spiketrain_poisson(rate, n_samples, fs=1000, bias=0):
         The firing rate of neuron to simulate.
     n_samples : int
         The number of samples to simulate.
-    fs : int
+    fs : int, optional, default: 1000
         The sampling rate.
 
     Returns
@@ -158,18 +167,16 @@ def sim_spiketrain_poisson(rate, n_samples, fs=1000, bias=0):
 
     Examples
     --------
-    Simulate a spike train from a Poisson distribution.
+    Simulate a spike train from a Poisson distribution:
 
     >>> spikes = sim_spiketrain_poisson(0.4, 10, 1000, bias=0)
     """
 
     spikes = np.zeros(n_samples)
 
-    # Create uniform sampling distribution
+    # Create a uniform sampling distribution to use to simulate spikes
     unif = np.random.uniform(0, 1, size=n_samples)
-
-    # Create spikes
-    mask = unif <= ((rate + bias) * 1/fs)
+    mask = unif <= (rate * 1 / fs)
     spikes[mask] = 1
 
     return spikes
