@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.annotate import _add_vlines, _add_shade, _add_significance_to_plot
+from spiketools.plts.annotate import _add_vlines, _add_vshade, _add_significance_to_plot
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 from spiketools.utils.select import get_avg_func, get_var_func
 from spiketools.utils.base import flatten
@@ -13,7 +13,7 @@ from spiketools.utils.base import flatten
 
 @savefig
 @set_plt_kwargs
-def plot_rasters(data, vline=None, colors=None, shade=None, show_axis=False, ax=None, **plt_kwargs):
+def plot_rasters(data, vline=None, colors=None, vshade=None, show_axis=False, ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 
     Parameters
@@ -26,8 +26,8 @@ def plot_rasters(data, vline=None, colors=None, shade=None, show_axis=False, ax=
     colors : str or list of str
         Color(s) to plot the raster ticks.
         If more than one, should be the length of data.
-    shade : list of float, optional
-        Region of the plot to shade in.
+    vshade : list of float, optional
+        Vertical region of the plot to shade in.
     show_axis : bool, optional, default: False
         Whether to show the axis around the plot.
     ax : Axes, optional
@@ -58,7 +58,7 @@ def plot_rasters(data, vline=None, colors=None, shade=None, show_axis=False, ax=
     ax.eventplot(data, colors=colors)
 
     _add_vlines(vline, ax, lw=2.5, color='green', alpha=0.5)
-    _add_shade(shade, ax, alpha=0.25, color='red')
+    _add_vshade(vshade, ax, alpha=0.25, color='red')
 
     if not show_axis:
         ax.set_axis_off()
