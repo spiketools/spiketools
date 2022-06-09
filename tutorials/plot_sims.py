@@ -95,19 +95,19 @@ plot_hist(spike_times, density=1, bins=50,
 
 # Simulate spike train from binomial probability distribution
 p_spiking = 0.7
-spikes = sim_spiketrain_binom(p_spiking, n_samples=100)
+spike_train = sim_spiketrain_binom(p_spiking, n_samples=100)
 
 # Convert binary spike train to spike times in seconds & plot the spike times
-spike_binomial = convert_train_to_times(spikes, fs=1000)
+spike_binomial = convert_train_to_times(spike_train, fs=1000)
 plot_rasters(spike_binomial)
 
 ###################################################################################################
 
 # Simulate spike train from a Poisson probability distribution
-spikes = sim_spiketrain_poisson(16, 1000, 1000)
+spike_train = sim_spiketrain_poisson(16, 1000, 1000)
 
 # Convert the simulated binary spike train to spike times in seconds & plot the spike times
-spike_poisson = convert_train_to_times(spikes, fs=1000)
+spike_poisson = convert_train_to_times(spike_train, fs=1000)
 plot_rasters(spike_poisson)
 
 ###################################################################################################
