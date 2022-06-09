@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from spiketools.utils.select import get_avg_func, get_var_func
-from spiketools.plts.data import plot_bar, plot_hist
+from spiketools.plts.data import plot_bar, plot_hist, plot_lines
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 ###################################################################################################
@@ -12,17 +12,24 @@ from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_waveform(waveform, average=None, shade=None, add_traces=False, ax=None, **plt_kwargs):
+def plot_waveform(waveform, times=None, average=None, shade=None, add_traces=False,
+                  ax=None, **plt_kwargs):
     """Plot a spike waveform.
 
     Parameters
     ----------
     waveform : 1d or 2d array
-        Voltage values of the spike waveform.
+        Voltage values of the spike waveform(s). If 2d, should have shape [n_waveforms, n_times].
+    times : 1d array, optional
+        Time values corresponding to the waveform(s).
     average : {'mean', 'median'}, optional
-        Averaging to apply to firing rate activity before plotting.
+        Averaging to apply to waveforms before plotting.
+        If provided, this takes an average across an assumed 2d array of waveforms.
     shade : {'sem', 'std'} or 1d array, optional
         Measure of variance to compute and/or plot as shading.
+    add_traces : bool, optional, default: False
+        Whether to also plot individual waveform traces.
+        Only applicable if `waveform` is a 2d array.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -38,34 +45,43 @@ def plot_waveform(waveform, average=None, shade=None, add_traces=False, ax=None,
         all_waveforms = waveform
         waveform = get_avg_func(average)(waveform, 0)
 
-    ax.plot(waveform, **plt_kwargs)
+    xlabel = 'Time (s)'
+    if times is None:
+        times = np.arange(waveform.shape[-1])
+        xlabel = 'Samples'
+
+    plot_lines(times, waveform, ax=ax,
+               xlabel=plt_kwargs.pop('xlabel', xlabel),
+               ylabel=plt_kwargs.pop('ylabel', 'Voltage'),
+               title=plt_kwargs.pop('title', 'Spike Waveform'),
+               **plt_kwargs)
 
     if add_traces:
-        line = ax.lines[0]
-        ax.plot(line.get_xdata(), all_waveforms.T,
-                lw=1, alpha=0.5, color=line.get_color())
+        ax.plot(times, all_waveforms.T,
+                lw=1, alpha=0.5, color=ax.lines[0].get_color())
 
     if shade is not None:
-        ax.fill_between(ax.lines[0].get_xdata(), waveform-shade, waveform+shade, alpha=0.25)
-
-    ax.set(title='Spike Waveform')
+        ax.fill_between(times, waveform - shade, waveform + shade, alpha=0.25)
 
 
 @savefig
 @set_plt_kwargs
-def plot_waveforms3d(times, waveforms, **plt_kwargs):
+def plot_waveforms3d(waveforms, times=None, **plt_kwargs):
     """Plot waveforms on a 3D axis.
 
     Parameters
     ----------
-    times : 1d array
-        Time values corresponding to the waveforms.
     waveforms : 2d array
-        Voltage values for the waveforms, with shape [n_times, n_waveforms].
+        Voltage values for the waveforms, with shape [n_waveforms, n_times].
+    times : 1d array, optional
+        Time values corresponding to the waveforms.
     """
 
     plt.figure(figsize=plt_kwargs.pop('figsize', None))
     ax = plt.subplot(projection='3d')
+
+    if times is None:
+        times = np.arange(waveforms.shape[-1])
 
     ys = np.ones(waveforms.shape[1])
     for ind, waveform in enumerate(waveforms):
@@ -74,19 +90,20 @@ def plot_waveforms3d(times, waveforms, **plt_kwargs):
     # Set axis view orientation and hide axes
     ax.view_init(None, None)
     ax.axis('off')
+    ax.set(title=plt_kwargs.pop('title', 'Spike Waveforms'))
 
 
 @savefig
 @set_plt_kwargs
-def plot_spikehist2d(times, waveforms, bins=(250, 50), cmap='viridis', ax=None, **plt_kwargs):
+def plot_spikehist2d(waveforms, times=None, bins=(250, 50), cmap='viridis', ax=None, **plt_kwargs):
     """Plot a 2D histogram of spike waveforms.
 
     Parameters
     ----------
-    times : 1d array
-        Time values corresponding to the waveforms.
     waveforms : 2d array
-        Voltage values for the waveforms, with shape [n_times, n_waveforms].
+        Voltage values for the waveforms, with shape [n_waveforms, n_times].
+    times : 1d array, optional
+        Time values corresponding to the waveforms.
     bins : tuple of (int, int)
         Bin definition to use to create the figure.
     cmap : str
@@ -95,8 +112,17 @@ def plot_spikehist2d(times, waveforms, bins=(250, 50), cmap='viridis', ax=None, 
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
+    xlabel = 'Time (s)'
+    if times is None:
+        times = np.arange(waveforms.shape[-1])
+        xlabel = 'Samples'
     times = np.vstack([times] * waveforms.shape[0])
+
     ax.hist2d(times.flatten(), waveforms.flatten(), bins=bins, cmap=cmap)
+
+    ax.set(xlabel=plt_kwargs.pop('xlabel', xlabel),
+           ylabel=plt_kwargs.pop('ylabel', 'Voltage'),
+           title=plt_kwargs.pop('title', 'Spike Histogram'))
 
 
 @savefig
