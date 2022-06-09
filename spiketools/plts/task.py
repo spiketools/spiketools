@@ -39,8 +39,8 @@ def plot_task_structure(task_ranges=None, event_lines=None, range_colors=None, l
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', (16, 2)))
 
     color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
-    shade_kwargs = {} if shade_kwargs is None else shade_kwargs
-    line_kwargs = {} if line_kwargs is None else line_kwargs
+    range_kwargs = {} if range_kwargs is None else range_kwargs
+    event_kwargs = {} if event_kwargs is None else event_kwargs
 
     if task_ranges is not None:
         if not isinstance(task_ranges[0][0], (int, float)):
