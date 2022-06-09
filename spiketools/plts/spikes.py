@@ -95,8 +95,9 @@ def plot_waveforms3d(waveforms, times=None, **plt_kwargs):
 
 @savefig
 @set_plt_kwargs
-def plot_spikehist2d(waveforms, times=None, bins=(250, 50), cmap='viridis', ax=None, **plt_kwargs):
-    """Plot a 2D histogram of spike waveforms.
+def plot_waveform_density(waveforms, times=None, bins=(250, 50), cmap='viridis',
+                          ax=None, **plt_kwargs):
+    """Plot a heatmap of waveform density, created as a 2D histogram of spike waveforms.
 
     Parameters
     ----------

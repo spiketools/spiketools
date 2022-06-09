@@ -222,9 +222,9 @@ Spikes
 
     plot_waveform
     plot_waveforms3d
+    plot_waveform_density
     plot_isis
     plot_firing_rates
-    plot_spikehist2d
 
 Space
 ~~~~~
