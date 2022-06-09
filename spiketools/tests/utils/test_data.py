@@ -29,6 +29,9 @@ def test_restrict_range():
     out3 = restrict_range(data, min_value=1., max_value=2.)
     assert np.array_equal(out3, np.array([1., 1.5, 2.]))
 
+    out4 = restrict_range(data, min_value=1., max_value=2., reset=1.)
+    assert np.array_equal(out4, np.array([0., 0.5, 1.0]))
+
 def test_get_value_by_time():
 
     times = np.array([1, 2, 3, 4, 5])
