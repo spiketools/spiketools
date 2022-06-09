@@ -1,1 +1,1 @@
-"""Module plots."""
+"""Plots."""

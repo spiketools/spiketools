@@ -339,7 +339,8 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
         x_bins = compute_bin_assignment(position, x_edges)
 
         # Add binned space information to data dictionary, and define how to group data
-        data_dict['xbins'] = pd.Categorical(x_bins, categories=list(range(0, bins[0])), ordered=True)
+        data_dict['xbins'] = pd.Categorical(\
+            x_bins, categories=list(range(0, bins[0])), ordered=True)
         groupby = ['xbins']
 
     elif position.ndim == 2:
@@ -349,8 +350,10 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
         x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
 
         # Add binned space information to data dictionary, and define how to group data
-        data_dict['xbins'] = pd.Categorical(x_bins, categories=list(range(0, bins[0])), ordered=True)
-        data_dict['ybins'] = pd.Categorical(y_bins, categories=list(range(0, bins[1])), ordered=True)
+        data_dict['xbins'] = pd.Categorical(\
+            x_bins, categories=list(range(0, bins[0])), ordered=True)
+        data_dict['ybins'] = pd.Categorical(\
+            y_bins, categories=list(range(0, bins[1])), ordered=True)
         groupby = ['xbins', 'ybins']
 
     else:

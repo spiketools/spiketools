@@ -11,7 +11,7 @@ from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 @savefig
 @set_plt_kwargs
 def plot_task_structure(shades=None, lines=None, shade_colors=None, line_colors=None,
-                        shade_kwargs={}, line_kwargs={}, ax=None):
+                        shade_kwargs=None, line_kwargs=None, ax=None):
     """Plot task structure with shaded regions and line events.
 
     Parameters
@@ -26,9 +26,9 @@ def plot_task_structure(shades=None, lines=None, shade_colors=None, line_colors=
         Colors to plot the shades in. Used if passing multiple shade sections.
     line_colors : list of str
         Colors to plot the lines in. Used if passing multiple line sections.
-    shade_kwargs : dict
+    shade_kwargs : dict, optional
         Additional keyword arguments for the shades.
-    line_kwargs : dict
+    line_kwargs : dict, optional
         Additional keyword arguments for the lines.
     ax : Axes, optional
         Axis object upon which to plot.
@@ -39,6 +39,8 @@ def plot_task_structure(shades=None, lines=None, shade_colors=None, line_colors=
     ax = check_ax(ax, figsize=(16, 2))
 
     color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
+    shade_kwargs = {} if shade_kwargs is None else shade_kwargs
+    line_kwargs = {} if line_kwargs is None else line_kwargs
 
     if shades is not None:
         if not isinstance(shades[0][0], (int, float)):
@@ -58,4 +60,4 @@ def plot_task_structure(shades=None, lines=None, shade_colors=None, line_colors=
         else:
             _add_vlines(lines, **line_kwargs, ax=ax)
 
-    plt.yticks([]);
+    plt.yticks([])

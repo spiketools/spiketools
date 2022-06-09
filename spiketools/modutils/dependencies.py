@@ -1,4 +1,4 @@
-"""Module level utilities."""
+"""Module level utilities for managing dependencies."""
 
 from importlib import import_module
 from functools import wraps
