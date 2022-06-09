@@ -11,13 +11,19 @@ from spiketools.plts.data import *
 ###################################################################################################
 
 @plot_test
-def test_plot_lines(tdata):
+def test_plot_lines():
 
     data1 = np.random.random(10)
     data2 = np.random.random(10)
 
     plot_lines(data1, data2, vline=0.5,
                file_path=TEST_PLOTS_PATH, file_name='tplot_line.png')
+
+@plot_test
+def test_plot_dots(tdata):
+
+    plot_dots(tdata, tdata,
+              file_path=TEST_PLOTS_PATH, file_name='tplot_dots.png')
 
 @plot_test
 def test_plot_hist(tdata):

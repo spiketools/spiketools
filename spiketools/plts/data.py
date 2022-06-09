@@ -27,8 +27,6 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
         Position(s) to draw a vertical line. If None, no line is drawn.
     ax : Axes, optional
         Axis object upon which to plot.
-    line : float or list, optional, default: 0
-        Position(s) to draw a vertical line. If None, no line is drawn.
     plt_kwargs
         Additional arguments to pass into the plot function.
     """
@@ -44,6 +42,26 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
         ax.plot(x_vals, y_vals, **plt_kwargs)
 
     _add_vlines(vline, ax)
+
+
+@savefig
+@set_plt_kwargs
+def plot_dots(x_values, y_values, ax=None, **plt_kwargs):
+    """Plot data as dots.
+
+    Parameters
+    ----------
+    x_values, y_values : 1d or 2d array or list of 1d array
+        Data to plot on the x and y axis.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    plt.plot(x_values, y_values, '.', **plt_kwargs)
 
 
 @savefig
@@ -69,7 +87,6 @@ def plot_hist(data, bins=None, range=None, density=None,
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
-
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))

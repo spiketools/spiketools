@@ -260,6 +260,7 @@ Data
    :toctree: generated/
 
    plot_lines
+   plot_dots
    plot_bar
    plot_hist
    plot_polar_hist
