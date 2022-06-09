@@ -9,6 +9,16 @@ from spiketools.sim.train import *
 ###################################################################################################
 ###################################################################################################
 
+def test_sim_spiketrain():
+
+    n_samples = 1000
+    for method, param in zip(['prob', 'binom', 'poisson'], [0.1, 0.1, 10]):
+        train = sim_spiketrain(param, n_samples, method)
+
+        assert isinstance(train, np.ndarray)
+        assert np.all(train < 2)
+        assert sum(train) < len(train)
+
 def test_sim_spiketrain_prob():
 
     # Simulate spike train based on a probability of spiking per sample over time
