@@ -1,4 +1,4 @@
-"""Cell object."""
+"""Unit object."""
 
 from spiketools.stats.shuffle import shuffle_spikes
 from spiketools.measures import convert_times_to_train
@@ -7,34 +7,27 @@ from spiketools.measures import compute_isis, compute_cv, compute_fano_factor, c
 ###################################################################################################
 ###################################################################################################
 
-class Cell():
-    """A Session object.
+class Unit():
+    """A Unit object.
 
     Parameters
     ----------
-    subject : str
-        Subject label.
-    session : str
-        Session label.
-    task : str
-        Task label.
+    uid : str
+        Unit ID.
+    spikes : 1d array
+        Spike times.
     channel : str
         Channel label.
     region : str
         Region label.
-    spikes : 1d array
-        Spike times.
     cluster : 1d array
         Spike cluster.
     """
 
-    def __init__(self, subject=None, session=None, task=None, channel=None,
-                 region=None, spikes=None, cluster=None):
-        """Initialize a Cell object."""
+    def __init__(self, uid=None, spikes=None, channel=None, region=None, cluster=None):
+        """Initialize a Unit object."""
 
-        self.subject = subject
-        self.session = session
-        self.task = task
+        self.uid = uid
         self.channel = channel
         self.region = region
         self.spikes = spikes

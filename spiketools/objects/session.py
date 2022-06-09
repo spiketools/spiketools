@@ -14,8 +14,8 @@ class Session():
         Session label.
     task : str
         Task label.
-    units : list of Cells
-        Single units for the session.
+    units : list of Units
+        Units for the session.
     """
 
     def __init__(self, subject=None, session=None, task=None, units=None):
@@ -32,7 +32,7 @@ class Session():
 
         Parameters
         ----------
-        unit : Cell
+        unit : Unit
             An individual unit.
         """
 

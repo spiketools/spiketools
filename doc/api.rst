@@ -65,7 +65,7 @@ Object for managing spike-related data, available in the `objects` sub-module.
 .. autosummary::
    :toctree: generated/
 
-   Cell
+   Unit
    Session
 
 Spatial
