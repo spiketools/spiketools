@@ -23,13 +23,13 @@ def test_cell_firing_rate(tcell):
 
     rate = tcell.firing_rate()
 
-def test_cell_ISI(tcell):
+def test_cell_isis(tcell):
 
-    isis = tcell.ISI()
+    isis = tcell.isis()
 
-def test_cell_CV(tcell):
+def test_cell_cv(tcell):
 
-    cv = tcell.CV()
+    cv = tcell.cv()
 
 def test_cell_fano(tcell):
 
