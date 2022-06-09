@@ -1,11 +1,11 @@
-"""Tests for spiketools.plts.space"""
+"""Tests for spiketools.plts.spatial"""
 
 import numpy as np
 
 from spiketools.tests.tutils import plot_test
 from spiketools.tests.tsettings import TEST_PLOTS_PATH
 
-from spiketools.plts.space import *
+from spiketools.plts.spatial import *
 
 ###################################################################################################
 ###################################################################################################

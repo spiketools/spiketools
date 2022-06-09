@@ -62,7 +62,6 @@ def plot_hist(data, average=None, ax=None, **plt_kwargs):
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
-
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
@@ -120,7 +119,7 @@ def plot_polar_hist(data, bin_width=None, ax=None, **plt_kwargs):
         ax = plt.subplot(111, polar=True)
 
     bin_edges, counts = bin_circular(data, bin_width=bin_width)
-    ax.bar(bin_edges[:-1], counts)
+    ax.bar(bin_edges[:-1], counts, **plt_kwargs)
 
 
 @savefig

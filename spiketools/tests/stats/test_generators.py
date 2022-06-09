@@ -7,9 +7,9 @@ from spiketools.stats.generators import *
 ###################################################################################################
 ###################################################################################################
 
-def test_poisson_train():
+def test_poisson_generator():
 
-    ptrain = poisson_train(5., 10.)
+    ptrain = poisson_generator(5., 10.)
 
     assert inspect.isgenerator(ptrain)
 

@@ -66,9 +66,9 @@ def plot_rasters(data, vline=None, colors=None, shade=None, show_axis=False, ax=
 
 @savefig
 @set_plt_kwargs
-def plot_firing_rates(x_vals, y_vals, average=None, shade=None, labels=None,
-                      stats=None, sig_level=0.05, ax=None, **plt_kwargs):
-    """Plot continuous spike firing rates.
+def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
+                        stats=None, sig_level=0.05, ax=None, **plt_kwargs):
+    """Plot continuous firing rates across time.
 
     Parameters
     ----------
