@@ -23,7 +23,7 @@ def plot_positions(positions, spike_positions=None, landmarks=None,
     ----------
     positions : 2d array or list of 2d array
         Position data.
-        If a list, each elment of the list is plotted separately, on the same plot.
+        If a list, each element of the list is plotted separately, on the same plot.
     spike_positions : 2d array or dict, optional
         Position values of spikes, to indicate on the plot.
         If array, defines the positions.

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 ###################################################################################################
 
 def color_pval(p_value, alpha=0.05, significant_color='red', null_color='black'):
-    """Return a text color based on the significance of a p-value.
+    """Select a color based on the significance of a p-value.
 
     Parameters
     ----------

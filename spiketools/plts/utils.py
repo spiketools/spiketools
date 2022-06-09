@@ -12,7 +12,7 @@ from spiketools.plts.settings import SET_KWARGS
 ###################################################################################################
 
 def check_ax(ax, figsize=None):
-    """Check whether a figure axes object is defined, define if not.
+    """Check whether a figure axes object is defined, and define if not.
 
     Parameters
     ----------
@@ -98,7 +98,7 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
         The size to use per row / column.
         Only used if `figsize` is None.
     wspace, hspace : float, optional
-        Spacing parameters
+        Spacing parameters for between subplots.
         These get passed into `plt.subplots_adjust`.
     **plt_kwargs
         Extra arguments to pass to `plt.subplots`.

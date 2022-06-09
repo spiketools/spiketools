@@ -11,7 +11,7 @@ from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 @savefig
 @set_plt_kwargs
 def plot_task_structure(shades=None, lines=None, shade_colors=None, line_colors=None,
-                        shade_kwargs={}, line_kwargs={}, ax=None):
+                        shade_kwargs={}, line_kwargs={}, ax=None, **plt_kwargs):
     """Plot task structure with shaded regions and line events.
 
     Parameters
@@ -36,7 +36,7 @@ def plot_task_structure(shades=None, lines=None, shade_colors=None, line_colors=
         Additional arguments to pass into the plot function.
     """
 
-    ax = check_ax(ax, figsize=(16, 2))
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', (16, 2)))
 
     color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
@@ -58,4 +58,4 @@ def plot_task_structure(shades=None, lines=None, shade_colors=None, line_colors=
         else:
             _add_vlines(lines, **line_kwargs, ax=ax)
 
-    plt.yticks([]);
+    plt.yticks([])

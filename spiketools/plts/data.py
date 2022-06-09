@@ -166,7 +166,7 @@ def plot_text(text, xpos=0.5, ypos=0.5, show_axis=False, ax=None, **plt_kwargs):
         Additional arguments to pass into the plot function.
     """
 
-    ax = check_ax(ax)
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
     ax.text(xpos, ypos, text,
             fontdict=plt_kwargs.pop('fontdict', TEXT_SETTINGS['fontdict']),

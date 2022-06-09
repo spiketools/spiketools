@@ -66,6 +66,7 @@ def plot_waveforms3d(times, waveforms, **plt_kwargs):
 
     plt.figure(figsize=plt_kwargs.pop('figsize', None))
     ax = plt.subplot(projection='3d')
+
     ys = np.ones(waveforms.shape[1])
     for ind, waveform in enumerate(waveforms):
         ax.plot(times, ys * ind, waveform)
@@ -140,5 +141,8 @@ def plot_firing_rates(rates, ax=None, **plt_kwargs):
         Additional arguments to pass into the plot function.
     """
 
-    plot_bar(rates, labels=['U' + str(ind) for ind in range(len(rates))], ax=ax, **plt_kwargs,
-             xlabel='Units', ylabel='Firing Rate (Hz)', title='Firing Rates of all Units')
+    plot_bar(rates, labels=['U' + str(ind) for ind in range(len(rates))], ax=ax,
+             xlabel=plt_kwargs.pop('xlabel', 'Units'),
+             ylabel=plt_kwargs.pop('xlabel', 'Firing Rate (Hz)'),
+             title=plt_kwargs.pop('title', 'Firing Rates of all Units'),
+             **plt_kwargs)
