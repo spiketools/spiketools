@@ -8,8 +8,6 @@ from spiketools.sim.utils import apply_refractory_times
 ###################################################################################################
 ###################################################################################################
 
-## General function
-
 def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
     """Simulate spike times.
 
