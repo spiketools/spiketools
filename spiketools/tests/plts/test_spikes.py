@@ -29,8 +29,8 @@ def test_plot_waveforms3d(twaveform):
 @plot_test
 def test_plot_waveform_density(twaveform):
 
-    plot_spikehist2d(np.vstack([twaveform] *  3),
-                     file_path=TEST_PLOTS_PATH, file_name='tplot_waveform_density.png')
+    plot_waveform_density(np.vstack([twaveform] *  3),
+                          file_path=TEST_PLOTS_PATH, file_name='tplot_waveform_density.png')
 
 @plot_test
 def test_plot_isis(tisis):
