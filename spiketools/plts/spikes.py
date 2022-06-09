@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from spiketools.utils.select import get_avg_func, get_var_func
-from spiketools.plts.data import plot_bar
+from spiketools.plts.data import plot_bar, plot_hist
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 ###################################################################################################
@@ -119,10 +119,10 @@ def plot_isis(isis, bins=None, range=None, density=False, ax=None, **plt_kwargs)
         Additional arguments to pass into the plot function.
     """
 
-    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
-
-    ax.hist(isis, bins=bins, range=range, density=density, **plt_kwargs)
-    ax.set(xlabel='Time', title='ISIs')
+    plot_hist(isis, bins, range, density, ax=ax,
+              xlabel=plt_kwargs.pop('xlabel', 'Time'),
+              title=plt_kwargs.pop('title', 'ISIs'),
+              **plt_kwargs)
 
 
 @savefig

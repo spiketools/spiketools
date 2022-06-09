@@ -48,13 +48,20 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
 
 @savefig
 @set_plt_kwargs
-def plot_hist(data, average=None, ax=None, **plt_kwargs):
+def plot_hist(data, bins=None, range=None, density=None,
+              average=None, ax=None, **plt_kwargs):
     """Plot data as a histogram.
 
     Parameters
     ----------
     data : 1d array
         Data to plot.
+    bins : int or list, optional
+        Bin definition, either a number of bins to use, or bin definitions.
+    range : tuple, optional
+        Range of the data to plot.
+    density : bool, optional, default: False
+        Whether to draw a probability density.
     average : {'median', 'mean'}, optional
         Which kind of average to compute and add to the plot.
         If None, no average is plotted.
@@ -67,7 +74,7 @@ def plot_hist(data, average=None, ax=None, **plt_kwargs):
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    ax.hist(data, **plt_kwargs)
+    ax.hist(data, bins=bins, range=range, density=density, **plt_kwargs)
 
     if average:
         ax.axvline(get_avg_func(average)(data), lw=4, color='red', alpha=0.8)
