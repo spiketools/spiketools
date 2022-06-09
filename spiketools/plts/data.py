@@ -144,7 +144,7 @@ def plot_polar_hist(data, bin_width=None, ax=None, **plt_kwargs):
         ax = plt.subplot(111, polar=True)
 
     bin_edges, counts = bin_circular(data, bin_width=bin_width)
-    ax.bar(bin_edges[:-1], counts)
+    ax.bar(bin_edges[:-1], counts, **plt_kwargs)
 
 
 @savefig

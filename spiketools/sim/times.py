@@ -1,0 +1,69 @@
+"""Simulate spike times."""
+
+import numpy as np
+
+from spiketools.stats.generators import poisson_generator
+from spiketools.sim.utils import apply_refractory_times
+
+###################################################################################################
+###################################################################################################
+
+def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
+    """Simulate spike times.
+
+    Parameters
+    ----------
+    spike_param : float
+        Parameter value that controls the simulated spiking. rate or probability.
+        For `poisson`, this is the spike rate.
+    duration : float
+        Duration of spike times to simulate.
+    method : {'poisson'}
+        The method to use for the simulation.
+    refractory : float, optional
+        The refractory period to apply to the simulated data.
+    **kwargs
+        Additional keyword arguments.
+
+    Returns
+    -------
+    times : 1d array
+        Simulated spike times.
+    """
+
+    times = SPIKETIME_FUNCS[method](spike_param, duration, **kwargs)
+
+    if refractory:
+        times = apply_refractory_times(times, refractory)
+
+    return times
+
+###################################################################################################
+## Distribution based simulations
+
+def sim_spiketimes_poisson(rate, duration, start_time=0):
+    """Simulate spike times based on a Poisson distribution.
+
+    Parameters
+    ----------
+    rate : float
+        The average firing rate for the simulated spike times.
+    duration : float
+        Duration of spike times to simulate.
+    start_time: float, optional
+        Timestamp of the start time for the simulated spike times.
+
+    Returns
+    -------
+    times : 1d array
+        Simulated spike times.
+    """
+
+    times = np.array([spike for spike in poisson_generator(rate, duration, start_time)])
+
+    return times
+
+###################################################################################################
+## COLLECT SIM FUNCTION OPTIONS TOGETHER
+
+SPIKETIME_FUNCS = {'poisson' : sim_spiketimes_poisson}
