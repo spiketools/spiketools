@@ -22,46 +22,53 @@ def get_range(data):
     return np.nanmin(data), np.nanmax(data)
 
 
-def restrict_range(values, min_value=None, max_value=None):
+def restrict_range(data, min_value=None, max_value=None, reset=None):
     """Restrict a vector of data to a specified range.
 
     Parameters
     ----------
-    values : 1d array
+    data : 1d array
         Array of data.
-    min_value, max_value : float, optional, default: None
+    min_value, max_value : float, optional
         Mininum and/or maximum value to restrict input array to.
+    reset : float, optional
+        If provided, resets the values in the data array by the given reset value.
 
     Returns
     -------
-    1d array
+    data : 1d array
         Data array, restricted to desired time range.
 
     Examples
     --------
     Select all values greater than a specific value:
 
-    >>> values = np.array([5, 10, 15, 20, 25, 30])
-    >>> restrict_range(values, min_value=10, max_value=None)
+    >>> data = np.array([5, 10, 15, 20, 25, 30])
+    >>> restrict_range(data, min_value=10, max_value=None)
     array([10, 15, 20, 25, 30])
 
     Select all values less than a specific value:
 
-    >>> values = np.array([5, 10, 15, 20, 25, 30])
-    >>> restrict_range(values, min_value=None, max_value=25)
+    >>> data = np.array([5, 10, 15, 20, 25, 30])
+    >>> restrict_range(data, min_value=None, max_value=25)
     array([ 5, 10, 15, 20, 25])
 
     Restrict a data array to a specific range:
 
-    >>> values = np.array([5, 10, 15, 20, 25, 30])
-    >>> restrict_range(values, min_value=10, max_value=20)
+    >>> data = np.array([5, 10, 15, 20, 25, 30])
+    >>> restrict_range(data, min_value=10, max_value=20)
     array([10, 15, 20])
     """
 
     min_value = -np.inf if min_value is None else min_value
     max_value = np.inf if max_value is None else max_value
 
-    return values[(values >= min_value) & (values <= max_value)]
+    data = data[(data >= min_value) & (data <= max_value)]
+
+    if reset:
+        data = data - reset
+
+    return data
 
 
 def get_value_by_time(times, values, time):
