@@ -363,7 +363,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
     df = pd.DataFrame(data_dict)
 
     # Apply the speed threshold (dropping slow / stationary timepoints)
-    if (np.any(speed) & speed_thresh is not None):
+    if (speed is not None and speed_thresh is not None):
         df = df[speed > speed_thresh]
 
     # Group each position into a spatial bin, summing total time spent there

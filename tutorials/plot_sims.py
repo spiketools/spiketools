@@ -104,7 +104,7 @@ plot_rasters(spike_binomial)
 ###################################################################################################
 
 # Simulate spike train from a Poisson probability distribution
-spikes = sim_spiketrain_poisson(16, 1000, 1000, bias=0)
+spikes = sim_spiketrain_poisson(16, 1000, 1000)
 
 # Convert the simulated binary spike train to spike times in seconds & plot the spike times
 spike_poisson = convert_train_to_times(spikes, fs=1000)
@@ -127,8 +127,8 @@ plot_rasters(spike_poisson)
 
 ###################################################################################################
 
-# Apply a 0.003 seconds refractory period to the simulated spike train with 1000 Hz sampling rate
-spike_ref = apply_refractory_times(spike_binomial, 0.003, 1000)
+# Apply a 0.003 seconds refractory period to the simulated spike train
+spike_ref = apply_refractory_times(spike_binomial, 0.003)
 
 # Convert binary spike train to spike times in seconds & plot the spike times
 spike_times = convert_train_to_times(spike_ref, fs=1000)
