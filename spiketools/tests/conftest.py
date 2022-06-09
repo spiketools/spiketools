@@ -6,7 +6,7 @@ import pytest
 
 import numpy as np
 
-from spiketools.objects import Cell
+from spiketools.objects import Cell, Session
 from spiketools.utils import set_random_seed
 from spiketools.tests.tsettings import BASE_TEST_FILE_PATH, TEST_PLOTS_PATH
 
