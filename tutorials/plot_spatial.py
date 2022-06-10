@@ -82,8 +82,7 @@ print(f'The y-position ranges from {ranges[1][0]} to {ranges[1][1]}')
 # Plot positions (coordinates marked x are the actual points)
 plot_positions(position, alpha=1, ls='-', marker='x', color='tab:gray', markersize=10,
                title='Tracking', xlabel='x-position', ylabel='y-position')
-plt.legend(['coordinates'])
-plt.show()
+_ = plt.legend(['coordinates'])
 
 ###################################################################################################
 
@@ -148,8 +147,7 @@ print(f'The y spatial bins have width = {y_bins_spatial_width}')
 plot_positions(position, x_bins=x_edges, y_bins=y_edges,
                alpha=1, ls='-', marker='x', color='tab:gray', markersize=10,
                title='Tracking and spatial bins', xlabel='x-position', ylabel='y-position')
-plt.legend(['Tracking'], loc='upper left')
-plt.show()
+_ = plt.legend(['Tracking'], loc='upper left')
 
 ###################################################################################################
 # 3. Compute spatial bin assignment using spatial bin edges
