@@ -6,7 +6,7 @@ import pytest
 
 import numpy as np
 
-from spiketools.objects import Cell
+from spiketools.objects import Unit, Session
 from spiketools.utils import set_random_seed
 from spiketools.tests.tsettings import BASE_TEST_FILE_PATH, TEST_PLOTS_PATH
 
@@ -63,14 +63,12 @@ def tdata2d():
     yield np.random.random((5, 2))
 
 @pytest.fixture(scope='session')
-def tcell(tspikes):
+def tunit(tspikes):
 
-    yield Cell(subject='SubjectCode',
-               session='SessionCode',
-               task='TaskCode',
+    yield Unit(uid='UnitID',
+               spikes=tspikes,
                channel='ChannelCode',
                region='RegionCode',
-               spikes=tspikes,
                cluster=None)
 
 @pytest.fixture(scope='session')

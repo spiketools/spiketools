@@ -65,7 +65,7 @@ Object for managing spike-related data, available in the `objects` sub-module.
 .. autosummary::
    :toctree: generated/
 
-   Cell
+   Unit
    Session
 
 Spatial
@@ -222,9 +222,9 @@ Spikes
 
     plot_waveform
     plot_waveforms3d
+    plot_waveform_density
     plot_isis
     plot_firing_rates
-    plot_spikehist2d
 
 Space
 ~~~~~
@@ -271,6 +271,7 @@ Data
    :toctree: generated/
 
    plot_lines
+   plot_dots
    plot_bar
    plot_hist
    plot_polar_hist

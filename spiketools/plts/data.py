@@ -27,8 +27,6 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
         Position(s) to draw a vertical line. If None, no line is drawn.
     ax : Axes, optional
         Axis object upon which to plot.
-    line : float or list, optional, default: 0
-        Position(s) to draw a vertical line. If None, no line is drawn.
     plt_kwargs
         Additional arguments to pass into the plot function.
     """
@@ -48,13 +46,40 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
 
 @savefig
 @set_plt_kwargs
-def plot_hist(data, average=None, ax=None, **plt_kwargs):
+def plot_dots(x_values, y_values, ax=None, **plt_kwargs):
+    """Plot data as dots.
+
+    Parameters
+    ----------
+    x_values, y_values : 1d or 2d array or list of 1d array
+        Data to plot on the x and y axis.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    plt.plot(x_values, y_values, '.', **plt_kwargs)
+
+
+@savefig
+@set_plt_kwargs
+def plot_hist(data, bins=None, range=None, density=None,
+              average=None, ax=None, **plt_kwargs):
     """Plot data as a histogram.
 
     Parameters
     ----------
     data : 1d array
         Data to plot.
+    bins : int or list, optional
+        Bin definition, either a number of bins to use, or bin definitions.
+    range : tuple, optional
+        Range of the data to plot.
+    density : bool, optional, default: False
+        Whether to draw a probability density.
     average : {'median', 'mean'}, optional
         Which kind of average to compute and add to the plot.
         If None, no average is plotted.
@@ -66,7 +91,7 @@ def plot_hist(data, average=None, ax=None, **plt_kwargs):
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    ax.hist(data, **plt_kwargs)
+    ax.hist(data, bins=bins, range=range, density=density, **plt_kwargs)
 
     if average:
         ax.axvline(get_avg_func(average)(data), lw=4, color='red', alpha=0.8)
@@ -141,7 +166,7 @@ def plot_text(text, xpos=0.5, ypos=0.5, show_axis=False, ax=None, **plt_kwargs):
         Additional arguments to pass into the plot function.
     """
 
-    ax = check_ax(ax)
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
     ax.text(xpos, ypos, text,
             fontdict=plt_kwargs.pop('fontdict', TEXT_SETTINGS['fontdict']),
