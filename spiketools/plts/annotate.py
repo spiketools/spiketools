@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 ###################################################################################################
 
 def color_pval(p_value, alpha=0.05, significant_color='red', null_color='black'):
-    """Return a text color based on the significance of a p-value.
+    """Select a color based on the significance of a p-value.
 
     Parameters
     ----------
@@ -47,12 +47,12 @@ def _add_vlines(vline, ax, **plt_kwargs):
             ax.axvline(line, **plt_kwargs)
 
 
-def _add_shade(shade, ax, **plt_kwargs):
+def _add_vshade(vshade, ax, **plt_kwargs):
     """Add vertical shading to a plot axis.
 
     Parameters
     ----------
-    shade : list of float
+    vshade : list of float
         Region of the plot to shade in.
     ax : Axes, optional
         Axis object upon which to plot.
@@ -60,25 +60,25 @@ def _add_shade(shade, ax, **plt_kwargs):
         Additional arguments to pass into the plot function.
     """
 
-    if shade is not None:
-        ax.axvspan(*shade, **plt_kwargs)
+    if vshade is not None:
+        ax.axvspan(*vshade, **plt_kwargs)
 
 
-def _add_dots(positions, ax, **plt_kwargs):
+def _add_dots(dots, ax, **plt_kwargs):
     """Add dots to a plot axis.
 
     Parameters
     ----------
-    positions : 2d array
-        Position values to plot dots.
+    dots : 2d array
+        Definitions of the dots to add to the plot.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
     """
 
-    if positions is not None:
-        ax.plot(positions[0, :], positions[1, :], '.', **plt_kwargs)
+    if dots is not None:
+        ax.plot(dots[0, :], dots[1, :], '.', **plt_kwargs)
 
 
 def _add_significance_to_plot(stats, sig_level=0.05, x_vals=None, ax=None):

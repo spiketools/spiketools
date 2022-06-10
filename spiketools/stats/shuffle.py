@@ -75,7 +75,7 @@ def shuffle_isis(spikes, n_shuffles=1000):
     return shuffled_spikes
 
 
-def shuffle_bins(spikes, bin_width_range=[50, 2000], n_shuffles=1000):
+def shuffle_bins(spikes, bin_width_range=(50, 2000), n_shuffles=1000):
     """Shuffle data with a circular shuffle of the spike train.
 
     Parameters
