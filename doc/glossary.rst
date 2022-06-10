@@ -27,6 +27,8 @@ Spiking Data
 Spike Measures
 --------------
 
+.. glossary::
+
     firing rate
         How fast an individual unit is firing, typically measured in Hz, as spikes per second.
 
@@ -49,6 +51,8 @@ Spike Measures
 Recording
 ---------
 
+.. glossary::
+
     electrode
         A recording device that can measure electrical activity, that is used to collect the raw data.
 
@@ -70,6 +74,8 @@ Recording
 
 Pre-Processing
 --------------
+
+.. glossary::
 
     spike sorting
         The process of identifying spikes and grouping them into clusters that represent putative single-neuron activity.
