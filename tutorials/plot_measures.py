@@ -109,7 +109,7 @@ print('Fano factor: {:1.2f}'.format(fano))
 # ~~~~~~~~~~~~~~~~~~~~
 #
 # First, we convert a vector of spike times in seconds to a binary spike train, a representation 
-# of spiking activity in which each sample is either a 0 or 1, with 1 representing a spike.
+# of spiking activity in which each 1 represents a spike.
 #
 
 ###################################################################################################

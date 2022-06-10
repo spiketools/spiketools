@@ -26,7 +26,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Import statistics-related functions
-from spiketools.stats.generators import poisson_generator
+from spiketools.sim.times import sim_spiketimes
 from spiketools.stats.shuffle import (shuffle_isis, shuffle_bins, shuffle_poisson,
                                       shuffle_circular)
 from spiketools.stats.permutations import compute_surrogate_stats
@@ -41,12 +41,10 @@ from spiketools.measures.measures import compute_firing_rate
 
 ###################################################################################################
 
-# Generate spike times for spikes at 10Hz for 100 seconds
-poisson_gen = poisson_generator(10, 100)
-# get spike times in seconds
-spikes_s = np.array([spike for spike in poisson_gen])
+# Generate spike times in seconds for spikes at 10Hz for 100 seconds
+spikes = sim_spiketimes(10, 100, 'poisson', refractory=0.001)
 # make sure there are not multiple spikes within the same millisecond
-spikes_s = np.unique((spikes_s*1000).astype(int)) / 1000
+spikes = np.unique((spikes*1000).astype(int)) / 1000
 
 ###################################################################################################
 # 1. Compute and plot different shuffles of spikes
@@ -65,15 +63,15 @@ spikes_s = np.unique((spikes_s*1000).astype(int)) / 1000
 ###################################################################################################
 
 # Shuffle spike ms using the four described methods
-shuffled_isis = shuffle_isis(spikes_s, n_shuffles=10)
-shuffled_bins = shuffle_bins(spikes_s, bin_width_range=[5000, 7000], n_shuffles=10)
-shuffled_poisson = shuffle_poisson(spikes_s, n_shuffles=10)
-shuffled_circular = shuffle_circular(spikes_s, shuffle_min=200, n_shuffles=10)
+shuffled_isis = shuffle_isis(spikes, n_shuffles=10)
+shuffled_bins = shuffle_bins(spikes, bin_width_range=[5000, 7000], n_shuffles=10)
+shuffled_poisson = shuffle_poisson(spikes, n_shuffles=10)
+shuffled_circular = shuffle_circular(spikes, shuffle_min=200, n_shuffles=10)
 
 ###################################################################################################
 
 # Plot original spike train
-plot_rasters(spikes_s[:], xlim=[0, 6], title='Non-shuffled', line=None)
+plot_rasters(spikes[:], xlim=[0, 6], title='Non-shuffled', line=None)
 
 ###################################################################################################
 
@@ -121,17 +119,15 @@ fig.set_size_inches((40/2.54, 20/2.54))
 # Simulate change in firing rate given an event
 # Generate pre-event spike times: spikes at 5 Hz for 3 seconds (time_pre)
 time_pre = 3
-poisson_gen_pre = poisson_generator(5, time_pre)
-spikes_s_pre = np.array([spike for spike in poisson_gen_pre])
+spikes_pre = sim_spiketimes(5, time_pre, 'poisson', refractory=0.001)
 
 # Generate pre-event spike times: spikes at 10 Hz for 3 seconds (time_post)
 time_post = 3
-poisson_gen_post = poisson_generator(10, time_post)
-# add time_pre to the output, since we will stack the pre and the post
-spikes_s_post = np.array([spike for spike in poisson_gen_post]) + time_pre
+# Add time_pre to the post spikes, since we will stack the pre and the post
+spikes_post = sim_spiketimes(5, time_post, 'poisson', refractory=0.001) + time_pre
 
 # Stack pre and post
-spikes_pre_post = np.append(spikes_s_pre, spikes_s_post)
+spikes_pre_post = np.append(spikes_pre, spikes_post)
 
 ###################################################################################################
 
@@ -156,9 +152,9 @@ shuff_spikes_pre_post = shuffle_isis(spikes_pre_post, n_shuffles=n_shuff)
 surr = np.zeros((n_shuff,))
 for ind in range(n_shuff):
     fr_post = (compute_firing_rate(restrict_range(shuff_spikes_pre_post[ind, :],
-                                                 min_value=time_pre, max_value=None)))
+                                                  min_value=time_pre, max_value=None)))
     fr_pre = (compute_firing_rate(restrict_range(shuff_spikes_pre_post[ind, :],
-                                                min_value=None, max_value=time_pre)))
+                                                 min_value=None, max_value=time_pre)))
     surr[ind] = fr_post - fr_pre
 
 print(np.min(surr), np.max(surr))
