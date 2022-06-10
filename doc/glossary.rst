@@ -1,7 +1,7 @@
 Glossary
 ========
 
-A glossary of terms used in the module, with a description of how they are used, as well as common abbreviations.
+A glossary of terms used in the module, with brief descriptions of what they mean and how they are used, as well as a list of common abbreviations.
 
 Spiking Data
 ------------
@@ -9,7 +9,7 @@ Spiking Data
 .. glossary::
 
     action potential / spike
-        An action potential is an event in which a neuron rapidly depolarizes, initiating a cascade that can transfer information to adjacent neurons.
+        An action potential is an event in which a neuron rapidly depolarizes, initiating a cascade of events that can influence the activity of connected neurons.
         In general, we will refer to action potentials as 'spikes'.
 
     unit
@@ -34,16 +34,16 @@ Spike Measures
         A measure of the variability of unit firing, reflecting the dispersion of the data around the mean.
 
     fano factor
-        A measure of the variability of unit firing, as as variant of the coefficient of variation.
+        A measure of the variability of unit firing, as a variant of the coefficient of variation.
 
     interspike interval (ISI)
-        A measure of the time intervals between successive spikes.
+        A measure of the time interval(s) between successive spikes.
 
     waveform
         The spike waveform is the shape of the action potential.
 
     raster
-        A raster plot is a visualization of spike activity representing each spike as a vertical line.
+        A raster plot is a visualization of spike activity across time, representing each spike as a vertical line.
 
 
 Recording
