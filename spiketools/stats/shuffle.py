@@ -22,6 +22,9 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
         Which approach to take for shuffling spike times.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
+    kwargs
+        Additional keyword arguments for the shuffle procedure.
+        See shuffle sub-functions for details.
 
     Returns
     -------
