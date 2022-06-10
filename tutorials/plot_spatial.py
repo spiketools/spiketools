@@ -25,23 +25,26 @@ This tutorial primarily covers the ``spiketools.spatial`` module.
 
 # sphinx_gallery_thumbnail_number = 1
 
-# import auxiliary libraries
+# Import auxiliary libraries
 import numpy as np
 import matplotlib.pyplot as plt
 
-# import functions from spiketools.spatial
+# Import functions from spiketools.spatial
 from spiketools.spatial.position import (compute_distance, compute_distances,
                                          compute_cumulative_distances, compute_speed)
-from spiketools.spatial.occupancy import (compute_spatial_bin_edges, compute_spatial_bin_assignment,
-                                          compute_bin_time, compute_occupancy)
+from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignment,
+                                          compute_bin_time, compute_occupancy, 
+                                          compute_bin_firing, normalize_bin_firing)
 from spiketools.spatial.utils import get_pos_ranges, get_bin_width
-from spiketools.spatial.information import compute_spatial_information_2d, compute_spatial_information_1d
+from spiketools.spatial.information import compute_spatial_information
 
-# import sim_spiketrain_binom to simulate spiketrain
-from spiketools.sim.dist import sim_spiketrain_binom
+# Import spiketrain simulation function
+from spiketools.sim.train import sim_spiketrain_binom
 
-# import plot_positions and plot_space_heat to plot position and occupancy
-from spiketools.plts.space import plot_positions, plot_heatmap
+# Import plotting functions
+from spiketools.plts.spatial import plot_positions, plot_heatmap
+
+###################################################################################################
 
 ###################################################################################################
 
@@ -77,9 +80,9 @@ print(f'The y-position ranges from {ranges[1][0]} to {ranges[1][1]}')
 ###################################################################################################
 
 # Plot positions (coordinates marked x are the actual points)
-plot_positions(position, alpha=1, ls='-', marker='x', c='tab:gray', markersize=10,
+plot_positions(position, alpha=1, ls='-', marker='x', color='tab:gray', markersize=10,
                title='Tracking', xlabel='x-position', ylabel='y-position')
-plt.legend(['coordinates'])
+_ = plt.legend(['coordinates'])
 
 ###################################################################################################
 
@@ -101,19 +104,19 @@ speeds = compute_speed(x_pos, y_pos, bin_widths)
 fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True)
 # plot distance traveled at each time
 plot_positions(np.append([x_pos[1:]], [dist_traveled], axis=0),
-               ax=ax1, alpha=1, ls='-', marker='x', c='tab:pink', markersize=10,
+               ax=ax1, alpha=1, ls='-', marker='x', color='tab:pink', markersize=10,
                title='Distance traveled at each point',
                xlabel='time (t)', ylabel='speed (u/t)')
 
 # plot cumulative distance traveled per time
 plot_positions(np.append([x_pos[1:]], [cumulative_dist_traveled], axis=0),
-               ax=ax2, alpha=1, ls='-', marker='x', c='tab:olive', markersize=10,
+               ax=ax2, alpha=1, ls='-', marker='x', color='tab:olive', markersize=10,
                title='Cumulative distance traveled at each point',
                xlabel='time (t)', ylabel='speed (u/t)')
 
 # plot speed at each time point
 plot_positions(np.append([x_pos[1:]], [speeds], axis=0),
-               ax=ax3, alpha=1, ls='-', marker='x', c='tab:cyan', markersize=10,
+               ax=ax3, alpha=1, ls='-', marker='x', color='tab:cyan', markersize=10,
                title='Speed at each point', xlabel='time (t)', ylabel='speed (u/t)')
 
 # Add padding between subplots, and make figure bigger
@@ -130,7 +133,7 @@ fig.set_size_inches((15/2.54, 20/2.54))
 ###################################################################################################
 
 # Compute spatial bin edges
-x_edges, y_edges = compute_spatial_bin_edges(position, bins)
+x_edges, y_edges = compute_bin_edges(position, bins)
 
 # Compute the width of each spatial bin
 x_bins_spatial_width = get_bin_width(x_edges)
@@ -142,9 +145,9 @@ print(f'The y spatial bins have width = {y_bins_spatial_width}')
 
 # Plot grid of spatial bins with tracking on top
 plot_positions(position, x_bins=x_edges, y_bins=y_edges,
-               alpha=1, ls='-', marker='x', c='tab:gray', markersize=10,
+               alpha=1, ls='-', marker='x', color='tab:gray', markersize=10,
                title='Tracking and spatial bins', xlabel='x-position', ylabel='y-position')
-plt.legend(['Tracking'], loc='upper left')
+_ = plt.legend(['Tracking'], loc='upper left')
 
 ###################################################################################################
 # 3. Compute spatial bin assignment using spatial bin edges
@@ -157,7 +160,7 @@ plt.legend(['Tracking'], loc='upper left')
 
 # Now let us check where the 1st 7 point of position using the same x_edges and y_edges
 n_points = 7
-x_bins, y_bins = compute_spatial_bin_assignment(position[:, :n_points], x_edges, y_edges)
+x_bins, y_bins = compute_bin_assignment(position[:, :n_points], x_edges, y_edges)
 
 # We can check they match the positions in plot (ii)
 for ind in range(0, n_points):
@@ -183,17 +186,24 @@ print(f'The time widths of the the sampling bins are: {bin_widths}')
 #
 # Now we are interested in how much time was spent in each bin of the spatial grid (each
 # sub-region of the space).
-# For that, compute occupancy using position, timestamps, bins and speed.
-# Also plot a heatmap of occupancy.
+# For 2D case, compute occupancy using position, timestamps, bins and speed.
+# Also plot a heatmap of 2D occupancy.
+# For 1D case, compute occupancy using x-position, timestamps, x-bins and speed.
+# Also plot a heatmap of 1D occupancy.
 #
 
 ###################################################################################################
 
-# Compute occupancy using the previously defined position, timestamps, bins and speed
-occupancy = compute_occupancy(position, timestamps, bins, speed=np.insert(speeds, 0, 0))
-
-# Plot occupancy using a heatmap
+# Compute and plot 2D occupancy using the previously defined position, timestamps, bins and speed
+occupancy = compute_occupancy(position, timestamps, bins, speed=np.insert(speeds, 0, 0), 
+                              speed_thresh=.5e-5)
 plot_heatmap(occupancy, transpose=True, title='Occupancy heatmap')
+
+# Compute and plot 1D occupancy using the previously defined x-position, timestamps, x-bins and 
+# speed
+occupancy_1d = compute_occupancy(position[0], timestamps, [bins[0]], speed=np.insert(speeds, 0, 0), 
+                                 speed_thresh=.5e-5)
+plot_heatmap(np.expand_dims(occupancy_1d, 1), transpose=True, title='X-Occupancy heatmap')
 
 ###################################################################################################
 # 6. Compute 2D and 1D spatial information
@@ -207,19 +217,29 @@ plot_heatmap(occupancy, transpose=True, title='Occupancy heatmap')
 # Simulate a spike train with chance level
 spike_train = sim_spiketrain_binom(0.5, n_samples=len(x_pos))
 
-# Get x and y positions corresponding
-spike_x = x_pos[np.where(spike_train == 1)]
-spike_y = y_pos[np.where(spike_train == 1)]
+# Get spike position bins
+spike_bins = np.where(spike_train == 1)[0]
+# Get x and y position bins corresponding to spike positions
+spike_x, spike_y = compute_bin_assignment(position[:, spike_bins], x_edges, y_edges, 
+                                          include_edge=True)
 
 ###################################################################################################
 
 # Calculate the 1D spatial information (x-dimension only)
-x_occupancy = np.sum(occupancy, axis=1)
-spatial_information_1d = compute_spatial_information_1d(spike_x, x_occupancy, bins)
+# Compute bin firing and normalize it
+bin_firing_1d = compute_bin_firing(bins=[bins[0]], xbins=spike_x, occupancy=occupancy_1d)
+normalized_bin_fr_1d = normalize_bin_firing(bin_firing_1d, occupancy=occupancy_1d)
+# Compute 1d spatial information
+spatial_information_1d = compute_spatial_information(normalized_bin_fr_1d, occupancy_1d, 
+                                                     normalize=False)
 print(f'The 1D spatial information is = {spatial_information_1d}')
 
 ###################################################################################################
 
 # Compute the 2D spatial information for spikes
-spatial_information_2d = compute_spatial_information_2d(spike_x, spike_y, bins, occupancy)
+# Compute bin firing and normalize it
+bin_firing = compute_bin_firing(bins=bins, xbins=spike_x, ybins=spike_y)
+normalized_bin_fr = normalize_bin_firing(bin_firing, occupancy=occupancy)
+# Compute 2d spatial information
+spatial_information_2d = compute_spatial_information(normalized_bin_fr, occupancy, normalize=False)
 print(f'The 2D spatial information is = {spatial_information_2d}')

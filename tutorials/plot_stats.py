@@ -21,32 +21,30 @@ This tutorial primarily covers the ``spiketools.stats`` module.
 
 # sphinx_gallery_thumbnail_number = 3
 
-# import auxiliary libraries
+# Import auxiliary libraries
 import numpy as np
 import matplotlib.pyplot as plt
 
 # Import statistics-related functions
-from spiketools.stats.generators import poisson_train
+from spiketools.sim.times import sim_spiketimes
 from spiketools.stats.shuffle import (shuffle_isis, shuffle_bins, shuffle_poisson,
                                       shuffle_circular)
-from spiketools.stats.permutations import compute_empirical_pvalue, zscore_to_surrogates
+from spiketools.stats.permutations import compute_surrogate_stats
 
 # Import plot function
 from spiketools.plts.trials import plot_rasters
 from spiketools.plts.stats import plot_surrogates
 
 # Import measures & utilities
-from spiketools.utils.spikes import restrict_range
-from spiketools.measures.measures import compute_spike_rate
+from spiketools.utils.data import restrict_range
+from spiketools.measures.measures import compute_firing_rate
 
 ###################################################################################################
 
-# Generate spike times for spikes at 10Hz for 100 seconds
-poisson_generator = poisson_train(10, 100)
-# get spike in seconds
-spikes_s = np.array([spike for spike in poisson_generator])
-# convert to milliseconds
-spikes_ms = np.unique((spikes_s*1000).astype(int))
+# Generate spike times in seconds for spikes at 10Hz for 100 seconds
+spikes = sim_spiketimes(10, 100, 'poisson', refractory=0.001)
+# make sure there are not multiple spikes within the same millisecond
+spikes = np.unique((spikes*1000).astype(int)) / 1000
 
 ###################################################################################################
 # 1. Compute and plot different shuffles of spikes
@@ -65,15 +63,15 @@ spikes_ms = np.unique((spikes_s*1000).astype(int))
 ###################################################################################################
 
 # Shuffle spike ms using the four described methods
-shuffled_isis = shuffle_isis(spikes_ms, n_shuffles=10)
-shuffled_bins = shuffle_bins(spikes_ms, bin_width_range=[50, 200], n_shuffles=10)
-shuffled_poisson = shuffle_poisson(spikes_ms, n_shuffles=10)
-shuffled_circular = shuffle_circular(spikes_ms, shuffle_min=200, n_shuffles=10)
+shuffled_isis = shuffle_isis(spikes, n_shuffles=10)
+shuffled_bins = shuffle_bins(spikes, bin_width_range=[5000, 7000], n_shuffles=10)
+shuffled_poisson = shuffle_poisson(spikes, n_shuffles=10)
+shuffled_circular = shuffle_circular(spikes, shuffle_min=200, n_shuffles=10)
 
 ###################################################################################################
 
 # Plot original spike train
-plot_rasters(spikes_ms[:], xlim=[0, 6000], title='Non-shuffled', line=None)
+plot_rasters(spikes[:], xlim=[0, 6], title='Non-shuffled', line=None)
 
 ###################################################################################################
 
@@ -81,19 +79,19 @@ plot_rasters(spikes_ms[:], xlim=[0, 6000], title='Non-shuffled', line=None)
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharey = True)
 
 # isis
-plot_rasters(shuffled_isis[:, :], xlim=[0, 6000], ax=ax1,
+plot_rasters(shuffled_isis[:, :], xlim=[0, 6], ax=ax1,
              title='Shuffle ISIS n_shuffles = 10', line=None)
 
 # Poisson
-plot_rasters(shuffled_poisson[:, :], xlim=[0, 6000], ax=ax2,
+plot_rasters(shuffled_poisson[:, :], xlim=[0, 6], ax=ax2,
              title='Shuffle Poisson n_shuffles = 10', line=None)
 
 # shuffled bins
-plot_rasters(shuffled_bins[:, :], xlim=[0, 6000], ax=ax3,
+plot_rasters(shuffled_bins[:, :], xlim=[0, 6], ax=ax3,
              title='Shuffle bins n_shuffles = 10', line=None)
 
 # shuffled circular
-plot_rasters(shuffled_circular[:, :], xlim=[0, 6000], ax=ax4,
+plot_rasters(shuffled_circular[:, :], xlim=[0, 6], ax=ax4,
              title='Shuffle circular n_shuffles = 10', line=None)
 
 # Add some padding between subplots & make the figure bigger
@@ -121,25 +119,23 @@ fig.set_size_inches((40/2.54, 20/2.54))
 # Simulate change in firing rate given an event
 # Generate pre-event spike times: spikes at 5 Hz for 3 seconds (time_pre)
 time_pre = 3
-poisson_generator_pre = poisson_train(5, time_pre)
-spikes_s_pre = np.array([spike for spike in poisson_generator_pre])
+spikes_pre = sim_spiketimes(5, time_pre, 'poisson', refractory=0.001)
 
 # Generate pre-event spike times: spikes at 10 Hz for 3 seconds (time_post)
 time_post = 3
-poisson_generator_post = poisson_train(10, time_post)
-# add time_pre to the output, since we will stack the pre and the post
-spikes_s_post = np.array([spike for spike in poisson_generator_post]) + time_pre
+# Add time_pre to the post spikes, since we will stack the pre and the post
+spikes_post = sim_spiketimes(10, time_post, 'poisson', refractory=0.001) + time_pre
 
 # Stack pre and post
-spikes_pre_post = np.append(spikes_s_pre, spikes_s_post)
+spikes_pre_post = np.append(spikes_pre, spikes_post)
 
 ###################################################################################################
 
 # Get firing rate (spikes/s) post-event (on the final time_post seconds)
-fr_post = compute_spike_rate(restrict_range(spikes_pre_post, min_time=time_pre, max_time=None))
+fr_post = compute_firing_rate(restrict_range(spikes_pre_post, min_value=time_pre, max_value=None))
 
 # Get firing rate (spikes/s) pre-event (on the initial time_pre seconds)
-fr_pre = compute_spike_rate(restrict_range(spikes_pre_post, min_time=None, max_time=time_pre))
+fr_pre = compute_firing_rate(restrict_range(spikes_pre_post, min_value=None, max_value=time_pre))
 
 # Get firing rate difference between post and pre
 # This will be the value we compute the empirical p-value and the z-score for
@@ -155,10 +151,10 @@ shuff_spikes_pre_post = shuffle_isis(spikes_pre_post, n_shuffles=n_shuff)
 # This will be the surrogate distribution used to compute the empirical p-value and the z-score
 surr = np.zeros((n_shuff,))
 for ind in range(n_shuff):
-    fr_post = (compute_spike_rate(restrict_range(shuff_spikes_pre_post[ind, :],
-                                                 min_time=time_pre, max_time=None)))
-    fr_pre = (compute_spike_rate(restrict_range(shuff_spikes_pre_post[ind, :],
-                                                min_time=None, max_time=time_pre)))
+    fr_post = (compute_firing_rate(restrict_range(shuff_spikes_pre_post[ind, :],
+                                                  min_value=time_pre, max_value=None)))
+    fr_pre = (compute_firing_rate(restrict_range(shuff_spikes_pre_post[ind, :],
+                                                 min_value=None, max_value=time_pre)))
     surr[ind] = fr_post - fr_pre
 
 print(np.min(surr), np.max(surr))
@@ -166,11 +162,10 @@ print(np.min(surr), np.max(surr))
 ###################################################################################################
 
 # Calculate empirical p-value and z-score of difference in firing rate with respect to surrogates
-pval = compute_empirical_pvalue(fr_diff, surr)
-zscore = zscore_to_surrogates(fr_diff, surr)
+pval, zscore = compute_surrogate_stats(fr_diff, surr)
 
 print(f'The z-score of the delta firing rate (after - before the event) is {round(zscore, 2)}, \
-      and the empirical p-value is {round(pval, 2)}')
+and the empirical p-value is {round(pval, 2)}')
 
 ###################################################################################################
 
