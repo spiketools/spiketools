@@ -124,7 +124,7 @@ spikes_pre = sim_spiketimes(5, time_pre, 'poisson', refractory=0.001)
 # Generate pre-event spike times: spikes at 10 Hz for 3 seconds (time_post)
 time_post = 3
 # Add time_pre to the post spikes, since we will stack the pre and the post
-spikes_post = sim_spiketimes(5, time_post, 'poisson', refractory=0.001) + time_pre
+spikes_post = sim_spiketimes(10, time_post, 'poisson', refractory=0.001) + time_pre
 
 # Stack pre and post
 spikes_pre_post = np.append(spikes_pre, spikes_post)
