@@ -75,15 +75,15 @@ def shuffle_isis(spikes, n_shuffles=1000):
     return shuffled_spikes
 
 
-def shuffle_bins(spikes, bin_width_range=(50, 2000), n_shuffles=1000):
+def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
     """Shuffle data with a circular shuffle of the spike train.
 
     Parameters
     ----------
     spikes : 1d array
-        Spike times.
-    bin_width_range : list of int
-        Range of bin widths to shuffle by.
+        Spike times, in seconds.
+    bin_width_range : list of [int, int], optional, default : [.5, 7]
+        Range of bin widths in seconds to shuffle by.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
 
@@ -101,6 +101,9 @@ def shuffle_bins(spikes, bin_width_range=(50, 2000), n_shuffles=1000):
     This function can be a little slow when running a lot.
     The main holdup is `np.roll` (unclear if / how to optimize).
     The next biggest hold up is converting the spike train to spike times.
+    This shuffling process is very dependent on the `bin_width_range` argument. 
+    It is recommended that `bin_width_range[1] > 3`, and that the difference 
+    between the two values of `bin_width_range` is at least 1.
     """
 
     spike_train = convert_times_to_train(spikes)
@@ -110,10 +113,10 @@ def shuffle_bins(spikes, bin_width_range=(50, 2000), n_shuffles=1000):
     for ind in range(n_shuffles):
 
         # Define the bins to use for shuffling
-        #  This create the maximum number of bins, then sub-selects to bins that tile the space
+        #  This creates the maximum number of bins, then sub-selects to bins that tile the space
         #  This approach is a little quicker than iterating through and stopping space is tiled
-        temp = np.random.randint(bin_width_range[0], bin_width_range[1],
-                                 int(spike_train.shape[-1] / bin_width_range[0]))
+        temp = np.random.randint(bin_width_range[0] * 1000, bin_width_range[1] * 1000,
+                                 int(spike_train.shape[-1] / (bin_width_range[0] * 1000)))
         right_edges = np.cumsum(temp)
         right_edges = right_edges[right_edges < spike_train.shape[-1]]
         right_edges[-1] = spike_train.shape[-1]
@@ -128,9 +131,9 @@ def shuffle_bins(spikes, bin_width_range=(50, 2000), n_shuffles=1000):
 
         # Assign a shuffle amount to each bin
         #   QUESTION / CHECK: should the low range here be divided by two?
-        shuffle_num = np.random.uniform(low=bin_width_range[0] / 2,
-                                        high=bin_width_range[1],
-                                        size=len(left_edges)).astype(int)
+        shuffle_num = np.random.randint(low=(bin_width_range[0] * 1000) / 2,
+                                        high=bin_width_range[1] * 1000,
+                                        size=len(left_edges))
 
         # Circularly shuffle each bin
         shuffled_train = np.zeros(len(spike_train))
