@@ -25,9 +25,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -96,36 +96,67 @@
       
   <section id="glossary">
 <h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
-<p>A glossary of terms used in the module, with a description of how they are used, as well as common abbreviations.</p>
-<section id="general">
-<h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
+<p>A glossary of terms used in the module, with brief descriptions of what they mean and how they are used, as well as a list of common abbreviations.</p>
+<section id="spiking-data">
+<h2>Spiking Data<a class="headerlink" href="#spiking-data" title="Permalink to this headline">¶</a></h2>
 <dl class="glossary simple">
-<dt id="term-spike">spike<a class="headerlink" href="#term-spike" title="Permalink to this term">¶</a></dt><dd><p>A term for an action potential from a single neuron.</p>
+<dt id="term-action-potential-spike">action potential / spike<a class="headerlink" href="#term-action-potential-spike" title="Permalink to this term">¶</a></dt><dd><p>An action potential is an event in which a neuron rapidly depolarizes, initiating a cascade of events that can influence the activity of connected neurons.
+In general, we will refer to action potentials as ‘spikes’.</p>
 </dd>
-<dt id="term-firing-rate">firing rate<a class="headerlink" href="#term-firing-rate" title="Permalink to this term">¶</a></dt><dd><p>How fast an individual neuron is firing.</p>
-</dd>
-<dt id="term-fano-factor">fano factor<a class="headerlink" href="#term-fano-factor" title="Permalink to this term">¶</a></dt><dd><p>A measure of the variability of unit firing.</p>
+<dt id="term-unit">unit<a class="headerlink" href="#term-unit" title="Permalink to this term">¶</a></dt><dd><p>A general term used to refer to a collection of spikes that are putatively from the same neuron.</p>
 </dd>
 <dt id="term-spike-times">spike times<a class="headerlink" href="#term-spike-times" title="Permalink to this term">¶</a></dt><dd><p>A representation of spiking activity based on listing the times at which spikes occur.</p>
 </dd>
-<dt id="term-spike-train">spike train<a class="headerlink" href="#term-spike-train" title="Permalink to this term">¶</a></dt><dd><p>A representation of spiking activity in which spikes are</p>
+<dt id="term-spike-train">spike train<a class="headerlink" href="#term-spike-train" title="Permalink to this term">¶</a></dt><dd><p>A representation of spiking activity in which each sample is either a 0 or 1, with 1 representing a spike.</p>
 </dd>
-<dt id="term-interspike-interval-ISI">interspike interval (ISI)<a class="headerlink" href="#term-interspike-interval-ISI" title="Permalink to this term">¶</a></dt><dd><p>A measure of the time intervals between successive spikes.</p>
+<dt id="term-refractory-period">refractory period<a class="headerlink" href="#term-refractory-period" title="Permalink to this term">¶</a></dt><dd><p>The amount of time after an action potential happens during which the same neuron cannot yet initiate another action potential.</p>
+</dd>
+</dl>
+</section>
+<section id="spike-measures">
+<h2>Spike Measures<a class="headerlink" href="#spike-measures" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary simple">
+<dt id="term-firing-rate">firing rate<a class="headerlink" href="#term-firing-rate" title="Permalink to this term">¶</a></dt><dd><p>How fast an individual unit is firing, typically measured in Hz, as spikes per second.</p>
+</dd>
+<dt id="term-coefficient-of-variation">coefficient of variation<a class="headerlink" href="#term-coefficient-of-variation" title="Permalink to this term">¶</a></dt><dd><p>A measure of the variability of unit firing, reflecting the dispersion of the data around the mean.</p>
+</dd>
+<dt id="term-fano-factor">fano factor<a class="headerlink" href="#term-fano-factor" title="Permalink to this term">¶</a></dt><dd><p>A measure of the variability of unit firing, as a variant of the coefficient of variation.</p>
+</dd>
+<dt id="term-interspike-interval-ISI">interspike interval (ISI)<a class="headerlink" href="#term-interspike-interval-ISI" title="Permalink to this term">¶</a></dt><dd><p>A measure of the time interval(s) between successive spikes.</p>
 </dd>
 <dt id="term-waveform">waveform<a class="headerlink" href="#term-waveform" title="Permalink to this term">¶</a></dt><dd><p>The spike waveform is the shape of the action potential.</p>
 </dd>
-<dt id="term-raster">raster<a class="headerlink" href="#term-raster" title="Permalink to this term">¶</a></dt><dd><p>A raster plot is a visualization of spike activity representing each spike as a vertical line.</p>
+<dt id="term-raster">raster<a class="headerlink" href="#term-raster" title="Permalink to this term">¶</a></dt><dd><p>A raster plot is a visualization of spike activity across time, representing each spike as a vertical line.</p>
 </dd>
-<dt id="term-electrode">electrode<a class="headerlink" href="#term-electrode" title="Permalink to this term">¶</a></dt><dd><p>A recording device (such as a micro-electrode or tetrode) used to collect the raw data.</p>
+</dl>
+</section>
+<section id="recording">
+<h2>Recording<a class="headerlink" href="#recording" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary simple">
+<dt id="term-electrode">electrode<a class="headerlink" href="#term-electrode" title="Permalink to this term">¶</a></dt><dd><p>A recording device that can measure electrical activity, that is used to collect the raw data.</p>
 </dd>
-<dt id="term-sampling-rate">sampling rate<a class="headerlink" href="#term-sampling-rate" title="Permalink to this term">¶</a></dt><dd><p>The rate at which samples are collected for a recording device.</p>
+<dt id="term-extracellular-recordings">extracellular recordings<a class="headerlink" href="#term-extracellular-recordings" title="Permalink to this term">¶</a></dt><dd><p>Recordings in which the electrode sits in the extracellular fluid, outside of any individual cells.</p>
 </dd>
+<dt id="term-micro-electrode">micro-electrode<a class="headerlink" href="#term-micro-electrode" title="Permalink to this term">¶</a></dt><dd><p>An electrode that is very small, such that if it is close enough, it can record activity from single-units that are nearby.</p>
+</dd>
+<dt id="term-tetrode">tetrode<a class="headerlink" href="#term-tetrode" title="Permalink to this term">¶</a></dt><dd><p>A recording device with four small electrodes that can record single unit activity.
+The multiple wires help to differentiate different units.</p>
+</dd>
+<dt id="term-sampling-rate">sampling rate<a class="headerlink" href="#term-sampling-rate" title="Permalink to this term">¶</a></dt><dd><p>The rate at which samples are collected on a recording device.</p>
+</dd>
+<dt id="term-neurodata-without-borders">neurodata without borders<a class="headerlink" href="#term-neurodata-without-borders" title="Permalink to this term">¶</a></dt><dd><p>A standardized file type for storing neuro-electrophysiological data.</p>
+</dd>
+</dl>
+</section>
+<section id="pre-processing">
+<h2>Pre-Processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary simple">
 <dt id="term-spike-sorting">spike sorting<a class="headerlink" href="#term-spike-sorting" title="Permalink to this term">¶</a></dt><dd><p>The process of identifying spikes and grouping them into clusters that represent putative single-neuron activity.</p>
 </dd>
 </dl>
 </section>
-<section id="units">
-<h2>Units<a class="headerlink" href="#units" title="Permalink to this headline">¶</a></h2>
+<section id="measurement-units">
+<h2>Measurement Units<a class="headerlink" href="#measurement-units" title="Permalink to this headline">¶</a></h2>
 <dl class="glossary simple">
 <dt id="term-Hertz-Hz">Hertz (Hz)<a class="headerlink" href="#term-Hertz-Hz" title="Permalink to this term">¶</a></dt><dd><p>A unit of frequency, used to measure the number of spikes per second.</p>
 </dd>
@@ -134,13 +165,19 @@
 <section id="abbreviations">
 <h2>Abbreviations<a class="headerlink" href="#abbreviations" title="Permalink to this headline">¶</a></h2>
 <dl class="glossary simple">
+<dt id="term-AP">AP<a class="headerlink" href="#term-AP" title="Permalink to this term">¶</a></dt><dd><p>Action potential.</p>
+</dd>
 <dt id="term-NWB">NWB<a class="headerlink" href="#term-NWB" title="Permalink to this term">¶</a></dt><dd><p>Neurodata without borders.</p>
 </dd>
 <dt id="term-ISIs">ISIs<a class="headerlink" href="#term-ISIs" title="Permalink to this term">¶</a></dt><dd><p>Interspike intervals.</p>
 </dd>
+<dt id="term-SUA">SUA<a class="headerlink" href="#term-SUA" title="Permalink to this term">¶</a></dt><dd><p>Single-unit activity.</p>
+</dd>
 <dt id="term-MUA">MUA<a class="headerlink" href="#term-MUA" title="Permalink to this term">¶</a></dt><dd><p>Multi-unit activity.</p>
 </dd>
 <dt id="term-LFP">LFP<a class="headerlink" href="#term-LFP" title="Permalink to this term">¶</a></dt><dd><p>Local field potential.</p>
+</dd>
+<dt id="term-ANOVA">ANOVA<a class="headerlink" href="#term-ANOVA" title="Permalink to this term">¶</a></dt><dd><p>ANalysis Of VAriance.</p>
 </dd>
 </dl>
 </section>
@@ -158,8 +195,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2021, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

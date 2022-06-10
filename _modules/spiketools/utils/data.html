@@ -24,9 +24,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -101,6 +101,72 @@
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
+<div class="viewcode-block" id="get_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.data.get_range.html#spiketools.utils.data.get_range">[docs]</a><span class="k">def</span> <span class="nf">get_range</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the range of an array of data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : array</span>
+<span class="sd">        Array of numerical data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    min, max : float</span>
+<span class="sd">        Minimum and maximum values of the data array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="restrict_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.data.restrict_range.html#spiketools.utils.data.restrict_range">[docs]</a><span class="k">def</span> <span class="nf">restrict_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Restrict a vector of data to a specified range.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : 1d array</span>
+<span class="sd">        Array of data.</span>
+<span class="sd">    min_value, max_value : float, optional</span>
+<span class="sd">        Mininum and/or maximum value to restrict input array to.</span>
+<span class="sd">    reset : float, optional</span>
+<span class="sd">        If provided, resets the values in the data array by the given reset value.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : 1d array</span>
+<span class="sd">        Data array, restricted to desired time range.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Select all values greater than a specific value:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([5, 10, 15, 20, 25, 30])</span>
+<span class="sd">    &gt;&gt;&gt; restrict_range(data, min_value=10, max_value=None)</span>
+<span class="sd">    array([10, 15, 20, 25, 30])</span>
+
+<span class="sd">    Select all values less than a specific value:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([5, 10, 15, 20, 25, 30])</span>
+<span class="sd">    &gt;&gt;&gt; restrict_range(data, min_value=None, max_value=25)</span>
+<span class="sd">    array([ 5, 10, 15, 20, 25])</span>
+
+<span class="sd">    Restrict a data array to a specific range:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([5, 10, 15, 20, 25, 30])</span>
+<span class="sd">    &gt;&gt;&gt; restrict_range(data, min_value=10, max_value=20)</span>
+<span class="sd">    array([10, 15, 20])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">min_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">min_value</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">max_value</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">data</span> <span class="o">&gt;=</span> <span class="n">min_value</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span> <span class="o">&lt;=</span> <span class="n">max_value</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">reset</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
 <div class="viewcode-block" id="get_value_by_time"><a class="viewcode-back" href="../../../generated/spiketools.utils.data.get_value_by_time.html#spiketools.utils.data.get_value_by_time">[docs]</a><span class="k">def</span> <span class="nf">get_value_by_time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get the value for a data array at a specific time point.</span>
 
@@ -158,8 +224,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2021, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

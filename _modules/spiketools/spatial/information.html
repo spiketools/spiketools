@@ -24,9 +24,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -96,123 +96,85 @@
   <h1>Source code for spiketools.spatial.information</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Measures of spatial information.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">warnings</span>
-
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="kn">from</span> <span class="nn">spiketools.spatial.occupancy</span> <span class="kn">import</span> <span class="n">normalize_bin_firing</span>
+
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="compute_spatial_information_2d"><a class="viewcode-back" href="../../../generated/spiketools.spatial.information.compute_spatial_information_2d.html#spiketools.spatial.information.compute_spatial_information_2d">[docs]</a><span class="k">def</span> <span class="nf">compute_spatial_information_2d</span><span class="p">(</span><span class="n">spike_x</span><span class="p">,</span> <span class="n">spike_y</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute spatial information across a 2d space.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    spike_x, spike_y : 1d array</span>
-<span class="sd">        Spike positions.</span>
-<span class="sd">    bins : list of int</span>
-<span class="sd">        Binning to use.</span>
-<span class="sd">    occupancy : 2d array</span>
-<span class="sd">        Occupancy of the space.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    info : float</span>
-<span class="sd">        Spike information rate for spatial information (bits/spike).</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    Compute spatial information across a 2d space using spike x- and y-position, bins, and occupancy:</span>
-
-<span class="sd">    &gt;&gt;&gt; position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])</span>
-<span class="sd">    &gt;&gt;&gt; spike_x = [1, 2, 3, 4, 5]</span>
-<span class="sd">    &gt;&gt;&gt; spike_y = [6, 7, 8, 9, 10]</span>
-<span class="sd">    &gt;&gt;&gt; bins = [2, 4]</span>
-<span class="sd">    &gt;&gt;&gt; # Used precomputed occupancy, calculated with same bins and position</span>
-<span class="sd">    &gt;&gt;&gt; #   Note: occupancy computed with timestamps as `np.linspace(0, 100000, position.shape[1])`</span>
-<span class="sd">    &gt;&gt;&gt; occupancy = np.array([[0,  0,  0,  0],</span>
-<span class="sd">    ...                       [0, 25, 25,  0]])</span>
-<span class="sd">    &gt;&gt;&gt; compute_spatial_information_2d(spike_x, spike_y, bins, occupancy)</span>
-<span class="sd">    -0.2643856189774725</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">spike_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram2d</span><span class="p">(</span><span class="n">spike_x</span><span class="p">,</span> <span class="n">spike_y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">info</span> <span class="o">=</span> <span class="n">_compute_spatial_information</span><span class="p">(</span><span class="n">spike_map</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">info</span></div>
-
-
-<div class="viewcode-block" id="compute_spatial_information_1d"><a class="viewcode-back" href="../../../generated/spiketools.spatial.information.compute_spatial_information_1d.html#spiketools.spatial.information.compute_spatial_information_1d">[docs]</a><span class="k">def</span> <span class="nf">compute_spatial_information_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">,</span> <span class="n">bins</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute spatial information across a 1d space using Skaggs information.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    data : 1d array</span>
-<span class="sd">        Spike positions.</span>
-<span class="sd">    occupancy : 1d array</span>
-<span class="sd">        Occupancy data.</span>
-<span class="sd">    bins : int</span>
-<span class="sd">        Number of bins to use.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    info : float</span>
-<span class="sd">        Spike information rate for spatial information (bits/spike).</span>
-
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    Compute spatial information across a 1d space using spike position, occupancy, and bins:</span>
-
-<span class="sd">    &gt;&gt;&gt; data = [1, 2, 3, 4, 5]</span>
-<span class="sd">    &gt;&gt;&gt; occupancy = np.array([0, 25, 25, 0])</span>
-<span class="sd">    &gt;&gt;&gt; bins = [2, 4]</span>
-<span class="sd">    &gt;&gt;&gt; compute_spatial_information_1d(data, occupancy, bins)</span>
-<span class="sd">    2.0</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">spike_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">info</span> <span class="o">=</span> <span class="n">_compute_spatial_information</span><span class="p">(</span><span class="n">spike_map</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">info</span></div>
-
-
-<span class="k">def</span> <span class="nf">_compute_spatial_information</span><span class="p">(</span><span class="n">spike_map</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">):</span>
+<div class="viewcode-block" id="compute_spatial_information"><a class="viewcode-back" href="../../../generated/spiketools.spatial.information.compute_spatial_information.html#spiketools.spatial.information.compute_spatial_information">[docs]</a><span class="k">def</span> <span class="nf">compute_spatial_information</span><span class="p">(</span><span class="n">bin_firing</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute spatial information.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    spike_map : ndarray</span>
-<span class="sd">        Spike positions.</span>
-<span class="sd">    occupancy : ndarray</span>
-<span class="sd">        Occupancy.</span>
+<span class="sd">    bin_firing : 1d or 2d array</span>
+<span class="sd">        Binned firing.</span>
+<span class="sd">    occupancy : 1d or 2d array</span>
+<span class="sd">        Occupancy across the space.</span>
+<span class="sd">    normalize : bool, optional, default: False</span>
+<span class="sd">        If True, normalize the binned firing rate data by the occupancy.</span>
+<span class="sd">        If False, it is assumed that the binned firing has already been normalized.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    info : float</span>
 <span class="sd">        Spike information rate for spatial information (bits/spike).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This measure compute the spatial information between the firing and spatial location, as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        I = \sum{\lambda (x) log_2 \frac{\lambda(x)} {\lambda} p(x)dx}</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Skaggs, W. E., McNaughton, B. L., &amp; Gothard, K. M. (1992). An</span>
+<span class="sd">           Information-Theoretic Approach to Deciphering the Hippocampal Code.</span>
+<span class="sd">           Advances in neural information processing systems.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute spatial information across a 1d space:</span>
+
+<span class="sd">    &gt;&gt;&gt; bin_firing = np.array([1, 1, 1, 1, 4])</span>
+<span class="sd">    &gt;&gt;&gt; occupancy = np.array([1, 1, 1, 1, 1])</span>
+<span class="sd">    &gt;&gt;&gt; info = compute_spatial_information(bin_firing, occupancy)</span>
+<span class="sd">    &gt;&gt;&gt; print(&#39;{:5.4f}&#39;.format(info))</span>
+<span class="sd">    0.3219</span>
+
+<span class="sd">    Compute spatial information across a 2d space:</span>
+
+<span class="sd">    &gt;&gt;&gt; bin_firing = np.array([[1, 1, 1, 5],</span>
+<span class="sd">    ...                        [1, 1, 1, 5]])</span>
+<span class="sd">    &gt;&gt;&gt; occupancy = np.array([[1, 1, 1, 1],</span>
+<span class="sd">    ...                       [1, 1, 1, 1]])</span>
+<span class="sd">    &gt;&gt;&gt; info = compute_spatial_information(bin_firing, occupancy)</span>
+<span class="sd">    &gt;&gt;&gt; print(&#39;{:5.4f}&#39;.format(info))</span>
+<span class="sd">    0.4512</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Calculate average firing rate</span>
-    <span class="n">rate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">spike_map</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occupancy</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">bin_firing</span> <span class="o">=</span> <span class="n">normalize_bin_firing</span><span class="p">(</span><span class="n">bin_firing</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">)</span>
+
+    <span class="c1"># Calculate average firing rate of the neuron, dividing out by total occupancy time</span>
+    <span class="c1">#   Note: this recomputes total spike (basically, de-normalizing)</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">bin_firing</span> <span class="o">*</span> <span class="n">occupancy</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occupancy</span><span class="p">)</span>
+
+    <span class="c1"># Catch for a neuron with no firing - return 0 information</span>
     <span class="k">if</span> <span class="n">rate</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
 
-    <span class="c1"># Compute the occupancy probability (per bin)</span>
+    <span class="c1"># Compute the occupancy probability, per bin</span>
     <span class="n">occ_prob</span> <span class="o">=</span> <span class="n">occupancy</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occupancy</span><span class="p">)</span>
 
-    <span class="c1"># Supress RunTime warnings for invalid values that might occur in the arrays during calculations</span>
-    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+    <span class="c1"># Calculate the spatial information, using a mask for nonzero values</span>
+    <span class="n">nz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">bin_firing</span><span class="p">)</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occ_prob</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">*</span> <span class="n">bin_firing</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">bin_firing</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">/</span> <span class="n">rate</span><span class="p">))</span> <span class="o">/</span> <span class="n">rate</span>
 
-        <span class="c1"># Calculate the normalized spiking (by occupancy)</span>
-        <span class="n">spike_map_norm</span> <span class="o">=</span> <span class="n">spike_map</span> <span class="o">/</span> <span class="n">occupancy</span>
-
-        <span class="c1"># Calculate the spatial information, using a mask for nonzero values</span>
-        <span class="n">nz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">spike_map_norm</span><span class="p">)</span>
-        <span class="n">info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">occ_prob</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">*</span> <span class="n">spike_map_norm</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">spike_map_norm</span><span class="p">[</span><span class="n">nz</span><span class="p">]</span> <span class="o">/</span> <span class="n">rate</span><span class="p">))</span> <span class="o">/</span> <span class="n">rate</span>
-
-    <span class="k">return</span> <span class="n">info</span>
+    <span class="k">return</span> <span class="n">info</span></div>
 </pre></div>
 
     </div>
@@ -226,8 +188,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2021, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

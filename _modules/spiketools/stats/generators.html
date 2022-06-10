@@ -24,9 +24,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -101,39 +101,34 @@
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="poisson_train"><a class="viewcode-back" href="../../../generated/spiketools.stats.generators.poisson_train.html#spiketools.stats.generators.poisson_train">[docs]</a><span class="k">def</span> <span class="nf">poisson_train</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generator function for a Homogeneous Poisson train.</span>
+<div class="viewcode-block" id="poisson_generator"><a class="viewcode-back" href="../../../generated/spiketools.stats.generators.poisson_generator.html#spiketools.stats.generators.poisson_generator">[docs]</a><span class="k">def</span> <span class="nf">poisson_generator</span><span class="p">(</span><span class="n">rate</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generator function for a Homogeneous Poisson distribution.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    frequency : float</span>
-<span class="sd">        The mean spiking frequency.</span>
+<span class="sd">    rate : float</span>
+<span class="sd">        The average rate for the generator.</span>
 <span class="sd">    duration : float</span>
-<span class="sd">        Maximum duration.</span>
+<span class="sd">        Maximum duration. After this time, the generator will return.</span>
 <span class="sd">    start_time: float, optional</span>
 <span class="sd">        Timestamp of the start time for the generated sequence.</span>
 
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
 <span class="sd">    float</span>
-<span class="sd">        A relative spike time from t=start_time, in seconds (not ms).</span>
+<span class="sd">        A sample from the distribution.</span>
+<span class="sd">        Sample is a relative value, based on `start_time`, in seconds.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Make a list of spikes at 20 Hz for 3 seconds:</span>
+<span class="sd">    Create a Poisson generator and sample from it:</span>
 
-<span class="sd">    &gt;&gt;&gt; poisson_generator = poisson_train(20, 3)</span>
-<span class="sd">    &gt;&gt;&gt; spikes = [spike for spike in poisson_generator]</span>
-
-<span class="sd">    Sample spikes continuously from a generator:</span>
-
-<span class="sd">    &gt;&gt;&gt; spike_gen = poisson_train(20, duration=np.inf)</span>
+<span class="sd">    &gt;&gt;&gt; gen = poisson_generator(20, duration=np.inf)</span>
 <span class="sd">    &gt;&gt;&gt; for ind in range(10):</span>
-<span class="sd">    ...     spike = next(spike_gen)</span>
+<span class="sd">    ...     sample = next(gen)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">isi</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">frequency</span>
-
+    <span class="n">isi</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rate</span>
     <span class="n">cur_time</span> <span class="o">=</span> <span class="n">start_time</span>
     <span class="k">while</span> <span class="n">cur_time</span> <span class="o">&lt;=</span> <span class="n">duration</span><span class="p">:</span>
 
@@ -156,8 +151,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2021, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>
