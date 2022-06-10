@@ -76,14 +76,14 @@ def shuffle_isis(spikes, n_shuffles=1000):
 
 
 def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
-    """Shuffle data with a circular shuffle of the spike train.
+    """Shuffle data with circular shuffles of randomly sized bins of the spike train.
 
     Parameters
     ----------
     spikes : 1d array
         Spike times, in seconds.
-    bin_width_range : list of [int, int], optional, default : [.5, 7]
-        Range of bin widths in seconds to shuffle by.
+    bin_width_range : list of [float, float], optional, default : [.5, 7]
+        Range of bin widths in seconds from which bin sizes are randomly selected.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
 
