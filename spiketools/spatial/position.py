@@ -19,6 +19,15 @@ def compute_distance(x1, y1, x2, y2):
     -------
     float
         Distance between the two positions.
+
+    Examples
+    --------
+    Compute distance between the two points (x1, y1) and (x2, y2):
+
+    >>> x1, x2 = 1, 5
+    >>> y1, y2 = 6, 9
+    >>> compute_distance(x1, y1, x2, y2)
+    5.0
     """
 
     return np.linalg.norm(np.array([x1, y1]) - np.array([x2, y2]))
@@ -36,6 +45,14 @@ def compute_distances(xs, ys):
     -------
     1d array
         Vector of distances between positions.
+
+    Examples
+    --------
+    Compute distances between vectors of x- and y-positions:
+
+    >>> xs, ys = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+    >>> compute_distances(xs, ys)
+    array([1.41421356, 1.41421356, 1.41421356, 1.41421356])
     """
 
     dists = np.zeros(len(xs) - 1)
@@ -57,6 +74,14 @@ def compute_cumulative_distances(xs, ys):
     -------
     1d array
         Cumulative distances.
+
+    Examples
+    --------
+    Compute cumulative distances between vectors of x- and y-positions:
+
+    >>> xs, ys = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+    >>> compute_cumulative_distances(xs, ys)
+    array([1.41421356, 2.82842712, 4.24264069, 5.65685425])
     """
 
     return np.cumsum(compute_distances(xs, ys))
@@ -76,6 +101,15 @@ def compute_speed(xs, ys, bin_widths):
     -------
     speed : 1d array
         Vector of speeds across each position step.
+
+    Examples
+    --------
+    Compute speeds across vectors of x- and y-positions:
+
+    >>> xs, ys = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+    >>> bin_width = np.array([1, 1, 0.5, 1])
+    >>> compute_speed(xs, ys, bin_width)
+    array([1.41421356, 1.41421356, 2.82842712, 1.41421356])
     """
 
     distances = compute_distances(xs, ys)

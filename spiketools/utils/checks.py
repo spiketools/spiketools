@@ -1,25 +1,36 @@
 """Spike related checking functions."""
 
-import warnings
-
 import numpy as np
 
 ###################################################################################################
 ###################################################################################################
 
-def check_spike_time_unit(spikes):
-    """Check if spikes are in time unit milliseconds.
+def infer_time_unit(time_values):
+    """Infer the time unit of given time values.
 
     Parameters
     ----------
-    spikes : 1d array
-        Spike times.
+    time_values : 1d array
+        Time values.
+
+    Returns
+    -------
+    time_unit : {'seconds', 'milliseconds'}
+        The inferred time unit of the input data.
     """
-	
-    # If there are any two spikes within the same time unit, show warning.
-    if len(np.unique((spikes).astype(int))) < len(np.unique(spikes)):
-        warnings.warn('There are 2 or more spikes within a same unit of time. Spikes might be in seconds, should be in milliseconds.')
-    # If the mean time between spikes is too low, show warning.
-    if len(spikes) > 1:
-        if np.mean(np.diff(spikes)) < 10:
-            warnings.warn('Spikes should be in milliseconds, but appear to be in seconds.')
+
+    time_unit = None
+
+    # Infer seconds if there are any two spikes within the same time unit,
+    if len(np.unique((time_values).astype(int))) < len(np.unique(time_values)):
+        time_unit = 'seconds'
+
+    # Infer seconds if the mean time between spikes is low
+    elif np.mean(np.diff(time_values)) < 10:
+        time_unit = 'seconds'
+
+    # Otherwise, infer milliseconds
+    else:
+        time_unit = 'milliseconds'
+
+    return time_unit

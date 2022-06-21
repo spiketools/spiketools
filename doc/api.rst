@@ -27,7 +27,7 @@ Spike measures.
 .. autosummary::
    :toctree: generated/
 
-   compute_spike_rate
+   compute_firing_rate
    compute_isis
    compute_cv
    compute_fano_factor
@@ -41,9 +41,20 @@ Conversions between spike representations.
 .. autosummary::
    :toctree: generated/
 
-   create_spike_train
+   convert_times_to_train
    convert_train_to_times
-   convert_isis_to_spikes
+   convert_isis_to_times
+
+Circular
+~~~~~~~~
+
+Measures for working with circular data.
+
+.. currentmodule:: spiketools.measures.circular
+.. autosummary::
+   :toctree: generated/
+
+   bin_circular
 
 Objects
 -------
@@ -54,7 +65,7 @@ Object for managing spike-related data, available in the `objects` sub-module.
 .. autosummary::
    :toctree: generated/
 
-   Cell
+   Unit
    Session
 
 Spatial
@@ -69,9 +80,12 @@ Occupancy
 .. autosummary::
    :toctree: generated/
 
-    compute_spatial_bin_edges
-    compute_spatial_bin_assignment
-    compute_bin_width
+    compute_nbins
+    compute_bin_edges
+    compute_bin_assignment
+    compute_bin_firing
+    normalize_bin_firing
+    compute_bin_time
     compute_occupancy
 
 Position
@@ -93,8 +107,17 @@ Information
 .. autosummary::
    :toctree: generated/
 
-    compute_spatial_information_1d
-    compute_spatial_information_2d
+    compute_spatial_information
+
+Utilities
+~~~~~~~~~
+
+.. currentmodule:: spiketools.spatial.utils
+.. autosummary::
+   :toctree: generated/
+
+    get_pos_ranges
+    get_bin_width
 
 Statistics
 ----------
@@ -108,7 +131,7 @@ Generators
 .. autosummary::
    :toctree: generated/
 
-    poisson_train
+    poisson_generator
 
 Shuffle
 ~~~~~~~
@@ -133,15 +156,57 @@ Permutations
     vec_perm
     compute_empirical_pvalue
     zscore_to_surrogates
+    compute_surrogate_stats
+
+ANOVA
+~~~~~
+
+.. currentmodule:: spiketools.stats.anova
+.. autosummary::
+   :toctree: generated/
+
+    create_dataframe
+    fit_anova
 
 Simulations
 -----------
 
-Functionality for simulating spiking data, available in the `sims` sub-module.
+Functionality for simulating spiking data, available in the `sim` sub-module.
 
-.. currentmodule:: spiketools.sims
+.. currentmodule:: spiketools.sim
 .. autosummary::
    :toctree: generated/
+
+Spike Times
+~~~~~~~~~~~
+
+.. currentmodule:: spiketools.sim.times
+.. autosummary::
+   :toctree: generated/
+
+   sim_spiketimes
+   sim_spiketimes_poisson
+
+Spike Trains
+~~~~~~~~~~~~
+
+.. currentmodule:: spiketools.sim.train
+.. autosummary::
+   :toctree: generated/
+
+    sim_spiketrain
+    sim_spiketrain_prob
+    sim_spiketrain_binom
+    sim_spiketrain_poisson
+
+Utilities
+~~~~~~~~~
+
+.. currentmodule:: spiketools.sim.utils
+.. autosummary::
+   :toctree: generated/
+
+    refractory
 
 Plots
 -----
@@ -156,17 +221,38 @@ Spikes
    :toctree: generated/
 
     plot_waveform
+    plot_waveforms3d
+    plot_waveform_density
     plot_isis
     plot_firing_rates
 
 Space
 ~~~~~
 
-.. currentmodule:: spiketools.plts.space
+.. currentmodule:: spiketools.plts.spatial
 .. autosummary::
    :toctree: generated/
 
-    plot_space_heat
+    plot_positions
+    plot_heatmap
+
+Task
+~~~~
+
+.. currentmodule:: spiketools.plts.task
+.. autosummary::
+   :toctree: generated/
+
+   plot_task_structure
+
+Trials
+~~~~~~
+.. currentmodule:: spiketools.plts.trials
+.. autosummary::
+   :toctree: generated/
+
+    plot_rasters
+    plot_rate_by_time
 
 Stats
 ~~~~~
@@ -177,15 +263,69 @@ Stats
 
     plot_surrogates
 
+Data
+~~~~
+
+.. currentmodule:: spiketools.plts.data
+.. autosummary::
+   :toctree: generated/
+
+   plot_lines
+   plot_dots
+   plot_bar
+   plot_hist
+   plot_polar_hist
+   plot_text
 
 Utilities
 ---------
 
 Utility functions, in the `utils` sub-module.
 
-.. currentmodule:: spiketools.utils
+Data
+~~~~
+
+.. currentmodule:: spiketools.utils.data
 .. autosummary::
    :toctree: generated/
 
+   get_range
    restrict_range
+   get_value_by_time
+   get_value_by_time_range
+
+Timestamps
+~~~~~~~~~~
+
+.. currentmodule:: spiketools.utils.timestamps
+.. autosummary::
+   :toctree: generated/
+
+   convert_ms_to_sec
+   convert_sec_to_min
+   convert_min_to_hour
+   convert_ms_to_min
+   split_time_value
+   format_time_string
+
+Trials
+~~~~~~
+
+.. currentmodule:: spiketools.utils.trials
+.. autosummary::
+   :toctree: generated/
+
+  epoch_spikes_by_event
+  epoch_spikes_by_range
+  epoch_data_by_event
+  epoch_data_by_range
+
+Utils
+~~~~~
+
+.. currentmodule:: spiketools.utils.utils
+.. autosummary::
+   :toctree: generated/
+
    set_random_seed
+   set_random_state
