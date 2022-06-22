@@ -13,9 +13,9 @@ def convert_times_to_train(spikes, fs=1000, length=None):
     spikes : 1d array
         Spike times, in seconds.
     fs : int, optional, default: 1000
-        The sampling rate to use for the computed spike train.
+        The sampling rate to use for the computed spike train, in Hz.
     length : float, optional
-        The total length of the spike train to create.
+        The total length of the spike train to create, in seconds.
         If not provided, the length is set at the maximum timestamp in the input spike times.
 
     Returns
@@ -50,7 +50,7 @@ def convert_train_to_times(train, fs=1000):
     train : 1d array
         Spike train.
     fs : int, optional, default: 1000
-        The sampling rate of the computed spike train.
+        The sampling rate of the computed spike train, in Hz.
 
     Returns
     -------

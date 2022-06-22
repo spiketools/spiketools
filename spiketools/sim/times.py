@@ -21,14 +21,14 @@ def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
     method : {'poisson'}
         The method to use for the simulation.
     refractory : float, optional
-        The refractory period to apply to the simulated data.
+        The refractory period to apply to the simulated data, in seconds.
     **kwargs
         Additional keyword arguments.
 
     Returns
     -------
     times : 1d array
-        Simulated spike times.
+        Simulated spike times, in seconds.
     """
 
     times = SPIKETIME_FUNCS[method](spike_param, duration, **kwargs)
@@ -49,14 +49,14 @@ def sim_spiketimes_poisson(rate, duration, start_time=0):
     rate : float
         The average firing rate for the simulated spike times.
     duration : float
-        Duration of spike times to simulate.
+        Duration of spike times to simulate, in seconds.
     start_time: float, optional
         Timestamp of the start time for the simulated spike times.
 
     Returns
     -------
     times : 1d array
-        Simulated spike times.
+        Simulated spike times, in seconds.
     """
 
     times = np.array([spike for spike in poisson_generator(rate, duration, start_time)])

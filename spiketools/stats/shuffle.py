@@ -17,7 +17,7 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
     Parameters
     ----------
     spikes : 1d array
-        Spike times.
+        Spike times, in seconds.
     approach : {'ISI', 'BINCIRC', 'POISSON', 'CIRCULAR'}
         Which approach to take for shuffling spike times.
     n_shuffles : int, optional, default: 1000
@@ -152,7 +152,7 @@ def shuffle_poisson(spikes, n_shuffles=1000):
     Parameters
     ----------
     spikes : 1d array
-        Spike times.
+        Spike times, in seconds.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
 
@@ -183,7 +183,7 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
     Parameters
     ----------
     spikes : 1d array
-        Spike times.
+        Spike times, in seconds.
     shuffle_min : int
         The minimum amount to rotate data, in terms of units of the spike train.
     n_shuffles : int, optional, default: 1000
