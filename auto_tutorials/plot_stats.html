@@ -25,9 +25,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -146,7 +146,7 @@ surrogates of our original spikes.</p>
 - <cite>shuffle_circular</cite>: shuffle spikes by circularly shifting the spike train.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shuffle spike ms using the four described methods</span>
 <span class="n">shuffled_isis</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis" title="spiketools.stats.shuffle.shuffle_isis" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_isis</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">shuffled_bins</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_bins.html#spiketools.stats.shuffle.shuffle_bins" title="spiketools.stats.shuffle.shuffle_bins" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_bins</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bin_width_range</span><span class="o">=</span><span class="p">[</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">7000</span><span class="p">],</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">shuffled_bins</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_bins.html#spiketools.stats.shuffle.shuffle_bins" title="spiketools.stats.shuffle.shuffle_bins" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_bins</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bin_width_range</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">shuffled_poisson</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_poisson.html#spiketools.stats.shuffle.shuffle_poisson" title="spiketools.stats.shuffle.shuffle_poisson" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_poisson</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">shuffled_circular</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_circular.html#spiketools.stats.shuffle.shuffle_circular" title="spiketools.stats.shuffle.shuffle_circular" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_circular</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">shuffle_min</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
@@ -234,7 +234,7 @@ surrogates. Lastly, plot the distribution of surrogates with calculated delta fi
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>-7.378733074394458 6.931477012907598
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>-6.717436438954466 6.9845486814316775
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate empirical p-value and z-score of difference in firing rate with respect to surrogates</span>
@@ -245,14 +245,14 @@ surrogates. Lastly, plot the distribution of surrogates with calculated delta fi
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The z-score of the delta firing rate (after - before the event) is 0.68, and the empirical p-value is 0.27
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The z-score of the delta firing rate (after - before the event) is 1.58, and the empirical p-value is 0.04
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot distribution of surrogates, with calculated delta firing rate &amp; p-value</span>
 <a href="../generated/spiketools.plts.stats.plot_surrogates.html#spiketools.plts.stats.plot_surrogates" title="spiketools.plts.stats.plot_surrogates" class="sphx-glr-backref-module-spiketools-plts-stats sphx-glr-backref-type-py-function"><span class="n">plot_surrogates</span></a><span class="p">(</span><span class="n">surr</span><span class="p">,</span> <span class="n">fr_diff</span><span class="p">,</span> <span class="n">pval</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_stats_003.png" srcset="../_images/sphx_glr_plot_stats_003.png" alt="plot stats" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.605 seconds)</p>
+<img src="../_images/sphx_glr_plot_stats_003.png" srcset="../_images/sphx_glr_plot_stats_003.png" alt="plot stats" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.633 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-stats-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/3e1328885e3703795461db6650f78c35/plot_stats.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_stats.py</span></code></a></p>
@@ -279,7 +279,7 @@ surrogates. Lastly, plot the distribution of surrogates with calculated delta fi
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
     </p>
   </div>
 </footer>

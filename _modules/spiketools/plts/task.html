@@ -24,9 +24,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -98,7 +98,7 @@
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.plts.annotate</span> <span class="kn">import</span> <span class="n">_add_shade</span><span class="p">,</span> <span class="n">_add_vlines</span>
+<span class="kn">from</span> <span class="nn">spiketools.plts.annotate</span> <span class="kn">import</span> <span class="n">_add_vshade</span><span class="p">,</span> <span class="n">_add_vlines</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span><span class="p">,</span> <span class="n">savefig</span><span class="p">,</span> <span class="n">set_plt_kwargs</span>
 
 <span class="c1">###################################################################################################</span>
@@ -106,55 +106,55 @@
 
 <div class="viewcode-block" id="plot_task_structure"><a class="viewcode-back" href="../../../generated/spiketools.plts.task.plot_task_structure.html#spiketools.plts.task.plot_task_structure">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
-<span class="k">def</span> <span class="nf">plot_task_structure</span><span class="p">(</span><span class="n">shades</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shade_colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">shade_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot task structure with shaded regions and line events.</span>
+<span class="k">def</span> <span class="nf">plot_task_structure</span><span class="p">(</span><span class="n">task_ranges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">event_lines</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">range_colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">range_kwargs</span><span class="o">=</span><span class="p">{},</span> <span class="n">event_kwargs</span><span class="o">=</span><span class="p">{},</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot task structure, shaded ranges of event durations, and lines of point events.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    shades : list of list of float</span>
+<span class="sd">    task_ranges : list of list of float</span>
 <span class="sd">        List of start and end ranges to shade in, to indicate event durations.</span>
 <span class="sd">        To add multiple different shaded regions, pass a list of multiple shade definitions.</span>
-<span class="sd">    lines : list of float</span>
+<span class="sd">    event_lines : list of float</span>
 <span class="sd">        Positions to draw vertical lines, to indicate point events.</span>
 <span class="sd">        To add multiple different lines, pass a list of multiple line definitions.</span>
-<span class="sd">    shade_colors : list of str</span>
-<span class="sd">        Colors to plot the shades in. Used if passing multiple shade sections.</span>
+<span class="sd">    range_colors : list of str</span>
+<span class="sd">        Colors to plot the ranges in. Used if passing multiple task range sections.</span>
 <span class="sd">    line_colors : list of str</span>
 <span class="sd">        Colors to plot the lines in. Used if passing multiple line sections.</span>
-<span class="sd">    shade_kwargs : dict, optional</span>
-<span class="sd">        Additional keyword arguments for the shades.</span>
-<span class="sd">    line_kwargs : dict, optional</span>
-<span class="sd">        Additional keyword arguments for the lines.</span>
+<span class="sd">    range_kwargs : dict</span>
+<span class="sd">        Additional keyword arguments for the range shades.</span>
+<span class="sd">    event_kwargs : dict</span>
+<span class="sd">        Additional keyword arguments for the event lines.</span>
 <span class="sd">    ax : Axes, optional</span>
 <span class="sd">        Axis object upon which to plot.</span>
 <span class="sd">    plt_kwargs</span>
 <span class="sd">        Additional arguments to pass into the plot function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;figsize&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
 
     <span class="n">color_cycle</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">by_key</span><span class="p">()[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span>
-    <span class="n">shade_kwargs</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">shade_kwargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">shade_kwargs</span>
-    <span class="n">line_kwargs</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">line_kwargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">line_kwargs</span>
+    <span class="n">range_kwargs</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">range_kwargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">range_kwargs</span>
+    <span class="n">event_kwargs</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">event_kwargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">event_kwargs</span>
 
-    <span class="k">if</span> <span class="n">shades</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shades</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
-            <span class="k">for</span> <span class="n">shade</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">shades</span><span class="p">,</span> <span class="n">shade_colors</span> <span class="k">if</span> <span class="n">shade_colors</span> <span class="k">else</span> <span class="n">color_cycle</span><span class="p">):</span>
-                <span class="n">shade_kwargs</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span>
-                <span class="n">plot_task_structure</span><span class="p">(</span><span class="n">shades</span><span class="o">=</span><span class="n">shade</span><span class="p">,</span> <span class="n">shade_kwargs</span><span class="o">=</span><span class="n">shade_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">task_ranges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">task_ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">trange</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">task_ranges</span><span class="p">,</span> <span class="n">range_colors</span> <span class="k">if</span> <span class="n">range_colors</span> <span class="k">else</span> <span class="n">color_cycle</span><span class="p">):</span>
+                <span class="n">range_kwargs</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span>
+                <span class="n">plot_task_structure</span><span class="p">(</span><span class="n">task_ranges</span><span class="o">=</span><span class="n">trange</span><span class="p">,</span> <span class="n">range_kwargs</span><span class="o">=</span><span class="n">range_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">st</span><span class="p">,</span> <span class="n">en</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">shades</span><span class="p">):</span>
-                <span class="n">shade_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
-                <span class="n">_add_shade</span><span class="p">([</span><span class="n">st</span><span class="p">,</span> <span class="n">en</span><span class="p">],</span> <span class="o">**</span><span class="n">shade_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">st</span><span class="p">,</span> <span class="n">en</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">task_ranges</span><span class="p">):</span>
+                <span class="n">range_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+                <span class="n">_add_vshade</span><span class="p">([</span><span class="n">st</span><span class="p">,</span> <span class="n">en</span><span class="p">],</span> <span class="o">**</span><span class="n">range_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">lines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
-            <span class="k">for</span> <span class="n">line</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">line_colors</span> <span class="k">if</span> <span class="n">line_colors</span> <span class="k">else</span> <span class="n">color_cycle</span><span class="p">):</span>
-                <span class="n">line_kwargs</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span>
-                <span class="n">plot_task_structure</span><span class="p">(</span><span class="n">lines</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">line_kwargs</span><span class="o">=</span><span class="n">line_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">event_lines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">eline</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">event_lines</span><span class="p">,</span> <span class="n">line_colors</span> <span class="k">if</span> <span class="n">line_colors</span> <span class="k">else</span> <span class="n">color_cycle</span><span class="p">):</span>
+                <span class="n">event_kwargs</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span>
+                <span class="n">plot_task_structure</span><span class="p">(</span><span class="n">event_lines</span><span class="o">=</span><span class="n">eline</span><span class="p">,</span> <span class="n">event_kwargs</span><span class="o">=</span><span class="n">event_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">_add_vlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">line_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+            <span class="n">_add_vlines</span><span class="p">(</span><span class="n">event_lines</span><span class="p">,</span> <span class="o">**</span><span class="n">event_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span></div>
 </pre></div>
@@ -171,7 +171,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
     </p>
   </div>
 </footer>

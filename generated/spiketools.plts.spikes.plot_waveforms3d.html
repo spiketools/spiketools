@@ -25,9 +25,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -98,14 +98,14 @@
 <h1>spiketools.plts.spikes.plot_waveforms3d<a class="headerlink" href="#spiketools-plts-spikes-plot-waveforms3d" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.plts.spikes.plot_waveforms3d">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spikes.</span></span><span class="sig-name descname"><span class="pre">plot_waveforms3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveforms</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spikes.html#plot_waveforms3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spikes.plot_waveforms3d" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spikes.</span></span><span class="sig-name descname"><span class="pre">plot_waveforms3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waveforms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spikes.html#plot_waveforms3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spikes.plot_waveforms3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot waveforms on a 3D axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Time values corresponding to the waveforms.</p>
+<dt><strong>waveforms</strong><span class="classifier">2d array</span></dt><dd><p>Voltage values for the waveforms, with shape [n_waveforms, n_times].</p>
 </dd>
-<dt><strong>waveforms</strong><span class="classifier">2d array</span></dt><dd><p>Voltage values for the waveforms, with shape [n_times, n_waveforms].</p>
+<dt><strong>times</strong><span class="classifier">1d array, optional</span></dt><dd><p>Time values corresponding to the waveforms.</p>
 </dd>
 </dl>
 </dd>
@@ -127,7 +127,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
     </p>
   </div>
 </footer>

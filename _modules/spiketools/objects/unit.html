@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>spiketools.objects.unit &#8212; spiketools 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          spiketools</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../api.html">API</a></li>
+                <li><a href="../../../glossary.html">Glossary</a></li>
+                <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../../../auto_examples/index.html">Examples</a></li>
+                <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for spiketools.objects.unit</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Unit object.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">spiketools.stats.shuffle</span> <span class="kn">import</span> <span class="n">shuffle_spikes</span>
+<span class="kn">from</span> <span class="nn">spiketools.measures</span> <span class="kn">import</span> <span class="n">convert_times_to_train</span>
+<span class="kn">from</span> <span class="nn">spiketools.measures</span> <span class="kn">import</span> <span class="n">compute_isis</span><span class="p">,</span> <span class="n">compute_cv</span><span class="p">,</span> <span class="n">compute_fano_factor</span><span class="p">,</span> <span class="n">compute_firing_rate</span>
+
+<span class="c1">###################################################################################################</span>
+<span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="Unit"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit">[docs]</a><span class="k">class</span> <span class="nc">Unit</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;A Unit object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    uid : str</span>
+<span class="sd">        Unit ID.</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Spike times.</span>
+<span class="sd">    channel : str</span>
+<span class="sd">        Channel label.</span>
+<span class="sd">    region : str</span>
+<span class="sd">        Region label.</span>
+<span class="sd">    cluster : 1d array</span>
+<span class="sd">        Spike cluster.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Unit.__init__"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spikes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cluster</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Unit object.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">uid</span> <span class="o">=</span> <span class="n">uid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">channel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spikes</span> <span class="o">=</span> <span class="n">spikes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster</span> <span class="o">=</span> <span class="n">cluster</span></div>
+
+
+<div class="viewcode-block" id="Unit.spike_train"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.spike_train">[docs]</a>    <span class="k">def</span> <span class="nf">spike_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert spike times into a spike train vector (binary).&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">convert_times_to_train</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spikes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Unit.firing_rate"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.firing_rate">[docs]</a>    <span class="k">def</span> <span class="nf">firing_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute average firing rate.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">compute_firing_rate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spikes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Unit.isis"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.isis">[docs]</a>    <span class="k">def</span> <span class="nf">isis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute inter-spike intervals.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">compute_isis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spikes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Unit.cv"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.cv">[docs]</a>    <span class="k">def</span> <span class="nf">cv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute coefficient of variation.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">compute_cv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isis</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="Unit.fano"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.fano">[docs]</a>    <span class="k">def</span> <span class="nf">fano</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute fano factor.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">compute_fano_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spike_train</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="Unit.shuffle"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.shuffle">[docs]</a>    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">approach</span><span class="o">=</span><span class="s1">&#39;ISI&#39;</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shuffle spikes to create surrogates.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        approach : {&#39;ISI&#39;, &#39;BINCIRC&#39;, &#39;POISSON&#39;, &#39;CIRCULAR&#39;}</span>
+<span class="sd">            Which approach to take for shuffling spike times.</span>
+<span class="sd">        n_shuffles : int, optional, default: 1000</span>
+<span class="sd">            The number of shuffles to create.</span>
+<span class="sd">        kwargs</span>
+<span class="sd">            Additional keyword arguments for the shuffle functions.</span>
+<span class="sd">            See `shuffle_spikes` for details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">shuffle_spikes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spikes</span><span class="p">,</span> <span class="n">approach</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

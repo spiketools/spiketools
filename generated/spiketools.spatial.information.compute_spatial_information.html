@@ -25,9 +25,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -100,15 +100,19 @@
 <dt class="sig sig-object py" id="spiketools.spatial.information.compute_spatial_information">
 <span class="sig-prename descclassname"><span class="pre">spiketools.spatial.information.</span></span><span class="sig-name descname"><span class="pre">compute_spatial_information</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bin_firing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/information.html#compute_spatial_information"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.information.compute_spatial_information" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute spatial information.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>bin_firing</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Binned firing.</p>
+<dd class="field-odd"><dl>
+<dt><strong>bin_firing</strong><span class="classifier">1d or 2d array</span></dt><dd><blockquote>
+<div><p>Binned firing.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>occupancy<span class="classifier">1d or 2d array</span></dt><dd><p>Occupancy across the space.</p>
 </dd>
-<dt><strong>occupancy</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Occupancy across the space.</p>
-</dd>
-<dt><strong>normalize</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>If True, normalize the binned firing rate data by the occupancy.
+<dt>normalize<span class="classifier">bool, optional, default: False</span></dt><dd><p>If True, normalize the binned firing rate data by the occupancy.
 If False, it is assumed that the binned firing has already been normalized.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd>
@@ -156,7 +160,7 @@ If False, it is assumed that the binned firing has already been normalized.</p>
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
     </p>
   </div>
 </footer>

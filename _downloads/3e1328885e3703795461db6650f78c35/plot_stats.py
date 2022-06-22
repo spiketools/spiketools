@@ -64,7 +64,7 @@ spikes = np.unique((spikes*1000).astype(int)) / 1000
 
 # Shuffle spike ms using the four described methods
 shuffled_isis = shuffle_isis(spikes, n_shuffles=10)
-shuffled_bins = shuffle_bins(spikes, bin_width_range=[5000, 7000], n_shuffles=10)
+shuffled_bins = shuffle_bins(spikes, bin_width_range=[0.5, 7], n_shuffles=10)
 shuffled_poisson = shuffle_poisson(spikes, n_shuffles=10)
 shuffled_circular = shuffle_circular(spikes, shuffle_min=200, n_shuffles=10)
 
