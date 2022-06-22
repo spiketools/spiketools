@@ -206,7 +206,8 @@ Utilities
 .. autosummary::
    :toctree: generated/
 
-    refractory
+    apply_refractory_times
+    apply_refractory_train
 
 Plots
 -----
