@@ -53,3 +53,15 @@ def test_convert_isis_to_times(tspikes):
 
     spikes4 = convert_isis_to_times(isis, offset=tspikes[0])
     assert np.array_equal(spikes4, tspikes)
+
+def test_convert_times_to_rates(tspikes):
+
+    # Using precomputed bin definition
+    bins = np.arange(0, 10, 1)
+    rates = convert_times_to_rates(tspikes, bins)
+    assert isinstance(rates, np.ndarray)
+    assert len(rates) == len(bins) - 1
+
+    # Passing in bin width, with smoothing
+    rates = convert_times_to_rates(tspikes, 0.5, trange=[0, 8.5], smooth=0.5)
+    assert isinstance(rates, np.ndarray)

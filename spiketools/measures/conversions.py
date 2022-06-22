@@ -1,6 +1,8 @@
-"""Functions to convert spiking data."""
+"""Functions to convert spiking data to different representations."""
 
 import numpy as np
+
+from spiketools.utils.data import smooth_data
 
 ###################################################################################################
 ###################################################################################################
@@ -106,3 +108,39 @@ def convert_isis_to_times(isis, offset=0, add_offset=True):
         spikes = np.concatenate((np.array([offset]), spikes))
 
     return spikes
+
+
+def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
+    """Convert spike times to continuous firing rate.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times.
+    bins : float or 1d array
+        The binning to apply to the spiking data.
+        If float, the length of each bin.
+        If array, precomputed bin definitions.
+    trange : list of [float, float]
+        Time range, in seconds, to create the binned firing rate across.
+        Only used if `bins` is a float.
+    smooth : float, optional
+        If provided, the kernel to use to smooth the continuous firing rate.
+
+    Returns
+    -------
+    cfr : 1d array
+        Continuous firing rate, compute across time bins.
+    """
+
+    if isinstance(bins, float):
+        trange = [0, np.max(spikes) + bins] if not trange else trange
+        bins = np.arange(*trange, bins)
+
+    bin_counts, _ = np.histogram(spikes, bins)
+    cfr = bin_counts / np.diff(bins)[0]
+
+    if smooth:
+        cfr = smooth_data(cfr, smooth)
+
+    return cfr
