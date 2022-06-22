@@ -1,6 +1,9 @@
 """Utility functions for managing data."""
 
+from copy import deepcopy
+
 import numpy as np
+from scipy.ndimage import gaussian_filter
 
 ###################################################################################################
 ###################################################################################################
@@ -115,3 +118,32 @@ def get_value_by_time_range(times, values, t_min, t_max):
     select = np.logical_and(times[:] >= t_min, times[:] <= t_max)
 
     return times[select], values[:].take(indices=np.where(select)[0], axis=-1)
+
+
+def smooth_data(data, sigma):
+    """Smooth an array of data, using a gaussian kernel.
+
+    Parameters
+    ----------
+    data : ndarray
+        Data to smooth.
+    sigma : float
+        Standard deviation of the gaussian kernel to apply for smoothing.
+
+    Returns
+    -------
+    data : 2d array
+        The smoothed data.
+
+    Notes
+    -----
+    This function is applied on a copy of the data (to not change the original).
+    Any NaN values will be set as 0 for smoothing purposes.
+    """
+
+    data = deepcopy(data)
+    data[np.isnan(data)] = 0
+
+    data = gaussian_filter(data, sigma=sigma)
+
+    return data

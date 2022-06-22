@@ -51,3 +51,17 @@ def test_get_value_by_time_range():
     times_out, values_out = get_value_by_time_range(times, values, 2, 4)
     assert np.array_equal(times_out, np.array([2, 3, 4]))
     assert np.array_equal(values_out, np.array([8, 4, 6]))
+
+def test_smooth_data():
+
+    # Check 1d case
+    data = np.array([0.5, 1., 1.5, 2., 2.5])
+    out = smooth_data(data, 0.5)
+    assert isinstance(out, np.ndarray)
+    assert not np.array_equal(data, out)
+
+    # Check 2d case
+    data = np.array([[0.5, 1., 1.5, 2., 2.5], [0.5, 1., 1.5, 2., 2.5]])
+    out = smooth_data(data, 0.5)
+    assert isinstance(out, np.ndarray)
+    assert not np.array_equal(data, out)

@@ -4,8 +4,8 @@ from copy import deepcopy
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.ndimage import gaussian_filter
 
+from spiketools.utils.data import smooth_data
 from spiketools.plts.annotate import _add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
@@ -124,7 +124,7 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
         data = data.T
 
     if smooth:
-        data = _smooth_data(data, smoothing_kernel)
+        data = smooth_data(data, smoothing_kernel)
 
     if ignore_zero:
         data = deepcopy(data)
@@ -140,27 +140,3 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
     if cbar:
         colorbar = plt.colorbar(im)
         colorbar.outline.set_visible(False)
-
-
-def _smooth_data(data, sigma):
-    """Smooth data for plotting, using a gaussian kernel.
-
-    Parameters
-    ----------
-    data : 2d array
-        Data to smooth.
-    sigma : float
-        Standard deviation of the gaussian kernel to apply for smoothing.
-
-    Returns
-    -------
-    data : 2d array
-        The smoothed data.
-    """
-
-    data = deepcopy(data)
-    data[np.isnan(data)] = 0
-
-    data = gaussian_filter(data, sigma=sigma)
-
-    return data
