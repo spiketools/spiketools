@@ -274,8 +274,9 @@ Data
 
    plot_lines
    plot_dots
-   plot_bar
+   plot_points
    plot_hist
+   plot_bar
    plot_polar_hist
    plot_text
 
