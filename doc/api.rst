@@ -295,6 +295,7 @@ Data
    get_range
    restrict_range
    get_value_by_time
+   get_values_by_times
    get_value_by_time_range
 
 Timestamps

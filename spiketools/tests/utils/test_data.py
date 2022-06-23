@@ -43,6 +43,17 @@ def test_get_value_by_time():
     value_out = get_value_by_time(times, values, 3.4)
     assert value_out == values[2]
 
+def test_get_values_by_times():
+
+    times = np.array([1, 2, 3, 4, 5])
+    values = np.array([5, 8, 4, 6, 7])
+
+    timepoints = np.array([1.75, 4.15])
+
+    outputs = get_values_by_times(times, values, timepoints)
+    assert len(outputs) == len(timepoints)
+    assert np.array_equal(outputs, np.array([8, 6]))
+
 def test_get_value_by_time_range():
 
     times = np.array([1, 2, 3, 4, 5])

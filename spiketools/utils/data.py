@@ -74,7 +74,7 @@ def restrict_range(data, min_value=None, max_value=None, reset=None):
     return data
 
 
-def get_value_by_time(times, values, time, threshold=np.inf):
+def get_value_by_time(times, values, timepoint, threshold=np.inf):
     """Get the value for a data array at a specific time point.
 
     Parameters
@@ -83,7 +83,7 @@ def get_value_by_time(times, values, time, threshold=np.inf):
         Time indices.
     values : ndarray
         Data values, corresponding to the times vector.
-    time : float
+    timepoint : float
         Time value to extract.
     threshold : float
         The threshold that the closest time value must be within to be returned.
@@ -95,14 +95,39 @@ def get_value_by_time(times, values, time, threshold=np.inf):
         The value at the requested time point.
     """
 
-    idx = np.abs(times[:] - time).argmin()
+    idx = np.abs(times[:] - timepoint).argmin()
 
-    if np.abs(times[idx] - time) < threshold:
+    if np.abs(times[idx] - timepoint) < threshold:
         out = values[:].take(indices=idx, axis=-1)
     else:
         out = np.nan
 
     return out
+
+
+def get_values_by_times(times, values, timepoints, threshold=np.inf):
+    """Get values from a data array for a set of specified time points.
+
+    Parameters
+    ----------
+    times : 1d array
+        Time indices.
+    values : ndarray
+        Data values, corresponding to the times vector.
+    extract : 1d array
+        The time indices to extract corresponding values for.
+
+    Returns
+    -------
+    outputs : 1d array
+        The extracted vaues for the requested time points.
+    """
+
+    outputs = np.zeros(len(timepoints))
+    for ind, timepoint in enumerate(timepoints):
+        outputs[ind] = get_value_by_time(times, values, timepoint, threshold=threshold)
+
+    return outputs
 
 
 def get_value_by_time_range(times, values, t_min, t_max):
