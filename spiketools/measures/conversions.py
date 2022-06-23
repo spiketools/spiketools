@@ -3,6 +3,7 @@
 import numpy as np
 
 from spiketools.utils.data import smooth_data
+from spiketools.utils.checks import check_time_bins
 
 ###################################################################################################
 ###################################################################################################
@@ -133,10 +134,7 @@ def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
         Continuous firing rate, compute across time bins.
     """
 
-    if isinstance(bins, float):
-        trange = [0, np.max(spikes) + bins] if not trange else trange
-        bins = np.arange(*trange, bins)
-
+    bins = check_time_bins(bins, spikes, trange)
     bin_counts, _ = np.histogram(spikes, bins)
     cfr = bin_counts / np.diff(bins)[0]
 
