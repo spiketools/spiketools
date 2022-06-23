@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 from spiketools.tests.tutils import plot_test
 
 from spiketools.plts.annotate import *
-from spiketools.plts.annotate import (_add_vlines, _add_vshade, _add_dots,
-                                      _add_significance_to_plot)
+from spiketools.plts.annotate import _add_vlines, _add_vshade, _add_dots, _add_significance
 
 ###################################################################################################
 ###################################################################################################

@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.annotate import _add_vlines, _add_vshade, _add_significance_to_plot
+from spiketools.plts.annotate import _add_vlines, _add_vshade, _add_significance
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 from spiketools.utils.select import get_avg_func, get_var_func
 from spiketools.utils.base import flatten
@@ -117,4 +117,4 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
         ax.legend(loc='best')
 
     if stats:
-        _add_significance_to_plot(stats, sig_level=sig_level, ax=ax)
+        _add_significance(stats, sig_level=sig_level, ax=ax)
