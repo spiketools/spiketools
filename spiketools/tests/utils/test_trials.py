@@ -85,3 +85,11 @@ def test_epoch_data_by_range():
     assert np.array_equal(tvalues[0], np.array([3, 4, 5, 6, 7]))
     assert np.array_equal(ttimes[1], np.array([12.0, 14.1]) - starts[1])
     assert np.array_equal(tvalues[1], np.array([9, 10]))
+
+def test_compute_trial_frs(tspikes):
+
+    trial_spikes = [tspikes, tspikes]
+    bins = np.arange(0, 10 + 0.5, 0.5)
+    out = compute_trial_frs(trial_spikes, bins)
+    assert isinstance(out, np.ndarray)
+    assert out.shape == (len(trial_spikes), len(bins) - 1)

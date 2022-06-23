@@ -321,6 +321,7 @@ Trials
   epoch_spikes_by_range
   epoch_data_by_event
   epoch_data_by_range
+  compute_trial_frs
 
 Utils
 ~~~~~
