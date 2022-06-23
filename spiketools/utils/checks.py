@@ -75,7 +75,8 @@ def check_time_bins(bins, values, trange=None, check_range=True):
         assert np.all(np.diff(bins) > 0), 'Bin definition is ill-formed.'
 
     # Check that given bin range matches the data values
-    if check_range and (np.min(values) < bins[0] or np.max(values) > bins[-1]):
-        warnings.warn('The data values extend beyond the given time definition.')
+    if values is not None and values.size > 0:
+        if check_range and (np.min(values) < bins[0] or np.max(values) > bins[-1]):
+            warnings.warn('The data values extend beyond the given time definition.')
 
     return bins
