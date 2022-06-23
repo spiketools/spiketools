@@ -20,7 +20,7 @@ def test_infer_time_unit(tspikes):
 def test_check_time_bins(tspikes):
 
     # Check precomputed time bins
-    tbins = np.arange(0, 10, 0.5)
+    tbins = np.arange(0, 10 + 0.5, 0.5)
     out = check_time_bins(tbins, tspikes)
     assert np.array_equal(tbins, out)
 

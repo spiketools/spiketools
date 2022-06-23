@@ -51,7 +51,7 @@ def check_time_bins(bins, values, trange=None, check_range=True):
         The time values that are to be binned.
     trange : list of [float, float]
         Time range, in seconds, to create the binned firing rate across.
-        Only used if `bins` is a float.
+        Only used if `bins` is a float. If given, the end value is inclusive.
     check_range : True
         Whether the check the range of the data values against the time bins.
 
@@ -61,8 +61,13 @@ def check_time_bins(bins, values, trange=None, check_range=True):
         Time bins.
     """
 
-    if isinstance(bins, float):
-        trange = [0, np.max(values) + bins] if not trange else trange
+    if isinstance(bins, (int, float)):
+        # Define time range based on data, if not otherwise set
+        if not trange:
+            trange = [0, np.max(values) + bins]
+        # If time range is given, update to include end value
+        else:
+            trange[1] = trange[1] + bins
         bins = np.arange(*trange, bins)
 
     elif isinstance(bins, np.ndarray):
