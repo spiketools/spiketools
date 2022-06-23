@@ -2,6 +2,8 @@
 
 import matplotlib.pyplot as plt
 
+from spiketools.plts.utils import check_ax
+
 ###################################################################################################
 ###################################################################################################
 
@@ -28,7 +30,7 @@ def color_pval(p_value, alpha=0.05, significant_color='red', null_color='black')
     return significant_color if p_value < alpha else null_color
 
 
-def _add_vlines(vline, ax, **plt_kwargs):
+def _add_vlines(vline, ax=None, **plt_kwargs):
     """Add vertical line(s) to a plot axis.
 
     Parameters
@@ -41,13 +43,15 @@ def _add_vlines(vline, ax, **plt_kwargs):
         Additional arguments to pass into the plot function.
     """
 
+    ax = check_ax(ax, return_current=True)
+
     if vline is not None:
         vline = [vline] if isinstance(vline, (int, float)) else vline
         for line in vline:
             ax.axvline(line, **plt_kwargs)
 
 
-def _add_vshade(vshade, ax, **plt_kwargs):
+def _add_vshade(vshade, ax=None, **plt_kwargs):
     """Add vertical shading to a plot axis.
 
     Parameters
@@ -60,11 +64,13 @@ def _add_vshade(vshade, ax, **plt_kwargs):
         Additional arguments to pass into the plot function.
     """
 
+    ax = check_ax(ax, return_current=True)
+
     if vshade is not None:
         ax.axvspan(*vshade, **plt_kwargs)
 
 
-def _add_dots(dots, ax, **plt_kwargs):
+def _add_dots(dots, ax=None, **plt_kwargs):
     """Add dots to a plot axis.
 
     Parameters
@@ -76,6 +82,8 @@ def _add_dots(dots, ax, **plt_kwargs):
     plt_kwargs
         Additional arguments to pass into the plot function.
     """
+
+    ax = check_ax(ax, return_current=True)
 
     if dots is not None:
         ax.plot(dots[0, :], dots[1, :], linestyle='', marker=plt_kwargs.pop('marker', '.'), **plt_kwargs)
@@ -98,8 +106,7 @@ def _add_significance(stats, sig_level=0.05, x_vals=None, ax=None):
         Axis object upon which to plot.
     """
 
-    if not ax:
-        ax = plt.gca()
+    ax = check_ax(ax, return_current=True)
 
     if not x_vals:
         x_vals = ax.lines[0].get_xdata()

@@ -11,13 +11,16 @@ from spiketools.plts.settings import SET_KWARGS
 ###################################################################################################
 ###################################################################################################
 
-def check_ax(ax, figsize=None):
-    """Check whether a figure axes object is defined, and define if not.
+def check_ax(ax, figsize=None, return_current=False):
+    """Check whether a figure axes object is defined, and define or return current axis if not.
 
     Parameters
     ----------
     ax : matplotlib.Axes or None
         Axes object to check if is defined.
+    return_current : bool, optional, default: False
+        Whether to return the current axis, if axis is not defined.
+        If False, creates a new plot axis instead.
 
     Returns
     -------
@@ -26,7 +29,10 @@ def check_ax(ax, figsize=None):
     """
 
     if not ax:
-        _, ax = plt.subplots(figsize=figsize)
+        if return_current:
+            ax = plt.gca()
+        else:
+            _, ax = plt.subplots(figsize=figsize)
 
     return ax
 

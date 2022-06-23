@@ -25,6 +25,11 @@ def test_check_ax():
     fig = plt.gcf()
     assert list(fig.get_size_inches()) == figsize
 
+    # Check getting current axis
+    _, ax = plt.subplots()
+    nax = check_ax(None, return_current=True)
+    assert nax == ax
+
 def test_savefig():
 
     @savefig
