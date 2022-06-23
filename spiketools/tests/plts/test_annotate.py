@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 from spiketools.tests.tutils import plot_test
 
 from spiketools.plts.annotate import *
-from spiketools.plts.annotate import _add_vlines, _add_vshade, _add_dots, _add_significance
+from spiketools.plts.annotate import (_add_vlines, _add_vshade, _add_hshade, _add_box_shade,
+                                      _add_box_shades, _add_dots, _add_significance)
 
 ###################################################################################################
 ###################################################################################################
@@ -35,6 +36,28 @@ def test_add_vshade():
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
     _add_vshade([2., 3.], ax=ax)
+
+@plot_test
+def test_add_hshade():
+
+    _, ax = plt.subplots()
+    ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
+    _add_hshade([2., 3.], ax=ax)
+
+
+@plot_test
+def test_add_box_shade():
+
+    _, ax = plt.subplots()
+    ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
+    _add_box_shade(1.5, 2.5, 2, ax=ax)
+
+@plot_test
+def test_add_box_shades():
+
+    _, ax = plt.subplots()
+    ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
+    _add_box_shades(np.array([1.5, 2.5]), np.array([1.5, 2.5]), ax=ax)
 
 @plot_test
 def test_add_dots():
