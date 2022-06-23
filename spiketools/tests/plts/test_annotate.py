@@ -45,7 +45,7 @@ def test_add_dots():
     _add_dots(np.array([[1, 2], [2, 3]]), ax=ax)
 
 @plot_test
-def test_add_significance_to_plot():
+def test_add_significance():
 
     _, ax = plt.subplots()
 
@@ -53,4 +53,4 @@ def test_add_significance_to_plot():
     stats = [1., 0.01, 0.5, 1.]
 
     ax.plot(x_values)
-    _add_significance_to_plot(stats, ax=ax)
+    _add_significance(stats, ax=ax)

@@ -81,8 +81,8 @@ def _add_dots(dots, ax, **plt_kwargs):
         ax.plot(dots[0, :], dots[1, :], linestyle='', marker=plt_kwargs.pop('marker', '.'), **plt_kwargs)
 
 
-def _add_significance_to_plot(stats, sig_level=0.05, x_vals=None, ax=None):
-    """Add markers to a plot to label statistical significance.
+def _add_significance(stats, sig_level=0.05, x_vals=None, ax=None):
+    """Add markers to a plot axis to indicate statistical significance.
 
     Parameters
     ----------
