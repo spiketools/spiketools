@@ -53,6 +53,27 @@ def _add_vlines(vline, ax=None, **plt_kwargs):
             ax.axvline(line, **plt_kwargs)
 
 
+def _add_hlines(hline, ax=None, **plt_kwargs):
+    """Add horizontal line(s) to a plot axis.
+
+    Parameters
+    ----------
+    hline : float or list
+        Positions(s) of the horizontal lines to add to the plot.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, return_current=True)
+
+    if hline is not None:
+        hline = [hline] if isinstance(hline, (int, float)) else hline
+        for line in hline:
+            ax.axhline(line, **plt_kwargs)
+
+
 def _add_vshade(vshade, ax=None, **plt_kwargs):
     """Add vertical shading to a plot axis.
 
