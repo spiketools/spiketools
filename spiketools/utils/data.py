@@ -74,7 +74,7 @@ def restrict_range(data, min_value=None, max_value=None, reset=None):
     return data
 
 
-def get_value_by_time(times, values, time):
+def get_value_by_time(times, values, time, threshold=np.inf):
     """Get the value for a data array at a specific time point.
 
     Parameters
@@ -84,15 +84,25 @@ def get_value_by_time(times, values, time):
     values : ndarray
         Data values, corresponding to the times vector.
     time : float
-        Time value to extract
+        Time value to extract.
+    threshold : float
+        The threshold that the closest time value must be within to be returned.
+        If the temporal distance is greater than the threshold, output is NaN.
 
     Returns
     -------
-    out
+    out : float of 1d array
         The value at the requested time point.
     """
 
-    return values[:].take(indices=np.abs(times[:] - time).argmin(), axis=-1)
+    idx = np.abs(times[:] - time).argmin()
+
+    if np.abs(times[idx] - time) < threshold:
+        out = values[:].take(indices=idx, axis=-1)
+    else:
+        out = np.nan
+
+    return out
 
 
 def get_value_by_time_range(times, values, t_min, t_max):
@@ -116,8 +126,9 @@ def get_value_by_time_range(times, values, t_min, t_max):
     """
 
     select = np.logical_and(times[:] >= t_min, times[:] <= t_max)
+    out = values[:].take(indices=np.where(select)[0], axis=-1)
 
-    return times[select], values[:].take(indices=np.where(select)[0], axis=-1)
+    return times[select], out
 
 
 def smooth_data(data, sigma):
