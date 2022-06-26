@@ -15,7 +15,7 @@ This tutorial primarily covers the ``spiketools.stats`` module.
 #
 # 1. Compute and plot different shuffles of spikes
 # 2. Compute empirical p-value and z-score from distribution of surrogates
-#
+# 3. Compute f-value from spiking data using ANOVA
 
 ###################################################################################################
 
@@ -23,13 +23,20 @@ This tutorial primarily covers the ``spiketools.stats`` module.
 
 # Import auxiliary libraries
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 # Import statistics-related functions
 from spiketools.sim.times import sim_spiketimes
+from spiketools.sim.train import sim_spiketrain_binom
 from spiketools.stats.shuffle import (shuffle_isis, shuffle_bins, shuffle_poisson,
                                       shuffle_circular)
 from spiketools.stats.permutations import compute_surrogate_stats
+from spiketools.stats.anova import create_dataframe, fit_anova
+
+# Import spatial analysis functions
+from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignment, 
+                                          compute_bin_firing)
 
 # Import plot function
 from spiketools.plts.trials import plot_rasters
@@ -171,3 +178,54 @@ and the empirical p-value is {round(pval, 2)}')
 
 # Plot distribution of surrogates, with calculated delta firing rate & p-value
 plot_surrogates(surr, fr_diff, pval)
+
+###################################################################################################
+# 3. Compute f-value from spiking data using ANOVA
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# First generate some spiking data. Noted the spiking data is adopted from previous tutorial of 
+# Spatial Analysis.  
+# Next, reorganize the computed firing rate (per trial, per bin) into dataframes.  
+# Lastly, compute the f-value from the generated spiking data using ANOVA. 
+#
+# This method can be applied to calculate the f-value from surrogates using ANOVA, which is 
+# expected to show relatively similar results to sptatial information method. 
+###################################################################################################
+
+# Generate a set of spiking data (same dataset from Spatial Analysis tutorial)
+# Set some positional data
+x_pos = np.linspace(0, 15, 16)
+y_pos = np.array([0, 0, 0.1, 1, 1.5, 1, 1, 2.1, 2, 1, 0, 1, 2, 3, 4, 3.2])
+position = np.array([x_pos, y_pos])
+# Set number of spatial bins, 3 x-bins and 5 y-bins
+bins = [3, 5]
+n_bins = bins[0]*bins[1]
+
+# Compute spatial bin edges
+x_edges, y_edges = compute_bin_edges(position, bins)
+
+# Set number of trials 
+n_trials = 10
+bin_firing_all = np.zeros([n_trials,n_bins])
+
+for ind in range(10):
+    # Simulate a spike train with chance level
+    spike_train = sim_spiketrain_binom(0.5, n_samples=15)
+
+    # Get spike position bins
+    spike_bins = np.where(spike_train == 1)[0]
+    # Get x and y position bins corresponding to spike positions
+    spike_x, spike_y = compute_bin_assignment(position[:, spike_bins], x_edges, y_edges,
+                                              include_edge=True)
+    # Compute firing rate in each bin
+    bin_firing = (compute_bin_firing(bins=bins, xbins=spike_x, ybins=spike_y)).flatten()
+    bin_firing_all[ind,:] = bin_firing
+    
+###################################################################################################
+
+# Organize spiking data into dataframe 
+df = create_dataframe(bin_firing_all, ['bin', 'fr'], drop_na=True)
+
+# Compute f_value from spiking data using ANOVA
+f_val = fit_anova(df, 'fr ~ C(bin)', 'C(bin)', return_type='f_val', anova_type=2)
+print('F-value:', f_val)
