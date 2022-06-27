@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.utils.data import restrict_range
+from spiketools.utils.extract import restrict_range
 
 ###################################################################################################
 ###################################################################################################

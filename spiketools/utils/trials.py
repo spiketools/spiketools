@@ -4,7 +4,7 @@ import numpy as np
 
 from spiketools.measures.conversions import convert_times_to_rates
 from spiketools.utils.checks import check_time_bins
-from spiketools.utils.data import restrict_range, get_value_by_time_range
+from spiketools.utils.extract import restrict_range, get_value_by_time_range
 
 ###################################################################################################
 ###################################################################################################

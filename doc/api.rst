@@ -293,6 +293,15 @@ Data
    :toctree: generated/
 
    get_range
+   smooth_data
+
+Extract
+~~~~~~~
+
+.. currentmodule:: spiketools.utils.extract
+.. autosummary::
+   :toctree: generated/
+
    restrict_range
    get_value_by_time
    get_values_by_times
