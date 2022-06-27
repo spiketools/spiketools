@@ -22,18 +22,18 @@ def compute_pos_ranges(position):
 
     Examples
     --------
-    Get 2D position ranges for:
+    Compute the 2D position ranges for:
     (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5, 9).
 
     >>> position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])
-    >>> get_pos_ranges(position)
+    >>> compute_pos_ranges(position)
     [[1.5, 5.0], [6.5, 9.0]]
 
-    Get 1D position ranges for:
+    Compute the 1D position range for:
     x = 1.5, 2.5, 3.5, 5.
 
     >>> position = np.array([1.5, 2.5, 3.5, 5])
-    >>> get_pos_ranges(position)
+    >>> compute_pos_ranges(position)
     [1.5, 5.0]
     """
 
