@@ -9,8 +9,8 @@ from scipy.ndimage import gaussian_filter
 ###################################################################################################
 ###################################################################################################
 
-def get_range(data):
-    """Get the range of an array of data.
+def compute_range(data):
+    """Compute the range of an array of data.
 
     Parameters
     ----------

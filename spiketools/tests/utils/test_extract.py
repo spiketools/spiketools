@@ -7,20 +7,20 @@ from spiketools.utils.extract import *
 ###################################################################################################
 ###################################################################################################
 
-def test_restrict_range():
+def test_get_range():
 
     data = np.array([0.5, 1., 1.5, 2., 2.5])
 
-    out1 = restrict_range(data, min_value=1.)
+    out1 = get_range(data, min_value=1.)
     assert np.array_equal(out1, np.array([1., 1.5, 2., 2.5]))
 
-    out2 = restrict_range(data, max_value=2.)
+    out2 = get_range(data, max_value=2.)
     assert np.array_equal(out2, np.array([0.5, 1., 1.5, 2.]))
 
-    out3 = restrict_range(data, min_value=1., max_value=2.)
+    out3 = get_range(data, min_value=1., max_value=2.)
     assert np.array_equal(out3, np.array([1., 1.5, 2.]))
 
-    out4 = restrict_range(data, min_value=1., max_value=2., reset=1.)
+    out4 = get_range(data, min_value=1., max_value=2., reset=1.)
     assert np.array_equal(out4, np.array([0., 0.5, 1.0]))
 
 def test_get_value_by_time():

@@ -2,12 +2,12 @@
 
 import numpy as np
 
-from spiketools.utils.data import get_range
+from spiketools.utils.data import compute_range
 
 ###################################################################################################
 ###################################################################################################
 
-def get_pos_ranges(position):
+def compute_pos_ranges(position):
     """Compute the range of positions.
 
     Parameters
@@ -38,12 +38,12 @@ def get_pos_ranges(position):
     """
 
     if position.ndim == 1:
-        ranges = [*get_range(position)]
+        ranges = [*compute_range(position)]
 
     elif position.ndim == 2:
         ranges = []
         for dim in range(position.shape[0]):
-            ranges.append([*get_range(position[dim, :])])
+            ranges.append([*compute_range(position[dim, :])])
 
     else:
         raise ValueError('Position input should be 1d or 2d.')
@@ -51,7 +51,7 @@ def get_pos_ranges(position):
     return ranges
 
 
-def get_bin_width(bins):
+def compute_bin_width(bins):
     """Compute bin width from a set of bin edges.
 
     Parameters

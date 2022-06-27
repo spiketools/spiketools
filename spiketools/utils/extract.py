@@ -5,15 +5,15 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def restrict_range(data, min_value=None, max_value=None, reset=None):
-    """Restrict a vector of data to a specified range.
+def get_range(data, min_value=None, max_value=None, reset=None):
+    """Get a specified range from a vector of data.
 
     Parameters
     ----------
     data : 1d array
         Array of data.
     min_value, max_value : float, optional
-        Mininum and/or maximum value to restrict input array to.
+        Mininum and/or maximum value to extract from the input array.
     reset : float, optional
         If provided, resets the values in the data array by the given reset value.
 
@@ -24,22 +24,22 @@ def restrict_range(data, min_value=None, max_value=None, reset=None):
 
     Examples
     --------
-    Select all values greater than a specific value:
+    Get all values greater than a specific value:
 
     >>> data = np.array([5, 10, 15, 20, 25, 30])
-    >>> restrict_range(data, min_value=10, max_value=None)
+    >>> get_range(data, min_value=10, max_value=None)
     array([10, 15, 20, 25, 30])
 
-    Select all values less than a specific value:
+    Get all values less than a specific value:
 
     >>> data = np.array([5, 10, 15, 20, 25, 30])
-    >>> restrict_range(data, min_value=None, max_value=25)
+    >>> get_range(data, min_value=None, max_value=25)
     array([ 5, 10, 15, 20, 25])
 
-    Restrict a data array to a specific range:
+    Get a specified range from a data array:
 
     >>> data = np.array([5, 10, 15, 20, 25, 30])
-    >>> restrict_range(data, min_value=10, max_value=20)
+    >>> get_range(data, min_value=10, max_value=20)
     array([10, 15, 20])
     """
 

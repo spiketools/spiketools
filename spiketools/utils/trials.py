@@ -4,7 +4,7 @@ import numpy as np
 
 from spiketools.measures.conversions import convert_times_to_rates
 from spiketools.utils.checks import check_time_bins
-from spiketools.utils.extract import restrict_range, get_value_by_time_range
+from spiketools.utils.extract import get_range, get_value_by_time_range
 
 ###################################################################################################
 ###################################################################################################
@@ -33,7 +33,7 @@ def epoch_spikes_by_event(spikes, events, window):
 
     trials = [None] * len(events)
     for ind, event in enumerate(events):
-        trials[ind] = restrict_range(spikes, event + window[0], event + window[1]) - event
+        trials[ind] = get_range(spikes, event + window[0], event + window[1]) - event
 
     return trials
 
@@ -60,7 +60,7 @@ def epoch_spikes_by_range(spikes, starts, stops, reset=False):
 
     trials = [None] * len(starts)
     for ind, (start, stop) in enumerate(zip(starts, stops)):
-        trial = restrict_range(spikes, start, stop)
+        trial = get_range(spikes, start, stop)
         if reset:
             trial = trial - start
         trials[ind] = trial

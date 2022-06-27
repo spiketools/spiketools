@@ -117,8 +117,8 @@ Utilities
 .. autosummary::
    :toctree: generated/
 
-    get_pos_ranges
-    get_bin_width
+    compute_pos_ranges
+    compute_bin_width
 
 Statistics
 ----------
@@ -292,7 +292,7 @@ Data
 .. autosummary::
    :toctree: generated/
 
-   get_range
+   compute_range
    smooth_data
 
 Extract
@@ -302,7 +302,7 @@ Extract
 .. autosummary::
    :toctree: generated/
 
-   restrict_range
+   get_range
    get_value_by_time
    get_values_by_times
    get_value_by_time_range
