@@ -57,8 +57,8 @@ def plot_rasters(data, vline=None, colors=None, vshade=None, show_axis=False, ax
 
     ax.eventplot(data, colors=colors)
 
-    _add_vlines(vline, ax, lw=2.5, color='green', alpha=0.5)
-    _add_vshade(vshade, ax, alpha=0.25, color='red')
+    _add_vlines(vline, ax, lw=2.5, color=plt_kwargs.pop('line_color', 'green'), alpha=0.5)
+    _add_vshade(vshade, ax, color=plt_kwargs.pop('shade_color', 'red'), alpha=0.25)
 
     if not show_axis:
         ax.set_axis_off()
