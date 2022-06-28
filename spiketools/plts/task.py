@@ -10,8 +10,9 @@ from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_task_structure(task_ranges=None, event_lines=None, range_colors=None, line_colors=None,
-                        range_kwargs={}, event_kwargs={}, ax=None, **plt_kwargs):
+def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
+                        range_colors=None, line_colors=None, range_kwargs=None, event_kwargs=None,
+                        ax=None, **plt_kwargs):
     """Plot task structure, shaded ranges of event durations, and lines of point events.
 
     Parameters
@@ -22,6 +23,8 @@ def plot_task_structure(task_ranges=None, event_lines=None, range_colors=None, l
     event_lines : list of float
         Positions to draw vertical lines, to indicate point events.
         To add multiple different lines, pass a list of multiple line definitions.
+    data_points : 1d array
+        Set of timestamps to indicate data points of interest on the plot.
     range_colors : list of str
         Colors to plot the ranges in. Used if passing multiple task range sections.
     line_colors : list of str
@@ -59,5 +62,8 @@ def plot_task_structure(task_ranges=None, event_lines=None, range_colors=None, l
                 plot_task_structure(event_lines=eline, event_kwargs=event_kwargs, ax=ax)
         else:
             _add_vlines(event_lines, **event_kwargs, ax=ax)
+
+    if data_points is not None:
+        ax.eventplot(data_points)
 
     plt.yticks([])
