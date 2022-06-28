@@ -57,6 +57,17 @@ Measures for working with circular data.
 
    bin_circular
 
+Trials
+~~~~~~
+
+Measures related to trial-epoched data.
+
+.. currentmodule:: spiketools.measures.circular
+.. autosummary::
+   :toctree: generated/
+
+   compute_trial_frs
+
 Objects
 -------
 
@@ -333,7 +344,6 @@ Trials
   epoch_spikes_by_range
   epoch_data_by_event
   epoch_data_by_range
-  compute_trial_frs
 
 Utils
 ~~~~~
