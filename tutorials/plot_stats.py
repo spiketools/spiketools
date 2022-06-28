@@ -182,7 +182,8 @@ plot_surrogates(surr, fr_diff, pval)
 # 3. Compute f-value from spiking data using ANOVA
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# First generate some spiking data.   
+# First generate some spiking data. The simulated spike train has 8 seconds of data acorss trials 
+# and has a firing rate betwwen 2-10 Hz, assumed 1k Hz sampling rate. 
 # Next, reorganize the computed firing rate (per trial, per bin) into dataframes.  
 # Lastly, compute the f-value from the generated spiking data using ANOVA. 
 #
