@@ -71,6 +71,48 @@ def savefig(func):
     return decorated
 
 
+def get_set_kwargs(kwargs):
+    """Get keyword arguments for the arguments that can be passed to 'set'.
+
+    Parameters
+    ----------
+    kwargs : dict
+        Plotting related keyword arguments.
+
+    Returns
+    -------
+    setters : dict
+        Selected keyword arguments related to setting attributes.
+    """
+
+    setters = {arg : kwargs.pop(arg, None) for arg in SET_KWARGS}
+    setters = {arg : value for arg, value in setters.items() if value is not None}
+
+    return setters
+
+
+def get_attr_kwargs(kwargs, attr):
+    """Get keyword arguments related to a particular attribute.
+
+    Parameters
+    ----------
+    kwargs : dict
+        Plotting related keyword arguments.
+    attr : str
+        The attribute to select related arguments.
+
+    Returns
+    -------
+    attr_kwargs : dict
+        Selected keyword arguments, related to the given attribute.
+    """
+
+    labels = [key for key in kwargs.keys() if attr in key]
+    attr_kwargs = {label.split('_')[1] : kwargs.pop(label) for label in labels}
+
+    return attr_kwargs
+
+
 def set_plt_kwargs(func):
     """Collects and then sets plot kwargs that can be applied with 'set'."""
 
@@ -78,7 +120,7 @@ def set_plt_kwargs(func):
     def decorated(*args, **kwargs):
 
         setters = {arg : kwargs.pop(arg, None) for arg in SET_KWARGS}
-        setters = {arg : value for arg, value in setters.items() if value}
+        setters = {arg : value for arg, value in setters.items() if value is not None}
 
         func(*args, **kwargs)
 
@@ -162,7 +204,7 @@ def make_grid(nrows, ncols, title=None, **plt_kwargs):
     return grid
 
 
-def get_grid_subplot(grid, row, col):
+def get_grid_subplot(grid, row, col, **plt_kwargs):
     """Get a subplot section from a grid layout.
 
     Parameters
@@ -171,6 +213,8 @@ def get_grid_subplot(grid, row, col):
         A predefined plot grid layout.
     row, col : int or slice
         The row(s) and column(s) in which to place the subplot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
 
     Returns
     -------
@@ -178,4 +222,4 @@ def get_grid_subplot(grid, row, col):
         Subplot axis.
     """
 
-    return plt.subplot(grid[row, col])
+    return plt.subplot(grid[row, col], **plt_kwargs)
