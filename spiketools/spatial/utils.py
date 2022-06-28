@@ -51,12 +51,12 @@ def compute_pos_ranges(position):
     return ranges
 
 
-def compute_bin_width(bins):
+def compute_bin_width(bin_edges):
     """Compute bin width from a set of bin edges.
 
     Parameters
     ----------
-    bins : 1d array
+    bin_edges : 1d array
         Bin edges.
 
     Returns
@@ -65,4 +65,4 @@ def compute_bin_width(bins):
         The bin width.
     """
 
-    return np.diff(bins)[0]
+    return np.diff(bin_edges)[0]
