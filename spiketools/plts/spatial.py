@@ -120,6 +120,9 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
+    if data.ndim < 2:
+        data = np.atleast_2d(data)
+
     if transpose:
         data = data.T
 

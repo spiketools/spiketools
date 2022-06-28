@@ -44,3 +44,8 @@ def test_plot_heatmap():
 
     plot_heatmap(data, smooth=True, cbar=True,
                  file_path=TEST_PLOTS_PATH, file_name='tplot_heatmap_smooth.png')
+
+    # Check 1d array input
+    data1d = np.array([0., 1., 2., 0., 2., 1.])
+    plot_heatmap(data1d,
+                 file_path=TEST_PLOTS_PATH, file_name='tplot_heatmap_1d.png')
