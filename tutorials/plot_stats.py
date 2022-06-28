@@ -23,7 +23,6 @@ This tutorial primarily covers the ``spiketools.stats`` module.
 
 # Import auxiliary libraries
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 
 # Import statistics-related functions
@@ -183,19 +182,17 @@ plot_surrogates(surr, fr_diff, pval)
 # 3. Compute f-value from spiking data using ANOVA
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# First generate some spiking data. Noted the spiking data is adopted from previous tutorial of 
-# Spatial Analysis.  
+# First generate some spiking data.   
 # Next, reorganize the computed firing rate (per trial, per bin) into dataframes.  
 # Lastly, compute the f-value from the generated spiking data using ANOVA. 
 #
-# This method can be applied to calculate the f-value from surrogates using ANOVA, which is 
-# expected to show relatively similar results to sptatial information method. 
+# This method can also be applied to calculate the f-value from surrogates using ANOVA.
 ###################################################################################################
 
 # Generate a set of spiking data (same dataset from Spatial Analysis tutorial)
 # Set some positional data
-x_pos = np.linspace(0, 15, 16)
-y_pos = np.array([0, 0, 0.1, 1, 1.5, 1, 1, 2.1, 2, 1, 0, 1, 2, 3, 4, 3.2])
+x_pos = np.linspace(0, 15, 8000)
+y_pos = np.linspace(0, 5, 8000)
 position = np.array([x_pos, y_pos])
 # Set number of spatial bins, 3 x-bins and 5 y-bins
 bins = [3, 5]
@@ -209,8 +206,8 @@ n_trials = 10
 bin_firing_all = np.zeros([n_trials,n_bins])
 
 for ind in range(10):
-    # Simulate a spike train with chance level
-    spike_train = sim_spiketrain_binom(0.5, n_samples=15)
+    # Simulate a spike train with a sampling rate of 1k Hz
+    spike_train = sim_spiketrain_binom(0.005, n_samples=8000)
 
     # Get spike position bins
     spike_bins = np.where(spike_train == 1)[0]
