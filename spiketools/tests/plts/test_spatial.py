@@ -35,6 +35,20 @@ def test_plot_positions():
                    file_path=TEST_PLOTS_PATH, file_name='tplot_positions_landmarks.png')
 
 @plot_test
+def test_plot_position_by_time():
+
+    ptimes = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    positions = np.array([1, 2, 3, 2, 3, 3, 2, 3, 4, 3])
+    spike_times = np.array([3, 5, 8])
+    spike_pos = np.array([2, 3, 4])
+
+    plot_position_by_time(ptimes, positions,
+                          file_path=TEST_PLOTS_PATH, file_name='tplot_position_by_time1.png')
+
+    plot_position_by_time(ptimes, positions, spike_times, spike_pos,
+                          file_path=TEST_PLOTS_PATH, file_name='tplot_position_by_time2.png')
+
+@plot_test
 def test_plot_heatmap():
 
     data = np.array([[0., 1., 2.], [0., 2., 1.], [0., 3., 2.]])

@@ -81,6 +81,39 @@ def plot_positions(positions, spike_positions=None, landmarks=None,
 
 @savefig
 @set_plt_kwargs
+def plot_position_by_time(times, positions, spike_times=None, spike_positions=None,
+                          ax=None, **plt_kwargs):
+    """Plot the position across time for a single dimension.
+
+    Parameters
+    ----------
+    times : 1d array
+        Time values associated with the position values.
+    positions : 1d array
+        Position values, for a single dimension.
+    spike_times : 1d array, optional
+        Timepoints at which spikes occur.
+    spike_positions : 1d array, optional
+        Position values of spikes, to indicate on the plot.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    spikes = None
+    if spike_times is not None:
+        spikes = np.array([spike_times, spike_positions])
+
+    plot_positions(np.array([times, positions]), spikes, ax=ax, **plt_kwargs)
+
+    ax.set(xlabel='Time', ylabel='Position')
+
+
+@savefig
+@set_plt_kwargs
 def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
                  ignore_zero=False, cbar=False, cmap=None, vmin=None, vmax=None,
                  ax=None, **plt_kwargs):

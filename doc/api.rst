@@ -236,6 +236,7 @@ Space
    :toctree: generated/
 
     plot_positions
+    plot_position_by_time
     plot_heatmap
 
 Task
