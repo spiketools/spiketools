@@ -82,6 +82,12 @@ def set_plt_kwargs(func):
         func(*args, **kwargs)
 
         ax = kwargs['ax'] if 'ax' in kwargs and kwargs['ax'] is not None else plt.gca()
+
+        if 'title' in setters:
+            title_kwargs = {arg.split('_')[1] : value \
+                for arg, value in kwargs.items() if 'title' in arg}
+            ax.set_title(setters.pop('title'), **title_kwargs)
+
         ax.set(**setters)
 
     return decorated

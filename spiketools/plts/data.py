@@ -123,7 +123,7 @@ def plot_hist(data, bins=None, range=None, density=None,
     ax.hist(data, bins=bins, range=range, density=density, **plt_kwargs)
 
     if average:
-        _add_vlines(get_avg_func(average)(data), lw=4, color='red', alpha=0.8, ax)
+        _add_vlines(get_avg_func(average)(data), lw=4, color='red', alpha=0.8, ax=ax)
 
 
 @savefig
