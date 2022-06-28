@@ -5,6 +5,7 @@ from functools import wraps
 from os.path import join as pjoin
 
 import matplotlib.pyplot as plt
+from matplotlib import gridspec
 
 from spiketools.plts.settings import SET_KWARGS
 
@@ -135,3 +136,46 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
     [ax.axis('off') for ax in axes.ravel()[n_axes:]]
 
     return axes.flatten()
+
+
+def make_grid(nrows, ncols, title=None, **plt_kwargs):
+    """Create a plot grid.
+
+    Parameters
+    ----------
+    nrows, ncols : int
+        The number of rows and columns to add to the data.
+    title : str, optional
+        A title to add to the figure.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    fig = plt.figure(figsize=plt_kwargs.pop('figsize', None))
+    grid = gridspec.GridSpec(nrows, ncols, **plt_kwargs)
+
+    if title:
+        plt.suptitle(title,
+                     fontsize=plt_kwargs.pop('title_fontsize', 24),
+                     y=plt_kwargs.pop('title_y', 0.95))
+
+    return grid
+
+
+def get_grid_subplot(grid, row, col):
+    """Get a subplot section from a grid layout.
+
+    Parameters
+    ----------
+    grid : matplotlib.gridspec.GridSpec
+        A predefined plot grid layout.
+    row, col : int or slice
+        The row(s) and column(s) in which to place the subplot.
+
+    Returns
+    -------
+    matplotlib.AxesSubplot
+        Subplot axis.
+    """
+
+    return plt.subplot(grid[row, col])

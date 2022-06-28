@@ -13,6 +13,7 @@ def test_check_ax():
 
     # Check running with None Input
     ax = check_ax(None)
+    assert ax is not None
 
     # Check running with pre-created axis
     _, ax = plt.subplots()
@@ -79,3 +80,16 @@ def test_make_axes():
 
     axes = make_axes(n_axes, 2, row_size=2, col_size=2, wspace=0.1, hspace=0.1)
     assert len(axes) == n_axes + 1
+
+def test_make_grid():
+
+    nrows, ncols = 2, 2
+    grid = make_grid(nrows, ncols, title='grid title')
+    assert grid.nrows == nrows
+    assert grid.ncols == ncols
+
+def test_get_grid_subplot():
+
+    grid = make_grid(2, 2)
+    ax = get_grid_subplot(grid, 0, 0)
+    assert ax
