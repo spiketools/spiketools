@@ -103,9 +103,10 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf):
         The extracted vaues for the requested time points.
     """
 
-    outputs = np.zeros(len(timepoints))
+    outputs = np.zeros([np.atleast_2d(values).shape[0], len(timepoints)])
     for ind, timepoint in enumerate(timepoints):
-        outputs[ind] = get_value_by_time(times, values, timepoint, threshold=threshold)
+        outputs[:, ind] = get_value_by_time(times, values, timepoint, threshold=threshold)
+    outputs = np.squeeze(outputs)
 
     return outputs
 
