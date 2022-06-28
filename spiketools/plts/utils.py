@@ -119,16 +119,14 @@ def set_plt_kwargs(func):
     @wraps(func)
     def decorated(*args, **kwargs):
 
-        setters = {arg : kwargs.pop(arg, None) for arg in SET_KWARGS}
-        setters = {arg : value for arg, value in setters.items() if value is not None}
+        setters = get_set_kwargs(kwargs)
+        title_kwargs = get_attr_kwargs(kwargs, 'title')
 
         func(*args, **kwargs)
 
         ax = kwargs['ax'] if 'ax' in kwargs and kwargs['ax'] is not None else plt.gca()
 
         if 'title' in setters:
-            title_kwargs = {arg.split('_')[1] : value \
-                for arg, value in kwargs.items() if 'title' in arg}
             ax.set_title(setters.pop('title'), **title_kwargs)
 
         ax.set(**setters)
