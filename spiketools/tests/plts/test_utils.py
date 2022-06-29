@@ -54,6 +54,12 @@ def test_savefig():
     example_plot(save_fig=False, file_path=TEST_PLOTS_PATH, file_name='test_savefig_nope.pdf')
     assert not os.path.exists(os.path.join(TEST_PLOTS_PATH, 'test_savefig_nope.pdf'))
 
+def test_save_figure():
+
+    plt.plot([1, 2], [3, 4])
+    save_figure(file_name='test_save_figure.pdf', file_path=TEST_PLOTS_PATH)
+    assert os.path.exists(os.path.join(TEST_PLOTS_PATH, 'test_save_figure.pdf'))
+
 def test_get_set_kwargs():
 
     kwargs = {'title' : 'title', 'xlabel' : 'xlabel', 'lw' : 12}
