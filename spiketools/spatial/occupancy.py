@@ -5,7 +5,8 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from spiketools.utils.checks import check_position_bins
+from spiketools.utils.checks import check_bin_range
+from spiketools.spatial.checks import check_position, check_position_bins
 
 ###################################################################################################
 ###################################################################################################
@@ -48,7 +49,7 @@ def compute_bin_edges(position, bins, area_range=None):
     Parameters
     ----------
     position : 1d or 2d array
-        Position values across a 1D or 2D space.
+        Position values.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
@@ -91,9 +92,6 @@ def compute_bin_edges(position, bins, area_range=None):
                                              bins=bins, range=area_range)
         return x_edges, y_edges
 
-    else:
-        raise ValueError('Position input should be 1d or 2d.')
-
 
 def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     """Compute spatial bin assignment.
@@ -101,7 +99,7 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     Parameters
     ----------
     position : 1d or 2d array
-        Position information across a 1D or 2D space.
+        Position values.
     x_edges : 1d array
         Edge definitions for the spatial binning.
         Values within the arrays should be monotonically increasing.
@@ -147,20 +145,21 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     (array([0, 1, 2, 3]), array([0, 1, 2, 3]))
     """
 
-    warning = "There are position values outside of the given bin ranges."
-
+    check_position(position)
     if position.ndim == 1:
+
+        check_bin_range(position, x_edges)
         x_bins = np.digitize(position, x_edges, right=False)
 
         if include_edge:
             x_bins = _include_bin_edge(position, x_bins, x_edges, side='left')
 
-        if np.any(x_bins == 0) or np.any(x_bins == len(x_edges)):
-            warnings.warn(warning)
-
         return x_bins - 1
 
     elif position.ndim == 2:
+
+        check_bin_range(position[0, :], x_edges)
+        check_bin_range(position[1, :], y_edges)
         x_bins = np.digitize(position[0, :], x_edges, right=False)
         y_bins = np.digitize(position[1, :], y_edges, right=False)
 
@@ -168,15 +167,7 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
             x_bins = _include_bin_edge(position[0, :], x_bins, x_edges, side='left')
             y_bins = _include_bin_edge(position[1, :], y_bins, y_edges, side='left')
 
-        x_check = np.any(x_bins == 0) or np.any(x_bins == len(x_edges))
-        y_check = np.any(y_bins == 0) or np.any(y_bins == len(y_edges))
-        if x_check or y_check:
-            warnings.warn(warning)
-
         return x_bins - 1, y_bins - 1
-
-    else:
-        raise ValueError('Position input should be 1d or 2d.')
 
 
 def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
@@ -299,7 +290,7 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
     Parameters
     ----------
     position : 1d or 2d array
-        Position information across a 1D or 2D space.
+        Position values.
     timestamps : 1d array
         Timestamps.
     bins : int or list of [int, int]
@@ -376,9 +367,6 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
             y_bins, categories=list(range(0, bins[1])), ordered=True)
         groupby = ['xbins', 'ybins']
 
-    else:
-        raise ValueError('Position input should be 1d or 2d.')
-
     # Collect information together into a temporary dataframe
     df = pd.DataFrame(data_dict)
 
@@ -413,7 +401,7 @@ def _include_bin_edge(position, bin_pos, edges, side='left'):
     Parameters
     ----------
     position : 1d array
-        The position values.
+        Position values.
     bin_pos : 1d array
         The bin assignment for each position.
     edges : 1d array

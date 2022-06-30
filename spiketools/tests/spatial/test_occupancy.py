@@ -73,13 +73,6 @@ def test_compute_bin_assignment():
     assert position[0].shape == x_bins.shape
     assert position[1].shape == y_bins.shape
 
-    # test warnings
-    with warns(UserWarning):
-        _ = compute_bin_assignment(np.array([-1, 1, 2, 3]), np.array([0, 2, 4]))
-    with warns(UserWarning):
-        _ = compute_bin_assignment(np.array([[-1, 1, 3, 4], [0, 1, 2, 3]]),
-                                   np.array([0, 2, 4]), np.array([0, 2, 4]))
-
 def test_compute_bin_firing():
 
     xbins = [0, 0, 0, 1]
@@ -94,7 +87,6 @@ def test_compute_bin_firing():
     bin_firing = compute_bin_firing(bins, xbins)
     assert isinstance(bin_firing, np.ndarray)
     assert np.array_equal(bin_firing, np.array([3, 1]))
-
 
 def test_normalize_bin_firing():
 
