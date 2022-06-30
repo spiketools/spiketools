@@ -7,6 +7,54 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
+def check_param_range(param, label, bounds):
+    """Check a parameter value is within an acceptable range.
+
+    Parameters
+    ----------
+    param : float
+        Parameter value to check.
+    label : str
+        Label of the parameter being checked.
+    bounds : list of [float, float]
+       Bounding range of valid values for the given parameter.
+
+    Raises
+    ------
+    ValueError
+        If a parameter that is being checked is out of range.
+    """
+
+    if (param < bounds[0]) or (param > bounds[1]):
+        msg = "The provided value for the {} parameter is out of bounds. ".format(label) + \
+        "It should be between {:1.1f} and {:1.1f}.".format(*bounds)
+        raise ValueError(msg)
+
+
+def check_param_options(param, label, options):
+    """Check a parameter value is one of the acceptable options.
+
+    Parameters
+    ----------
+    param : str
+        Parameter value to check.
+    label : str
+        Label of the parameter being checked.
+    options : list of str
+        Valid string values that `param` may be.
+
+    Raises
+    ------
+    ValueError
+        If a parameter that is being checked is not in `options`.
+    """
+
+    if param not in options:
+        msg = "The provided value for the {} parameter is invalid. ".format(label) + \
+        "It should be chosen from {{{}}}.".format(str(options)[1:-1])
+        raise ValueError(msg)
+
+
 def infer_time_unit(time_values):
     """Infer the time unit of given time values.
 

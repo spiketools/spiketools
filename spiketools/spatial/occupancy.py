@@ -5,7 +5,7 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from spiketools.utils.checks import check_bin_range
+from spiketools.utils.checks import check_param_options, check_bin_range
 from spiketools.spatial.checks import check_position, check_position_bins
 
 ###################################################################################################
@@ -422,6 +422,8 @@ def _include_bin_edge(position, bin_pos, edges, side='left'):
     To address this, this function resets position values == edges as with the bin on the edge.
     """
 
+    check_param_options(side, 'side', ['left', 'right'])
+
     if side == 'left':
 
         # If side left, right position == edge gets set as len(bins), so decrement by 1
@@ -433,8 +435,5 @@ def _include_bin_edge(position, bin_pos, edges, side='left'):
         # If side right, left position == edge gets set as 0, so increment by 1
         mask = position == edges[0]
         bin_pos[mask] = bin_pos[mask] + 1
-
-    else:
-        raise ValueError("Input for 'side' not understood.")
 
     return bin_pos

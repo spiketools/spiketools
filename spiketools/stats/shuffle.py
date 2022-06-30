@@ -7,6 +7,7 @@ from spiketools.measures.conversions import (convert_times_to_train, convert_isi
                                              convert_train_to_times)
 from spiketools.stats.generators import poisson_generator
 from spiketools.stats.permutations import vec_perm
+from spiketools.utils.checks import check_param_options
 
 ###################################################################################################
 ###################################################################################################
@@ -32,6 +33,8 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
         Shuffled spike times.
     """
 
+    check_param_options(approach, 'approach', ['ISI', 'BINCIRC', 'POISSON', 'CIRCULAR'])
+
     if approach == 'ISI':
         shuffled_spikes = shuffle_isis(spikes, n_shuffles=n_shuffles)
 
@@ -43,9 +46,6 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
 
     elif approach == 'CIRCULAR':
         shuffled_spikes = shuffle_circular(spikes, n_shuffles=n_shuffles, **kwargs)
-
-    else:
-        raise ValueError('Shuffling approach not understood.')
 
     return shuffled_spikes
 

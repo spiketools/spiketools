@@ -3,6 +3,7 @@
 import numpy as np
 import pandas as pd
 
+from spiketools.utils.checks import check_param_options
 from spiketools.modutils.dependencies import safe_import, check_dependency
 
 sm = safe_import('.api', 'statsmodels')
@@ -70,6 +71,8 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
         If `return_type` is 'results', the results of the model fit.
         If `return_type` is 'model', the fit model object.
     """
+
+    check_param_options(return_type, 'return_type', ['model', 'results', 'f_val'])
 
     model = smf.ols(formula, data=df).fit()
 

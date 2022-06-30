@@ -4,6 +4,7 @@ import numpy as np
 
 from spiketools.stats.generators import poisson_generator
 from spiketools.sim.utils import apply_refractory_times
+from spiketools.utils.checks import check_param_options
 
 ###################################################################################################
 ###################################################################################################
@@ -30,6 +31,8 @@ def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
     times : 1d array
         Simulated spike times, in seconds.
     """
+
+    check_param_options(method, 'method', ['poisson'])
 
     times = SPIKETIME_FUNCS[method](spike_param, duration, **kwargs)
 
