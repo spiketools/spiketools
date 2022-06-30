@@ -2,8 +2,6 @@
 
 from itertools import repeat
 
-import matplotlib.pyplot as plt
-
 from spiketools.plts.utils import check_ax
 
 ###################################################################################################

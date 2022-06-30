@@ -191,7 +191,7 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
         plt.subplots_adjust(wspace=wspace, hspace=hspace)
 
     # Turn off axes for any extra subplots in last row
-    [ax.axis('off') for ax in axes.ravel()[n_axes:]]
+    _ = [ax.axis('off') for ax in axes.ravel()[n_axes:]]
 
     return axes.flatten()
 
@@ -209,7 +209,7 @@ def make_grid(nrows, ncols, title=None, **plt_kwargs):
         Additional arguments to pass into the plot function.
     """
 
-    fig = plt.figure(figsize=plt_kwargs.pop('figsize', None))
+    _ = plt.figure(figsize=plt_kwargs.pop('figsize', None))
     grid = gridspec.GridSpec(nrows, ncols, **plt_kwargs)
 
     if title:

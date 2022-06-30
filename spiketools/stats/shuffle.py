@@ -101,8 +101,8 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
     This function can be a little slow when running a lot.
     The main holdup is `np.roll` (unclear if / how to optimize).
     The next biggest hold up is converting the spike train to spike times.
-    This shuffling process is very dependent on the `bin_width_range` argument. 
-    It is recommended that `bin_width_range[1] > 3`, and that the difference 
+    This shuffling process is very dependent on the `bin_width_range` argument.
+    It is recommended that `bin_width_range[1] > 3`, and that the difference
     between the two values of `bin_width_range` is at least 1.
     """
 
@@ -168,7 +168,8 @@ def shuffle_poisson(spikes, n_shuffles=1000):
 
     rate = compute_firing_rate(spikes)
     length = (spikes[-1] - spikes[0])
-    poisson_spikes = [ind for ind in poisson_generator(rate, length)] + spikes[0]
+
+    poisson_spikes = list(poisson_generator(rate, length)) + spikes[0]
 
     isis = vec_perm(compute_isis(poisson_spikes), n_perms=n_shuffles)
 

@@ -59,7 +59,7 @@ def sim_spiketimes_poisson(rate, duration, start_time=0):
         Simulated spike times, in seconds.
     """
 
-    times = np.array([spike for spike in poisson_generator(rate, duration, start_time)])
+    times = np.array(list(poisson_generator(rate, duration, start_time)))
 
     return times
 

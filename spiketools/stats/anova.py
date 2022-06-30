@@ -65,26 +65,23 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
 
     Returns
     -------
-    f_val : float
-        The F-value statistic of the ANOVA model.
-        Returned if `return_type` is 'f_val'.
-    results : pd.DataFrame
-        The results of the model fit.
-        Returned if `return_type` is 'results'.
-    model : statsmodels object
-        The fit model object.
-        Returned if `return_type` is 'model'.
+    output : float or pd.DataFrame or statsmodels object
+        If `return_type` is 'f_val', the f-value statistic of the ANOVA model.
+        If `return_type` is 'results', the results of the model fit.
+        If `return_type` is 'model', the fit model object.
     """
 
     model = smf.ols(formula, data=df).fit()
 
     if return_type == 'model':
-        return model
+        output = model
 
     results = sm.stats.anova_lm(model, typ=anova_type)
 
     if return_type == 'results':
-        return results
+        output = results
 
     if return_type == 'f_val':
-        return results['F'][feature]
+        output = results['F'][feature]
+
+    return output

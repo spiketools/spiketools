@@ -82,7 +82,6 @@ def check_time_bins(bins, values, trange=None, check_range=True):
     return bins
 
 
-
 def check_position_bins(bins, position=None):
     """Check a bin definition for position binning.
 

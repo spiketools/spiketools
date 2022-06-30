@@ -13,7 +13,8 @@ from spiketools.utils.base import flatten
 
 @savefig
 @set_plt_kwargs
-def plot_rasters(data, vline=None, colors=None, vshade=None, show_axis=False, ax=None, **plt_kwargs):
+def plot_rasters(data, vline=None, colors=None, vshade=None,
+                 show_axis=False, ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 
     Parameters
@@ -39,15 +40,15 @@ def plot_rasters(data, vline=None, colors=None, vshade=None, show_axis=False, ax
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
     check = False
-    for ind in range(len(data)):
+    for val in data:
         try:
-            if isinstance(data[ind], float):
+            if isinstance(val, float):
                 break
-            elif isinstance(data[ind][0], list):
+            elif isinstance(val[0], list):
                 check = True
                 break
         except (IndexError, TypeError):
-            ind += 1
+            continue
 
     if check:
         lens = [len(el) for el in data]

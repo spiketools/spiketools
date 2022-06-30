@@ -1,7 +1,5 @@
 """Utilities for managing trials and epochs."""
 
-import numpy as np
-
 from spiketools.utils.extract import get_range, get_value_by_time_range
 
 ###################################################################################################
