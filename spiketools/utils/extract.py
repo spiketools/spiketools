@@ -94,8 +94,11 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf):
         Time indices.
     values : ndarray
         Data values, corresponding to the times vector.
-    extract : 1d array
+    timepoints : 1d array
         The time indices to extract corresponding values for.
+    threshold : float
+        The threshold that the closest time value must be within to be returned.
+        If the temporal distance is greater than the threshold, output is NaN.
 
     Returns
     -------

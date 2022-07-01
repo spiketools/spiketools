@@ -79,12 +79,14 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
     if return_type == 'model':
         output = model
 
-    results = sm.stats.anova_lm(model, typ=anova_type)
+    if return_type in ['results', 'f_val']:
 
-    if return_type == 'results':
-        output = results
+        results = sm.stats.anova_lm(model, typ=anova_type)
 
-    if return_type == 'f_val':
-        output = results['F'][feature]
+        if return_type == 'results':
+            output = results
+
+        if return_type == 'f_val':
+            output = results['F'][feature]
 
     return output

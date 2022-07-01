@@ -24,7 +24,7 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
         Multiple conditions can also be passed in.
     vline : float or list, optional
         Position(s) to draw a vertical line. If None, no line is drawn.
-    colors : str or list of str
+    colors : str or list of str, optional
         Color(s) to plot the raster ticks.
         If more than one, should be the length of data.
     vshade : list of float, optional
@@ -44,7 +44,7 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
         try:
             if isinstance(val, float):
                 break
-            elif isinstance(val[0], list):
+            elif isinstance(val[0], (list, np.ndarray)):
                 check = True
                 break
         except (IndexError, TypeError):
