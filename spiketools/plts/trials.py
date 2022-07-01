@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.annotate import _add_vlines, _add_vshade, _add_significance_to_plot
+from spiketools.plts.annotate import _add_vlines, _add_vshade, _add_significance
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 from spiketools.utils.select import get_avg_func, get_var_func
 from spiketools.utils.base import flatten
@@ -13,7 +13,8 @@ from spiketools.utils.base import flatten
 
 @savefig
 @set_plt_kwargs
-def plot_rasters(data, vline=None, colors=None, vshade=None, show_axis=False, ax=None, **plt_kwargs):
+def plot_rasters(data, vline=None, colors=None, vshade=None,
+                 show_axis=False, ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 
     Parameters
@@ -23,7 +24,7 @@ def plot_rasters(data, vline=None, colors=None, vshade=None, show_axis=False, ax
         Multiple conditions can also be passed in.
     vline : float or list, optional
         Position(s) to draw a vertical line. If None, no line is drawn.
-    colors : str or list of str
+    colors : str or list of str, optional
         Color(s) to plot the raster ticks.
         If more than one, should be the length of data.
     vshade : list of float, optional
@@ -39,15 +40,15 @@ def plot_rasters(data, vline=None, colors=None, vshade=None, show_axis=False, ax
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
     check = False
-    for ind in range(len(data)):
+    for val in data:
         try:
-            if isinstance(data[ind], float):
+            if isinstance(val, float):
                 break
-            elif isinstance(data[ind][0], list):
+            elif isinstance(val[0], (list, np.ndarray)):
                 check = True
                 break
         except (IndexError, TypeError):
-            ind += 1
+            continue
 
     if check:
         lens = [len(el) for el in data]
@@ -57,8 +58,8 @@ def plot_rasters(data, vline=None, colors=None, vshade=None, show_axis=False, ax
 
     ax.eventplot(data, colors=colors)
 
-    _add_vlines(vline, ax, lw=2.5, color='green', alpha=0.5)
-    _add_vshade(vshade, ax, alpha=0.25, color='red')
+    _add_vlines(vline, ax, lw=2.5, color=plt_kwargs.pop('line_color', 'green'), alpha=0.5)
+    _add_vshade(vshade, ax, color=plt_kwargs.pop('shade_color', 'red'), alpha=0.25)
 
     if not show_axis:
         ax.set_axis_off()
@@ -117,4 +118,4 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
         ax.legend(loc='best')
 
     if stats:
-        _add_significance_to_plot(stats, sig_level=sig_level, ax=ax)
+        _add_significance(stats, sig_level=sig_level, ax=ax)

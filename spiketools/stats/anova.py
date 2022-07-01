@@ -3,6 +3,7 @@
 import numpy as np
 import pandas as pd
 
+from spiketools.utils.checks import check_param_options
 from spiketools.modutils.dependencies import safe_import, check_dependency
 
 sm = safe_import('.api', 'statsmodels')
@@ -65,26 +66,27 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
 
     Returns
     -------
-    f_val : float
-        The F-value statistic of the ANOVA model.
-        Returned if `return_type` is 'f_val'.
-    results : pd.DataFrame
-        The results of the model fit.
-        Returned if `return_type` is 'results'.
-    model : statsmodels object
-        The fit model object.
-        Returned if `return_type` is 'model'.
+    output : float or pd.DataFrame or statsmodels object
+        If `return_type` is 'f_val', the f-value statistic of the ANOVA model.
+        If `return_type` is 'results', the results of the model fit.
+        If `return_type` is 'model', the fit model object.
     """
+
+    check_param_options(return_type, 'return_type', ['model', 'results', 'f_val'])
 
     model = smf.ols(formula, data=df).fit()
 
     if return_type == 'model':
-        return model
+        output = model
 
-    results = sm.stats.anova_lm(model, typ=anova_type)
+    if return_type in ['results', 'f_val']:
 
-    if return_type == 'results':
-        return results
+        results = sm.stats.anova_lm(model, typ=anova_type)
 
-    if return_type == 'f_val':
-        return results['F'][feature]
+        if return_type == 'results':
+            output = results
+
+        if return_type == 'f_val':
+            output = results['F'][feature]
+
+    return output

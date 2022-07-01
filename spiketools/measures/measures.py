@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.utils.data import restrict_range
+from spiketools.utils.extract import get_range
 
 ###################################################################################################
 ###################################################################################################
@@ -36,7 +36,7 @@ def compute_firing_rate(spikes, start_time=None, stop_time=None):
 
     # If there are spikes before or after requested start / stop time, restrict range
     if np.any(np.array(spikes) < start_time) or np.any(np.array(spikes) > stop_time):
-        spikes = restrict_range(spikes, start_time, stop_time)
+        spikes = get_range(spikes, start_time, stop_time)
 
     return len(spikes) / (stop_time - start_time)
 

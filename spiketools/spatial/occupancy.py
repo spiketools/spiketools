@@ -5,6 +5,9 @@ import warnings
 import numpy as np
 import pandas as pd
 
+from spiketools.utils.checks import check_param_options, check_bin_range
+from spiketools.spatial.checks import check_position, check_position_bins
+
 ###################################################################################################
 ###################################################################################################
 
@@ -13,8 +16,9 @@ def compute_nbins(bins):
 
     Parameters
     ----------
-    bins : list of [int, int]
-        Bin definition.
+    bins : int or list of [int, int]
+        The bin definition for dividing up the space. If 1d, can be integer.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
 
     Returns
     -------
@@ -29,7 +33,14 @@ def compute_nbins(bins):
     20
     """
 
-    return bins[0] * bins[1]
+    bins = check_position_bins(bins)
+
+    if len(bins) == 1:
+        n_bins = bins
+    else:
+        n_bins = bins[0] * bins[1]
+
+    return n_bins
 
 
 def compute_bin_edges(position, bins, area_range=None):
@@ -38,9 +49,10 @@ def compute_bin_edges(position, bins, area_range=None):
     Parameters
     ----------
     position : 1d or 2d array
-        Position values across a 1D or 2D space.
-    bins : list of [int] or [int, int]
-        The number of bins to divide up the space, defined as [number of x_bins, number of y_bins].
+        Position values.
+    bins : int or list of [int, int]
+        The bin definition for dividing up the space. If 1d, can be integer.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
         Any values outside this range will be considered outliers, and not used to compute edges.
@@ -68,6 +80,8 @@ def compute_bin_edges(position, bins, area_range=None):
     (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
 
+    bins = check_position_bins(bins, position)
+
     if position.ndim == 1:
         _, x_edges = np.histogram(position, bins=bins[0], range=area_range)
 
@@ -78,9 +92,6 @@ def compute_bin_edges(position, bins, area_range=None):
                                              bins=bins, range=area_range)
         return x_edges, y_edges
 
-    else:
-        raise ValueError('Position input should be 1d or 2d.')
-
 
 def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     """Compute spatial bin assignment.
@@ -88,7 +99,7 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     Parameters
     ----------
     position : 1d or 2d array
-        Position information across a 1D or 2D space.
+        Position values.
     x_edges : 1d array
         Edge definitions for the spatial binning.
         Values within the arrays should be monotonically increasing.
@@ -134,20 +145,21 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     (array([0, 1, 2, 3]), array([0, 1, 2, 3]))
     """
 
-    warning = "There are position values outside of the given bin ranges."
-
+    check_position(position)
     if position.ndim == 1:
+
+        check_bin_range(position, x_edges)
         x_bins = np.digitize(position, x_edges, right=False)
 
         if include_edge:
             x_bins = _include_bin_edge(position, x_bins, x_edges, side='left')
 
-        if np.any(x_bins == 0) or np.any(x_bins == len(x_edges)):
-            warnings.warn(warning)
-
         return x_bins - 1
 
     elif position.ndim == 2:
+
+        check_bin_range(position[0, :], x_edges)
+        check_bin_range(position[1, :], y_edges)
         x_bins = np.digitize(position[0, :], x_edges, right=False)
         y_bins = np.digitize(position[1, :], y_edges, right=False)
 
@@ -155,15 +167,7 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
             x_bins = _include_bin_edge(position[0, :], x_bins, x_edges, side='left')
             y_bins = _include_bin_edge(position[1, :], y_bins, y_edges, side='left')
 
-        x_check = np.any(x_bins == 0) or np.any(x_bins == len(x_edges))
-        y_check = np.any(y_bins == 0) or np.any(y_bins == len(y_edges))
-        if x_check or y_check:
-            warnings.warn(warning)
-
         return x_bins - 1, y_bins - 1
-
-    else:
-        raise ValueError('Position input should be 1d or 2d.')
 
 
 def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
@@ -171,8 +175,9 @@ def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
 
     Parameters
     ----------
-    bins : list of [int] or [int, int]
-        Bin definition.
+    bins : int or list of [int, int]
+        The bin definition for dividing up the space. If 1d, can be integer.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
     xbins : 1d array
         Bin assignment for the x-dimension for each spike.
     ybins : 1d array, optional
@@ -199,6 +204,8 @@ def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
     array([[2., 0.],
            [1., 1.]])
     """
+
+    bins = check_position_bins(bins)
 
     if ybins is None:
         bin_firing = np.histogram(xbins, bins=np.arange(0, bins[0] + 1))[0]
@@ -283,11 +290,12 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
     Parameters
     ----------
     position : 1d or 2d array
-        Position information across a 1D or 2D space.
+        Position values.
     timestamps : 1d array
         Timestamps.
-    bins : list of [int] or [int, int]
-        Binning to use for dividing up the space.
+    bins : int or list of [int, int]
+        The bin definition for dividing up the space. If 1d, can be integer.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
     speed : 1d array
         Current speed for each position.
         Should be the same length as timestamps.
@@ -329,6 +337,9 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
            [0.2, 0.2]])
     """
 
+    # Input checks
+    bins = check_position_bins(bins, position)
+
     # Initialize dictionary to collect data, adding bin time information
     data_dict = {'bin_time' : compute_bin_time(timestamps)}
 
@@ -355,9 +366,6 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
         data_dict['ybins'] = pd.Categorical(\
             y_bins, categories=list(range(0, bins[1])), ordered=True)
         groupby = ['xbins', 'ybins']
-
-    else:
-        raise ValueError('Position input should be 1d or 2d.')
 
     # Collect information together into a temporary dataframe
     df = pd.DataFrame(data_dict)
@@ -393,7 +401,7 @@ def _include_bin_edge(position, bin_pos, edges, side='left'):
     Parameters
     ----------
     position : 1d array
-        The position values.
+        Position values.
     bin_pos : 1d array
         The bin assignment for each position.
     edges : 1d array
@@ -414,6 +422,8 @@ def _include_bin_edge(position, bin_pos, edges, side='left'):
     To address this, this function resets position values == edges as with the bin on the edge.
     """
 
+    check_param_options(side, 'side', ['left', 'right'])
+
     if side == 'left':
 
         # If side left, right position == edge gets set as len(bins), so decrement by 1
@@ -425,8 +435,5 @@ def _include_bin_edge(position, bin_pos, edges, side='left'):
         # If side right, left position == edge gets set as 0, so increment by 1
         mask = position == edges[0]
         bin_pos[mask] = bin_pos[mask] + 1
-
-    else:
-        raise ValueError("Input for 'side' not understood.")
 
     return bin_pos

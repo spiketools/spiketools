@@ -4,8 +4,8 @@ from copy import deepcopy
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.ndimage import gaussian_filter
 
+from spiketools.utils.data import smooth_data
 from spiketools.plts.annotate import _add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
@@ -81,6 +81,39 @@ def plot_positions(positions, spike_positions=None, landmarks=None,
 
 @savefig
 @set_plt_kwargs
+def plot_position_by_time(times, positions, spike_times=None, spike_positions=None,
+                          ax=None, **plt_kwargs):
+    """Plot the position across time for a single dimension.
+
+    Parameters
+    ----------
+    times : 1d array
+        Time values associated with the position values.
+    positions : 1d array
+        Position values, for a single dimension.
+    spike_times : 1d array, optional
+        Timepoints at which spikes occur.
+    spike_positions : 1d array, optional
+        Position values of spikes, to indicate on the plot.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    spikes = None
+    if spike_times is not None:
+        spikes = np.array([spike_times, spike_positions])
+
+    plot_positions(np.array([times, positions]), spikes, ax=ax, **plt_kwargs)
+
+    ax.set(xlabel='Time', ylabel='Position')
+
+
+@savefig
+@set_plt_kwargs
 def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
                  ignore_zero=False, cbar=False, cmap=None, vmin=None, vmax=None,
                  ax=None, **plt_kwargs):
@@ -120,11 +153,14 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
+    if data.ndim < 2:
+        data = np.atleast_2d(data)
+
     if transpose:
         data = data.T
 
     if smooth:
-        data = _smooth_data(data, smoothing_kernel)
+        data = smooth_data(data, smoothing_kernel)
 
     if ignore_zero:
         data = deepcopy(data)
@@ -140,27 +176,3 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
     if cbar:
         colorbar = plt.colorbar(im)
         colorbar.outline.set_visible(False)
-
-
-def _smooth_data(data, sigma):
-    """Smooth data for plotting, using a gaussian kernel.
-
-    Parameters
-    ----------
-    data : 2d array
-        Data to smooth.
-    sigma : float
-        Standard deviation of the gaussian kernel to apply for smoothing.
-
-    Returns
-    -------
-    data : 2d array
-        The smoothed data.
-    """
-
-    data = deepcopy(data)
-    data[np.isnan(data)] = 0
-
-    data = gaussian_filter(data, sigma=sigma)
-
-    return data

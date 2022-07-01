@@ -73,23 +73,20 @@ def test_compute_bin_assignment():
     assert position[0].shape == x_bins.shape
     assert position[1].shape == y_bins.shape
 
-    # test warnings
-    with warns(UserWarning):
-        _ = compute_bin_assignment(np.array([-1, 1, 2, 3]), np.array([0, 2, 4]))
-    with warns(UserWarning):
-        _ = compute_bin_assignment(np.array([[-1, 1, 3, 4], [0, 1, 2, 3]]),
-                                   np.array([0, 2, 4]), np.array([0, 2, 4]))
-
 def test_compute_bin_firing():
 
-    bins = [2, 2]
     xbins = [0, 0, 0, 1]
     ybins = [0, 0, 1, 1]
 
+    bins = [2, 2]
     bin_firing = compute_bin_firing(bins, xbins, ybins, transpose=False)
     assert isinstance(bin_firing, np.ndarray)
-    expected = np.array([[2, 1], [0, 1]])
-    assert np.array_equal(bin_firing, expected)
+    assert np.array_equal(bin_firing, np.array([[2, 1], [0, 1]]))
+
+    bins = 2
+    bin_firing = compute_bin_firing(bins, xbins)
+    assert isinstance(bin_firing, np.ndarray)
+    assert np.array_equal(bin_firing, np.array([3, 1]))
 
 def test_normalize_bin_firing():
 
@@ -121,12 +118,12 @@ def test_compute_bin_time():
 def test_compute_occupancy():
 
     # Test 1d case
-    bins = [3]
+    bins = 3
     position = np.array([1, 2, 3, 5, 7, 9, 10])
     timestamp = np.linspace(0, 30, len(position))
     occ = compute_occupancy(position, timestamp, bins)
     assert isinstance(occ, np.ndarray)
-    assert len(occ) == bins[0]
+    assert len(occ) == bins
 
     # Test 2d case
     bins = [2, 4]

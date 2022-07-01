@@ -44,6 +44,7 @@ Conversions between spike representations.
    convert_times_to_train
    convert_train_to_times
    convert_isis_to_times
+   convert_times_to_rates
 
 Circular
 ~~~~~~~~
@@ -55,6 +56,17 @@ Measures for working with circular data.
    :toctree: generated/
 
    bin_circular
+
+Trials
+~~~~~~
+
+Measures related to trial-epoched data.
+
+.. currentmodule:: spiketools.measures.circular
+.. autosummary::
+   :toctree: generated/
+
+   compute_trial_frs
 
 Objects
 -------
@@ -116,8 +128,8 @@ Utilities
 .. autosummary::
    :toctree: generated/
 
-    get_pos_ranges
-    get_bin_width
+    compute_pos_ranges
+    compute_bin_width
 
 Statistics
 ----------
@@ -235,6 +247,7 @@ Space
    :toctree: generated/
 
     plot_positions
+    plot_position_by_time
     plot_heatmap
 
 Task
@@ -273,8 +286,9 @@ Data
 
    plot_lines
    plot_dots
-   plot_bar
+   plot_points
    plot_hist
+   plot_bar
    plot_polar_hist
    plot_text
 
@@ -290,9 +304,19 @@ Data
 .. autosummary::
    :toctree: generated/
 
+   compute_range
+   smooth_data
+
+Extract
+~~~~~~~
+
+.. currentmodule:: spiketools.utils.extract
+.. autosummary::
+   :toctree: generated/
+
    get_range
-   restrict_range
    get_value_by_time
+   get_values_by_times
    get_value_by_time_range
 
 Timestamps

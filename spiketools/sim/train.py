@@ -3,6 +3,7 @@
 import numpy as np
 
 from spiketools.sim.utils import apply_refractory_train
+from spiketools.utils.checks import check_param_options
 
 ###################################################################################################
 ###################################################################################################
@@ -40,6 +41,8 @@ def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
 
     >>> train = sim_spiketrain(5, 10, method='poisson')
     """
+
+    check_param_options(method, 'method', ['prob', 'binom', 'poisson'])
 
     train = SPIKETRAIN_FUNCS[method](spike_param, n_samples, **kwargs)
 
