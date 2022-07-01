@@ -33,15 +33,14 @@ def test_smooth_data():
 def test_drop_nans():
 
     # Check 1d case
-    data = np.array([0.5, 1, np.nan, 1.5, 2., np.nan, 2.5])
+    data = np.array([0.5, 1.0, np.nan, 1.5, 2.0, np.nan, 2.5])
     out = drop_nans(data)
     assert isinstance(out, np.ndarray)
-    assert np.array_equal(data, np.array([0.5, 1., 1.5, 2., 2.5]))
+    assert np.array_equal(out, np.array([0.5, 1.0, 1.5, 2.0, 2.5]))
 
     # Check 2d case
-    data = np.array([[0.5, np.nan, 1., 1.5, 2., np.nan, 2.5],
-                     [0.5, np.nan, 1., 1.5, 2., np.nan, 2.5]])
+    data = np.array([[0.5, np.nan, 1.0, 1.5, 2.0, np.nan, 2.5],
+                     [0.5, np.nan, 1.0, 1.5, 2.0, np.nan, 2.5]])
     out = drop_nans(data)
     assert isinstance(out, np.ndarray)
-    assert not np.array_equal(data, data = np.array([[0.5, 1., 1.5, 2., 2.5],
-                                                     [0.5, 1., 1.5, 2., 2.5]]))
+    assert np.array_equal(out, np.array([[0.5, 1.0, 1.5, 2.0, 2.5], [0.5, 1.0, 1.5, 2.0, 2.5]]))

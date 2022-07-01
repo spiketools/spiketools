@@ -76,9 +76,9 @@ def drop_nans(data):
     nans = np.isnan(data)
 
     if data.ndim == 1:
-        data = data[np.where(~data_nans)]
+        data = data[np.where(~nans)]
     elif data.ndim == 2:
-        data = data[~ans].reshape(nans.shape[0], sum(~nans[0, :]))
+        data = data[~nans].reshape(nans.shape[0], sum(~nans[0, :]))
     else:
         raise ValueError('Only 1d or 2d arrays supported.')
 
