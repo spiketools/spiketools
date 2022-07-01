@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from spiketools.utils.data import drop_nans
+
 ###################################################################################################
 ###################################################################################################
 
@@ -85,7 +87,7 @@ def get_value_by_time(times, values, timepoint, threshold=np.inf):
     return out
 
 
-def get_values_by_times(times, values, timepoints, threshold=np.inf):
+def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_nan=True):
     """Get values from a data array for a set of specified time points.
 
     Parameters
@@ -96,9 +98,11 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf):
         Data values, corresponding to the times vector.
     timepoints : 1d array
         The time indices to extract corresponding values for.
-    threshold : float
+    threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
+    drop_nan : bool, optional, default: True
+        Whether to drop NaN values from the outputs.
 
     Returns
     -------
@@ -110,6 +114,9 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf):
     for ind, timepoint in enumerate(timepoints):
         outputs[:, ind] = get_value_by_time(times, values, timepoint, threshold=threshold)
     outputs = np.squeeze(outputs)
+
+    if drop_nan:
+        outputs = drop_nans(outputs)
 
     return outputs
 
