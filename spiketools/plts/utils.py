@@ -153,7 +153,7 @@ def set_plt_kwargs(func):
 
 
 def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
-              wspace=None, hspace=None, **plt_kwargs):
+              wspace=None, hspace=None, title=None, **plt_kwargs):
     """Make a subplot with multiple axes.
 
     Parameters
@@ -171,6 +171,8 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
     wspace, hspace : float, optional
         Spacing parameters for between subplots.
         These get passed into `plt.subplots_adjust`.
+    title : str, optional
+        A title to add to the figure.
     **plt_kwargs
         Extra arguments to pass to `plt.subplots`.
 
@@ -185,6 +187,8 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
     if not figsize:
         figsize = (n_cols * col_size, n_rows * row_size)
 
+    title_kwargs = get_attr_kwargs(plt_kwargs, 'title')
+
     _, axes = plt.subplots(n_rows, n_cols, figsize=figsize, **plt_kwargs)
 
     if wspace or hspace:
@@ -192,6 +196,11 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
 
     # Turn off axes for any extra subplots in last row
     _ = [ax.axis('off') for ax in axes.ravel()[n_axes:]]
+
+    if title:
+        plt.suptitle(title,
+                     fontsize=title_kwargs.pop('title_fontsize', 24),
+                     **title_kwargs)
 
     return axes.flatten()
 
@@ -209,13 +218,16 @@ def make_grid(nrows, ncols, title=None, **plt_kwargs):
         Additional arguments to pass into the plot function.
     """
 
+    title_kwargs = get_attr_kwargs(plt_kwargs, 'title')
+
     _ = plt.figure(figsize=plt_kwargs.pop('figsize', None))
     grid = gridspec.GridSpec(nrows, ncols, **plt_kwargs)
 
     if title:
         plt.suptitle(title,
-                     fontsize=plt_kwargs.pop('title_fontsize', 24),
-                     y=plt_kwargs.pop('title_y', 0.95))
+                     fontsize=title_kwargs.pop('title_fontsize', 24),
+                     y=title_kwargs.pop('title_y', 0.95),
+                     **title_kwargs)
 
     return grid
 
