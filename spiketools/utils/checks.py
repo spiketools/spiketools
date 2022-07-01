@@ -97,8 +97,9 @@ def check_bin_range(values, bin_edges):
         The bin edges to use to check.
     """
 
-    if np.nanmin(values) < bin_edges[0] or np.nanmax(values) > bin_edges[-1]:
-        warnings.warn('The data values extend beyond the given bin definition.')
+    if values.size > 0:
+        if np.nanmin(values) < bin_edges[0] or np.nanmax(values) > bin_edges[-1]:
+            warnings.warn('The data values extend beyond the given bin definition.')
 
 
 def check_time_bins(bins, values, trange=None, check_range=True):
