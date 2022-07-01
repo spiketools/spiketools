@@ -53,3 +53,33 @@ def smooth_data(data, sigma):
     data = gaussian_filter(data, sigma=sigma)
 
     return data
+
+
+def drop_nans(data):
+    """Drop any NaNs values from an array.
+
+    Parameters
+    ----------
+    data : 1d or 2d array
+        Data array to check and drop NaNs from.
+
+    Returns
+    -------
+    data : 1d or 2d array
+        Data array with NaNs removed.
+
+    Notes
+    -----
+    For 2d arrays, this function assumes the same columns to be NaN across all rows.
+    """
+
+    nans = np.isnan(data)
+
+    if data.ndim == 1:
+        data = data[np.where(~data_nans)]
+    elif data.ndim == 2:
+        data = data[~ans].reshape(nans.shape[0], sum(~nans[0, :]))
+    else:
+        raise ValueError('Only 1d or 2d arrays supported.')
+
+    return data

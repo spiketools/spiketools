@@ -306,6 +306,7 @@ Data
 
    compute_range
    smooth_data
+   drop_nans
 
 Extract
 ~~~~~~~
