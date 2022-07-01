@@ -98,7 +98,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">restrict_range</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.extract</span> <span class="kn">import</span> <span class="n">get_range</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -132,7 +132,7 @@
 
     <span class="c1"># If there are spikes before or after requested start / stop time, restrict range</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">start_time</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">stop_time</span><span class="p">):</span>
-        <span class="n">spikes</span> <span class="o">=</span> <span class="n">restrict_range</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">stop_time</span><span class="p">)</span>
+        <span class="n">spikes</span> <span class="o">=</span> <span class="n">get_range</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">stop_time</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">stop_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span></div>
 

@@ -126,8 +126,8 @@ conserving structure uniformly across the distribution of lags.
 This function can be a little slow when running a lot.
 The main holdup is <cite>np.roll</cite> (unclear if / how to optimize).
 The next biggest hold up is converting the spike train to spike times.
-This shuffling process is very dependent on the <cite>bin_width_range</cite> argument. 
-It is recommended that <cite>bin_width_range[1] &gt; 3</cite>, and that the difference 
+This shuffling process is very dependent on the <cite>bin_width_range</cite> argument.
+It is recommended that <cite>bin_width_range[1] &gt; 3</cite>, and that the difference
 between the two values of <cite>bin_width_range</cite> is at least 1.</p>
 </dd></dl>
 

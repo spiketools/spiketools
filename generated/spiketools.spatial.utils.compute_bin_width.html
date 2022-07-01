@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.utils.data.get_value_by_time_range &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.spatial.utils.compute_bin_width &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,28 +94,22 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-utils-data-get-value-by-time-range">
-<h1>spiketools.utils.data.get_value_by_time_range<a class="headerlink" href="#spiketools-utils-data-get-value-by-time-range" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-spatial-utils-compute-bin-width">
+<h1>spiketools.spatial.utils.compute_bin_width<a class="headerlink" href="#spiketools-spatial-utils-compute-bin-width" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.utils.data.get_value_by_time_range">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.data.</span></span><span class="sig-name descname"><span class="pre">get_value_by_time_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_max</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/data.html#get_value_by_time_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.data.get_value_by_time_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract data for a requested time range.</p>
+<dt class="sig sig-object py" id="spiketools.spatial.utils.compute_bin_width">
+<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.utils.</span></span><span class="sig-name descname"><span class="pre">compute_bin_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bin_edges</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/utils.html#compute_bin_width"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.utils.compute_bin_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute bin width from a set of bin edges.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Time indices.</p>
-</dd>
-<dt><strong>values</strong><span class="classifier">ndarray</span></dt><dd><p>Data values, corresponding to the times indices.</p>
-</dd>
-<dt><strong>t_min, t_max</strong><span class="classifier">float</span></dt><dd><p>Time range to extract.</p>
+<dt><strong>bin_edges</strong><span class="classifier">1d array</span></dt><dd><p>Bin edges.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Selected time indices.</p>
-</dd>
-<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>Selected values.</p>
+<dt>float</dt><dd><p>The bin width.</p>
 </dd>
 </dl>
 </dd>

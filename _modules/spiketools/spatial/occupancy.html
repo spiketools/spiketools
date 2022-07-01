@@ -101,6 +101,9 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_options</span><span class="p">,</span> <span class="n">check_bin_range</span>
+<span class="kn">from</span> <span class="nn">spiketools.spatial.checks</span> <span class="kn">import</span> <span class="n">check_position</span><span class="p">,</span> <span class="n">check_position_bins</span>
+
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
@@ -109,8 +112,9 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    bins : list of [int, int]</span>
-<span class="sd">        Bin definition.</span>
+<span class="sd">    bins : int or list of [int, int]</span>
+<span class="sd">        The bin definition for dividing up the space. If 1d, can be integer.</span>
+<span class="sd">        If 2d should be a list, defined as [number of x_bins, number of y_bins].</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -125,7 +129,14 @@
 <span class="sd">    20</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_position_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">n_bins</span> <span class="o">=</span> <span class="n">bins</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">n_bins</span></div>
 
 
 <div class="viewcode-block" id="compute_bin_edges"><a class="viewcode-back" href="../../../generated/spiketools.spatial.occupancy.compute_bin_edges.html#spiketools.spatial.occupancy.compute_bin_edges">[docs]</a><span class="k">def</span> <span class="nf">compute_bin_edges</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">area_range</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -134,9 +145,10 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    position : 1d or 2d array</span>
-<span class="sd">        Position values across a 1D or 2D space.</span>
-<span class="sd">    bins : list of [int] or [int, int]</span>
-<span class="sd">        The number of bins to divide up the space, defined as [number of x_bins, number of y_bins].</span>
+<span class="sd">        Position values.</span>
+<span class="sd">    bins : int or list of [int, int]</span>
+<span class="sd">        The bin definition for dividing up the space. If 1d, can be integer.</span>
+<span class="sd">        If 2d should be a list, defined as [number of x_bins, number of y_bins].</span>
 <span class="sd">    area_range : list of list, optional</span>
 <span class="sd">        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].</span>
 <span class="sd">        Any values outside this range will be considered outliers, and not used to compute edges.</span>
@@ -164,6 +176,8 @@
 <span class="sd">    (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_position_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">x_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">range</span><span class="o">=</span><span class="n">area_range</span><span class="p">)</span>
 
@@ -172,10 +186,7 @@
     <span class="k">elif</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">y_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram2d</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span>
                                              <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">area_range</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">y_edges</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Position input should be 1d or 2d.&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">y_edges</span></div>
 
 
 <div class="viewcode-block" id="compute_bin_assignment"><a class="viewcode-back" href="../../../generated/spiketools.spatial.occupancy.compute_bin_assignment.html#spiketools.spatial.occupancy.compute_bin_assignment">[docs]</a><span class="k">def</span> <span class="nf">compute_bin_assignment</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">y_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_edge</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -184,7 +195,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    position : 1d or 2d array</span>
-<span class="sd">        Position information across a 1D or 2D space.</span>
+<span class="sd">        Position values.</span>
 <span class="sd">    x_edges : 1d array</span>
 <span class="sd">        Edge definitions for the spatial binning.</span>
 <span class="sd">        Values within the arrays should be monotonically increasing.</span>
@@ -230,20 +241,21 @@
 <span class="sd">    (array([0, 1, 2, 3]), array([0, 1, 2, 3]))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">warning</span> <span class="o">=</span> <span class="s2">&quot;There are position values outside of the given bin ranges.&quot;</span>
-
+    <span class="n">check_position</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+
+        <span class="n">check_bin_range</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">x_edges</span><span class="p">)</span>
         <span class="n">x_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">include_edge</span><span class="p">:</span>
             <span class="n">x_bins</span> <span class="o">=</span> <span class="n">_include_bin_edge</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">x_bins</span><span class="p">,</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x_bins</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x_bins</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_edges</span><span class="p">)):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">x_bins</span> <span class="o">-</span> <span class="mi">1</span>
 
     <span class="k">elif</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
+        <span class="n">check_bin_range</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">x_edges</span><span class="p">)</span>
+        <span class="n">check_bin_range</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y_edges</span><span class="p">)</span>
         <span class="n">x_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">y_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y_edges</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -251,15 +263,7 @@
             <span class="n">x_bins</span> <span class="o">=</span> <span class="n">_include_bin_edge</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">x_bins</span><span class="p">,</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
             <span class="n">y_bins</span> <span class="o">=</span> <span class="n">_include_bin_edge</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y_bins</span><span class="p">,</span> <span class="n">y_edges</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
 
-        <span class="n">x_check</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x_bins</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x_bins</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_edges</span><span class="p">))</span>
-        <span class="n">y_check</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">y_bins</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">y_bins</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_edges</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">x_check</span> <span class="ow">or</span> <span class="n">y_check</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">x_bins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y_bins</span> <span class="o">-</span> <span class="mi">1</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Position input should be 1d or 2d.&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">x_bins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y_bins</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
 <div class="viewcode-block" id="compute_bin_firing"><a class="viewcode-back" href="../../../generated/spiketools.spatial.occupancy.compute_bin_firing.html#spiketools.spatial.occupancy.compute_bin_firing">[docs]</a><span class="k">def</span> <span class="nf">compute_bin_firing</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">xbins</span><span class="p">,</span> <span class="n">ybins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">occupancy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">transpose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -267,8 +271,9 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    bins : list of [int] or [int, int]</span>
-<span class="sd">        Bin definition.</span>
+<span class="sd">    bins : int or list of [int, int]</span>
+<span class="sd">        The bin definition for dividing up the space. If 1d, can be integer.</span>
+<span class="sd">        If 2d should be a list, defined as [number of x_bins, number of y_bins].</span>
 <span class="sd">    xbins : 1d array</span>
 <span class="sd">        Bin assignment for the x-dimension for each spike.</span>
 <span class="sd">    ybins : 1d array, optional</span>
@@ -295,6 +300,8 @@
 <span class="sd">    array([[2., 0.],</span>
 <span class="sd">           [1., 1.]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_position_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">ybins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">bin_firing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">xbins</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
@@ -379,11 +386,12 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    position : 1d or 2d array</span>
-<span class="sd">        Position information across a 1D or 2D space.</span>
+<span class="sd">        Position values.</span>
 <span class="sd">    timestamps : 1d array</span>
 <span class="sd">        Timestamps.</span>
-<span class="sd">    bins : list of [int] or [int, int]</span>
-<span class="sd">        Binning to use for dividing up the space.</span>
+<span class="sd">    bins : int or list of [int, int]</span>
+<span class="sd">        The bin definition for dividing up the space. If 1d, can be integer.</span>
+<span class="sd">        If 2d should be a list, defined as [number of x_bins, number of y_bins].</span>
 <span class="sd">    speed : 1d array</span>
 <span class="sd">        Current speed for each position.</span>
 <span class="sd">        Should be the same length as timestamps.</span>
@@ -425,6 +433,9 @@
 <span class="sd">           [0.2, 0.2]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1"># Input checks</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_position_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+
     <span class="c1"># Initialize dictionary to collect data, adding bin time information</span>
     <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bin_time&#39;</span> <span class="p">:</span> <span class="n">compute_bin_time</span><span class="p">(</span><span class="n">timestamps</span><span class="p">)}</span>
 
@@ -451,9 +462,6 @@
         <span class="n">data_dict</span><span class="p">[</span><span class="s1">&#39;ybins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span>\
             <span class="n">y_bins</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">groupby</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;xbins&#39;</span><span class="p">,</span> <span class="s1">&#39;ybins&#39;</span><span class="p">]</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Position input should be 1d or 2d.&#39;</span><span class="p">)</span>
 
     <span class="c1"># Collect information together into a temporary dataframe</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
@@ -489,7 +497,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    position : 1d array</span>
-<span class="sd">        The position values.</span>
+<span class="sd">        Position values.</span>
 <span class="sd">    bin_pos : 1d array</span>
 <span class="sd">        The bin assignment for each position.</span>
 <span class="sd">    edges : 1d array</span>
@@ -510,6 +518,8 @@
 <span class="sd">    To address this, this function resets position values == edges as with the bin on the edge.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">check_param_options</span><span class="p">(</span><span class="n">side</span><span class="p">,</span> <span class="s1">&#39;side&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">])</span>
+
     <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span>
 
         <span class="c1"># If side left, right position == edge gets set as len(bins), so decrement by 1</span>
@@ -521,9 +531,6 @@
         <span class="c1"># If side right, left position == edge gets set as 0, so increment by 1</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">position</span> <span class="o">==</span> <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">bin_pos</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">bin_pos</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input for &#39;side&#39; not understood.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">bin_pos</span>
 </pre></div>

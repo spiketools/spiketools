@@ -103,11 +103,12 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>position</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Position information across a 1D or 2D space.</p>
+<dt><strong>position</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Position values.</p>
 </dd>
 <dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps.</p>
 </dd>
-<dt><strong>bins</strong><span class="classifier">list of [int] or [int, int]</span></dt><dd><p>Binning to use for dividing up the space.</p>
+<dt><strong>bins</strong><span class="classifier">int or list of [int, int]</span></dt><dd><p>The bin definition for dividing up the space. If 1d, can be integer.
+If 2d should be a list, defined as [number of x_bins, number of y_bins].</p>
 </dd>
 <dt><strong>speed</strong><span class="classifier">1d array</span></dt><dd><p>Current speed for each position.
 Should be the same length as timestamps.</p>

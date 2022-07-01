@@ -99,6 +99,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_options</span>
 <span class="kn">from</span> <span class="nn">spiketools.modutils.dependencies</span> <span class="kn">import</span> <span class="n">safe_import</span><span class="p">,</span> <span class="n">check_dependency</span>
 
 <span class="n">sm</span> <span class="o">=</span> <span class="n">safe_import</span><span class="p">(</span><span class="s1">&#39;.api&#39;</span><span class="p">,</span> <span class="s1">&#39;statsmodels&#39;</span><span class="p">)</span>
@@ -161,29 +162,30 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    f_val : float</span>
-<span class="sd">        The F-value statistic of the ANOVA model.</span>
-<span class="sd">        Returned if `return_type` is &#39;f_val&#39;.</span>
-<span class="sd">    results : pd.DataFrame</span>
-<span class="sd">        The results of the model fit.</span>
-<span class="sd">        Returned if `return_type` is &#39;results&#39;.</span>
-<span class="sd">    model : statsmodels object</span>
-<span class="sd">        The fit model object.</span>
-<span class="sd">        Returned if `return_type` is &#39;model&#39;.</span>
+<span class="sd">    output : float or pd.DataFrame or statsmodels object</span>
+<span class="sd">        If `return_type` is &#39;f_val&#39;, the f-value statistic of the ANOVA model.</span>
+<span class="sd">        If `return_type` is &#39;results&#39;, the results of the model fit.</span>
+<span class="sd">        If `return_type` is &#39;model&#39;, the fit model object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">check_param_options</span><span class="p">(</span><span class="n">return_type</span><span class="p">,</span> <span class="s1">&#39;return_type&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="s1">&#39;f_val&#39;</span><span class="p">])</span>
 
     <span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">model</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">model</span>
 
-    <span class="n">results</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="n">anova_type</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="s1">&#39;f_val&#39;</span><span class="p">]:</span>
 
-    <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s1">&#39;results&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">results</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="n">anova_type</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s1">&#39;f_val&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">][</span><span class="n">feature</span><span class="p">]</span></div>
+        <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s1">&#39;results&#39;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">results</span>
+
+        <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s1">&#39;f_val&#39;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">][</span><span class="n">feature</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
 </pre></div>
 
     </div>

@@ -100,6 +100,7 @@
 
 <span class="kn">from</span> <span class="nn">spiketools.stats.generators</span> <span class="kn">import</span> <span class="n">poisson_generator</span>
 <span class="kn">from</span> <span class="nn">spiketools.sim.utils</span> <span class="kn">import</span> <span class="n">apply_refractory_times</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_options</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -117,15 +118,17 @@
 <span class="sd">    method : {&#39;poisson&#39;}</span>
 <span class="sd">        The method to use for the simulation.</span>
 <span class="sd">    refractory : float, optional</span>
-<span class="sd">        The refractory period to apply to the simulated data.</span>
+<span class="sd">        The refractory period to apply to the simulated data, in seconds.</span>
 <span class="sd">    **kwargs</span>
 <span class="sd">        Additional keyword arguments.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    times : 1d array</span>
-<span class="sd">        Simulated spike times.</span>
+<span class="sd">        Simulated spike times, in seconds.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">check_param_options</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;poisson&#39;</span><span class="p">])</span>
 
     <span class="n">times</span> <span class="o">=</span> <span class="n">SPIKETIME_FUNCS</span><span class="p">[</span><span class="n">method</span><span class="p">](</span><span class="n">spike_param</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -145,17 +148,17 @@
 <span class="sd">    rate : float</span>
 <span class="sd">        The average firing rate for the simulated spike times.</span>
 <span class="sd">    duration : float</span>
-<span class="sd">        Duration of spike times to simulate.</span>
+<span class="sd">        Duration of spike times to simulate, in seconds.</span>
 <span class="sd">    start_time: float, optional</span>
 <span class="sd">        Timestamp of the start time for the simulated spike times.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    times : 1d array</span>
-<span class="sd">        Simulated spike times.</span>
+<span class="sd">        Simulated spike times, in seconds.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">spike</span> <span class="k">for</span> <span class="n">spike</span> <span class="ow">in</span> <span class="n">poisson_generator</span><span class="p">(</span><span class="n">rate</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">start_time</span><span class="p">)])</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">poisson_generator</span><span class="p">(</span><span class="n">rate</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">start_time</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">times</span></div>
 

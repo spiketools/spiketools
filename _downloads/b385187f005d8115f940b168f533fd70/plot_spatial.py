@@ -33,9 +33,9 @@ import matplotlib.pyplot as plt
 from spiketools.spatial.position import (compute_distance, compute_distances,
                                          compute_cumulative_distances, compute_speed)
 from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignment,
-                                          compute_bin_time, compute_occupancy, 
+                                          compute_bin_time, compute_occupancy,
                                           compute_bin_firing, normalize_bin_firing)
-from spiketools.spatial.utils import get_pos_ranges, get_bin_width
+from spiketools.spatial.utils import compute_pos_ranges, compute_bin_width
 from spiketools.spatial.information import compute_spatial_information
 
 # Import spiketrain simulation function
@@ -73,7 +73,7 @@ timestamps = np.array([0, 1, 2, 3, 5, 6.5, 7.5, 8.5, 9.5, 11.5, 12.5, 13.5, 14.5
 ###################################################################################################
 
 # Look at the range of our x and y positions
-ranges = get_pos_ranges(position)
+ranges = compute_pos_ranges(position)
 print(f'The x-position ranges from {ranges[0][0]} to {ranges[0][1]}')
 print(f'The y-position ranges from {ranges[1][0]} to {ranges[1][1]}')
 
@@ -136,8 +136,8 @@ fig.set_size_inches((15/2.54, 20/2.54))
 x_edges, y_edges = compute_bin_edges(position, bins)
 
 # Compute the width of each spatial bin
-x_bins_spatial_width = get_bin_width(x_edges)
-y_bins_spatial_width = get_bin_width(y_edges)
+x_bins_spatial_width = compute_bin_width(x_edges)
+y_bins_spatial_width = compute_bin_width(y_edges)
 print(f'The x spatial bins have width = {x_bins_spatial_width}')
 print(f'The y spatial bins have width = {y_bins_spatial_width}')
 
@@ -195,15 +195,15 @@ print(f'The time widths of the the sampling bins are: {bin_widths}')
 ###################################################################################################
 
 # Compute and plot 2D occupancy using the previously defined position, timestamps, bins and speed
-occupancy = compute_occupancy(position, timestamps, bins, speed=np.insert(speeds, 0, 0), 
-                              speed_thresh=.5e-5)
+occupancy = compute_occupancy(position, timestamps, bins,
+                              speed=np.insert(speeds, 0, 0), speed_thresh=.5e-5)
 plot_heatmap(occupancy, transpose=True, title='Occupancy heatmap')
 
-# Compute and plot 1D occupancy using the previously defined x-position, timestamps, x-bins and 
+# Compute and plot 1D occupancy using the previously defined x-position, timestamps, x-bins and
 # speed
-occupancy_1d = compute_occupancy(position[0], timestamps, [bins[0]], speed=np.insert(speeds, 0, 0), 
-                                 speed_thresh=.5e-5)
-plot_heatmap(np.expand_dims(occupancy_1d, 1), transpose=True, title='X-Occupancy heatmap')
+occupancy_1d = compute_occupancy(position[0], timestamps, [bins[0]],
+                                 speed=np.insert(speeds, 0, 0), speed_thresh=.5e-5)
+plot_heatmap(occupancy_1d, transpose=True, title='X-Occupancy heatmap')
 
 ###################################################################################################
 # 6. Compute 2D and 1D spatial information
@@ -220,7 +220,7 @@ spike_train = sim_spiketrain_binom(0.5, n_samples=len(x_pos))
 # Get spike position bins
 spike_bins = np.where(spike_train == 1)[0]
 # Get x and y position bins corresponding to spike positions
-spike_x, spike_y = compute_bin_assignment(position[:, spike_bins], x_edges, y_edges, 
+spike_x, spike_y = compute_bin_assignment(position[:, spike_bins], x_edges, y_edges,
                                           include_edge=True)
 
 ###################################################################################################
@@ -230,7 +230,7 @@ spike_x, spike_y = compute_bin_assignment(position[:, spike_bins], x_edges, y_ed
 bin_firing_1d = compute_bin_firing(bins=[bins[0]], xbins=spike_x, occupancy=occupancy_1d)
 normalized_bin_fr_1d = normalize_bin_firing(bin_firing_1d, occupancy=occupancy_1d)
 # Compute 1d spatial information
-spatial_information_1d = compute_spatial_information(normalized_bin_fr_1d, occupancy_1d, 
+spatial_information_1d = compute_spatial_information(normalized_bin_fr_1d, occupancy_1d,
                                                      normalize=False)
 print(f'The 1D spatial information is = {spatial_information_1d}')
 
@@ -243,3 +243,5 @@ normalized_bin_fr = normalize_bin_firing(bin_firing, occupancy=occupancy)
 # Compute 2d spatial information
 spatial_information_2d = compute_spatial_information(normalized_bin_fr, occupancy, normalize=False)
 print(f'The 2D spatial information is = {spatial_information_2d}')
+
+###################################################################################################

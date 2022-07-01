@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.utils.data &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.measures.trials &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -93,62 +93,46 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <h1>Source code for spiketools.utils.data</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Utility functions for working with data arrays.&quot;&quot;&quot;</span>
-
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+  <h1>Source code for spiketools.measures.trials</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions to compute trial-related measures.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">gaussian_filter</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_time_bins</span>
+<span class="kn">from</span> <span class="nn">spiketools.measures.conversions</span> <span class="kn">import</span> <span class="n">convert_times_to_rates</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="compute_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.data.compute_range.html#spiketools.utils.data.compute_range">[docs]</a><span class="k">def</span> <span class="nf">compute_range</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the range of an array of data.</span>
+<div class="viewcode-block" id="compute_trial_frs"><a class="viewcode-back" href="../../../generated/spiketools.measures.trials.compute_trial_frs.html#spiketools.measures.trials.compute_trial_frs">[docs]</a><span class="k">def</span> <span class="nf">compute_trial_frs</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">trange</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute continuous binned firing rates for a set of epoched spike times.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data : array</span>
-<span class="sd">        Array of numerical data.</span>
+<span class="sd">    trial_spikes : list of 1d array</span>
+<span class="sd">        Spike times per trial.</span>
+<span class="sd">    bins : float or 1d array</span>
+<span class="sd">        The binning to apply to the spiking data.</span>
+<span class="sd">        If float, the length of each bin.</span>
+<span class="sd">        If array, precomputed bin definitions.</span>
+<span class="sd">    trange : list of [float, float]</span>
+<span class="sd">        Time range, in seconds, to create the binned firing rate across.</span>
+<span class="sd">        Only used if `bins` is a float.</span>
+<span class="sd">    smooth : float, optional</span>
+<span class="sd">        If provided, the kernel to use to smooth the continuous firing rate.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    min, max : float</span>
-<span class="sd">        Minimum and maximum values of the data array.</span>
+<span class="sd">    trial_cfrs : 2d array</span>
+<span class="sd">        Continuous firing rates per trial, with shape [n_trials, n_time_bins].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_time_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">trial_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">trange</span><span class="o">=</span><span class="n">trange</span><span class="p">)</span>
+    <span class="n">trial_cfrs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">t_spikes</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">):</span>
+        <span class="n">trial_cfrs</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">convert_times_to_rates</span><span class="p">(</span><span class="n">t_spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">smooth</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="smooth_data"><a class="viewcode-back" href="../../../generated/spiketools.utils.data.smooth_data.html#spiketools.utils.data.smooth_data">[docs]</a><span class="k">def</span> <span class="nf">smooth_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Smooth an array of data, using a gaussian kernel.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    data : ndarray</span>
-<span class="sd">        Data to smooth.</span>
-<span class="sd">    sigma : float</span>
-<span class="sd">        Standard deviation of the gaussian kernel to apply for smoothing.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    data : 2d array</span>
-<span class="sd">        The smoothed data.</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    This function is applied on a copy of the data (to not change the original).</span>
-<span class="sd">    Any NaN values will be set as 0 for smoothing purposes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">data</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="n">data</span> <span class="o">=</span> <span class="n">gaussian_filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">data</span></div>
+    <span class="k">return</span> <span class="n">trial_cfrs</span></div>
 </pre></div>
 
     </div>

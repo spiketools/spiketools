@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.plts.trials.plot_rasters &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.measures.conversions.convert_times_to_rates &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,30 +94,31 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-plts-trials-plot-rasters">
-<h1>spiketools.plts.trials.plot_rasters<a class="headerlink" href="#spiketools-plts-trials-plot-rasters" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-measures-conversions-convert-times-to-rates">
+<h1>spiketools.measures.conversions.convert_times_to_rates<a class="headerlink" href="#spiketools-measures-conversions-convert-times-to-rates" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.plts.trials.plot_rasters">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.trials.</span></span><span class="sig-name descname"><span class="pre">plot_rasters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vshade</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/trials.html#plot_rasters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.trials.plot_rasters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot rasters across multiple trials.</p>
+<dt class="sig sig-object py" id="spiketools.measures.conversions.convert_times_to_rates">
+<span class="sig-prename descclassname"><span class="pre">spiketools.measures.conversions.</span></span><span class="sig-name descname"><span class="pre">convert_times_to_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/measures/conversions.html#convert_times_to_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.measures.conversions.convert_times_to_rates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert spike times to continuous firing rate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">list of list of float</span></dt><dd><p>Spike times per trial.
-Multiple conditions can also be passed in.</p>
+<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times.</p>
 </dd>
-<dt><strong>vline</strong><span class="classifier">float or list, optional</span></dt><dd><p>Position(s) to draw a vertical line. If None, no line is drawn.</p>
+<dt><strong>bins</strong><span class="classifier">float or 1d array</span></dt><dd><p>The binning to apply to the spiking data.
+If float, the length of each bin.
+If array, precomputed bin definitions.</p>
 </dd>
-<dt><strong>colors</strong><span class="classifier">str or list of str, optional</span></dt><dd><p>Color(s) to plot the raster ticks.
-If more than one, should be the length of data.</p>
+<dt><strong>trange</strong><span class="classifier">list of [float, float]</span></dt><dd><p>Time range, in seconds, to create the binned firing rate across.
+Only used if <cite>bins</cite> is a float.</p>
 </dd>
-<dt><strong>vshade</strong><span class="classifier">list of float, optional</span></dt><dd><p>Vertical region of the plot to shade in.</p>
+<dt><strong>smooth</strong><span class="classifier">float, optional</span></dt><dd><p>If provided, the kernel to use to smooth the continuous firing rate.</p>
 </dd>
-<dt><strong>show_axis</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to show the axis around the plot.</p>
+</dl>
 </dd>
-<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
-</dd>
-<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>cfr</strong><span class="classifier">1d array</span></dt><dd><p>Continuous firing rate, compute across time bins.</p>
 </dd>
 </dl>
 </dd>

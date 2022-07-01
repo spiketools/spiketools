@@ -99,6 +99,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">spiketools.sim.utils</span> <span class="kn">import</span> <span class="n">apply_refractory_train</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_options</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -117,7 +118,7 @@
 <span class="sd">    method : {&#39;prob&#39;, &#39;binom&#39;, &#39;poisson&#39;}</span>
 <span class="sd">        The method to use for the simulation.</span>
 <span class="sd">    refractory : float, optional</span>
-<span class="sd">        The refractory period to apply to the simulated data.</span>
+<span class="sd">        The refractory period to apply to the simulated data, in seconds.</span>
 <span class="sd">    **kwargs</span>
 <span class="sd">        Additional keyword arguments.</span>
 
@@ -136,6 +137,8 @@
 
 <span class="sd">    &gt;&gt;&gt; train = sim_spiketrain(5, 10, method=&#39;poisson&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">check_param_options</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span> <span class="s1">&#39;binom&#39;</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">])</span>
 
     <span class="n">train</span> <span class="o">=</span> <span class="n">SPIKETRAIN_FUNCS</span><span class="p">[</span><span class="n">method</span><span class="p">](</span><span class="n">spike_param</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -257,7 +260,7 @@
 <span class="sd">    n_samples : int</span>
 <span class="sd">        The number of samples to simulate.</span>
 <span class="sd">    fs : int, optional, default: 1000</span>
-<span class="sd">        The sampling rate.</span>
+<span class="sd">        The sampling rate, in Hz.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>

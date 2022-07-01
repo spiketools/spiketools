@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.utils.data.get_range &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.plts.spatial.plot_position_by_time &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,22 +94,26 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-utils-data-get-range">
-<h1>spiketools.utils.data.get_range<a class="headerlink" href="#spiketools-utils-data-get-range" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-plts-spatial-plot-position-by-time">
+<h1>spiketools.plts.spatial.plot_position_by_time<a class="headerlink" href="#spiketools-plts-spatial-plot-position-by-time" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.utils.data.get_range">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.data.</span></span><span class="sig-name descname"><span class="pre">get_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/data.html#get_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.data.get_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the range of an array of data.</p>
+<dt class="sig sig-object py" id="spiketools.plts.spatial.plot_position_by_time">
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spatial.</span></span><span class="sig-name descname"><span class="pre">plot_position_by_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spatial.html#plot_position_by_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spatial.plot_position_by_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the position across time for a single dimension.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">array</span></dt><dd><p>Array of numerical data.</p>
+<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Time values associated with the position values.</p>
 </dd>
-</dl>
+<dt><strong>positions</strong><span class="classifier">1d array</span></dt><dd><p>Position values, for a single dimension.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>min, max</strong><span class="classifier">float</span></dt><dd><p>Minimum and maximum values of the data array.</p>
+<dt><strong>spike_times</strong><span class="classifier">1d array, optional</span></dt><dd><p>Timepoints at which spikes occur.</p>
+</dd>
+<dt><strong>spike_positions</strong><span class="classifier">1d array, optional</span></dt><dd><p>Position values of spikes, to indicate on the plot.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
+</dd>
+<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.</p>
 </dd>
 </dl>
 </dd>

@@ -94,9 +94,12 @@
     <div class="body col-md-12 content" role="main">
       
   <h1>Source code for spiketools.measures.conversions</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Functions to convert spiking data.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Functions to convert spiking data to different representations.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">smooth_data</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_time_bins</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -109,9 +112,9 @@
 <span class="sd">    spikes : 1d array</span>
 <span class="sd">        Spike times, in seconds.</span>
 <span class="sd">    fs : int, optional, default: 1000</span>
-<span class="sd">        The sampling rate to use for the computed spike train.</span>
+<span class="sd">        The sampling rate to use for the computed spike train, in Hz.</span>
 <span class="sd">    length : float, optional</span>
-<span class="sd">        The total length of the spike train to create.</span>
+<span class="sd">        The total length of the spike train to create, in seconds.</span>
 <span class="sd">        If not provided, the length is set at the maximum timestamp in the input spike times.</span>
 
 <span class="sd">    Returns</span>
@@ -146,7 +149,7 @@
 <span class="sd">    train : 1d array</span>
 <span class="sd">        Spike train.</span>
 <span class="sd">    fs : int, optional, default: 1000</span>
-<span class="sd">        The sampling rate of the computed spike train.</span>
+<span class="sd">        The sampling rate of the computed spike train, in Hz.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -202,6 +205,39 @@
         <span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">offset</span><span class="p">]),</span> <span class="n">spikes</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">spikes</span></div>
+
+
+<div class="viewcode-block" id="convert_times_to_rates"><a class="viewcode-back" href="../../../generated/spiketools.measures.conversions.convert_times_to_rates.html#spiketools.measures.conversions.convert_times_to_rates">[docs]</a><span class="k">def</span> <span class="nf">convert_times_to_rates</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">trange</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert spike times to continuous firing rate.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Spike times.</span>
+<span class="sd">    bins : float or 1d array</span>
+<span class="sd">        The binning to apply to the spiking data.</span>
+<span class="sd">        If float, the length of each bin.</span>
+<span class="sd">        If array, precomputed bin definitions.</span>
+<span class="sd">    trange : list of [float, float]</span>
+<span class="sd">        Time range, in seconds, to create the binned firing rate across.</span>
+<span class="sd">        Only used if `bins` is a float.</span>
+<span class="sd">    smooth : float, optional</span>
+<span class="sd">        If provided, the kernel to use to smooth the continuous firing rate.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cfr : 1d array</span>
+<span class="sd">        Continuous firing rate, compute across time bins.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_time_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">spikes</span><span class="p">,</span> <span class="n">trange</span><span class="p">)</span>
+    <span class="n">bin_counts</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="n">cfr</span> <span class="o">=</span> <span class="n">bin_counts</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bins</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">smooth</span><span class="p">:</span>
+        <span class="n">cfr</span> <span class="o">=</span> <span class="n">smooth_data</span><span class="p">(</span><span class="n">cfr</span><span class="p">,</span> <span class="n">smooth</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cfr</span></div>
 </pre></div>
 
     </div>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>spiketools.utils.extract &#8212; spiketools 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          spiketools</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../api.html">API</a></li>
+                <li><a href="../../../glossary.html">Glossary</a></li>
+                <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../../../auto_examples/index.html">Examples</a></li>
+                <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for spiketools.utils.extract</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Utility functions for extracting data segments of interest.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1">###################################################################################################</span>
+<span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="get_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_range.html#spiketools.utils.extract.get_range">[docs]</a><span class="k">def</span> <span class="nf">get_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a specified range from a vector of data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : 1d array</span>
+<span class="sd">        Array of data.</span>
+<span class="sd">    min_value, max_value : float, optional</span>
+<span class="sd">        Mininum and/or maximum value to extract from the input array.</span>
+<span class="sd">    reset : float, optional</span>
+<span class="sd">        If provided, resets the values in the data array by the given reset value.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : 1d array</span>
+<span class="sd">        Data array, restricted to desired time range.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get all values greater than a specific value:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([5, 10, 15, 20, 25, 30])</span>
+<span class="sd">    &gt;&gt;&gt; get_range(data, min_value=10, max_value=None)</span>
+<span class="sd">    array([10, 15, 20, 25, 30])</span>
+
+<span class="sd">    Get all values less than a specific value:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([5, 10, 15, 20, 25, 30])</span>
+<span class="sd">    &gt;&gt;&gt; get_range(data, min_value=None, max_value=25)</span>
+<span class="sd">    array([ 5, 10, 15, 20, 25])</span>
+
+<span class="sd">    Get a specified range from a data array:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([5, 10, 15, 20, 25, 30])</span>
+<span class="sd">    &gt;&gt;&gt; get_range(data, min_value=10, max_value=20)</span>
+<span class="sd">    array([10, 15, 20])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">min_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">min_value</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">max_value</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">data</span> <span class="o">&gt;=</span> <span class="n">min_value</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span> <span class="o">&lt;=</span> <span class="n">max_value</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">reset</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="get_value_by_time"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_value_by_time.html#spiketools.utils.extract.get_value_by_time">[docs]</a><span class="k">def</span> <span class="nf">get_value_by_time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the value for a data array at a specific time point.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    times : 1d array</span>
+<span class="sd">        Time indices.</span>
+<span class="sd">    values : ndarray</span>
+<span class="sd">        Data values, corresponding to the times vector.</span>
+<span class="sd">    timepoint : float</span>
+<span class="sd">        Time value to extract.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        The threshold that the closest time value must be within to be returned.</span>
+<span class="sd">        If the temporal distance is greater than the threshold, output is NaN.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : float of 1d array</span>
+<span class="sd">        The value at the requested time point.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">times</span><span class="p">[:]</span> <span class="o">-</span> <span class="n">timepoint</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">timepoint</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">values</span><span class="p">[:]</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="get_values_by_times"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_values_by_times.html#spiketools.utils.extract.get_values_by_times">[docs]</a><span class="k">def</span> <span class="nf">get_values_by_times</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoints</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get values from a data array for a set of specified time points.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    times : 1d array</span>
+<span class="sd">        Time indices.</span>
+<span class="sd">    values : ndarray</span>
+<span class="sd">        Data values, corresponding to the times vector.</span>
+<span class="sd">    timepoints : 1d array</span>
+<span class="sd">        The time indices to extract corresponding values for.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        The threshold that the closest time value must be within to be returned.</span>
+<span class="sd">        If the temporal distance is greater than the threshold, output is NaN.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    outputs : 1d array</span>
+<span class="sd">        The extracted vaues for the requested time points.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">timepoints</span><span class="p">)])</span>
+    <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">timepoint</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">timepoints</span><span class="p">):</span>
+        <span class="n">outputs</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_value_by_time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">outputs</span></div>
+
+
+<div class="viewcode-block" id="get_value_by_time_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_value_by_time_range.html#spiketools.utils.extract.get_value_by_time_range">[docs]</a><span class="k">def</span> <span class="nf">get_value_by_time_range</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract data for a requested time range.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    times : 1d array</span>
+<span class="sd">        Time indices.</span>
+<span class="sd">    values : ndarray</span>
+<span class="sd">        Data values, corresponding to the times indices.</span>
+<span class="sd">    t_min, t_max : float</span>
+<span class="sd">        Time range to extract.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    times : 1d array</span>
+<span class="sd">        Selected time indices.</span>
+<span class="sd">    out : ndarray</span>
+<span class="sd">        Selected values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">select</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">times</span><span class="p">[:]</span> <span class="o">&gt;=</span> <span class="n">t_min</span><span class="p">,</span> <span class="n">times</span><span class="p">[:]</span> <span class="o">&lt;=</span> <span class="n">t_max</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">values</span><span class="p">[:]</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">select</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">times</span><span class="p">[</span><span class="n">select</span><span class="p">],</span> <span class="n">out</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

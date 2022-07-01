@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.utils.data.restrict_range &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.utils.extract.get_range &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,18 +94,18 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-utils-data-restrict-range">
-<h1>spiketools.utils.data.restrict_range<a class="headerlink" href="#spiketools-utils-data-restrict-range" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-utils-extract-get-range">
+<h1>spiketools.utils.extract.get_range<a class="headerlink" href="#spiketools-utils-extract-get-range" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.utils.data.restrict_range">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.data.</span></span><span class="sig-name descname"><span class="pre">restrict_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/data.html#restrict_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.data.restrict_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Restrict a vector of data to a specified range.</p>
+<dt class="sig sig-object py" id="spiketools.utils.extract.get_range">
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.extract.</span></span><span class="sig-name descname"><span class="pre">get_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/extract.html#get_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.extract.get_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a specified range from a vector of data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">1d array</span></dt><dd><p>Array of data.</p>
 </dd>
-<dt><strong>min_value, max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Mininum and/or maximum value to restrict input array to.</p>
+<dt><strong>min_value, max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Mininum and/or maximum value to extract from the input array.</p>
 </dd>
 <dt><strong>reset</strong><span class="classifier">float, optional</span></dt><dd><p>If provided, resets the values in the data array by the given reset value.</p>
 </dd>
@@ -119,21 +119,21 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Select all values greater than a specific value:</p>
+<p>Get all values greater than a specific value:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">restrict_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="go">array([10, 15, 20, 25, 30])</span>
 </pre></div>
 </div>
-<p>Select all values less than a specific value:</p>
+<p>Get all values less than a specific value:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">restrict_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 <span class="go">array([ 5, 10, 15, 20, 25])</span>
 </pre></div>
 </div>
-<p>Restrict a data array to a specific range:</p>
+<p>Get a specified range from a data array:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">restrict_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="go">array([10, 15, 20])</span>
 </pre></div>
 </div>

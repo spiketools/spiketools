@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.plts.trials.plot_rasters &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.spatial.utils.compute_pos_ranges &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,34 +94,41 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-plts-trials-plot-rasters">
-<h1>spiketools.plts.trials.plot_rasters<a class="headerlink" href="#spiketools-plts-trials-plot-rasters" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-spatial-utils-compute-pos-ranges">
+<h1>spiketools.spatial.utils.compute_pos_ranges<a class="headerlink" href="#spiketools-spatial-utils-compute-pos-ranges" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.plts.trials.plot_rasters">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.trials.</span></span><span class="sig-name descname"><span class="pre">plot_rasters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vshade</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/trials.html#plot_rasters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.trials.plot_rasters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot rasters across multiple trials.</p>
+<dt class="sig sig-object py" id="spiketools.spatial.utils.compute_pos_ranges">
+<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.utils.</span></span><span class="sig-name descname"><span class="pre">compute_pos_ranges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/utils.html#compute_pos_ranges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.utils.compute_pos_ranges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the range of positions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">list of list of float</span></dt><dd><p>Spike times per trial.
-Multiple conditions can also be passed in.</p>
+<dt><strong>position</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Position data.</p>
 </dd>
-<dt><strong>vline</strong><span class="classifier">float or list, optional</span></dt><dd><p>Position(s) to draw a vertical line. If None, no line is drawn.</p>
+</dl>
 </dd>
-<dt><strong>colors</strong><span class="classifier">str or list of str, optional</span></dt><dd><p>Color(s) to plot the raster ticks.
-If more than one, should be the length of data.</p>
-</dd>
-<dt><strong>vshade</strong><span class="classifier">list of float, optional</span></dt><dd><p>Vertical region of the plot to shade in.</p>
-</dd>
-<dt><strong>show_axis</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to show the axis around the plot.</p>
-</dd>
-<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
-</dd>
-<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ranges</strong><span class="classifier">list of float or list of list of float</span></dt><dd><p>Ranges for each dimension in the spatial data.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Compute the 2D position ranges for:
+(x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5, 9).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mf">6.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_pos_ranges</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+<span class="go">[[1.5, 5.0], [6.5, 9.0]]</span>
+</pre></div>
+</div>
+<p>Compute the 1D position range for:
+x = 1.5, 2.5, 3.5, 5.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_pos_ranges</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+<span class="go">[1.5, 5.0]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

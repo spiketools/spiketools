@@ -98,12 +98,12 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">get_range</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">compute_range</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="get_pos_ranges"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.get_pos_ranges.html#spiketools.spatial.utils.get_pos_ranges">[docs]</a><span class="k">def</span> <span class="nf">get_pos_ranges</span><span class="p">(</span><span class="n">position</span><span class="p">):</span>
+<div class="viewcode-block" id="compute_pos_ranges"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_pos_ranges.html#spiketools.spatial.utils.compute_pos_ranges">[docs]</a><span class="k">def</span> <span class="nf">compute_pos_ranges</span><span class="p">(</span><span class="n">position</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute the range of positions.</span>
 
 <span class="sd">    Parameters</span>
@@ -118,28 +118,28 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Get 2D position ranges for:</span>
+<span class="sd">    Compute the 2D position ranges for:</span>
 <span class="sd">    (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5, 9).</span>
 
 <span class="sd">    &gt;&gt;&gt; position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])</span>
-<span class="sd">    &gt;&gt;&gt; get_pos_ranges(position)</span>
+<span class="sd">    &gt;&gt;&gt; compute_pos_ranges(position)</span>
 <span class="sd">    [[1.5, 5.0], [6.5, 9.0]]</span>
 
-<span class="sd">    Get 1D position ranges for:</span>
+<span class="sd">    Compute the 1D position range for:</span>
 <span class="sd">    x = 1.5, 2.5, 3.5, 5.</span>
 
 <span class="sd">    &gt;&gt;&gt; position = np.array([1.5, 2.5, 3.5, 5])</span>
-<span class="sd">    &gt;&gt;&gt; get_pos_ranges(position)</span>
+<span class="sd">    &gt;&gt;&gt; compute_pos_ranges(position)</span>
 <span class="sd">    [1.5, 5.0]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">ranges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">get_range</span><span class="p">(</span><span class="n">position</span><span class="p">)]</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">compute_range</span><span class="p">(</span><span class="n">position</span><span class="p">)]</span>
 
     <span class="k">elif</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">ranges</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">position</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">ranges</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="o">*</span><span class="n">get_range</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="n">dim</span><span class="p">,</span> <span class="p">:])])</span>
+            <span class="n">ranges</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="o">*</span><span class="n">compute_range</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="n">dim</span><span class="p">,</span> <span class="p">:])])</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Position input should be 1d or 2d.&#39;</span><span class="p">)</span>
@@ -147,12 +147,12 @@
     <span class="k">return</span> <span class="n">ranges</span></div>
 
 
-<div class="viewcode-block" id="get_bin_width"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.get_bin_width.html#spiketools.spatial.utils.get_bin_width">[docs]</a><span class="k">def</span> <span class="nf">get_bin_width</span><span class="p">(</span><span class="n">bins</span><span class="p">):</span>
+<div class="viewcode-block" id="compute_bin_width"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_bin_width.html#spiketools.spatial.utils.compute_bin_width">[docs]</a><span class="k">def</span> <span class="nf">compute_bin_width</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute bin width from a set of bin edges.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    bins : 1d array</span>
+<span class="sd">    bin_edges : 1d array</span>
 <span class="sd">        Bin edges.</span>
 
 <span class="sd">    Returns</span>
@@ -161,7 +161,7 @@
 <span class="sd">        The bin width.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bins</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 </pre></div>
 
     </div>

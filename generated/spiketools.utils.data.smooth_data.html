@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.utils.data.get_value_by_time &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.utils.data.smooth_data &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -94,30 +94,31 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-utils-data-get-value-by-time">
-<h1>spiketools.utils.data.get_value_by_time<a class="headerlink" href="#spiketools-utils-data-get-value-by-time" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-utils-data-smooth-data">
+<h1>spiketools.utils.data.smooth_data<a class="headerlink" href="#spiketools-utils-data-smooth-data" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.utils.data.get_value_by_time">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.data.</span></span><span class="sig-name descname"><span class="pre">get_value_by_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/data.html#get_value_by_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.data.get_value_by_time" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the value for a data array at a specific time point.</p>
+<dt class="sig sig-object py" id="spiketools.utils.data.smooth_data">
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.data.</span></span><span class="sig-name descname"><span class="pre">smooth_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/data.html#smooth_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.data.smooth_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Smooth an array of data, using a gaussian kernel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Time indices.</p>
+<dt><strong>data</strong><span class="classifier">ndarray</span></dt><dd><p>Data to smooth.</p>
 </dd>
-<dt><strong>values</strong><span class="classifier">ndarray</span></dt><dd><p>Data values, corresponding to the times vector.</p>
-</dd>
-<dt><strong>time</strong><span class="classifier">float</span></dt><dd><p>Time value to extract</p>
+<dt><strong>sigma</strong><span class="classifier">float</span></dt><dd><p>Standard deviation of the gaussian kernel to apply for smoothing.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>out</dt><dd><p>The value at the requested time point.</p>
+<dt><strong>data</strong><span class="classifier">2d array</span></dt><dd><p>The smoothed data.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>This function is applied on a copy of the data (to not change the original).
+Any NaN values will be set as 0 for smoothing purposes.</p>
 </dd></dl>
 
 </section>
