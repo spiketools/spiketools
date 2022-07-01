@@ -28,9 +28,9 @@ This tutorial primarily covers the ``spiketools.measures`` module.
 import numpy as np
 
 # Import measure related functions
-from spiketools.measures.measures import (compute_firing_rate, compute_isis, compute_cv, 
+from spiketools.measures.measures import (compute_firing_rate, compute_isis, compute_cv,
                                           compute_fano_factor)
-from spiketools.measures.conversions import (convert_times_to_train, convert_train_to_times, 
+from spiketools.measures.conversions import (convert_times_to_train, convert_train_to_times,
                                              convert_isis_to_times)
 from spiketools.plts.spikes import plot_isis
 from spiketools.sim.train import sim_spiketrain_prob
@@ -44,15 +44,17 @@ from spiketools.plts.trials import plot_rasters
 # First, we estimate spike rate from a vector of spike times, in seconds.
 #
 # Here, spike time refers to a representation of spiking activity based on listing the times at
-# which spikes occur and spike rate measures how fast an individual neuron is firing. Examples of spike
-# train and spike times are provided below.
+# which spikes occur and spike rate measures how fast an individual neuron is firing.
+# Examples of spike train and spike times are provided below.
 #
 
 ###################################################################################################
 
-# Generate a binary spike train with sampling rate of 1000 and its corresponding spike times in seconds
+# Generate a spike train with sampling rate of 1000
 p_spiking = np.random.random(100)
 spike_train = sim_spiketrain_prob(p_spiking)
+
+# Convert the spike train to spike times
 spike_times = convert_train_to_times(spike_train)
 
 # Print the first 20 spikes in the binary spike train
@@ -83,7 +85,8 @@ plot_isis(isis, bins=None, range=None, density=False, ax=None)
 
 ###################################################################################################
 #
-# Next, we can further compute the coefficient of variation of interval-spike intervals we just calculated.
+# Next, we can further compute the coefficient of variation of interval-spike
+# intervals we just calculated.
 #
 
 ###################################################################################################
@@ -94,7 +97,8 @@ print('Coefficient of variation:', cv)
 
 ###################################################################################################
 #
-# Finally, we can compute the fano factor, which is a measure of the variability of unit firing, of a spike train.
+# Finally, we can compute the fano factor, which is a measure of the variability
+# of unit firing, of a spike train.
 #
 
 ###################################################################################################
@@ -108,13 +112,13 @@ print('Fano factor: {:1.2f}'.format(fano))
 # Convert spiking data
 # ~~~~~~~~~~~~~~~~~~~~
 #
-# First, we convert a vector of spike times in seconds to a binary spike train, a representation 
+# First, we convert a vector of spike times in seconds to a binary spike train, a representation
 # of spiking activity in which each 1 represents a spike.
 #
 
 ###################################################################################################
 
-# Convert a vector of spike times in seconds to a binary spike train using sampling rate of 1000 
+# Convert a vector of spike times in seconds to a binary spike train using sampling rate of 1000
 spike_train = convert_times_to_train(spike_times, fs=1000)
 
 # Print the first 20 spikes in the binary spike train
@@ -145,3 +149,6 @@ spike_times = convert_isis_to_times(isis, offset=0, add_offset=True)
 
 # Plot the spike times
 plot_rasters(spike_times)
+
+###################################################################################################
+
