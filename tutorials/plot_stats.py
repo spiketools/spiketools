@@ -34,7 +34,7 @@ from spiketools.stats.permutations import compute_surrogate_stats
 from spiketools.stats.anova import create_dataframe, fit_anova
 
 # Import spatial analysis functions
-from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignment, 
+from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignment,
                                           compute_bin_firing)
 
 # Import plot function
@@ -42,7 +42,7 @@ from spiketools.plts.trials import plot_rasters
 from spiketools.plts.stats import plot_surrogates
 
 # Import measures & utilities
-from spiketools.utils.data import restrict_range
+from spiketools.utils.extract import get_range
 from spiketools.measures.measures import compute_firing_rate
 
 ###################################################################################################
@@ -60,10 +60,10 @@ spikes = np.unique((spikes*1000).astype(int)) / 1000
 # surrogates of our original spikes.
 #
 # The approaches we will try are:
-# - `shuffle_isis`: shuffle spike times using permuted inter-spike intervals (isis).
-# - `shuffle_bins`: shuffle spikes by creating bins of varying length and then circularly shuffling within those bins.
-# - `shuffle_poisson`: shuffle spikes based on a Poisson distribution.
-# - `shuffle_circular`: shuffle spikes by circularly shifting the spike train.
+# - `shuffle_isis`: shuffle spike times using permuted inter-spike intervals (isis)
+# - `shuffle_bins`: shuffle spikes by circularly shuffling bins of varying length
+# - `shuffle_poisson`: shuffle spikes based on a Poisson distribution
+# - `shuffle_circular`: shuffle spikes by circularly shifting the spike train
 #
 
 ###################################################################################################
@@ -138,10 +138,10 @@ spikes_pre_post = np.append(spikes_pre, spikes_post)
 ###################################################################################################
 
 # Get firing rate (spikes/s) post-event (on the final time_post seconds)
-fr_post = compute_firing_rate(restrict_range(spikes_pre_post, min_value=time_pre, max_value=None))
+fr_post = compute_firing_rate(get_range(spikes_pre_post, min_value=time_pre, max_value=None))
 
 # Get firing rate (spikes/s) pre-event (on the initial time_pre seconds)
-fr_pre = compute_firing_rate(restrict_range(spikes_pre_post, min_value=None, max_value=time_pre))
+fr_pre = compute_firing_rate(get_range(spikes_pre_post, min_value=None, max_value=time_pre))
 
 # Get firing rate difference between post and pre
 # This will be the value we compute the empirical p-value and the z-score for
@@ -157,10 +157,10 @@ shuff_spikes_pre_post = shuffle_isis(spikes_pre_post, n_shuffles=n_shuff)
 # This will be the surrogate distribution used to compute the empirical p-value and the z-score
 surr = np.zeros((n_shuff,))
 for ind in range(n_shuff):
-    fr_post = (compute_firing_rate(restrict_range(shuff_spikes_pre_post[ind, :],
-                                                  min_value=time_pre, max_value=None)))
-    fr_pre = (compute_firing_rate(restrict_range(shuff_spikes_pre_post[ind, :],
-                                                 min_value=None, max_value=time_pre)))
+    fr_post = (compute_firing_rate(get_range(shuff_spikes_pre_post[ind, :],
+                                             min_value=time_pre, max_value=None)))
+    fr_pre = (compute_firing_rate(get_range(shuff_spikes_pre_post[ind, :],
+                                            min_value=None, max_value=time_pre)))
     surr[ind] = fr_post - fr_pre
 
 print(np.min(surr), np.max(surr))
@@ -182,10 +182,10 @@ plot_surrogates(surr, fr_diff, pval)
 # 3. Compute f-value from spiking data using ANOVA
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# First generate some spiking data. The simulated spike train has 8 seconds of data acorss trials 
-# and has a firing rate betwwen 2-10 Hz, assumed 1k Hz sampling rate. 
-# Next, reorganize the computed firing rate (per trial, per bin) into dataframes.  
-# Lastly, compute the f-value from the generated spiking data using ANOVA. 
+# First generate some spiking data. The simulated spike train has 8 seconds of data across trials
+# and has a firing rate between 2-10 Hz, assumed 1k Hz sampling rate.
+# Next, reorganize the computed firing rate (per trial, per bin) into dataframes.
+# Lastly, compute the f-value from the generated spiking data using ANOVA.
 #
 # This method can also be applied to calculate the f-value from surrogates using ANOVA.
 ###################################################################################################
@@ -202,7 +202,7 @@ n_bins = bins[0]*bins[1]
 # Compute spatial bin edges
 x_edges, y_edges = compute_bin_edges(position, bins)
 
-# Set number of trials 
+# Set number of trials
 n_trials = 10
 bin_firing_all = np.zeros([n_trials,n_bins])
 
@@ -218,12 +218,14 @@ for ind in range(10):
     # Compute firing rate in each bin
     bin_firing = (compute_bin_firing(bins=bins, xbins=spike_x, ybins=spike_y)).flatten()
     bin_firing_all[ind,:] = bin_firing
-    
+
 ###################################################################################################
 
-# Organize spiking data into dataframe 
+# Organize spiking data into dataframe
 df = create_dataframe(bin_firing_all, ['bin', 'fr'], drop_na=True)
 
 # Compute f_value from spiking data using ANOVA
 f_val = fit_anova(df, 'fr ~ C(bin)', 'C(bin)', return_type='f_val', anova_type=2)
 print('F-value:', f_val)
+
+###################################################################################################

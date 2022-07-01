@@ -62,7 +62,7 @@ Trials
 
 Measures related to trial-epoched data.
 
-.. currentmodule:: spiketools.measures.circular
+.. currentmodule:: spiketools.measures.trials
 .. autosummary::
    :toctree: generated/
 
@@ -340,10 +340,10 @@ Trials
 .. autosummary::
    :toctree: generated/
 
-  epoch_spikes_by_event
-  epoch_spikes_by_range
-  epoch_data_by_event
-  epoch_data_by_range
+   epoch_spikes_by_event
+   epoch_spikes_by_range
+   epoch_data_by_event
+   epoch_data_by_range
 
 Utils
 ~~~~~
