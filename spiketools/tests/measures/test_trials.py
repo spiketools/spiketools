@@ -30,7 +30,6 @@ def test_compute_pre_post_averages():
     frs2 = np.array([2, 4, 6, 2, 6])
 
     avg_pre, avg_post = compute_pre_post_averages(frs1, frs2)
-    assert isinstance(avg_pre, float)
-    assert isinstance(avg_post, float)
+    assert all(isinstance(param, float) for param in [avg_pre, avg_post])
     assert avg_pre == 2.0
     assert avg_post == 4.0
