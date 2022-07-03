@@ -5,7 +5,7 @@ from copy import deepcopy
 import numpy as np
 import matplotlib.pyplot as plt
 
-from spiketools.utils.data import smooth_data
+from spiketools.utils.data import smooth_data, compute_range
 from spiketools.plts.annotate import _add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
@@ -176,3 +176,30 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
     if cbar:
         colorbar = plt.colorbar(im)
         colorbar.outline.set_visible(False)
+
+
+def create_heat_title(label, data, stat=None, p_val=None):
+    """Create a standardized title for an heatmap, listing the data range.
+
+    Parameters
+    ----------
+    label : str
+        Label to add to the beginning of the title.
+    data : 2d array
+        The array of data that is plotted, used to compute the data range.
+    stat, p_val : float, optional
+        A statistical test value and p statistic to report related to the heatmap.
+
+    Returns
+    -------
+    title : str
+        Title for the plot.
+    """
+
+    if stat is None:
+        title = '{} - ({:1.2f}-{:1.2f})'.format(label, *compute_range(data))
+    else:
+        title = '{} - ({:1.2f}-{:1.2f}) \n z-{:1.2f}, p-{:1.2f}'.format(\
+            label, *compute_range(data), stat, p_val)
+
+    return title

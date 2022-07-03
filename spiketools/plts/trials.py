@@ -127,7 +127,7 @@ def create_trial_title(label, avg_pre, avg_post, t_val=None, p_val=None):
     Parameters
     ----------
     label : str
-
+        Label to add to the beginning of the title.
     avg_pre, avg_post : float
         The average firing rates pre and post event.
     t_val, p_val : float, optional

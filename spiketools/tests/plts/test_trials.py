@@ -46,3 +46,5 @@ def test_create_trial_title():
 
     title2 = create_trial_title('label2', 1.0, 2.0, 2.5, 0.5)
     assert isinstance(title2, str)
+
+    assert title1 != title2
