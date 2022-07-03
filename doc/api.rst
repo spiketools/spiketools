@@ -67,6 +67,8 @@ Measures related to trial-epoched data.
    :toctree: generated/
 
    compute_trial_frs
+   compute_pre_post_rates
+   compute_pre_post_averages
 
 Objects
 -------
@@ -92,13 +94,13 @@ Occupancy
 .. autosummary::
    :toctree: generated/
 
-    compute_nbins
-    compute_bin_edges
-    compute_bin_assignment
-    compute_bin_firing
-    normalize_bin_firing
-    compute_bin_time
-    compute_occupancy
+   compute_nbins
+   compute_bin_edges
+   compute_bin_assignment
+   compute_bin_firing
+   normalize_bin_firing
+   compute_bin_time
+   compute_occupancy
 
 Position
 ~~~~~~~~
@@ -107,10 +109,10 @@ Position
 .. autosummary::
    :toctree: generated/
 
-    compute_distance
-    compute_distances
-    compute_cumulative_distances
-    compute_speed
+   compute_distance
+   compute_distances
+   compute_cumulative_distances
+   compute_speed
 
 Information
 ~~~~~~~~~~~
@@ -119,7 +121,7 @@ Information
 .. autosummary::
    :toctree: generated/
 
-    compute_spatial_information
+   compute_spatial_information
 
 Utilities
 ~~~~~~~~~
@@ -128,8 +130,8 @@ Utilities
 .. autosummary::
    :toctree: generated/
 
-    compute_pos_ranges
-    compute_bin_width
+   compute_pos_ranges
+   compute_bin_width
 
 Statistics
 ----------
@@ -143,7 +145,17 @@ Generators
 .. autosummary::
    :toctree: generated/
 
-    poisson_generator
+   poisson_generator
+
+Trials
+~~~~~~
+
+.. currentmodule:: spiketools.stats.trials
+.. autosummary::
+   :toctree: generated/
+
+   compute_pre_post_ttest
+   compare_pre_post_activity
 
 Shuffle
 ~~~~~~~
@@ -152,11 +164,11 @@ Shuffle
 .. autosummary::
    :toctree: generated/
 
-    shuffle_spikes
-    shuffle_isis
-    shuffle_bins
-    shuffle_poisson
-    shuffle_circular
+   shuffle_spikes
+   shuffle_isis
+   shuffle_bins
+   shuffle_poisson
+   shuffle_circular
 
 Permutations
 ~~~~~~~~~~~~
@@ -165,10 +177,10 @@ Permutations
 .. autosummary::
    :toctree: generated/
 
-    vec_perm
-    compute_surrogate_pvalue
-    compute_surrogate_zscore
-    compute_surrogate_stats
+   vec_perm
+   compute_surrogate_pvalue
+   compute_surrogate_zscore
+   compute_surrogate_stats
 
 ANOVA
 ~~~~~
@@ -177,8 +189,8 @@ ANOVA
 .. autosummary::
    :toctree: generated/
 
-    create_dataframe
-    fit_anova
+   create_dataframe
+   fit_anova
 
 Simulations
 -----------
@@ -206,10 +218,10 @@ Spike Trains
 .. autosummary::
    :toctree: generated/
 
-    sim_spiketrain
-    sim_spiketrain_prob
-    sim_spiketrain_binom
-    sim_spiketrain_poisson
+   sim_spiketrain
+   sim_spiketrain_prob
+   sim_spiketrain_binom
+   sim_spiketrain_poisson
 
 Utilities
 ~~~~~~~~~
@@ -218,8 +230,8 @@ Utilities
 .. autosummary::
    :toctree: generated/
 
-    apply_refractory_times
-    apply_refractory_train
+   apply_refractory_times
+   apply_refractory_train
 
 Plots
 -----
@@ -233,11 +245,11 @@ Spikes
 .. autosummary::
    :toctree: generated/
 
-    plot_waveform
-    plot_waveforms3d
-    plot_waveform_density
-    plot_isis
-    plot_firing_rates
+   plot_waveform
+   plot_waveforms3d
+   plot_waveform_density
+   plot_isis
+   plot_firing_rates
 
 Space
 ~~~~~
@@ -246,9 +258,9 @@ Space
 .. autosummary::
    :toctree: generated/
 
-    plot_positions
-    plot_position_by_time
-    plot_heatmap
+   plot_positions
+   plot_position_by_time
+   plot_heatmap
 
 Task
 ~~~~
@@ -265,8 +277,8 @@ Trials
 .. autosummary::
    :toctree: generated/
 
-    plot_rasters
-    plot_rate_by_time
+   plot_rasters
+   plot_rate_by_time
 
 Stats
 ~~~~~
@@ -275,7 +287,7 @@ Stats
 .. autosummary::
    :toctree: generated/
 
-    plot_surrogates
+   plot_surrogates
 
 Data
 ~~~~
