@@ -68,11 +68,11 @@ def compute_surrogate_pvalue(value, surrogates):
 
     Examples
     --------
-    Compute empirical p-value of value given surrogates is 100 samples from normal distribution.
+    Compute empirical p-value for a computed value compared to a distribution of surrogates:
 
     >>> value = 0.9
     >>> surrogates = np.random.normal(size=100)
-    >>> pval = compute_empirical_pvalue(value, surrogates)
+    >>> pval = compute_surrogate_pvalue(value, surrogates)
     """
 
     return sum(surrogates > value) / len(surrogates)
@@ -95,11 +95,11 @@ def compute_surrogate_zscore(value, surrogates):
 
     Examples
     --------
-    Compute z-score of value given surrogates is 100 samples from normal distribution.
+    Compute z-score for a computed value compared to a distribution of surrogates:
 
     >>> value = 0.9
     >>> surrogates = np.random.normal(size=100)
-    >>> zscore = zscore_to_surrogates(value, surrogates)
+    >>> zscore = compute_surrogate_zscore(value, surrogates)
     """
 
     return zmap(value, surrogates)[0]
@@ -125,6 +125,14 @@ def compute_surrogate_stats(data_value, surrogates, plot=False, verbose=False, *
         The empirical p-value of the test value, as compared to the surrogates.
     z_score : float
         The z-score of the test value, as compared to the surrogates.
+
+    Examples
+    --------
+    Compute measures for a computed value compared to a distribution of surrogates:
+
+    >>> value = 0.9
+    >>> surrogates = np.random.normal(size=100)
+    >>> p_val, z_score = compute_surrogate_stats(value, surrogates)
     """
 
     p_val = compute_surrogate_pvalue(data_value, surrogates)
