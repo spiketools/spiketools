@@ -199,7 +199,7 @@ def create_heat_title(label, data, stat=None, p_val=None):
     if stat is None:
         title = '{} - ({:1.2f}-{:1.2f})'.format(label, *compute_range(data))
     else:
-        title = '{} - ({:1.2f}-{:1.2f}) \n z-{:1.2f}, p-{:1.2f}'.format(\
+        title = '{} - ({:1.2f}-{:1.2f}) \n stat: {:1.2f}, p: {:1.2f}'.format(\
             label, *compute_range(data), stat, p_val)
 
     return title
