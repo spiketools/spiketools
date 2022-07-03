@@ -166,8 +166,8 @@ Permutations
    :toctree: generated/
 
     vec_perm
-    compute_empirical_pvalue
-    zscore_to_surrogates
+    compute_surrogate_pvalue
+    compute_surrogate_zscore
     compute_surrogate_stats
 
 ANOVA

@@ -51,7 +51,7 @@ def vec_perm(data, n_perms=1000):
     return perms
 
 
-def compute_empirical_pvalue(value, surrogates):
+def compute_surrogate_pvalue(value, surrogates):
     """Compute the empirical p-value from a distribution of surrogates.
 
     Parameters
@@ -78,8 +78,8 @@ def compute_empirical_pvalue(value, surrogates):
     return sum(surrogates > value) / len(surrogates)
 
 
-def zscore_to_surrogates(value, surrogates):
-    """Z-score a computed value relative to a distribution of surrogates.
+def compute_surrogate_zscore(value, surrogates):
+    """Compute the z-score of a real data value compared to a distribution of surrogates.
 
     Parameters
     ----------
@@ -127,8 +127,8 @@ def compute_surrogate_stats(data_value, surrogates, plot=False, verbose=False, *
         The z-score of the test value, as compared to the surrogates.
     """
 
-    p_val = compute_empirical_pvalue(data_value, surrogates)
-    z_score = zscore_to_surrogates(data_value, surrogates)
+    p_val = compute_surrogate_pvalue(data_value, surrogates)
+    z_score = compute_surrogate_zscore(data_value, surrogates)
 
     if plot:
         plot_surrogates(surrogates, data_value, p_val, **plt_kwargs)
