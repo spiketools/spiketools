@@ -40,6 +40,11 @@ def tspikes():
                     5., 5.5, 5.75, 6., 7., 7.5, 8.])
 
 @pytest.fixture(scope='session')
+def ttrial_spikes():
+
+    yield np.array([-0.75, -0.5, -0.25, 0.25, 0.5, 0.55, 0.6, 0.75, 0.80, 0.90])
+
+@pytest.fixture(scope='session')
 def twaveform():
 
     yield np.array([0, 0, 0, 1, 2, 3, 4, 5, 3, 1, 0, 0])
