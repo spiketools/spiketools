@@ -2,6 +2,7 @@
 
 import numpy as np
 
+from spiketools.utils.extract import get_range
 from spiketools.utils.select import get_avg_func
 from spiketools.utils.checks import check_time_bins
 from spiketools.measures.measures import compute_firing_rate
@@ -61,6 +62,33 @@ def compute_pre_post_rates(trial_spikes, pre_window, post_window):
     frs_post = np.array([compute_firing_rate(trial, *post_window) for trial in trial_spikes])
 
     return frs_pre, frs_post
+
+
+def compute_segment_frs(spikes, segments):
+    """Compute firing rate across trial segments.
+
+    Parameters
+    ----------
+    spikes : 1d array or list of 1d array
+        Spike times. Can be single array, or list of spike times per trial.
+    segments : 2d array
+        Time definitions of the segments, per trial, used as time bins.
+        Should have shape: [n_trials, n_segments + 1].
+
+    Returns
+    -------
+    frs : 2d array
+        Firing rate per trial, per segment.
+    """
+
+    if not isinstance(spikes, list):
+        spikes = [get_range(spikes, segment[0], segment[-1]) for segment in segments]
+
+    frs = np.zeros([segments.shape[0], segments.shape[1] - 1])
+    for ind, (t_spikes, segment) in enumerate(zip(spikes, segments)):
+        frs[ind, :] = convert_times_to_rates(t_spikes, segment)
+
+    return frs
 
 
 def compute_pre_post_averages(frs_pre, frs_post, avg_type='mean'):

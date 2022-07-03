@@ -24,6 +24,22 @@ def test_compute_pre_post_rates(ttrial_spikes):
     frs_pre, frs_post = compute_pre_post_rates(trial_spikes, pre_window, post_window)
     assert len(frs_pre) == len(frs_post) == len(trial_spikes)
 
+def test_compute_segment_frs():
+
+    segments = np.array([[1, 2, 3], [4, 5, 6]])
+    spikes = np.array([0.5, 1.5, 2.5, 4.5, 5.5, 6.5 ])
+    trial_spikes = np.array([[1.5, 2.5], [4.5, 5.5]])
+
+    frs1 = compute_segment_frs(spikes, segments)
+    assert isinstance(frs1, np.ndarray)
+    assert frs1.shape == (segments.shape[0], segments.shape[1] - 1)
+    assert np.array_equal(frs1, np.array([[1, 1], [1, 1]]))
+
+    frs2 = compute_segment_frs(trial_spikes, segments)
+    assert isinstance(frs2, np.ndarray)
+    assert frs2.shape == (segments.shape[0], segments.shape[1] - 1)
+    assert np.array_equal(frs1, frs2)
+
 def test_compute_pre_post_averages():
 
     frs1 = np.array([1, 2, 3, 1, 3])
