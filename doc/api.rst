@@ -67,6 +67,7 @@ Measures related to trial-epoched data.
    :toctree: generated/
 
    compute_trial_frs
+   compute_segment_frs
    compute_pre_post_rates
    compute_pre_post_averages
 
