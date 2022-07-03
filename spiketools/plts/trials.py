@@ -119,3 +119,30 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
 
     if stats:
         _add_significance(stats, sig_level=sig_level, ax=ax)
+
+
+def create_trial_title(label, avg_pre, avg_post, t_val=None, p_val=None):
+    """Create a standardized title for a event-related raster plot.
+
+    Parameters
+    ----------
+    label : str
+
+    avg_pre, avg_post : float
+        The average firing rates pre and post event.
+    t_val, p_val : float, optional
+        The t value and p statistic for a t-test comparing pre and post event firing.
+
+    Returns
+    -------
+    title : str
+        Title for the plot.
+    """
+
+    if t_val is None:
+        title = '{} - Pre: {:1.2f} / Post: {:1.2f}'.format(label, avg_pre, avg_post)
+    else:
+        title = '{} - Pre: {:1.2f} / Post: {:1.2f} (t:{:1.2f}, p:{:1.2f})'.format(\
+            label, avg_pre, avg_post, t_val, p_val)
+
+    return title
