@@ -35,7 +35,7 @@ def create_dataframe(data, columns, drop_na=True):
     df = pd.DataFrame(data, columns=columns)
 
     if drop_na:
-        df.dropna()
+        df = df.dropna()
 
     return df
 
@@ -82,7 +82,7 @@ def create_dataframe_bins(data, columns, drop_na=True):
         df_data = np.stack([trial, xlabels, ylabels, data.flatten()], axis=1)
 
     df_columns.insert(0, 'trial')
-    df = create_dataframe(df_data, df_columns)
+    df = create_dataframe(df_data, df_columns, drop_na=drop_na)
 
     return df
 
