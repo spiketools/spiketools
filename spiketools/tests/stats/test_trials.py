@@ -24,3 +24,10 @@ def test_compare_pre_post_activity(ttrial_spikes):
     avg_pre, avg_post, t_val, p_val = \
         compare_pre_post_activity(trial_spikes, pre_window, post_window)
     assert all(isinstance(param, float) for param in [avg_pre, avg_post, t_val, p_val])
+
+def test_compare_trial_frs(tdata2d):
+
+    stats = compare_trial_frs(tdata2d, tdata2d * 2)
+    assert isinstance(stats, list)
+    assert isinstance(stats[0].statistic, float)
+    assert isinstance(stats[0].pvalue, float)

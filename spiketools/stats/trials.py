@@ -1,6 +1,6 @@
 """Functions for statistically testing trial data."""
 
-from scipy.stats import ttest_rel
+from scipy.stats import ttest_rel, ttest_ind
 
 from spiketools.measures.trials import compute_pre_post_rates, compute_pre_post_averages
 
@@ -53,3 +53,27 @@ def compare_pre_post_activity(trial_spikes, pre_window, post_window, avg_type='m
     t_val, p_val = compute_pre_post_ttest(frs_pre, frs_post)
 
     return avg_pre, avg_post, t_val, p_val
+
+
+def compare_trial_frs(trials1, trials2):
+    """Compare binned firing rates between two sets of trials with independent samples t-tests.
+
+    Parameters
+    ----------
+    trials1, trials2 : 2d array
+        Precomputed firing rates across bins for two different sets of trials.
+        Arrays should be organized as [n_trials, n_bins].
+
+    Returns
+    -------
+    stats : list of Ttest_indResult
+        The statistical results (t-value & p-value) for the t-test, at each bin.
+        Output will have the length of n_bins.
+    """
+
+    assert trials1.shape[1] == trials2.shape[1], 'Organization of trials does not line up'
+
+    nbins = trials1.shape[1]
+    stats = [ttest_ind(trials1[:, bi], trials2[:, bi]) for bi in range(nbins)]
+
+    return stats

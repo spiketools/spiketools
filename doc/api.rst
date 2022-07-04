@@ -158,6 +158,7 @@ Trials
 
    compute_pre_post_ttest
    compare_pre_post_activity
+   compare_trial_frs
 
 Shuffle
 ~~~~~~~
