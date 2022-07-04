@@ -65,6 +65,11 @@ def tdata2d():
     yield np.random.random((5, 2))
 
 @pytest.fixture(scope='session')
+def tdata3d():
+
+    yield np.random.random((2, 3, 4))
+
+@pytest.fixture(scope='session')
 def tunit(tspikes):
 
     yield Unit(uid='UnitID',

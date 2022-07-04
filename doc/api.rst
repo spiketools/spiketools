@@ -191,6 +191,7 @@ ANOVA
    :toctree: generated/
 
    create_dataframe
+   create_dataframe_bins
    fit_anova
 
 Simulations
