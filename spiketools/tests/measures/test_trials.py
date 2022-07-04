@@ -49,3 +49,16 @@ def test_compute_pre_post_averages():
     assert all(isinstance(param, float) for param in [avg_pre, avg_post])
     assert avg_pre == 2.0
     assert avg_post == 4.0
+
+def test_compute_pre_post_diffs():
+
+    frs1 = np.array([1, 2, 3, 1, 3])
+    frs2 = np.array([2, 4, 6, 2, 6])
+
+    diffs_avg = compute_pre_post_diffs(frs1, frs2, average=True)
+    assert isinstance(diffs_avg, float)
+    assert diffs_avg == 2.0
+
+    diffs_all = compute_pre_post_diffs(frs1, frs2, average=False)
+    assert isinstance(diffs_all, np.ndarray)
+    assert np.array_equal(diffs_all, np.array([1, 2, 3, 1, 3]))

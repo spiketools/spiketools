@@ -111,3 +111,31 @@ def compute_pre_post_averages(frs_pre, frs_post, avg_type='mean'):
     avg_post = get_avg_func(avg_type)(frs_post)
 
     return avg_pre, avg_post
+
+
+def compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_type='mean'):
+    """Compute the difference in firing rates between pre & post event windows.
+
+    Parameters
+    ----------
+    frs_pre, frs_post : 1d array
+        Firing rates across pre & post event windows.
+    average : bool, optional, default: True
+        Whether to average
+    avg_type : {'mean', 'median'}
+        The type of averaging function to use.
+
+    Returns
+    -------
+    diffs : float or 1d array
+        The difference between firing in pre & post event windows.
+        If `average` is True, is a float reflecting the average difference.
+        If `average` is False, is an array with trial-by-trial differences.
+    """
+
+    diffs = frs_post - frs_pre
+
+    if average:
+        diffs = get_avg_func(avg_type)(diffs)
+
+    return diffs

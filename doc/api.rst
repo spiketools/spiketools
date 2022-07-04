@@ -70,6 +70,7 @@ Measures related to trial-epoched data.
    compute_segment_frs
    compute_pre_post_rates
    compute_pre_post_averages
+   compute_pre_post_diffs
 
 Objects
 -------
