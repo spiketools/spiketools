@@ -361,6 +361,7 @@ Trials
 
    epoch_spikes_by_event
    epoch_spikes_by_range
+   epoch_data_by_time
    epoch_data_by_event
    epoch_data_by_range
 

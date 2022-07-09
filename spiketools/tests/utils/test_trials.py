@@ -39,6 +39,17 @@ def test_epoch_spikes_by_range():
     assert np.array_equal(trials[0], np.array([5.5, 6.1, 8., 9.25, 9.75]) - starts[0])
     assert np.array_equal(trials[1], np.array([12., 14.1]) - starts[1])
 
+def test_epoch_data_by_time():
+
+    times = np.array([2.5, 3.5, 4.25, 5.5, 6.1, 8., 9.25, 9.75, 10.5, 12., 14.1, 15.2, 15.9])
+    values = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    timepoints = np.array([5, 10, 15])
+
+    tvalues = epoch_data_by_time(times, values, timepoints)
+    assert isinstance(tvalues, list)
+    assert len(tvalues) == len(timepoints)
+    assert np.array_equal(tvalues, np.array([3, 7, 11]))
+
 def test_epoch_data_by_event():
 
     times = np.array([2.5, 3.5, 4.25, 5.5, 6.1, 8., 9.25, 9.75, 10.5, 12., 14.1, 15.2, 15.9])

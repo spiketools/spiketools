@@ -1,6 +1,8 @@
 """Utilities for managing trials and epochs."""
 
-from spiketools.utils.extract import get_range, get_values_by_time_range
+import numpy as np
+
+from spiketools.utils.extract import get_range, get_value_by_time, get_values_by_time_range
 
 ###################################################################################################
 ###################################################################################################
@@ -64,8 +66,36 @@ def epoch_spikes_by_range(spikes, starts, stops, reset=False):
     return trials
 
 
+def epoch_data_by_time(timestamps, values, timepoints, threshold=np.inf):
+    """Epoch data into trials, based on individual timepoints of interest.
+
+    Parameters
+    ----------
+    timestamps : 1d array
+        Timestamps.
+    values : 1d array
+        Data values.
+    timepoint : list of float
+        The time value to extract per trial.
+    threshold : float
+        The threshold that the closest time value must be within to be returned.
+        If the temporal distance is greater than the threshold, output is NaN.
+
+    Returns
+    -------
+    trials : list of float
+        Selected data points across trial.
+    """
+
+    trials = [None] * len(timepoints)
+    for ind, timepoint in enumerate(timepoints):
+        trials[ind] = get_value_by_time(timestamps, values, timepoint, threshold=threshold)
+
+    return trials
+
+
 def epoch_data_by_event(timestamps, values, events, window):
-    """Epoch data with timestamps into trials, based on events of interest.
+    """Epoch data into trials, based on events of interest.
 
     Parameters
     ----------
@@ -98,7 +128,7 @@ def epoch_data_by_event(timestamps, values, events, window):
 
 
 def epoch_data_by_range(timestamps, values, starts, stops, reset=False):
-    """Epoch data with timestamps into trials, based on time ranges of interest.
+    """Epoch data into trials, based on time ranges of interest.
 
     Parameters
     ----------
