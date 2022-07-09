@@ -11,8 +11,12 @@ from spiketools.spatial.occupancy import *
 
 def test_compute_nbins():
 
-    out = compute_nbins([5, 5])
-    assert out == 25
+    out1 = compute_nbins([5, 5])
+    assert out1 == 25
+
+    out2 = compute_nbins([5])
+    out3 = compute_nbins(5)
+    assert out2 == out3 == 5
 
 def test_compute_bin_edges():
 

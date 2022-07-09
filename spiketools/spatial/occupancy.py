@@ -36,7 +36,7 @@ def compute_nbins(bins):
     bins = check_position_bins(bins)
 
     if len(bins) == 1:
-        n_bins = bins
+        n_bins = bins[0]
     else:
         n_bins = bins[0] * bins[1]
 
@@ -146,6 +146,7 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     """
 
     check_position(position)
+
     if position.ndim == 1:
 
         check_bin_range(position, x_edges)
@@ -195,7 +196,14 @@ def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
 
     Examples
     --------
-    Compute the amount of firing per bin, given precomputed x & y bin for each spike:
+    Compute the amount of firing per bin for 1D data, given precomputed xbin for each spike:
+
+    >>> bins = 3
+    >>> xbins = [0, 2, 1, 0, 1]
+    >>> compute_bin_firing(bins, xbins)
+    array([2, 2, 1])
+
+    Compute the amount of firing per bin for 2D data, given precomputed x & y bin for each spike:
 
     >>> bins = [2, 2]
     >>> xbins = [0, 0, 0, 1]
@@ -208,9 +216,9 @@ def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
     bins = check_position_bins(bins)
 
     if ybins is None:
-        bin_firing = np.histogram(xbins, bins=np.arange(0, bins[0] + 1))[0]
+        bin_firing, _ = np.histogram(xbins, bins=bins[0])
     else:
-        bin_firing = np.histogram2d(xbins, ybins, bins=[np.arange(0, bl + 1) for bl in bins])[0]
+        bin_firing, _, _ = np.histogram2d(xbins, ybins, bins=bins)
 
     if transpose:
         bin_firing = bin_firing.T
@@ -337,7 +345,6 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
            [0.2, 0.2]])
     """
 
-    # Input checks
     bins = check_position_bins(bins, position)
 
     # Initialize dictionary to collect data, adding bin time information
