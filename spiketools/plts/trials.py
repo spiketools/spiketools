@@ -5,7 +5,7 @@ import numpy as np
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.annotate import _add_vlines, _add_vshade, _add_significance
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
-from spiketools.utils.select import get_avg_func, get_var_func
+from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.utils.base import flatten
 
 ###################################################################################################

@@ -352,10 +352,10 @@ Timestamps
    split_time_value
    format_time_string
 
-Trials
-~~~~~~
+Epoch
+~~~~~
 
-.. currentmodule:: spiketools.utils.trials
+.. currentmodule:: spiketools.utils.epoch
 .. autosummary::
    :toctree: generated/
 

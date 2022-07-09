@@ -1,4 +1,4 @@
-"""Utilities for managing trials and epochs."""
+"""Utilities for epoching data."""
 
 import numpy as np
 

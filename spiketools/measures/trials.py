@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.utils.extract import get_range
-from spiketools.utils.select import get_avg_func
+from spiketools.utils.options import get_avg_func
 from spiketools.utils.checks import check_time_bins
 from spiketools.measures.measures import compute_firing_rate
 from spiketools.measures.conversions import convert_times_to_rates

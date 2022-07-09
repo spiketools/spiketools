@@ -1,8 +1,8 @@
-"""Tests for spiketools.utils.select."""
+"""Tests for spiketools.utils.options."""
 
 from pytest import raises
 
-from spiketools.utils.select import *
+from spiketools.utils.options import *
 
 ###################################################################################################
 ###################################################################################################

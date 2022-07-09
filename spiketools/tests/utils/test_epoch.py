@@ -1,8 +1,8 @@
-"""Tests for spiketools.utils.trials"""
+"""Tests for spiketools.utils.epoch"""
 
 import numpy as np
 
-from spiketools.utils.trials import *
+from spiketools.utils.epoch import *
 
 ###################################################################################################
 ###################################################################################################
