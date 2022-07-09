@@ -121,7 +121,7 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_nan=Tr
     return outputs
 
 
-def get_value_by_time_range(times, values, t_min, t_max):
+def get_values_by_time_range(times, values, t_min, t_max):
     """Extract data for a requested time range.
 
     Parameters

@@ -1,6 +1,6 @@
 """Utilities for managing trials and epochs."""
 
-from spiketools.utils.extract import get_range, get_value_by_time_range
+from spiketools.utils.extract import get_range, get_values_by_time_range
 
 ###################################################################################################
 ###################################################################################################
@@ -89,7 +89,7 @@ def epoch_data_by_event(timestamps, values, events, window):
     trial_times = [None] * len(events)
     trial_values = [None] * len(events)
     for ind, event in enumerate(events):
-        ttimes, tvalues = get_value_by_time_range(\
+        ttimes, tvalues = get_values_by_time_range(\
             timestamps, values, event + window[0], event + window[1])
         trial_times[ind] = ttimes - event
         trial_values[ind] = tvalues
@@ -122,7 +122,7 @@ def epoch_data_by_range(timestamps, values, starts, stops, reset=False):
     trial_times = [None] * len(starts)
     trial_values = [None] * len(starts)
     for ind, (start, stop) in enumerate(zip(starts, stops)):
-        ttimes, tvalues = get_value_by_time_range(timestamps, values, start, stop)
+        ttimes, tvalues = get_values_by_time_range(timestamps, values, start, stop)
         if reset:
             ttimes = ttimes - start
         trial_times[ind] = ttimes
