@@ -134,6 +134,8 @@ Utilities
 
    compute_pos_ranges
    compute_bin_width
+   convert_2dindices
+   convert_1dindices
 
 Statistics
 ----------
