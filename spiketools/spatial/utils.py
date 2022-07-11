@@ -51,6 +51,31 @@ def compute_pos_ranges(position):
     return ranges
 
 
+def compute_bin_time(timestamps):
+    """Compute the time duration of each position sample.
+
+    Parameters
+    ----------
+    timestamps : 1d array
+        Timestamps.
+
+    Returns
+    -------
+    1d array
+        Width, in time, of each bin.
+
+    Examples
+    --------
+    Compute times between timestamp samples:
+
+    >>> timestamp = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])
+    >>> compute_bin_time(timestamp)
+    array([1., 2., 3., 2., 1., 0.])
+    """
+
+    return np.append(np.diff(timestamps), 0)
+
+
 def compute_bin_width(bin_edges):
     """Compute bin width from a set of bin edges.
 

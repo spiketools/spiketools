@@ -101,7 +101,6 @@ Occupancy
    compute_bin_assignment
    compute_bin_firing
    normalize_bin_firing
-   compute_bin_time
    compute_occupancy
 
 Position
@@ -133,6 +132,7 @@ Utilities
    :toctree: generated/
 
    compute_pos_ranges
+   compute_bin_time
    compute_bin_width
    convert_2dindices
    convert_1dindices

@@ -109,16 +109,6 @@ def test_normalize_bin_firing():
     expected = np.array([[np.nan, 0.5, 0.], [1., 2., np.nan]])
     assert np.array_equal(normed_bf, expected, equal_nan=True)
 
-def test_compute_bin_time():
-
-    # define a timestamp, with irregular times
-    timestamp = np.array([0.0, 1.0, 2.0, 3.0, 4.5, 5.0, 6.0, 7.0, 8.0, 9.0, 12.0])
-    bin_time = compute_bin_time(timestamp)
-
-    # check dimensions & sum
-    assert bin_time.shape[0] == timestamp.shape[0]
-    assert np.sum(np.diff(timestamp)) == np.sum(bin_time)
-
 def test_compute_occupancy():
 
     # Test 1d case
