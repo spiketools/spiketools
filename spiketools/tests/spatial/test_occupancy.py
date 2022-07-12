@@ -181,8 +181,8 @@ def test_compute_occupancy():
     # Test 1d case
     bins = 3
     position = np.array([1, 2, 3, 5, 6, 9, 10])
-    timestamp = np.linspace(0, 30, len(position))
-    occ = compute_occupancy(position, timestamp, bins)
+    timestamps = np.linspace(0, 30, len(position))
+    occ = compute_occupancy(position, timestamps, bins)
     assert isinstance(occ, np.ndarray)
     assert np.array_equal(occ, np.array([15, 10, 5]))
     assert occ.shape[0] == bins
@@ -190,11 +190,11 @@ def test_compute_occupancy():
     # Test 2d case
     bins = [2, 3]
     position = np.array([[1, 2, 3, 4, 4.5, 5], [6, 7, 8, 8.5, 9.5, 10]])
-    timestamp = np.linspace(0, 25, position.shape[1])
-    occ = compute_occupancy(position, timestamp, bins)
+    timestamps = np.linspace(0, 25, position.shape[1])
+    occ = compute_occupancy(position, timestamps, bins)
     assert isinstance(occ, np.ndarray)
     assert np.array_equal(occ.shape, np.array([bins[1], bins[0]]))
     assert np.array_equal(occ, np.array([[10., 0.], [0., 10.], [0., 5.]]))
 
     # Test flipped binning should get the same total occupancy
-    assert np.nansum(occ) == np.nansum(compute_occupancy(position, timestamp, [bins[1], bins[0]]))
+    assert np.nansum(occ) == np.nansum(compute_occupancy(position, timestamps, [bins[1], bins[0]]))
