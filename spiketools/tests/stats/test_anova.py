@@ -9,7 +9,18 @@ from spiketools.stats.anova import *
 
 def test_create_dataframe(tdata2d):
 
-    df = create_dataframe(tdata2d, ['A', 'B'])
+    # test array input
+    labels = ['A', 'B']
+    df = create_dataframe(tdata2d, labels)
+    assert isinstance(df, pd.DataFrame)
+
+    # test with type casting
+    df = create_dataframe(tdata2d, labels, types={'B' : 'float32'})
+    assert df['B'].dtype == 'float32'
+
+    # test dictionary input
+    data_dict = {'c1' : [1, 2, 3, 4], 'c2' : [1.5, 2.5, 3.5, 4.5], 'c3' : ['a', 'b', 'c', 'd']}
+    df = create_dataframe(data_dict)
     assert isinstance(df, pd.DataFrame)
 
 def test_create_dataframe_bins():
