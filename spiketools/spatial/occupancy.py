@@ -361,7 +361,7 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
     bingroup = bindf.groupby(groupby)['time'].sum()
     # This standardizes any unobserved values to be zero
     #   This can otherwise vary by code version (sometimes being NaN instead)
-    bingroup.fillna(0)
+    bingroup = bingroup.fillna(0)
 
     # Extract and re-organize occupancy into array
     occupancy = bingroup.values.reshape(*bins)
