@@ -13,7 +13,7 @@ def get_range(data, min_value=None, max_value=None, reset=None):
     data : 1d array
         Array of data.
     min_value, max_value : float, optional
-        Mininum and/or maximum value to extract from the input array.
+        Minimum and/or maximum value to extract from the input array.
     reset : float, optional
         If provided, resets the values in the data array by the given reset value.
 
@@ -160,7 +160,7 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_null=T
     Returns
     -------
     outputs : 1d or 2d array
-        The extracted vaues for the requested time points.
+        The extracted values for the requested time points.
     """
 
     inds = get_inds_by_times(times, timepoints, threshold, drop_null)

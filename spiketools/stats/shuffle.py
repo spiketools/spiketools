@@ -197,7 +197,7 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
 
     Notes
     -----
-    The input shuffle_min should always be less than the maximum time in which a spike occured.
+    The input shuffle_min should always be less than the maximum time in which a spike occurred.
     """
 
     spike_train = convert_times_to_train(spikes)
