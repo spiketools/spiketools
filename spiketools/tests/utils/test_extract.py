@@ -29,15 +29,15 @@ def test_get_ind_by_time():
     values_1d = np.array([5, 8, 4, 6, 7])
     values_2d = np.array([[5, 8, 4, 6, 7], [5, 8, 4, 6, 7]])
 
-    # test 1d
+    # test 1d & 2d data cases
     ind = get_ind_by_time(times, values_1d, 3.25)
     assert ind == 2
-
-    # test 2d
     ind = get_ind_by_time(times, values_2d, 3.25)
     assert ind == 2
 
     # test with threshold
+    ind = get_ind_by_time(times, values_1d, 3.15, threshold=0.25)
+    assert ind == 2
     ind = get_ind_by_time(times, values_1d, 3.5, threshold=0.25)
     assert ind == -1
 

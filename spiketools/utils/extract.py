@@ -104,7 +104,7 @@ def get_inds_by_times(times, values, timepoints, threshold=np.inf, drop_null=Tru
 
     Returns
     -------
-    inds : 1d int array
+    inds : 1d array
         Index values for all requested timepoints.
     """
 
@@ -125,7 +125,7 @@ def get_value_by_time(times, values, timepoint, threshold=np.inf):
     ----------
     times : 1d array
         Time indices.
-    values : ndarray
+    values : 1d or 2d array
         Data values, corresponding to the times vector.
     timepoint : float
         Time value to extract.
@@ -139,12 +139,8 @@ def get_value_by_time(times, values, timepoint, threshold=np.inf):
         The value(s) at the requested time point.
     """
 
-    idx = np.abs(times - timepoint).argmin()
-
-    if np.abs(times[idx] - timepoint) < threshold:
-        out = values.take(indices=idx, axis=-1)
-    else:
-        out = np.nan
+    idx = get_ind_by_time(times, values, timepoint, threshold=threshold)
+    out = values.take(indices=idx, axis=-1) if idx >= 0 else np.nan
 
     return out
 
@@ -156,7 +152,7 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_null=T
     ----------
     times : 1d array
         Time indices.
-    values : ndarray
+    values : 1d or 2d array
         Data values, corresponding to the times vector.
     timepoints : 1d array
         The time indices to extract corresponding values for.
@@ -169,17 +165,19 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_null=T
 
     Returns
     -------
-    outputs : 1d array
+    outputs : 1d or 2d array
         The extracted vaues for the requested time points.
     """
 
-    outputs = np.zeros([np.atleast_2d(values).shape[0], len(timepoints)])
-    for ind, timepoint in enumerate(timepoints):
-        outputs[:, ind] = get_value_by_time(times, values, timepoint, threshold=threshold)
-    outputs = np.squeeze(outputs)
+    inds = get_inds_by_times(times, values, timepoints, threshold, drop_null)
 
     if drop_null:
-        outputs = drop_nans(outputs)
+        outputs = values.take(indices=inds, axis=-1)
+    else:
+        outputs = np.full([np.atleast_2d(values).shape[0], len(timepoints)], np.nan)
+        mask = inds > 0
+        outputs[:, np.where(mask)[0]] = values.take(indices=inds[mask], axis=-1)
+        outputs = np.squeeze(outputs)
 
     return outputs
 
