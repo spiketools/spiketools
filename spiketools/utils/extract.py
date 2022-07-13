@@ -56,61 +56,57 @@ def get_range(data, min_value=None, max_value=None, reset=None):
     return data
 
 
-def get_ind_by_time(times, values, timepoint, threshold=np.inf):
+def get_ind_by_time(times, timepoint, threshold=np.inf):
     """Get the index for a data array for a specified timepoint.
 
     Parameters
     ----------
     times : 1d array
         Time indices.
-    values : ndarray
-        Data values, corresponding to the times vector.
     timepoint : float
-        Time value to extract.
+        Time value to extract the index for.
     threshold : float
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is -1.
 
     Returns
     -------
-    idx : int
-        The index value for the requested timepoint.
+    ind : int
+        The index value for the requested timepoint, or -1 if out of threshold range.
     """
 
-    idx = np.abs(times[:] - timepoint).argmin()
-    if np.abs(times[idx] - timepoint) > threshold:
-        idx = -1
+    ind = np.abs(times[:] - timepoint).argmin()
+    if np.abs(times[ind] - timepoint) > threshold:
+        ind = -1
 
-    return idx
+    return ind
 
 
-def get_inds_by_times(times, values, timepoints, threshold=np.inf, drop_null=True):
+def get_inds_by_times(times, timepoints, threshold=np.inf, drop_null=True):
     """Get indices for a data array for a set of specified time points.
 
     Parameters
     ----------
     times : 1d array
         Time indices.
-    values : ndarray
-        Data values, corresponding to the times vector.
     timepoints : 1d array
-        The time indices to extract corresponding values for.
+        The time indices to extract indices for.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
     drop_null : bool, optional, default: True
-        Whether to drop any null values from the outputs (outside threshold range).
-        If False, indices for any null values are NaN.
+        Whether to drop any null indices from the outputs (outside threshold range).
+        If False, indices for any null values are -1.
 
     Returns
     -------
     inds : 1d array
-        Index values for all requested timepoints.
+        Indices for all requested timepoints.
     """
 
     inds = np.zeros(len(timepoints), dtype=int)
     for ind, timepoint in enumerate(timepoints):
-        inds[ind] = get_ind_by_time(times, values, timepoint, threshold=threshold)
+        inds[ind] = get_ind_by_time(times, timepoint, threshold=threshold)
 
     if drop_null:
         inds = inds[inds >= 0]
@@ -139,7 +135,7 @@ def get_value_by_time(times, values, timepoint, threshold=np.inf):
         The value(s) at the requested time point.
     """
 
-    idx = get_ind_by_time(times, values, timepoint, threshold=threshold)
+    idx = get_ind_by_time(times, timepoint, threshold=threshold)
     out = values.take(indices=idx, axis=-1) if idx >= 0 else np.nan
 
     return out
@@ -169,7 +165,7 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_null=T
         The extracted vaues for the requested time points.
     """
 
-    inds = get_inds_by_times(times, values, timepoints, threshold, drop_null)
+    inds = get_inds_by_times(times, timepoints, threshold, drop_null)
 
     if drop_null:
         outputs = values.take(indices=inds, axis=-1)

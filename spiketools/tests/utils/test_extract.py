@@ -26,37 +26,33 @@ def test_get_range():
 def test_get_ind_by_time():
 
     times = np.array([1, 2, 3, 4, 5])
-    values_1d = np.array([5, 8, 4, 6, 7])
-    values_2d = np.array([[5, 8, 4, 6, 7], [5, 8, 4, 6, 7]])
 
     # test 1d & 2d data cases
-    ind = get_ind_by_time(times, values_1d, 3.25)
+    ind = get_ind_by_time(times, 3.25)
     assert ind == 2
-    ind = get_ind_by_time(times, values_2d, 3.25)
+    ind = get_ind_by_time(times, 3.25)
     assert ind == 2
 
     # test with threshold
-    ind = get_ind_by_time(times, values_1d, 3.15, threshold=0.25)
+    ind = get_ind_by_time(times, 3.15, threshold=0.25)
     assert ind == 2
-    ind = get_ind_by_time(times, values_1d, 3.5, threshold=0.25)
+    ind = get_ind_by_time(times, 3.5, threshold=0.25)
     assert ind == -1
 
 def test_get_inds_by_times():
 
     times = np.array([1, 2, 3, 4, 5])
-    values_1d = np.array([5, 8, 4, 6, 7])
-    values_2d = np.array([[5, 8, 4, 6, 7], [5, 8, 4, 6, 7]])
 
     extract = [3.25, 3.75]
-    inds = get_inds_by_times(times, values_1d, extract)
+    inds = get_inds_by_times(times, extract)
     assert np.array_equal(inds, np.array([2, 3]))
-    inds = get_inds_by_times(times, values_2d, extract)
+    inds = get_inds_by_times(times, extract)
     assert np.array_equal(inds, np.array([2, 3]))
 
     extract = [3.5, 4.15, 4.85]
-    inds = get_inds_by_times(times, values_1d, extract, threshold=0.25, drop_null=True)
+    inds = get_inds_by_times(times, extract, threshold=0.25, drop_null=True)
     np.array_equal(inds, np.array([np.nan, 3, 4]), equal_nan=True)
-    inds = get_inds_by_times(times, values_1d, extract, threshold=0.25, drop_null=False)
+    inds = get_inds_by_times(times, extract, threshold=0.25, drop_null=False)
     np.array_equal(inds, np.array([3, 4]), equal_nan=True)
 
 def test_get_value_by_time():
