@@ -49,7 +49,7 @@ def compare_pre_post_activity(trial_spikes, pre_window, post_window, avg_type='m
     """
 
     frs_pre, frs_post = compute_pre_post_rates(trial_spikes, pre_window, post_window)
-    avg_pre, avg_post = compute_pre_post_averages(frs_pre, frs_post, avg_type='mean')
+    avg_pre, avg_post = compute_pre_post_averages(frs_pre, frs_post, avg_type=avg_type)
     t_val, p_val = compute_pre_post_ttest(frs_pre, frs_post)
 
     return avg_pre, avg_post, t_val, p_val

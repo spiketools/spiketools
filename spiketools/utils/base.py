@@ -70,6 +70,6 @@ def count_elements(data, labels=None, sort=False):
             counts.setdefault(label, 0)
 
     if sort:
-        counts = Counter({ke : va for ke, va in sorted(counts.items())})
+        counts = Counter(dict(sorted(counts.items())))
 
     return counts
