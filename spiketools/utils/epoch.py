@@ -66,6 +66,30 @@ def epoch_spikes_by_range(spikes, starts, stops, reset=False):
     return trials
 
 
+def epoch_spikes_by_segment(spikes, segments):
+    """Epoch spikes by segments.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times.
+    segments : list or 1d array of float
+        Time values that define the segments.
+        Each segment time is defined as the interval between segment[n] and segment[n+1].
+
+    Returns
+    -------
+    segment_spikes : list of 1d array
+        Spike data per segment.
+    """
+
+    segment_spikes = [None] * (len(segments) - 1)
+    for ind, (seg_start, seg_end) in enumerate(zip(segments, segments[1:])):
+        segment_spikes[ind] = get_range(spikes, seg_start, seg_end)
+
+    return segment_spikes
+
+
 def epoch_data_by_time(timestamps, values, timepoints, threshold=np.inf):
     """Epoch data into trials, based on individual timepoints of interest.
 
@@ -136,10 +160,12 @@ def epoch_data_by_range(timestamps, values, starts, stops, reset=False):
         Timestamps.
     values : 1d array
         Data values.
-    starts : list
+    starts : list of float
         The start times for each epoch to extract.
-    stops : list
+    stops : list of float
         The stop times of each epoch to extract.
+    reset : bool, optional, default: True
+        If True, resets the values in each epoch range to the start time of that epoch.
 
     Returns
     -------
@@ -159,3 +185,33 @@ def epoch_data_by_range(timestamps, values, starts, stops, reset=False):
         trial_values[ind] = tvalues
 
     return trial_times, trial_values
+
+
+def epoch_data_by_segment(timestamps, values, segments):
+    """Epoch data by segments.
+
+    Parameters
+    ----------
+    timestamps : 1d array
+        Timestamps.
+    values : 1d array
+        Data values.
+    segments : list or 1d array of float
+        Time values that define the segments.
+        Each segment time is defined as the interval between segment[n] and segment[n+1].
+
+    Returns
+    -------
+    segment_times : list of 1d array
+        The timestamps, per segment.
+    segment_values : list of 1d array
+        The values, per segment.
+    """
+
+    segment_times = [None] * (len(segments) - 1)
+    segment_values = [None] * (len(segments) - 1)
+    for ind, (seg_start, seg_end) in enumerate(zip(segments, segments[1:])):
+        segment_times[ind], segment_values[ind] = get_values_by_time_range(\
+            timestamps, values, seg_start, seg_end)
+
+    return segment_times, segment_values

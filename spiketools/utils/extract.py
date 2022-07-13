@@ -73,8 +73,8 @@ def get_value_by_time(times, values, timepoint, threshold=np.inf):
 
     Returns
     -------
-    out : float of 1d array
-        The value at the requested time point.
+    out : float or 1d array
+        The value(s) at the requested time point.
     """
 
     idx = np.abs(times[:] - timepoint).argmin()
