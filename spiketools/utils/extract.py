@@ -56,8 +56,70 @@ def get_range(data, min_value=None, max_value=None, reset=None):
     return data
 
 
+def get_ind_by_time(times, values, timepoint, threshold=np.inf):
+    """Get the index for a data array for a specified timepoint.
+
+    Parameters
+    ----------
+    times : 1d array
+        Time indices.
+    values : ndarray
+        Data values, corresponding to the times vector.
+    timepoint : float
+        Time value to extract.
+    threshold : float
+        The threshold that the closest time value must be within to be returned.
+        If the temporal distance is greater than the threshold, output is -1.
+
+    Returns
+    -------
+    idx : int
+        The index value for the requested timepoint.
+    """
+
+    idx = np.abs(times[:] - timepoint).argmin()
+    if np.abs(times[idx] - timepoint) > threshold:
+        idx = -1
+
+    return idx
+
+
+def get_inds_by_times(times, values, timepoints, threshold=np.inf, drop_null=True):
+    """Get indices for a data array for a set of specified time points.
+
+    Parameters
+    ----------
+    times : 1d array
+        Time indices.
+    values : ndarray
+        Data values, corresponding to the times vector.
+    timepoints : 1d array
+        The time indices to extract corresponding values for.
+    threshold : float, optional
+        The threshold that the closest time value must be within to be returned.
+        If the temporal distance is greater than the threshold, output is NaN.
+    drop_null : bool, optional, default: True
+        Whether to drop any null values from the outputs (outside threshold range).
+        If False, indices for any null values are NaN.
+
+    Returns
+    -------
+    inds : 1d int array
+        Index values for all requested timepoints.
+    """
+
+    inds = np.zeros(len(timepoints), dtype=int)
+    for ind, timepoint in enumerate(timepoints):
+        inds[ind] = get_ind_by_time(times, values, timepoint, threshold=threshold)
+
+    if drop_null:
+        inds = inds[inds >= 0]
+
+    return inds
+
+
 def get_value_by_time(times, values, timepoint, threshold=np.inf):
-    """Get the value for a data array at a specific time point.
+    """Get the value from a data array at a specific time point.
 
     Parameters
     ----------
@@ -77,17 +139,17 @@ def get_value_by_time(times, values, timepoint, threshold=np.inf):
         The value(s) at the requested time point.
     """
 
-    idx = np.abs(times[:] - timepoint).argmin()
+    idx = np.abs(times - timepoint).argmin()
 
     if np.abs(times[idx] - timepoint) < threshold:
-        out = values[:].take(indices=idx, axis=-1)
+        out = values.take(indices=idx, axis=-1)
     else:
         out = np.nan
 
     return out
 
 
-def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_nan=True):
+def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_null=True):
     """Get values from a data array for a set of specified time points.
 
     Parameters
@@ -101,8 +163,9 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_nan=Tr
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
-    drop_nan : bool, optional, default: True
-        Whether to drop NaN values from the outputs.
+    drop_null : bool, optional, default: True
+        Whether to drop any null values from the outputs (outside threshold range).
+        If False, indices for any null values are NaN.
 
     Returns
     -------
@@ -115,7 +178,7 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_nan=Tr
         outputs[:, ind] = get_value_by_time(times, values, timepoint, threshold=threshold)
     outputs = np.squeeze(outputs)
 
-    if drop_nan:
+    if drop_null:
         outputs = drop_nans(outputs)
 
     return outputs
@@ -141,7 +204,7 @@ def get_values_by_time_range(times, values, t_min, t_max):
         Selected values.
     """
 
-    select = np.logical_and(times[:] >= t_min, times[:] <= t_max)
-    out = values[:].take(indices=np.where(select)[0], axis=-1)
+    select = np.logical_and(times >= t_min, times <= t_max)
+    out = values.take(indices=np.where(select)[0], axis=-1)
 
     return times[select], out

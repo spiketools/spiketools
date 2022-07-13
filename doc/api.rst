@@ -334,6 +334,8 @@ Extract
    :toctree: generated/
 
    get_range
+   get_ind_by_time
+   get_inds_by_times
    get_value_by_time
    get_values_by_times
    get_values_by_time_range
