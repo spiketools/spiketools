@@ -108,7 +108,7 @@ def test_threshold_spikes_by_times():
 def test_threshold_spikes_by_values():
 
     spikes = np.array([0.5, 1., 1.5, 2., 2.5])
-    times = np.array([0.55, 1.1, 1.9, 2.4])
+    times = np.array([0.5, 1.1, 1.9, 2.4])
     values = np.array([0, 1, 1, 0])
     tthresh = 0.25
     dthresh = 0.5

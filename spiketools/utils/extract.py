@@ -75,7 +75,7 @@ def get_ind_by_time(times, timepoint, threshold=np.inf):
         The index value for the requested timepoint, or -1 if out of threshold range.
     """
 
-    ind = np.abs(times[:] - timepoint).argmin()
+    ind = np.abs(times - timepoint).argmin()
     if np.abs(times[ind] - timepoint) > threshold:
         ind = -1
 
@@ -223,10 +223,11 @@ def threshold_spikes_by_times(spikes, times, threshold=np.inf):
         Sub-selected spike times, in seconds.
     """
 
-    spike_inds = np.unique(get_inds_by_times(spikes, times, threshold))
-    spikes = spikes[spike_inds]
+    mask = np.empty_like(spikes, dtype=bool)
+    for ind, spike in enumerate(spikes):
+        mask[ind] = np.min(np.abs(times - spike)) < threshold
 
-    return spikes
+    return spikes[mask]
 
 
 def threshold_spikes_by_values(spikes, times, values, time_threshold=np.inf,
