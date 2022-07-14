@@ -339,6 +339,8 @@ Extract
    get_value_by_time
    get_values_by_times
    get_values_by_time_range
+   threshold_spikes_by_times
+   threshold_spikes_by_values
 
 Timestamps
 ~~~~~~~~~~

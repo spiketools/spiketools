@@ -94,3 +94,27 @@ def test_get_values_by_time_range():
     times_out, values_out = get_values_by_time_range(times, values, 2, 4)
     assert np.array_equal(times_out, np.array([2, 3, 4]))
     assert np.array_equal(values_out, np.array([8, 4, 6]))
+
+def test_threshold_spikes_by_times():
+
+    spikes = np.array([0.5, 1., 1.5, 2., 2.5])
+    times = np.array([0.5, 1.1, 1.9, 3])
+    threshold = 0.25
+
+    out = threshold_spikes_by_times(spikes, times, threshold)
+    assert isinstance(out, np.ndarray)
+    assert np.array_equal(out, np.array([0.5, 1., 2.]))
+
+def test_threshold_spikes_by_values():
+
+    spikes = np.array([0.5, 1., 1.5, 2., 2.5])
+    times = np.array([0.55, 1.1, 1.9, 2.4])
+    values = np.array([0, 1, 1, 0])
+    tthresh = 0.25
+    dthresh = 0.5
+
+    out1 = threshold_spikes_by_values(spikes, times, values, tthresh, dthresh, comp_type='greater')
+    assert np.array_equal(out1, np.array([1., 2.]))
+
+    out2 = threshold_spikes_by_values(spikes, times, values, tthresh, dthresh, comp_type='less')
+    assert np.array_equal(out2, np.array([0.5, 2.5]))

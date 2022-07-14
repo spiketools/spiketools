@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from spiketools.utils.options import get_comp_func
+
 ###################################################################################################
 ###################################################################################################
 
@@ -169,7 +171,7 @@ def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_null=T
         outputs = values.take(indices=inds, axis=-1)
     else:
         outputs = np.full([np.atleast_2d(values).shape[0], len(timepoints)], np.nan)
-        mask = inds > 0
+        mask = inds >= 0
         outputs[:, np.where(mask)[0]] = values.take(indices=inds[mask], axis=-1)
         outputs = np.squeeze(outputs)
 
@@ -200,3 +202,61 @@ def get_values_by_time_range(times, values, t_min, t_max):
     out = values.take(indices=np.where(select)[0], axis=-1)
 
     return times[select], out
+
+
+def threshold_spikes_by_times(spikes, times, threshold=np.inf):
+    """Threshold spikes by sub-selecting those are temporally close to a set of time values.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times, in seconds.
+    times : 1d array
+        Time indices.
+    threshold : float, optional
+        The threshold that closest time values must be within to be kept.
+        For any time indices greater than this threshold, the spike value is dropped.
+
+    Returns
+    -------
+    spikes : 1d array
+        Sub-selected spike times, in seconds.
+    """
+
+    spike_inds = np.unique(get_inds_by_times(spikes, times, threshold))
+    spikes = spikes[spike_inds]
+
+    return spikes
+
+
+def threshold_spikes_by_values(spikes, times, values, time_threshold=np.inf,
+                               data_threshold=np.inf, comp_type='greater'):
+    """Threshold spikes by sub-selecting those are exceed a value on another data stream.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times, in seconds.
+    times : 1d array
+        Time indices.
+    values : 1d array
+        Data values, corresponding to the times vector.
+    time_threshold : float, optional
+        The threshold that closest time values must be within to be kept.
+        For any time indices greater than this threshold, the spike value is dropped.
+    data_threshold : float, optional
+        The threshold that closest data values must be within to be kept.
+
+    Returns
+    -------
+    spikes : 1d array
+        Sub-selected spike times, in seconds.
+    """
+
+    values = get_values_by_times(times, values, spikes, time_threshold, drop_null=False)
+
+    mask = ~np.isnan(values)
+    spikes, values = spikes[mask], values[mask]
+    spikes = spikes[get_comp_func(comp_type)(values, data_threshold)]
+
+    return spikes
