@@ -78,37 +78,37 @@ def test_compute_bin_assignment():
     assert position[0].shape == x_bins.shape
     assert position[1].shape == y_bins.shape
 
-def test_compute_bin_firing():
+def test_compute_bin_events():
 
     xbins = [0, 0, 0, 1]
     ybins = [0, 0, 1, 2]
 
     # check 1D case
     bins = 2
-    bin_firing = compute_bin_firing(bins, xbins)
-    assert isinstance(bin_firing, np.ndarray)
-    assert np.array_equal(bin_firing, np.array([3, 1]))
+    bin_events = compute_bin_events(bins, xbins)
+    assert isinstance(bin_events, np.ndarray)
+    assert np.array_equal(bin_events, np.array([3, 1]))
 
     # check 2D case
     bins = [2, 3]
-    bin_firing = compute_bin_firing(bins, xbins, ybins)
-    assert isinstance(bin_firing, np.ndarray)
-    assert np.array_equal(bin_firing.shape, np.array([bins[1], bins[0]]))
-    assert np.array_equal(bin_firing, np.array([[2, 0], [1, 0], [0, 1]]))
+    bin_events = compute_bin_events(bins, xbins, ybins)
+    assert isinstance(bin_events, np.ndarray)
+    assert np.array_equal(bin_events.shape, np.array([bins[1], bins[0]]))
+    assert np.array_equal(bin_events, np.array([[2, 0], [1, 0], [0, 1]]))
 
-def test_normalize_bin_firing():
+def test_normalize_bin_events():
 
     # Test with full sampling of occupancy
-    bin_firing = np.array([[1, 2, 1], [1, 2, 1]])
+    bin_events = np.array([[1, 2, 1], [1, 2, 1]])
     occupancy = np.array([[1, 2, 1], [1, 2, 1]])
-    normed_bf = normalize_bin_firing(bin_firing, occupancy)
+    normed_bf = normalize_bin_events(bin_events, occupancy)
     assert isinstance(normed_bf, np.ndarray)
     assert np.all(normed_bf == 1.)
 
     # Test with some empty occupancy values (expected nan output)
-    bin_firing = np.array([[0, 1, 0], [1, 2, 0]])
+    bin_events = np.array([[0, 1, 0], [1, 2, 0]])
     occupancy = np.array([[0, 2, 1], [1, 1, 0]])
-    normed_bf = normalize_bin_firing(bin_firing, occupancy)
+    normed_bf = normalize_bin_events(bin_events, occupancy)
     assert isinstance(normed_bf, np.ndarray)
     expected = np.array([[np.nan, 0.5, 0.], [1., 2., np.nan]])
     assert np.array_equal(normed_bf, expected, equal_nan=True)

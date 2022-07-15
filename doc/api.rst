@@ -99,8 +99,8 @@ Occupancy
    compute_nbins
    compute_bin_edges
    compute_bin_assignment
-   compute_bin_firing
-   normalize_bin_firing
+   compute_bin_events
+   normalize_bin_events
    compute_occupancy
 
 Position

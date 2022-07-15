@@ -172,8 +172,8 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
         return x_bins - 1, y_bins - 1
 
 
-def compute_bin_firing(bins, xbins, ybins=None, occupancy=None):
-    """Compute firing per bin, given the bin assignment of each spike.
+def compute_bin_events(bins, xbins, ybins=None, occupancy=None):
+    """Compute number of events per bin.
 
     Parameters
     ----------
@@ -181,17 +181,17 @@ def compute_bin_firing(bins, xbins, ybins=None, occupancy=None):
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     xbins : 1d array
-        Bin assignment for the x-dimension for each spike.
+        Bin assignment for the x-dimension for each event.
     ybins : 1d array, optional
-        Bin assignment for the y-dimension for each spike.
+        Bin assignment for the y-dimension for each event.
     occupancy : 1d or 2d array, optional
         Occupancy across the spatial bins.
-        If provided, used to normalize bin firing.
+        If provided, used to normalize bin events.
 
     Returns
     -------
-    bin_firing : 1d or 2d array
-        Amount of firing in each bin.
+    bin_events : 1d or 2d array
+        Amount of events in each bin.
         For 2d, has shape [n_y_bins, n_x_bins] (see notes).
 
     Notes
@@ -202,19 +202,19 @@ def compute_bin_firing(bins, xbins, ybins=None, occupancy=None):
 
     Examples
     --------
-    Compute the amount of firing per bin for 1D data, given precomputed xbin for each spike:
+    Compute the number of events per bin for 1D data, given precomputed xbin for each event:
 
     >>> bins = 3
     >>> xbins = [0, 2, 1, 0, 1]
-    >>> compute_bin_firing(bins, xbins)
+    >>> compute_bin_events(bins, xbins)
     array([2, 2, 1])
 
-    Compute the amount of firing per bin for 2D data, given precomputed x & y bin for each spike:
+    Compute the number of events per bin for 2D data, given precomputed x & y bin for each event:
 
     >>> bins = [2, 2]
     >>> xbins = [0, 0, 0, 1]
     >>> ybins = [0, 0, 1, 1]
-    >>> compute_bin_firing(bins, xbins, ybins)
+    >>> compute_bin_events(bins, xbins, ybins)
     array([[2., 0.],
            [1., 1.]])
     """
@@ -222,31 +222,33 @@ def compute_bin_firing(bins, xbins, ybins=None, occupancy=None):
     bins = check_position_bins(bins)
 
     if ybins is None:
-        bin_firing, _ = np.histogram(xbins, bins=bins[0])
+        bins = np.arange(0, bins[0] + 1)
+        bin_events, _ = np.histogram(xbins, bins=bins)
     else:
-        bin_firing, _, _ = np.histogram2d(xbins, ybins, bins=bins)
-        bin_firing = bin_firing.T
+        bins = [np.arange(0, bins[0] + 1), np.arange(0, bins[1] + 1)]
+        bin_events, _, _ = np.histogram2d(xbins, ybins, bins=bins)
+        bin_events = bin_events.T
 
     if occupancy is not None:
-        bin_firing = normalize_bin_firing(bin_firing, occupancy)
+        bin_events = normalize_bin_events(bin_events, occupancy)
 
-    return bin_firing
+    return bin_events
 
 
-def normalize_bin_firing(bin_firing, occupancy):
-    """Normalize binned firing by occupancy.
+def normalize_bin_events(bin_events, occupancy):
+    """Normalize binned events by occupancy.
 
     Parameters
     ----------
-    bin_firing : 1d or 2d array
-        Spatially binned firing.
+    bin_events : 1d or 2d array
+        Spatially binned event counts.
     occupancy : 1d or 2d array
         Spatially binned occupancy.
 
     Returns
     -------
-    normalized_bin_firing : 1d or 2d array
-        Normalized binned firing.
+    normalized_bin_events : 1d or 2d array
+        Normalized binned events.
 
     Notes
     -----
@@ -254,20 +256,20 @@ def normalize_bin_firing(bin_firing, occupancy):
 
     Examples
     --------
-    Normalized a pre-computed 2D binned firing array by occupancy:
+    Normalized a pre-computed 2D binned events array by occupancy:
 
-    >>> bin_firing = np.array([[0, 1, 0], [1, 2, 0]])
+    >>> bin_events = np.array([[0, 1, 0], [1, 2, 0]])
     >>> occupancy = np.array([[0, 2, 1], [1, 1, 0]])
-    >>> normalize_bin_firing(bin_firing, occupancy)
+    >>> normalize_bin_events(bin_events, occupancy)
     array([[nan, 0.5, 0. ],
            [1. , 2. , nan]])
     """
 
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', category=RuntimeWarning)
-        normalized_bin_firing = bin_firing / occupancy
+        normalized_bin_events = bin_events / occupancy
 
-    return normalized_bin_firing
+    return normalized_bin_events
 
 
 def create_position_df(position, timestamps, bins, speed=None, speed_thresh=None, area_range=None):
