@@ -78,40 +78,56 @@ def test_compute_bin_assignment():
     assert position[0].shape == x_bins.shape
     assert position[1].shape == y_bins.shape
 
-def test_compute_bin_events():
+def test_compute_bin_counts_pos():
+
+    # test 1d case
+    pos1d = np.array([0.5, 1.5, 0.5, 2.5, 1.5])
+    bins1d = 3
+    bin_counts = compute_bin_counts_pos(pos1d, bins1d)
+    assert isinstance(bin_counts, np.ndarray)
+    assert np.array_equal(bin_counts, np.array([2, 2, 1]))
+
+    # test 2d case
+    pos2d = np.array([[0.5, 1.5, 0.5, 2.5, 1.5], [0.5, 1.5, 0.5, 1.5, 0.5]])
+    bins2d = [3, 2]
+    bin_counts = compute_bin_counts_pos(pos2d, bins2d)
+    assert isinstance(bin_counts, np.ndarray)
+    assert np.array_equal(bin_counts, np.array([[2, 1, 0], [0, 1, 1]]))
+
+def test_compute_bin_counts_assgn():
 
     xbins = [0, 0, 0, 1]
     ybins = [0, 0, 1, 2]
 
     # check 1D case
     bins = 2
-    bin_events = compute_bin_events(bins, xbins)
-    assert isinstance(bin_events, np.ndarray)
-    assert np.array_equal(bin_events, np.array([3, 1]))
+    bin_counts = compute_bin_counts_assgn(bins, xbins)
+    assert isinstance(bin_counts, np.ndarray)
+    assert np.array_equal(bin_counts, np.array([3, 1]))
 
     # check 2D case
     bins = [2, 3]
-    bin_events = compute_bin_events(bins, xbins, ybins)
-    assert isinstance(bin_events, np.ndarray)
-    assert np.array_equal(bin_events.shape, np.array([bins[1], bins[0]]))
-    assert np.array_equal(bin_events, np.array([[2, 0], [1, 0], [0, 1]]))
+    bin_counts = compute_bin_counts_assgn(bins, xbins, ybins)
+    assert isinstance(bin_counts, np.ndarray)
+    assert np.array_equal(bin_counts.shape, np.array([bins[1], bins[0]]))
+    assert np.array_equal(bin_counts, np.array([[2, 0], [1, 0], [0, 1]]))
 
-def test_normalize_bin_events():
+def test_normalize_bin_counts():
 
     # Test with full sampling of occupancy
-    bin_events = np.array([[1, 2, 1], [1, 2, 1]])
+    bin_counts = np.array([[1, 2, 1], [1, 2, 1]])
     occupancy = np.array([[1, 2, 1], [1, 2, 1]])
-    normed_bf = normalize_bin_events(bin_events, occupancy)
-    assert isinstance(normed_bf, np.ndarray)
-    assert np.all(normed_bf == 1.)
+    normed_counts = normalize_bin_counts(bin_counts, occupancy)
+    assert isinstance(normed_counts, np.ndarray)
+    assert np.all(normed_counts == 1.)
 
     # Test with some empty occupancy values (expected nan output)
-    bin_events = np.array([[0, 1, 0], [1, 2, 0]])
+    bin_counts = np.array([[0, 1, 0], [1, 2, 0]])
     occupancy = np.array([[0, 2, 1], [1, 1, 0]])
-    normed_bf = normalize_bin_events(bin_events, occupancy)
-    assert isinstance(normed_bf, np.ndarray)
+    normed_counts = normalize_bin_counts(bin_counts, occupancy)
+    assert isinstance(normed_counts, np.ndarray)
     expected = np.array([[np.nan, 0.5, 0.], [1., 2., np.nan]])
-    assert np.array_equal(normed_bf, expected, equal_nan=True)
+    assert np.array_equal(normed_counts, expected, equal_nan=True)
 
 def test_create_position_df():
 

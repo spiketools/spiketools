@@ -99,8 +99,9 @@ Occupancy
    compute_nbins
    compute_bin_edges
    compute_bin_assignment
-   compute_bin_events
-   normalize_bin_events
+   compute_bin_counts_pos
+   compute_bin_counts_assgn
+   normalize_bin_counts
    compute_occupancy
 
 Position

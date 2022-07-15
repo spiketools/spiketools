@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.spatial.occupancy import normalize_bin_events
+from spiketools.spatial.occupancy import normalize_bin_counts
 
 ###################################################################################################
 ###################################################################################################
@@ -61,7 +61,7 @@ def compute_spatial_information(bin_firing, occupancy, normalize=False):
     """
 
     if normalize:
-        bin_firing = normalize_bin_events(bin_firing, occupancy)
+        bin_firing = normalize_bin_counts(bin_firing, occupancy)
 
     # Calculate average firing rate of the neuron, dividing out by total occupancy time
     #   Note: this recomputes total spike (basically, de-normalizing)

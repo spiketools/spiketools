@@ -172,8 +172,54 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
         return x_bins - 1, y_bins - 1
 
 
-def compute_bin_events(bins, xbins, ybins=None, occupancy=None):
-    """Compute number of events per bin.
+def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
+    """Compute counts per bin, from position data.
+
+    Parameters
+    ----------
+    position : 1d or 2d array
+        Position values.
+    bins : int or list of [int, int]
+        The bin definition for dividing up the space. If 1d, can be integer.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
+    area_range : list of list, optional
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+        Any values outside this range will be considered outliers, and not used to compute edges.
+    occupancy : 1d or 2d array, optional
+        Occupancy across the spatial bins.
+        If provided, used to normalize bin counts.
+
+    Returns
+    -------
+    bin_counts : 1d or 2d array
+        Amount of events in each bin.
+        For 2d, has shape [n_y_bins, n_x_bins] (see notes).
+
+    Notes
+    -----
+    For the 2D case, note that while the inputs to this function list the x-axis first,
+    the output of this function, being a 2d array, follows the numpy convention in which
+    columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
+    """
+
+    bins = check_position_bins(bins, position)
+
+    if position.ndim == 1:
+        bin_counts, _ = np.histogram(position, bins=bins[0], range=area_range)
+
+    elif position.ndim == 2:
+        bin_counts, _, _ = np.histogram2d(position[0, :], position[1, :],
+                                          bins=bins, range=area_range)
+        bin_counts = bin_counts.T
+
+    if occupancy is not None:
+        bin_events = normalize_bin_counts(bin_events, occupancy)
+
+    return bin_counts
+
+
+def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
+    """Compute number of counts per bin, from bin assignments.
 
     Parameters
     ----------
@@ -181,17 +227,17 @@ def compute_bin_events(bins, xbins, ybins=None, occupancy=None):
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     xbins : 1d array
-        Bin assignment for the x-dimension for each event.
+        Bin assignments for the x-dimension.
     ybins : 1d array, optional
-        Bin assignment for the y-dimension for each event.
+        Bin assignments for the y-dimension.
     occupancy : 1d or 2d array, optional
         Occupancy across the spatial bins.
-        If provided, used to normalize bin events.
+        If provided, used to normalize bin counts.
 
     Returns
     -------
-    bin_events : 1d or 2d array
-        Amount of events in each bin.
+    bin_counts : 1d or 2d array
+        Amount of counts in each bin.
         For 2d, has shape [n_y_bins, n_x_bins] (see notes).
 
     Notes
@@ -202,19 +248,19 @@ def compute_bin_events(bins, xbins, ybins=None, occupancy=None):
 
     Examples
     --------
-    Compute the number of events per bin for 1D data, given precomputed xbin for each event:
+    Compute the bin counts per bin for 1D data, given precomputed xbins:
 
     >>> bins = 3
     >>> xbins = [0, 2, 1, 0, 1]
-    >>> compute_bin_events(bins, xbins)
+    >>> compute_bin_counts(bins, xbins)
     array([2, 2, 1])
 
-    Compute the number of events per bin for 2D data, given precomputed x & y bin for each event:
+    Compute the bin counts for 2D data, given precomputed x & y bins:
 
     >>> bins = [2, 2]
     >>> xbins = [0, 0, 0, 1]
     >>> ybins = [0, 0, 1, 1]
-    >>> compute_bin_events(bins, xbins, ybins)
+    >>> compute_bin_counts(bins, xbins, ybins)
     array([[2., 0.],
            [1., 1.]])
     """
@@ -223,32 +269,32 @@ def compute_bin_events(bins, xbins, ybins=None, occupancy=None):
 
     if ybins is None:
         bins = np.arange(0, bins[0] + 1)
-        bin_events, _ = np.histogram(xbins, bins=bins)
+        bin_counts, _ = np.histogram(xbins, bins=bins)
     else:
         bins = [np.arange(0, bins[0] + 1), np.arange(0, bins[1] + 1)]
-        bin_events, _, _ = np.histogram2d(xbins, ybins, bins=bins)
-        bin_events = bin_events.T
+        bin_counts, _, _ = np.histogram2d(xbins, ybins, bins=bins)
+        bin_counts = bin_counts.T
 
     if occupancy is not None:
-        bin_events = normalize_bin_events(bin_events, occupancy)
+        bin_counts = normalize_bin_counts(bin_counts, occupancy)
 
-    return bin_events
+    return bin_counts
 
 
-def normalize_bin_events(bin_events, occupancy):
-    """Normalize binned events by occupancy.
+def normalize_bin_counts(bin_counts, occupancy):
+    """Normalize bin counts by occupancy.
 
     Parameters
     ----------
-    bin_events : 1d or 2d array
-        Spatially binned event counts.
+    bin_counts : 1d or 2d array
+        Bin counts.
     occupancy : 1d or 2d array
         Spatially binned occupancy.
 
     Returns
     -------
-    normalized_bin_events : 1d or 2d array
-        Normalized binned events.
+    normalized_bin_counts : 1d or 2d array
+        Normalized bin counts.
 
     Notes
     -----
@@ -256,20 +302,20 @@ def normalize_bin_events(bin_events, occupancy):
 
     Examples
     --------
-    Normalized a pre-computed 2D binned events array by occupancy:
+    Normalized a pre-computed 2D bin counts array by occupancy:
 
-    >>> bin_events = np.array([[0, 1, 0], [1, 2, 0]])
+    >>> bin_counts = np.array([[0, 1, 0], [1, 2, 0]])
     >>> occupancy = np.array([[0, 2, 1], [1, 1, 0]])
-    >>> normalize_bin_events(bin_events, occupancy)
+    >>> normalize_bin_counts(bin_counts, occupancy)
     array([[nan, 0.5, 0. ],
            [1. , 2. , nan]])
     """
 
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', category=RuntimeWarning)
-        normalized_bin_events = bin_events / occupancy
+        normalized_bin_counts = bin_counts / occupancy
 
-    return normalized_bin_events
+    return normalized_bin_counts
 
 
 def create_position_df(position, timestamps, bins, speed=None, speed_thresh=None, area_range=None):
