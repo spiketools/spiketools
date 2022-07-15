@@ -100,8 +100,9 @@ def convert_2dindices(xbins, ybins, bins):
     ----------
     xbins, ybins : 1d array
         Bin assignment indices for the x and y dimension of a 2D binning.
-    bins : list of int
-        Bin definition.
+    bins : list of [int, int]
+        The bin definition for dividing up the space.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
 
     Returns
     -------
@@ -114,7 +115,7 @@ def convert_2dindices(xbins, ybins, bins):
     equivalent values once the data array has been flattened into a 1d array.
     """
 
-    indices = np.ravel_multi_index((xbins, ybins), bins)
+    indices = np.ravel_multi_index((ybins, xbins), np.flip(bins))
 
     return indices
 
@@ -126,8 +127,9 @@ def convert_1dindices(indices, bins):
     ----------
     indices : 1d array
         Bin assignment indices for a 1D binning.
-    bins : list of int
-        Bin definition.
+    bins : list of [int, int]
+        The bin definition for dividing up the space.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
 
     Returns
     -------
@@ -140,6 +142,6 @@ def convert_1dindices(indices, bins):
     equivalent values once the data array has been reshaped to the given 2D bin definition.
     """
 
-    xbins, ybins = np.unravel_index(indices, bins)
+    ybins, xbins = np.unravel_index(indices, np.flip(bins))
 
     return xbins, ybins

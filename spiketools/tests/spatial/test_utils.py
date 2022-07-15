@@ -36,7 +36,7 @@ def test_convert_2dindices():
     bins = [3, 2]
     xbins = np.array([1, 0, 2, 1])
     ybins = np.array([1, 0, 1, 0])
-    expected = np.array([3, 0, 5, 2])
+    expected = np.array([4, 0, 5, 1])
 
     inds = convert_2dindices(xbins, ybins, bins)
     assert isinstance(inds, np.ndarray)
@@ -45,7 +45,7 @@ def test_convert_2dindices():
 def test_convert_1dindices():
 
     bins = [3, 2]
-    indices = np.array([3, 0, 5, 2])
+    indices = np.array([4, 0, 5, 1])
     expected_x, expected_y = np.array([1, 0, 2, 1]), np.array([1, 0, 1, 0])
 
     xbins, ybins = convert_1dindices(indices, bins)
