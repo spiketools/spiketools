@@ -252,7 +252,7 @@ def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
 
     >>> bins = 3
     >>> xbins = [0, 2, 1, 0, 1]
-    >>> compute_bin_counts(bins, xbins)
+    >>> compute_bin_counts_assgn(bins, xbins)
     array([2, 2, 1])
 
     Compute the bin counts for 2D data, given precomputed x & y bins:
@@ -260,7 +260,7 @@ def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
     >>> bins = [2, 2]
     >>> xbins = [0, 0, 0, 1]
     >>> ybins = [0, 0, 1, 1]
-    >>> compute_bin_counts(bins, xbins, ybins)
+    >>> compute_bin_counts_assgn(bins, xbins, ybins)
     array([[2., 0.],
            [1., 1.]])
     """
