@@ -318,7 +318,8 @@ def normalize_bin_counts(bin_counts, occupancy):
     return normalized_bin_counts
 
 
-def create_position_df(position, timestamps, bins, speed=None, speed_thresh=None, area_range=None):
+def create_position_df(position, timestamps, bins, area_range=None,
+                       speed=None, speed_thresh=None, time_thresh=None):
     """Create a dataframe that stores information about position bins.
 
     Parameters
@@ -330,14 +331,17 @@ def create_position_df(position, timestamps, bins, speed=None, speed_thresh=None
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
+    area_range : list of list, optional
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array
         Current speed for each position.
         Should be the same length as timestamps.
     speed_thresh : float, optional
-        Speed threshold to apply.
+        A minimum speed threshold to apply.
         If provided, any position values with an associated speed below this value are dropped.
-    area_range : list of list, optional
-        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+    time_thresh : float, optional
+        A maximum time threshold, per bin observation, to apply.
+        If provided, any bin values with an associated time length above this value are dropped.
 
     Returns
     -------
@@ -370,6 +374,9 @@ def create_position_df(position, timestamps, bins, speed=None, speed_thresh=None
             y_bins, categories=list(range(0, bins[1])), ordered=True)
 
     bindf = pd.DataFrame(data_dict)
+
+    if time_thresh is not None:
+        bindf = bindf[bindf.time < time_thresh]
 
     if speed_thresh is not None:
         bindf = bindf[bindf.speed > speed_thresh]
@@ -427,8 +434,8 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
     return occupancy
 
 
-def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
-                      area_range=None, minimum=None, normalize=False, set_nan=False):
+def compute_occupancy(position, timestamps, bins, area_range=None, speed=None, speed_thresh=None,
+                      time_thresh=None, minimum=None, normalize=False, set_nan=False):
     """Compute occupancy across spatial bin positions.
 
     Parameters
@@ -440,14 +447,17 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
+    area_range : list of list, optional
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array
         Current speed for each position.
         Should be the same length as timestamps.
     speed_thresh : float, optional
         Speed threshold to apply.
         If provided, any position values with an associated speed below this value are dropped.
-    area_range : list of list, optional
-        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+    time_thresh : float, optional
+        A maximum time threshold, per bin observation, to apply.
+        If provided, any bin values with an associated time length above this value are dropped.
     minimum : float, optional
         The minimum required occupancy.
         If defined, any values below this are set to zero.
@@ -487,7 +497,8 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
            [0.2, 0.2]])
     """
 
-    df = create_position_df(position, timestamps, bins, speed, speed_thresh, area_range)
+    df = create_position_df(position, timestamps, bins, area_range,
+                            speed, speed_thresh, time_thresh)
     occupancy = compute_occupancy_df(df, bins, minimum, normalize, set_nan)
 
     return occupancy
