@@ -143,7 +143,7 @@ def test_create_position_df():
 
     # check speed dropping
     speed = np.array([1, 1, 0, 1])
-    df = create_position_df(position, timestamps, bins, speed=speed, speed_thresh=0.5)
+    df = create_position_df(position, timestamps, bins, speed=speed, speed_threshold=0.5)
     assert len(df) == sum(speed)
     assert np.array_equal(df.xbin.values, np.array([0, 0, 1]))
 

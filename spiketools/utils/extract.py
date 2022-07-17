@@ -230,8 +230,8 @@ def threshold_spikes_by_times(spikes, times, threshold=np.inf):
     return spikes[mask]
 
 
-def threshold_spikes_by_values(spikes, times, values, time_threshold=np.inf,
-                               data_threshold=np.inf, comp_type='greater'):
+def threshold_spikes_by_values(spikes, times, values, data_threshold=np.inf,
+                               time_threshold=np.inf, comp_type='greater'):
     """Threshold spikes by sub-selecting those are exceed a value on another data stream.
 
     Parameters
@@ -242,11 +242,14 @@ def threshold_spikes_by_values(spikes, times, values, time_threshold=np.inf,
         Time indices.
     values : 1d array
         Data values, corresponding to the times vector.
+    data_threshold : float, optional
+        The threshold that closest data values must be within to be kept.
     time_threshold : float, optional
         The threshold that closest time values must be within to be kept.
         For any time indices greater than this threshold, the spike value is dropped.
-    data_threshold : float, optional
-        The threshold that closest data values must be within to be kept.
+    comp_type : {'greater', 'less'}
+        Which comparison function to use.
+        This defines whether selected values must be greater than or less than the data threshold.
 
     Returns
     -------

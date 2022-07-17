@@ -58,7 +58,7 @@ def get_comp_func(comp_type):
     Parameters
     ----------
     comp_type : {'greater', 'less', 'greater_equal', 'less_equal'}
-        Which averaging function to select.
+        Which comparison function to select.
 
     Returns
     -------
