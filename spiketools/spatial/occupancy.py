@@ -12,38 +12,6 @@ from spiketools.spatial.utils import compute_bin_time
 ###################################################################################################
 ###################################################################################################
 
-def compute_nbins(bins):
-    """Compute the number of bins for a given bin definition.
-
-    Parameters
-    ----------
-    bins : int or list of [int, int]
-        The bin definition for dividing up the space. If 1d, can be integer.
-        If 2d should be a list, defined as [number of x_bins, number of y_bins].
-
-    Returns
-    -------
-    n_bins : int
-        The total number of bins for the given bin definition.
-
-    Examples
-    --------
-    Compute the number of bins for a given bin definition:
-
-    >>> compute_nbins(bins=[4, 5])
-    20
-    """
-
-    bins = check_position_bins(bins)
-
-    if len(bins) == 1:
-        n_bins = bins[0]
-    else:
-        n_bins = bins[0] * bins[1]
-
-    return n_bins
-
-
 def compute_bin_edges(position, bins, area_range=None):
     """Compute spatial bin edges.
 

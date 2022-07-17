@@ -7,6 +7,17 @@ from spiketools.spatial.utils import *
 ###################################################################################################
 ###################################################################################################
 
+def test_compute_nbins():
+
+    # check 1d case
+    out1 = compute_nbins([5, 5])
+    assert out1 == 25
+
+    # check 2d case
+    out2 = compute_nbins([5])
+    out3 = compute_nbins(5)
+    assert out2 == out3 == 5
+
 def test_compute_pos_ranges():
 
     positions = np.array([[1, 2, 3, 4, 5], [5, 6, 7, 8, 9]])

@@ -96,7 +96,6 @@ Occupancy
 .. autosummary::
    :toctree: generated/
 
-   compute_nbins
    compute_bin_edges
    compute_bin_assignment
    compute_bin_counts_pos
@@ -132,9 +131,10 @@ Utilities
 .. autosummary::
    :toctree: generated/
 
-   compute_pos_ranges
+   compute_nbins
    compute_bin_time
    compute_bin_width
+   compute_pos_ranges
    convert_2dindices
    convert_1dindices
 
