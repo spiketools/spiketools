@@ -125,6 +125,15 @@ Place
    compute_place_bins
    compute_trial_place_bins
 
+Target
+~~~~~~
+
+.. currentmodule:: spiketools.spatial.target
+.. autosummary::
+   :toctree: generated/
+
+   compute_target_bins
+
 Information
 ~~~~~~~~~~~
 
