@@ -3,8 +3,6 @@
 import numpy as np
 import pandas as pd
 
-from pytest import warns
-
 from spiketools.spatial.occupancy import *
 
 ###################################################################################################

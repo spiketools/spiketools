@@ -89,6 +89,18 @@ Spatial
 
 Functionality for processing spatial data, available in the `spatial` sub-module.
 
+Position
+~~~~~~~~
+
+.. currentmodule:: spiketools.spatial.position
+.. autosummary::
+   :toctree: generated/
+
+   compute_distance
+   compute_distances
+   compute_cumulative_distances
+   compute_speed
+
 Occupancy
 ~~~~~~~~~
 
@@ -103,17 +115,15 @@ Occupancy
    normalize_bin_counts
    compute_occupancy
 
-Position
-~~~~~~~~
+Place
+~~~~~
 
-.. currentmodule:: spiketools.spatial.position
+.. currentmodule:: spiketools.spatial.place
 .. autosummary::
    :toctree: generated/
 
-   compute_distance
-   compute_distances
-   compute_cumulative_distances
-   compute_speed
+   compute_place_bins
+   compute_trial_place_bins
 
 Information
 ~~~~~~~~~~~
