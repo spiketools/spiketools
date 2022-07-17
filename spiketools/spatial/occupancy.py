@@ -212,6 +212,7 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
                                           bins=bins, range=area_range)
         bin_counts = bin_counts.T
 
+    bin_counts = bin_counts.astype('int')
     if occupancy is not None:
         bin_counts = normalize_bin_counts(bin_counts, occupancy)
 
