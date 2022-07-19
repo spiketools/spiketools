@@ -2,6 +2,7 @@
 
 import os
 
+from spiketools.tests.tutils import fig_test
 from spiketools.tests.tsettings import TEST_PLOTS_PATH
 
 from spiketools.plts.utils import *
@@ -99,6 +100,7 @@ def test_set_plt_kwargs():
     example_plot(title=title)
     assert plt.gca().get_title() == title
 
+@fig_test
 def test_make_axes():
 
     n_axes = 5
@@ -116,6 +118,7 @@ def test_make_grid():
     assert grid.nrows == nrows
     assert grid.ncols == ncols
 
+@fig_test
 def test_get_grid_subplot():
 
     grid = make_grid(2, 2)
