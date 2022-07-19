@@ -21,7 +21,7 @@ def compute_target_bins(target_frs, bins, xbins, ybins=None, target_occupancy=No
     xbins, ybins : 1d array
         The bin assignments per target. `ybins` is optional if using 1d binning.
         The length should equal the length of flattened `target_frs`.
-    target_occupancy : 1d or 2d array
+    target_occupancy : 1d or 2d array, optional
         The number of targets per spatial target bin.
         If provided, used to normalize the spiking activity.
 

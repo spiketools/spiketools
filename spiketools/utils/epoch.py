@@ -72,7 +72,7 @@ def epoch_spikes_by_segment(spikes, segments):
     Parameters
     ----------
     spikes : 1d array
-        Spike times.
+        Spike times, in seconds.
     segments : list or 1d array of float
         Time values that define the segments.
         Each segment time is defined as the interval between segment[n] and segment[n+1].

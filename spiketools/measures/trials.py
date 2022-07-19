@@ -17,7 +17,7 @@ def compute_trial_frs(trial_spikes, bins, trange=None, smooth=None):
     Parameters
     ----------
     trial_spikes : list of 1d array
-        Spike times per trial.
+        Spike times per trial, in seconds.
     bins : float or 1d array
         The binning to apply to the spiking data.
         If float, the length of each bin.
@@ -70,7 +70,7 @@ def compute_segment_frs(spikes, segments):
     Parameters
     ----------
     spikes : 1d array or list of 1d array
-        Spike times. Can be single array, or list of spike times per trial.
+        Spike times, in seconds. Can be single array, or list of spike times per trial.
     segments : 2d array
         Time definitions of the segments, per trial, used as time bins.
         Should have shape: [n_trials, n_segments + 1].

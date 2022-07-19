@@ -28,7 +28,7 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
-    speed : 1d array
+    speed : 1d array, optional
         Current speed for each position.
         Should be the same length as timestamps.
     speed_threshold : float, optional
@@ -37,8 +37,9 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
     time_threshold : float, optional
         A maximum time threshold, per bin observation, to apply.
         If provided, any bin values with an associated time length above this value are dropped.
-    occupancy : 1d or 2d array
+    occupancy : 1d or 2d array, optional
         Computed occupancy across the space.
+        If provided, used to normalize bin counts.
 
     Returns
     -------
@@ -79,7 +80,7 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
         The stop times of each trial.
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
-    speed : 1d array
+    speed : 1d array, optional
         Current speed for each position.
         Should be the same length as timestamps.
     speed_threshold : float, optional

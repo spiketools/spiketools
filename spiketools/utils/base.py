@@ -48,9 +48,9 @@ def count_elements(data, labels=None, sort=False):
     ----------
     data : list or 1d array
         The data to count elements of.
-    labels : list of str or {'count'}
+    labels : list of str or 'count', optional
         Labels to ensure are in the counter, adding a count of zero if missing.
-        If list, then is a list of labels to check.
+        If list, should be a list of labels to check.
         If 'count', then adds labels for integer count values across the observed range.
     sort : bool, optional, default: False
         Whether to sort the counter, by key, before returning.

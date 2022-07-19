@@ -90,7 +90,7 @@ def get_inds_by_times(times, timepoints, threshold=np.inf, drop_null=True):
     times : 1d array
         Time indices.
     timepoints : 1d array
-        The time indices to extract indices for.
+        The time values to extract indices for.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.

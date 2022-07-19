@@ -174,7 +174,7 @@ def test_compute_occupancy_df():
     assert np.sum(occ) == 1.0
 
     # check nans
-    data_dict['time'] = np.array([5, 5, 5, 5, 5, 5, 5, 0, 0.])
+    data_dict['time'] = np.array([5., 5., 5., 5., 5., 5., 5., 0., 0.])
     bindf = pd.DataFrame(data_dict)
     occ = compute_occupancy_df(bindf, bins, set_nan=True)
     assert np.array_equal(occ, np.array([[10, 5, np.nan], [10, 10, np.nan]]), equal_nan=True)

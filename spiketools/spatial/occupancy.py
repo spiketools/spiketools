@@ -302,7 +302,7 @@ def create_position_df(position, timestamps, bins, area_range=None,
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
-    speed : 1d array
+    speed : 1d array, optional
         Current speed for each position.
         Should be the same length as timestamps.
     speed_threshold : float, optional
@@ -419,7 +419,7 @@ def compute_occupancy(position, timestamps, bins, area_range=None,
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
-    speed : 1d array
+    speed : 1d array, optional
         Current speed for each position.
         Should be the same length as timestamps.
     speed_threshold : float, optional
