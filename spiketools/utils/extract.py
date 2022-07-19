@@ -56,7 +56,7 @@ def get_range(data, min_value=None, max_value=None, reset=None):
     return data
 
 
-def get_ind_by_time(times, timepoint, threshold=np.inf):
+def get_ind_by_time(times, timepoint, threshold=None):
     """Get the index for a data array for a specified timepoint.
 
     Parameters
@@ -65,7 +65,7 @@ def get_ind_by_time(times, timepoint, threshold=np.inf):
         Time indices.
     timepoint : float
         Time value to extract the index for.
-    threshold : float
+    threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is -1.
 
@@ -76,13 +76,14 @@ def get_ind_by_time(times, timepoint, threshold=np.inf):
     """
 
     ind = np.abs(times - timepoint).argmin()
-    if np.abs(times[ind] - timepoint) > threshold:
-        ind = -1
+    if threshold:
+        if np.abs(times[ind] - timepoint) > threshold:
+            ind = -1
 
     return ind
 
 
-def get_inds_by_times(times, timepoints, threshold=np.inf, drop_null=True):
+def get_inds_by_times(times, timepoints, threshold=None, drop_null=True):
     """Get indices for a data array for a set of specified time points.
 
     Parameters
@@ -114,7 +115,7 @@ def get_inds_by_times(times, timepoints, threshold=np.inf, drop_null=True):
     return inds
 
 
-def get_value_by_time(times, values, timepoint, threshold=np.inf):
+def get_value_by_time(times, values, timepoint, threshold=None):
     """Get the value from a data array at a specific time point.
 
     Parameters
@@ -125,7 +126,7 @@ def get_value_by_time(times, values, timepoint, threshold=np.inf):
         Data values, corresponding to the times vector.
     timepoint : float
         Time value to extract.
-    threshold : float
+    threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
 
@@ -141,7 +142,7 @@ def get_value_by_time(times, values, timepoint, threshold=np.inf):
     return out
 
 
-def get_values_by_times(times, values, timepoints, threshold=np.inf, drop_null=True):
+def get_values_by_times(times, values, timepoints, threshold=None, drop_null=True):
     """Get values from a data array for a set of specified time points.
 
     Parameters
@@ -204,7 +205,7 @@ def get_values_by_time_range(times, values, t_min, t_max):
     return times[select], out
 
 
-def threshold_spikes_by_times(spikes, times, threshold=np.inf):
+def threshold_spikes_by_times(spikes, times, threshold):
     """Threshold spikes by sub-selecting those are temporally close to a set of time values.
 
     Parameters
@@ -213,7 +214,7 @@ def threshold_spikes_by_times(spikes, times, threshold=np.inf):
         Spike times, in seconds.
     times : 1d array
         Time indices.
-    threshold : float, optional
+    threshold : float
         The threshold that closest time values must be within to be kept.
         For any time indices greater than this threshold, the spike value is dropped.
 
@@ -230,8 +231,8 @@ def threshold_spikes_by_times(spikes, times, threshold=np.inf):
     return spikes[mask]
 
 
-def threshold_spikes_by_values(spikes, times, values, data_threshold=np.inf,
-                               time_threshold=np.inf, comp_type='greater'):
+def threshold_spikes_by_values(spikes, times, values, data_threshold,
+                               time_threshold=None, comp_type='greater'):
     """Threshold spikes by sub-selecting those are exceed a value on another data stream.
 
     Parameters
@@ -242,7 +243,7 @@ def threshold_spikes_by_values(spikes, times, values, data_threshold=np.inf,
         Time indices.
     values : 1d array
         Data values, corresponding to the times vector.
-    data_threshold : float, optional
+    data_threshold : float
         The threshold that closest data values must be within to be kept.
     time_threshold : float, optional
         The threshold that closest time values must be within to be kept.

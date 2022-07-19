@@ -11,7 +11,7 @@ from spiketools.utils.extract import (get_range, get_values_by_time_range, get_v
 ###################################################################################################
 
 def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
-                       speed=None, speed_threshold=None, time_threshold=np.inf,
+                       speed=None, speed_threshold=None, time_threshold=None,
                        occupancy=None):
     """Compute the spatially binned spiking activity.
 
@@ -59,7 +59,7 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
 
 def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, trial_stops,
                              area_range=None, speed=None, speed_threshold=None,
-                             time_threshold=np.inf, normalize=True, flatten=False,
+                             time_threshold=None, normalize=True, flatten=False,
                              **occupancy_kwargs):
     """Compute the spatially binned spiking activity, across trials.
 
