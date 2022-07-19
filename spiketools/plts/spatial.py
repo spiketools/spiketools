@@ -6,9 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from spiketools.utils.data import smooth_data, compute_range
+from spiketools.modutils.functions import get_function_parameters
 from spiketools.plts.annotate import _add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
+from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs, make_axes
 
 ###################################################################################################
 ###################################################################################################
@@ -176,6 +177,26 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
     if cbar:
         colorbar = plt.colorbar(im)
         colorbar.outline.set_visible(False)
+
+
+@savefig
+def plot_trial_heatmaps(trial_data, **plt_kwargs):
+    """Plot spatial heat maps for a set of trials.
+
+    Parameters
+    ----------
+    trial_data : 3d array
+        Spatially binned spike activity, per trial, with shape of [n_trials, n_xbins, n_ybins].
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+        This can include argument into `make_axes`, which initialize the set of axes.
+    """
+
+    axis_kwargs = {key : plt_kwargs.pop(key) \
+        for key in get_function_parameters(make_axes) if key in plt_kwargs}
+    axes = make_axes(trial_data.shape[0], **axis_kwargs)
+    for data, ax in zip(trial_data, axes):
+        plot_heatmap(data, **plt_kwargs, ax=ax)
 
 
 def create_heat_title(label, data, stat=None, p_val=None):

@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.tests.tutils import plot_test
+from spiketools.tests.tutils import plot_test, fig_test
 from spiketools.tests.tsettings import TEST_PLOTS_PATH
 
 from spiketools.plts.spatial import *
@@ -63,6 +63,15 @@ def test_plot_heatmap():
     data1d = np.array([0., 1., 2., 0., 2., 1.])
     plot_heatmap(data1d,
                  file_path=TEST_PLOTS_PATH, file_name='tplot_heatmap_1d.png')
+
+@fig_test
+def test_plot_trial_heatmaps():
+
+    temp = np.array([[0., 1., 2.], [0., 2., 1.], [0., 3., 2.]])
+    data = np.stack([temp, temp])
+
+    plot_trial_heatmaps(data,
+                        file_path=TEST_PLOTS_PATH, file_name='tplot_trial_heatmaps.png')
 
 def test_create_heat_title():
 
