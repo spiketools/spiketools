@@ -19,7 +19,7 @@ def compute_firing_rate(spikes, start_time=None, stop_time=None):
 
     Returns
     -------
-    float
+    fr : float
         Average firing rate.
 
     Examples
@@ -31,14 +31,15 @@ def compute_firing_rate(spikes, start_time=None, stop_time=None):
     2.4
     """
 
-    start_time = spikes[0] if not start_time else start_time
-    stop_time = spikes[-1] if not stop_time else stop_time
-
-    # If there are spikes before or after requested start / stop time, restrict range
-    if np.any(np.array(spikes) < start_time) or np.any(np.array(spikes) > stop_time):
+    if start_time or stop_time:
         spikes = get_range(spikes, start_time, stop_time)
 
-    return len(spikes) / (stop_time - start_time)
+    start_time = spikes[0] if start_time is None else start_time
+    stop_time = spikes[-1] if stop_time is None else stop_time
+
+    fr = len(spikes) / (stop_time - start_time)
+
+    return fr
 
 
 def compute_isis(spikes):

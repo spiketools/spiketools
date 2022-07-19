@@ -7,41 +7,10 @@ import pandas as pd
 
 from spiketools.utils.checks import check_param_options, check_bin_range
 from spiketools.spatial.checks import check_position, check_position_bins
+from spiketools.spatial.utils import compute_bin_time
 
 ###################################################################################################
 ###################################################################################################
-
-def compute_nbins(bins):
-    """Compute the number of bins for a given bin definition.
-
-    Parameters
-    ----------
-    bins : int or list of [int, int]
-        The bin definition for dividing up the space. If 1d, can be integer.
-        If 2d should be a list, defined as [number of x_bins, number of y_bins].
-
-    Returns
-    -------
-    n_bins : int
-        The total number of bins for the given bin definition.
-
-    Examples
-    --------
-    Compute the number of bins for a given bin definition:
-
-    >>> compute_nbins(bins=[4, 5])
-    20
-    """
-
-    bins = check_position_bins(bins)
-
-    if len(bins) == 1:
-        n_bins = bins
-    else:
-        n_bins = bins[0] * bins[1]
-
-    return n_bins
-
 
 def compute_bin_edges(position, bins, area_range=None):
     """Compute spatial bin edges.
@@ -146,6 +115,7 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     """
 
     check_position(position)
+
     if position.ndim == 1:
 
         check_bin_range(position, x_edges)
@@ -170,8 +140,55 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
         return x_bins - 1, y_bins - 1
 
 
-def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
-    """Compute firing per bin, given the bin assignment of each spike.
+def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
+    """Compute counts per bin, from position data.
+
+    Parameters
+    ----------
+    position : 1d or 2d array
+        Position values.
+    bins : int or list of [int, int]
+        The bin definition for dividing up the space. If 1d, can be integer.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
+    area_range : list of list, optional
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+        Any values outside this range will be considered outliers, and not used to compute edges.
+    occupancy : 1d or 2d array, optional
+        Occupancy across the spatial bins.
+        If provided, used to normalize bin counts.
+
+    Returns
+    -------
+    bin_counts : 1d or 2d array
+        Amount of events in each bin.
+        For 2d, has shape [n_y_bins, n_x_bins] (see notes).
+
+    Notes
+    -----
+    For the 2D case, note that while the inputs to this function list the x-axis first,
+    the output of this function, being a 2d array, follows the numpy convention in which
+    columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
+    """
+
+    bins = check_position_bins(bins, position)
+
+    if position.ndim == 1:
+        bin_counts, _ = np.histogram(position, bins=bins[0], range=area_range)
+
+    elif position.ndim == 2:
+        bin_counts, _, _ = np.histogram2d(position[0, :], position[1, :],
+                                          bins=bins, range=area_range)
+        bin_counts = bin_counts.T
+
+    bin_counts = bin_counts.astype('int')
+    if occupancy is not None:
+        bin_counts = normalize_bin_counts(bin_counts, occupancy)
+
+    return bin_counts
+
+
+def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
+    """Compute number of counts per bin, from bin assignments.
 
     Parameters
     ----------
@@ -179,28 +196,40 @@ def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     xbins : 1d array
-        Bin assignment for the x-dimension for each spike.
+        Bin assignments for the x-dimension.
     ybins : 1d array, optional
-        Bin assignment for the y-dimension for each spike.
+        Bin assignments for the y-dimension.
     occupancy : 1d or 2d array, optional
         Occupancy across the spatial bins.
-        If provided, used to normalize bin firing.
-    transpose : bool, optional, default: True
-        Whether to transpose the output, so that x-bins lie on the x-axis of the array.
+        If provided, used to normalize bin counts.
 
     Returns
     -------
-    bin_firing : 2d array
-        Amount of firing in each bin.
+    bin_counts : 1d or 2d array
+        Amount of counts in each bin.
+        For 2d, has shape [n_y_bins, n_x_bins] (see notes).
+
+    Notes
+    -----
+    For the 2D case, note that while the inputs to this function list the x-axis first,
+    the output of this function, being a 2d array, follows the numpy convention in which
+    columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
 
     Examples
     --------
-    Compute the amount of firing per bin, given precomputed x & y bin for each spike:
+    Compute the bin counts per bin for 1D data, given precomputed xbins:
+
+    >>> bins = 3
+    >>> xbins = [0, 2, 1, 0, 1]
+    >>> compute_bin_counts_assgn(bins, xbins)
+    array([2, 2, 1])
+
+    Compute the bin counts for 2D data, given precomputed x & y bins:
 
     >>> bins = [2, 2]
     >>> xbins = [0, 0, 0, 1]
     >>> ybins = [0, 0, 1, 1]
-    >>> compute_bin_firing(bins, xbins, ybins)
+    >>> compute_bin_counts_assgn(bins, xbins, ybins)
     array([[2., 0.],
            [1., 1.]])
     """
@@ -208,33 +237,33 @@ def compute_bin_firing(bins, xbins, ybins=None, occupancy=None, transpose=True):
     bins = check_position_bins(bins)
 
     if ybins is None:
-        bin_firing = np.histogram(xbins, bins=np.arange(0, bins[0] + 1))[0]
+        bins = np.arange(0, bins[0] + 1)
+        bin_counts, _ = np.histogram(xbins, bins=bins)
     else:
-        bin_firing = np.histogram2d(xbins, ybins, bins=[np.arange(0, bl + 1) for bl in bins])[0]
-
-    if transpose:
-        bin_firing = bin_firing.T
+        bins = [np.arange(0, bins[0] + 1), np.arange(0, bins[1] + 1)]
+        bin_counts, _, _ = np.histogram2d(xbins, ybins, bins=bins)
+        bin_counts = bin_counts.T
 
     if occupancy is not None:
-        bin_firing = normalize_bin_firing(bin_firing, occupancy)
+        bin_counts = normalize_bin_counts(bin_counts, occupancy)
 
-    return bin_firing
+    return bin_counts
 
 
-def normalize_bin_firing(bin_firing, occupancy):
-    """Normalize binned firing by occupancy.
+def normalize_bin_counts(bin_counts, occupancy):
+    """Normalize bin counts by occupancy.
 
     Parameters
     ----------
-    bin_firing : 1d or 2d array
-        Spatially binned firing.
+    bin_counts : 1d or 2d array
+        Bin counts.
     occupancy : 1d or 2d array
         Spatially binned occupancy.
 
     Returns
     -------
-    normalized_bin_firing : 1d or 2d array
-        Normalized binned firing.
+    normalized_bin_counts : 1d or 2d array
+        Normalized bin counts.
 
     Notes
     -----
@@ -242,49 +271,141 @@ def normalize_bin_firing(bin_firing, occupancy):
 
     Examples
     --------
-    Normalized a pre-computed 2D binned firing array by occupancy:
+    Normalized a pre-computed 2D bin counts array by occupancy:
 
-    >>> bin_firing = np.array([[0, 1, 0], [1, 2, 0]])
+    >>> bin_counts = np.array([[0, 1, 0], [1, 2, 0]])
     >>> occupancy = np.array([[0, 2, 1], [1, 1, 0]])
-    >>> normalize_bin_firing(bin_firing, occupancy)
+    >>> normalize_bin_counts(bin_counts, occupancy)
     array([[nan, 0.5, 0. ],
            [1. , 2. , nan]])
     """
 
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', category=RuntimeWarning)
-        normalized_bin_firing = bin_firing / occupancy
+        normalized_bin_counts = bin_counts / occupancy
 
-    return normalized_bin_firing
+    return normalized_bin_counts
 
 
-def compute_bin_time(timestamps):
-    """Compute the time duration of each position sample.
+def create_position_df(position, timestamps, bins, area_range=None,
+                       speed=None, speed_threshold=None, time_threshold=None):
+    """Create a dataframe that stores information about position bins.
 
     Parameters
     ----------
+    position : 1d or 2d array
+        Position values.
     timestamps : 1d array
         Timestamps.
+    bins : int or list of [int, int]
+        The bin definition for dividing up the space. If 1d, can be integer.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
+    area_range : list of list, optional
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+    speed : 1d array, optional
+        Current speed for each position.
+        Should be the same length as timestamps.
+    speed_threshold : float, optional
+        A minimum speed threshold to apply.
+        If provided, any position values with an associated speed below this value are dropped.
+    time_threshold : float, optional
+        A maximum time threshold, per bin observation, to apply.
+        If provided, any bin values with an associated time length above this value are dropped.
 
     Returns
     -------
-    1d array
-        Width, in time, of each bin.
-
-    Examples
-    --------
-    Compute times between timestamp samples:
-
-    >>> timestamp = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])
-    >>> compute_bin_time(timestamp)
-    array([1., 2., 3., 2., 1., 0.])
+    bindf : pd.DataFrame
+        Dataframe representation of position bin information.
     """
 
-    return np.append(np.diff(timestamps), 0)
+    bins = check_position_bins(bins, position)
+
+    data_dict = {'time' : compute_bin_time(timestamps)}
+    if speed is not None:
+        data_dict['speed'] = speed
+
+    if position.ndim == 1:
+
+        # Spatially bin 1d position data, and collect bin assignment information
+        x_edges = compute_bin_edges(position, bins, area_range)
+        x_bins = compute_bin_assignment(position, x_edges)
+        data_dict['xbin'] = pd.Categorical(\
+            x_bins, categories=list(range(0, bins[0])), ordered=True)
+
+    elif position.ndim == 2:
+
+        # Spatially bin 2d position data, and collect bin assignment information
+        x_edges, y_edges = compute_bin_edges(position, bins, area_range)
+        x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
+        data_dict['xbin'] = pd.Categorical(\
+            x_bins, categories=list(range(0, bins[0])), ordered=True)
+        data_dict['ybin'] = pd.Categorical(\
+            y_bins, categories=list(range(0, bins[1])), ordered=True)
+
+    bindf = pd.DataFrame(data_dict)
+
+    if time_threshold is not None:
+        bindf = bindf[bindf.time < time_threshold]
+
+    if speed_threshold is not None:
+        bindf = bindf[bindf.speed > speed_threshold]
+
+    return bindf
 
 
-def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None, minimum=None,
-                      normalize=False, set_nan=False, area_range=None, transpose=True):
+def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=False):
+    """Compute the bin occupancy from bin-position dataframe.
+
+    Parameters
+    ----------
+    bindf : pd.DataFrame
+        Dataframe representation of position bin information.
+    bins : int or list of [int, int]
+        The bin definition for dividing up the space. If 1d, can be integer.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
+    minimum : float, optional
+        The minimum required occupancy.
+        If defined, any values below this are set to zero.
+    normalize : bool, optional, default: False
+        Whether to normalize occupancy to sum to 1.
+    set_nan : bool, optional, default: False
+        Whether to set zero occupancy locations as NaN.
+
+    Returns
+    -------
+    occupancy : 1d or 2d array
+        Computed occupancy across the space.
+        For 2d, has shape [n_y_bins, n_x_bins] (see notes in `compute_occupancy`).
+    """
+
+    bins = check_position_bins(bins)
+
+    # Group position samples into spatial bins, summing total time spent there
+    groupby = sorted([el for el in list(bindf.columns) if 'bin' in el])
+    bingroup = bindf.groupby(groupby)['time'].sum()
+    # This standardizes any unobserved values to be zero
+    #   This can otherwise vary by code version (sometimes being NaN instead)
+    bingroup = bingroup.fillna(0)
+
+    # Extract and re-organize occupancy into array
+    occupancy = bingroup.values.reshape(*bins)
+    occupancy = occupancy.T
+
+    if minimum:
+        occupancy[occupancy < minimum] = 0.
+
+    if normalize:
+        occupancy = occupancy / np.sum(occupancy)
+
+    if set_nan:
+        occupancy[occupancy == 0.] = np.nan
+
+    return occupancy
+
+
+def compute_occupancy(position, timestamps, bins, area_range=None,
+                      speed=None, speed_threshold=None, time_threshold=None,
+                      minimum=None, normalize=False, set_nan=False):
     """Compute occupancy across spatial bin positions.
 
     Parameters
@@ -296,11 +417,17 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
-    speed : 1d array
+    area_range : list of list, optional
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+    speed : 1d array, optional
         Current speed for each position.
         Should be the same length as timestamps.
-    speed_thresh : float, optional
+    speed_threshold : float, optional
         Speed threshold to apply.
+        If provided, any position values with an associated speed below this value are dropped.
+    time_threshold : float, optional
+        A maximum time threshold, per bin observation, to apply.
+        If provided, any bin values with an associated time length above this value are dropped.
     minimum : float, optional
         The minimum required occupancy.
         If defined, any values below this are set to zero.
@@ -308,15 +435,18 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
         Whether to normalize occupancy to sum to 1.
     set_nan : bool, optional, default: False
         Whether to set zero occupancy locations as NaN.
-    area_range : list of list, optional
-        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
-    transpose : bool, optional, default: True
-        Whether to transpose the output, so that x-bins lie on the x-axis of the array.
 
     Returns
     -------
     occupancy : 1d or 2d array
         Computed occupancy across the space.
+        For 2d, has shape [n_y_bins, n_x_bins] (see notes).
+
+    Notes
+    -----
+    For the 2D case, note that while the inputs to this function list the x-axis first,
+    the output of this function, being a 2d array, follows the numpy convention in which
+    columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
 
     Examples
     --------
@@ -337,60 +467,9 @@ def compute_occupancy(position, timestamps, bins, speed=None, speed_thresh=None,
            [0.2, 0.2]])
     """
 
-    # Input checks
-    bins = check_position_bins(bins, position)
-
-    # Initialize dictionary to collect data, adding bin time information
-    data_dict = {'bin_time' : compute_bin_time(timestamps)}
-
-    if position.ndim == 1:
-
-        # Spatially bin 1d position data, and collect into a dictionary
-        x_edges = compute_bin_edges(position, bins, area_range)
-        x_bins = compute_bin_assignment(position, x_edges)
-
-        # Add binned space information to data dictionary, and define how to group data
-        data_dict['xbins'] = pd.Categorical(\
-            x_bins, categories=list(range(0, bins[0])), ordered=True)
-        groupby = ['xbins']
-
-    elif position.ndim == 2:
-
-        # Spatially bin 1d position data, and collect into a dictionary
-        x_edges, y_edges = compute_bin_edges(position, bins, area_range)
-        x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
-
-        # Add binned space information to data dictionary, and define how to group data
-        data_dict['xbins'] = pd.Categorical(\
-            x_bins, categories=list(range(0, bins[0])), ordered=True)
-        data_dict['ybins'] = pd.Categorical(\
-            y_bins, categories=list(range(0, bins[1])), ordered=True)
-        groupby = ['xbins', 'ybins']
-
-    # Collect information together into a temporary dataframe
-    df = pd.DataFrame(data_dict)
-
-    # Apply the speed threshold (dropping slow / stationary timepoints)
-    if (speed is not None and speed_thresh is not None):
-        df = df[speed > speed_thresh]
-
-    # Group each position into a spatial bin, summing total time spent there
-    df = df.groupby(groupby)['bin_time'].sum()
-
-    # Extract and re-organize occupancy into array
-    occupancy = np.squeeze(df.values.reshape(*bins, -1))
-
-    if minimum:
-        occupancy[occupancy < minimum] = 0.
-
-    if normalize:
-        occupancy = occupancy / np.sum(occupancy)
-
-    if set_nan:
-        occupancy[occupancy == 0.] = np.nan
-
-    if transpose:
-        occupancy = occupancy.T
+    df = create_position_df(position, timestamps, bins, area_range,
+                            speed, speed_threshold, time_threshold)
+    occupancy = compute_occupancy_df(df, bins, minimum, normalize, set_nan)
 
     return occupancy
 

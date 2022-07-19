@@ -3,7 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from spiketools.utils.select import get_avg_func, get_var_func
+from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.plts.data import plot_bar, plot_hist, plot_lines
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 

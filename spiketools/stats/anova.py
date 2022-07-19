@@ -1,5 +1,7 @@
 """ANOVA related helper functions."""
 
+from copy import deepcopy
+
 import numpy as np
 import pandas as pd
 
@@ -12,13 +14,50 @@ smf = safe_import('.formula.api', 'statsmodels')
 ###################################################################################################
 ###################################################################################################
 
-def create_dataframe(data, columns, drop_na=True):
+def create_dataframe(data, columns=None, drop_na=True, types=None):
     """Create a dataframe from an array of data.
 
     Parameters
     ----------
-    data : 2d array
-        Array of data to organize into a dataframe.
+    data : dict or 2d array
+        Data to organize into a dataframe.
+        If dict, each key, value pairing should be a label and data array.
+        If array, then should be organized as [n_observations, n_features].
+    columns : list of str, optional
+        The column labels for the dataframe.
+        To be used if `data` is an array.
+    drop_na : bool, optional, default: True
+        Whether to drop NaN values from the dataframe.
+    types : dict, optional
+
+
+    Returns
+    -------
+    df : pd.DataFrame
+        Constructed dataframe.
+    """
+
+    df = pd.DataFrame(data, columns=columns)
+
+    if drop_na:
+        df = df.dropna()
+
+    if types:
+        for column, ntype in types.items():
+            df[column] = df[column].astype(ntype)
+
+    return df
+
+
+def create_dataframe_bins(data, columns, drop_na=True):
+    """Create a dataframe from an array of binned data.
+
+    Parameters
+    ----------
+    data : 2d or 3d array
+        An array of data organized into pre-computed bins.
+        If a 2d array, should be organized as [n_trials, n_bins].
+        If a 3d array, should be organized as [n_trials, n_xbins, n_ybins].
     columns : list of str
         The column labels for the dataframe.
     drop_na : bool, optional, default: True
@@ -30,13 +69,30 @@ def create_dataframe(data, columns, drop_na=True):
         Constructed dataframe.
     """
 
-    n_trials, n_bins = data.shape
-    labels = np.tile(np.array(range(0, n_bins)), n_trials)
-    df = pd.DataFrame(np.transpose(np.vstack([labels, data.flatten()])),
-                      columns=columns)
+    df_columns = deepcopy(columns)
 
-    if drop_na:
-        df = df.dropna()
+    if data.ndim == 2:
+
+        n_trials, n_bins = data.shape
+
+        trial = np.repeat(np.arange(0, n_trials), n_bins)
+        labels = np.tile(np.arange(0, n_bins), n_trials)
+
+        df_data = np.stack([trial, labels, data.flatten()], axis=1)
+
+    elif data.ndim == 3:
+
+        n_trials, n_xbins, n_ybins = data.shape
+
+        trial = np.repeat(np.arange(0, n_trials), n_xbins * n_ybins)
+        xlabels = np.tile(np.repeat(np.arange(0, n_xbins), n_ybins), n_trials)
+        ylabels = np.tile(np.arange(0, n_ybins), n_trials * n_xbins)
+
+        df_data = np.stack([trial, xlabels, ylabels, data.flatten()], axis=1)
+
+    df_columns.insert(0, 'trial')
+    types = {column : 'int' for column in df_columns if 'trial' in column or 'bin' in column}
+    df = create_dataframe(df_data, df_columns, drop_na=drop_na, types=types)
 
     return df
 

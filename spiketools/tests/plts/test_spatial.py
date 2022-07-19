@@ -63,3 +63,15 @@ def test_plot_heatmap():
     data1d = np.array([0., 1., 2., 0., 2., 1.])
     plot_heatmap(data1d,
                  file_path=TEST_PLOTS_PATH, file_name='tplot_heatmap_1d.png')
+
+def test_create_heat_title():
+
+    data = np.array([[0., 1., 2.], [0., 2., 1.], [0., 3., 2.]])
+
+    title1 = create_heat_title('label', data)
+    assert isinstance(title1, str)
+
+    title2 = create_heat_title('label2', data, 2.5, 0.5)
+    assert isinstance(title2, str)
+
+    assert title1 != title2

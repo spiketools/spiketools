@@ -1,4 +1,4 @@
-"""Checker functions for spatial related funtionality."""
+"""Checker functions for spatial related functionality."""
 
 ###################################################################################################
 ###################################################################################################
@@ -17,8 +17,7 @@ def check_position(position):
         Raised if there are any issues with the given position array.
     """
 
-    assert position.ndim == 1 or position.ndim == 2, \
-        'Position input should be 1d or 2d.'
+    assert position.ndim in (1, 2), 'Position input should be 1d or 2d.'
 
 
 def check_position_bins(bins, position=None):
@@ -31,7 +30,7 @@ def check_position_bins(bins, position=None):
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     position : 1d or 2d array, optional
         Position values across a 1D or 2D space.
-        If provided, used to check consistency between position dimensionality and bin defintion.
+        If provided, used to check consistency between position dimensionality and bin definition.
 
     Returns
     -------

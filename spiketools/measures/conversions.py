@@ -117,7 +117,7 @@ def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
     Parameters
     ----------
     spikes : 1d array
-        Spike times.
+        Spike times, in seconds.
     bins : float or 1d array
         The binning to apply to the spiking data.
         If float, the length of each bin.
@@ -136,7 +136,7 @@ def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
 
     bins = check_time_bins(bins, spikes, trange)
     bin_counts, _ = np.histogram(spikes, bins)
-    cfr = bin_counts / np.diff(bins)[0]
+    cfr = bin_counts / np.diff(bins)
 
     if smooth:
         cfr = smooth_data(cfr, smooth)
