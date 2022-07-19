@@ -121,8 +121,8 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
         _add_significance(stats, sig_level=sig_level, ax=ax)
 
 
-def create_trial_title(label, avg_pre, avg_post, t_val=None, p_val=None):
-    """Create a standardized title for a event-related raster plot.
+def create_raster_title(label, avg_pre, avg_post, t_val=None, p_val=None):
+    """Create a standardized title for an event-related raster plot.
 
     Parameters
     ----------

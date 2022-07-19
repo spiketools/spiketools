@@ -39,12 +39,12 @@ def test_plot_rate_by_time():
                       labels=['A', 'B'], stats=[0.5, 0.01, 0.5, 0.01, 0.5],
                       file_path=TEST_PLOTS_PATH, file_name='tplot_time_rates2.png')
 
-def test_create_trial_title():
+def test_create_raster_title():
 
-    title1 = create_trial_title('label1', 1.0, 2.0)
+    title1 = create_raster_title('label1', 1.0, 2.0)
     assert isinstance(title1, str)
 
-    title2 = create_trial_title('label2', 1.0, 2.0, 2.5, 0.5)
+    title2 = create_raster_title('label2', 1.0, 2.0, 2.5, 0.5)
     assert isinstance(title2, str)
 
     assert title1 != title2
