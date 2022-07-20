@@ -44,7 +44,6 @@ from spiketools.plts.trials import plot_rasters
 from spiketools.plts.spatial import plot_heatmap
 
 ###################################################################################################
-#
 # Convert spiking data
 # ~~~~~~~~~~~~~~~~~~~~
 #
@@ -109,7 +108,6 @@ spike_times = convert_isis_to_times(isis, offset=0, add_offset=True)
 plot_rasters(spike_times, title='Raster spike times from ISIS')
 
 ###################################################################################################
-#
 # Compute measures of spiking activity
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
@@ -161,7 +159,6 @@ fano = compute_fano_factor(spike_train)
 print('Fano factor: {:1.2f}'.format(fano))
 
 ###################################################################################################
-#
 # Compute measures of trial spiking activity
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
@@ -229,7 +226,6 @@ segment_frs = compute_segment_frs(trial_spikes[:2], segments)
 plot_heatmap(segment_frs, title='Trial FRs, segments')
 
 ###################################################################################################
-#
 # Compute measures of spiking activity pre- and post-event
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
