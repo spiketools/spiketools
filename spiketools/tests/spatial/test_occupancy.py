@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 
 from spiketools.spatial.occupancy import *
-from spiketools.spatial.occupancy import _include_bin_edge
 
 ###################################################################################################
 ###################################################################################################
@@ -199,19 +198,3 @@ def test_compute_occupancy():
 
     # Test flipped binning should get the same total occupancy
     assert np.nansum(occ) == np.nansum(compute_occupancy(position, timestamps, [bins[1], bins[0]]))
-
-def test_include_bin_edge():
-
-    edges = np.array([0, 1, 2])
-
-    # test left side case
-    assignments = np.array([1, 2, 3])
-    position = np.array([0.5, 1.5, 2])
-    out = _include_bin_edge(assignments, position, edges, side='left')
-    assert np.array_equal(out, np.array([1, 2, 2]))
-
-    # test right right case
-    assignments = np.array([0, 1, 2])
-    position = np.array([0, 0.5, 1.5])
-    out = _include_bin_edge(assignments, position, edges, side='right')
-    assert np.array_equal(out, np.array([1, 1, 2]))

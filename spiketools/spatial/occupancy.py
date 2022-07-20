@@ -5,7 +5,7 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from spiketools.utils.checks import check_param_options, check_bin_range
+from spiketools.utils.data import assign_data_to_bins
 from spiketools.spatial.checks import check_position, check_position_bins
 from spiketools.spatial.utils import compute_bin_time
 
@@ -118,26 +118,16 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
 
     if position.ndim == 1:
 
-        check_bin_range(position, x_edges)
-        x_bins = np.digitize(position, x_edges, right=False)
+        x_bins = assign_data_to_bins(position, x_edges, include_edge)
 
-        if include_edge:
-            x_bins = _include_bin_edge(x_bins, position, x_edges, side='left')
-
-        return x_bins - 1
+        return x_bins
 
     elif position.ndim == 2:
 
-        check_bin_range(position[0, :], x_edges)
-        check_bin_range(position[1, :], y_edges)
-        x_bins = np.digitize(position[0, :], x_edges, right=False)
-        y_bins = np.digitize(position[1, :], y_edges, right=False)
+        x_bins = assign_data_to_bins(position[0, :], x_edges, include_edge)
+        y_bins = assign_data_to_bins(position[1, :], y_edges, include_edge)
 
-        if include_edge:
-            x_bins = _include_bin_edge(x_bins, position[0, :], x_edges, side='left')
-            y_bins = _include_bin_edge(y_bins, position[1, :], y_edges, side='left')
-
-        return x_bins - 1, y_bins - 1
+        return x_bins, y_bins
 
 
 def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
@@ -472,47 +462,3 @@ def compute_occupancy(position, timestamps, bins, area_range=None,
     occupancy = compute_occupancy_df(df, bins, minimum, normalize, set_nan)
 
     return occupancy
-
-
-def _include_bin_edge(assignments, position, edges, side='left'):
-    """Update bin assignment so last bin includes edge values.
-
-    Parameters
-    ----------
-    assignments : 1d array
-        The bin assignment for each position.
-    position : 1d array
-        Position values.
-    edges : 1d array
-        The bin edges.
-    side : {'left', 'right'}
-        Which side was used to compute bin assignment.
-
-    Returns
-    -------
-    assignments : 1d array
-        The bin assignment for each position.
-
-    Notes
-    -----
-    For any position values that exactly match the left-most or right-most bin edges, by default
-    (from np.digitize), one of these sides will be considered an outlier. This is because bin
-    assignment is computed as `pos >= left_bin_edge & pos < right_bin_edge (flipped if right=True).
-    To address this, this function resets position values == edges as with the bin on the edge.
-    """
-
-    check_param_options(side, 'side', ['left', 'right'])
-
-    if side == 'left':
-
-        # If side left, right position == edge gets set as len(bins), so decrement by 1
-        mask = position == edges[-1]
-        assignments[mask] = assignments[mask] - 1
-
-    elif side == 'right':
-
-        # If side right, left position == edge gets set as 0, so increment by 1
-        mask = position == edges[0]
-        assignments[mask] = assignments[mask] + 1
-
-    return assignments
