@@ -38,7 +38,6 @@ from spiketools.measures.trials import (compute_trial_frs, compute_pre_post_rate
                                         compute_segment_frs, compute_pre_post_averages,
                                         compute_pre_post_diffs)
 from spiketools.plts.spikes import plot_isis
-# from spiketools.sim.train import sim_spiketrain_prob
 from spiketools.sim.times import sim_spiketimes
 from spiketools.plts.trials import plot_rasters
 from spiketools.plts.spatial import plot_heatmap
