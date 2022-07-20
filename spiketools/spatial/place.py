@@ -119,9 +119,9 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
                                       t_speed, speed_threshold, time_threshold,
                                       **occupancy_kwargs)
 
-        place_bins_trial[ind, :, :] = compute_place_bins(t_spikes, t_pos, t_times, bins, area_range,
-                                                         t_speed, speed_threshold, time_threshold,
-                                                         t_occ)
+        place_bins_trial[ind, :] = compute_place_bins(t_spikes, t_pos, t_times, bins, area_range,
+                                                      t_speed, speed_threshold, time_threshold,
+                                                      t_occ)
 
     if flatten:
         place_bins_trial = np.reshape(place_bins_trial, [len(trial_starts), compute_nbins(bins)])
