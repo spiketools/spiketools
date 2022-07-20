@@ -62,7 +62,7 @@ def compute_bin_edges(position, bins, area_range=None):
         return x_edges, y_edges
 
 
-def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
+def compute_bin_assignment(position, x_edges, y_edges=None, check_range=True, include_edge=True):
     """Compute spatial bin assignment.
 
     Parameters
@@ -70,12 +70,12 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     position : 1d or 2d array
         Position values.
     x_edges : 1d array
-        Edge definitions for the spatial binning.
-        Values within the arrays should be monotonically increasing.
+        Edge definitions for the x dimension of the spatial binning.
     y_edges : 1d array, optional, default: None
-        Edge definitions for the spatial binning.
-        Values within the arrays should be monotonically increasing.
-        Used in 2d case only.
+        Edge definitions for the y dimension of the spatial binning. Only used if position is 2d.
+    check_range : bool, optional, default: True
+        Whether to check if the given edges fully cover the given data.
+        If True, runs a check that raises a warning if any data values exceed edge ranges.
     include_edge : bool, optional, default: True
         Whether to include positions on the edge into the bin.
 
@@ -88,10 +88,11 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
 
     Notes
     -----
-    - In the case of zero outliers (all positions are between edge ranges), the returned
-      values are encoded as bin position, with values between {0, n_bins-1}.
-    - If there are outliers (some position values that are outside the given edges definitions),
-      these are encoded as -1 (left side) or n_bins (right side). A warning will be raised.
+    - Values in the edge array(s) should be monotonically increasing.
+    - If there are no outliers (all position values are between edge ranges), the returned
+      bin assignments will range from (0, n_bins-1).
+    - Outliers (position values beyond the given edges definitions), will be encoded as -1
+      (left side) or `n_bins` (right side). If `check_range` is True, a warning will be raised.
     - By default position values equal to the left-most & right-most edges are treated as
       within the bounds (not treated as outliers), unless `include_edge` is set as False.
 

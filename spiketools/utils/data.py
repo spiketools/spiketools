@@ -87,7 +87,7 @@ def drop_nans(data):
     return data
 
 
-def assign_data_to_bins(data, edges, include_edge=True):
+def assign_data_to_bins(data, edges, check_range=True, include_edge=True):
     """Assign data values to data bins, based on given edges.
 
     Parameters
@@ -96,6 +96,9 @@ def assign_data_to_bins(data, edges, include_edge=True):
         Data values to bin.
     edges : 1d array
         Edge definitions for the binning.
+    check_range : bool, optional, default: True
+        Whether to check if the given edges fully cover the given data.
+        If True, runs a check that raises a warning if any data values exceed edge ranges.
     include_edge : bool, optional, default: True
         Whether to include data values on the edge into the bin.
 
@@ -105,7 +108,8 @@ def assign_data_to_bins(data, edges, include_edge=True):
         Bin assignments per data value.
     """
 
-    check_bin_range(data, edges)
+    if check_range:
+        check_bin_range(data, edges)
     assignments = np.digitize(data, edges, right=False)
 
     if include_edge:
