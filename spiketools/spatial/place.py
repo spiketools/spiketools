@@ -123,6 +123,10 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
                                                       t_speed, speed_threshold, time_threshold,
                                                       t_occ)
 
+        # This to turn off the range warning for subsequent loop iterations
+        #   This should be addressed by a warning filter, but that approach doesn't seem to work...
+        occupancy_kwargs['check_range'] = False
+
     if flatten:
         place_bins_trial = np.reshape(place_bins_trial, [len(trial_starts), compute_nbins(bins)])
 

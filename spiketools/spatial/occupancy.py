@@ -5,6 +5,7 @@ import warnings
 import numpy as np
 import pandas as pd
 
+from spiketools.utils.checks import check_bin_range
 from spiketools.utils.data import assign_data_to_bins
 from spiketools.spatial.checks import check_position, check_position_bins
 from spiketools.spatial.utils import compute_bin_time
@@ -119,14 +120,14 @@ def compute_bin_assignment(position, x_edges, y_edges=None, check_range=True, in
 
     if position.ndim == 1:
 
-        x_bins = assign_data_to_bins(position, x_edges, include_edge)
+        x_bins = assign_data_to_bins(position, x_edges, check_range, include_edge)
 
         return x_bins
 
     elif position.ndim == 2:
 
-        x_bins = assign_data_to_bins(position[0, :], x_edges, include_edge)
-        y_bins = assign_data_to_bins(position[1, :], y_edges, include_edge)
+        x_bins = assign_data_to_bins(position[0, :], x_edges, check_range, include_edge)
+        y_bins = assign_data_to_bins(position[1, :], y_edges, check_range, include_edge)
 
         return x_bins, y_bins
 
@@ -279,7 +280,8 @@ def normalize_bin_counts(bin_counts, occupancy):
 
 
 def create_position_df(position, timestamps, bins, area_range=None,
-                       speed=None, speed_threshold=None, time_threshold=None):
+                       speed=None, speed_threshold=None, time_threshold=None,
+                       dropna=True, check_range=True):
     """Create a dataframe that stores information about position bins.
 
     Parameters
@@ -302,6 +304,10 @@ def create_position_df(position, timestamps, bins, area_range=None,
     time_threshold : float, optional
         A maximum time threshold, per bin observation, to apply.
         If provided, any bin values with an associated time length above this value are dropped.
+    dropna : bool, optional, default: True
+        If True, drops any rows from the dataframe that contain NaN values.
+    check_range : bool, optional, default: True
+        Whether to check the given bin definition range against the position values.
 
     Returns
     -------
@@ -319,7 +325,8 @@ def create_position_df(position, timestamps, bins, area_range=None,
 
         # Spatially bin 1d position data, and collect bin assignment information
         x_edges = compute_bin_edges(position, bins, area_range)
-        x_bins = compute_bin_assignment(position, x_edges)
+        x_bins = compute_bin_assignment(position, x_edges, check_range=check_range)
+
         data_dict['xbin'] = pd.Categorical(\
             x_bins, categories=list(range(0, bins[0])), ordered=True)
 
@@ -327,7 +334,9 @@ def create_position_df(position, timestamps, bins, area_range=None,
 
         # Spatially bin 2d position data, and collect bin assignment information
         x_edges, y_edges = compute_bin_edges(position, bins, area_range)
-        x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
+        x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges,
+                                                check_range=check_range)
+
         data_dict['xbin'] = pd.Categorical(\
             x_bins, categories=list(range(0, bins[0])), ordered=True)
         data_dict['ybin'] = pd.Categorical(\
@@ -340,6 +349,9 @@ def create_position_df(position, timestamps, bins, area_range=None,
 
     if speed_threshold is not None:
         bindf = bindf[bindf.speed > speed_threshold]
+
+    if dropna:
+        bindf = bindf.dropna()
 
     return bindf
 
@@ -394,8 +406,8 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
     return occupancy
 
 
-def compute_occupancy(position, timestamps, bins, area_range=None,
-                      speed=None, speed_threshold=None, time_threshold=None,
+def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
+                      speed_threshold=None, time_threshold=None, check_range=True,
                       minimum=None, normalize=False, set_nan=False):
     """Compute occupancy across spatial bin positions.
 
@@ -419,6 +431,8 @@ def compute_occupancy(position, timestamps, bins, area_range=None,
     time_threshold : float, optional
         A maximum time threshold, per bin observation, to apply.
         If provided, any bin values with an associated time length above this value are dropped.
+    check_range : bool, optional, default: True
+        Whether to check the given bin definition range against the position values.
     minimum : float, optional
         The minimum required occupancy.
         If defined, any values below this are set to zero.
@@ -459,7 +473,8 @@ def compute_occupancy(position, timestamps, bins, area_range=None,
     """
 
     df = create_position_df(position, timestamps, bins, area_range,
-                            speed, speed_threshold, time_threshold)
+                            speed, speed_threshold, time_threshold,
+                            check_range=check_range)
     occupancy = compute_occupancy_df(df, bins, minimum, normalize, set_nan)
 
     return occupancy
