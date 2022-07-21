@@ -4,6 +4,7 @@ import numpy as np
 
 from spiketools.spatial.utils import compute_nbins
 from spiketools.spatial.occupancy import compute_occupancy, compute_bin_counts_pos
+from spiketools.spatial.checks import check_position_bins
 from spiketools.utils.extract import (get_range, get_values_by_time_range, get_values_by_times,
                                       threshold_spikes_by_values)
 
