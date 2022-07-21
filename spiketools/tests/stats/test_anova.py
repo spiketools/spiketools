@@ -34,7 +34,7 @@ def test_create_dataframe_bins():
 
     # Create new data, where each bin value matches bin index
     data2db = np.array([[0, 1, 2],
-                       [0, 1, 2]])
+                        [0, 1, 2]])
     df = create_dataframe_bins(data2db, ['bin', 'fr'])
     for ind in range(0, np.max(data2db) + 1):
         assert np.all(df[df['bin'] == ind]['fr'].values == ind)

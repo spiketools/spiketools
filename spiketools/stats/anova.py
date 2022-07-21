@@ -30,7 +30,8 @@ def create_dataframe(data, columns=None, drop_na=True, types=None):
     drop_na : bool, optional, default: True
         Whether to drop NaN values from the dataframe.
     types : dict, optional
-
+        A types to typecast columns too.
+        Each key should be a column label, and each associated value the type to typecast to.
 
     Returns
     -------
@@ -50,7 +51,7 @@ def create_dataframe(data, columns=None, drop_na=True, types=None):
     return df
 
 
-def create_dataframe_bins(bin_data, columns=None, other_data=None, drop_na=True):
+def create_dataframe_bins(bin_data, bin_columns=None, other_data=None, drop_na=True):
     """Create a dataframe from an array of binned data.
 
     Parameters
@@ -59,10 +60,10 @@ def create_dataframe_bins(bin_data, columns=None, other_data=None, drop_na=True)
         An array of data organized into pre-computed bins.
         If a 2d array, should be organized as [n_trials, n_bins].
         If a 3d array, should be organized as [n_trials, n_xbins, n_ybins].
-    columns : list of str, optional
+    bin_columns : list of str, optional
         The column labels for the bin data.
         Defaults to ['bin', 'fr'] for 1d bins or ['xbin', 'ybin' 'fr'] for 2d bins.
-    other_data : dict
+    other_data : dict, optional
         Additional data columns, reflecting data per trial, to add to the dataframe.
         Each key should be a column label and each value should be an array of length n_trials.
     drop_na : bool, optional, default: True
@@ -76,7 +77,7 @@ def create_dataframe_bins(bin_data, columns=None, other_data=None, drop_na=True)
 
     if bin_data.ndim == 2:
 
-        df_columns = ['bin', 'fr'] if not columns else deepcopy(columns)
+        df_columns = ['bin', 'fr'] if not bin_columns else deepcopy(bin_columns)
 
         n_trials, n_bins = bin_data.shape
 
@@ -87,7 +88,7 @@ def create_dataframe_bins(bin_data, columns=None, other_data=None, drop_na=True)
 
     elif bin_data.ndim == 3:
 
-        df_columns = ['xbin', 'ybin', 'fr'] if not columns else deepcopy(columns)
+        df_columns = ['xbin', 'ybin', 'fr'] if not bin_columns else deepcopy(bin_columns)
 
         n_trials, n_xbins, n_ybins = bin_data.shape
         n_bins = n_xbins * n_ybins
@@ -122,7 +123,7 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
     df : pd.DataFrame
         Dataframe of data to fit the ANOVA to.
     formula : str
-        The formula
+        The formula.
     feature : str, optional
         Which feature to extract from the model.
         Only used (and required) if `return_type` is 'f_val'.
