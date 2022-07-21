@@ -106,6 +106,9 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
 
     t_occ = None
     t_speed = None
+    
+    bins = check_position_bins(bins, position)
+    
     place_bins_trial = np.zeros([len(trial_starts), *np.flip(bins)])
     for ind, (start, stop) in enumerate(zip(trial_starts, trial_stops)):
 
