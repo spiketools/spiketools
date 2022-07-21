@@ -155,8 +155,8 @@ x_edges, y_edges = compute_bin_edges(position, bins)
 # Compute the width of each spatial bin
 x_bins_spatial_width = compute_bin_width(x_edges)
 y_bins_spatial_width = compute_bin_width(y_edges)
-print(f'The x spatial bins have width = {x_bins_spatial_width}')
-print(f'The y spatial bins have width = {y_bins_spatial_width}')
+print('The x spatial bins have width = {:.3}'.format(x_bins_spatial_width))
+print('The y spatial bins have width = {:.3}'.format(y_bins_spatial_width))
 
 ###################################################################################################
 
@@ -263,7 +263,7 @@ normalized_bin_fr_1d = normalize_bin_counts(bin_firing_1d, occupancy=occupancy_1
 # Compute 1d spatial information
 spatial_information_1d = compute_spatial_information(normalized_bin_fr_1d, occupancy_1d,
                                                      normalize=False)
-print(f'The 1D spatial information is = {spatial_information_1d}')
+print('The 1D spatial information is = {:.3}'.format(spatial_information_1d))
 
 ###################################################################################################
 
@@ -273,6 +273,6 @@ bin_firing = compute_bin_counts_assgn(bins=bins, xbins=spike_x, ybins=spike_y)
 normalized_bin_fr = normalize_bin_counts(bin_firing, occupancy=occupancy)
 # Compute 2d spatial information
 spatial_information_2d = compute_spatial_information(normalized_bin_fr, occupancy, normalize=False)
-print(f'The 2D spatial information is = {spatial_information_2d}')
+print('The 2D spatial information is = {:.3}'.format(spatial_information_2d))
 
 ###################################################################################################
