@@ -36,8 +36,8 @@ def compute_trial_frs(trial_spikes, bins, trange=None, smooth=None):
     Examples
     --------
     Compute the firing rate of 15 spike times (in seconds) from 3 trials acorss time bins. 
-    >>> trial_spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), 
-                        np.array([0.275, 0.290, 0.300, 0.350, 0.500]), 
+    >>> trial_spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
+                        np.array([0.275, 0.290, 0.300, 0.350, 0.500]), \
                         np.array([0.550, 0.650, 0.700, 0.900, 0.950])]
     >>> bins = np.array([0.2, 0.3, 0.4, 0.6, 0.9, 1])
     >>> compute_trial_frs(trial_spikes, bins)
@@ -72,8 +72,8 @@ def compute_pre_post_rates(trial_spikes, pre_window, post_window):
     Examples
     --------
     Compute the pre & post firing rate for 15 spike times (in seconds) from 3 trials. 
-    >>> trial_spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), 
-                        np.array([0.275, 0.290, 0.3, 0.350, 0.5]), 
+    >>> trial_spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
+                        np.array([0.275, 0.290, 0.3, 0.350, 0.5]), \
                         np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
     >>> pre_window, post_window = [0.1, 0.2], [0.5, 0.9]
     >>> compute_pre_post_rates(trial_spikes, pre_window, post_window)
@@ -105,12 +105,10 @@ def compute_segment_frs(spikes, segments):
     Examples
     --------
     Compute firing rate in each of the 3 segments, per trial.
-    >>> spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), 
-                  np.array([0.275, 0.290, 0.3, 0.350, 0.5]), 
+    >>> spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]),\ 
+                  np.array([0.275, 0.290, 0.3, 0.350, 0.5]), \
                   np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
-    >>> segments = np.array([[0.002, 0.1, 0.15, 0.25], 
-                             [0.275, 0.3, 0.4, 0.5], 
-                             [0.6, 0.7, 0.9, 1]])
+    >>> segments = np.array([[0.002, 0.1, 0.15, 0.25], [0.275, 0.3, 0.4, 0.5], [0.6, 0.7, 0.9, 1]])
     >>> compute_segment_frs(spikes, segments)
     array([[20.40816327, 20.        , 20.        ],
            [80.        , 20.        , 10.        ],
