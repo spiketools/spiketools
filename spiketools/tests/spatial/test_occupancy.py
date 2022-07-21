@@ -44,26 +44,24 @@ def test_compute_bin_edges():
 
 def test_compute_bin_assignment():
 
-    # test with simple data, checking accuracy
-    position = np.array([[1, 3, 5, 7], [1, 3, 5, 7]])
-    x_edges = np.array([0, 2, 4, 6, 8])
-    y_edges = np.array([0, 2, 4, 6, 8])
-    x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
-    expected = np.array([0, 1, 2, 3])
-    assert isinstance(x_bins, np.ndarray)
-    assert isinstance(y_bins, np.ndarray)
-    assert np.array_equal(x_bins, expected)
-    assert np.array_equal(y_bins, expected)
+    # test 1d data
+    position = np.array([1, 3, 5, 7])
+    edges = np.array([0, 2, 4, 6, 8])
+    assgns = compute_bin_assignment(position, edges)
+    expected1 = np.array([0, 1, 2, 3])
+    assert isinstance(assgns, np.ndarray)
+    assert np.array_equal(assgns, expected1)
 
-    # test with larger, random data
-    position = np.random.uniform(0, 2, (2, 10))
-    x_edges = np.arange(0, 2.2, 0.2)
-    y_edges = np.arange(0, 2.2, 0.2)
+    # test 2d data
+    position = np.array([[1, 3, 5, 7], [11, 13, 15, 17]])
+    x_edges = np.array([0, 2, 4, 6, 8])
+    y_edges = np.array([10, 12, 14, 16, 18])
     x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
+    expected2 = np.array([0, 1, 2, 3])
     assert isinstance(x_bins, np.ndarray)
     assert isinstance(y_bins, np.ndarray)
-    assert position[0].shape == x_bins.shape
-    assert position[1].shape == y_bins.shape
+    assert np.array_equal(x_bins, expected1)
+    assert np.array_equal(y_bins, expected2)
 
 def test_compute_bin_counts_pos():
 
@@ -145,9 +143,8 @@ def test_create_position_df():
 
 def test_compute_occupancy_df():
 
-    data_dict = {
-        'time' : np.array([5, 5, 5, 5, 5, 5, 5, 5, 5.]),
-        'xbin' : np.array([0, 0, 0, 0, 1, 1, 1, 2, 2])}
+    data_dict = {'time' : np.array([5, 5, 5, 5, 5, 5, 5, 5, 5.]),
+                 'xbin' : np.array([0, 0, 0, 0, 1, 1, 1, 2, 2])}
 
     # check 1d case
     bins = 3

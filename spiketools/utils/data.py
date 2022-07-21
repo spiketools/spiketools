@@ -6,6 +6,8 @@ import numpy as np
 
 from scipy.ndimage import gaussian_filter
 
+from spiketools.utils.checks import check_param_options, check_bin_range
+
 ###################################################################################################
 ###################################################################################################
 
@@ -83,3 +85,78 @@ def drop_nans(data):
         raise ValueError('Only 1d or 2d arrays supported.')
 
     return data
+
+
+def assign_data_to_bins(data, edges, check_range=True, include_edge=True):
+    """Assign data values to data bins, based on given edges.
+
+    Parameters
+    ----------
+    data : 1d array
+        Data values to bin.
+    edges : 1d array
+        Edge definitions for the binning.
+    check_range : bool, optional, default: True
+        Whether to check if the given edges fully cover the given data.
+        If True, runs a check that raises a warning if any data values exceed edge ranges.
+    include_edge : bool, optional, default: True
+        Whether to include data values on the edge into the bin.
+
+    Returns
+    -------
+    assignments : 1d array
+        Bin assignments per data value.
+    """
+
+    if check_range:
+        check_bin_range(data, edges)
+    assignments = np.digitize(data, edges, right=False)
+
+    if include_edge:
+        assignments = _include_bin_edge(assignments, data, edges, side='left')
+
+    return assignments - 1
+
+
+def _include_bin_edge(assignments, position, edges, side='left'):
+    """Update bin assignment so last bin includes edge values.
+
+    Parameters
+    ----------
+    assignments : 1d array
+        The bin assignment for each position.
+    position : 1d array
+        Position values.
+    edges : 1d array
+        The bin edges.
+    side : {'left', 'right'}
+        Which side was used to compute bin assignment.
+
+    Returns
+    -------
+    assignments : 1d array
+        The bin assignment for each position.
+
+    Notes
+    -----
+    For any position values that exactly match the left-most or right-most bin edges, by default
+    (from np.digitize), one of these sides will be considered an outlier. This is because bin
+    assignment is computed as `pos >= left_bin_edge & pos < right_bin_edge (flipped if right=True).
+    To address this, this function resets position values == edges as with the bin on the edge.
+    """
+
+    check_param_options(side, 'side', ['left', 'right'])
+
+    if side == 'left':
+
+        # If side left, right position == edge gets set as len(bins), so decrement by 1
+        mask = position == edges[-1]
+        assignments[mask] = assignments[mask] - 1
+
+    elif side == 'right':
+
+        # If side right, left position == edge gets set as 0, so increment by 1
+        mask = position == edges[0]
+        assignments[mask] = assignments[mask] + 1
+
+    return assignments

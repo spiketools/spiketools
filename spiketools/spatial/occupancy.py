@@ -5,7 +5,8 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from spiketools.utils.checks import check_param_options, check_bin_range
+from spiketools.utils.checks import check_bin_range
+from spiketools.utils.data import assign_data_to_bins
 from spiketools.spatial.checks import check_position, check_position_bins
 from spiketools.spatial.utils import compute_bin_time
 
@@ -62,7 +63,7 @@ def compute_bin_edges(position, bins, area_range=None):
         return x_edges, y_edges
 
 
-def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
+def compute_bin_assignment(position, x_edges, y_edges=None, check_range=True, include_edge=True):
     """Compute spatial bin assignment.
 
     Parameters
@@ -70,12 +71,12 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
     position : 1d or 2d array
         Position values.
     x_edges : 1d array
-        Edge definitions for the spatial binning.
-        Values within the arrays should be monotonically increasing.
+        Edge definitions for the x dimension of the spatial binning.
     y_edges : 1d array, optional, default: None
-        Edge definitions for the spatial binning.
-        Values within the arrays should be monotonically increasing.
-        Used in 2d case only.
+        Edge definitions for the y dimension of the spatial binning. Only used if position is 2d.
+    check_range : bool, optional, default: True
+        Whether to check if the given edges fully cover the given data.
+        If True, runs a check that raises a warning if any data values exceed edge ranges.
     include_edge : bool, optional, default: True
         Whether to include positions on the edge into the bin.
 
@@ -88,10 +89,11 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
 
     Notes
     -----
-    - In the case of zero outliers (all positions are between edge ranges), the returned
-      values are encoded as bin position, with values between {0, n_bins-1}.
-    - If there are outliers (some position values that are outside the given edges definitions),
-      these are encoded as -1 (left side) or n_bins (right side). A warning will be raised.
+    - Values in the edge array(s) should be monotonically increasing.
+    - If there are no outliers (all position values are between edge ranges), the returned
+      bin assignments will range from (0, n_bins-1).
+    - Outliers (position values beyond the given edges definitions), will be encoded as -1
+      (left side) or `n_bins` (right side). If `check_range` is True, a warning will be raised.
     - By default position values equal to the left-most & right-most edges are treated as
       within the bounds (not treated as outliers), unless `include_edge` is set as False.
 
@@ -118,26 +120,16 @@ def compute_bin_assignment(position, x_edges, y_edges=None, include_edge=True):
 
     if position.ndim == 1:
 
-        check_bin_range(position, x_edges)
-        x_bins = np.digitize(position, x_edges, right=False)
+        x_bins = assign_data_to_bins(position, x_edges, check_range, include_edge)
 
-        if include_edge:
-            x_bins = _include_bin_edge(position, x_bins, x_edges, side='left')
-
-        return x_bins - 1
+        return x_bins
 
     elif position.ndim == 2:
 
-        check_bin_range(position[0, :], x_edges)
-        check_bin_range(position[1, :], y_edges)
-        x_bins = np.digitize(position[0, :], x_edges, right=False)
-        y_bins = np.digitize(position[1, :], y_edges, right=False)
+        x_bins = assign_data_to_bins(position[0, :], x_edges, check_range, include_edge)
+        y_bins = assign_data_to_bins(position[1, :], y_edges, check_range, include_edge)
 
-        if include_edge:
-            x_bins = _include_bin_edge(position[0, :], x_bins, x_edges, side='left')
-            y_bins = _include_bin_edge(position[1, :], y_bins, y_edges, side='left')
-
-        return x_bins - 1, y_bins - 1
+        return x_bins, y_bins
 
 
 def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
@@ -288,7 +280,8 @@ def normalize_bin_counts(bin_counts, occupancy):
 
 
 def create_position_df(position, timestamps, bins, area_range=None,
-                       speed=None, speed_threshold=None, time_threshold=None):
+                       speed=None, speed_threshold=None, time_threshold=None,
+                       dropna=True, check_range=True):
     """Create a dataframe that stores information about position bins.
 
     Parameters
@@ -311,6 +304,10 @@ def create_position_df(position, timestamps, bins, area_range=None,
     time_threshold : float, optional
         A maximum time threshold, per bin observation, to apply.
         If provided, any bin values with an associated time length above this value are dropped.
+    dropna : bool, optional, default: True
+        If True, drops any rows from the dataframe that contain NaN values.
+    check_range : bool, optional, default: True
+        Whether to check the given bin definition range against the position values.
 
     Returns
     -------
@@ -328,7 +325,8 @@ def create_position_df(position, timestamps, bins, area_range=None,
 
         # Spatially bin 1d position data, and collect bin assignment information
         x_edges = compute_bin_edges(position, bins, area_range)
-        x_bins = compute_bin_assignment(position, x_edges)
+        x_bins = compute_bin_assignment(position, x_edges, check_range=check_range)
+
         data_dict['xbin'] = pd.Categorical(\
             x_bins, categories=list(range(0, bins[0])), ordered=True)
 
@@ -336,7 +334,9 @@ def create_position_df(position, timestamps, bins, area_range=None,
 
         # Spatially bin 2d position data, and collect bin assignment information
         x_edges, y_edges = compute_bin_edges(position, bins, area_range)
-        x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges)
+        x_bins, y_bins = compute_bin_assignment(position, x_edges, y_edges,
+                                                check_range=check_range)
+
         data_dict['xbin'] = pd.Categorical(\
             x_bins, categories=list(range(0, bins[0])), ordered=True)
         data_dict['ybin'] = pd.Categorical(\
@@ -349,6 +349,9 @@ def create_position_df(position, timestamps, bins, area_range=None,
 
     if speed_threshold is not None:
         bindf = bindf[bindf.speed > speed_threshold]
+
+    if dropna:
+        bindf = bindf.dropna()
 
     return bindf
 
@@ -403,8 +406,8 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
     return occupancy
 
 
-def compute_occupancy(position, timestamps, bins, area_range=None,
-                      speed=None, speed_threshold=None, time_threshold=None,
+def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
+                      speed_threshold=None, time_threshold=None, check_range=True,
                       minimum=None, normalize=False, set_nan=False):
     """Compute occupancy across spatial bin positions.
 
@@ -428,6 +431,8 @@ def compute_occupancy(position, timestamps, bins, area_range=None,
     time_threshold : float, optional
         A maximum time threshold, per bin observation, to apply.
         If provided, any bin values with an associated time length above this value are dropped.
+    check_range : bool, optional, default: True
+        Whether to check the given bin definition range against the position values.
     minimum : float, optional
         The minimum required occupancy.
         If defined, any values below this are set to zero.
@@ -468,51 +473,8 @@ def compute_occupancy(position, timestamps, bins, area_range=None,
     """
 
     df = create_position_df(position, timestamps, bins, area_range,
-                            speed, speed_threshold, time_threshold)
+                            speed, speed_threshold, time_threshold,
+                            check_range=check_range)
     occupancy = compute_occupancy_df(df, bins, minimum, normalize, set_nan)
 
     return occupancy
-
-
-def _include_bin_edge(position, bin_pos, edges, side='left'):
-    """Update bin assignment so last bin includes edge values.
-
-    Parameters
-    ----------
-    position : 1d array
-        Position values.
-    bin_pos : 1d array
-        The bin assignment for each position.
-    edges : 1d array
-        The bin edge definitions.
-    side : {'left', 'right'}
-        Which side was used to compute bin assignment.
-
-    Returns
-    -------
-    bin_pos : 1d array
-        The bin assignment for each position.
-
-    Notes
-    -----
-    For any position values that exactly match the left-most or right-most bin edges, by default
-    (from np.digitize), one of these sides will be considered an outlier. This is because bin
-    assignment is computed as `pos >= left_bin_edge & pos < right_bin_edge (flipped if right=True).
-    To address this, this function resets position values == edges as with the bin on the edge.
-    """
-
-    check_param_options(side, 'side', ['left', 'right'])
-
-    if side == 'left':
-
-        # If side left, right position == edge gets set as len(bins), so decrement by 1
-        mask = position == edges[-1]
-        bin_pos[mask] = bin_pos[mask] - 1
-
-    elif side == 'right':
-
-        # If side right, left position == edge gets set as 0, so increment by 1
-        mask = position == edges[0]
-        bin_pos[mask] = bin_pos[mask] + 1
-
-    return bin_pos
