@@ -86,20 +86,21 @@ def infer_time_unit(time_values):
     return time_unit
 
 
-def check_bin_range(values, bin_edges):
+def check_bin_range(values, bin_area):
     """Checks data values against given bin edges, warning if values exceed bin range.
 
     Parameters
     ----------
     values : 1d array
         A set of value to check against bin edges.
-    bin_edges : 1d array
-        The bin edges to use to check.
+    bin_area : 1d array or list
+        The bin range area to check. Can be a two-item area range, or an array of bin edges.
     """
 
     if values.size > 0:
-        if np.nanmin(values) < bin_edges[0] or np.nanmax(values) > bin_edges[-1]:
-            warnings.warn('The data values extend beyond the given bin definition.')
+        if np.nanmin(values) < bin_area[0] or np.nanmax(values) > bin_area[-1]:
+            msg = 'The data values extend beyond the given bin definition.'
+            warnings.warn(msg)
 
 
 def check_time_bins(bins, values, trange=None, check_range=True):
