@@ -55,8 +55,8 @@ from spiketools.plts.spatial import plot_heatmap
 
 ###################################################################################################
 
-# Generate a spike times at 60Hz for 2 seconds
-spike_times = sim_spiketimes(60, 2, 'poisson', refractory=0.001)
+# Generate a spike times at 100Hz for 5 seconds
+spike_times = sim_spiketimes(100, 5, 'poisson', refractory=0.001)
 
 ###################################################################################################
 #
@@ -72,15 +72,16 @@ spike_times = sim_spiketimes(60, 2, 'poisson', refractory=0.001)
 spike_train = convert_times_to_train(spike_times, fs=1000)
 
 # Print the first 20 spikes in the binary spike train
-print('Spike times:',spike_times[spike_times<(20/1000)]) 
+print('Spike times:', spike_times[spike_times<(20/1000)]) 
 print('Corresponding spike train:', spike_train[:20])
 
-# Plot the spike times
-plot_rasters(spike_times, title='Raster of spike times')
+# Plot the first second of the spike times
+plot_rasters(spike_times[spike_times<1], title='Raster of spike times')
 
 ###################################################################################################
 #
 # Similarly, we can also convert binary spike train to spike times in seconds.
+# We can see it has the same raster plot as the original data.
 #
 
 ###################################################################################################
@@ -88,12 +89,13 @@ plot_rasters(spike_times, title='Raster of spike times')
 # Convert a binary spike train with sampling rate of 1000 to spike times in seconds
 spike_times = convert_train_to_times(spike_train, fs=1000)
 
-# Plot the spike times
-plot_rasters(spike_times, title='Raster spike times from spike train')
+# Plot the first second of the spike times
+plot_rasters(spike_times[spike_times<1], title='Raster spike times from spike train')
 
 ###################################################################################################
 #
 # Finally, we can convert from the inter-spike intervals to spike times.
+# We can see it has the same raster plot as the original data.
 #
 
 ###################################################################################################
@@ -103,21 +105,21 @@ isis = compute_isis(spike_times)
 # Convert a vector of inter-spike intervals in seconds to spike times in seconds
 spike_times = convert_isis_to_times(isis, offset=0, add_offset=True)
 
-# Plot the spike times
-plot_rasters(spike_times, title='Raster spike times from ISIS')
+# Plot the first second of the spike times
+plot_rasters(spike_times[spike_times<1], title='Raster spike times from ISIS')
 
 ###################################################################################################
 # Compute measures of spiking activity
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# First, we estimate spike rate from a vector of spike times, in seconds.
+# First, we estimate spike rate from a vector of spike times, in spikes/second.
 #
 
 ###################################################################################################
 
 # Compute the spike rate from spike times
 spike_rate = compute_firing_rate(spike_times)
-print(f'The spike rate is {spike_rate} Hz')
+print('The spike rate is  {:.3}'.format(spike_rate), 'Hz')
 
 ###################################################################################################
 #
@@ -143,7 +145,7 @@ plot_isis(isis, bins=None, range=None, density=False, ax=None)
 
 # Compute the coefficient of variation
 cv = compute_cv(isis)
-print('Coefficient of variation:', cv)
+print('Coefficient of variation: {:.3}'.format(cv))
 
 ###################################################################################################
 #
@@ -155,7 +157,7 @@ print('Coefficient of variation:', cv)
 
 # Compute the fano factor of a binary spike train
 fano = compute_fano_factor(spike_train)
-print('Fano factor: {:1.2f}'.format(fano))
+print('Fano factor: {:.3}'.format(fano))
 
 ###################################################################################################
 # Compute measures of trial spiking activity
@@ -249,12 +251,12 @@ frs_pre, frs_post = compute_pre_post_rates(trial_spikes, pre_window, post_window
 # Compute the average firing rates
 pre_post_avg = compute_pre_post_averages(frs_pre, frs_post, avg_type='mean')
 # Print the average firing rates
-print(f'Average FR pre-event: {pre_post_avg[0]}')
-print(f'Average FR post-event: {pre_post_avg[1]}')
+print('Average FR pre-event: {:.3}'.format(pre_post_avg[0]))
+print('Average FR post-event: {:.3}'.format(pre_post_avg[1]))
 
 # Compute the difference between firing rates
 pre_post_diffs = compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_type='mean')
 # Print the average firing rates
-print(f'Difference between pre- and post-event FR: {pre_post_diffs}')
+print('Difference between pre- and post-event FR: {:.3}'.format(pre_post_diffs))
 
 ###################################################################################################
