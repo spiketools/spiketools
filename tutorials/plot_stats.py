@@ -17,8 +17,11 @@ This tutorial primarily covers the ``spiketools.stats`` module.
 # This tutorial contains the following sections:
 #
 # 1. Compute and plot different shuffles of spikes
-# 2. Compute empirical p-value and z-score from distribution of surrogates
-# 3. Compute f-value from spiking data using ANOVA
+# 2. CCompute t-test t- and p-values to test for an event-related firing rate change
+# 3. Compare 1st and last half of trials
+# 3. Run 2-way ANOVA on multiple trials data
+# 4. Compute empirical p-value and z-score from distribution of surrogates
+# 5. Compute f-value from spiking data using 1-way ANOVA
 
 ###################################################################################################
 
@@ -59,8 +62,8 @@ spikes = sim_spiketimes(10, 100, 'poisson', refractory=0.001)
 spikes = np.unique((spikes*1000).astype(int)) / 1000
 
 ###################################################################################################
-# 1. Compute and plot different shuffles of spikes
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Compute and plot different shuffles of spikes
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # Here, we will explore different shuffle approaches to create different shuffled
 # surrogates of our original spikes.
@@ -111,12 +114,12 @@ plt.subplots_adjust(hspace=0.3)
 fig.set_size_inches((40/2.54, 20/2.54))
 
 ###################################################################################################
-# Compute the empirical p-value and z-score from distribution of surrogates
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Compute t-test t- and p-values to test for an event-related firing rate change
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# First generate data that simulates a change in spike rate due to an event across 5 trials.
-# In this example case, for each trial, we will be simulating spikes at 1Hz for 3 seconds for the 
-# pre-event, and spikes at at 6Hz for 3 seconds for the post-event.
+# First generate data that simulates a change in spike rate due to an event across 10 trials.
+# In this example case, for each trial, we will be simulating spikes at 5Hz for 3 seconds for the 
+# pre-event, and spikes at at 10Hz for 3 seconds for the post-event.
 #
 
 ###################################################################################################
@@ -170,13 +173,14 @@ frs_pre, frs_post = compute_pre_post_rates(trial_spikes, pre_window, post_window
 # Calculate empirical p-value and t-value between the firing rates using a t-test
 tval_t, pval_t = compute_pre_post_ttest(frs_pre, frs_post)
 
-print(f'The t-test value of comparing FRs pre and post the event is {round(tval_t, 2)}, \
-and the t-test p-value is {round(pval_t, 2)}')
+print('The t-test value of comparing FRs pre and post the event is {:.3}'.format(tval_t), ', \
+ and the t-test p-value is {:.3e}'.format(pval_t))
 
 ###################################################################################################
 # 
 # Next, calculate firing rates of the post-event with respect to the pre-event per trial.
-# We will also re-compute the t-test between the pre- and post-event firing rates across trials.
+# This is also another way of running the t-test between the pre- and post-event firing rates 
+# across trials.
 # 
 
 ###################################################################################################
@@ -187,16 +191,43 @@ avg_pre, avg_post, tval_t, pval_t = compare_pre_post_activity(trial_spikes, pre_
                                                               post_window, avg_type='mean')
 
 # Print the average firing rates
-print(f'Average FR pre-event: {avg_pre}')
-print(f'Average FR post-event: {avg_post}')
+print('Average FR pre-event: {:.3}'.format(avg_pre))
+print('Average FR post-event: {:.3}'.format(avg_post))
 
-print(f'The t-test value of comparing FRs pre and post the event is {round(tval_t, 2)}, \
-and the t-test p-value is {round(pval_t, 2)}')
+print('The t-test value of comparing FRs pre and post the event is {:.3}'.format(tval_t), '\
+ and the t-test p-value is {:.3e}'.format(pval_t))
+
 
 ###################################################################################################
-# 
-# Organize the firing rates in a pandas DataFrame.
-# With this organization, we can run, for example, ANOVAS.
+# Compare 1st and last half of trials
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# In real data, time or trial index may influence the outcome.
+# To check for that, we compare each bin (pre and post event) in the 1st 5 trials to the 
+# corresponding bin (pre and post event, respectively) in the last 5 trials using a t-test.
+#
+
+###################################################################################################
+
+# Put all trials data into 2-d array
+# The data is 10 (n_trials) by 2 (pre and post event bins)
+all_trials_data = np.array([frs_pre, frs_post]).T
+# For each bin (pre and post event bins), compare 1st half of trials to 2nd half of trials
+pre_between_halfs, post_between_halfs = compare_trial_frs(all_trials_data[:5], all_trials_data[5:])
+
+# Print out the results
+print('The pre bin, compared between 1st and 2nd half of the trials has a t-value of \
+{:.3}'.format(pre_between_halfs[0]), ' and a p-value of {:.3e}'.format(pre_between_halfs[1]))
+print('The post bin, compared between 1st and 2nd half of the trials has a t-value of \
+{:.3}'.format(post_between_halfs[0]), ' and a p-value of {:.3e}'.format(post_between_halfs[1]))
+
+###################################################################################################
+# Run 2-way ANOVA on multiple trials data
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# Another way of testing for both an event-related and for a trial index main effects on firing 
+# rate is to run a 2-way ANOVA.
+# To do that, we first organize the firing rates and the factors in a pandas DataFrame.
 #
 
 ###################################################################################################
@@ -217,8 +248,9 @@ df_pre_post = create_dataframe(data, columns=None, drop_na=True, types=None)
 
 ###################################################################################################
 # 
-# Run ANOVA to see the effects of the pre- vs post-event on firing rates and the effect of trial
-# index on firing rate. In this example, we did not evaluate the effect of the interaction.
+# Run ANOVA to see the effect of the event on firing rates and the effect of trial index on firing 
+# rate. 
+# In this example, we did not evaluate the effect of the interaction.
 #
 
 ###################################################################################################
@@ -228,15 +260,17 @@ anova_pre_post = fit_anova(df_pre_post, 'fr ~ C(is_post_event)+C(trial_idx)',
                            return_type='results', anova_type=2)
 
 # Print out results
-print('F-value, pre vs post:', anova_pre_post['F']['C(is_post_event)'])
-print('P-value, pre vs post:', anova_pre_post['PR(>F)']['C(is_post_event)'])
-print('F-value, trial index:', anova_pre_post['PR(>F)']['C(trial_idx)'])
-print('P-value, trial index:', anova_pre_post['F']['C(trial_idx)'])
+print('F-value, pre vs post: {:.3}'.format(anova_pre_post['F']['C(is_post_event)']))
+print('P-value, pre vs post: {:.3e}'.format(anova_pre_post['PR(>F)']['C(is_post_event)']))
+print('F-value, trial index: {:.3}'.format(anova_pre_post['F']['C(trial_idx)']))
+print('P-value, trial index: {:.3e}'.format(anova_pre_post['PR(>F)']['C(trial_idx)']))
 
 ###################################################################################################
-# 
-# Now calculate the delta firing rate for an example trial (first trial). Here delta represents
-# the difference between pre- and post-even rates (delta = post firing rate - pre firing rate).
+# Compute the empirical p-value and z-score from distribution of surrogates
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# First we calculate the delta firing rate for an example trial (first trial). Here delta is the 
+# difference between pre- and post-even rates (delta = post firing rate - pre firing rate).
 # 
 
 ###################################################################################################
@@ -263,8 +297,8 @@ shuff_spikes = shuffle_isis(trial_spikes[0], n_shuffles=n_shuff)
 shuff_frs_pre, shuff_frs_post = compute_pre_post_rates(shuff_spikes, pre_window, post_window)
 shuff_fr_diff = shuff_frs_post - shuff_frs_pre
 
-print(f'Minimum delta FR across surrogates: {np.min(shuff_fr_diff)}')
-print(f'Maximum delta FR across surrogates: {np.max(shuff_fr_diff)}')
+print('Minimum delta FR across surrogates: {:.3}'.format(np.min(shuff_fr_diff)))
+print('Maximum delta FR across surrogates: {:.3}'.format(np.max(shuff_fr_diff)))
 
 ###################################################################################################
 # 
@@ -275,19 +309,19 @@ print(f'Maximum delta FR across surrogates: {np.max(shuff_fr_diff)}')
 ###################################################################################################
 
 # Calculate empirical p-value and z-score of difference in firing rate with respect to surrogates
-pval, zscore = compute_surrogate_stats(fr_diff, shuff_fr_diff)
+surr_pval, surr_zscore = compute_surrogate_stats(fr_diff, shuff_fr_diff)
 
-print(f'The z-score of the delta FR (after - before the event) is {round(zscore, 2)}, \
-and the empirical p-value is {round(pval, 2)}')
+print('The z-score of the delta FR (after - before the event) is {:.3}'.format(surr_zscore), \
+'and the empirical p-value is {:.3e}'.format(surr_pval))
 
 ###################################################################################################
 
 # Plot distribution of surrogates, with calculated delta firing rate & p-value
-plot_surrogates(shuff_fr_diff, fr_diff, pval)
+plot_surrogates(shuff_fr_diff, fr_diff, surr_pval)
 
 ###################################################################################################
-# Compute f-value from spiking data using ANOVA
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Compute f-value from spiking data using 1-way ANOVA
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # First generate some spiking data. The simulated spike train has 8 seconds of data across trials
 # and has a firing rate between 2-10 Hz, assumed 1k Hz sampling rate.
@@ -334,6 +368,6 @@ df = create_dataframe_bins(bin_firing_all, ['bin', 'fr'], drop_na=True)
 
 # Compute f_value from spiking data using ANOVA
 f_val = fit_anova(df, 'fr ~ C(bin)', feature='C(bin)', return_type='f_val', anova_type=1)
-print('F-value:', f_val)
+print('F-value: {:.3}'.format(f_val))
 
 ###################################################################################################
