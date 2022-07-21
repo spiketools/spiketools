@@ -353,7 +353,9 @@ Extract
 .. autosummary::
    :toctree: generated/
 
+   create_mask
    get_range
+   get_value_range
    get_ind_by_time
    get_inds_by_times
    get_value_by_time

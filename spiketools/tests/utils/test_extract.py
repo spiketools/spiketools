@@ -7,6 +7,15 @@ from spiketools.utils.extract import *
 ###################################################################################################
 ###################################################################################################
 
+def test_create_mask():
+
+    data = np.array([0.5, 1., 1.5, 2., 2.5])
+    min_value = 1
+    max_value = 2
+    mask = create_mask(data, min_value, max_value)
+    assert isinstance(mask, np.ndarray)
+    assert np.array_equal(mask, np.array([False, True, True, True, False]))
+
 def test_get_range():
 
     data = np.array([0.5, 1., 1.5, 2., 2.5])
@@ -22,6 +31,15 @@ def test_get_range():
 
     out4 = get_range(data, min_value=1., max_value=2., reset=1.)
     assert np.array_equal(out4, np.array([0., 0.5, 1.0]))
+
+def test_get_value_range():
+
+    times = np.array([1., 2., 3., 4., 5.])
+    data = np.array([0.5, 1., 1.5, 2., 2.5])
+
+    out_times, out_data = get_value_range(times, data, min_value=1., max_value=2.)
+    assert np.array_equal(out_times, np.array([2., 3., 4.]))
+    assert np.array_equal(out_data, np.array([1., 1.5, 2.]))
 
 def test_get_ind_by_time():
 
