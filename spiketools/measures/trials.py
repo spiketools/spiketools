@@ -22,7 +22,7 @@ def compute_trial_frs(trial_spikes, bins, trange=None, smooth=None):
         The binning to apply to the spiking data.
         If float, the length of each bin.
         If array, precomputed bin definitions.
-    trange : list of [float, float]
+    trange : list of [float, float], optional
         Time range, in seconds, to create the binned firing rate across.
         Only used if `bins` is a float.
     smooth : float, optional
@@ -39,11 +39,12 @@ def compute_trial_frs(trial_spikes, bins, trange=None, smooth=None):
     >>> trial_spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
                         np.array([0.275, 0.290, 0.300, 0.350, 0.500]), \
                         np.array([0.550, 0.650, 0.700, 0.900, 0.950])]
-    >>> bins = np.array([0.2, 0.3, 0.4, 0.6, 0.9, 1])
-    >>> compute_trial_frs(trial_spikes, bins)
-    array([[10.        ,  0.        ,  0.        ,  0.        ,  0.        ],
-           [20.        , 20.        ,  5.        ,  0.        ,  0.        ],
-           [ 0.        ,  0.        ,  5.        ,  6.66666667, 20.        ]])
+    >>> bins = 0.5
+    >>> trange = [0.002, 0.95]
+    >>> compute_trial_frs(trial_spikes, bins, trange)
+    array([[10.,  0.],
+           [10.,  0.],
+           [ 0., 10.]])
     """
 
     bins = check_time_bins(bins, trial_spikes[0], trange=trange)
