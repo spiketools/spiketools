@@ -105,7 +105,7 @@ def compute_segment_frs(spikes, segments):
     Examples
     --------
     Compute firing rate in each of the 3 segments, per trial.
-    >>> spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]),\ 
+    >>> spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
                   np.array([0.275, 0.290, 0.3, 0.350, 0.5]), \
                   np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
     >>> segments = np.array([[0.002, 0.1, 0.15, 0.25], [0.275, 0.3, 0.4, 0.5], [0.6, 0.7, 0.9, 1]])
