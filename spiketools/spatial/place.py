@@ -57,7 +57,9 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
     >>> timestamps = np.array([0.01, 0.03, 0.2, 0.25, 0.45, 0.46, 0.47, 0.49, 0.5, 0.65])
     >>> bins = [4,3]
     >>> compute_place_bins(spikes, position, timestamps, bins)
-    array([[5, 0, 0, 0], [0, 0, 0, 0], [0, 0, 1, 4]])
+    array([[5, 0, 0, 0], 
+           [0, 0, 0, 0], 
+           [0, 0, 1, 4]])
     """
 
     if speed is not None:
@@ -126,7 +128,8 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
     >>> bins = 2
     >>> trial_starts, trial_stops = np.array([0, 0.4]), np.array([0.3, 1])
     >>> compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, trial_stops)
-    array([[10.        , 40.        ], [10.        ,  6.66666667]])
+    array([[10.        , 40.        ], 
+           [10.        ,  6.66666667]])
     """
 
     t_occ = None

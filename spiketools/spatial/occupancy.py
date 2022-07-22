@@ -169,7 +169,9 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
                             [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]])
     >>> bins = [2, 3]
     >>> compute_bin_counts_pos(position, bins)
-    array([[3, 0], [2, 0], [0, 3]])
+    array([[3, 0],
+           [2, 0],
+           [0, 3]])
     """
 
     bins = check_position_bins(bins, position)
