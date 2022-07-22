@@ -27,7 +27,7 @@ def test_create_dataframe_bins():
 
     # Create data - 3 trials, 2 bins, each bin value matches trial index
     data2da = np.array([[0, 0], [1, 1], [2, 2]])
-    df = create_dataframe_bins(data2da, ['bin', 'fr'])
+    df = create_dataframe_bins(data2da)
     assert isinstance(df, pd.DataFrame)
     for ind, row in enumerate(data2da):
         df[df['trial'] == ind]['fr'].values == row
@@ -35,7 +35,7 @@ def test_create_dataframe_bins():
     # Create new data, where each bin value matches bin index
     data2db = np.array([[0, 1, 2],
                         [0, 1, 2]])
-    df = create_dataframe_bins(data2db, ['bin', 'fr'])
+    df = create_dataframe_bins(data2db)
     for ind in range(0, np.max(data2db) + 1):
         assert np.all(df[df['bin'] == ind]['fr'].values == ind)
 
@@ -43,16 +43,16 @@ def test_create_dataframe_bins():
     data3d = np.array([[[0, 1, 2], [3, 4, 5]],
                        [[6, 7, 8], [9, 10, 9]],
                        [[8, 7, 6], [5, 4, 3]]])
-    df = create_dataframe_bins(data3d, ['xbin', 'ybin', 'fr'])
+    df = create_dataframe_bins(data3d)
     assert isinstance(df, pd.DataFrame)
     for trial, ax, bx, fr in zip(df['trial'], df['xbin'], df['ybin'], df['fr']):
         assert data3d[trial, ax, bx] == fr
 
     # Check adding additional data arrays - adding data that matches trial number
     other_data = {'extra' : np.array([0, 1, 2])}
-    df = create_dataframe_bins(data2da, ['bin', 'fr'], other_data)
+    df = create_dataframe_bins(data2da, other_data)
     assert np.array_equal(df.trial.values, df.extra.values)
-    df = create_dataframe_bins(data3d, ['xbin', 'ybin', 'fr'], other_data)
+    df = create_dataframe_bins(data3d, other_data)
     assert np.array_equal(df.trial.values, df.extra.values)
 
 def test_fit_anova(tdata2d):

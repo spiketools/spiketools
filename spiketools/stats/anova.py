@@ -83,9 +83,10 @@ def create_dataframe_bins(bin_data, other_data=None, dropna=True, dtypes=None, b
         trial = np.repeat(np.arange(0, n_trials), n_bins)
         labels = np.tile(np.arange(0, n_bins), n_trials)
 
+        bin_columns = ['bin', 'fr'] if not bin_columns else bin_columns
         df_data = {'trial' : trial,
-                   bin_columns[0] if bin_columns[0] else 'bin' : labels,
-                   bin_columns[1] if bin_columns[1] else 'fr' : bin_data.flatten()}
+                   bin_columns[0] : labels,
+                   bin_columns[1] : bin_data.flatten()}
 
     elif bin_data.ndim == 3:
 
@@ -96,10 +97,11 @@ def create_dataframe_bins(bin_data, other_data=None, dropna=True, dtypes=None, b
         xlabels = np.tile(np.repeat(np.arange(0, n_xbins), n_ybins), n_trials)
         ylabels = np.tile(np.arange(0, n_ybins), n_trials * n_xbins)
 
+        bin_columns = ['xbin', 'ybin', 'fr'] if not bin_columns else bin_columns
         df_data = {'trial' : trial,
-                   bin_columns[0] if bin_columns[0] else 'xbin' : xlabels,
-                   bin_columns[1] if bin_columns[1] else 'ybin' : ylabels,
-                   bin_columns[2] if bin_columns[2] else 'fr' : bin_data.flatten()}
+                   bin_columns[0] : xlabels,
+                   bin_columns[1] : ylabels,
+                   bin_columns[2] : bin_data.flatten()}
 
     if other_data is not None:
         for label, data in other_data.items():
