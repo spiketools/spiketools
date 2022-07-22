@@ -15,7 +15,7 @@ smf = safe_import('.formula.api', 'statsmodels')
 ###################################################################################################
 ###################################################################################################
 
-def create_dataframe(data, columns=None, drop_na=True, types=None):
+def create_dataframe(data, columns=None, drop_na=True, dtypes=None):
     """Create a dataframe from an array of data.
 
     Parameters
@@ -29,8 +29,8 @@ def create_dataframe(data, columns=None, drop_na=True, types=None):
         To be used if `data` is an array.
     drop_na : bool, optional, default: True
         Whether to drop NaN values from the dataframe.
-    types : dict, optional
-        A types to typecast columns too.
+    dtypes : dict, optional
+        Data types to typecast columns to.
         Each key should be a column label, and each associated value the type to typecast to.
 
     Returns
@@ -44,14 +44,14 @@ def create_dataframe(data, columns=None, drop_na=True, types=None):
     if drop_na:
         df = df.dropna()
 
-    if types:
-        for column, ntype in types.items():
-            df[column] = df[column].astype(ntype)
+    if dtypes:
+        for column, dtype in dtypes.items():
+            df[column] = df[column].astype(dtype)
 
     return df
 
 
-def create_dataframe_bins(bin_data, bin_columns=None, other_data=None, drop_na=True):
+def create_dataframe_bins(bin_data, bin_columns=None, other_data=None, drop_na=True, dtypes=None):
     """Create a dataframe from an array of binned data.
 
     Parameters
@@ -68,6 +68,9 @@ def create_dataframe_bins(bin_data, bin_columns=None, other_data=None, drop_na=T
         Each key should be a column label and each value should be an array of length n_trials.
     drop_na : bool, optional, default: True
         Whether to drop NaN values from the dataframe.
+    dtypes : dict, optional
+        Data types to typecast columns to.
+        Each key should be a column label, and each associated value the type to typecast to.
 
     Returns
     -------
@@ -99,14 +102,14 @@ def create_dataframe_bins(bin_data, bin_columns=None, other_data=None, drop_na=T
 
         df_data = np.stack([trial, xlabels, ylabels, bin_data.flatten()], axis=1)
 
-    if other_data is not None:
-        other_data = {label : np.repeat(data, n_bins) for label, data in other_data.items()}
-        df_columns.extend(other_data.keys())
-        df_data = np.hstack([df_data, np.array(list(other_data.values())).T])
-
     df_columns.insert(0, 'trial')
-    types = {column : 'int' for column in df_columns if 'trial' in column or 'bin' in column}
-    df = create_dataframe(df_data, df_columns, drop_na=drop_na, types=types)
+    dtype_defaults = {col : 'int' for col in df_columns if col == 'trial' or 'bin' in col}
+    dtypes = {**dtypes, **dtype_defaults} if dtypes is not None else dtype_defaults
+    df = create_dataframe(df_data, df_columns, drop_na=drop_na, dtypes=dtypes)
+
+    if other_data is not None:
+        for label, data in other_data.items():
+            df[label] = np.repeat(data, n_bins)
 
     # Reorder dataframe so that `trial` column is first and `fr` is at the end & sorted in between
     df = df[flatten([['trial'], sorted(list(set(df.columns) - set(['trial', 'fr']))), ['fr']])]

@@ -15,7 +15,7 @@ def test_create_dataframe(tdata2d):
     assert isinstance(df, pd.DataFrame)
 
     # test with type casting
-    df = create_dataframe(tdata2d, labels, types={'B' : 'float32'})
+    df = create_dataframe(tdata2d, labels, dtypes={'B' : 'float32'})
     assert df['B'].dtype == 'float32'
 
     # test dictionary input
