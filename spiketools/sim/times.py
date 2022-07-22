@@ -30,6 +30,12 @@ def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
     -------
     times : 1d array
         Simulated spike times, in seconds.
+
+    Examples
+    --------
+    Simulate 10 spike times at 5Hz for 3 seconds, with possion distribution. 
+
+    >>> sim_spiketimes(5, 3, 'poisson')
     """
 
     check_param_options(method, 'method', ['poisson'])
@@ -60,6 +66,12 @@ def sim_spiketimes_poisson(rate, duration, start_time=0):
     -------
     times : 1d array
         Simulated spike times, in seconds.
+
+    Examples
+    --------
+    Simulate spike times at 10Hz for 5 seconds, starting at 2 seconds, with poisson distribution. 
+
+    >>> sim_spiketimes_poisson(10, 5, start_time=2)
     """
 
     times = np.array(list(poisson_generator(rate, duration, start_time)))

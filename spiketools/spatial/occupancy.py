@@ -160,6 +160,16 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
     For the 2D case, note that while the inputs to this function list the x-axis first,
     the output of this function, being a 2d array, follows the numpy convention in which
     columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
+
+    Examples
+    --------
+    Compute counts per bin (2d), from 2d position data. 
+
+    >>> position = np.array([[0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.5, 7.0],
+                            [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]])
+    >>> bins = [2, 3]
+    >>> compute_bin_counts_pos(position, bins)
+    array([[3, 0], [2, 0], [0, 3]])
     """
 
     bins = check_position_bins(bins, position)
