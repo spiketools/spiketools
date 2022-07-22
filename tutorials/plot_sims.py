@@ -42,9 +42,8 @@ from spiketools.plts.data import plot_hist
 from spiketools.measures.conversions import convert_train_to_times
 
 ###################################################################################################
-#
-# 1. Simulate spikes based on spiking probabilities
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Simulate spikes based on spiking probabilities
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
 ###################################################################################################
@@ -83,9 +82,8 @@ plot_hist(spike_times, density=1, bins=50,
           title='Probability Distribution of Spike Times')
 
 ###################################################################################################
-#
-# 2. Simulate spikes based on different probability distributions
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Simulate spikes based on different probability distributions
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # Simulate spike train from binomial and Poisson probability distributions.
 # Simulate spike times from Poisson probability distribution.
@@ -118,9 +116,8 @@ spike_poisson = sim_spiketimes(.16, 100, 'poisson')
 plot_rasters(spike_poisson)
 
 ###################################################################################################
-#
-# 3. Utilities for working with simulated spiking data
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Utilities for working with simulated spiking data
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # Apply a refractory period to a simulated spike train.
 #
