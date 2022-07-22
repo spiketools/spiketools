@@ -132,6 +132,15 @@ def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
     -------
     cfr : 1d array
         Continuous firing rate, compute across time bins.
+
+    Examples
+    --------
+    Convert 10 spike times (in seconds) to continuous firing rate across bins.
+    
+    >>> spikes = np.array([0.002, 0.250, 0.450, 0.500, 0.750, 1.000, 1.250, 1.300, 1.400, 1.500])
+    >>> bins = 0.2
+    >>> convert_times_to_rates(spikes, bins) 
+    array([ 5.,  5., 10.,  5.,  0.,  5., 15.,  5.])
     """
 
     bins = check_time_bins(bins, spikes, trange)
