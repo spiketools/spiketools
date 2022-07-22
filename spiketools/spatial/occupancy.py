@@ -165,13 +165,12 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
     --------
     Compute counts per bin (2d), from 2d position data. 
 
-    >>> position = np.array([[0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.5, 7.0],
-                            [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]])
+    >>> position = np.array([[0.5, 1.0, 1.5, 2.0, 3.0], [0.1, 0.2, 0.3, 0.4, 0.5]])
     >>> bins = [2, 3]
     >>> compute_bin_counts_pos(position, bins)
-    array([[3, 0],
-           [2, 0],
-           [0, 3]])
+    array([[2, 0],
+           [1, 0],
+           [0, 2]])
     """
 
     bins = check_position_bins(bins, position)
