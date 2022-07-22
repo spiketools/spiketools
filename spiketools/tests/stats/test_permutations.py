@@ -14,12 +14,12 @@ def test_vec_perm():
 
 def test_compute_empirical_pvalue(tdata):
 
-    p_value = compute_empirical_pvalue(1.5, tdata)
+    p_value = compute_surrogate_pvalue(1.5, tdata)
     assert isinstance(p_value, float)
 
-def test_zscore_to_surrogates(tdata):
+def test_compute_surrogate_zscore(tdata):
 
-    z_score = zscore_to_surrogates(1.5, tdata)
+    z_score = compute_surrogate_zscore(1.5, tdata)
     assert isinstance(z_score, float)
 
 def test_compute_surrogate_stats(tdata):

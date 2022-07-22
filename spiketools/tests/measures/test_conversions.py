@@ -20,9 +20,7 @@ def test_convert_train_to_times():
 
     train = np.zeros(100)
     spike_inds = np.array([12, 24, 36, 45, 76, 79, 90])
-    for ind in spike_inds:
-        train[ind] = 1
-    # Define expected spike times, for a fs of 1000
+    np.put(train, spike_inds, 1)
     expected = (spike_inds / 1000) + 0.001
 
     # Check spike train for sampling rate of 1000
@@ -36,7 +34,6 @@ def test_convert_train_to_times():
     assert isinstance(spikes, np.ndarray)
     assert spikes.shape[-1] == spike_inds.shape[-1]
     assert np.array_equal(spikes, expected * 2)
-
 
 def test_convert_isis_to_times(tspikes):
 
@@ -53,3 +50,22 @@ def test_convert_isis_to_times(tspikes):
 
     spikes4 = convert_isis_to_times(isis, offset=tspikes[0])
     assert np.array_equal(spikes4, tspikes)
+
+def test_convert_times_to_rates(tspikes):
+
+    # Using precomputed bin definition
+    bins = np.arange(0, 10, 1)
+    rates = convert_times_to_rates(tspikes, bins)
+    assert isinstance(rates, np.ndarray)
+    assert len(rates) == len(bins) - 1
+
+    # Passing in bin width, with smoothing
+    rates = convert_times_to_rates(tspikes, 0.5, trange=[0, 8.5], smooth=0.5)
+    assert isinstance(rates, np.ndarray)
+
+    # Check bins with different sizes
+    spikes = np.array([0.25, 0.5, 0.75, 1.25, 1.75, 2.25, 2.5, 2.75])
+    tbins = np.array([0, 1, 1.5, 2, 3])
+    rates = convert_times_to_rates(spikes, tbins)
+    assert isinstance(rates, np.ndarray)
+    assert np.array_equal(rates, np.array([3., 2., 2., 3.]))

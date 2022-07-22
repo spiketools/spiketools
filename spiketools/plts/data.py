@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from spiketools.measures.circular import bin_circular
-from spiketools.utils.select import get_avg_func
+from spiketools.utils.options import get_avg_func
 from spiketools.plts.annotate import _add_vlines
 from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
 from spiketools.plts.settings import TEXT_SETTINGS
@@ -66,6 +66,35 @@ def plot_dots(x_values, y_values, ax=None, **plt_kwargs):
 
 @savefig
 @set_plt_kwargs
+def plot_points(data, label=None, ax=None, **plt_kwargs):
+    """Plot data as points.
+
+    Parameters
+    ----------
+    data : 1d array
+        Data values to plot
+    label : str, optional
+        Label for the x-axis.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', (2.5, 5)))
+
+    n_points = len(data)
+    xs = np.zeros(n_points) + 0.1 * np.random.rand(n_points)
+
+    ax.plot(xs, data, '.', ms=20, alpha=0.5)
+
+    ax.set_xlim([-0.25, 0.25])
+
+    ax.set_xticks([])
+    if label:
+        ax.set(xticks=[0], xticklabels=[label])
+
+
+@savefig
+@set_plt_kwargs
 def plot_hist(data, bins=None, range=None, density=None,
               average=None, ax=None, **plt_kwargs):
     """Plot data as a histogram.
@@ -94,7 +123,7 @@ def plot_hist(data, bins=None, range=None, density=None,
     ax.hist(data, bins=bins, range=range, density=density, **plt_kwargs)
 
     if average:
-        ax.axvline(get_avg_func(average)(data), lw=4, color='red', alpha=0.8)
+        _add_vlines(get_avg_func(average)(data), lw=4, color='red', alpha=0.8, ax=ax)
 
 
 @savefig

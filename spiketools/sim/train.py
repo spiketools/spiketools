@@ -3,6 +3,7 @@
 import numpy as np
 
 from spiketools.sim.utils import apply_refractory_train
+from spiketools.utils.checks import check_param_options
 
 ###################################################################################################
 ###################################################################################################
@@ -21,7 +22,7 @@ def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
     method : {'prob', 'binom', 'poisson'}
         The method to use for the simulation.
     refractory : float, optional
-        The refractory period to apply to the simulated data.
+        The refractory period to apply to the simulated data, in seconds.
     **kwargs
         Additional keyword arguments.
 
@@ -40,6 +41,8 @@ def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
 
     >>> train = sim_spiketrain(5, 10, method='poisson')
     """
+
+    check_param_options(method, 'method', ['prob', 'binom', 'poisson'])
 
     train = SPIKETRAIN_FUNCS[method](spike_param, n_samples, **kwargs)
 
@@ -161,7 +164,7 @@ def sim_spiketrain_poisson(rate, n_samples, fs=1000):
     n_samples : int
         The number of samples to simulate.
     fs : int, optional, default: 1000
-        The sampling rate.
+        The sampling rate, in Hz.
 
     Returns
     -------

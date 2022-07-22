@@ -38,3 +38,13 @@ def test_plot_rate_by_time():
     plot_rate_by_time(x_vals, [y_vals1, y_vals2], average='median', shade='sem',
                       labels=['A', 'B'], stats=[0.5, 0.01, 0.5, 0.01, 0.5],
                       file_path=TEST_PLOTS_PATH, file_name='tplot_time_rates2.png')
+
+def test_create_raster_title():
+
+    title1 = create_raster_title('label1', 1.0, 2.0)
+    assert isinstance(title1, str)
+
+    title2 = create_raster_title('label2', 1.0, 2.0, 2.5, 0.5)
+    assert isinstance(title2, str)
+
+    assert title1 != title2

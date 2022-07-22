@@ -38,7 +38,7 @@ from spiketools.sim.utils import apply_refractory_times
 from spiketools.plts.trials import plot_rasters
 from spiketools.plts.data import plot_hist
 
-# Import utitilies
+# Import utilities
 from spiketools.measures.conversions import convert_train_to_times
 
 ###################################################################################################
@@ -49,7 +49,7 @@ from spiketools.measures.conversions import convert_train_to_times
 
 ###################################################################################################
 
-# Simulate spike train of size n_samples and 1000 Hz sampling rate based on a probability of 
+# Simulate spike train of size n_samples and 1000 Hz sampling rate based on a probability of
 # spiking per sample
 p_spiking = 0.7
 n_samples = 100
@@ -67,7 +67,7 @@ plot_rasters(spike_times)
 
 ###################################################################################################
 
-# Simulate spike train of size 1000 and 1000 Hz sampling rate, based on a probability of spiking 
+# Simulate spike train of size 1000 and 1000 Hz sampling rate, based on a probability of spiking
 # per sample.
 p_spiking = np.random.random(1000)
 sim_spiketrain = sim_spiketrain_prob(p_spiking)
