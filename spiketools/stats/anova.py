@@ -15,7 +15,7 @@ smf = safe_import('.formula.api', 'statsmodels')
 ###################################################################################################
 ###################################################################################################
 
-def create_dataframe(data, columns=None, drop_na=True, dtypes=None):
+def create_dataframe(data, columns=None, dropna=True, dtypes=None):
     """Create a dataframe from an array of data.
 
     Parameters
@@ -27,7 +27,7 @@ def create_dataframe(data, columns=None, drop_na=True, dtypes=None):
     columns : list of str, optional
         The column labels for the dataframe.
         To be used if `data` is an array.
-    drop_na : bool, optional, default: True
+    dropna : bool, optional, default: True
         Whether to drop NaN values from the dataframe.
     dtypes : dict, optional
         Data types to typecast columns to.
@@ -40,18 +40,13 @@ def create_dataframe(data, columns=None, drop_na=True, dtypes=None):
     """
 
     df = pd.DataFrame(data, columns=columns)
-
-    if drop_na:
-        df = df.dropna()
-
-    if dtypes:
-        for column, dtype in dtypes.items():
-            df[column] = df[column].astype(dtype)
+    df = _df_dropna(df, dropna)
+    df = _df_set_dtypes(df, dtypes)
 
     return df
 
 
-def create_dataframe_bins(bin_data, bin_columns=None, other_data=None, drop_na=True, dtypes=None):
+def create_dataframe_bins(bin_data, bin_columns=None, other_data=None, dropna=True, dtypes=None):
     """Create a dataframe from an array of binned data.
 
     Parameters
@@ -105,11 +100,14 @@ def create_dataframe_bins(bin_data, bin_columns=None, other_data=None, drop_na=T
     df_columns.insert(0, 'trial')
     dtype_defaults = {col : 'int' for col in df_columns if col == 'trial' or 'bin' in col}
     dtypes = {**dtypes, **dtype_defaults} if dtypes is not None else dtype_defaults
-    df = create_dataframe(df_data, df_columns, drop_na=drop_na, dtypes=dtypes)
+    df = create_dataframe(df_data, df_columns)
 
     if other_data is not None:
         for label, data in other_data.items():
             df[label] = np.repeat(data, n_bins)
+
+    df = _df_dropna(df, dropna)
+    df = _df_set_dtypes(df, dtypes)
 
     # Reorder dataframe so that `trial` column is first and `fr` is at the end & sorted in between
     df = df[flatten([['trial'], sorted(list(set(df.columns) - set(['trial', 'fr']))), ['fr']])]
@@ -166,3 +164,22 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
             output = results['F'][feature]
 
     return output
+
+
+def _df_dropna(df, dropna):
+    """Helper function for dropping NaN values from a dataframe."""
+
+    if dropna:
+        df = df.dropna()
+
+    return df
+
+
+def _df_set_dtypes(df, dtypes):
+    """Helper function for setting data types in a dataframe."""
+
+    if dtypes:
+        for column, dtype in dtypes.items():
+            df[column] = df[column].astype(dtype)
+
+    return df
