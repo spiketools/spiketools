@@ -121,6 +121,14 @@ def compute_bin_width(bin_edges):
     -------
     float
         The bin width.
+
+    Examples(ToDo)
+    --------
+    Compute bin width from an array of 5 bin edges.
+
+    >>> bin_edges = [1.5, 3.5, 5.5, 7.5, 9.5] 
+    >>> compute_bin_width(bin_edges) 
+    2.0
     """
 
     return np.diff(bin_edges)[0]
@@ -134,8 +142,6 @@ def convert_2dindices(xbins, ybins, bins):
     xbins, ybins : 1d array
         Bin assignment indices for the x and y dimension of a 2D binning.
     bins : list of [int, int]
-        The bin definition for dividing up the space.
-        If 2d should be a list, defined as [number of x_bins, number of y_bins].
 
     Returns
     -------
@@ -146,6 +152,15 @@ def convert_2dindices(xbins, ybins, bins):
     -----
     The equivalent 1D indices for a set of 2D indices are those that access the
     equivalent values once the data array has been flattened into a 1d array.
+
+    Examples 
+    --------
+    Convert 2d bins with shape [3, 2] into the equivalent 1d indices.
+
+    >>> xbins, ybins = np.array([2, 0, 1, 0, 1, 2]), np.array([0, 1, 1, 0, 0, 1])
+    >>> bins = [3, 2]
+    >>> convert_2dindices(xbins, ybins, bins)
+    array([2, 3, 4, 0, 1, 5])
     """
 
     indices = np.ravel_multi_index((ybins, xbins), np.flip(bins))
@@ -173,6 +188,16 @@ def convert_1dindices(indices, bins):
     -----
     The equivalent 2D indices for a set of 1d indices are those that access the
     equivalent values once the data array has been reshaped to the given 2D bin definition.
+
+    Examples 
+    --------
+    Convert 16 1d bin dinced into equivalent 2d indices with a shape of [4, 4] binning.  
+
+    <<< indices = np.array([0, 0, 8, 4, 3, 4, 5, 6, 8, 7, 3, 2, 1, 1, 8, 0])
+    <<< bins = [4, 4]
+    <<< convert_1dindices(indices, bins)
+    (array([0, 0, 0, 0, 3, 0, 1, 2, 0, 3, 3, 2, 1, 1, 0, 0]),
+     array([0, 0, 2, 1, 0, 1, 1, 1, 2, 1, 0, 0, 0, 0, 2, 0]))
     """
 
     ybins, xbins = np.unravel_index(indices, np.flip(bins))

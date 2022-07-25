@@ -35,6 +35,13 @@ def create_dataframe(data, columns=None, drop_na=True, types=None):
     -------
     df : pd.DataFrame
         Constructed dataframe.
+
+    Examples
+    --------
+    Create a dataframe from arrays of firing rate per 3 spatial bins in 3 trials. 
+
+    >>> data = np.array([[1.5, 1.7, 1.9], [1.4, 1.2, 1.6], [1.5, 0.9, 0.8]])
+    >>> df = create_dataframe(data)
     """
 
     df = pd.DataFrame(data, columns=columns)
@@ -67,6 +74,14 @@ def create_dataframe_bins(data, columns, drop_na=True):
     -------
     df : pd.DataFrame
         Constructed dataframe.
+
+    Examples 
+    --------
+    Create a dataframe from firing rate in 5 spatial bins in 3 trials. 
+
+    >>> data = np.array([[1, 2, 3, 7, 2], [4, 5, 6, 4, 1], [8, 9, 10, 9, 8]])
+    >>> columns = ['bins', 'frs']
+    >>> df = create_dataframe_bins(data, columns) 
     """
 
     df_columns = deepcopy(columns)
@@ -126,6 +141,15 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
         If `return_type` is 'f_val', the f-value statistic of the ANOVA model.
         If `return_type` is 'results', the results of the model fit.
         If `return_type` is 'model', the fit model object.
+
+    Examples
+    --------
+    Fit an ANOVA on firing rates per spatial bin, returning model fit results. 
+
+    >>> data = np.array([[1,2,3,7,2], [4,5,6,4,1], [8,9,10, 9, 8]])
+    >>> columns = ['bins', 'frs']
+    >>> df = create_dataframe_bins(data, columns)
+    >>> results = fit_anova(df, 'frs ~ C(bins)', return_type='results', anova_type=2)
     """
 
     check_param_options(return_type, 'return_type', ['model', 'results', 'f_val'])
