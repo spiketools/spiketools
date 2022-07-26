@@ -168,8 +168,9 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
 
     >>> data = np.array([[1,2,3,7,2], [4,5,6,4,1], [8,9,10, 9, 8]])
     >>> df = create_dataframe_bins(data)
-    >>> fit_anova(df, 'fr ~ C(bin)', feature='C(bin)', return_type='f_val', anova_type=1)
-    0.4248554913294796
+    >>> f_val = fit_anova(df, 'fr ~ C(bin)', feature='C(bin)', return_type='f_val', anova_type=1)
+    >>> round(f_val, 4)
+    0.4249
     """
 
     check_param_options(return_type, 'return_type', ['model', 'results', 'f_val'])
