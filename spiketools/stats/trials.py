@@ -1,5 +1,6 @@
 """Functions for statistically testing trial data."""
 
+import numpy as np
 from scipy.stats import ttest_rel, ttest_ind
 
 from spiketools.measures.trials import compute_pre_post_rates, compute_pre_post_averages
@@ -60,9 +61,9 @@ def compare_pre_post_activity(trial_spikes, pre_window, post_window, avg_type='m
     --------
     Compute the average firing rates of a 5-minute pre & post event window and a t-test, across 3 trials. 
 
-    trial_spikes = [np.array([0.2, 0.3, 0.4, 0.5, 0.6]), \
-                    np.array([0.7, 0.8, 0.9, 1.0, 1.2]), \
-                    np.array([1.4, 1.6, 1.7, 1.9, 2.0])]
+    >>> trial_spikes = [np.array([0.2, 0.3, 0.4, 0.5, 0.6]), \
+                        np.array([0.7, 0.8, 0.9, 1.0, 1.2]), \
+                        np.array([1.4, 1.6, 1.7, 1.9, 2.0])]
     >>> pre_window, post_window = [0.1, 1], [1.2, 2]
     >>> compare_pre_post_activity(trial_spikes, pre_window, post_window, avg_type='mean')
     (3.3333333333333335, 2.5, 0.23105423672046252, 0.8387578309724748)
