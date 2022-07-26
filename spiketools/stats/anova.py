@@ -78,9 +78,6 @@ def create_dataframe_bins(data, columns, drop_na=True):
     Examples 
     --------
     Create a dataframe from firing rate in 5 spatial bins in 3 trials. 
-
-    >>> data = np.array([[1,2,3,7,2], [4,5,6,4,1], [8,9,10,9,8]])
-    >>> df = create_dataframe_bins(data, ['bin', 'fr'], drop_na=True)
     """
 
     df_columns = deepcopy(columns)
@@ -144,11 +141,6 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
     Examples
     --------
     Fit an ANOVA on firing rates per spatial bin, returning model fit results. 
-
-    >>> data = np.array([[1,2,3,7,2], [4,5,6,4,1], [8,9,10,9,8]])
-    >>> df = create_dataframe_bins(data, ['bin', 'fr'], drop_na=True)
-    >>> fit_anova(df, 'fr ~ C(bin)', feature='C(bin)', return_type='f_val', anova_type=1)
-    0.42485549132947986
     """
 
     check_param_options(return_type, 'return_type', ['model', 'results', 'f_val'])
