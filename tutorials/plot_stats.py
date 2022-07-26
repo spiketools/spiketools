@@ -57,9 +57,8 @@ from spiketools.measures.measures import compute_firing_rate
 ###################################################################################################
 
 # Generate spike times in seconds for spikes at 10Hz for 100 seconds
+# Use the refractory argument to prevent multiple spikes within the same millisecond
 spikes = sim_spiketimes(10, 100, 'poisson', refractory=0.001)
-# make sure there are not multiple spikes within the same millisecond
-spikes = np.unique((spikes*1000).astype(int)) / 1000
 
 ###################################################################################################
 # Compute and plot different shuffles of spikes
