@@ -67,6 +67,14 @@ def infer_time_unit(time_values):
     -------
     time_unit : {'seconds', 'milliseconds'}
         The inferred time unit of the input data.
+
+    Examples
+    --------
+    Infer the time unit of an array of 5 time values. 
+
+    >>> time_values = np.array([0.002, 0.01, 0.05, 0.1, 2])
+    >>> infer_time_unit(time_values)
+    'seconds'
     """
 
     time_unit = None
@@ -124,6 +132,16 @@ def check_time_bins(bins, values, trange=None, check_range=True):
     -------
     bins : 1d array
         Time bins.
+
+    Examples
+    --------
+    Check if the range of data values exceeds the the 0.5 time bin. 
+
+    >>> bins = 0.5
+    >>> values = np.array([0.2, 0.4, 0.6, 0.9, 1.4, 1.5, 1.6, 2.0])
+    >>> trange = [0.1, 2.1]
+    >>> check_time_bins(bins, values, trange, check_range=True)
+    array([0.1, 0.6, 1.1, 1.6, 2.1])
     """
 
     if isinstance(bins, (int, float)):

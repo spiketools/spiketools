@@ -27,6 +27,16 @@ def epoch_spikes_by_event(spikes, events, window):
     Notes
     -----
     For each trial, the returned spike times will be relative to each event time, set as zero.
+
+    Examples
+    --------
+    Epoch an array of spiking data based on the event window of [0.1, 0.2]. 
+
+    >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 0.6, 0.7, 1, 1.4])
+    >>> events = np.array([0.2, 0.8, 1.2])
+    >>> window = [0.1, 0.2]
+    >>> epoch_spikes_by_event(spikes, events, window)
+    [array([0.2]), array([0.2]), array([0.2])]
     """
 
     trials = [None] * len(events)
@@ -54,6 +64,15 @@ def epoch_spikes_by_range(spikes, starts, stops, reset=False):
     -------
     trials : list of 1d array
         Spike data per trial.
+
+    Examples
+    --------
+    Epoch an array of spiking data into trials and reset the starting timestamps of each trial to zero. 
+
+    >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 0.6, 0.7, 1, 1.4])
+    >>> starts, stops = [0.05, 0.45, 0.8], [0.42, 0.73, 1.5]
+    >>> epoch_spikes_by_range(spikes, starts, stops, reset=True)
+    [array([0.05, 0.25, 0.35]), array([0.05, 0.15, 0.25]), array([0.2, 0.6])]
     """
 
     trials = [None] * len(starts)
@@ -81,6 +100,15 @@ def epoch_spikes_by_segment(spikes, segments):
     -------
     segment_spikes : list of 1d array
         Spike data per segment.
+
+    Examples
+    --------
+    Epoch spiking data into 4 pre-defined segements.
+
+    >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 0.6, 0.7, 1, 1.4])
+    >>> segments = [0, 0.35, 0.55, 0.8, 1.5]
+    >>> epoch_spikes_by_segment(spikes, segments)
+    [array([0.1, 0.3]), array([0.4, 0.5]), array([0.6, 0.7]), array([1. , 1.4])]
     """
 
     segment_spikes = [None] * (len(segments) - 1)
@@ -99,7 +127,7 @@ def epoch_data_by_time(timestamps, values, timepoints, threshold=None):
         Timestamps.
     values : 1d array
         Data values.
-    timepoint : list of float
+    timepoints : list of float
         The time value to extract per trial.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
@@ -109,6 +137,16 @@ def epoch_data_by_time(timestamps, values, timepoints, threshold=None):
     -------
     trials : list of float
         Selected data points across trial.
+
+    Examples
+    --------
+    Epoch data values at 3 individual timepoints. 
+
+    >>> timestapms = np.array([0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5])
+    >>> values = np.array([1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5])
+    >>> timepoints = [0.3, 0.7, 1.3]
+    >>> epoch_data_by_time(timestapms, values, timepoints)
+    [1.5, 2.5, 4.0]
     """
 
     trials = [None] * len(timepoints)
@@ -138,6 +176,18 @@ def epoch_data_by_event(timestamps, values, events, window):
         The timestamps, per trial.
     trial_values : list of 1d array
         The values, per trial.
+
+    Examples
+    --------
+    Epoch data into trials based on the event window of [0.1, 0.2]. 
+
+    >>> timestamps = np.array([0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5])
+    >>> values = np.array([1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5])
+    >>> events = np.array([0.3, 0.6, 0.9])
+    >>> window = [0.1, 0.2]
+    >>> epoch_data_by_event(timestamps, values, events, window)
+    ([array([0.2]), array([0.1]), array([0.2])],
+     [array([2.]), array([2.5]), array([3.5])])
     """
 
     trial_times = [None] * len(events)
@@ -173,6 +223,17 @@ def epoch_data_by_range(timestamps, values, starts, stops, reset=False):
         The timestamps, per trial.
     trial_values : list of 1d array
         The values, per trial.
+
+    Examples
+    --------
+    Epoch data values into trials and reset the starting timestamps of each trial to zero. 
+    
+    >>> timestamps = np.array([0.1, 0.3, 0.4, 0.5, 0.6, 0.7, 1, 1.4])
+    >>> values = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+    >>> starts, stops = [0.05, 0.45, 0.8], [0.42, 0.73, 1.5]
+    >>> epoch_data_by_range(timestamps, values, starts, stops, reset=True)
+    ([array([0.05, 0.25, 0.35]), array([0.05, 0.15, 0.25]), array([0.2, 0.6])],
+     [array([1, 2, 3]), array([4, 5, 6]), array([7, 8])])
     """
 
     trial_times = [None] * len(starts)
@@ -206,6 +267,17 @@ def epoch_data_by_segment(timestamps, values, segments):
         The timestamps, per segment.
     segment_values : list of 1d array
         The values, per segment.
+
+    Examples
+    --------
+    Epoch data values into 4 pre-defined segments.
+
+    >>> timestamps = np.array([0.1, 0.3, 0.4, 0.5, 0.6, 0.7, 1, 1.4])
+    >>> values = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+    >>> segments = [0, 0.35, 0.55, 0.8, 1.5]
+    >>> epoch_data_by_segment(timestamps, values, segments)
+    ([array([0.1, 0.3]), array([0.4, 0.5]), array([0.6, 0.7]), array([1. , 1.4])],
+     [array([1, 2]), array([3, 4]), array([5, 6]), array([7, 8])])
     """
 
     segment_times = [None] * (len(segments) - 1)
