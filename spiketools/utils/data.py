@@ -60,9 +60,9 @@ def smooth_data(data, sigma):
     --------
     Smooth a 1d data array using a 0.8 gaussian kernel. 
 
-    >>> data = np.array([0.5, 1., 1.5, 2., 2.5, 3])
+    >>> data = np.array([1, 3, 5, 7, 9])
     >>> smooth_data(data, 0.8)
-    array([0.64812269, 1.01161627, 1.5       , 1.98838373, 2.35187731])
+    array([1, 3, 5, 6, 8])
     """
 
     data = deepcopy(data)

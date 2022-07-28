@@ -84,7 +84,7 @@ def count_elements(data, labels=None, sort=False):
 
     >>> data = np.array([1,3,3,4,5,6,9,3,4,5,6])
     >>> count_elements(data)
-    Counter({1: 1, 3: 3, 4: 2, 5: 2, 6: 2, 9: 1})
+    Counter({3: 3, 4: 2, 5: 2, 6: 2, 1: 1, 9: 1})
     """
 
     counts = Counter(data)
