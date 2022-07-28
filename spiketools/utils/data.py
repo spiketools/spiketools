@@ -62,7 +62,6 @@ def smooth_data(data, sigma):
 
     >>> data = np.array([0.5, 1., 1.5, 2., 2.5, 3])
     >>> smooth_data(data, 0.8)
-
     array([0.64812269, 1.01161627, 1.5       , 1.98838373, 2.35187731])
     """
 

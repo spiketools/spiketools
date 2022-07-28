@@ -1,6 +1,7 @@
 """Base utility functions, that manipulate basic data structures, etc."""
 
 from collections import Counter
+import numpy as np
 
 ###################################################################################################
 ###################################################################################################
