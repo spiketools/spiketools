@@ -1,6 +1,7 @@
 """Spatial position related utility functions."""
 
 import numpy as np
+import math
 
 from spiketools.utils.data import compute_range
 from spiketools.spatial.checks import check_position_bins
@@ -101,8 +102,8 @@ def compute_bin_time(timestamps):
     --------
     Compute times between timestamp samples:
 
-    >>> timestamp = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])
-    >>> compute_bin_time(timestamp)
+    >>> timestamps = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])
+    >>> compute_bin_time(timestamps)
     array([1., 2., 3., 2., 1., 0.])
     """
 
@@ -122,7 +123,7 @@ def compute_bin_width(bin_edges):
     float
         The bin width.
 
-    Examples(ToDo)
+    Examples
     --------
     Compute bin width from an array of 5 bin edges.
 
@@ -131,7 +132,12 @@ def compute_bin_width(bin_edges):
     2.0
     """
 
-    return np.diff(bin_edges)[0]
+    widths = np.diff(bin_edges)
+    diffs = [math.isclose(widths[ind-1], widths[ind], rel_tol=1e-5) for ind in range(len(widths))]
+    
+    assert list(set(diffs))[0], 'Bin edges should be equidistant.'
+
+    return widths[0]
 
 
 def convert_2dindices(xbins, ybins, bins):
