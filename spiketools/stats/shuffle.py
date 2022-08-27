@@ -34,15 +34,18 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
 
     Examples
     --------
-    Method 1: Shuffle 10 spike times 50 times using ISI shuffle method:
+    Simulate some example spikes for examples:
 
-    >>> spikes = np.array([0.2, 0.25, 0.33, 0.64, 0.75, 0.82, 0.91, 1.13, 1.26, 1.28])
-    >>> shuffled_spikes = shuffle_spikes(spikes, approach='ISI', n_shuffles=50)
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
 
-    Method 2: Shuffle spike times at 10Hz for 8 seconds 50 times using BINCIRC shuffle method:
+    Create 5 spike time shuffles using the ISI shuffle method:
 
-    >>> spikes = np.array(list(poisson_generator(10, 8, 3)))
-    >>> shuffled_spikes = shuffle_bins(spikes, bin_width_range=[3,4], n_shuffles=50)
+    >>> shuffled_spikes = shuffle_spikes(spikes, 'ISI', n_shuffles=5)
+
+    Create 5 spike time shuffles using the 'CIRCULAR' shuffle method:
+
+    >>> shuffled_spikes = shuffle_spikes(spikes, 'CIRCULAR', n_shuffles=5, shuffle_min=10000)
     """
 
     check_param_options(approach, 'approach', ['ISI', 'BINCIRC', 'POISSON', 'CIRCULAR'])
@@ -67,8 +70,8 @@ def shuffle_isis(spikes, n_shuffles=1000):
 
     Parameters
     ----------
-    isis : 1d array
-        Inter-spike intervals.
+    spikes : 1d array
+        Spike times, in seconds.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
 
@@ -79,10 +82,11 @@ def shuffle_isis(spikes, n_shuffles=1000):
 
     Examples
     --------
-    Shuffle 10 spike times 50 times using ISI shuffle method:
+    Shuffle spike times using the ISI shuffle method:
 
-    >>> spikes = np.array([0.5, 1, 1.5, 2, 1.5, 3, 3.5, 4, 4.5, 5])
-    >>> shuffled_spikes = shuffle_spikes(spikes, approach='ISI', n_shuffles=50)
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
+    >>> shuffled_spikes = shuffle_isis(spikes, n_shuffles=5)
     """
 
     isis = compute_isis(spikes)
@@ -126,10 +130,11 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
 
     Examples
     --------
-    Shuffle spike times at 10Hz for 5 seconds 20 times:
+    Shuffle spike times using the circular bin method:
 
-    >>> spikes = np.array(list(poisson_generator(10, 5, 2)))
-    >>> shuffled_spikes = shuffle_bins(spikes, bin_width_range=[3, 4], n_shuffles=20)
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
+    >>> shuffled_spikes = shuffle_bins(spikes, bin_width_range=[3, 4], n_shuffles=5)
     """
 
     spike_train = convert_times_to_train(spikes)
@@ -193,10 +198,11 @@ def shuffle_poisson(spikes, n_shuffles=1000):
 
     Examples
     --------
-    Shuffle spike times at 5Hz for 3 seconds 10 times:
+    Shuffle spike times using the Poisson method:
 
-    >>> spikes = np.array(list(poisson_generator(5, 3)))
-    >>> shuffled_spikes = shuffle_poisson(spikes, n_shuffles=10)
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
+    >>> shuffled_spikes = shuffle_poisson(spikes, n_shuffles=5)
     """
 
     rate = compute_firing_rate(spikes)
@@ -234,11 +240,11 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
 
     Examples
     --------
-    Shuffle spike times at 10Hz for 30 seconds for 1000 times:
+    Shuffle spike times using the circular method:
 
-    >>> spikes = np.array(list(poisson_generator(10, 30, 5)))
-    >>> spikes = np.unique((spikes*1000).astype(int)) / 1000
-    >>> shuffled_spikes = shuffle_circular(spikes, shuffle_min=10000)
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
+    >>> shuffled_spikes = shuffle_circular(spikes, shuffle_min=10000, n_shuffles=5)
     """
 
     spike_train = convert_times_to_train(spikes)
