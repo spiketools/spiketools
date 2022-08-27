@@ -26,7 +26,7 @@ def compute_range(data):
 
     Examples
     --------
-    Compute the range of 6 position data. 
+    Compute the range of 6 position data:
 
     >>> data = np.array([1.5, 1, 0.5, 2, 3, 2.5])
     >>> compute_range(data)
@@ -58,7 +58,7 @@ def smooth_data(data, sigma):
 
     Examples
     --------
-    Smooth a 1d data array using a 0.8 gaussian kernel. 
+    Smooth a 1d data array using a 0.8 gaussian kernel:
 
     >>> data = np.array([1, 3, 5, 7, 9])
     >>> smooth_data(data, 0.8)
@@ -92,7 +92,7 @@ def drop_nans(data):
 
     Examples
     --------
-    Drop all NaNs values from a 1d array. 
+    Drop all NaNs values from a 1d array:
 
     >>> data = np.array([1, 2, 3.5, np.nan, 6, 2, np.nan, 1])
     >>> drop_nans(data)
@@ -133,7 +133,7 @@ def assign_data_to_bins(data, edges, check_range=True, include_edge=True):
 
     Examples
     --------
-    Assign 10 data value into 3 bins given the bin edges. 
+    Assign 10 data value into 3 bins given the bin edges:
 
     >>> data = np.array([0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 1.1, 1.2, 1.3, 1.4 ])
     >>> edges = np.array([0, 0.5, 1, 1.5])
@@ -179,7 +179,7 @@ def _include_bin_edge(assignments, position, edges, side='left'):
 
     Examples
     --------
-    Update bin assignment of 6 position data using left side bin edges. 
+    Update bin assignment of 6 position data using left side bin edges:
 
     >>> position = np.array([0.5, 1, 1.5, 2, 1.5, 3])
     >>> assignments = np.array([0, 1, 1, 2, 1, 3])

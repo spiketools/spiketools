@@ -38,12 +38,12 @@ def compute_target_bins(target_frs, bins, xbins, ybins=None, target_occupancy=No
 
     Examples
     --------
-    Compute firing rate of 2d bins based on 4 spatial targets in each of the 3 trials. 
+    Compute firing rate of 2d bins based on 4 spatial targets in each of the 3 trials:
 
     >>> target_frs = np.array([[2.5, 4.9, 0.2, 0.9], [5.5, 9.9, 7.7, 3.5], [1.2, 1.4, 2.1, 1.5]])
     >>> bins = [2, 3]
-    >>> xbins, ybins = np.array([0, 1, 1, 0]), np.array([1, 1, 2, 0]) 
-    >>> compute_target_bins(target_frs, bins, xbins, ybins) 
+    >>> xbins, ybins = np.array([0, 1, 1, 0]), np.array([1, 1, 2, 0])
+    >>> compute_target_bins(target_frs, bins, xbins, ybins)
     array([[0.9, 0. ],
            [2.5, 4.9],
            [0. , 0.2]])

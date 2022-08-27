@@ -33,7 +33,7 @@ def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
 
     Examples
     --------
-    Simulate 10 spike times at 5Hz for 3 seconds, with possion distribution. 
+    Simulate 10 spike times at 5Hz for 3 seconds, with possion distribution:
 
     >>> spikes = sim_spiketimes(5, 3, 'poisson')
     """
@@ -69,7 +69,7 @@ def sim_spiketimes_poisson(rate, duration, start_time=0):
 
     Examples
     --------
-    Simulate spike times at 10Hz for 5 seconds, starting at 2 seconds, with poisson distribution. 
+    Simulate spike times at 10Hz for 5 seconds, starting at 2 seconds, with poisson distribution:
 
     >>> spikes = sim_spiketimes_poisson(10, 5, start_time=2)
     """

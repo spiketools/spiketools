@@ -16,9 +16,9 @@ def convert_ms_to_sec(ms):
     float or array
         Time value(s), in seconds.
 
-    Examples 
+    Examples
     --------
-    Convert 500 milliseconds to seconds. 
+    Convert 500 milliseconds to seconds:
 
     >>> convert_ms_to_sec(500)
     0.5
@@ -42,7 +42,7 @@ def convert_sec_to_min(sec):
 
     Examples
     --------
-    Convert 210 seconds to minutes. 
+    Convert 210 seconds to minutes:
 
     >>> convert_sec_to_min(210)
     3.5
@@ -66,7 +66,7 @@ def convert_min_to_hour(mins):
 
     Examples
     --------
-    Convert 270 minutes to hours.
+    Convert 270 minutes to hours:
 
     >>> convert_min_to_hour(270)
     4.5
@@ -90,7 +90,7 @@ def convert_ms_to_min(ms):
 
     Examples
     --------
-    Convert 150000 milliseconds to minutes.
+    Convert 150000 milliseconds to minutes:
 
     >>> convert_ms_to_min(150000)
     2.5
@@ -114,7 +114,7 @@ def split_time_value(sec):
 
     Examples
     --------
-    Split 15000 seconds to hours, minutes, and seconds. 
+    Split 15000 seconds to hours, minutes, and seconds:
 
     >>> split_time_value(15000)
     (4, 10, 0)
@@ -141,7 +141,7 @@ def format_time_string(hours, minutes, seconds):
 
     Examples
     --------
-    Format 4 hours, 10 minutes, 20 seconds into a string. 
+    Format 4 hours, 10 minutes, 20 seconds into a string:
 
     >>> format_time_string(4, 10, 20)
     '4.00 hours, 10.00 minutes, and 20.00 seconds.'

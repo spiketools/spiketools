@@ -32,14 +32,14 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
     shuffled_spikes : 2d array
         Shuffled spike times.
 
-    Examples 
+    Examples
     --------
-    Method 1: Shuffle 10 spike times 50 times using ISI shuffle method. 
+    Method 1: Shuffle 10 spike times 50 times using ISI shuffle method:
 
     >>> spikes = np.array([0.2, 0.25, 0.33, 0.64, 0.75, 0.82, 0.91, 1.13, 1.26, 1.28])
     >>> shuffled_spikes = shuffle_spikes(spikes, approach='ISI', n_shuffles=50)
 
-    Method 2: Shuffle spike times at 10Hz for 8 seconds 50 times using BINCIRC shuffle method. 
+    Method 2: Shuffle spike times at 10Hz for 8 seconds 50 times using BINCIRC shuffle method:
 
     >>> spikes = np.array(list(poisson_generator(10, 8, 3)))
     >>> shuffled_spikes = shuffle_bins(spikes, bin_width_range=[3,4], n_shuffles=50)
@@ -79,7 +79,7 @@ def shuffle_isis(spikes, n_shuffles=1000):
 
     Examples
     --------
-    Shuffle 10 spike times 50 times using ISI shuffle method. 
+    Shuffle 10 spike times 50 times using ISI shuffle method:
 
     >>> spikes = np.array([0.5, 1, 1.5, 2, 1.5, 3, 3.5, 4, 4.5, 5])
     >>> shuffled_spikes = shuffle_spikes(spikes, approach='ISI', n_shuffles=50)
@@ -126,7 +126,7 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
 
     Examples
     --------
-    Shuffle spike times at 10Hz for 5 seconds 20 times. 
+    Shuffle spike times at 10Hz for 5 seconds 20 times:
 
     >>> spikes = np.array(list(poisson_generator(10, 5, 2)))
     >>> shuffled_spikes = shuffle_bins(spikes, bin_width_range=[3, 4], n_shuffles=20)
@@ -193,7 +193,7 @@ def shuffle_poisson(spikes, n_shuffles=1000):
 
     Examples
     --------
-    Shuffle spike times at 5Hz for 3 seconds 10 times. 
+    Shuffle spike times at 5Hz for 3 seconds 10 times:
 
     >>> spikes = np.array(list(poisson_generator(5, 3)))
     >>> shuffled_spikes = shuffle_poisson(spikes, n_shuffles=10)
@@ -232,9 +232,9 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
     -----
     The input shuffle_min should always be less than the maximum time in which a spike occurred.
 
-    Examples 
+    Examples
     --------
-    Shuffle spike times at 10Hz for 30 seconds for 1000 times. 
+    Shuffle spike times at 10Hz for 30 seconds for 1000 times:
 
     >>> spikes = np.array(list(poisson_generator(10, 30, 5)))
     >>> spikes = np.unique((spikes*1000).astype(int)) / 1000

@@ -35,7 +35,8 @@ def compute_trial_frs(trial_spikes, bins, trange=None, smooth=None):
 
     Examples
     --------
-    Compute the firing rate of 15 spike times (in seconds) from 3 trials acorss time bins. 
+    Compute the firing rate of 15 spike times (in seconds) from 3 trials acorss time bins:
+
     >>> trial_spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
                         np.array([0.275, 0.290, 0.300, 0.350, 0.500]), \
                         np.array([0.550, 0.650, 0.700, 0.900, 0.950])]
@@ -72,7 +73,8 @@ def compute_pre_post_rates(trial_spikes, pre_window, post_window):
 
     Examples
     --------
-    Compute the pre & post firing rate for 15 spike times (in seconds) from 3 trials. 
+    Compute the pre & post firing rate for 15 spike times (in seconds) from 3 trials:
+
     >>> trial_spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
                         np.array([0.275, 0.290, 0.3, 0.350, 0.5]), \
                         np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
@@ -105,7 +107,8 @@ def compute_segment_frs(spikes, segments):
 
     Examples
     --------
-    Compute firing rate in each of the 3 segments, per trial.
+    Compute firing rate in each of the 3 segments, per trial:
+
     >>> spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
                   np.array([0.275, 0.290, 0.3, 0.350, 0.5]), \
                   np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
@@ -143,7 +146,8 @@ def compute_pre_post_averages(frs_pre, frs_post, avg_type='mean'):
 
     Examples
     --------
-    Compute the average from the pre & post event firing rates. 
+    Compute the average from the pre & post event firing rates:
+
     >>> frs_pre = np.array([5, 3, 1])
     >>> frs_post = np.array([20, 8, 10])
     >>> compute_pre_post_averages(frs_pre, frs_post, avg_type='mean')
@@ -177,7 +181,8 @@ def compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_type='mean'):
 
     Examples
     --------
-    Compute the difference between pre & post events firing rates. 
+    Compute the difference between pre & post events firing rates:
+
     >>> frs_post = np.array([20, 8, 10])
     >>> frs_pre = np.array([5, 3, 1])
     >>> compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_type='mean')

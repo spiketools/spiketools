@@ -28,7 +28,7 @@ def convert_times_to_train(spikes, fs=1000, length=None):
 
     Examples
     --------
-    Convert 6 spike times into a corresponding binary spike train
+    Convert 6 spike times into a corresponding binary spike train:
 
     >>> spikes = [0.002, 0.250, 0.500, 0.750, 1.000, 1.250, 1.500]
     >>> convert_times_to_train(spikes)
@@ -62,7 +62,7 @@ def convert_train_to_times(train, fs=1000):
 
     Examples
     --------
-    Convert a spike train into spike times.
+    Convert a spike train into spike times:
 
     >>> spike_train = [0,0,0,1,0,1,0,0,1,0,1,1,0,1]
     >>> convert_train_to_times(spike_train)
@@ -94,7 +94,7 @@ def convert_isis_to_times(isis, offset=0, add_offset=True):
 
     Examples
     --------
-    Convert a sequence of 6 inter-spike intervals to their corresponding spike times, in seconds.
+    Convert a sequence of 6 inter-spike intervals to their corresponding spike times, in seconds:
 
     >>> isis = [0.3, 0.6, 0.8, 0.2, 0.7]
     >>> convert_isis_to_times(isis, offset=0, add_offset=True)
@@ -135,11 +135,11 @@ def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
 
     Examples
     --------
-    Convert 10 spike times (in seconds) to continuous firing rate across bins.
-    
+    Convert 10 spike times (in seconds) to continuous firing rate across bins:
+
     >>> spikes = np.array([0.002, 0.250, 0.450, 0.500, 0.750, 1.000, 1.250, 1.300, 1.400, 1.500])
     >>> bins = 0.2
-    >>> convert_times_to_rates(spikes, bins) 
+    >>> convert_times_to_rates(spikes, bins)
     array([ 5.,  5., 10.,  5.,  0.,  5., 15.,  5.])
     """
 

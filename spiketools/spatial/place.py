@@ -49,7 +49,7 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
 
     Examples
     --------
-    Compute spike activity in each 2d spatial bin. 
+    Compute spike activity in each 2d spatial bin:
 
     >>> spikes = np.array([0.2, 0.25, 0.3, 0.38, 0.41, 0.5, 0.59, 0.77, 0.95, 0.96])
     >>> position = np.array([[0.1, 0.3, 0.35, 0.36, 0.37, 0.4, 0.45, 0.46, 0.55, 0.7], \
@@ -117,9 +117,9 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
         If `flatten` is True, for a 2d position input, the output is 2d, as [n_trial, n_bins].
         Otherwise, for a 2d position input, the output is 3d, as [n_trials, n_ybins, n_xbins].
 
-    Examples 
+    Examples
     --------
-    Compute spike activity in 2 spatial bins (1d) across 2 trials. 
+    Compute spike activity in 2 spatial bins (1d) across 2 trials:
 
     >>> spikes = np.array([0.2, 0.25, 0.3, 0.38, 0.41, 0.5, 0.59, 0.77, 0.95])
     >>> position = np.array([1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0])
@@ -133,9 +133,9 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
 
     t_occ = None
     t_speed = None
-    
+
     bins = check_position_bins(bins, position)
-    
+
     place_bins_trial = np.zeros([len(trial_starts), *np.flip(bins)])
     for ind, (start, stop) in enumerate(zip(trial_starts, trial_stops)):
 

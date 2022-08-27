@@ -30,7 +30,7 @@ def epoch_spikes_by_event(spikes, events, window):
 
     Examples
     --------
-    Epoch an array of spiking data based on the event window of [0.1, 0.2]. 
+    Epoch an array of spiking data based on the event window of [0.1, 0.2]:
 
     >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 0.6, 0.7, 1, 1.4])
     >>> events = np.array([0.2, 0.8, 1.2])
@@ -67,7 +67,7 @@ def epoch_spikes_by_range(spikes, starts, stops, reset=False):
 
     Examples
     --------
-    Epoch an array of spiking data into trials and reset the starting timestamps of each trial to zero. 
+    Epoch an array of spiking data into trials and reset the starting timestamps of each trial to zero:
 
     >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 0.6, 0.7, 1, 1.4])
     >>> starts, stops = [0.05, 0.45, 0.8], [0.42, 0.73, 1.5]
@@ -103,7 +103,7 @@ def epoch_spikes_by_segment(spikes, segments):
 
     Examples
     --------
-    Epoch spiking data into 4 pre-defined segements.
+    Epoch spiking data into 4 pre-defined segements:
 
     >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 0.6, 0.7, 1, 1.4])
     >>> segments = [0, 0.35, 0.55, 0.8, 1.5]
@@ -140,7 +140,7 @@ def epoch_data_by_time(timestamps, values, timepoints, threshold=None):
 
     Examples
     --------
-    Epoch data values at 3 individual timepoints. 
+    Epoch data values at 3 individual timepoints:
 
     >>> timestapms = np.array([0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5])
     >>> values = np.array([1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5])
@@ -179,7 +179,7 @@ def epoch_data_by_event(timestamps, values, events, window):
 
     Examples
     --------
-    Epoch data into trials based on the event window of [0.1, 0.2]. 
+    Epoch data into trials based on the event window of [0.1, 0.2]:
 
     >>> timestamps = np.array([0.1, 0.3, 0.5, 0.7, 0.9])
     >>> values = np.array([1, 1.5, 2, 2.5, 3])
@@ -225,8 +225,8 @@ def epoch_data_by_range(timestamps, values, starts, stops, reset=False):
 
     Examples
     --------
-    Epoch data values into trials and reset the starting timestamps of each trial to zero. 
-    
+    Epoch data values into trials and reset the starting timestamps of each trial to zero:
+
     >>> timestamps = np.array([0.1, 0.3, 0.4, 0.5, 0.6])
     >>> values = np.array([1, 2, 3, 4, 5])
     >>> starts, stops = [0.2, 0.5], [0.4, 0.6]
@@ -268,7 +268,7 @@ def epoch_data_by_segment(timestamps, values, segments):
 
     Examples
     --------
-    Epoch data values into 3 pre-defined segments.
+    Epoch data values into 3 pre-defined segments:
 
     >>> timestamps = np.array([0.1, 0.4, 0.6, 0.7, 1])
     >>> values = np.array([1, 3, 5, 7, 9])

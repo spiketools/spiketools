@@ -32,7 +32,7 @@ def vec_perm(data, n_perms=1000):
 
     Examples
     --------
-    Create 4 permutations for vector: [0, 5, 10, 15, 20]
+    Create 4 permutations for vector [0, 5, 10, 15, 20]:
 
     >>> vec = np.array([0, 5, 10, 15, 20])
     >>> vec_perm(vec, n_perms=4)
