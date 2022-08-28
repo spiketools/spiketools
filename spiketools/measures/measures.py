@@ -24,9 +24,9 @@ def compute_firing_rate(spikes, start_time=None, stop_time=None):
 
     Examples
     --------
-    Compute spike rate of 6 spikes:
+    Compute spike rate from spike times:
 
-    >>> spikes = [0.5, 1, 1.5, 2, 2.5, 3]
+    >>> spikes = np.array([0.5, 1, 1.5, 2, 2.5, 3])
     >>> compute_firing_rate(spikes)
     2.4
     """
@@ -57,9 +57,9 @@ def compute_isis(spikes):
 
     Examples
     --------
-    Compute inter-spike intervals of 6 spikes:
+    Compute inter-spike intervals from spike times:
 
-    >>> spikes = [0.5, 0.8, 1.4, 2, 2.2, 2.9]
+    >>> spikes = np.array([0.5, 0.8, 1.4, 2, 2.2, 2.9])
     >>> compute_isis(spikes)
     array([0.3, 0.6, 0.6, 0.2, 0.7])
     """
@@ -82,7 +82,7 @@ def compute_cv(isis):
 
     Examples
     --------
-    Compute the coefficient of variation of 6 interval-spike intervals:
+    Compute the coefficient of variation from interval-spike intervals:
 
     >>> isis = [0.3, 0.6, 0.6, 0.2, 0.7]
     >>> compute_cv(isis)
@@ -107,7 +107,7 @@ def compute_fano_factor(spike_train):
 
     Examples
     --------
-    Compute the fano factor of a spike train with 6 time points:
+    Compute the fano factor from a spike train:
 
     >>> spike_train = [0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0]
     >>> compute_fano_factor(spike_train)

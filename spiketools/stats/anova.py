@@ -38,7 +38,7 @@ def create_dataframe(data, columns=None, dropna=True, dtypes=None):
 
     Examples
     --------
-    Create a dataframe from arrays of firing rate per 3 spatial bins in 3 trials:
+    Create a dataframe from arrays representing 3 trials of firing rate across 3 spatial bins:
 
     >>> data = np.array([[1.5, 1.7, 1.9], [1.4, 1.2, 1.6], [1.5, 0.9, 0.8]])
     >>> df = create_dataframe(data)
@@ -84,9 +84,9 @@ def create_dataframe_bins(bin_data, other_data=None, dropna=True, dtypes=None, b
 
     Examples
     --------
-    Create a dataframe from firing rate in 5 spatial bins in 3 trials:
+    Create a dataframe from arrays representing 3 trials of firing rate across 5 spatial bins:
 
-    >>> data = np.array([[1,2,3,7,2], [4,5,6,4,1], [8,9,10, 9, 8]])
+    >>> data = np.array([[1, 2, 3, 7, 2], [4, 5, 6, 4, 1], [8, 9, 10, 9, 8]])
     >>> df = create_dataframe_bins(data)
     """
 
@@ -164,11 +164,12 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
 
     Examples
     --------
-    Fit an ANOVA on firing rates per spatial bin, returning model f_value:
+    Fit an ANOVA on firing rates per spatial bin, returning model F-value:
 
-    >>> data = np.array([[1,2,3,7,2], [4,5,6,4,1], [8,9,10, 9, 8]])
+    >>> data = np.array([[1, 2, 3, 7, 2], [4, 5, 6, 4, 1], [8, 9, 10, 9, 8]])
     >>> df = create_dataframe_bins(data)
-    >>> f_val = fit_anova(df, 'fr ~ C(bin)', feature='C(bin)', return_type='f_val', anova_type=1)
+    >>> formula = 'fr ~ C(bin)'
+    >>> f_val = fit_anova(df, formula, feature='C(bin)', return_type='f_val', anova_type=1)
     >>> round(f_val, 4)
     0.4249
     """

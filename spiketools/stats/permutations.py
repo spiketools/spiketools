@@ -26,13 +26,12 @@ def vec_perm(data, n_perms=1000):
     Notes
     -----
     Code adapted from here: https://stackoverflow.com/questions/46859304/
-    This function doesn't have any randomness: for a given array it will
-    iterate through the same set of permutations.
-    This does a sequence of rotated permutations.
+    This function doesn't have any randomness - for a given array it will
+    iterate through the same set of permutations, in sequence.
 
     Examples
     --------
-    Create 4 permutations for vector [0, 5, 10, 15, 20]:
+    Create permutations for a given vector:
 
     >>> vec = np.array([0, 5, 10, 15, 20])
     >>> vec_perm(vec, n_perms=4)

@@ -70,7 +70,7 @@ def infer_time_unit(time_values):
 
     Examples
     --------
-    Infer the time unit of an array of 5 time values:
+    Infer the time unit of an array of time values:
 
     >>> time_values = np.array([0.002, 0.01, 0.05, 0.1, 2])
     >>> infer_time_unit(time_values)
@@ -135,13 +135,19 @@ def check_time_bins(bins, values, trange=None, check_range=True):
 
     Examples
     --------
-    Check if the range of data values exceeds the the 0.5 time bin:
+    Check a time bin definition, where bins are defined as a bin length:
 
     >>> bins = 0.5
-    >>> values = np.array([0.2, 0.4, 0.6, 0.9, 1.4, 1.5, 1.6, 2.0])
-    >>> trange = [0.1, 2.1]
-    >>> check_time_bins(bins, values, trange, check_range=True)
-    array([0.1, 0.6, 1.1, 1.6, 2.1])
+    >>> values = np.array([0.2, 0.4, 0.6, 0.9, 1.4, 1.5, 1.6, 1.9])
+    >>> trange = [0., 2.]
+    >>> check_time_bins(bins, values, trange)
+    array([0. , 0.5, 1. , 1.5, 2. ])
+
+    Check a time bin definition, where bins are already defined:
+
+    >>> bins = np.array([0. , 0.5, 1. , 1.5, 2. ])
+    >>> check_time_bins(bins, values, trange)
+    array([0. , 0.5, 1. , 1.5, 2. ])
     """
 
     if isinstance(bins, (int, float)):

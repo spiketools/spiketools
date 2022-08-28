@@ -26,7 +26,7 @@ def compute_range(data):
 
     Examples
     --------
-    Compute the range of 6 position data:
+    Compute the range of some position data:
 
     >>> data = np.array([1.5, 1, 0.5, 2, 3, 2.5])
     >>> compute_range(data)
@@ -58,10 +58,10 @@ def smooth_data(data, sigma):
 
     Examples
     --------
-    Smooth a 1d data array using a 0.8 gaussian kernel:
+    Smooth a 1d data array using a gaussian kernel:
 
     >>> data = np.array([1, 3, 5, 7, 9])
-    >>> smooth_data(data, 0.8)
+    >>> smooth_data(data, sigma=0.8)
     array([1, 3, 5, 6, 8])
     """
 
@@ -133,9 +133,9 @@ def assign_data_to_bins(data, edges, check_range=True, include_edge=True):
 
     Examples
     --------
-    Assign 10 data value into 3 bins given the bin edges:
+    Assign data values into bins given the bin edges:
 
-    >>> data = np.array([0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 1.1, 1.2, 1.3, 1.4 ])
+    >>> data = np.array([0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 1.1, 1.2, 1.3, 1.4])
     >>> edges = np.array([0, 0.5, 1, 1.5])
     >>> assign_data_to_bins(data, edges)
     array([0, 0, 0, 1, 1, 1, 2, 2, 2, 2])
@@ -179,12 +179,12 @@ def _include_bin_edge(assignments, position, edges, side='left'):
 
     Examples
     --------
-    Update bin assignment of 6 position data using left side bin edges:
+    Update bin assignment of some position data using left side bin edges:
 
     >>> position = np.array([0.5, 1, 1.5, 2, 1.5, 3])
     >>> assignments = np.array([0, 1, 1, 2, 1, 3])
-    >>> edges = np.array([0,1,2,3])
-    >>> _include_bin_edge(assignments, position, edges, side='left' )
+    >>> edges = np.array([0, 1, 2, 3])
+    >>> _include_bin_edge(assignments, position, edges, side='left')
     array([0, 1, 1, 2, 1, 2])
     """
 

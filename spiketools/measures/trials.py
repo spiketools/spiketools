@@ -35,17 +35,17 @@ def compute_trial_frs(trial_spikes, bins, trange=None, smooth=None):
 
     Examples
     --------
-    Compute the firing rate of 15 spike times (in seconds) from 3 trials acorss time bins:
+    Compute the continuous firing rates across time bins for 3 trials:
 
-    >>> trial_spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
-                        np.array([0.275, 0.290, 0.300, 0.350, 0.500]), \
-                        np.array([0.550, 0.650, 0.700, 0.900, 0.950])]
+    >>> trial_spikes = [np.array([0.005, 0.150, 0.250]), \
+                        np.array([0.126, 0.275, 0.300, 0.350, 0.500]), \
+                        np.array([0.250, 0.350, 0.700, 0.900])]
     >>> bins = 0.5
-    >>> trange = [0.002, 0.95]
+    >>> trange = [0.0, 1.0]
     >>> compute_trial_frs(trial_spikes, bins, trange)
-    array([[10.,  0.],
-           [10.,  0.],
-           [ 0., 10.]])
+    array([[6., 0.],
+           [8., 2.],
+           [4., 4.]])
     """
 
     bins = check_time_bins(bins, trial_spikes[0], trange=trange)
@@ -73,14 +73,14 @@ def compute_pre_post_rates(trial_spikes, pre_window, post_window):
 
     Examples
     --------
-    Compute the pre & post firing rate for 15 spike times (in seconds) from 3 trials:
+    Compute the pre & post firing rates for specified time windows across 3 trials:
 
-    >>> trial_spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
-                        np.array([0.275, 0.290, 0.3, 0.350, 0.5]), \
+    >>> trial_spikes = [np.array([-0.150, -0.005, -0.002, 0.250, 0.450, 0.625]), \
+                        np.array([-0.250, 0.275, 0.290, 0.3, 0.350, 0.5]), \
                         np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
-    >>> pre_window, post_window = [0.1, 0.2], [0.5, 0.9]
+    >>> pre_window, post_window = [-0.5, 0.0], [0.5, 0.9]
     >>> compute_pre_post_rates(trial_spikes, pre_window, post_window)
-    (array([20.,  0.,  0.]), array([ 0. ,  2.5, 10. ]))
+    (array([6., 2., 0.]), array([ 2.5,  2.5, 10. ]))
     """
 
     frs_pre = np.array([compute_firing_rate(trial, *pre_window) for trial in trial_spikes])
@@ -107,12 +107,14 @@ def compute_segment_frs(spikes, segments):
 
     Examples
     --------
-    Compute firing rate in each of the 3 segments, per trial:
+    Compute firing rate across segments, with custom segment times per trial:
 
     >>> spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
                   np.array([0.275, 0.290, 0.3, 0.350, 0.5]), \
                   np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
-    >>> segments = np.array([[0, 0.1, 0.15, 0.26], [0.27, 0.35, 0.4, 0.51], [0.52, 0.7, 0.9, 1]])
+    >>> segments = np.array([[0, 0.1, 0.15, 0.26], \
+                             [0.27, 0.35, 0.4, 0.51], \
+                             [0.52, 0.7, 0.9, 1]])
     >>> compute_segment_frs(spikes, segments)
     array([[20.        , 20.        , 18.18181818],
            [37.5       , 20.        ,  9.09090909],
@@ -146,12 +148,12 @@ def compute_pre_post_averages(frs_pre, frs_post, avg_type='mean'):
 
     Examples
     --------
-    Compute the average from the pre & post event firing rates:
+    Compute the average pre & post event firing rates:
 
     >>> frs_pre = np.array([5, 3, 1])
-    >>> frs_post = np.array([20, 8, 10])
+    >>> frs_post = np.array([12, 8, 10])
     >>> compute_pre_post_averages(frs_pre, frs_post, avg_type='mean')
-    (3.0, 12.666666666666666)
+    (3.0, 10.0)
     """
 
     avg_pre = get_avg_func(avg_type)(frs_pre)
@@ -181,12 +183,12 @@ def compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_type='mean'):
 
     Examples
     --------
-    Compute the difference between pre & post events firing rates:
+    Compute the difference between pre & post event firing rates:
 
-    >>> frs_post = np.array([20, 8, 10])
     >>> frs_pre = np.array([5, 3, 1])
+    >>> frs_post = np.array([12, 8, 10])
     >>> compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_type='mean')
-    9.666666666666666
+    7.0
     """
 
     diffs = frs_post - frs_pre

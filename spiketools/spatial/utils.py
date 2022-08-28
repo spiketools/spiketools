@@ -197,7 +197,7 @@ def convert_1dindices(indices, bins):
 
     Examples
     --------
-    Convert 16 1d bin dinced into equivalent 2d indices with a shape of [4, 4] binning:
+    Convert 1d bin indices into equivalent 2d indices with a [4, 4] shape:
 
     <<< indices = np.array([0, 0, 8, 4, 3, 4, 5, 6, 8, 7, 3, 2, 1, 1, 8, 0])
     <<< bins = [4, 4]

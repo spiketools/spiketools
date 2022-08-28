@@ -23,7 +23,7 @@ def flatten(lst):
     --------
     Flatten a list of 3 lists inside:
 
-    >>> lst = [[1,2,3,4], [5,6,7,8], [9,10,11,12]]
+    >>> lst = [[1, 2, 3, 4], [5, 6, 7 ,8], [9, 10, 11, 12]]
     >>> flatten(lst)
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     """
@@ -50,7 +50,7 @@ def select_from_list(lst, select):
     --------
     Select the first and last element from given list:
 
-    >>> lst = [1,4,3,6,8]
+    >>> lst = [1, 4, 3, 6, 8]
     >>> select = [True, False, False, False, True]
     >>> select_from_list(lst, select)
     [1, 8]
@@ -80,9 +80,9 @@ def count_elements(data, labels=None, sort=False):
 
     Examples
     --------
-    Count the number of occurance of each element in a 1d array:
+    Count the number of occurrences of each element in a 1d array:
 
-    >>> data = np.array([1,3,3,4,5,6,9,3,4,5,6])
+    >>> data = np.array([1, 3, 3, 4, 5, 6, 9, 3, 4, 5, 6])
     >>> count_elements(data)
     Counter({3: 3, 4: 2, 5: 2, 6: 2, 1: 1, 9: 1})
     """
