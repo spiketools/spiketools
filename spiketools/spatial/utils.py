@@ -133,9 +133,9 @@ def compute_bin_width(bin_edges):
     """
 
     widths = np.diff(bin_edges)
-    diffs = [math.isclose(widths[ind-1], widths[ind], rel_tol=1e-5) for ind in range(len(widths))]
 
-    assert list(set(diffs))[0], 'Bin edges should be equidistant.'
+    # Check that all bin widths are the same, representing equidistant bins
+    assert np.all(np.isclose(widths, widths[0])), 'Bin edges should be equidistant.'
 
     return widths[0]
 
