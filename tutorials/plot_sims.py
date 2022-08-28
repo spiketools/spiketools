@@ -66,8 +66,7 @@ plot_rasters(spike_times)
 
 ###################################################################################################
 
-# Simulate spike train of size 1000 and 1000 Hz sampling rate, based on a probability of spiking
-# per sample.
+# Simulate spike train of size 1000, based on a probability of spiking per sample
 p_spiking = np.random.random(1000)
 sim_spiketrain = sim_spiketrain_prob(p_spiking)
 

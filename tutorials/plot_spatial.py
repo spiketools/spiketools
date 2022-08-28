@@ -51,8 +51,6 @@ from spiketools.plts.spatial import (plot_positions, plot_heatmap, plot_trial_he
 
 ###################################################################################################
 
-###################################################################################################
-
 # Set some tracking data
 x_pos = np.array([0, 1, 2, 3, 4, 3.2, 2.1, 2, 1, 0, 0, 0.1, 1, 1.5, 1, 1])
 y_pos = np.array([0, 0, 0.1, 1, 1.5, 1, 1, 2.1, 2, 1, 0, 1, 2, 3, 4, 3.2])
@@ -71,8 +69,8 @@ timestamps = np.array([0, 1, 2, 3, 5, 6.5, 7.5, 8.5, 9.5, 11.5, 12.5, 13.5, 14.5
 # Compute and plot distances and speed using position
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# Use x- and y-position to compute distance between two or more points, cumulative distance
-# traveled and speed
+# Use x- and y-position to compute distance between two or more points,
+# cumulative distance traveled and speed.
 #
 
 ###################################################################################################
@@ -92,13 +90,13 @@ _ = plt.legend(['coordinates'])
 ###################################################################################################
 
 # Plot x-position by time
-plot_position_by_time(timestamps, x_pos, alpha=1, ls='-', marker='x', color='tab:gray', markersize=10,
-               title='X-position by time', xlabel='time', ylabel='x-position')
+plot_position_by_time(timestamps, x_pos, alpha=1, ls='-', marker='x', color='tab:gray',
+                      markersize=10, title='X-position by time', xlabel='time', ylabel='x-position')
 _ = plt.legend(['coordinates'])
 
 # Plot y-position by time
-plot_position_by_time(timestamps, y_pos, alpha=1, ls='-', marker='x', color='tab:gray', markersize=10,
-               title='Y-position by time', xlabel='time', ylabel='y-position')
+plot_position_by_time(timestamps, y_pos, alpha=1, ls='-', marker='x', color='tab:gray',
+                      markersize=10, title='Y-position by time', xlabel='time', ylabel='y-position')
 _ = plt.legend(['coordinates'])
 
 ###################################################################################################
@@ -121,20 +119,20 @@ speeds = compute_speed(x_pos, y_pos, bin_widths)
 fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True)
 # Plot distance traveled at each time
 plot_position_by_time(timestamps[1:], dist_traveled,
-               ax=ax1, alpha=1, ls='-', marker='x', color='tab:pink', markersize=10,
-               title='Distance traveled at each point',
-               xlabel='time (t)', ylabel='speed (u/t)')
+                      ax=ax1, alpha=1, ls='-', marker='x', color='tab:pink', markersize=10,
+                      title='Distance traveled at each point',
+                      xlabel='time (t)', ylabel='speed (u/t)')
 
 # Plot cumulative distance traveled per time
 plot_position_by_time(timestamps[1:], cumulative_dist_traveled,
-               ax=ax2, alpha=1, ls='-', marker='x', color='tab:olive', markersize=10,
-               title='Cumulative distance traveled at each point',
-               xlabel='time (t)', ylabel='speed (u/t)')
+                      ax=ax2, alpha=1, ls='-', marker='x', color='tab:olive', markersize=10,
+                      title='Cumulative distance traveled at each point',
+                      xlabel='time (t)', ylabel='speed (u/t)')
 
 # Plot speed at each time point
 plot_position_by_time(timestamps[1:], speeds,
-               ax=ax3, alpha=1, ls='-', marker='x', color='tab:cyan', markersize=10,
-               title='Speed at each point', xlabel='time (t)', ylabel='speed (u/t)')
+                      ax=ax3, alpha=1, ls='-', marker='x', color='tab:cyan', markersize=10,
+                      title='Speed at each point', xlabel='time (t)', ylabel='speed (u/t)')
 
 # Add padding between subplots, and make figure bigger
 fig.tight_layout(pad=0.05)
@@ -203,11 +201,12 @@ print(f'The time widths of the the sampling bins are: {bin_widths}')
 #
 # Now we are interested in how much time was spent in each bin of the spatial grid (each
 # sub-region of the space).
+#
 # For 2D case, compute occupancy using position, timestamps, bins, speed, and a speed threshold.
 # Also compute 2D position bin occurrence counts (no speed thresholding).
 # Plot heatmaps of 2D occupancy and 2D position bin occurrence counts.
 #
-# For 1D case, compute occupancy using x-position, timestamps, x-bins, speed, and a speed 
+# For 1D case, compute occupancy using x-position, timestamps, x-bins, speed, and a speed
 # threshold.
 # Also compute 1D x-position bin occurrence counts (no speed thresholding).
 # Plot heatmaps of 1D occupancy and 1D x-position bin occurrence counts.

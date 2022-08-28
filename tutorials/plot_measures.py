@@ -50,7 +50,7 @@ from spiketools.plts.spatial import plot_heatmap
 #
 # Here, spike time refers to a representation of spiking activity based on listing the times at
 # which spikes occur and spike rate measures how fast an individual neuron is firing.
-# An example of spike spike times is provided below.
+# An example of spike times is provided below.
 #
 
 ###################################################################################################
@@ -60,10 +60,11 @@ spike_times = sim_spiketimes(100, 5, 'poisson', refractory=0.001)
 
 ###################################################################################################
 #
-# Now we can convert a vector of spike times in seconds to a binary spike train, a representation
-# of spiking activity in which each 1 represents a spike.
-# An example spike times and its corresponding spike train are provided below, as well as a raster
-# plot of the spike times.
+# Now we can convert a vector of spike times in seconds to a binary spike train,
+# a representation of spiking activity in which each 1 represents a spike.
+#
+# Example spike times and the corresponding spike train are provided below,
+# as well as a raster plot of the spike times.
 #
 
 ###################################################################################################
@@ -72,11 +73,11 @@ spike_times = sim_spiketimes(100, 5, 'poisson', refractory=0.001)
 spike_train = convert_times_to_train(spike_times, fs=1000)
 
 # Print the first 20 spikes in the binary spike train
-print('Spike times:', spike_times[spike_times<(20/1000)]) 
+print('Spike times:', spike_times[spike_times < (20 / 1000)])
 print('Corresponding spike train:', spike_train[:20])
 
 # Plot the first second of the spike times
-plot_rasters(spike_times[spike_times<1], title='Raster of spike times')
+plot_rasters(spike_times[spike_times < 1], title='Raster of spike times')
 
 ###################################################################################################
 #
@@ -106,7 +107,7 @@ isis = compute_isis(spike_times)
 spike_times = convert_isis_to_times(isis, offset=0, add_offset=True)
 
 # Plot the first second of the spike times
-plot_rasters(spike_times[spike_times<1], title='Raster spike times from ISIS')
+plot_rasters(spike_times[spike_times < 1], title='Raster spike times from ISIS')
 
 ###################################################################################################
 # Compute measures of spiking activity
@@ -164,6 +165,7 @@ print('Fano factor: {:.3}'.format(fano))
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # First, we simulate a list of spike times in seconds for 5 different trials.
+#
 # For each trial, an event that changes the firing rate is simulated.
 # Plot the spiking activity across trials
 #
@@ -178,7 +180,7 @@ time_post = 4
 
 # Number of trials
 n_trials = 5
-trial_spikes = [None]*n_trials
+trial_spikes = [None] * n_trials
 
 # For each trial
 for trial_idx in range(n_trials):
@@ -243,6 +245,7 @@ frs_pre, frs_post = compute_pre_post_rates(trial_spikes, pre_window, post_window
 ###################################################################################################
 #
 # Now we can compute the average firing rates before and after the event.
+#
 # We can also compute the difference between the firing rates before and after the event.
 #
 
