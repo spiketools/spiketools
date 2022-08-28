@@ -4,6 +4,7 @@ import numpy as np
 
 from spiketools.spatial.utils import compute_nbins
 from spiketools.spatial.occupancy import compute_occupancy, compute_bin_counts_pos
+from spiketools.spatial.checks import check_position_bins
 from spiketools.utils.extract import (get_range, get_values_by_time_range, get_values_by_times,
                                       threshold_spikes_by_values)
 
@@ -106,6 +107,9 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
 
     t_occ = None
     t_speed = None
+    
+    bins = check_position_bins(bins, position)
+    
     place_bins_trial = np.zeros([len(trial_starts), *np.flip(bins)])
     for ind, (start, stop) in enumerate(zip(trial_starts, trial_stops)):
 
@@ -119,9 +123,13 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
                                       t_speed, speed_threshold, time_threshold,
                                       **occupancy_kwargs)
 
-        place_bins_trial[ind, :, :] = compute_place_bins(t_spikes, t_pos, t_times, bins, area_range,
-                                                         t_speed, speed_threshold, time_threshold,
-                                                         t_occ)
+        place_bins_trial[ind, :] = compute_place_bins(t_spikes, t_pos, t_times, bins, area_range,
+                                                      t_speed, speed_threshold, time_threshold,
+                                                      t_occ)
+
+        # This to turn off the range warning for subsequent loop iterations
+        #   This should be addressed by a warning filter, but that approach doesn't seem to work...
+        occupancy_kwargs['check_range'] = False
 
     if flatten:
         place_bins_trial = np.reshape(place_bins_trial, [len(trial_starts), compute_nbins(bins)])

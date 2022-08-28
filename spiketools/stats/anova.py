@@ -1,10 +1,9 @@
 """ANOVA related helper functions."""
 
-from copy import deepcopy
-
 import numpy as np
 import pandas as pd
 
+from spiketools.utils.base import flatten
 from spiketools.utils.checks import check_param_options
 from spiketools.modutils.dependencies import safe_import, check_dependency
 
@@ -14,7 +13,7 @@ smf = safe_import('.formula.api', 'statsmodels')
 ###################################################################################################
 ###################################################################################################
 
-def create_dataframe(data, columns=None, drop_na=True, types=None):
+def create_dataframe(data, columns=None, dropna=True, dtypes=None):
     """Create a dataframe from an array of data.
 
     Parameters
@@ -26,10 +25,11 @@ def create_dataframe(data, columns=None, drop_na=True, types=None):
     columns : list of str, optional
         The column labels for the dataframe.
         To be used if `data` is an array.
-    drop_na : bool, optional, default: True
+    dropna : bool, optional, default: True
         Whether to drop NaN values from the dataframe.
-    types : dict, optional
-
+    dtypes : dict, optional
+        Data types to typecast columns to.
+        Each key should be a column label, and each associated value the type to typecast to.
 
     Returns
     -------
@@ -39,29 +39,36 @@ def create_dataframe(data, columns=None, drop_na=True, types=None):
 
     df = pd.DataFrame(data, columns=columns)
 
-    if drop_na:
+    if dropna:
         df = df.dropna()
 
-    if types:
-        for column, ntype in types.items():
-            df[column] = df[column].astype(ntype)
+    if dtypes:
+        for column, dtype in dtypes.items():
+            df[column] = df[column].astype(dtype)
 
     return df
 
 
-def create_dataframe_bins(data, columns, drop_na=True):
+def create_dataframe_bins(bin_data, other_data=None, dropna=True, dtypes=None, bin_columns=None):
     """Create a dataframe from an array of binned data.
 
     Parameters
     ----------
-    data : 2d or 3d array
+    bin_data : 2d or 3d array
         An array of data organized into pre-computed bins.
         If a 2d array, should be organized as [n_trials, n_bins].
         If a 3d array, should be organized as [n_trials, n_xbins, n_ybins].
-    columns : list of str
-        The column labels for the dataframe.
+    other_data : dict, optional
+        Additional data columns, reflecting data per trial, to add to the dataframe.
+        Each key should be a column label and each value should be an array of length n_trials.
     drop_na : bool, optional, default: True
         Whether to drop NaN values from the dataframe.
+    dtypes : dict, optional
+        Data types to typecast columns to.
+        Each key should be a column label, and each associated value the type to typecast to.
+    bin_columns : list of str, optional
+        Custom column labels for the bin data.
+        If not provided, defaults to ['bin', 'fr'] for 1d or ['xbin', 'ybin' 'fr'] for 2d bins.
 
     Returns
     -------
@@ -69,30 +76,44 @@ def create_dataframe_bins(data, columns, drop_na=True):
         Constructed dataframe.
     """
 
-    df_columns = deepcopy(columns)
+    if bin_data.ndim == 2:
 
-    if data.ndim == 2:
-
-        n_trials, n_bins = data.shape
+        n_trials, n_bins = bin_data.shape
 
         trial = np.repeat(np.arange(0, n_trials), n_bins)
         labels = np.tile(np.arange(0, n_bins), n_trials)
 
-        df_data = np.stack([trial, labels, data.flatten()], axis=1)
+        bin_columns = ['bin', 'fr'] if not bin_columns else bin_columns
+        df_data = {'trial' : trial,
+                   bin_columns[0] : labels,
+                   bin_columns[1] : bin_data.flatten()}
 
-    elif data.ndim == 3:
+    elif bin_data.ndim == 3:
 
-        n_trials, n_xbins, n_ybins = data.shape
+        n_trials, n_xbins, n_ybins = bin_data.shape
+        n_bins = n_xbins * n_ybins
 
         trial = np.repeat(np.arange(0, n_trials), n_xbins * n_ybins)
         xlabels = np.tile(np.repeat(np.arange(0, n_xbins), n_ybins), n_trials)
         ylabels = np.tile(np.arange(0, n_ybins), n_trials * n_xbins)
 
-        df_data = np.stack([trial, xlabels, ylabels, data.flatten()], axis=1)
+        bin_columns = ['xbin', 'ybin', 'fr'] if not bin_columns else bin_columns
+        df_data = {'trial' : trial,
+                   bin_columns[0] : xlabels,
+                   bin_columns[1] : ylabels,
+                   bin_columns[2] : bin_data.flatten()}
 
-    df_columns.insert(0, 'trial')
-    types = {column : 'int' for column in df_columns if 'trial' in column or 'bin' in column}
-    df = create_dataframe(df_data, df_columns, drop_na=drop_na, types=types)
+    if other_data is not None:
+        for label, data in other_data.items():
+            df_data[label] = np.repeat(data, n_bins)
+
+    dtype_defaults = {col : 'int' for col in df_data.keys() if col == 'trial' or 'bin' in col}
+    dtypes = {**dtypes, **dtype_defaults} if dtypes is not None else dtype_defaults
+
+    df = create_dataframe(df_data, dropna=dropna, dtypes=dtypes)
+
+    # Reorder dataframe so that `trial` column is first and `fr` is at the end & sorted in between
+    df = df[flatten([['trial'], sorted(list(set(df.columns) - set(['trial', 'fr']))), ['fr']])]
 
     return df
 
@@ -106,7 +127,7 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
     df : pd.DataFrame
         Dataframe of data to fit the ANOVA to.
     formula : str
-        The formula
+        The formula.
     feature : str, optional
         Which feature to extract from the model.
         Only used (and required) if `return_type` is 'f_val'.

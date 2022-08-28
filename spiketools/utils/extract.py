@@ -7,6 +7,32 @@ from spiketools.utils.options import get_comp_func
 ###################################################################################################
 ###################################################################################################
 
+def create_mask(data, min_value=None, max_value=None):
+    """Create a mask to select data points based on value.
+
+    Parameters
+    ----------
+    data : 1d array
+        Array of data.
+    min_value, max_value : float, optional
+        Minimum and/or maximum value to extract from the input array.
+    reset : float, optional
+        If provided, resets the values in the data array by the given reset value.
+
+    Returns
+    -------
+    mask : 1d array of bool
+        Mask to select data points from the input array.
+    """
+
+    min_value = -np.inf if min_value is None else min_value
+    max_value = np.inf if max_value is None else max_value
+
+    mask = np.logical_and(data >= min_value, data <= max_value)
+
+    return mask
+
+
 def get_range(data, min_value=None, max_value=None, reset=None):
     """Get a specified range from a vector of data.
 
@@ -45,15 +71,46 @@ def get_range(data, min_value=None, max_value=None, reset=None):
     array([10, 15, 20])
     """
 
-    min_value = -np.inf if min_value is None else min_value
-    max_value = np.inf if max_value is None else max_value
+    mask = create_mask(data, min_value, max_value)
 
-    data = data[(data >= min_value) & (data <= max_value)]
+    data = data[mask]
 
     if reset:
         data = data - reset
 
     return data
+
+
+def get_value_range(times, data, min_value=None, max_value=None, reset=None):
+    """Extract data and associated timestamps for a desired value range.
+
+    Parameters
+    ----------
+    times : 1d array
+        Time indices.
+    data : 1d array
+        Array of data.
+    min_value, max_value : float, optional
+        Minimum and/or maximum value to extract from the input array.
+    reset : float, optional
+        If provided, resets the time values by the given reset value.
+
+    Returns
+    -------
+    times : 1d array
+        Time indices, selected by value.
+    data : 1d array
+        Array of data, selected by value.
+    """
+
+    mask = create_mask(data, min_value, max_value)
+
+    times, data = times[mask], data[mask]
+
+    if reset:
+        times = times - reset
+
+    return times, data
 
 
 def get_ind_by_time(times, timepoint, threshold=None):
