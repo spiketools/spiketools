@@ -30,7 +30,6 @@ This tutorial primarily covers the ``spiketools.stats`` module.
 
 # Import auxiliary libraries
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Import statistics-related functions
 from spiketools.stats.shuffle import (shuffle_isis, shuffle_bins, shuffle_poisson,
@@ -50,6 +49,7 @@ from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignm
 # Import plot function
 from spiketools.plts.trials import plot_rasters
 from spiketools.plts.stats import plot_surrogates
+from spiketools.plts.utils import make_axes
 
 # Import measures & utilities
 from spiketools.utils.extract import get_range
@@ -91,7 +91,7 @@ plot_rasters(spikes[:], xlim=[0, 6], title='Non-shuffled', line=None)
 ###################################################################################################
 
 # Plot different shuffles
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharey=True)
+ax1, ax2, ax3, ax4 = make_axes(4, 2, sharey=True, hspace=0.3, figsize=(15, 7))
 
 # isis
 plot_rasters(shuffled_isis[:, :], xlim=[0, 6], ax=ax1,
@@ -108,10 +108,6 @@ plot_rasters(shuffled_bins[:, :], xlim=[0, 6], ax=ax3,
 # shuffled circular
 plot_rasters(shuffled_circular[:, :], xlim=[0, 6], ax=ax4,
              title='Shuffle circular n_shuffles = 10', line=None)
-
-# Add some padding between subplots & make the figure bigger
-plt.subplots_adjust(hspace=0.3)
-fig.set_size_inches((40/2.54, 20/2.54))
 
 ###################################################################################################
 # Compute t-test t- and p-values to test for an event-related firing rate change

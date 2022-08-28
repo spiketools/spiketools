@@ -37,8 +37,12 @@ from spiketools.measures.conversions import (convert_times_to_train, convert_tra
 from spiketools.measures.trials import (compute_trial_frs, compute_pre_post_rates,
                                         compute_segment_frs, compute_pre_post_averages,
                                         compute_pre_post_diffs)
-from spiketools.plts.spikes import plot_isis
+
+# Import simulation functions
 from spiketools.sim.times import sim_spiketimes
+
+# Import plot functions
+from spiketools.plts.spikes import plot_isis
 from spiketools.plts.trials import plot_rasters
 from spiketools.plts.spatial import plot_heatmap
 

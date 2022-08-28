@@ -48,6 +48,7 @@ from spiketools.sim.train import sim_spiketrain_binom
 # Import plotting functions
 from spiketools.plts.spatial import (plot_positions, plot_heatmap, plot_trial_heatmaps,
                                      plot_position_by_time)
+from spiketools.plts.utils import make_axes
 
 ###################################################################################################
 
@@ -116,7 +117,9 @@ speeds = compute_speed(x_pos, y_pos, bin_widths)
 
 ###################################################################################################
 
-fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True)
+# Plot distance and speed measures
+ax1, ax2, ax3 = make_axes(3, 1, sharex=True, hspace=0.4, figsize=(8, 6))
+
 # Plot distance traveled at each time
 plot_position_by_time(timestamps[1:], dist_traveled,
                       ax=ax1, alpha=1, ls='-', marker='x', color='tab:pink', markersize=10,
@@ -133,10 +136,6 @@ plot_position_by_time(timestamps[1:], cumulative_dist_traveled,
 plot_position_by_time(timestamps[1:], speeds,
                       ax=ax3, alpha=1, ls='-', marker='x', color='tab:cyan', markersize=10,
                       title='Speed at each point', xlabel='time (t)', ylabel='speed (u/t)')
-
-# Add padding between subplots, and make figure bigger
-fig.tight_layout(pad=0.05)
-fig.set_size_inches((15/2.54, 20/2.54))
 
 ###################################################################################################
 # Divide position in spatial bin edges and plot
