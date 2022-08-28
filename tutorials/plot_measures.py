@@ -120,7 +120,7 @@ plot_rasters(spike_times[spike_times < 1], title='Raster spike times from ISIS')
 
 # Compute the spike rate from spike times
 spike_rate = compute_firing_rate(spike_times)
-print('The spike rate is  {:.3}'.format(spike_rate), 'Hz')
+print('The spike rate is {:1.3f} Hz'.format(spike_rate))
 
 ###################################################################################################
 #
@@ -146,7 +146,7 @@ plot_isis(isis, bins=None, range=None, density=False, ax=None)
 
 # Compute the coefficient of variation
 cv = compute_cv(isis)
-print('Coefficient of variation: {:.3}'.format(cv))
+print('Coefficient of variation: {:1.3f}'.format(cv))
 
 ###################################################################################################
 #
@@ -158,7 +158,7 @@ print('Coefficient of variation: {:.3}'.format(cv))
 
 # Compute the fano factor of a binary spike train
 fano = compute_fano_factor(spike_train)
-print('Fano factor: {:.3}'.format(fano))
+print('Fano factor: {:1.3f}'.format(fano))
 
 ###################################################################################################
 # Compute measures of trial spiking activity
@@ -254,12 +254,12 @@ frs_pre, frs_post = compute_pre_post_rates(trial_spikes, pre_window, post_window
 # Compute the average firing rates
 pre_post_avg = compute_pre_post_averages(frs_pre, frs_post, avg_type='mean')
 # Print the average firing rates
-print('Average FR pre-event: {:.3}'.format(pre_post_avg[0]))
-print('Average FR post-event: {:.3}'.format(pre_post_avg[1]))
+print('Average FR pre-event: {:1.3f} Hz'.format(pre_post_avg[0]))
+print('Average FR post-event: {:1.3f} Hz'.format(pre_post_avg[1]))
 
 # Compute the difference between firing rates
 pre_post_diffs = compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_type='mean')
 # Print the average firing rates
-print('Difference between pre- and post-event FR: {:.3}'.format(pre_post_diffs))
+print('Difference between pre- and post-event FR: {:1.3f}'.format(pre_post_diffs))
 
 ###################################################################################################

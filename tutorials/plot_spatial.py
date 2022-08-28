@@ -77,8 +77,8 @@ timestamps = np.array([0, 1, 2, 3, 5, 6.5, 7.5, 8.5, 9.5, 11.5, 12.5, 13.5, 14.5
 
 # Look at the range of our x and y positions
 ranges = compute_pos_ranges(position)
-print(f'The x-position ranges from {ranges[0][0]} to {ranges[0][1]}')
-print(f'The y-position ranges from {ranges[1][0]} to {ranges[1][1]}')
+print('The x-position ranges from {:1.1f} to {:1.1f}'.format(ranges[0][0], ranges[0][1]))
+print('The y-position ranges from {:1.1f} to {:1.1f}'.format(ranges[1][0], ranges[1][1]))
 
 ###################################################################################################
 
@@ -179,8 +179,8 @@ x_bins, y_bins = compute_bin_assignment(position[:, :n_points], x_edges, y_edges
 
 # We can check they match the positions in plot (ii)
 for ind in range(0, n_points):
-    print(f'The point (x, y) = ({position[0, ind]}, {position[1, ind]}) is in the x_bin \
-          {x_bins[ind]}, and on the y_bin {y_bins[ind]}.')
+    print('The point (x, y) = ({:1.1f}, {:1.1f}) is in x_bin {:1d} and y_bin {:1d}.'.format(\
+          position[0, ind], position[1, ind], x_bins[ind], y_bins[ind]))
 
 ###################################################################################################
 # Compute time in each timestamp sample
@@ -193,7 +193,7 @@ for ind in range(0, n_points):
 
 # Let us now compute the time in each timestamp bin
 bin_time = compute_bin_time(timestamps)
-print(f'The time widths of the the sampling bins are: {bin_widths}')
+print('The time widths of the sampling bins are: ', bin_time)
 
 ###################################################################################################
 # Compute and plot occupancy and position counts

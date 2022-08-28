@@ -171,11 +171,10 @@ frs_pre, frs_post = compute_pre_post_rates(trial_spikes, pre_window, post_window
 
 ###################################################################################################
 
-# Calculate empirical p-value and t-value between the firing rates using a t-test
+# Compute a t-test between the pre- and post-event firing rates
 tval_t, pval_t = compute_pre_post_ttest(frs_pre, frs_post)
 
-print('The t-test value of comparing FRs pre and post the event is {:.3}'.format(tval_t), ', \
- and the t-test p-value is {:.3e}'.format(pval_t))
+print('The t-value is {:1.3f}, with a p-value of {:.3e}'.format(tval_t, pval_t))
 
 ###################################################################################################
 #
@@ -193,16 +192,14 @@ avg_pre, avg_post, tval_t, pval_t = compare_pre_post_activity(trial_spikes, pre_
                                                               post_window, avg_type='mean')
 
 # Print the average firing rates
-print('Average FR pre-event: {:.3}'.format(avg_pre))
-print('Average FR post-event: {:.3}'.format(avg_post))
+print('Average FR pre-event: {:1.3f}'.format(avg_pre))
+print('Average FR post-event: {:1.3f}'.format(avg_post))
 
-print('The t-test value of comparing FRs pre and post the event is {:.3}'.format(tval_t), '\
- and the t-test p-value is {:.3e}'.format(pval_t))
-
+print('The t-value is {:1.3f}, with a p-value of {:.3e}'.format(tval_t, pval_t))
 
 ###################################################################################################
-# Compare 1st and last half of trials
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Compare 1st and 2nd half of trials
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # In real data, time or trial index may influence the outcome.
 #
@@ -219,10 +216,10 @@ all_trials_data = np.array([frs_pre, frs_post]).T
 pre_between_halfs, post_between_halfs = compare_trial_frs(all_trials_data[:5], all_trials_data[5:])
 
 # Print out the results
-print('The pre bin, compared between 1st and 2nd half of the trials has a t-value of \
-{:.3}'.format(pre_between_halfs[0]), ' and a p-value of {:.3e}'.format(pre_between_halfs[1]))
-print('The post bin, compared between 1st and 2nd half of the trials has a t-value of \
-{:.3}'.format(post_between_halfs[0]), ' and a p-value of {:.3e}'.format(post_between_halfs[1]))
+print('For pre bin comparison, the t-value is {:1.3f}, a p-value of {:.3e}.'.format(\
+      pre_between_halfs[0], pre_between_halfs[1]))
+print('For post bin comparison, the t-value is {:1.3f}, with a p-value of {:.3e}.'.format(\
+      post_between_halfs[0], post_between_halfs[1]))
 
 ###################################################################################################
 # Run 2-way ANOVA on multiple trials data
@@ -266,9 +263,9 @@ anova_pre_post = fit_anova(df_pre_post, 'fr ~ C(is_post_event)+C(trial_idx)',
                            return_type='results', anova_type=2)
 
 # Print out results
-print('F-value, pre vs post: {:.3}'.format(anova_pre_post['F']['C(is_post_event)']))
+print('F-value, pre vs post: {:1.3f}'.format(anova_pre_post['F']['C(is_post_event)']))
 print('P-value, pre vs post: {:.3e}'.format(anova_pre_post['PR(>F)']['C(is_post_event)']))
-print('F-value, trial index: {:.3}'.format(anova_pre_post['F']['C(trial_idx)']))
+print('F-value, trial index: {:1.3f}'.format(anova_pre_post['F']['C(trial_idx)']))
 print('P-value, trial index: {:.3e}'.format(anova_pre_post['PR(>F)']['C(trial_idx)']))
 
 ###################################################################################################
@@ -306,8 +303,8 @@ shuff_spikes = shuffle_isis(trial_spikes[0], n_shuffles=n_shuff)
 shuff_frs_pre, shuff_frs_post = compute_pre_post_rates(shuff_spikes, pre_window, post_window)
 shuff_fr_diff = shuff_frs_post - shuff_frs_pre
 
-print('Minimum delta FR across surrogates: {:.3}'.format(np.min(shuff_fr_diff)))
-print('Maximum delta FR across surrogates: {:.3}'.format(np.max(shuff_fr_diff)))
+print('Minimum delta FR across surrogates: {:1.3f}'.format(np.min(shuff_fr_diff)))
+print('Maximum delta FR across surrogates: {:1.3f}'.format(np.max(shuff_fr_diff)))
 
 ###################################################################################################
 #
@@ -322,8 +319,8 @@ print('Maximum delta FR across surrogates: {:.3}'.format(np.max(shuff_fr_diff)))
 # Calculate empirical p-value and z-score of difference in firing rate with respect to surrogates
 surr_pval, surr_zscore = compute_surrogate_stats(fr_diff, shuff_fr_diff)
 
-print('The z-score of the delta FR (after - before the event) is {:.3}'.format(surr_zscore), \
-'and the empirical p-value is {:.3e}'.format(surr_pval))
+print('For the surrogate comparison, the z-score is {:1.3f}, and the p-value is {:.3e}'.format(\
+      surr_zscore, surr_pval))
 
 ###################################################################################################
 
