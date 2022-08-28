@@ -9,4 +9,3 @@ Table of Contents
    reference.rst
    changelog.rst
    auto_tutorials/index.rst
-   auto_examples/index.rst
