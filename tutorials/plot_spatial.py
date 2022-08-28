@@ -46,8 +46,7 @@ from spiketools.spatial.information import compute_spatial_information
 from spiketools.sim.train import sim_spiketrain_binom
 
 # Import plotting functions
-from spiketools.plts.spatial import (plot_positions, plot_heatmap, plot_trial_heatmaps,
-                                     plot_position_by_time)
+from spiketools.plts.spatial import plot_positions, plot_heatmap, plot_position_by_time
 from spiketools.plts.utils import make_axes
 
 ###################################################################################################

@@ -51,10 +51,6 @@ from spiketools.plts.trials import plot_rasters
 from spiketools.plts.stats import plot_surrogates
 from spiketools.plts.utils import make_axes
 
-# Import measures & utilities
-from spiketools.utils.extract import get_range
-from spiketools.measures.measures import compute_firing_rate
-
 ###################################################################################################
 
 # Generate spike times in seconds for spikes at 10Hz for 100 seconds
