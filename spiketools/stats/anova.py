@@ -68,7 +68,7 @@ def create_dataframe_bins(bin_data, other_data=None, dropna=True, dtypes=None, b
     other_data : dict, optional
         Additional data columns, reflecting data per trial, to add to the dataframe.
         Each key should be a column label and each value should be an array of length n_trials.
-    drop_na : bool, optional, default: True
+    dropna : bool, optional, default: True
         Whether to drop NaN values from the dataframe.
     dtypes : dict, optional
         Data types to typecast columns to.
