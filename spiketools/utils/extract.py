@@ -23,6 +23,14 @@ def create_mask(data, min_value=None, max_value=None):
     -------
     mask : 1d array of bool
         Mask to select data points from the input array.
+
+    Examples
+    --------
+    Create a mask to select data within a given value range:
+
+    >>> data = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+    >>> create_mask(data, min_value=3, max_value=6)
+    array([False, False,  True,  True,  True,  True, False, False])
     """
 
     min_value = -np.inf if min_value is None else min_value
@@ -101,6 +109,15 @@ def get_value_range(times, data, min_value=None, max_value=None, reset=None):
         Time indices, selected by value.
     data : 1d array
         Array of data, selected by value.
+
+    Examples
+    --------
+    Extract data and corresponding timestamps based on value range:
+
+    >>> data = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+    >>> times = np.array([0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1.2, 1.5])
+    >>> get_value_range(times, data, min_value=3, max_value=6)
+    (array([0.4, 0.5, 0.7, 0.9]), array([3, 4, 5, 6]))
     """
 
     mask = create_mask(data, min_value, max_value)
@@ -130,6 +147,14 @@ def get_ind_by_time(times, timepoint, threshold=None):
     -------
     ind : int
         The index value for the requested timepoint, or -1 if out of threshold range.
+
+    Examples
+    --------
+    Get the index for a specified timepoint:
+
+    >>> times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
+    >>> get_ind_by_time(times, 2.5)
+    4
     """
 
     ind = np.abs(times - timepoint).argmin()
@@ -160,6 +185,15 @@ def get_inds_by_times(times, timepoints, threshold=None, drop_null=True):
     -------
     inds : 1d array
         Indices for all requested timepoints.
+
+    Examples
+    --------
+    Get the corresponding indices for specified timepoints:
+
+    >>> times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
+    >>> timepoints = np.array([1, 2, 3])
+    >>> get_inds_by_times(times, timepoints)
+    array([1, 3, 5])
     """
 
     inds = np.zeros(len(timepoints), dtype=int)
@@ -191,6 +225,15 @@ def get_value_by_time(times, values, timepoint, threshold=None):
     -------
     out : float or 1d array
         The value(s) at the requested time point.
+
+    Examples
+    --------
+    Get the data values for a specified timepoint:
+
+    >>> times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
+    >>> values = np.array([[1,2,3,4,5,6], [7,8,9,10,11,12]])
+    >>> get_value_by_time(times, values, 1.5)
+    array([3, 9])
     """
 
     idx = get_ind_by_time(times, timepoint, threshold=threshold)
@@ -221,6 +264,16 @@ def get_values_by_times(times, values, timepoints, threshold=None, drop_null=Tru
     -------
     outputs : 1d or 2d array
         The extracted values for the requested time points.
+
+    Examples
+    --------
+    Get the data values for a specified set of timepoints:
+
+    >>> times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
+    >>> values = np.array([1, 2, 3, 4, 5, 6])
+    >>> timepoints = np.array([1, 2, 3])
+    >>> get_values_by_times(times, values, timepoints)
+    array([2, 4, 6])
     """
 
     inds = get_inds_by_times(times, timepoints, threshold, drop_null)
@@ -254,6 +307,15 @@ def get_values_by_time_range(times, values, t_min, t_max):
         Selected time indices.
     out : ndarray
         Selected values.
+
+    Examples
+    --------
+    Extract data within a specified time range:
+
+    >>> times = np.array([1, 2, 3, 4, 5, 6, 7])
+    >>> values = np.array([0.5, 1, 1.5, 2, 2.5, 3, 3.5])
+    >>> get_values_by_time_range(times, values, t_min=2, t_max=6)
+    (array([2, 3, 4, 5, 6]), array([1. , 1.5, 2. , 2.5, 3. ]))
     """
 
     select = np.logical_and(times >= t_min, times <= t_max)
@@ -313,6 +375,16 @@ def threshold_spikes_by_values(spikes, times, values, data_threshold,
     -------
     spikes : 1d array
         Sub-selected spike times, in seconds.
+
+    Examples
+    --------
+    Threshold spikes based on a a minimum data threshold:
+
+    >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 1, 1.2, 1.6, 1.8])
+    >>> times = np.array([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4])
+    >>> values = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+    >>> threshold_spikes_by_values(spikes, times, values, 2)
+    array([1.6, 1.8])
     """
 
     values = get_values_by_times(times, values, spikes, time_threshold, drop_null=False)

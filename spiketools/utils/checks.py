@@ -67,6 +67,14 @@ def infer_time_unit(time_values):
     -------
     time_unit : {'seconds', 'milliseconds'}
         The inferred time unit of the input data.
+
+    Examples
+    --------
+    Infer the time unit of an array of time values:
+
+    >>> time_values = np.array([0.002, 0.01, 0.05, 0.1, 2])
+    >>> infer_time_unit(time_values)
+    'seconds'
     """
 
     time_unit = None
@@ -124,6 +132,22 @@ def check_time_bins(bins, values, trange=None, check_range=True):
     -------
     bins : 1d array
         Time bins.
+
+    Examples
+    --------
+    Check a time bin definition, where bins are defined as a bin length:
+
+    >>> bins = 0.5
+    >>> values = np.array([0.2, 0.4, 0.6, 0.9, 1.4, 1.5, 1.6, 1.9])
+    >>> trange = [0., 2.]
+    >>> check_time_bins(bins, values, trange)
+    array([0. , 0.5, 1. , 1.5, 2. ])
+
+    Check a time bin definition, where bins are already defined:
+
+    >>> bins = np.array([0. , 0.5, 1. , 1.5, 2. ])
+    >>> check_time_bins(bins, values, trange)
+    array([0. , 0.5, 1. , 1.5, 2. ])
     """
 
     if isinstance(bins, (int, float)):

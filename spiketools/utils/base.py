@@ -1,6 +1,7 @@
 """Base utility functions, that manipulate basic data structures, etc."""
 
 from collections import Counter
+import numpy as np
 
 ###################################################################################################
 ###################################################################################################
@@ -17,6 +18,14 @@ def flatten(lst):
     -------
     lst
         A flattened list.
+
+    Examples
+    --------
+    Flatten a list of 3 lists inside:
+
+    >>> lst = [[1, 2, 3, 4], [5, 6, 7 ,8], [9, 10, 11, 12]]
+    >>> flatten(lst)
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     """
 
     return [item for sublist in lst for item in sublist]
@@ -36,6 +45,15 @@ def select_from_list(lst, select):
     -------
     lst
         Selected elements from the list.
+
+    Examples
+    --------
+    Select the first and last element from given list:
+
+    >>> lst = [1, 4, 3, 6, 8]
+    >>> select = [True, False, False, False, True]
+    >>> select_from_list(lst, select)
+    [1, 8]
     """
 
     return [el for el, sel in zip(lst, select) if sel]
@@ -59,6 +77,14 @@ def count_elements(data, labels=None, sort=False):
     -------
     counts : Counter
         Counts of the elements within the given data object.
+
+    Examples
+    --------
+    Count the number of occurrences of each element in a 1d array:
+
+    >>> data = np.array([1, 3, 3, 4, 5, 6, 9, 3, 4, 5, 6])
+    >>> count_elements(data)
+    Counter({3: 3, 4: 2, 5: 2, 6: 2, 1: 1, 9: 1})
     """
 
     counts = Counter(data)

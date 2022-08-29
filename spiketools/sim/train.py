@@ -173,9 +173,9 @@ def sim_spiketrain_poisson(rate, n_samples, fs=1000):
 
     Examples
     --------
-    Simulate a spike train from a Poisson distribution:
+    Simulate a spike train at a rate of 2 Hz for 100 samples:
 
-    >>> spikes = sim_spiketrain_poisson(0.4, 10, 1000)
+    >>> spikes = sim_spiketrain_poisson(2, 100)
     """
 
     spikes = np.zeros(n_samples)
