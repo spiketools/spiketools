@@ -394,3 +394,79 @@ def threshold_spikes_by_values(spikes, times, values, data_threshold,
     spikes = spikes[get_comp_func(comp_type)(values, data_threshold)]
 
     return spikes
+
+
+def drop_range(spikes, time_range, check_empty=True):
+    """Drop a specified time range from a vector spike times.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times, in seconds.
+    time_range : list of [float, float]
+        Time range to drop from spike times, as [start_drop_time, end_drop_time].
+    check_empty : bool, optional, default: True
+        Whether to check if the dropped range is empty of spikes.
+        If True, and there are spikes within the drop `time_range`, an error is raised.
+
+    Returns
+    -------
+    out_spikes : 1d array
+        Spike times, in seconds, with the time range removed.
+    """
+
+    if check_empty:
+        extracted = get_range(spikes, *time_range)
+        assert extracted.size == 0, "Extracted range is not empty."
+
+    tlen = time_range[1] - time_range[0]
+    out_spikes = np.hstack([get_range(spikes, max_value=time_range[0]),
+                            get_range(spikes, min_value=time_range[1], reset=tlen)])
+
+    return out_spikes
+
+
+def reinstate_range(spikes, time_range):
+    """Reinstate a dropped time range into a vector of spike times.
+
+    Parameters
+    ----------
+    spikes : 1d
+        Spike times, in seconds.
+    time_range : list of [float, float]
+        Time range to reinstate into spike times, as [start_add_time, end_add_time].
+
+    Returns
+    -------
+    out_spikes : 1d array
+        Spike times, in seconds, with the time range reinstated.
+    """
+
+    tlen = time_range[1] - time_range[0]
+    out_spikes = np.hstack([get_range(spikes, max_value=time_range[0]),
+                            get_range(spikes, min_value=time_range[0]) + tlen])
+
+    return out_spikes
+
+
+def reinstate_range_2d(spikes, time_range):
+    """Reinstate a dropped time range into a 2d array of spike times.
+
+    Parameters
+    ----------
+    spikes : 2d array
+        An array of spikes times, in seconds.
+    time_range : list of [float, float]
+        Time range to reinstate into shuffled spike times, as [start_add_time, end_add_time].
+
+    Returns
+    -------
+    spikes_out : 2d array
+        An array of spikes times, in seconds, with the time range reinstated.
+    """
+
+    spikes_out = np.zeros_like(spikes)
+    for ind, spike in enumerate(spikes):
+        spikes_out[ind, :] = reinstate_range(spike, time_range)
+
+    return spikes_out
