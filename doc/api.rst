@@ -363,6 +363,9 @@ Extract
    get_values_by_time_range
    threshold_spikes_by_times
    threshold_spikes_by_values
+   drop_range
+   reinstate_range
+   reinstate_range_2d
 
 Timestamps
 ~~~~~~~~~~
