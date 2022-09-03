@@ -2,6 +2,8 @@
 
 from itertools import repeat
 
+import numpy as np
+
 from spiketools.plts.utils import check_ax
 
 ###################################################################################################
@@ -165,8 +167,10 @@ def _add_dots(dots, ax=None, **plt_kwargs):
 
     Parameters
     ----------
-    dots : 2d array
+    dots : 1d or 2d array
         Definitions of the dots to add to the plot.
+        If 1d array, defines a single dot as [x_pos, y_pos].
+        If 2d array,0th row is x-pos and 1th row is y-pos for multiple dot positions.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -176,6 +180,10 @@ def _add_dots(dots, ax=None, **plt_kwargs):
     ax = check_ax(ax, return_current=True)
 
     if dots is not None:
+
+        # If dots are 1d, convert to 2D, transposing to match row organization
+        dots = np.atleast_2d(dots).T if dots.ndim == 1 else dots
+
         ax.plot(dots[0, :], dots[1, :], linestyle='',
                 marker=plt_kwargs.pop('marker', '.'),
                 **plt_kwargs)
