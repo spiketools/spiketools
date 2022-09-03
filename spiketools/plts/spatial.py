@@ -24,15 +24,16 @@ def plot_positions(positions, spike_positions=None, landmarks=None,
     ----------
     positions : 2d array or list of 2d array
         Position data.
-        If a list, each element of the list is plotted separately, on the same plot.
+        If a list, each array from the list is plotted separately, on the same plot.
     spike_positions : 2d array or dict, optional
         Position values of spikes, to indicate on the plot.
         If array, defines the positions.
         If dictionary, should include a 'positions' key plus additional plot arguments.
-    landmarks : 2d array or dict or list, optional
+    landmarks : 1d or 2d array or dict or list, optional
         Position values of landmarks, to be added to the plot.
-        If array, defines the positions.
-        If dictionary, should include a 'positions' key plus additional plot arguments.
+        If array, defines the positions, as [x, y] for a single landmark 1d array,
+        or as [[x-pos], [y-pos]] for a 2d definition of multiple landmarks.
+        If dictionary, should include a 'positions' key with an array plus additional arguments.
         Multiple landmarks can be added by passing a list of arrays or a list of dictionaries.
     x_bins, y_bins : list of float, optional
         Bin edges for each axis.

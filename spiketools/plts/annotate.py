@@ -170,7 +170,7 @@ def _add_dots(dots, ax=None, **plt_kwargs):
     dots : 1d or 2d array
         Definitions of the dots to add to the plot.
         If 1d array, defines a single dot as [x_pos, y_pos].
-        If 2d array,0th row is x-pos and 1th row is y-pos for multiple dot positions.
+        If 2d array, 0th row is x-pos and 1th row is y-pos for multiple dot positions.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
