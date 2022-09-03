@@ -73,6 +73,9 @@ def test_add_dots():
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
     _add_dots(np.array([[1, 2], [2, 3]]), ax=ax)
 
+    # Test adding an additional dot from 1d array
+    _add_dots(np.array([2.5, 2.5]), color='red', ax=ax)
+
 @plot_test
 def test_add_significance():
 
