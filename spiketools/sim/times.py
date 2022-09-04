@@ -15,10 +15,10 @@ def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
     Parameters
     ----------
     spike_param : float
-        Parameter value that controls the simulated spiking. rate or probability.
+        Parameter value that controls the simulated spiking.
         For `poisson`, this is the spike rate.
     duration : float
-        Duration of spike times to simulate.
+        Duration of spike times to simulate, in seconds.
     method : {'poisson'}
         The method to use for the simulation.
     refractory : float, optional
