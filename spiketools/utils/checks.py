@@ -33,7 +33,7 @@ def check_param_range(param, label, bounds):
         raise ValueError(msg)
 
 
-def check_param_options(param, label, options, ignore_case=True):
+def check_param_options(param, label, options, ignore_case=False):
     """Check a parameter value is one of the acceptable options.
 
     Parameters
@@ -44,7 +44,7 @@ def check_param_options(param, label, options, ignore_case=True):
         Label of the parameter being checked.
     options : list of str
         Valid string values that `param` may be.
-    ignore_case : bool, optional, default: True
+    ignore_case : bool, optional, default: False
         If True, ignore whether strings are upper or lower case for comparison.
 
     Raises

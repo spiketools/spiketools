@@ -12,14 +12,14 @@ from spiketools.utils.checks import check_param_options
 ###################################################################################################
 ###################################################################################################
 
-def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
+def shuffle_spikes(spikes, approach, n_shuffles=1000, **kwargs):
     """Shuffle spikes.
 
     Parameters
     ----------
     spikes : 1d array
         Spike times, in seconds.
-    approach : {'ISI', 'BINCIRC', 'POISSON', 'CIRCULAR'}
+    approach : {'isi', 'bincirc', 'poisson', 'circular'}
         Which approach to take for shuffling spike times.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
@@ -41,25 +41,28 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
 
     Create 5 spike time shuffles using the ISI shuffle method:
 
-    >>> shuffled_spikes = shuffle_spikes(spikes, 'ISI', n_shuffles=5)
+    >>> shuffled_spikes = shuffle_spikes(spikes, 'isi', n_shuffles=5)
 
-    Create 5 spike time shuffles using the 'CIRCULAR' shuffle method:
+    Create 5 spike time shuffles using a circular shuffle:
 
-    >>> shuffled_spikes = shuffle_spikes(spikes, 'CIRCULAR', n_shuffles=5, shuffle_min=10000)
+    >>> shuffled_spikes = shuffle_spikes(spikes, 'circular', n_shuffles=5, shuffle_min=10000)
     """
 
-    check_param_options(approach, 'approach', ['ISI', 'BINCIRC', 'POISSON', 'CIRCULAR'])
+    # Use lowered string, for backwards compatibility for options were upper case
+    approach = approach.lower()
 
-    if approach == 'ISI':
+    check_param_options(approach, 'approach', ['isi', 'bincirc', 'poisson', 'circular'])
+
+    if approach == 'isi':
         shuffled_spikes = shuffle_isis(spikes, n_shuffles=n_shuffles)
 
-    elif approach == 'BINCIRC':
+    elif approach == 'bincirc':
         shuffled_spikes = shuffle_bins(spikes, n_shuffles=n_shuffles, **kwargs)
 
-    elif approach == 'POISSON':
+    elif approach == 'poisson':
         shuffled_spikes = shuffle_poisson(spikes, n_shuffles=n_shuffles)
 
-    elif approach == 'CIRCULAR':
+    elif approach == 'circular':
         shuffled_spikes = shuffle_circular(spikes, n_shuffles=n_shuffles, **kwargs)
 
     return shuffled_spikes
