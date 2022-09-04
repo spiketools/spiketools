@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 SET_KWARGS = ['title', 'xlim', 'ylim', 'xlabel', 'ylabel',
               'xticks', 'yticks', 'xticklabels', 'yticklabels']
 
+# Define a list of other arguments to be caught
+OTHER_KWARGS = ['legend']
+
 # Collect a list of the default matplotlib color cycle
 DEFAULT_COLORS = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
