@@ -5,6 +5,7 @@ import numpy as np
 from pytest import raises
 
 from spiketools.utils.extract import *
+from spiketools.utils.extract import _reinstate_range_1d
 
 ###################################################################################################
 ###################################################################################################
@@ -153,24 +154,24 @@ def test_drop_range():
     with raises(AssertionError):
         out = drop_range(spikes, [1.5, 4])
 
-def test_reinstate_range():
+def test_reinstate_range_1d():
 
     spikes = np.array([0.5, 1.5, 1.9, 2.1, 3.4, 3.9])
     time_range = [2, 4]
 
-    out = reinstate_range(spikes, time_range)
+    out = _reinstate_range_1d(spikes, time_range)
     assert isinstance(out, np.ndarray)
     assert spikes.shape == out.shape
     assert get_range(out, *time_range).size == 0
     assert np.allclose(out, np.array([0.5, 1.5, 1.9, 4.1, 5.4, 5.9]))
 
-def test_reinstate_range_2d():
+def test_reinstate_range():
 
     spikes = np.array([[0.5, 1.5, 1.9, 2.1, 3.4, 3.9],
                        [0.2, 0.8, 1.2, 1.8, 2.5, 3.2]])
     time_range = [2, 4]
 
-    out = reinstate_range_2d(spikes, time_range)
+    out = reinstate_range(spikes, time_range)
 
     assert isinstance(out, np.ndarray)
     for row in out:

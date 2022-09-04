@@ -426,12 +426,12 @@ def drop_range(spikes, time_range, check_empty=True):
     return out_spikes
 
 
-def reinstate_range(spikes, time_range):
+def _reinstate_range_1d(spikes, time_range):
     """Reinstate a dropped time range into a vector of spike times.
 
     Parameters
     ----------
-    spikes : 1d
+    spikes : 1d array
         Spike times, in seconds.
     time_range : list of [float, float]
         Time range to reinstate into spike times, as [start_add_time, end_add_time].
@@ -449,24 +449,31 @@ def reinstate_range(spikes, time_range):
     return out_spikes
 
 
-def reinstate_range_2d(spikes, time_range):
-    """Reinstate a dropped time range into a 2d array of spike times.
+def reinstate_range(spikes, time_range):
+    """Reinstate a dropped time range into an array of spike times.
 
     Parameters
     ----------
-    spikes : 2d array
+    spikes : 1d or 2d array
         An array of spikes times, in seconds.
     time_range : list of [float, float]
         Time range to reinstate into shuffled spike times, as [start_add_time, end_add_time].
 
     Returns
     -------
-    spikes_out : 2d array
+    spikes_out : 1d or 2d array
         An array of spikes times, in seconds, with the time range reinstated.
     """
 
+    assert spikes.ndim < 3, 'The reinstate_range function only supports 1d or 2d arrays.'
+
+    # By enforcing 2d (and later squeezing), the loops works for both 1d & 2d arrays
+    spikes = np.atleast_2d(spikes)
+
     spikes_out = np.zeros_like(spikes)
     for ind, spike in enumerate(spikes):
-        spikes_out[ind, :] = reinstate_range(spike, time_range)
+        spikes_out[ind, :] = _reinstate_range_1d(spike, time_range)
+
+    spikes_out = np.squeeze(spikes_out)
 
     return spikes_out

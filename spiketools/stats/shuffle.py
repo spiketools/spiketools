@@ -10,7 +10,7 @@ from spiketools.measures.conversions import (convert_times_to_train, convert_isi
 from spiketools.stats.generators import poisson_generator
 from spiketools.stats.permutations import vec_perm
 from spiketools.utils.checks import check_param_options
-from spiketools.utils.extract import drop_range, reinstate_range_2d
+from spiketools.utils.extract import drop_range, reinstate_range
 
 ###################################################################################################
 ###################################################################################################
@@ -98,7 +98,7 @@ def drop_shuffle_range(func):
         shuffles = func(spikes, *args[1:], **kwargs)
 
         if time_range:
-            shuffles = reinstate_range_2d(shuffles, time_range)
+            shuffles = reinstate_range(shuffles, time_range)
 
         return shuffles
 
