@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.measures import compute_isis
+from spiketools.measures.measures import compute_isis
 
 from spiketools.measures.conversions import *
 
