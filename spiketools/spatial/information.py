@@ -27,11 +27,11 @@ def compute_spatial_information(bin_firing, occupancy, normalize=False):
 
     Notes
     -----
-    This measure compute the spatial information between the firing and spatial location, as:
+    This measure computes the spatial information between the firing and spatial location, as:
 
     .. math::
 
-        I = \sum{\lambda (x) log_2 \frac{\lambda(x)} {\lambda} p(x)dx}
+        I = \\sum{\\lambda (x) log_2 \\frac{\\lambda(x)} {\\lambda} p(x)dx}
 
     References
     ----------
