@@ -73,16 +73,16 @@ def drop_shuffle_range(func):
 
     Notes
     -----
-    This function expects a `shuffle_xx` function, which takes 1d array `spikes` as the
-    first input and returns a 2d array `shuffled_spikes` as the sole output.
+    This function is designed for `shuffle_xx` functions, which takes 1d array `spikes` as
+    the first input and return a 2d array `shuffled_spikes` as the sole output.
 
     If a keyword argument `drop_time_range` is present, this triggers the drop process:
 
     - The given drop range time is dropped from the given spike times, before shuffling
-    - The shuffle function is then run
+    - The shuffle function is then run, without the dropped range
     - The drop range time is then reinstated in the shuffled spike times
 
-    If the `drop_time_range` is not present, this decorator does nothing.
+    If `drop_time_range` is not present in the arguments, this decorator does nothing.
     """
 
     @wraps(func)

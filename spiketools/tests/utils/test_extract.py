@@ -151,7 +151,7 @@ def test_drop_range():
 
     # check that error is raised with no empty range
     with raises(AssertionError):
-        out =drop_range(spikes, [1.5, 4])
+        out = drop_range(spikes, [1.5, 4])
 
 def test_reinstate_range():
 
