@@ -23,7 +23,7 @@ Measures
 
 Spike measures.
 
-.. currentmodule:: spiketools.measures.measures
+.. currentmodule:: spiketools.measures.spikes
 .. autosummary::
    :toctree: generated/
 

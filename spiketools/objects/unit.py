@@ -2,7 +2,8 @@
 
 from spiketools.stats.shuffle import shuffle_spikes
 from spiketools.measures.conversions import convert_times_to_train
-from spiketools.measures.measures import compute_isis, compute_cv, compute_fano_factor, compute_firing_rate
+from spiketools.measures.spikes import (compute_isis, compute_cv,
+                                        compute_fano_factor, compute_firing_rate)
 
 ###################################################################################################
 ###################################################################################################
