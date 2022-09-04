@@ -204,8 +204,8 @@ plot_rasters(spike_times_poisson)
 ###################################################################################################
 
 # Use 'sim_spiketrain' to simulate two new spiketrains, with different methods
-spike_train1 = sim_spiketrain(0.5, 1000, 'binom')
-spike_train2 = sim_spiketrain(12, 1000, 'poisson')
+spike_train1 = sim_spiketrain(0.05, 500, 'binom')
+spike_train2 = sim_spiketrain(12.0, 500, 'poisson')
 
 ###################################################################################################
 # Utilities for working with simulated spike trains
@@ -218,8 +218,8 @@ spike_train2 = sim_spiketrain(12, 1000, 'poisson')
 ###################################################################################################
 
 # Apply a 0.003 seconds refractory period to the simulated spike trains
-spike_train_ref1 = apply_refractory_times(spike_train1, 0.003)
-spike_train_ref2 = apply_refractory_times(spike_train2, 0.003)
+spike_train_ref1 = apply_refractory_train(spike_train1, 0.003)
+spike_train_ref2 = apply_refractory_train(spike_train2, 0.003)
 
 # Plot the simulated data
 spike_times1 = convert_train_to_times(spike_train_ref1, fs=1000)
