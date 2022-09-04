@@ -4,18 +4,20 @@ from functools import wraps
 
 import matplotlib.pyplot as plt
 
-from spiketools.plts.settings import SET_KWARGS
+from spiketools.plts.settings import SET_KWARGS, OTHER_KWARGS
 
 ###################################################################################################
 ###################################################################################################
 
-def get_set_kwargs(kwargs):
-    """Get keyword arguments for the arguments that can be passed to 'set'.
+def get_kwargs(kwargs, select):
+    """Get keyword arguments.
 
     Parameters
     ----------
     kwargs : dict
         Plotting related keyword arguments.
+    select : list of str
+        The arguments to extract.
 
     Returns
     -------
@@ -23,7 +25,7 @@ def get_set_kwargs(kwargs):
         Selected keyword arguments related to setting attributes.
     """
 
-    setters = {arg : kwargs.pop(arg, None) for arg in SET_KWARGS}
+    setters = {arg : kwargs.pop(arg, None) for arg in select}
     setters = {arg : value for arg, value in setters.items() if value is not None}
 
     return setters
@@ -57,7 +59,7 @@ def set_plt_kwargs(func):
     @wraps(func)
     def decorated(*args, **kwargs):
 
-        setters = get_set_kwargs(kwargs)
+        setters = get_kwargs(kwargs, SET_KWARGS)
         title_kwargs = get_attr_kwargs(kwargs, 'title')
 
         func(*args, **kwargs)
