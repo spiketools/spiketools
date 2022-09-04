@@ -179,3 +179,15 @@ def test_reinstate_range():
         assert get_range(row, *time_range).size == 0
     assert np.allclose(out, np.array([[0.5, 1.5, 1.9, 4.1, 5.4, 5.9],
                                       [0.2, 0.8, 1.2, 1.8, 4.5, 5.2]]))
+
+    # Test multiple time ranges
+    time_ranges = [[1, 2], [3, 4]]
+    out = reinstate_range(spikes, time_ranges)
+
+    assert isinstance(out, np.ndarray)
+    for row in out:
+        assert len(row) == spikes.shape[1]
+        for time_range in time_ranges:
+            assert get_range(row, *time_range).size == 0
+    assert np.allclose(out, np.array([[0.5, 2.5, 2.9, 4.1, 5.4, 5.9],
+                                      [0.2, 0.8, 2.2, 2.8, 4.5, 5.2]]))

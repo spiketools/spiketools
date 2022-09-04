@@ -456,8 +456,9 @@ def reinstate_range(spikes, time_range):
     ----------
     spikes : 1d or 2d array
         An array of spikes times, in seconds.
-    time_range : list of [float, float]
-        Time range to reinstate into shuffled spike times, as [start_add_time, end_add_time].
+    time_range : list of [float, float] or list of list of [float, float]
+        Time range(s) to reinstate into shuffled spike times.
+        Each time range should be defined as [start_add_time, end_add_time].
 
     Returns
     -------
@@ -467,13 +468,15 @@ def reinstate_range(spikes, time_range):
 
     assert spikes.ndim < 3, 'The reinstate_range function only supports 1d or 2d arrays.'
 
+    # Operate on a copy of the input, to not overwrite original array
+    spikes = spikes.copy()
+
     # By enforcing 2d (and later squeezing), the loops works for both 1d & 2d arrays
     spikes = np.atleast_2d(spikes)
+    for trange in np.array(time_range, ndmin=2):
+        for ind, spikes_1d in enumerate(spikes):
+            spikes[ind, :] = _reinstate_range_1d(spikes_1d, trange)
 
-    spikes_out = np.zeros_like(spikes)
-    for ind, spike in enumerate(spikes):
-        spikes_out[ind, :] = _reinstate_range_1d(spike, time_range)
+    spikes = np.squeeze(spikes)
 
-    spikes_out = np.squeeze(spikes_out)
-
-    return spikes_out
+    return spikes
