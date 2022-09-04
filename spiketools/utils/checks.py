@@ -4,6 +4,8 @@ import warnings
 
 import numpy as np
 
+from spiketools.utils.base import lower_list
+
 ###################################################################################################
 ###################################################################################################
 
@@ -31,7 +33,7 @@ def check_param_range(param, label, bounds):
         raise ValueError(msg)
 
 
-def check_param_options(param, label, options):
+def check_param_options(param, label, options, ignore_case=True):
     """Check a parameter value is one of the acceptable options.
 
     Parameters
@@ -42,12 +44,18 @@ def check_param_options(param, label, options):
         Label of the parameter being checked.
     options : list of str
         Valid string values that `param` may be.
+    ignore_case : bool, optional, default: True
+        If True, ignore whether strings are upper or lower case for comparison.
 
     Raises
     ------
     ValueError
         If a parameter that is being checked is not in `options`.
     """
+
+    if ignore_case:
+        options = lower_list(options)
+        param = param.lower()
 
     if param not in options:
         msg = "The provided value for the {} parameter is invalid. ".format(label) + \
