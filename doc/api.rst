@@ -113,6 +113,8 @@ Occupancy
    compute_bin_counts_pos
    compute_bin_counts_assgn
    normalize_bin_counts
+   create_position_df
+   compute_occupancy_df
    compute_occupancy
 
 Place
@@ -227,6 +229,9 @@ Functionality for simulating spiking data, available in the `sim` sub-module.
 .. autosummary::
    :toctree: generated/
 
+   sim_spiketimes
+   sim_spiketrain
+
 Spike Times
 ~~~~~~~~~~~
 
@@ -234,7 +239,6 @@ Spike Times
 .. autosummary::
    :toctree: generated/
 
-   sim_spiketimes
    sim_spiketimes_poisson
 
 Spike Trains
@@ -244,7 +248,6 @@ Spike Trains
 .. autosummary::
    :toctree: generated/
 
-   sim_spiketrain
    sim_spiketrain_prob
    sim_spiketrain_binom
    sim_spiketrain_poisson
@@ -277,8 +280,8 @@ Spikes
    plot_isis
    plot_firing_rates
 
-Space
-~~~~~
+Spatial
+~~~~~~~
 
 .. currentmodule:: spiketools.plts.spatial
 .. autosummary::
@@ -287,6 +290,8 @@ Space
    plot_positions
    plot_position_by_time
    plot_heatmap
+   plot_trial_heatmaps
+   create_heat_title
 
 Task
 ~~~~
@@ -305,6 +310,7 @@ Trials
 
    plot_rasters
    plot_rate_by_time
+   create_raster_title
 
 Stats
 ~~~~~
@@ -330,10 +336,34 @@ Data
    plot_polar_hist
    plot_text
 
+Utils
+~~~~~
+
+.. currentmodule:: spiketools.plts.utils
+.. autosummary::
+   :toctree: generated/
+
+   check_ax
+   make_axes
+   make_grid
+   get_grid_subplot
+   save_figure
+
 Utilities
 ---------
 
 Utility functions, in the `utils` sub-module.
+
+Base
+~~~~
+
+.. currentmodule:: spiketools.utils.base
+.. autosummary::
+   :toctree: generated/
+
+   flatten
+   select_from_list
+   count_elements
 
 Data
 ~~~~
@@ -345,6 +375,7 @@ Data
    compute_range
    smooth_data
    drop_nans
+   assign_data_to_bins
 
 Extract
 ~~~~~~~
@@ -392,6 +423,15 @@ Epoch
    epoch_data_by_event
    epoch_data_by_range
    epoch_data_by_segment
+
+Run
+~~~
+
+.. currentmodule:: spiketools.utils.run
+.. autosummary::
+   :toctree: generated/
+
+   create_methods_list
 
 Utils
 ~~~~~
