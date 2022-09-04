@@ -9,7 +9,8 @@ from spiketools.utils.data import smooth_data, compute_range
 from spiketools.modutils.functions import get_function_parameters
 from spiketools.plts.annotate import _add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs, make_axes
+from spiketools.plts.utils import check_ax, make_axes, savefig
+from spiketools.plts.style import set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################

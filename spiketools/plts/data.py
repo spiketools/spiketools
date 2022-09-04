@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 from spiketools.measures.circular import bin_circular
 from spiketools.utils.options import get_avg_func
 from spiketools.plts.annotate import _add_vlines
-from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
+from spiketools.plts.utils import check_ax, savefig
+from spiketools.plts.style import set_plt_kwargs
 from spiketools.plts.settings import TEXT_SETTINGS
 
 ###################################################################################################

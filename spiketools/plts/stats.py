@@ -1,7 +1,8 @@
 """Plots for statistical analyses and related visualizations."""
 
 from spiketools.plts.data import plot_hist
-from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
+from spiketools.plts.utils import check_ax, savefig
+from spiketools.plts.style import set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################

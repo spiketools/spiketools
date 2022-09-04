@@ -3,7 +3,8 @@
 import matplotlib.pyplot as plt
 
 from spiketools.plts.annotate import _add_vshade, _add_vlines
-from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
+from spiketools.plts.utils import check_ax, savefig
+from spiketools.plts.style import set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
