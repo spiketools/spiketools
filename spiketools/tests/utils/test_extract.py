@@ -154,6 +154,14 @@ def test_drop_range():
     with raises(AssertionError):
         out = drop_range(spikes, [1.5, 4])
 
+    # Test multiple time ranges
+    spikes = np.array([0.5, 1.5, 1.9, 4.1, 5.4, 5.9, 8.2, 9.7])
+    time_ranges = [[2, 4], [6, 8]]
+    out = drop_range(spikes, time_ranges)
+    assert isinstance(out, np.ndarray)
+    assert spikes.shape == out.shape
+    assert np.allclose(out, np.array([0.5, 1.5, 1.9, 2.1, 3.4, 3.9, 4.2, 5.7]))
+
 def test_reinstate_range_1d():
 
     spikes = np.array([0.5, 1.5, 1.9, 2.1, 3.4, 3.9])

@@ -403,8 +403,9 @@ def drop_range(spikes, time_range, check_empty=True):
     ----------
     spikes : 1d array
         Spike times, in seconds.
-    time_range : list of [float, float]
-        Time range to drop from spike times, as [start_drop_time, end_drop_time].
+    time_range : list of [float, float] or list of list of [float, float]
+        Time range(s) to drop from spike times.
+        Each time range should be defined as [start_add_time, end_add_time].
     check_empty : bool, optional, default: True
         Whether to check if the dropped range is empty of spikes.
         If True, and there are spikes within the drop `time_range`, an error is raised.
@@ -415,15 +416,26 @@ def drop_range(spikes, time_range, check_empty=True):
         Spike times, in seconds, with the time range removed.
     """
 
-    if check_empty:
-        extracted = get_range(spikes, *time_range)
-        assert extracted.size == 0, "Extracted range is not empty."
+    # Operate on a copy of the input, to not overwrite original array
+    spikes = spikes.copy()
 
-    tlen = time_range[1] - time_range[0]
-    out_spikes = np.hstack([get_range(spikes, max_value=time_range[0]),
-                            get_range(spikes, min_value=time_range[1], reset=tlen)])
+    total_len = 0
+    for trange in np.array(time_range, ndmin=2):
 
-    return out_spikes
+        if total_len > 0:
+            trange = [trange[0] - total_len, trange[1] - total_len]
+
+        if check_empty:
+            assert get_range(spikes, *trange).size == 0, \
+                "Extracted range {} is not empty.".format(trange)
+
+        tlen = trange[1] - trange[0]
+        spikes = np.hstack([get_range(spikes, max_value=trange[0]),
+                            get_range(spikes, min_value=trange[1], reset=tlen)])
+
+        total_len += trange[1] - trange[0]
+
+    return spikes
 
 
 def _reinstate_range_1d(spikes, time_range):
