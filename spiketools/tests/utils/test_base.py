@@ -10,6 +10,12 @@ def test_flatten():
     lsts = [[1, 2], [3, 4]]
     assert flatten(lsts) == [1, 2, 3, 4]
 
+def test_lower_list():
+
+    lst = ['A', 'b', 'C', 'd']
+    out = lower_list(lst)
+    assert out == ['a', 'b', 'c', 'd']
+
 def test_select_from_list():
 
     lst = [1, 2, 3, 4, 5]

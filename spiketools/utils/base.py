@@ -31,6 +31,23 @@ def flatten(lst):
     return [item for sublist in lst for item in sublist]
 
 
+def lower_list(lst):
+    """Convert all strings in a list to lowercase.
+
+    Parameters
+    ----------
+    lst : list of str
+        A list of strings.
+
+    Returns
+    -------
+    lst
+        A list of string, all lowercase.
+    """
+
+    return [el.lower() for el in lst]
+
+
 def select_from_list(lst, select):
     """Select elements from a list based on a boolean mask.
 
