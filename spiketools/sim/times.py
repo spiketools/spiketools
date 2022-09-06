@@ -28,21 +28,21 @@ def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
 
     Returns
     -------
-    times : 1d array
+    spike_times : 1d array
         Simulated spike times, in seconds.
 
     Examples
     --------
     Simulate spike times at a rate of 5Hz for 3 seconds, using the poisson method:
 
-    >>> spikes = sim_spiketimes(5, 3, 'poisson')
+    >>> spike_times = sim_spiketimes(5, 3, 'poisson')
     """
 
     check_param_options(method, 'method', ['poisson'])
 
-    times = SPIKETIME_FUNCS[method](spike_param, duration, **kwargs)
+    spike_times = SPIKETIME_FUNCS[method](spike_param, duration, **kwargs)
 
-    return times
+    return spike_times
 
 ###################################################################################################
 ## Distribution based simulations
@@ -64,19 +64,19 @@ def sim_spiketimes_poisson(rate, duration, start_time=0, refractory=None):
 
     Returns
     -------
-    times : 1d array
+    spike_times : 1d array
         Simulated spike times, in seconds.
 
     Examples
     --------
     Simulate spike times at a rate of 10Hz for 5 seconds, starting at 2 seconds:
 
-    >>> spikes = sim_spiketimes_poisson(10, 5, start_time=2)
+    >>> spike_times = sim_spiketimes_poisson(10, 5, start_time=2)
     """
 
-    times = np.array(list(poisson_generator(rate, duration, start_time)))
+    spike_times = np.array(list(poisson_generator(rate, duration, start_time)))
 
-    return times
+    return spike_times
 
 ###################################################################################################
 ## COLLECT SIM FUNCTION OPTIONS TOGETHER

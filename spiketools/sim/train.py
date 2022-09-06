@@ -35,21 +35,21 @@ def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
     --------
     Simulate a spike train based on probability of spiking:
 
-    >>> train = sim_spiketrain(0.1, 10, method='prob')
+    >>> spike_train = sim_spiketrain(0.1, 10, method='prob')
 
     Simulate a spike train based on a Poisson distribution:
 
-    >>> train = sim_spiketrain(5, 10, method='poisson')
+    >>> spike_train = sim_spiketrain(5, 10, method='poisson')
     """
 
     check_param_options(method, 'method', ['prob', 'binom', 'poisson'])
 
-    train = SPIKETRAIN_FUNCS[method](spike_param, n_samples, **kwargs)
+    spike_train = SPIKETRAIN_FUNCS[method](spike_param, n_samples, **kwargs)
 
     if refractory:
-        train = apply_refractory_train(train, refractory)
+        spike_train = apply_refractory_train(spike_train, refractory)
 
-    return train
+    return spike_train
 
 ###################################################################################################
 ## Probability based simulations
@@ -66,7 +66,7 @@ def sim_spiketrain_prob(p_spiking, n_samples=None):
 
     Returns
     -------
-    spikes : 1d array
+    spike_train : 1d array
         Simulated spike train.
 
     Raises
@@ -102,10 +102,10 @@ def sim_spiketrain_prob(p_spiking, n_samples=None):
     else:
         probs = p_spiking
 
-    spikes = (probs > np.random.rand(*probs.shape))
-    spikes = spikes.astype(int)
+    spike_train = (probs > np.random.rand(*probs.shape))
+    spike_train = spike_train.astype(int)
 
-    return spikes
+    return spike_train
 
 ###################################################################################################
 ## Distribution based simulations
@@ -122,7 +122,7 @@ def sim_spiketrain_binom(p_spiking, n_samples=None):
 
     Returns
     -------
-    spikes : 1d array
+    spike_train : 1d array
         Simulated spike train.
 
     Raises
@@ -140,18 +140,20 @@ def sim_spiketrain_binom(p_spiking, n_samples=None):
     Simulate a spike train based on a probability of spiking per sample:
 
     >>> p_spiking = 0.7
-    >>> spikes = sim_spiketrain_binom(p_spiking, n_samples=5)
+    >>> spike_train = sim_spiketrain_binom(p_spiking, n_samples=5)
 
     Simulate spike train with every sample having its own probability of spiking:
 
     >>> p_spiking = np.array([0, 0.25, 0.5, 0.75, 1])
-    >>> spikes = sim_spiketrain_binom(p_spiking, n_samples=5)
+    >>> spike_train = sim_spiketrain_binom(p_spiking, n_samples=5)
     """
 
     if isinstance(p_spiking, float) & (n_samples is None):
         raise ValueError("Input variable 'n_samples' must be defined if 'p_spiking' is a float")
 
-    return np.random.binomial(1, p=p_spiking, size=n_samples)
+    spike_train = np.random.binomial(1, p=p_spiking, size=n_samples)
+
+    return spike_train
 
 
 def sim_spiketrain_poisson(rate, n_samples, fs=1000):
@@ -168,24 +170,24 @@ def sim_spiketrain_poisson(rate, n_samples, fs=1000):
 
     Returns
     -------
-    spikes : 1d array
+    spike_train : 1d array
         Simulated spike train.
 
     Examples
     --------
     Simulate a spike train at a rate of 2 Hz for 100 samples:
 
-    >>> spikes = sim_spiketrain_poisson(2, 100)
+    >>> spike_train = sim_spiketrain_poisson(2, 100)
     """
 
-    spikes = np.zeros(n_samples)
+    spike_train = np.zeros(n_samples)
 
     # Create a uniform sampling distribution to use to simulate spikes
     unif = np.random.uniform(0, 1, size=n_samples)
     mask = unif <= (rate * 1 / fs)
-    spikes[mask] = 1
+    spike_train[mask] = 1
 
-    return spikes
+    return spike_train
 
 ###################################################################################################
 ## COLLECT SIM FUNCTION OPTIONS TOGETHER
