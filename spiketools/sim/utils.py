@@ -1,6 +1,10 @@
 """Utilities for working with simulated spiking data."""
 
+from functools import wraps
+
 import numpy as np
+
+from spiketools.modutils.functions import get_function_argument
 
 ###################################################################################################
 ###################################################################################################
@@ -35,6 +39,24 @@ def apply_refractory_times(spike_times, refractory_time):
     spike_times = spike_times[mask]
 
     return spike_times
+
+
+def refractory_times(func):
+    """Decorator for applying a refractory period to spike time simulations."""
+
+    @wraps(func)
+    def decorated(*args, **kwargs):
+
+        refractory = get_function_argument('refractory', func, args, kwargs)
+
+        spike_times = func(*args, **kwargs)
+
+        if refractory:
+            spike_times = apply_refractory_times(spike_times, refractory)
+
+        return spike_times
+
+    return decorated
 
 
 def apply_refractory_train(spike_train, refractory_time, fs=1000):

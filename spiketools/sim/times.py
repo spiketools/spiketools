@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.stats.generators import poisson_generator
-from spiketools.sim.utils import apply_refractory_times
+from spiketools.sim.utils import refractory_times
 from spiketools.utils.checks import check_param_options
 
 ###################################################################################################
@@ -42,15 +42,13 @@ def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
 
     times = SPIKETIME_FUNCS[method](spike_param, duration, **kwargs)
 
-    if refractory:
-        times = apply_refractory_times(times, refractory)
-
     return times
 
 ###################################################################################################
 ## Distribution based simulations
 
-def sim_spiketimes_poisson(rate, duration, start_time=0):
+@refractory_times
+def sim_spiketimes_poisson(rate, duration, start_time=0, refractory=None):
     """Simulate spike times based on a Poisson distribution.
 
     Parameters
@@ -61,6 +59,8 @@ def sim_spiketimes_poisson(rate, duration, start_time=0):
         Duration of spike times to simulate, in seconds.
     start_time: float, optional
         Timestamp of the start time for the simulated spike times.
+    refractory : float, optional
+        The refractory period to apply to the simulated data, in seconds.
 
     Returns
     -------
