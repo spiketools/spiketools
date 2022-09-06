@@ -59,17 +59,15 @@ def refractory_times(func):
     return decorated
 
 
-def apply_refractory_train(spike_train, refractory_time, fs=1000):
+def apply_refractory_train(spike_train, refractory_samples):
     """Apply a refractory period to a simulated spike train.
 
     Parameters
     ----------
     spike_train : 1d array
         Spike train.
-    refractory_time : float
-        The duration of the refractory period, after a spike, in seconds.
-    fs : float, optional, default: 1000
-        The sampling rate of the spike train.
+    refractory_samples : int
+        The duration of the refractory period, after a spike, in number of samples.
 
     Returns
     -------
@@ -78,17 +76,15 @@ def apply_refractory_train(spike_train, refractory_time, fs=1000):
 
     Examples
     --------
-    Apply a 0.001 seconds refractory period to a binary spike train with 1000 Hz sampling rate:
+    Apply a 1-sample refractory period to a binary spike train (equivalent to 0.001 seconds at 1000 Hz sampling rate):
 
     >>> spike_train = np.array([0, 1, 1, 0, 0, 1, 1, 1, 0, 1])
-    >>> apply_refractory_train(spike_train, 0.001, 1000)
+    >>> apply_refractory_train(spike_train, 1, 1000)
     array([0, 1, 0, 0, 0, 1, 0, 1, 0, 1])
     """
 
-    ref_len = int(refractory_time * fs)
-
     for ind in range(spike_train.shape[0]):
         if spike_train[ind]:
-            spike_train[ind+1:ind+1+ref_len] = 0
+            spike_train[ind + 1:ind + 1 + refractory_samples] = 0
 
     return spike_train
