@@ -40,12 +40,26 @@ def test_refractory_times():
 
 def test_apply_refractory_train():
 
-    train = np.array([0, 1, 1, 0, 1])
-    refractory_time = 0.002
     fs = 1000
 
-    train_out = apply_refractory_train(train, refractory_time, fs)
+    train1 = np.array([0, 1, 1, 1, 0, 1, 0])
+    refractory_time1 = 0.001
+    train_out1 = apply_refractory_train(train1, refractory_time1, fs)
+    assert train_out1.shape == train1.shape
+    assert np.isin(train1, [0, 1]).all()
+    assert np.array_equal(train_out1, np.array([0, 1, 0, 1, 0, 1, 0]))
 
-    assert train_out.shape == train.shape
-    assert np.isin(train, [0, 1]).all()
-    assert np.array_equal(train_out, np.array([0, 1, 0, 0, 1]))
+    train2 = np.array([0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1])
+    refractory_time2 = 0.002
+    train_out2 = apply_refractory_train(train2, refractory_time2, fs)
+    assert train_out2.shape == train2.shape
+    assert np.isin(train2, [0, 1]).all()
+    assert np.array_equal(train_out2, np.array([0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1]))
+
+def test_refractory_train():
+
+    @refractory_times
+    def _spike_train():
+        return np.array([...])
+
+    ...
