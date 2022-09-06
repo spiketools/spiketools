@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.sim.utils import refractory_train
+from spiketools.sim.utils import refractory#, refractory_train,
 from spiketools.utils.checks import check_param_options
 
 ###################################################################################################
@@ -28,7 +28,7 @@ def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
 
     Returns
     -------
-    train : 1d array
+    spike_train : 1d array
         Simulated spike train.
 
     Examples
@@ -44,17 +44,15 @@ def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
 
     check_param_options(method, 'method', ['prob', 'binom', 'poisson'])
 
-    spike_train = SPIKETRAIN_FUNCS[method](spike_param, n_samples, **kwargs)
-
-    if refractory:
-        spike_train = apply_refractory_train(spike_train, refractory)
+    spike_train = SPIKETRAIN_FUNCS[method](spike_param, n_samples, **kwargs, refractory=refractory)
 
     return spike_train
 
 ###################################################################################################
 ## Probability based simulations
 
-@refractory_train
+#@refractory_train
+@refractory('train')
 def sim_spiketrain_prob(p_spiking, n_samples=None, refractory=None):
     """Simulate spikes based on a probability of spiking per sample.
 
@@ -113,7 +111,8 @@ def sim_spiketrain_prob(p_spiking, n_samples=None, refractory=None):
 ###################################################################################################
 ## Distribution based simulations
 
-@refractory_train
+#@refractory_train
+@refractory('train')
 def sim_spiketrain_binom(p_spiking, n_samples=None, refractory=None):
     """Simulate spike train from a binomial probability distribution.
 
@@ -162,7 +161,8 @@ def sim_spiketrain_binom(p_spiking, n_samples=None, refractory=None):
     return spike_train
 
 
-@refractory_train
+#@refractory_train
+@refractory('train')
 def sim_spiketrain_poisson(rate, n_samples, fs=1000, refractory=None):
     """Simulate spike train from a Poisson distribution.
 

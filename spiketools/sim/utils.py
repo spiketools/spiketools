@@ -4,6 +4,7 @@ from functools import wraps
 
 import numpy as np
 
+from spiketools.utils.checks import check_param_options
 from spiketools.modutils.functions import get_function_argument
 
 ###################################################################################################
@@ -41,24 +42,6 @@ def apply_refractory_times(spike_times, refractory_time):
     return spike_times
 
 
-def refractory_times(func):
-    """Decorator for applying a refractory period to spike time simulations."""
-
-    @wraps(func)
-    def decorated(*args, **kwargs):
-
-        refractory = get_function_argument('refractory', func, args, kwargs)
-
-        spike_times = func(*args, **kwargs)
-
-        if refractory:
-            spike_times = apply_refractory_times(spike_times, refractory)
-
-        return spike_times
-
-    return decorated
-
-
 def apply_refractory_train(spike_train, refractory_samples):
     """Apply a refractory period to a simulated spike train.
 
@@ -89,20 +72,89 @@ def apply_refractory_train(spike_train, refractory_samples):
 
     return spike_train
 
+###################################################################################################
+## COLLECT REFRACTORY FUNCTION OPTIONS TOGETHER
 
-def refractory_train(func):
-    """Decorator for applying a refractory time to spike train simulations."""
+REFRACTORY_FUNCTIONS = {
+    'times' : apply_refractory_times,
+    'train' : apply_refractory_train,
+}
 
-    @wraps(func)
-    def decorated(*args, **kwargs):
+###################################################################################################
+## REFRACTORY DECORATOR
 
-        refractory = get_function_argument('refractory', func, args, kwargs)
+def refractory(spike_representation):
+    """Decorator for applying a refractory period to spike time simulations.
 
-        spike_train = func(*args, **kwargs)
+    Parameters
+    ----------
+    spike_representation : {'times', 'train'}
+        Defines the representation of the simulated spikes.
+        Based on this input, the decorator applies the appropriate refractory function.
 
-        if refractory:
-            spike_train = apply_refractory_train(spike_train, refractory)
+    Notes
+    -----
+    This decorator manages applying a refractory period to simulated spiking data.
+    It assumes the following aspects:
+    - the wrapped function takes `refractory` as an argument, in the last position
+        - the expected units of this argument vary by `spike_representation`
+            - for `times`, refractory should be in seconds
+            - for `train`, refractory should be in samples
+        - if `refractory` is defined (not None), as a specified input or as
+          as default value in the function signature, this refractory period is applied
+    - the wrapped function outputs a single `spikes` output
+    """
 
-        return spike_train
+    def wrap(func):
 
-    return decorated
+        check_param_options(spike_representation, 'spike_representation', ['times', 'train'])
+        refractory_function = REFRACTORY_FUNCTIONS[spike_representation]
+
+        @wraps(func)
+        def decorated(*args, **kwargs):
+
+            refractory = get_function_argument('refractory', func, args, kwargs)
+
+            spikes = func(*args, **kwargs)
+
+            if refractory:
+                spikes = refractory_function(spikes, refractory)
+
+            return spikes
+        return decorated
+    return wrap
+
+# def refractory_times(func):
+#     """Decorator for applying a refractory period to spike time simulations."""
+
+#     @wraps(func)
+#     def decorated(*args, **kwargs):
+
+#         refractory = get_function_argument('refractory', func, args, kwargs)
+
+#         spike_times = func(*args, **kwargs)
+
+#         if refractory:
+#             spike_times = apply_refractory_times(spike_times, refractory)
+
+#         return spike_times
+
+#     return decorated
+
+
+# def refractory_train(func):
+#     """Decorator for applying a refractory time to spike train simulations."""
+
+#     @wraps(func)
+#     def decorated(*args, **kwargs):
+
+#         refractory = get_function_argument('refractory', func, args, kwargs)
+
+#         spike_train = func(*args, **kwargs)
+
+#         if refractory:
+#             spike_train = apply_refractory_train(spike_train, refractory)
+
+#         return spike_train
+
+#     return decorated
