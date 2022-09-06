@@ -70,4 +70,3 @@ def get_comp_func(comp_type):
     comp_func = getattr(np, comp_type)
 
     return comp_func
-

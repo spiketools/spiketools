@@ -44,8 +44,8 @@ def convert_times_to_train(spikes, fs=1000, length=None):
 
     # Check that the spike times are fully encoded into the spike train
     msg = ("The spike times were not fully encoded into the spike train. " \
-           "This probably means the spike sampling rate is too low to encode spikes close together in time. " \
-           "Try increasing the sampling rate.")
+           "This probably means the spike sampling rate is too low to encode " \
+           "spikes close together in time. Try increasing the sampling rate.")
     if not sum(spike_train) == len(spikes):
         raise ValueError(msg)
 

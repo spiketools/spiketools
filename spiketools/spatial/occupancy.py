@@ -5,7 +5,6 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from spiketools.utils.checks import check_bin_range
 from spiketools.utils.data import assign_data_to_bins
 from spiketools.spatial.checks import check_position, check_position_bins
 from spiketools.spatial.utils import compute_bin_time

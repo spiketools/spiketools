@@ -1,7 +1,6 @@
 """Spatial position related utility functions."""
 
 import numpy as np
-import math
 
 from spiketools.utils.data import compute_range
 from spiketools.spatial.checks import check_position_bins

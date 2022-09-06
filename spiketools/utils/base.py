@@ -1,7 +1,6 @@
 """Base utility functions, that manipulate basic data structures, etc."""
 
 from collections import Counter
-import numpy as np
 
 ###################################################################################################
 ###################################################################################################
@@ -99,7 +98,7 @@ def count_elements(data, labels=None, sort=False):
     --------
     Count the number of occurrences of each element in a 1d array:
 
-    >>> data = np.array([1, 3, 3, 4, 5, 6, 9, 3, 4, 5, 6])
+    >>> data = [1, 3, 3, 4, 5, 6, 9, 3, 4, 5, 6]
     >>> count_elements(data)
     Counter({3: 3, 4: 2, 5: 2, 6: 2, 1: 1, 9: 1})
     """
