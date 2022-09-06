@@ -25,6 +25,7 @@ def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
         The refractory period to apply to the simulated data, in number of samples.
     **kwargs
         Additional keyword arguments.
+        There are passed into the simulate function specified by `method`.
 
     Returns
     -------

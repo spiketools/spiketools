@@ -9,7 +9,7 @@ from spiketools.utils.checks import check_param_options
 ###################################################################################################
 ###################################################################################################
 
-def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
+def sim_spiketimes(spike_param, duration, method, refractory=0.001, **kwargs):
     """Simulate spike times.
 
     Parameters
@@ -21,10 +21,11 @@ def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
         Duration of spike times to simulate, in seconds.
     method : {'poisson'}
         The method to use for the simulation.
-    refractory : float, optional
+    refractory : float, optional, default: 0.001
         The refractory period to apply to the simulated data, in seconds.
     **kwargs
         Additional keyword arguments.
+        There are passed into the simulate function specified by `method`.
 
     Returns
     -------
@@ -48,7 +49,7 @@ def sim_spiketimes(spike_param, duration, method, refractory=None, **kwargs):
 ## Distribution based simulations
 
 @refractory('times')
-def sim_spiketimes_poisson(rate, duration, start_time=0, refractory=None):
+def sim_spiketimes_poisson(rate, duration, start_time=0, refractory=0.001):
     """Simulate spike times based on a Poisson distribution.
 
     Parameters
@@ -59,7 +60,7 @@ def sim_spiketimes_poisson(rate, duration, start_time=0, refractory=None):
         Duration of spike times to simulate, in seconds.
     start_time: float, optional
         Timestamp of the start time for the simulated spike times.
-    refractory : float, optional
+    refractory : float, optional, default: 0.001
         The refractory period to apply to the simulated data, in seconds.
 
     Returns
