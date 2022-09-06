@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.sim.utils import apply_refractory_train
+from spiketools.sim.utils import refractory_train
 from spiketools.utils.checks import check_param_options
 
 ###################################################################################################
@@ -21,8 +21,8 @@ def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
         The number of samples to simulate.
     method : {'prob', 'binom', 'poisson'}
         The method to use for the simulation.
-    refractory : float, optional
-        The refractory period to apply to the simulated data, in seconds.
+    refractory : int, optional
+        The refractory period to apply to the simulated data, in number of samples.
     **kwargs
         Additional keyword arguments.
 
@@ -54,7 +54,8 @@ def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
 ###################################################################################################
 ## Probability based simulations
 
-def sim_spiketrain_prob(p_spiking, n_samples=None):
+@refractory_train
+def sim_spiketrain_prob(p_spiking, n_samples=None, refractory=None):
     """Simulate spikes based on a probability of spiking per sample.
 
     Parameters
@@ -63,6 +64,8 @@ def sim_spiketrain_prob(p_spiking, n_samples=None):
         The probability (per sample) of spiking.
     n_samples : int, optional
         The number of samples to simulate.
+    refractory : int, optional
+        The refractory period to apply to the simulated data, in number of samples.
 
     Returns
     -------
@@ -110,7 +113,8 @@ def sim_spiketrain_prob(p_spiking, n_samples=None):
 ###################################################################################################
 ## Distribution based simulations
 
-def sim_spiketrain_binom(p_spiking, n_samples=None):
+@refractory_train
+def sim_spiketrain_binom(p_spiking, n_samples=None, refractory=None):
     """Simulate spike train from a binomial probability distribution.
 
     Parameters
@@ -119,6 +123,8 @@ def sim_spiketrain_binom(p_spiking, n_samples=None):
         The probability (per sample) of spiking.
     n_samples : int, optional
         The number of samples to simulate.
+    refractory : int, optional
+        The refractory period to apply to the simulated data, in number of samples.
 
     Returns
     -------
@@ -156,7 +162,8 @@ def sim_spiketrain_binom(p_spiking, n_samples=None):
     return spike_train
 
 
-def sim_spiketrain_poisson(rate, n_samples, fs=1000):
+@refractory_train
+def sim_spiketrain_poisson(rate, n_samples, fs=1000, refractory=None):
     """Simulate spike train from a Poisson distribution.
 
     Parameters
@@ -167,6 +174,8 @@ def sim_spiketrain_poisson(rate, n_samples, fs=1000):
         The number of samples to simulate.
     fs : int, optional, default: 1000
         The sampling rate, in Hz.
+    refractory : int, optional
+        The refractory period to apply to the simulated data, in number of samples.
 
     Returns
     -------
