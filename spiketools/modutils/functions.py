@@ -25,3 +25,56 @@ def get_function_parameters(function):
     parameters = dict(func_signature.parameters)
 
     return parameters
+
+
+def get_function_argument(label, function, args, kwargs, argind=-1):
+    """Get a function argument value from it's inputs or signature.
+
+    Parameters
+    ----------
+    label : str
+        Name of the argument to access.
+    function : callable
+        Function.
+    args : tuple
+        Arguments.
+    kwargs : dict
+        Keyword arguments.
+    argind : int, optional, default=-1
+        Index of arguments that label should be at, if defined there.
+
+    Returns
+    -------
+    output
+        The accessed argument value.
+    """
+
+    # Define a 'null' output (safer in case real value is "None", "False", etc)
+    output = 'null'
+
+    # Try and access the requested label from kwargs
+    try:
+        output = kwargs.pop(label)
+    except KeyError:
+        pass
+
+    func_params = get_function_parameters(function)
+
+    # If output not yet defined, check args for
+    if output == 'null':
+        n_args = len(func_params)
+        argind = n_args if argind == -1 else argind
+        try:
+            output = args[argind]
+        except IndexError:
+            pass
+
+    # If output still not defined, get default value from the function signature
+    if output == 'null':
+        try:
+            output = func_params[label].default
+        except KeyError:
+            # If nothing so far, return as None
+            output = None
+
+    return output
