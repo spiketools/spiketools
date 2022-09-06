@@ -195,7 +195,7 @@ def plot_trial_heatmaps(trial_data, **plt_kwargs):
     """
 
     axis_kwargs = {key : plt_kwargs.pop(key) \
-        for key in get_function_parameters(make_axes) if key in plt_kwargs}
+        for key in get_function_parameters(make_axes).keys() if key in plt_kwargs}
     axes = make_axes(trial_data.shape[0], **axis_kwargs)
     for data, ax in zip(trial_data, axes):
         plot_heatmap(data, **plt_kwargs, ax=ax)

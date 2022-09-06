@@ -6,7 +6,7 @@ from inspect import signature
 ###################################################################################################
 
 def get_function_parameters(function):
-    """Get a list of input parameters for a function.
+    """Get the input parameters for a function.
 
     Parameters
     ----------
@@ -15,11 +15,13 @@ def get_function_parameters(function):
 
     Returns
     -------
-    parameters : list of str
-        Names of the input parameters to the given function.
+    parameters : dict
+        Parameter definition of the given function.
+        Each key is a str label of the parameter name.
+        Each value is a inspect.Parameter object describing the parameter.
     """
 
-    sig = signature(function)
-    parameters = list(sig.parameters.keys())
+    func_signature = signature(function)
+    parameters = dict(func_signature.parameters)
 
     return parameters
