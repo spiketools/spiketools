@@ -47,6 +47,24 @@ def test_convert_ms_to_min():
     output2 = convert_ms_to_min(array)
     assert np.array_equal(output2, np.array([0.5, 1.0, 2.0]))
 
+def test_convert_nsamples_to_time():
+
+    n_samples = 12
+    fs = 500
+
+    out = convert_nsamples_to_time(n_samples, fs)
+    assert isinstance(out, float)
+    assert out == 0.024
+
+def test_convert_time_to_nsamples():
+
+    time = 0.024
+    fs = 500
+
+    out = convert_time_to_nsamples(time, fs)
+    assert isinstance(out, int)
+    assert out == 12
+
 def test_split_time_value():
 
     value = 3600 + 1800 + 30

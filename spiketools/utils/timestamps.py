@@ -1,5 +1,7 @@
 """Utility functions for working with timestamps."""
 
+import numpy as np
+
 ###################################################################################################
 ###################################################################################################
 
@@ -97,6 +99,62 @@ def convert_ms_to_min(ms):
     """
 
     return convert_sec_to_min(convert_ms_to_sec(ms))
+
+
+def convert_nsamples_to_time(n_samples, fs):
+    """Convert a number of samples into the corresponding time length.
+
+    Parameters
+    ----------
+    n_samples : int
+        Number of samples.
+    fs : int
+        Sampling rate.
+
+    Returns
+    -------
+    time : float
+        Time duration.
+
+    Examples
+    --------
+    Convert a number of samples to a time length:
+
+    >>> convert_nsamples_to_time(5, fs=1000)
+    0.005
+    """
+
+    time = n_samples / fs
+
+    return time
+
+
+def convert_time_to_nsamples(time, fs):
+    """Convert a time length into the corresponding number of samples.
+
+    Parameters
+    ----------
+    time : float
+        Time duration.
+    fs : int
+        Sampling rate.
+
+    Returns
+    -------
+    n_samples : int
+        Number of samples.
+
+    Examples
+    --------
+    Convert a time length to a number of samples:
+
+    >>> convert_time_to_nsamples(0.005, fs=1000)
+    5
+    """
+
+    n_samples = int(np.ceil(time * fs))
+
+    return n_samples
 
 
 def split_time_value(sec):
