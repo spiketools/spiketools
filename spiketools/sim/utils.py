@@ -62,7 +62,7 @@ def apply_refractory_train(spike_train, refractory_samples):
     Apply a 1-sample refractory period to a binary spike train (equivalent to 0.001 seconds at 1000 Hz sampling rate):
 
     >>> spike_train = np.array([0, 1, 1, 0, 0, 1, 1, 1, 0, 1])
-    >>> apply_refractory_train(spike_train, 1, 1000)
+    >>> apply_refractory_train(spike_train, 1)
     array([0, 1, 0, 0, 0, 1, 0, 1, 0, 1])
     """
 

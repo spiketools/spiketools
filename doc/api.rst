@@ -457,6 +457,8 @@ Utilities for working with timestamps.
    convert_sec_to_min
    convert_min_to_hour
    convert_ms_to_min
+   convert_nsamples_to_time
+   convert_time_to_nsamples
    split_time_value
    format_time_string
 
