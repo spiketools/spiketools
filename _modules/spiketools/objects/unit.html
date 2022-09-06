@@ -51,7 +51,6 @@
                 <li><a href="../../../api.html">API</a></li>
                 <li><a href="../../../glossary.html">Glossary</a></li>
                 <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../../../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -97,8 +96,9 @@
 <span></span><span class="sd">&quot;&quot;&quot;Unit object.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">spiketools.stats.shuffle</span> <span class="kn">import</span> <span class="n">shuffle_spikes</span>
-<span class="kn">from</span> <span class="nn">spiketools.measures</span> <span class="kn">import</span> <span class="n">convert_times_to_train</span>
-<span class="kn">from</span> <span class="nn">spiketools.measures</span> <span class="kn">import</span> <span class="n">compute_isis</span><span class="p">,</span> <span class="n">compute_cv</span><span class="p">,</span> <span class="n">compute_fano_factor</span><span class="p">,</span> <span class="n">compute_firing_rate</span>
+<span class="kn">from</span> <span class="nn">spiketools.measures.conversions</span> <span class="kn">import</span> <span class="n">convert_times_to_train</span>
+<span class="kn">from</span> <span class="nn">spiketools.measures.spikes</span> <span class="kn">import</span> <span class="p">(</span><span class="n">compute_isis</span><span class="p">,</span> <span class="n">compute_cv</span><span class="p">,</span>
+                                        <span class="n">compute_fano_factor</span><span class="p">,</span> <span class="n">compute_firing_rate</span><span class="p">)</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -189,7 +189,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

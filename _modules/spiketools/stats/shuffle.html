@@ -51,7 +51,6 @@
                 <li><a href="../../../api.html">API</a></li>
                 <li><a href="../../../glossary.html">Glossary</a></li>
                 <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../../../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -98,7 +97,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.measures</span> <span class="kn">import</span> <span class="n">compute_isis</span><span class="p">,</span> <span class="n">compute_firing_rate</span>
+<span class="kn">from</span> <span class="nn">spiketools.measures.spikes</span> <span class="kn">import</span> <span class="n">compute_isis</span><span class="p">,</span> <span class="n">compute_firing_rate</span>
 <span class="kn">from</span> <span class="nn">spiketools.measures.conversions</span> <span class="kn">import</span> <span class="p">(</span><span class="n">convert_times_to_train</span><span class="p">,</span> <span class="n">convert_isis_to_times</span><span class="p">,</span>
                                              <span class="n">convert_train_to_times</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">spiketools.stats.generators</span> <span class="kn">import</span> <span class="n">poisson_generator</span>
@@ -127,6 +126,21 @@
 <span class="sd">    -------</span>
 <span class="sd">    shuffled_spikes : 2d array</span>
 <span class="sd">        Shuffled spike times.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Simulate some example spikes for examples:</span>
+
+<span class="sd">    &gt;&gt;&gt; from spiketools.sim.times import sim_spiketimes</span>
+<span class="sd">    &gt;&gt;&gt; spikes = sim_spiketimes(5, 30, &#39;poisson&#39;)</span>
+
+<span class="sd">    Create 5 spike time shuffles using the ISI shuffle method:</span>
+
+<span class="sd">    &gt;&gt;&gt; shuffled_spikes = shuffle_spikes(spikes, &#39;ISI&#39;, n_shuffles=5)</span>
+
+<span class="sd">    Create 5 spike time shuffles using the &#39;CIRCULAR&#39; shuffle method:</span>
+
+<span class="sd">    &gt;&gt;&gt; shuffled_spikes = shuffle_spikes(spikes, &#39;CIRCULAR&#39;, n_shuffles=5, shuffle_min=10000)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">check_param_options</span><span class="p">(</span><span class="n">approach</span><span class="p">,</span> <span class="s1">&#39;approach&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ISI&#39;</span><span class="p">,</span> <span class="s1">&#39;BINCIRC&#39;</span><span class="p">,</span> <span class="s1">&#39;POISSON&#39;</span><span class="p">,</span> <span class="s1">&#39;CIRCULAR&#39;</span><span class="p">])</span>
@@ -151,8 +165,8 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    isis : 1d array</span>
-<span class="sd">        Inter-spike intervals.</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Spike times, in seconds.</span>
 <span class="sd">    n_shuffles : int, optional, default: 1000</span>
 <span class="sd">        The number of shuffles to create.</span>
 
@@ -160,6 +174,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    shuffled_spikes : 2d array</span>
 <span class="sd">        Shuffled spike times.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Shuffle spike times using the ISI shuffle method:</span>
+
+<span class="sd">    &gt;&gt;&gt; from spiketools.sim.times import sim_spiketimes</span>
+<span class="sd">    &gt;&gt;&gt; spikes = sim_spiketimes(5, 30, &#39;poisson&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; shuffled_spikes = shuffle_isis(spikes, n_shuffles=5)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">isis</span> <span class="o">=</span> <span class="n">compute_isis</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
@@ -200,6 +222,14 @@
 <span class="sd">    This shuffling process is very dependent on the `bin_width_range` argument.</span>
 <span class="sd">    It is recommended that `bin_width_range[1] &gt; 3`, and that the difference</span>
 <span class="sd">    between the two values of `bin_width_range` is at least 1.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Shuffle spike times using the circular bin method:</span>
+
+<span class="sd">    &gt;&gt;&gt; from spiketools.sim.times import sim_spiketimes</span>
+<span class="sd">    &gt;&gt;&gt; spikes = sim_spiketimes(5, 30, &#39;poisson&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; shuffled_spikes = shuffle_bins(spikes, bin_width_range=[3, 4], n_shuffles=5)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">spike_train</span> <span class="o">=</span> <span class="n">convert_times_to_train</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
@@ -260,6 +290,14 @@
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    This is an experimental implementation, and still has some issues matching spike counts.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Shuffle spike times using the Poisson method:</span>
+
+<span class="sd">    &gt;&gt;&gt; from spiketools.sim.times import sim_spiketimes</span>
+<span class="sd">    &gt;&gt;&gt; spikes = sim_spiketimes(5, 30, &#39;poisson&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; shuffled_spikes = shuffle_poisson(spikes, n_shuffles=5)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">rate</span> <span class="o">=</span> <span class="n">compute_firing_rate</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
@@ -293,7 +331,15 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    The input shuffle_min should always be less than the maximum time in which a spike occured.</span>
+<span class="sd">    The input shuffle_min should always be less than the maximum time in which a spike occurred.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Shuffle spike times using the circular method:</span>
+
+<span class="sd">    &gt;&gt;&gt; from spiketools.sim.times import sim_spiketimes</span>
+<span class="sd">    &gt;&gt;&gt; spikes = sim_spiketimes(5, 30, &#39;poisson&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; shuffled_spikes = shuffle_circular(spikes, shuffle_min=10000, n_shuffles=5)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">spike_train</span> <span class="o">=</span> <span class="n">convert_times_to_train</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
@@ -323,7 +369,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

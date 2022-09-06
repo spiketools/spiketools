@@ -52,7 +52,6 @@
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
                 <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -118,11 +117,10 @@
 </dl>
 <p class="rubric">Notes</p>
 <p>Code adapted from here: <a class="reference external" href="https://stackoverflow.com/questions/46859304/">https://stackoverflow.com/questions/46859304/</a>
-This function doesn’t have any randomness: for a given array it will
-iterate through the same set of permutations.
-This does a sequence of rotated permutations.</p>
+This function doesn’t have any randomness - for a given array it will
+iterate through the same set of permutations, in sequence.</p>
 <p class="rubric">Examples</p>
-<p>Create 4 permutations for vector: [0, 5, 10, 15, 20]</p>
+<p>Create permutations for a given vector:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vec_perm</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">n_perms</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="go">array([[ 0,  5, 10, 15, 20],</span>
@@ -148,7 +146,7 @@ This does a sequence of rotated permutations.</p>
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

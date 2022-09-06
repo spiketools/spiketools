@@ -51,7 +51,6 @@
                 <li><a href="../../../api.html">API</a></li>
                 <li><a href="../../../glossary.html">Glossary</a></li>
                 <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../../../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -111,6 +110,13 @@
 <span class="sd">    -------</span>
 <span class="sd">    float or array</span>
 <span class="sd">        Time value(s), in seconds.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Convert milliseconds to seconds:</span>
+
+<span class="sd">    &gt;&gt;&gt; convert_ms_to_sec(500)</span>
+<span class="sd">    0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">ms</span> <span class="o">/</span> <span class="mi">1000</span></div>
@@ -128,6 +134,13 @@
 <span class="sd">    -------</span>
 <span class="sd">    float or array</span>
 <span class="sd">        Time value(s), in minutes.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Convert seconds to minutes:</span>
+
+<span class="sd">    &gt;&gt;&gt; convert_sec_to_min(210)</span>
+<span class="sd">    3.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">sec</span> <span class="o">/</span> <span class="mi">60</span></div>
@@ -145,6 +158,13 @@
 <span class="sd">    -------</span>
 <span class="sd">    float or array</span>
 <span class="sd">        Time value(s), in hours.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Convert minutes to hours:</span>
+
+<span class="sd">    &gt;&gt;&gt; convert_min_to_hour(270)</span>
+<span class="sd">    4.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">mins</span> <span class="o">/</span> <span class="mi">60</span></div>
@@ -162,6 +182,13 @@
 <span class="sd">    -------</span>
 <span class="sd">    float or array</span>
 <span class="sd">        Time value(s), in minutes.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Convert milliseconds to minutes:</span>
+
+<span class="sd">    &gt;&gt;&gt; convert_ms_to_min(150000)</span>
+<span class="sd">    2.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">convert_sec_to_min</span><span class="p">(</span><span class="n">convert_ms_to_sec</span><span class="p">(</span><span class="n">ms</span><span class="p">))</span></div>
@@ -179,6 +206,13 @@
 <span class="sd">    -------</span>
 <span class="sd">    hours, minutes, seconds : float</span>
 <span class="sd">        Time value, split up into hours, minutes, and seconds.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Split seconds into hours, minutes, and seconds:</span>
+
+<span class="sd">    &gt;&gt;&gt; split_time_value(15000)</span>
+<span class="sd">    (4, 10, 0)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">minutes</span><span class="p">,</span> <span class="n">seconds</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
@@ -199,6 +233,13 @@
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
 <span class="sd">        A string representation of the time value.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Format a time stored as hours, minutes, and seconds into a string:</span>
+
+<span class="sd">    &gt;&gt;&gt; format_time_string(4, 10, 20)</span>
+<span class="sd">    &#39;4.00 hours, 10.00 minutes, and 20.00 seconds.&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">base</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:1.2f}</span><span class="s1"> hours, </span><span class="si">{:1.2f}</span><span class="s1"> minutes, and </span><span class="si">{:1.2f}</span><span class="s1"> seconds.&#39;</span>
@@ -217,7 +258,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

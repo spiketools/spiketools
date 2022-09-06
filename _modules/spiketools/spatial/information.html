@@ -51,7 +51,6 @@
                 <li><a href="../../../api.html">API</a></li>
                 <li><a href="../../../glossary.html">Glossary</a></li>
                 <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../../../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -98,7 +97,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.spatial.occupancy</span> <span class="kn">import</span> <span class="n">normalize_bin_firing</span>
+<span class="kn">from</span> <span class="nn">spiketools.spatial.occupancy</span> <span class="kn">import</span> <span class="n">normalize_bin_counts</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -123,11 +122,11 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    This measure compute the spatial information between the firing and spatial location, as:</span>
+<span class="sd">    This measure computes the spatial information between the firing and spatial location, as:</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        I = \sum{\lambda (x) log_2 \frac{\lambda(x)} {\lambda} p(x)dx}</span>
+<span class="sd">        I = \\sum{\\lambda (x) log_2 \\frac{\\lambda(x)} {\\lambda} p(x)dx}</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -147,17 +146,17 @@
 
 <span class="sd">    Compute spatial information across a 2d space:</span>
 
-<span class="sd">    &gt;&gt;&gt; bin_firing = np.array([[1, 1, 1, 5],</span>
-<span class="sd">    ...                        [1, 1, 1, 5]])</span>
-<span class="sd">    &gt;&gt;&gt; occupancy = np.array([[1, 1, 1, 1],</span>
-<span class="sd">    ...                       [1, 1, 1, 1]])</span>
+<span class="sd">    &gt;&gt;&gt; bin_firing = np.array([[1, 1, 1, 5], \</span>
+<span class="sd">                               [1, 1, 1, 5]])</span>
+<span class="sd">    &gt;&gt;&gt; occupancy = np.array([[1, 1, 1, 1], \</span>
+<span class="sd">                              [1, 1, 1, 1]])</span>
 <span class="sd">    &gt;&gt;&gt; info = compute_spatial_information(bin_firing, occupancy)</span>
 <span class="sd">    &gt;&gt;&gt; print(&#39;{:5.4f}&#39;.format(info))</span>
 <span class="sd">    0.4512</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
-        <span class="n">bin_firing</span> <span class="o">=</span> <span class="n">normalize_bin_firing</span><span class="p">(</span><span class="n">bin_firing</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">)</span>
+        <span class="n">bin_firing</span> <span class="o">=</span> <span class="n">normalize_bin_counts</span><span class="p">(</span><span class="n">bin_firing</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">)</span>
 
     <span class="c1"># Calculate average firing rate of the neuron, dividing out by total occupancy time</span>
     <span class="c1">#   Note: this recomputes total spike (basically, de-normalizing)</span>
@@ -189,7 +188,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

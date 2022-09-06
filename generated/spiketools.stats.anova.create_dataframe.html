@@ -52,7 +52,6 @@
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
                 <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -98,16 +97,22 @@
 <h1>spiketools.stats.anova.create_dataframe<a class="headerlink" href="#spiketools-stats-anova-create-dataframe" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.stats.anova.create_dataframe">
-<span class="sig-prename descclassname"><span class="pre">spiketools.stats.anova.</span></span><span class="sig-name descname"><span class="pre">create_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/anova.html#create_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.anova.create_dataframe" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.stats.anova.</span></span><span class="sig-name descname"><span class="pre">create_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/anova.html#create_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.anova.create_dataframe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a dataframe from an array of data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">2d array</span></dt><dd><p>Array of data to organize into a dataframe.</p>
+<dt><strong>data</strong><span class="classifier">dict or 2d array</span></dt><dd><p>Data to organize into a dataframe.
+If dict, each key, value pairing should be a label and data array.
+If array, then should be organized as [n_observations, n_features].</p>
 </dd>
-<dt><strong>columns</strong><span class="classifier">list of str</span></dt><dd><p>The column labels for the dataframe.</p>
+<dt><strong>columns</strong><span class="classifier">list of str, optional</span></dt><dd><p>The column labels for the dataframe.
+To be used if <cite>data</cite> is an array.</p>
 </dd>
-<dt><strong>drop_na</strong><span class="classifier">bool, optional, default: True</span></dt><dd><p>Whether to drop NaN values from the dataframe.</p>
+<dt><strong>dropna</strong><span class="classifier">bool, optional, default: True</span></dt><dd><p>Whether to drop NaN values from the dataframe.</p>
+</dd>
+<dt><strong>dtypes</strong><span class="classifier">dict, optional</span></dt><dd><p>Data types to typecast columns to.
+Each key should be a column label, and each associated value the type to typecast to.</p>
 </dd>
 </dl>
 </dd>
@@ -118,6 +123,12 @@
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Create a dataframe from arrays representing 3 trials of firing rate across 3 spatial bins:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -135,7 +146,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

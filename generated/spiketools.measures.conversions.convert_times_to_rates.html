@@ -52,7 +52,6 @@
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
                 <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -103,7 +102,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times.</p>
+<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times, in seconds.</p>
 </dd>
 <dt><strong>bins</strong><span class="classifier">float or 1d array</span></dt><dd><p>The binning to apply to the spiking data.
 If float, the length of each bin.
@@ -123,6 +122,13 @@ Only used if <cite>bins</cite> is a float.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Convert spike times (in seconds) to continuous firing rate across bins:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.002</span><span class="p">,</span> <span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.450</span><span class="p">,</span> <span class="mf">0.500</span><span class="p">,</span> <span class="mf">0.750</span><span class="p">,</span> <span class="mf">1.000</span><span class="p">,</span> <span class="mf">1.250</span><span class="p">,</span> <span class="mf">1.300</span><span class="p">,</span> <span class="mf">1.400</span><span class="p">,</span> <span class="mf">1.500</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">convert_times_to_rates</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="go">array([ 5.,  5., 10.,  5.,  0.,  5., 15.,  5.])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -140,7 +146,7 @@ Only used if <cite>bins</cite> is a float.</p>
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

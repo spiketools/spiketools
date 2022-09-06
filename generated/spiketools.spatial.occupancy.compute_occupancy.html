@@ -52,7 +52,6 @@
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
                 <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -98,7 +97,7 @@
 <h1>spiketools.spatial.occupancy.compute_occupancy<a class="headerlink" href="#spiketools-spatial-occupancy-compute-occupancy" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.spatial.occupancy.compute_occupancy">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.occupancy.</span></span><span class="sig-name descname"><span class="pre">compute_occupancy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_nan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/occupancy.html#compute_occupancy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.occupancy.compute_occupancy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.occupancy.</span></span><span class="sig-name descname"><span class="pre">compute_occupancy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_nan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/occupancy.html#compute_occupancy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.occupancy.compute_occupancy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute occupancy across spatial bin positions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -110,10 +109,18 @@
 <dt><strong>bins</strong><span class="classifier">int or list of [int, int]</span></dt><dd><p>The bin definition for dividing up the space. If 1d, can be integer.
 If 2d should be a list, defined as [number of x_bins, number of y_bins].</p>
 </dd>
-<dt><strong>speed</strong><span class="classifier">1d array</span></dt><dd><p>Current speed for each position.
+<dt><strong>area_range</strong><span class="classifier">list of list, optional</span></dt><dd><p>Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].</p>
+</dd>
+<dt><strong>speed</strong><span class="classifier">1d array, optional</span></dt><dd><p>Current speed for each position.
 Should be the same length as timestamps.</p>
 </dd>
-<dt><strong>speed_thresh</strong><span class="classifier">float, optional</span></dt><dd><p>Speed threshold to apply.</p>
+<dt><strong>speed_threshold</strong><span class="classifier">float, optional</span></dt><dd><p>Speed threshold to apply.
+If provided, any position values with an associated speed below this value are dropped.</p>
+</dd>
+<dt><strong>time_threshold</strong><span class="classifier">float, optional</span></dt><dd><p>A maximum time threshold, per bin observation, to apply.
+If provided, any bin values with an associated time length above this value are dropped.</p>
+</dd>
+<dt><strong>check_range</strong><span class="classifier">bool, optional, default: True</span></dt><dd><p>Whether to check the given bin definition range against the position values.</p>
 </dd>
 <dt><strong>minimum</strong><span class="classifier">float, optional</span></dt><dd><p>The minimum required occupancy.
 If defined, any values below this are set to zero.</p>
@@ -122,19 +129,20 @@ If defined, any values below this are set to zero.</p>
 </dd>
 <dt><strong>set_nan</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to set zero occupancy locations as NaN.</p>
 </dd>
-<dt><strong>area_range</strong><span class="classifier">list of list, optional</span></dt><dd><p>Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].</p>
-</dd>
-<dt><strong>transpose</strong><span class="classifier">bool, optional, default: True</span></dt><dd><p>Whether to transpose the output, so that x-bins lie on the x-axis of the array.</p>
-</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>occupancy</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Computed occupancy across the space.</p>
+<dt><strong>occupancy</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Computed occupancy across the space.
+For 2d, has shape [n_y_bins, n_x_bins] (see notes).</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>For the 2D case, note that while the inputs to this function list the x-axis first,
+the output of this function, being a 2d array, follows the numpy convention in which
+columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.</p>
 <p class="rubric">Examples</p>
 <p>Compute occupancy for a set of 1D position values:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
@@ -144,8 +152,7 @@ If defined, any values below this are set to zero.</p>
 </pre></div>
 </div>
 <p>Compute occupancy for a set of 2D position values:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span>
-<span class="gp">... </span>                     <span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">]])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span>                              <span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">position</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">compute_occupancy</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="go">array([[0.4, 0.2],</span>
@@ -169,7 +176,7 @@ If defined, any values below this are set to zero.</p>
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

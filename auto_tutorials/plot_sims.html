@@ -52,7 +52,6 @@
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
                 <li><a href="index.html">Tutorials</a></li>
-                <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -103,23 +102,24 @@ to download the full example code</p>
 <span id="sphx-glr-auto-tutorials-plot-sims-py"></span><h1>Simulations<a class="headerlink" href="#simulations" title="Permalink to this headline">¶</a></h1>
 <p>Simulate spiking activity.</p>
 <p>This tutorial primarily covers the <code class="docutils literal notranslate"><span class="pre">spiketools.sims</span></code> module.</p>
-<section id="simulation-spiking-data">
-<h2>Simulation spiking data<a class="headerlink" href="#simulation-spiking-data" title="Permalink to this headline">¶</a></h2>
+<section id="simulating-spiking-data">
+<h2>Simulating spiking data<a class="headerlink" href="#simulating-spiking-data" title="Permalink to this headline">¶</a></h2>
 <section id="sections">
 <h3>Sections<a class="headerlink" href="#sections" title="Permalink to this headline">¶</a></h3>
-<p>This tutorial contains the following sections:</p>
+<p>This tutorial contains the following topics:</p>
 <ol class="arabic simple">
-<li><p>Simulate spikes based on spiking probabilities</p></li>
-<li><p>Simulate spikes based on different probability distributions</p></li>
+<li><p>Simulating spike times, based on specified distributions</p></li>
+<li><p>Simulating spike trains, based on spike probability or specified distributions</p></li>
 <li><p>Utilities for working with simulated spiking data</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import auxiliary libraries</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="c1"># Import simulation-related functions</span>
+<span class="kn">from</span> <span class="nn">spiketools.sim</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a><span class="p">,</span> <a href="../generated/spiketools.sim.sim_spiketrain.html#spiketools.sim.sim_spiketrain" title="spiketools.sim.sim_spiketrain" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.sim.times</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.times.sim_spiketimes_poisson.html#spiketools.sim.times.sim_spiketimes_poisson" title="spiketools.sim.times.sim_spiketimes_poisson" class="sphx-glr-backref-module-spiketools-sim-times sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes_poisson</span></a>
 <span class="kn">from</span> <span class="nn">spiketools.sim.train</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_binom.html#spiketools.sim.train.sim_spiketrain_binom" title="spiketools.sim.train.sim_spiketrain_binom" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_binom</span></a><span class="p">,</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_poisson.html#spiketools.sim.train.sim_spiketrain_poisson" title="spiketools.sim.train.sim_spiketrain_poisson" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_poisson</span></a><span class="p">,</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_prob.html#spiketools.sim.train.sim_spiketrain_prob" title="spiketools.sim.train.sim_spiketrain_prob" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_prob</span></a>
-<span class="kn">from</span> <span class="nn">spiketools.sim.times</span> <span class="kn">import</span> <span class="n">sim_spiketimes</span>
-<span class="kn">from</span> <span class="nn">spiketools.sim.utils</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.utils.apply_refractory_times.html#spiketools.sim.utils.apply_refractory_times" title="spiketools.sim.utils.apply_refractory_times" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_times</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.sim.utils</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.utils.apply_refractory_times.html#spiketools.sim.utils.apply_refractory_times" title="spiketools.sim.utils.apply_refractory_times" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_times</span></a><span class="p">,</span> <a href="../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train" title="spiketools.sim.utils.apply_refractory_train" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_train</span></a>
 
 <span class="c1"># Import plot functions</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.trials</span> <span class="kn">import</span> <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a>
@@ -130,87 +130,147 @@ to download the full example code</p>
 </pre></div>
 </div>
 </section>
-<section id="simulate-spikes-based-on-spiking-probabilities">
-<h3>1. Simulate spikes based on spiking probabilities<a class="headerlink" href="#simulate-spikes-based-on-spiking-probabilities" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike train of size n_samples and 1000 Hz sampling rate based on a probability of</span>
-<span class="c1"># spiking per sample</span>
-<span class="n">p_spiking</span> <span class="o">=</span> <span class="mf">0.7</span>
-<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">sim_spiketrain</span> <span class="o">=</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_prob.html#spiketools.sim.train.sim_spiketrain_prob" title="spiketools.sim.train.sim_spiketrain_prob" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_prob</span></a><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
-
-<span class="c1"># Convert binary spike train to spike times in seconds</span>
-<span class="n">spike_times</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">sim_spiketrain</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-
-<span class="c1"># Print the first 10 spikes from spike train and spike times</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spike train data:&#39;</span><span class="p">,</span> <span class="n">sim_spiketrain</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spike times data:&#39;</span><span class="p">,</span> <span class="n">spike_times</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<section id="simulate-spike-times">
+<h3>Simulate spike times<a class="headerlink" href="#simulate-spike-times" title="Permalink to this headline">¶</a></h3>
+<p>First we will simulate spike times.</p>
+<p>We will start with the <a class="reference internal" href="../generated/spiketools.sim.times.sim_spiketimes_poisson.html#spiketools.sim.times.sim_spiketimes_poisson" title="spiketools.sim.times.sim_spiketimes_poisson"><code class="xref py py-func docutils literal notranslate"><span class="pre">sim_spiketimes_poisson()</span></code></a>, which simulates
+spike times from a Poisson distribution.</p>
+<p>The function takes as input a <cite>rate</cite> and a <cite>duration</cite>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike times from a Poisson probability distribution</span>
+<span class="n">spike_times_poisson</span> <span class="o">=</span> <a href="../generated/spiketools.sim.times.sim_spiketimes_poisson.html#spiketools.sim.times.sim_spiketimes_poisson" title="spiketools.sim.times.sim_spiketimes_poisson" class="sphx-glr-backref-module-spiketools-sim-times sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes_poisson</span></a><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="c1"># Plot the spike times</span>
-<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times_poisson</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_sims_001.png" srcset="../_images/sphx_glr_plot_sims_001.png" alt="plot sims" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Spike train data: [0 0 1 1 1 1 1 0 1 0]
-Spike times data: [0.003 0.004 0.005 0.006 0.007 0.009 0.011 0.012 0.013 0.014]
+<img src="../_images/sphx_glr_plot_sims_001.png" srcset="../_images/sphx_glr_plot_sims_001.png" alt="plot sims" class = "sphx-glr-single-img"/><section id="general-function-for-simulation-spike-times">
+<h4>General function for simulation spike times<a class="headerlink" href="#general-function-for-simulation-spike-times" title="Permalink to this headline">¶</a></h4>
+<p>In the above, we used a specific function for the spike time generation approach.</p>
+<p>There is also the more general <a class="reference internal" href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes"><code class="xref py py-func docutils literal notranslate"><span class="pre">sim_spiketimes()</span></code></a> function,
+with allows for simulating spike times by specifying a method to do so.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate a new spike train with the `sim_spiketimes` function</span>
+<span class="n">spike_times</span> <span class="o">=</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike train of size 1000 and 1000 Hz sampling rate, based on a probability of spiking</span>
-<span class="c1"># per sample.</span>
+</section>
+<section id="utilities-for-working-with-simulated-spike-times">
+<h4>Utilities for working with simulated spike times<a class="headerlink" href="#utilities-for-working-with-simulated-spike-times" title="Permalink to this headline">¶</a></h4>
+<p>We can apply a refractory period to simulated spike times, using the
+<a class="reference internal" href="../generated/spiketools.sim.utils.apply_refractory_times.html#spiketools.sim.utils.apply_refractory_times" title="spiketools.sim.utils.apply_refractory_times"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_refractory_times()</span></code></a> function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply a 0.003 seconds refractory period to the simulated spike times</span>
+<span class="n">spike_times_ref</span> <span class="o">=</span> <a href="../generated/spiketools.sim.utils.apply_refractory_times.html#spiketools.sim.utils.apply_refractory_times" title="spiketools.sim.utils.apply_refractory_times" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_times</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="simulate-spike-train">
+<h3>Simulate spike train<a class="headerlink" href="#simulate-spike-train" title="Permalink to this headline">¶</a></h3>
+<p>Next, let’s simulate some spike trains.</p>
+<section id="simulating-spike-trains-based-on-spiking-probability">
+<h4>Simulating spike trains based on spiking probability<a class="headerlink" href="#simulating-spike-trains-based-on-spiking-probability" title="Permalink to this headline">¶</a></h4>
+<p>First we will simulate spike train based on defining the probability of spiking, with the
+<a class="reference internal" href="../generated/spiketools.sim.train.sim_spiketrain_prob.html#spiketools.sim.train.sim_spiketrain_prob" title="spiketools.sim.train.sim_spiketrain_prob"><code class="xref py py-func docutils literal notranslate"><span class="pre">sim_spiketrain_prob()</span></code></a> function.</p>
+<p>This function takes the following inputs:
+- <cite>p_spiking</cite>, which is the probability (per sample) of spiking
+- <cite>n_samples</cite>, which is the number of samples to simulate</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define simulation settings</span>
+<span class="n">p_spiking</span> <span class="o">=</span> <span class="mf">0.7</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># Simulate spike train based on a probability of spiking per sample</span>
+<span class="n">spike_train_prob</span> <span class="o">=</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_prob.html#spiketools.sim.train.sim_spiketrain_prob" title="spiketools.sim.train.sim_spiketrain_prob" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_prob</span></a><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In order to visualize our simulated data, we can convert the spike train to spike times.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert spike train to spike times in seconds</span>
+<span class="n">spike_times_prob</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train_prob</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># Print the first 10 spikes from spike train and spike times</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spike train data:&#39;</span><span class="p">,</span> <span class="n">spike_train_prob</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spike times data:&#39;</span><span class="p">,</span> <span class="n">spike_times_prob</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Spike train data: [0 1 1 1 0 1 1 1 1 1]
+Spike times data: [0.002 0.003 0.004 0.006 0.007 0.008 0.009 0.01  0.011 0.012]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the spike times</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times_prob</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_sims_002.png" srcset="../_images/sphx_glr_plot_sims_002.png" alt="plot sims" class = "sphx-glr-single-img"/><p>In the above example, we specified a single spiking probability for all samples.</p>
+<p>We can also specify different spiking probability across samples,
+such as in the following example.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike train of size 1000, based on a probability of spiking per sample</span>
 <span class="n">p_spiking</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="n">sim_spiketrain</span> <span class="o">=</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_prob.html#spiketools.sim.train.sim_spiketrain_prob" title="spiketools.sim.train.sim_spiketrain_prob" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_prob</span></a><span class="p">(</span><span class="n">p_spiking</span><span class="p">)</span>
+<span class="n">spike_train_prob_diff</span> <span class="o">=</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_prob.html#spiketools.sim.train.sim_spiketrain_prob" title="spiketools.sim.train.sim_spiketrain_prob" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_prob</span></a><span class="p">(</span><span class="n">p_spiking</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert binary spike train to spike times in seconds</span>
-<span class="n">spike_times</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">sim_spiketrain</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">spike_times_prob_diff</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train_prob_diff</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 
-<span class="c1"># Plot the probability distribution of spike times</span>
-<a href="../generated/spiketools.plts.data.plot_hist.html#spiketools.plts.data.plot_hist" title="spiketools.plts.data.plot_hist" class="sphx-glr-backref-module-spiketools-plts-data sphx-glr-backref-type-py-function"><span class="n">plot_hist</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
-          <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Spike Times (ms)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Probability&#39;</span><span class="p">,</span>
+<span class="c1"># Plot the empirical distribution of spike times probability across the simulated data</span>
+<a href="../generated/spiketools.plts.data.plot_hist.html#spiketools.plts.data.plot_hist" title="spiketools.plts.data.plot_hist" class="sphx-glr-backref-module-spiketools-plts-data sphx-glr-backref-type-py-function"><span class="n">plot_hist</span></a><span class="p">(</span><span class="n">spike_times_prob_diff</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+          <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Spike Times (seconds)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Probability&#39;</span><span class="p">,</span>
           <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Probability Distribution of Spike Times&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_sims_002.png" srcset="../_images/sphx_glr_plot_sims_002.png" alt="Probability Distribution of Spike Times" class = "sphx-glr-single-img"/></section>
-<section id="simulate-spikes-based-on-different-probability-distributions">
-<h3>2. Simulate spikes based on different probability distributions<a class="headerlink" href="#simulate-spikes-based-on-different-probability-distributions" title="Permalink to this headline">¶</a></h3>
-<p>Simulate spike train from binomial and Poisson probability distributions.
-Simulate spike times from Poisson probability distribution.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike train from binomial probability distribution</span>
+<img src="../_images/sphx_glr_plot_sims_003.png" srcset="../_images/sphx_glr_plot_sims_003.png" alt="Probability Distribution of Spike Times" class = "sphx-glr-single-img"/></section>
+<section id="simulate-spike-trains-based-on-probability-distributions">
+<h4>Simulate spike trains based on probability distributions<a class="headerlink" href="#simulate-spike-trains-based-on-probability-distributions" title="Permalink to this headline">¶</a></h4>
+<p>Alternatively, we can simulate spike trains based on different probability distributions.</p>
+<p>Options for doing so include:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../generated/spiketools.sim.train.sim_spiketrain_binom.html#spiketools.sim.train.sim_spiketrain_binom" title="spiketools.sim.train.sim_spiketrain_binom"><code class="xref py py-func docutils literal notranslate"><span class="pre">sim_spiketrain_binom()</span></code></a>, which simulates based on a binomial distribution</p></li>
+<li><p><a class="reference internal" href="../generated/spiketools.sim.train.sim_spiketrain_poisson.html#spiketools.sim.train.sim_spiketrain_poisson" title="spiketools.sim.train.sim_spiketrain_poisson"><code class="xref py py-func docutils literal notranslate"><span class="pre">sim_spiketrain_poisson()</span></code></a>, which simulates based on a Poisson distribution</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define simulation settings</span>
 <span class="n">p_spiking</span> <span class="o">=</span> <span class="mf">0.7</span>
-<span class="n">spike_train</span> <span class="o">=</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_binom.html#spiketools.sim.train.sim_spiketrain_binom" title="spiketools.sim.train.sim_spiketrain_binom" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_binom</span></a><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Simulate spike train from binomial probability distribution</span>
+<span class="n">spike_train_binom</span> <span class="o">=</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_binom.html#spiketools.sim.train.sim_spiketrain_binom" title="spiketools.sim.train.sim_spiketrain_binom" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_binom</span></a><span class="p">(</span><span class="n">p_spiking</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
 <span class="c1"># Convert binary spike train to spike times in seconds &amp; plot the spike times</span>
-<span class="n">spike_binomial</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_binomial</span><span class="p">)</span>
+<span class="n">spike_times_binomial</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train_binom</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times_binomial</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_sims_003.png" srcset="../_images/sphx_glr_plot_sims_003.png" alt="plot sims" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike train from a Poisson probability distribution</span>
-<span class="n">spike_train</span> <span class="o">=</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_poisson.html#spiketools.sim.train.sim_spiketrain_poisson" title="spiketools.sim.train.sim_spiketrain_poisson" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_poisson</span></a><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<img src="../_images/sphx_glr_plot_sims_004.png" srcset="../_images/sphx_glr_plot_sims_004.png" alt="plot sims" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike train from a Poisson probability distribution</span>
+<span class="n">spike_train_poisson</span> <span class="o">=</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_poisson.html#spiketools.sim.train.sim_spiketrain_poisson" title="spiketools.sim.train.sim_spiketrain_poisson" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_poisson</span></a><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 
 <span class="c1"># Convert the simulated binary spike train to spike times in seconds &amp; plot the spike times</span>
-<span class="n">spike_poisson</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_poisson</span><span class="p">)</span>
-</pre></div>
-</div>
-<img src="../_images/sphx_glr_plot_sims_004.png" srcset="../_images/sphx_glr_plot_sims_004.png" alt="plot sims" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike times from a Poisson probability distribution</span>
-<span class="n">spike_poisson</span> <span class="o">=</span> <span class="n">sim_spiketimes</span><span class="p">(</span><span class="mf">.16</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">)</span>
-<span class="c1"># Plot the spike times</span>
-<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_poisson</span><span class="p">)</span>
+<span class="n">spike_times_poisson</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train_poisson</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times_poisson</span><span class="p">)</span>
 </pre></div>
 </div>
 <img src="../_images/sphx_glr_plot_sims_005.png" srcset="../_images/sphx_glr_plot_sims_005.png" alt="plot sims" class = "sphx-glr-single-img"/></section>
-<section id="utilities-for-working-with-simulated-spiking-data">
-<h3>3. Utilities for working with simulated spiking data<a class="headerlink" href="#utilities-for-working-with-simulated-spiking-data" title="Permalink to this headline">¶</a></h3>
-<p>Apply a refractory period to a simulated spike train.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply a 0.003 seconds refractory period to the simulated spike train</span>
-<span class="n">spike_ref</span> <span class="o">=</span> <a href="../generated/spiketools.sim.utils.apply_refractory_times.html#spiketools.sim.utils.apply_refractory_times" title="spiketools.sim.utils.apply_refractory_times" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_times</span></a><span class="p">(</span><span class="n">spike_binomial</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
-
-<span class="c1"># Convert binary spike train to spike times in seconds &amp; plot the spike times</span>
-<span class="n">spike_times</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_ref</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
+<section id="general-function-for-simulation-spike-trains">
+<h4>General function for simulation spike trains<a class="headerlink" href="#general-function-for-simulation-spike-trains" title="Permalink to this headline">¶</a></h4>
+<p>In the above, we used a specific function for the spike train generation approach.</p>
+<p>There is also the more general <a class="reference internal" href="../generated/spiketools.sim.sim_spiketrain.html#spiketools.sim.sim_spiketrain" title="spiketools.sim.sim_spiketrain"><code class="xref py py-func docutils literal notranslate"><span class="pre">sim_spiketrain()</span></code></a> function,
+with allows for simulating spike trains by specifying a method to do so.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use &#39;sim_spiketrain&#39; to simulate two new spiketrains, with different methods</span>
+<span class="n">spike_train1</span> <span class="o">=</span> <a href="../generated/spiketools.sim.sim_spiketrain.html#spiketools.sim.sim_spiketrain" title="spiketools.sim.sim_spiketrain" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain</span></a><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;binom&#39;</span><span class="p">)</span>
+<span class="n">spike_train2</span> <span class="o">=</span> <a href="../generated/spiketools.sim.sim_spiketrain.html#spiketools.sim.sim_spiketrain" title="spiketools.sim.sim_spiketrain" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain</span></a><span class="p">(</span><span class="mf">12.0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_sims_006.png" srcset="../_images/sphx_glr_plot_sims_006.png" alt="plot sims" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.277 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-sims-py">
+</section>
+<section id="utilities-for-working-with-simulated-spike-trains">
+<h4>Utilities for working with simulated spike trains<a class="headerlink" href="#utilities-for-working-with-simulated-spike-trains" title="Permalink to this headline">¶</a></h4>
+<p>We can apply a refractory period to simulated spike times, using the
+<a class="reference internal" href="../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train" title="spiketools.sim.utils.apply_refractory_train"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_refractory_train()</span></code></a> function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply a 0.003 seconds refractory period to the simulated spike trains</span>
+<span class="n">spike_train_ref1</span> <span class="o">=</span> <a href="../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train" title="spiketools.sim.utils.apply_refractory_train" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_train</span></a><span class="p">(</span><span class="n">spike_train1</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
+<span class="n">spike_train_ref2</span> <span class="o">=</span> <a href="../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train" title="spiketools.sim.utils.apply_refractory_train" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_train</span></a><span class="p">(</span><span class="n">spike_train2</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
+
+<span class="c1"># Plot the simulated data</span>
+<span class="n">spike_times1</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train_ref1</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">spike_times2</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train_ref2</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">([</span><span class="n">spike_times1</span><span class="p">,</span> <span class="n">spike_times2</span><span class="p">])</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_sims_006.png" srcset="../_images/sphx_glr_plot_sims_006.png" alt="plot sims" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.307 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-sims-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/1ce28eb34b7d7dcc9b057f6d029f6e8c/plot_sims.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_sims.py</span></code></a></p>
 </div>
@@ -219,6 +279,7 @@ Simulate spike times from Poisson probability distribution.</p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
 </section>
 </section>
 </section>
@@ -236,7 +297,7 @@ Simulate spike times from Poisson probability distribution.</p>
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

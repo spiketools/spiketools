@@ -51,7 +51,6 @@
                 <li><a href="../../../api.html">API</a></li>
                 <li><a href="../../../glossary.html">Glossary</a></li>
                 <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../../../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -99,6 +98,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
+<span class="kn">from</span> <span class="nn">spiketools.utils.base</span> <span class="kn">import</span> <span class="n">flatten</span>
 <span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_options</span>
 <span class="kn">from</span> <span class="nn">spiketools.modutils.dependencies</span> <span class="kn">import</span> <span class="n">safe_import</span><span class="p">,</span> <span class="n">check_dependency</span>
 
@@ -108,31 +108,121 @@
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="create_dataframe"><a class="viewcode-back" href="../../../generated/spiketools.stats.anova.create_dataframe.html#spiketools.stats.anova.create_dataframe">[docs]</a><span class="k">def</span> <span class="nf">create_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">drop_na</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="create_dataframe"><a class="viewcode-back" href="../../../generated/spiketools.stats.anova.create_dataframe.html#spiketools.stats.anova.create_dataframe">[docs]</a><span class="k">def</span> <span class="nf">create_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtypes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a dataframe from an array of data.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data : 2d array</span>
-<span class="sd">        Array of data to organize into a dataframe.</span>
-<span class="sd">    columns : list of str</span>
+<span class="sd">    data : dict or 2d array</span>
+<span class="sd">        Data to organize into a dataframe.</span>
+<span class="sd">        If dict, each key, value pairing should be a label and data array.</span>
+<span class="sd">        If array, then should be organized as [n_observations, n_features].</span>
+<span class="sd">    columns : list of str, optional</span>
 <span class="sd">        The column labels for the dataframe.</span>
-<span class="sd">    drop_na : bool, optional, default: True</span>
+<span class="sd">        To be used if `data` is an array.</span>
+<span class="sd">    dropna : bool, optional, default: True</span>
 <span class="sd">        Whether to drop NaN values from the dataframe.</span>
+<span class="sd">    dtypes : dict, optional</span>
+<span class="sd">        Data types to typecast columns to.</span>
+<span class="sd">        Each key should be a column label, and each associated value the type to typecast to.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    df : pd.DataFrame</span>
 <span class="sd">        Constructed dataframe.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Create a dataframe from arrays representing 3 trials of firing rate across 3 spatial bins:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([[1.5, 1.7, 1.9], [1.4, 1.2, 1.6], [1.5, 0.9, 0.8]])</span>
+<span class="sd">    &gt;&gt;&gt; df = create_dataframe(data)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">n_trials</span><span class="p">,</span> <span class="n">n_bins</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">)),</span> <span class="n">n_trials</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">labels</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()])),</span>
-                      <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">drop_na</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dropna</span><span class="p">:</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">dtypes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">dtypes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="create_dataframe_bins"><a class="viewcode-back" href="../../../generated/spiketools.stats.anova.create_dataframe_bins.html#spiketools.stats.anova.create_dataframe_bins">[docs]</a><span class="k">def</span> <span class="nf">create_dataframe_bins</span><span class="p">(</span><span class="n">bin_data</span><span class="p">,</span> <span class="n">other_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bin_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a dataframe from an array of binned data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bin_data : 2d or 3d array</span>
+<span class="sd">        An array of data organized into pre-computed bins.</span>
+<span class="sd">        If a 2d array, should be organized as [n_trials, n_bins].</span>
+<span class="sd">        If a 3d array, should be organized as [n_trials, n_xbins, n_ybins].</span>
+<span class="sd">    other_data : dict, optional</span>
+<span class="sd">        Additional data columns, reflecting data per trial, to add to the dataframe.</span>
+<span class="sd">        Each key should be a column label and each value should be an array of length n_trials.</span>
+<span class="sd">    dropna : bool, optional, default: True</span>
+<span class="sd">        Whether to drop NaN values from the dataframe.</span>
+<span class="sd">    dtypes : dict, optional</span>
+<span class="sd">        Data types to typecast columns to.</span>
+<span class="sd">        Each key should be a column label, and each associated value the type to typecast to.</span>
+<span class="sd">    bin_columns : list of str, optional</span>
+<span class="sd">        Custom column labels for the bin data.</span>
+<span class="sd">        If not provided, defaults to [&#39;bin&#39;, &#39;fr&#39;] for 1d or [&#39;xbin&#39;, &#39;ybin&#39; &#39;fr&#39;] for 2d bins.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Constructed dataframe.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Create a dataframe from arrays representing 3 trials of firing rate across 5 spatial bins:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([[1, 2, 3, 7, 2], [4, 5, 6, 4, 1], [8, 9, 10, 9, 8]])</span>
+<span class="sd">    &gt;&gt;&gt; df = create_dataframe_bins(data)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">bin_data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
+        <span class="n">n_trials</span><span class="p">,</span> <span class="n">n_bins</span> <span class="o">=</span> <span class="n">bin_data</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="n">trial</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_trials</span><span class="p">),</span> <span class="n">n_bins</span><span class="p">)</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">),</span> <span class="n">n_trials</span><span class="p">)</span>
+
+        <span class="n">bin_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bin_columns</span> <span class="k">else</span> <span class="n">bin_columns</span>
+        <span class="n">df_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;trial&#39;</span> <span class="p">:</span> <span class="n">trial</span><span class="p">,</span>
+                   <span class="n">bin_columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">labels</span><span class="p">,</span>
+                   <span class="n">bin_columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">bin_data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()}</span>
+
+    <span class="k">elif</span> <span class="n">bin_data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+
+        <span class="n">n_trials</span><span class="p">,</span> <span class="n">n_xbins</span><span class="p">,</span> <span class="n">n_ybins</span> <span class="o">=</span> <span class="n">bin_data</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">n_bins</span> <span class="o">=</span> <span class="n">n_xbins</span> <span class="o">*</span> <span class="n">n_ybins</span>
+
+        <span class="n">trial</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_trials</span><span class="p">),</span> <span class="n">n_xbins</span> <span class="o">*</span> <span class="n">n_ybins</span><span class="p">)</span>
+        <span class="n">xlabels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_xbins</span><span class="p">),</span> <span class="n">n_ybins</span><span class="p">),</span> <span class="n">n_trials</span><span class="p">)</span>
+        <span class="n">ylabels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_ybins</span><span class="p">),</span> <span class="n">n_trials</span> <span class="o">*</span> <span class="n">n_xbins</span><span class="p">)</span>
+
+        <span class="n">bin_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;xbin&#39;</span><span class="p">,</span> <span class="s1">&#39;ybin&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bin_columns</span> <span class="k">else</span> <span class="n">bin_columns</span>
+        <span class="n">df_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;trial&#39;</span> <span class="p">:</span> <span class="n">trial</span><span class="p">,</span>
+                   <span class="n">bin_columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">xlabels</span><span class="p">,</span>
+                   <span class="n">bin_columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">ylabels</span><span class="p">,</span>
+                   <span class="n">bin_columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">:</span> <span class="n">bin_data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()}</span>
+
+    <span class="k">if</span> <span class="n">other_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">other_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">df_data</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">)</span>
+
+    <span class="n">dtype_defaults</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span> <span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df_data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="s1">&#39;trial&#39;</span> <span class="ow">or</span> <span class="s1">&#39;bin&#39;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">}</span>
+    <span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">dtypes</span><span class="p">,</span> <span class="o">**</span><span class="n">dtype_defaults</span><span class="p">}</span> <span class="k">if</span> <span class="n">dtypes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">dtype_defaults</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="n">df_data</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="n">dropna</span><span class="p">,</span> <span class="n">dtypes</span><span class="o">=</span><span class="n">dtypes</span><span class="p">)</span>
+
+    <span class="c1"># Reorder dataframe so that `trial` column is first and `fr` is at the end &amp; sorted in between</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">flatten</span><span class="p">([[</span><span class="s1">&#39;trial&#39;</span><span class="p">],</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">([</span><span class="s1">&#39;trial&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">]))),</span> <span class="p">[</span><span class="s1">&#39;fr&#39;</span><span class="p">]])]</span>
 
     <span class="k">return</span> <span class="n">df</span></div>
 
@@ -146,7 +236,7 @@
 <span class="sd">    df : pd.DataFrame</span>
 <span class="sd">        Dataframe of data to fit the ANOVA to.</span>
 <span class="sd">    formula : str</span>
-<span class="sd">        The formula</span>
+<span class="sd">        The formula.</span>
 <span class="sd">    feature : str, optional</span>
 <span class="sd">        Which feature to extract from the model.</span>
 <span class="sd">        Only used (and required) if `return_type` is &#39;f_val&#39;.</span>
@@ -166,6 +256,17 @@
 <span class="sd">        If `return_type` is &#39;f_val&#39;, the f-value statistic of the ANOVA model.</span>
 <span class="sd">        If `return_type` is &#39;results&#39;, the results of the model fit.</span>
 <span class="sd">        If `return_type` is &#39;model&#39;, the fit model object.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Fit an ANOVA on firing rates per spatial bin, returning model F-value:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([[1, 2, 3, 7, 2], [4, 5, 6, 4, 1], [8, 9, 10, 9, 8]])</span>
+<span class="sd">    &gt;&gt;&gt; df = create_dataframe_bins(data)</span>
+<span class="sd">    &gt;&gt;&gt; formula = &#39;fr ~ C(bin)&#39;</span>
+<span class="sd">    &gt;&gt;&gt; f_val = fit_anova(df, formula, feature=&#39;C(bin)&#39;, return_type=&#39;f_val&#39;, anova_type=1)</span>
+<span class="sd">    &gt;&gt;&gt; round(f_val, 4)</span>
+<span class="sd">    0.4249</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">check_param_options</span><span class="p">(</span><span class="n">return_type</span><span class="p">,</span> <span class="s1">&#39;return_type&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="s1">&#39;f_val&#39;</span><span class="p">])</span>
@@ -200,7 +301,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

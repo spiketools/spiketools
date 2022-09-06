@@ -51,7 +51,6 @@
                 <li><a href="../../../api.html">API</a></li>
                 <li><a href="../../../glossary.html">Glossary</a></li>
                 <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../../../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -99,7 +98,8 @@
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">spiketools.plts.annotate</span> <span class="kn">import</span> <span class="n">_add_vshade</span><span class="p">,</span> <span class="n">_add_vlines</span>
-<span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span><span class="p">,</span> <span class="n">savefig</span><span class="p">,</span> <span class="n">set_plt_kwargs</span>
+<span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span><span class="p">,</span> <span class="n">savefig</span>
+<span class="kn">from</span> <span class="nn">spiketools.plts.style</span> <span class="kn">import</span> <span class="n">set_plt_kwargs</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -117,7 +117,7 @@
 <span class="sd">        List of start and end ranges to shade in, to indicate event durations.</span>
 <span class="sd">        To add multiple different shaded regions, pass a list of multiple shade definitions.</span>
 <span class="sd">    event_lines : list of float</span>
-<span class="sd">        Positions to draw vertical lines, to indicate point events.</span>
+<span class="sd">        Timestamps at which to draw vertical lines, to indicate point events.</span>
 <span class="sd">        To add multiple different lines, pass a list of multiple line definitions.</span>
 <span class="sd">    data_points : 1d array</span>
 <span class="sd">        Set of timestamps to indicate data points of interest on the plot.</span>
@@ -177,7 +177,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

@@ -51,7 +51,6 @@
                 <li><a href="../../../api.html">API</a></li>
                 <li><a href="../../../glossary.html">Glossary</a></li>
                 <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../../../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -98,8 +97,44 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="kn">from</span> <span class="nn">spiketools.utils.options</span> <span class="kn">import</span> <span class="n">get_comp_func</span>
+
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="create_mask"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.create_mask.html#spiketools.utils.extract.create_mask">[docs]</a><span class="k">def</span> <span class="nf">create_mask</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a mask to select data points based on value.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : 1d array</span>
+<span class="sd">        Array of data.</span>
+<span class="sd">    min_value, max_value : float, optional</span>
+<span class="sd">        Minimum and/or maximum value to extract from the input array.</span>
+<span class="sd">    reset : float, optional</span>
+<span class="sd">        If provided, resets the values in the data array by the given reset value.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mask : 1d array of bool</span>
+<span class="sd">        Mask to select data points from the input array.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Create a mask to select data within a given value range:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([1, 2, 3, 4, 5, 6, 7, 8])</span>
+<span class="sd">    &gt;&gt;&gt; create_mask(data, min_value=3, max_value=6)</span>
+<span class="sd">    array([False, False,  True,  True,  True,  True, False, False])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">min_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">min_value</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">max_value</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">data</span> <span class="o">&gt;=</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">data</span> <span class="o">&lt;=</span> <span class="n">max_value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mask</span></div>
+
 
 <div class="viewcode-block" id="get_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_range.html#spiketools.utils.extract.get_range">[docs]</a><span class="k">def</span> <span class="nf">get_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get a specified range from a vector of data.</span>
@@ -109,14 +144,14 @@
 <span class="sd">    data : 1d array</span>
 <span class="sd">        Array of data.</span>
 <span class="sd">    min_value, max_value : float, optional</span>
-<span class="sd">        Mininum and/or maximum value to extract from the input array.</span>
+<span class="sd">        Minimum and/or maximum value to extract from the input array.</span>
 <span class="sd">    reset : float, optional</span>
 <span class="sd">        If provided, resets the values in the data array by the given reset value.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    data : 1d array</span>
-<span class="sd">        Data array, restricted to desired time range.</span>
+<span class="sd">        Data array, restricted to desired range.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -139,10 +174,9 @@
 <span class="sd">    array([10, 15, 20])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">min_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">min_value</span>
-    <span class="n">max_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">max_value</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">create_mask</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
 
-    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">data</span> <span class="o">&gt;=</span> <span class="n">min_value</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span> <span class="o">&lt;=</span> <span class="n">max_value</span><span class="p">)]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">reset</span>
@@ -150,90 +184,311 @@
     <span class="k">return</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="get_value_by_time"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_value_by_time.html#spiketools.utils.extract.get_value_by_time">[docs]</a><span class="k">def</span> <span class="nf">get_value_by_time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get the value for a data array at a specific time point.</span>
+<div class="viewcode-block" id="get_value_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_value_range.html#spiketools.utils.extract.get_value_range">[docs]</a><span class="k">def</span> <span class="nf">get_value_range</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract data and associated timestamps for a desired value range.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    times : 1d array</span>
-<span class="sd">        Time indices.</span>
-<span class="sd">    values : ndarray</span>
-<span class="sd">        Data values, corresponding to the times vector.</span>
+<span class="sd">        Timestamps.</span>
+<span class="sd">    data : 1d array</span>
+<span class="sd">        Data values, corresponding to the time values in `times`.</span>
+<span class="sd">    min_value, max_value : float, optional</span>
+<span class="sd">        Minimum and/or maximum value to extract from the input array.</span>
+<span class="sd">    reset : float, optional</span>
+<span class="sd">        If provided, resets the time values by the given reset value.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    times : 1d array</span>
+<span class="sd">        Timestamps, selected by value.</span>
+<span class="sd">    data : 1d array</span>
+<span class="sd">        Array of data, selected by value.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Extract data and corresponding timestamps based on value range:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([1, 2, 3, 4, 5, 6, 7, 8])</span>
+<span class="sd">    &gt;&gt;&gt; times = np.array([0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1.2, 1.5])</span>
+<span class="sd">    &gt;&gt;&gt; get_value_range(times, data, min_value=3, max_value=6)</span>
+<span class="sd">    (array([0.4, 0.5, 0.7, 0.9]), array([3, 4, 5, 6]))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">create_mask</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
+
+    <span class="n">times</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="n">times</span> <span class="o">-</span> <span class="n">reset</span>
+
+    <span class="k">return</span> <span class="n">times</span><span class="p">,</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="get_ind_by_time"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_ind_by_time.html#spiketools.utils.extract.get_ind_by_time">[docs]</a><span class="k">def</span> <span class="nf">get_ind_by_time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the index for a data array for a specified timepoint.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    times : 1d array</span>
+<span class="sd">        Timestamps.</span>
+<span class="sd">    timepoint : float</span>
+<span class="sd">        Time value to extract the index for.</span>
+<span class="sd">    threshold : float, optional</span>
+<span class="sd">        The threshold that the closest time value must be within to be returned.</span>
+<span class="sd">        If the temporal distance is greater than the threshold, output is -1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ind : int</span>
+<span class="sd">        The index value for the requested timepoint, or -1 if out of threshold range.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get the index for a specified timepoint:</span>
+
+<span class="sd">    &gt;&gt;&gt; times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])</span>
+<span class="sd">    &gt;&gt;&gt; get_ind_by_time(times, 2.5)</span>
+<span class="sd">    4</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">times</span> <span class="o">-</span> <span class="n">timepoint</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">threshold</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">-</span> <span class="n">timepoint</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">ind</span></div>
+
+
+<div class="viewcode-block" id="get_inds_by_times"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_inds_by_times.html#spiketools.utils.extract.get_inds_by_times">[docs]</a><span class="k">def</span> <span class="nf">get_inds_by_times</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">timepoints</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drop_null</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get indices for a data array for a set of specified time points.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    times : 1d array</span>
+<span class="sd">        Timestamps.</span>
+<span class="sd">    timepoints : 1d array</span>
+<span class="sd">        The time values to extract indices for.</span>
+<span class="sd">    threshold : float, optional</span>
+<span class="sd">        The threshold that the closest time value must be within to be returned.</span>
+<span class="sd">        If the temporal distance is greater than the threshold, output is NaN.</span>
+<span class="sd">    drop_null : bool, optional, default: True</span>
+<span class="sd">        Whether to drop any null indices from the outputs (outside threshold range).</span>
+<span class="sd">        If False, indices for any null values are -1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    inds : 1d array</span>
+<span class="sd">        Indices for all requested timepoints.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get the corresponding indices for specified timepoints:</span>
+
+<span class="sd">    &gt;&gt;&gt; times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])</span>
+<span class="sd">    &gt;&gt;&gt; timepoints = np.array([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; get_inds_by_times(times, timepoints)</span>
+<span class="sd">    array([1, 3, 5])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">timepoints</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">timepoint</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">timepoints</span><span class="p">):</span>
+        <span class="n">inds</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_ind_by_time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">drop_null</span><span class="p">:</span>
+        <span class="n">inds</span> <span class="o">=</span> <span class="n">inds</span><span class="p">[</span><span class="n">inds</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">inds</span></div>
+
+
+<div class="viewcode-block" id="get_value_by_time"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_value_by_time.html#spiketools.utils.extract.get_value_by_time">[docs]</a><span class="k">def</span> <span class="nf">get_value_by_time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the value from a data array at a specific time point.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    times : 1d array</span>
+<span class="sd">        Timestamps.</span>
+<span class="sd">    values : 1d or 2d array</span>
+<span class="sd">        Data values, corresponding to the time values in `times`.</span>
 <span class="sd">    timepoint : float</span>
 <span class="sd">        Time value to extract.</span>
-<span class="sd">    threshold : float</span>
+<span class="sd">    threshold : float, optional</span>
 <span class="sd">        The threshold that the closest time value must be within to be returned.</span>
 <span class="sd">        If the temporal distance is greater than the threshold, output is NaN.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    out : float of 1d array</span>
-<span class="sd">        The value at the requested time point.</span>
+<span class="sd">    out : float or 1d array</span>
+<span class="sd">        The value(s) at the requested time point.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get the data values for a specified timepoint:</span>
+
+<span class="sd">    &gt;&gt;&gt; times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])</span>
+<span class="sd">    &gt;&gt;&gt; values = np.array([[1,2,3,4,5,6], [7,8,9,10,11,12]])</span>
+<span class="sd">    &gt;&gt;&gt; get_value_by_time(times, values, 1.5)</span>
+<span class="sd">    array([3, 9])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">times</span><span class="p">[:]</span> <span class="o">-</span> <span class="n">timepoint</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">timepoint</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">:</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">values</span><span class="p">[:]</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">get_ind_by_time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="get_values_by_times"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_values_by_times.html#spiketools.utils.extract.get_values_by_times">[docs]</a><span class="k">def</span> <span class="nf">get_values_by_times</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoints</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+<div class="viewcode-block" id="get_values_by_times"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_values_by_times.html#spiketools.utils.extract.get_values_by_times">[docs]</a><span class="k">def</span> <span class="nf">get_values_by_times</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoints</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drop_null</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get values from a data array for a set of specified time points.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    times : 1d array</span>
-<span class="sd">        Time indices.</span>
-<span class="sd">    values : ndarray</span>
-<span class="sd">        Data values, corresponding to the times vector.</span>
+<span class="sd">        Timestamps.</span>
+<span class="sd">    values : 1d or 2d array</span>
+<span class="sd">        Data values, corresponding to the time values in `times`.</span>
 <span class="sd">    timepoints : 1d array</span>
-<span class="sd">        The time indices to extract corresponding values for.</span>
-<span class="sd">    threshold : float</span>
+<span class="sd">        The time values to extract corresponding values for.</span>
+<span class="sd">    threshold : float, optional</span>
 <span class="sd">        The threshold that the closest time value must be within to be returned.</span>
 <span class="sd">        If the temporal distance is greater than the threshold, output is NaN.</span>
+<span class="sd">    drop_null : bool, optional, default: True</span>
+<span class="sd">        Whether to drop any null values from the outputs (outside threshold range).</span>
+<span class="sd">        If False, outputs for any null values are NaN.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    outputs : 1d array</span>
-<span class="sd">        The extracted vaues for the requested time points.</span>
+<span class="sd">    outputs : 1d or 2d array</span>
+<span class="sd">        The extracted values for the requested time points.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get the data values for a specified set of timepoints:</span>
+
+<span class="sd">    &gt;&gt;&gt; times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])</span>
+<span class="sd">    &gt;&gt;&gt; values = np.array([1, 2, 3, 4, 5, 6])</span>
+<span class="sd">    &gt;&gt;&gt; timepoints = np.array([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; get_values_by_times(times, values, timepoints)</span>
+<span class="sd">    array([2, 4, 6])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">outputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">timepoints</span><span class="p">)])</span>
-    <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">timepoint</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">timepoints</span><span class="p">):</span>
-        <span class="n">outputs</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_value_by_time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span>
-    <span class="n">outputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+    <span class="n">inds</span> <span class="o">=</span> <span class="n">get_inds_by_times</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">timepoints</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">drop_null</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">drop_null</span><span class="p">:</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">inds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">timepoints</span><span class="p">)],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">inds</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="n">outputs</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">inds</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">outputs</span></div>
 
 
-<div class="viewcode-block" id="get_value_by_time_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_value_by_time_range.html#spiketools.utils.extract.get_value_by_time_range">[docs]</a><span class="k">def</span> <span class="nf">get_value_by_time_range</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span><span class="p">):</span>
+<div class="viewcode-block" id="get_values_by_time_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_values_by_time_range.html#spiketools.utils.extract.get_values_by_time_range">[docs]</a><span class="k">def</span> <span class="nf">get_values_by_time_range</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Extract data for a requested time range.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    times : 1d array</span>
-<span class="sd">        Time indices.</span>
+<span class="sd">        Timestamps.</span>
 <span class="sd">    values : ndarray</span>
-<span class="sd">        Data values, corresponding to the times indices.</span>
+<span class="sd">        Data values, corresponding to the time values in `times`.</span>
 <span class="sd">    t_min, t_max : float</span>
 <span class="sd">        Time range to extract.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    times : 1d array</span>
-<span class="sd">        Selected time indices.</span>
+<span class="sd">        Selected time values.</span>
 <span class="sd">    out : ndarray</span>
-<span class="sd">        Selected values.</span>
+<span class="sd">        Selected data values.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Extract data within a specified time range:</span>
+
+<span class="sd">    &gt;&gt;&gt; times = np.array([1, 2, 3, 4, 5, 6, 7])</span>
+<span class="sd">    &gt;&gt;&gt; values = np.array([0.5, 1, 1.5, 2, 2.5, 3, 3.5])</span>
+<span class="sd">    &gt;&gt;&gt; get_values_by_time_range(times, values, t_min=2, t_max=6)</span>
+<span class="sd">    (array([2, 3, 4, 5, 6]), array([1. , 1.5, 2. , 2.5, 3. ]))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">select</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">times</span><span class="p">[:]</span> <span class="o">&gt;=</span> <span class="n">t_min</span><span class="p">,</span> <span class="n">times</span><span class="p">[:]</span> <span class="o">&lt;=</span> <span class="n">t_max</span><span class="p">)</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">values</span><span class="p">[:]</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">select</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">select</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">times</span> <span class="o">&gt;=</span> <span class="n">t_min</span><span class="p">,</span> <span class="n">times</span> <span class="o">&lt;=</span> <span class="n">t_max</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">select</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">times</span><span class="p">[</span><span class="n">select</span><span class="p">],</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="threshold_spikes_by_times"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.threshold_spikes_by_times.html#spiketools.utils.extract.threshold_spikes_by_times">[docs]</a><span class="k">def</span> <span class="nf">threshold_spikes_by_times</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Threshold spikes by sub-selecting those are temporally close to a set of time values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Spike times, in seconds.</span>
+<span class="sd">    times : 1d array</span>
+<span class="sd">        Timestamps.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        The threshold that closest time values must be within to be kept.</span>
+<span class="sd">        For any time values greater than this threshold, the spike value is dropped.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Sub-selected spike times, in seconds.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">spike</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spikes</span><span class="p">):</span>
+        <span class="n">mask</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">times</span> <span class="o">-</span> <span class="n">spike</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">threshold</span>
+
+    <span class="k">return</span> <span class="n">spikes</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="threshold_spikes_by_values"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.threshold_spikes_by_values.html#spiketools.utils.extract.threshold_spikes_by_values">[docs]</a><span class="k">def</span> <span class="nf">threshold_spikes_by_values</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">data_threshold</span><span class="p">,</span>
+                               <span class="n">time_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">comp_type</span><span class="o">=</span><span class="s1">&#39;greater&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Threshold spikes by sub-selecting those are exceed a value on another data stream.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Spike times, in seconds.</span>
+<span class="sd">    times : 1d array</span>
+<span class="sd">        Timestamps.</span>
+<span class="sd">    values : 1d array</span>
+<span class="sd">        Data values, corresponding to the time values in `times`.</span>
+<span class="sd">    data_threshold : float</span>
+<span class="sd">        The threshold that the closest data values must be within to be kept.</span>
+<span class="sd">    time_threshold : float, optional</span>
+<span class="sd">        The threshold that the closest time values must be within to be kept.</span>
+<span class="sd">        For any time values greater than this threshold, the spike value is dropped.</span>
+<span class="sd">    comp_type : {&#39;greater&#39;, &#39;less&#39;}</span>
+<span class="sd">        Which comparison function to use.</span>
+<span class="sd">        This defines whether selected values must be greater than or less than the data threshold.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Sub-selected spike times, in seconds.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Threshold spikes based on a a minimum data threshold:</span>
+
+<span class="sd">    &gt;&gt;&gt; spikes = np.array([0.1, 0.3, 0.4, 0.5, 1, 1.2, 1.6, 1.8])</span>
+<span class="sd">    &gt;&gt;&gt; times = np.array([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4])</span>
+<span class="sd">    &gt;&gt;&gt; values = np.array([1, 2, 3, 4, 5, 6, 7, 8])</span>
+<span class="sd">    &gt;&gt;&gt; threshold_spikes_by_values(spikes, times, values, 2)</span>
+<span class="sd">    array([1.6, 1.8])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">values</span> <span class="o">=</span> <span class="n">get_values_by_times</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">spikes</span><span class="p">,</span> <span class="n">time_threshold</span><span class="p">,</span> <span class="n">drop_null</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">spikes</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">spikes</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="n">spikes</span> <span class="o">=</span> <span class="n">spikes</span><span class="p">[</span><span class="n">get_comp_func</span><span class="p">(</span><span class="n">comp_type</span><span class="p">)(</span><span class="n">values</span><span class="p">,</span> <span class="n">data_threshold</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">spikes</span></div>
 </pre></div>
 
     </div>
@@ -248,7 +503,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

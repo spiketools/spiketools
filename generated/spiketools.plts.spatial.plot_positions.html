@@ -52,7 +52,6 @@
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
                 <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -104,15 +103,16 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>positions</strong><span class="classifier">2d array or list of 2d array</span></dt><dd><p>Position data.
-If a list, each element of the list is plotted separately, on the same plot.</p>
+If a list, each array from the list is plotted separately, on the same plot.</p>
 </dd>
 <dt><strong>spike_positions</strong><span class="classifier">2d array or dict, optional</span></dt><dd><p>Position values of spikes, to indicate on the plot.
 If array, defines the positions.
 If dictionary, should include a ‘positions’ key plus additional plot arguments.</p>
 </dd>
-<dt><strong>landmarks</strong><span class="classifier">2d array or dict or list, optional</span></dt><dd><p>Position values of landmarks, to be added to the plot.
-If array, defines the positions.
-If dictionary, should include a ‘positions’ key plus additional plot arguments.
+<dt><strong>landmarks</strong><span class="classifier">1d or 2d array or dict or list, optional</span></dt><dd><p>Position values of landmarks, to be added to the plot.
+If array, defines the positions, as [x, y] for a single landmark 1d array,
+or as [[x-pos], [y-pos]] for a 2d definition of multiple landmarks.
+If dictionary, should include a ‘positions’ key with an array plus additional arguments.
 Multiple landmarks can be added by passing a list of arrays or a list of dictionaries.</p>
 </dd>
 <dt><strong>x_bins, y_bins</strong><span class="classifier">list of float, optional</span></dt><dd><p>Bin edges for each axis.
@@ -142,7 +142,7 @@ If provided, these are used to draw grid lines on the plot.</p>
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

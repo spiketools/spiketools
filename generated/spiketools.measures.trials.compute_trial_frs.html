@@ -52,7 +52,6 @@
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
                 <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -103,13 +102,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>trial_spikes</strong><span class="classifier">list of 1d array</span></dt><dd><p>Spike times per trial.</p>
+<dt><strong>trial_spikes</strong><span class="classifier">list of 1d array</span></dt><dd><p>Spike times per trial, in seconds.</p>
 </dd>
 <dt><strong>bins</strong><span class="classifier">float or 1d array</span></dt><dd><p>The binning to apply to the spiking data.
 If float, the length of each bin.
 If array, precomputed bin definitions.</p>
 </dd>
-<dt><strong>trange</strong><span class="classifier">list of [float, float]</span></dt><dd><p>Time range, in seconds, to create the binned firing rate across.
+<dt><strong>trange</strong><span class="classifier">list of [float, float], optional</span></dt><dd><p>Time range, in seconds, to create the binned firing rate across.
 Only used if <cite>bins</cite> is a float.</p>
 </dd>
 <dt><strong>smooth</strong><span class="classifier">float, optional</span></dt><dd><p>If provided, the kernel to use to smooth the continuous firing rate.</p>
@@ -123,6 +122,17 @@ Only used if <cite>bins</cite> is a float.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Compute the continuous firing rates across time bins for 3 trials:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trial_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.150</span><span class="p">,</span> <span class="mf">0.250</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.126</span><span class="p">,</span> <span class="mf">0.275</span><span class="p">,</span> <span class="mf">0.300</span><span class="p">,</span> <span class="mf">0.350</span><span class="p">,</span> <span class="mf">0.500</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.350</span><span class="p">,</span> <span class="mf">0.700</span><span class="p">,</span> <span class="mf">0.900</span><span class="p">])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_trial_frs</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">trange</span><span class="p">)</span>
+<span class="go">array([[6., 0.],</span>
+<span class="go">       [8., 2.],</span>
+<span class="go">       [4., 4.]])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -140,7 +150,7 @@ Only used if <cite>bins</cite> is a float.</p>
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

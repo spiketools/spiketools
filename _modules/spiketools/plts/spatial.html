@@ -51,7 +51,6 @@
                 <li><a href="../../../api.html">API</a></li>
                 <li><a href="../../../glossary.html">Glossary</a></li>
                 <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../../../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -101,10 +100,12 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">smooth_data</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">smooth_data</span><span class="p">,</span> <span class="n">compute_range</span>
+<span class="kn">from</span> <span class="nn">spiketools.modutils.functions</span> <span class="kn">import</span> <span class="n">get_function_parameters</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.annotate</span> <span class="kn">import</span> <span class="n">_add_dots</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.settings</span> <span class="kn">import</span> <span class="n">DEFAULT_COLORS</span>
-<span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span><span class="p">,</span> <span class="n">savefig</span><span class="p">,</span> <span class="n">set_plt_kwargs</span>
+<span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span><span class="p">,</span> <span class="n">make_axes</span><span class="p">,</span> <span class="n">savefig</span>
+<span class="kn">from</span> <span class="nn">spiketools.plts.style</span> <span class="kn">import</span> <span class="n">set_plt_kwargs</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -119,15 +120,16 @@
 <span class="sd">    ----------</span>
 <span class="sd">    positions : 2d array or list of 2d array</span>
 <span class="sd">        Position data.</span>
-<span class="sd">        If a list, each element of the list is plotted separately, on the same plot.</span>
+<span class="sd">        If a list, each array from the list is plotted separately, on the same plot.</span>
 <span class="sd">    spike_positions : 2d array or dict, optional</span>
 <span class="sd">        Position values of spikes, to indicate on the plot.</span>
 <span class="sd">        If array, defines the positions.</span>
 <span class="sd">        If dictionary, should include a &#39;positions&#39; key plus additional plot arguments.</span>
-<span class="sd">    landmarks : 2d array or dict or list, optional</span>
+<span class="sd">    landmarks : 1d or 2d array or dict or list, optional</span>
 <span class="sd">        Position values of landmarks, to be added to the plot.</span>
-<span class="sd">        If array, defines the positions.</span>
-<span class="sd">        If dictionary, should include a &#39;positions&#39; key plus additional plot arguments.</span>
+<span class="sd">        If array, defines the positions, as [x, y] for a single landmark 1d array,</span>
+<span class="sd">        or as [[x-pos], [y-pos]] for a 2d definition of multiple landmarks.</span>
+<span class="sd">        If dictionary, should include a &#39;positions&#39; key with an array plus additional arguments.</span>
 <span class="sd">        Multiple landmarks can be added by passing a list of arrays or a list of dictionaries.</span>
 <span class="sd">    x_bins, y_bins : list of float, optional</span>
 <span class="sd">        Bin edges for each axis.</span>
@@ -272,6 +274,54 @@
     <span class="k">if</span> <span class="n">cbar</span><span class="p">:</span>
         <span class="n">colorbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
         <span class="n">colorbar</span><span class="o">.</span><span class="n">outline</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_trial_heatmaps"><a class="viewcode-back" href="../../../generated/spiketools.plts.spatial.plot_trial_heatmaps.html#spiketools.plts.spatial.plot_trial_heatmaps">[docs]</a><span class="nd">@savefig</span>
+<span class="k">def</span> <span class="nf">plot_trial_heatmaps</span><span class="p">(</span><span class="n">trial_data</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot spatial heat maps for a set of trials.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    trial_data : 3d array</span>
+<span class="sd">        Spatially binned spike activity, per trial, with shape of [n_trials, n_xbins, n_ybins].</span>
+<span class="sd">    plt_kwargs</span>
+<span class="sd">        Additional arguments to pass into the plot function.</span>
+<span class="sd">        This can include argument into `make_axes`, which initialize the set of axes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">axis_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span> <span class="p">:</span> <span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> \
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">get_function_parameters</span><span class="p">(</span><span class="n">make_axes</span><span class="p">)</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">plt_kwargs</span><span class="p">}</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">make_axes</span><span class="p">(</span><span class="n">trial_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">axis_kwargs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">trial_data</span><span class="p">,</span> <span class="n">axes</span><span class="p">):</span>
+        <span class="n">plot_heatmap</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_heat_title"><a class="viewcode-back" href="../../../generated/spiketools.plts.spatial.create_heat_title.html#spiketools.plts.spatial.create_heat_title">[docs]</a><span class="k">def</span> <span class="nf">create_heat_title</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p_val</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a standardized title for an heatmap, listing the data range.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    label : str</span>
+<span class="sd">        Label to add to the beginning of the title.</span>
+<span class="sd">    data : 2d array</span>
+<span class="sd">        The array of data that is plotted, used to compute the data range.</span>
+<span class="sd">    stat, p_val : float, optional</span>
+<span class="sd">        A statistical test value and p statistic to report related to the heatmap.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    title : str</span>
+<span class="sd">        Title for the plot.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;(</span><span class="si">{:1.2f}</span><span class="s1">-</span><span class="si">{:1.2f}</span><span class="s1">)&#39;</span> <span class="k">if</span> <span class="s1">&#39;float&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;(</span><span class="si">{:d}</span><span class="s1">-</span><span class="si">{:d}</span><span class="s1">)&#39;</span>
+    <span class="k">if</span> <span class="n">stat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> - &#39;</span> <span class="o">+</span> <span class="n">template</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="o">*</span><span class="n">compute_range</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> - &#39;</span> <span class="o">+</span> <span class="n">template</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> stat: </span><span class="si">{:1.2f}</span><span class="s1">, p: </span><span class="si">{:1.2f}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>\
+            <span class="n">label</span><span class="p">,</span> <span class="o">*</span><span class="n">compute_range</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">stat</span><span class="p">,</span> <span class="n">p_val</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">title</span></div>
 </pre></div>
 
     </div>
@@ -286,7 +336,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

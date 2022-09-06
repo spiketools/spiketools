@@ -51,7 +51,6 @@
                 <li><a href="../../../api.html">API</a></li>
                 <li><a href="../../../glossary.html">Glossary</a></li>
                 <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../../../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -102,6 +101,8 @@
 
 <span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">gaussian_filter</span>
 
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_options</span><span class="p">,</span> <span class="n">check_bin_range</span>
+
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
@@ -117,6 +118,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    min, max : float</span>
 <span class="sd">        Minimum and maximum values of the data array.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute the range of some position data:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([1.5, 1, 0.5, 2, 3, 2.5])</span>
+<span class="sd">    &gt;&gt;&gt; compute_range(data)</span>
+<span class="sd">    (0.5, 3.0)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
@@ -141,6 +150,14 @@
 <span class="sd">    -----</span>
 <span class="sd">    This function is applied on a copy of the data (to not change the original).</span>
 <span class="sd">    Any NaN values will be set as 0 for smoothing purposes.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Smooth a 1d data array using a gaussian kernel:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([1, 3, 5, 7, 9])</span>
+<span class="sd">    &gt;&gt;&gt; smooth_data(data, sigma=0.8)</span>
+<span class="sd">    array([1, 3, 5, 6, 8])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -149,6 +166,138 @@
     <span class="n">data</span> <span class="o">=</span> <span class="n">gaussian_filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="drop_nans"><a class="viewcode-back" href="../../../generated/spiketools.utils.data.drop_nans.html#spiketools.utils.data.drop_nans">[docs]</a><span class="k">def</span> <span class="nf">drop_nans</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Drop any NaNs values from an array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : 1d or 2d array</span>
+<span class="sd">        Data array to check and drop NaNs from.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : 1d or 2d array</span>
+<span class="sd">        Data array with NaNs removed.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    For 2d arrays, this function assumes the same columns to be NaN across all rows.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Drop all NaNs values from a 1d array:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([1, 2, 3.5, np.nan, 6, 2, np.nan, 1])</span>
+<span class="sd">    &gt;&gt;&gt; drop_nans(data)</span>
+<span class="sd">    array([1. , 2. , 3.5, 6. , 2. , 1. ])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">nans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">nans</span><span class="p">)]</span>
+    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="n">nans</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nans</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">sum</span><span class="p">(</span><span class="o">~</span><span class="n">nans</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only 1d or 2d arrays supported.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="assign_data_to_bins"><a class="viewcode-back" href="../../../generated/spiketools.utils.data.assign_data_to_bins.html#spiketools.utils.data.assign_data_to_bins">[docs]</a><span class="k">def</span> <span class="nf">assign_data_to_bins</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">check_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_edge</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Assign data values to data bins, based on given edges.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : 1d array</span>
+<span class="sd">        Data values to bin.</span>
+<span class="sd">    edges : 1d array</span>
+<span class="sd">        Edge definitions for the binning.</span>
+<span class="sd">    check_range : bool, optional, default: True</span>
+<span class="sd">        Whether to check if the given edges fully cover the given data.</span>
+<span class="sd">        If True, runs a check that raises a warning if any data values exceed edge ranges.</span>
+<span class="sd">    include_edge : bool, optional, default: True</span>
+<span class="sd">        Whether to include data values on the edge into the bin.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    assignments : 1d array</span>
+<span class="sd">        Bin assignments per data value.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Assign data values into bins given the bin edges:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.array([0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 1.1, 1.2, 1.3, 1.4])</span>
+<span class="sd">    &gt;&gt;&gt; edges = np.array([0, 0.5, 1, 1.5])</span>
+<span class="sd">    &gt;&gt;&gt; assign_data_to_bins(data, edges)</span>
+<span class="sd">    array([0, 0, 0, 1, 1, 1, 2, 2, 2, 2])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">check_range</span><span class="p">:</span>
+        <span class="n">check_bin_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+    <span class="n">assignments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">include_edge</span><span class="p">:</span>
+        <span class="n">assignments</span> <span class="o">=</span> <span class="n">_include_bin_edge</span><span class="p">(</span><span class="n">assignments</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">assignments</span> <span class="o">-</span> <span class="mi">1</span></div>
+
+
+<span class="k">def</span> <span class="nf">_include_bin_edge</span><span class="p">(</span><span class="n">assignments</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Update bin assignment so last bin includes edge values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    assignments : 1d array</span>
+<span class="sd">        The bin assignment for each position.</span>
+<span class="sd">    position : 1d array</span>
+<span class="sd">        Position values.</span>
+<span class="sd">    edges : 1d array</span>
+<span class="sd">        The bin edges.</span>
+<span class="sd">    side : {&#39;left&#39;, &#39;right&#39;}</span>
+<span class="sd">        Which side was used to compute bin assignment.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    assignments : 1d array</span>
+<span class="sd">        The bin assignment for each position.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    For any position values that exactly match the left-most or right-most bin edges, by default</span>
+<span class="sd">    (from np.digitize), one of these sides will be considered an outlier. This is because bin</span>
+<span class="sd">    assignment is computed as `pos &gt;= left_bin_edge &amp; pos &lt; right_bin_edge (flipped if right=True).</span>
+<span class="sd">    To address this, this function resets position values == edges as with the bin on the edge.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Update bin assignment of some position data using left side bin edges:</span>
+
+<span class="sd">    &gt;&gt;&gt; position = np.array([0.5, 1, 1.5, 2, 1.5, 3])</span>
+<span class="sd">    &gt;&gt;&gt; assignments = np.array([0, 1, 1, 2, 1, 3])</span>
+<span class="sd">    &gt;&gt;&gt; edges = np.array([0, 1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; _include_bin_edge(assignments, position, edges, side=&#39;left&#39;)</span>
+<span class="sd">    array([0, 1, 1, 2, 1, 2])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">check_param_options</span><span class="p">(</span><span class="n">side</span><span class="p">,</span> <span class="s1">&#39;side&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span>
+
+        <span class="c1"># If side left, right position == edge gets set as len(bins), so decrement by 1</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">position</span> <span class="o">==</span> <span class="n">edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">assignments</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">assignments</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">elif</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span>
+
+        <span class="c1"># If side right, left position == edge gets set as 0, so increment by 1</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">position</span> <span class="o">==</span> <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">assignments</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">assignments</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">assignments</span>
 </pre></div>
 
     </div>
@@ -163,7 +312,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

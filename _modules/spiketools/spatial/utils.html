@@ -51,7 +51,6 @@
                 <li><a href="../../../api.html">API</a></li>
                 <li><a href="../../../glossary.html">Glossary</a></li>
                 <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../../../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -97,11 +96,45 @@
 <span></span><span class="sd">&quot;&quot;&quot;Spatial position related utility functions.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">compute_range</span>
+<span class="kn">from</span> <span class="nn">spiketools.spatial.checks</span> <span class="kn">import</span> <span class="n">check_position_bins</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="compute_nbins"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_nbins.html#spiketools.spatial.utils.compute_nbins">[docs]</a><span class="k">def</span> <span class="nf">compute_nbins</span><span class="p">(</span><span class="n">bins</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the number of bins for a given bin definition.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bins : int or list of [int, int]</span>
+<span class="sd">        The bin definition for dividing up the space. If 1d, can be integer.</span>
+<span class="sd">        If 2d should be a list, defined as [number of x_bins, number of y_bins].</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    n_bins : int</span>
+<span class="sd">        The total number of bins for the given bin definition.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute the number of bins for a given bin definition:</span>
+
+<span class="sd">    &gt;&gt;&gt; compute_nbins(bins=[4, 5])</span>
+<span class="sd">    20</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_position_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">n_bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">n_bins</span></div>
+
 
 <div class="viewcode-block" id="compute_pos_ranges"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_pos_ranges.html#spiketools.spatial.utils.compute_pos_ranges">[docs]</a><span class="k">def</span> <span class="nf">compute_pos_ranges</span><span class="p">(</span><span class="n">position</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute the range of positions.</span>
@@ -147,6 +180,31 @@
     <span class="k">return</span> <span class="n">ranges</span></div>
 
 
+<div class="viewcode-block" id="compute_bin_time"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_bin_time.html#spiketools.spatial.utils.compute_bin_time">[docs]</a><span class="k">def</span> <span class="nf">compute_bin_time</span><span class="p">(</span><span class="n">timestamps</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the time duration of each position sample.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timestamps : 1d array</span>
+<span class="sd">        Timestamps.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    1d array</span>
+<span class="sd">        Width, in time, of each bin.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute times between timestamp samples:</span>
+
+<span class="sd">    &gt;&gt;&gt; timestamps = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])</span>
+<span class="sd">    &gt;&gt;&gt; compute_bin_time(timestamps)</span>
+<span class="sd">    array([1., 2., 3., 2., 1., 0.])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">timestamps</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="compute_bin_width"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_bin_width.html#spiketools.spatial.utils.compute_bin_width">[docs]</a><span class="k">def</span> <span class="nf">compute_bin_width</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute bin width from a set of bin edges.</span>
 
@@ -159,9 +217,92 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        The bin width.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute bin width from an array of 5 bin edges:</span>
+
+<span class="sd">    &gt;&gt;&gt; bin_edges = [1.5, 3.5, 5.5, 7.5, 9.5]</span>
+<span class="sd">    &gt;&gt;&gt; compute_bin_width(bin_edges)</span>
+<span class="sd">    2.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+    <span class="n">widths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">)</span>
+
+    <span class="c1"># Check that all bin widths are the same, representing equidistant bins</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">widths</span><span class="p">,</span> <span class="n">widths</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="s1">&#39;Bin edges should be equidistant.&#39;</span>
+
+    <span class="k">return</span> <span class="n">widths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="convert_2dindices"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.convert_2dindices.html#spiketools.spatial.utils.convert_2dindices">[docs]</a><span class="k">def</span> <span class="nf">convert_2dindices</span><span class="p">(</span><span class="n">xbins</span><span class="p">,</span> <span class="n">ybins</span><span class="p">,</span> <span class="n">bins</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a set of 2D bin indices into the equivalent 1D indices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xbins, ybins : 1d array</span>
+<span class="sd">        Bin assignment indices for the x and y dimension of a 2D binning.</span>
+<span class="sd">    bins : list of [int, int]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    indices : 1d array</span>
+<span class="sd">        Bin assignment indices for a 1D binning.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The equivalent 1D indices for a set of 2D indices are those that access the</span>
+<span class="sd">    equivalent values once the data array has been flattened into a 1d array.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Convert 2d bins with shape [3, 2] into the equivalent 1d indices:</span>
+
+<span class="sd">    &gt;&gt;&gt; xbins, ybins = np.array([2, 0, 1, 0, 1, 2]), np.array([0, 1, 1, 0, 0, 1])</span>
+<span class="sd">    &gt;&gt;&gt; bins = [3, 2]</span>
+<span class="sd">    &gt;&gt;&gt; convert_2dindices(xbins, ybins, bins)</span>
+<span class="sd">    array([2, 3, 4, 0, 1, 5])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel_multi_index</span><span class="p">((</span><span class="n">ybins</span><span class="p">,</span> <span class="n">xbins</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">indices</span></div>
+
+
+<div class="viewcode-block" id="convert_1dindices"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.convert_1dindices.html#spiketools.spatial.utils.convert_1dindices">[docs]</a><span class="k">def</span> <span class="nf">convert_1dindices</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">bins</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a set of 1D bin indices into the equivalent 2D indices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    indices : 1d array</span>
+<span class="sd">        Bin assignment indices for a 1D binning.</span>
+<span class="sd">    bins : list of [int, int]</span>
+<span class="sd">        The bin definition for dividing up the space.</span>
+<span class="sd">        If 2d should be a list, defined as [number of x_bins, number of y_bins].</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xbins, ybins : 1d array</span>
+<span class="sd">        Bin assignment indices for the x and y dimension of a 2D binning.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The equivalent 2D indices for a set of 1d indices are those that access the</span>
+<span class="sd">    equivalent values once the data array has been reshaped to the given 2D bin definition.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Convert 1d bin indices into equivalent 2d indices with a [4, 4] shape:</span>
+
+<span class="sd">    &gt;&gt;&gt; indices = np.array([0, 4, 5, 6, 7, 3, 2, 1, 0])</span>
+<span class="sd">    &gt;&gt;&gt; bins = [3, 3]</span>
+<span class="sd">    &gt;&gt;&gt; convert_1dindices(indices, bins)</span>
+<span class="sd">    (array([0, 1, 2, 0, 1, 0, 2, 1, 0]), array([0, 1, 1, 2, 2, 1, 0, 0, 0]))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ybins</span><span class="p">,</span> <span class="n">xbins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">xbins</span><span class="p">,</span> <span class="n">ybins</span></div>
 </pre></div>
 
     </div>
@@ -176,7 +317,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

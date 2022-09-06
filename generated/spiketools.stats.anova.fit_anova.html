@@ -52,7 +52,6 @@
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
                 <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -105,7 +104,7 @@
 <dd class="field-odd"><dl>
 <dt><strong>df</strong><span class="classifier">pd.DataFrame</span></dt><dd><p>Dataframe of data to fit the ANOVA to.</p>
 </dd>
-<dt><strong>formula</strong><span class="classifier">str</span></dt><dd><p>The formula</p>
+<dt><strong>formula</strong><span class="classifier">str</span></dt><dd><p>The formula.</p>
 </dd>
 <dt><strong>feature</strong><span class="classifier">str, optional</span></dt><dd><p>Which feature to extract from the model.
 Only used (and required) if <cite>return_type</cite> is ‘f_val’.</p>
@@ -133,6 +132,16 @@ If <cite>return_type</cite> is ‘model’, the fit model object.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Fit an ANOVA on firing rates per spatial bin, returning model F-value:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">create_dataframe_bins</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;fr ~ C(bin)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f_val</span> <span class="o">=</span> <span class="n">fit_anova</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="s1">&#39;C(bin)&#39;</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;f_val&#39;</span><span class="p">,</span> <span class="n">anova_type</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">f_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">0.4249</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -150,7 +159,7 @@ If <cite>return_type</cite> is ‘model’, the fit model object.</p>
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

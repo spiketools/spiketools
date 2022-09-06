@@ -52,7 +52,6 @@
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
                 <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
-                <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -98,29 +97,41 @@
 <h1>spiketools.utils.extract.get_values_by_times<a class="headerlink" href="#spiketools-utils-extract-get-values-by-times" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.utils.extract.get_values_by_times">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.extract.</span></span><span class="sig-name descname"><span class="pre">get_values_by_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timepoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/extract.html#get_values_by_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.extract.get_values_by_times" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.extract.</span></span><span class="sig-name descname"><span class="pre">get_values_by_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timepoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_null</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/extract.html#get_values_by_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.extract.get_values_by_times" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get values from a data array for a set of specified time points.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Time indices.</p>
+<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps.</p>
 </dd>
-<dt><strong>values</strong><span class="classifier">ndarray</span></dt><dd><p>Data values, corresponding to the times vector.</p>
+<dt><strong>values</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Data values, corresponding to the time values in <cite>times</cite>.</p>
 </dd>
-<dt><strong>timepoints</strong><span class="classifier">1d array</span></dt><dd><p>The time indices to extract corresponding values for.</p>
+<dt><strong>timepoints</strong><span class="classifier">1d array</span></dt><dd><p>The time values to extract corresponding values for.</p>
 </dd>
-<dt><strong>threshold</strong><span class="classifier">float</span></dt><dd><p>The threshold that the closest time value must be within to be returned.
+<dt><strong>threshold</strong><span class="classifier">float, optional</span></dt><dd><p>The threshold that the closest time value must be within to be returned.
 If the temporal distance is greater than the threshold, output is NaN.</p>
+</dd>
+<dt><strong>drop_null</strong><span class="classifier">bool, optional, default: True</span></dt><dd><p>Whether to drop any null values from the outputs (outside threshold range).
+If False, outputs for any null values are NaN.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>outputs</strong><span class="classifier">1d array</span></dt><dd><p>The extracted vaues for the requested time points.</p>
+<dt><strong>outputs</strong><span class="classifier">1d or 2d array</span></dt><dd><p>The extracted values for the requested time points.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Get the data values for a specified set of timepoints:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">3</span> <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timepoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_values_by_times</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoints</span><span class="p">)</span>
+<span class="go">array([2, 4, 6])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -138,7 +149,7 @@ If the temporal distance is greater than the threshold, output is NaN.</p>
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

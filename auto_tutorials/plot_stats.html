@@ -52,7 +52,6 @@
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../glossary.html">Glossary</a></li>
                 <li><a href="index.html">Tutorials</a></li>
-                <li><a href="../auto_examples/index.html">Examples</a></li>
                 <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
             
             
@@ -105,53 +104,60 @@ to download the full example code</p>
 <p>This tutorial primarily covers the <code class="docutils literal notranslate"><span class="pre">spiketools.stats</span></code> module.</p>
 <section id="applying-statistical-measures-to-spiking-data">
 <h2>Applying statistical measures to spiking data<a class="headerlink" href="#applying-statistical-measures-to-spiking-data" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial covers applying statistical measures to spike data.</p>
 <p>This tutorial contains the following sections:</p>
 <ol class="arabic simple">
 <li><p>Compute and plot different shuffles of spikes</p></li>
+<li><p>Compute t-test t- and p-values to test for an event-related firing rate change</p></li>
+<li><p>Compare 1st and last half of trials</p></li>
+<li><p>Run a 2-way ANOVA on multiple trials data</p></li>
 <li><p>Compute empirical p-value and z-score from distribution of surrogates</p></li>
-<li><p>Compute f-value from spiking data using ANOVA</p></li>
+<li><p>Compute f-value from spiking data using 1-way ANOVA</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import auxiliary libraries</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="c1"># Import statistics-related functions</span>
-<span class="kn">from</span> <span class="nn">spiketools.sim.times</span> <span class="kn">import</span> <span class="n">sim_spiketimes</span>
-<span class="kn">from</span> <span class="nn">spiketools.sim.train</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_binom.html#spiketools.sim.train.sim_spiketrain_binom" title="spiketools.sim.train.sim_spiketrain_binom" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_binom</span></a>
-<span class="kn">from</span> <span class="nn">spiketools.stats.shuffle</span> <span class="kn">import</span> <span class="p">(</span><a href="../generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis" title="spiketools.stats.shuffle.shuffle_isis" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_isis</span></a><span class="p">,</span> <a href="../generated/spiketools.stats.shuffle.shuffle_bins.html#spiketools.stats.shuffle.shuffle_bins" title="spiketools.stats.shuffle.shuffle_bins" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_bins</span></a><span class="p">,</span> <a href="../generated/spiketools.stats.shuffle.shuffle_poisson.html#spiketools.stats.shuffle.shuffle_poisson" title="spiketools.stats.shuffle.shuffle_poisson" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_poisson</span></a><span class="p">,</span>
-                                      <a href="../generated/spiketools.stats.shuffle.shuffle_circular.html#spiketools.stats.shuffle.shuffle_circular" title="spiketools.stats.shuffle.shuffle_circular" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_circular</span></a><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">spiketools.stats.shuffle</span> <span class="kn">import</span> <span class="p">(</span><a href="../generated/spiketools.stats.shuffle.shuffle_spikes.html#spiketools.stats.shuffle.shuffle_spikes" title="spiketools.stats.shuffle.shuffle_spikes" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_spikes</span></a><span class="p">,</span> <a href="../generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis" title="spiketools.stats.shuffle.shuffle_isis" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_isis</span></a><span class="p">,</span> <a href="../generated/spiketools.stats.shuffle.shuffle_bins.html#spiketools.stats.shuffle.shuffle_bins" title="spiketools.stats.shuffle.shuffle_bins" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_bins</span></a><span class="p">,</span>
+                                      <a href="../generated/spiketools.stats.shuffle.shuffle_poisson.html#spiketools.stats.shuffle.shuffle_poisson" title="spiketools.stats.shuffle.shuffle_poisson" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_poisson</span></a><span class="p">,</span> <a href="../generated/spiketools.stats.shuffle.shuffle_circular.html#spiketools.stats.shuffle.shuffle_circular" title="spiketools.stats.shuffle.shuffle_circular" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_circular</span></a><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">spiketools.stats.permutations</span> <span class="kn">import</span> <a href="../generated/spiketools.stats.permutations.compute_surrogate_stats.html#spiketools.stats.permutations.compute_surrogate_stats" title="spiketools.stats.permutations.compute_surrogate_stats" class="sphx-glr-backref-module-spiketools-stats-permutations sphx-glr-backref-type-py-function"><span class="n">compute_surrogate_stats</span></a>
-<span class="kn">from</span> <span class="nn">spiketools.stats.anova</span> <span class="kn">import</span> <a href="../generated/spiketools.stats.anova.create_dataframe.html#spiketools.stats.anova.create_dataframe" title="spiketools.stats.anova.create_dataframe" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">create_dataframe</span></a><span class="p">,</span> <a href="../generated/spiketools.stats.anova.fit_anova.html#spiketools.stats.anova.fit_anova" title="spiketools.stats.anova.fit_anova" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">fit_anova</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.stats.anova</span> <span class="kn">import</span> <a href="../generated/spiketools.stats.anova.create_dataframe.html#spiketools.stats.anova.create_dataframe" title="spiketools.stats.anova.create_dataframe" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">create_dataframe</span></a><span class="p">,</span> <a href="../generated/spiketools.stats.anova.create_dataframe_bins.html#spiketools.stats.anova.create_dataframe_bins" title="spiketools.stats.anova.create_dataframe_bins" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">create_dataframe_bins</span></a><span class="p">,</span> <a href="../generated/spiketools.stats.anova.fit_anova.html#spiketools.stats.anova.fit_anova" title="spiketools.stats.anova.fit_anova" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">fit_anova</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.stats.trials</span> <span class="kn">import</span> <span class="p">(</span><a href="../generated/spiketools.stats.trials.compute_pre_post_ttest.html#spiketools.stats.trials.compute_pre_post_ttest" title="spiketools.stats.trials.compute_pre_post_ttest" class="sphx-glr-backref-module-spiketools-stats-trials sphx-glr-backref-type-py-function"><span class="n">compute_pre_post_ttest</span></a><span class="p">,</span> <a href="../generated/spiketools.stats.trials.compare_pre_post_activity.html#spiketools.stats.trials.compare_pre_post_activity" title="spiketools.stats.trials.compare_pre_post_activity" class="sphx-glr-backref-module-spiketools-stats-trials sphx-glr-backref-type-py-function"><span class="n">compare_pre_post_activity</span></a><span class="p">,</span>
+                                     <a href="../generated/spiketools.stats.trials.compare_trial_frs.html#spiketools.stats.trials.compare_trial_frs" title="spiketools.stats.trials.compare_trial_frs" class="sphx-glr-backref-module-spiketools-stats-trials sphx-glr-backref-type-py-function"><span class="n">compare_trial_frs</span></a><span class="p">)</span>
 
-<span class="c1"># Import spatial analysis functions</span>
+<span class="c1"># Import other spiketools functions</span>
+<span class="kn">from</span> <span class="nn">spiketools.sim.times</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.sim.train</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_binom.html#spiketools.sim.train.sim_spiketrain_binom" title="spiketools.sim.train.sim_spiketrain_binom" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_binom</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.measures.trials</span> <span class="kn">import</span> <a href="../generated/spiketools.measures.trials.compute_pre_post_rates.html#spiketools.measures.trials.compute_pre_post_rates" title="spiketools.measures.trials.compute_pre_post_rates" class="sphx-glr-backref-module-spiketools-measures-trials sphx-glr-backref-type-py-function"><span class="n">compute_pre_post_rates</span></a>
 <span class="kn">from</span> <span class="nn">spiketools.spatial.occupancy</span> <span class="kn">import</span> <span class="p">(</span><a href="../generated/spiketools.spatial.occupancy.compute_bin_edges.html#spiketools.spatial.occupancy.compute_bin_edges" title="spiketools.spatial.occupancy.compute_bin_edges" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_edges</span></a><span class="p">,</span> <a href="../generated/spiketools.spatial.occupancy.compute_bin_assignment.html#spiketools.spatial.occupancy.compute_bin_assignment" title="spiketools.spatial.occupancy.compute_bin_assignment" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_assignment</span></a><span class="p">,</span>
-                                          <a href="../generated/spiketools.spatial.occupancy.compute_bin_firing.html#spiketools.spatial.occupancy.compute_bin_firing" title="spiketools.spatial.occupancy.compute_bin_firing" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_firing</span></a><span class="p">)</span>
+                                          <a href="../generated/spiketools.spatial.occupancy.compute_bin_counts_assgn.html#spiketools.spatial.occupancy.compute_bin_counts_assgn" title="spiketools.spatial.occupancy.compute_bin_counts_assgn" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_counts_assgn</span></a><span class="p">)</span>
 
 <span class="c1"># Import plot function</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.trials</span> <span class="kn">import</span> <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a>
 <span class="kn">from</span> <span class="nn">spiketools.plts.stats</span> <span class="kn">import</span> <a href="../generated/spiketools.plts.stats.plot_surrogates.html#spiketools.plts.stats.plot_surrogates" title="spiketools.plts.stats.plot_surrogates" class="sphx-glr-backref-module-spiketools-plts-stats sphx-glr-backref-type-py-function"><span class="n">plot_surrogates</span></a>
-
-<span class="c1"># Import measures &amp; utilities</span>
-<span class="kn">from</span> <span class="nn">spiketools.utils.extract</span> <span class="kn">import</span> <span class="n">get_range</span>
-<span class="kn">from</span> <span class="nn">spiketools.measures.measures</span> <span class="kn">import</span> <span class="n">compute_firing_rate</span>
+<span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <a href="../generated/spiketools.plts.utils.make_axes.html#spiketools.plts.utils.make_axes" title="spiketools.plts.utils.make_axes" class="sphx-glr-backref-module-spiketools-plts-utils sphx-glr-backref-type-py-function"><span class="n">make_axes</span></a>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate spike times in seconds for spikes at 10Hz for 100 seconds</span>
-<span class="n">spikes</span> <span class="o">=</span> <span class="n">sim_spiketimes</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-<span class="c1"># make sure there are not multiple spikes within the same millisecond</span>
-<span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">((</span><span class="n">spikes</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="o">/</span> <span class="mi">1000</span>
+<p>First we will generate some test data, by simulating some spike times.</p>
+<p>To do so, we will simulate some spike times at 10Hz for 100 seconds.
+In doing so, we will use the <cite>refractory</cite> settings to prevent multiple
+spikes occurring within the same millisecond</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike times</span>
+<span class="n">spikes</span> <span class="o">=</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="compute-and-plot-different-shuffles-of-spikes">
-<h3>1. Compute and plot different shuffles of spikes<a class="headerlink" href="#compute-and-plot-different-shuffles-of-spikes" title="Permalink to this headline">¶</a></h3>
+<h3>Compute and plot different shuffles of spikes<a class="headerlink" href="#compute-and-plot-different-shuffles-of-spikes" title="Permalink to this headline">¶</a></h3>
 <p>Here, we will explore different shuffle approaches to create different shuffled
 surrogates of our original spikes.</p>
-<p>The approaches we will try are:
-- <cite>shuffle_isis</cite>: shuffle spike times using permuted inter-spike intervals (isis)
-- <cite>shuffle_bins</cite>: shuffle spikes by circularly shuffling bins of varying length
-- <cite>shuffle_poisson</cite>: shuffle spikes based on a Poisson distribution
-- <cite>shuffle_circular</cite>: shuffle spikes by circularly shifting the spike train</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shuffle spike ms using the four described methods</span>
+<p>The approaches we will try are:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis" title="spiketools.stats.shuffle.shuffle_isis"><code class="xref py py-func docutils literal notranslate"><span class="pre">shuffle_isis()</span></code></a>: shuffle spike times using permuted inter-spike intervals (isis)</p></li>
+<li><p><a class="reference internal" href="../generated/spiketools.stats.shuffle.shuffle_bins.html#spiketools.stats.shuffle.shuffle_bins" title="spiketools.stats.shuffle.shuffle_bins"><code class="xref py py-func docutils literal notranslate"><span class="pre">shuffle_bins()</span></code></a>: shuffle spikes by circularly shuffling bins of varying length</p></li>
+<li><p><a class="reference internal" href="../generated/spiketools.stats.shuffle.shuffle_poisson.html#spiketools.stats.shuffle.shuffle_poisson" title="spiketools.stats.shuffle.shuffle_poisson"><code class="xref py py-func docutils literal notranslate"><span class="pre">shuffle_poisson()</span></code></a>: shuffle spikes based on a Poisson distribution</p></li>
+<li><p><a class="reference internal" href="../generated/spiketools.stats.shuffle.shuffle_circular.html#spiketools.stats.shuffle.shuffle_circular" title="spiketools.stats.shuffle.shuffle_circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">shuffle_circular()</span></code></a>: shuffle spikes by circularly shifting the spike train</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shuffle spikes using the four described methods</span>
 <span class="n">shuffled_isis</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis" title="spiketools.stats.shuffle.shuffle_isis" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_isis</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">shuffled_bins</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_bins.html#spiketools.stats.shuffle.shuffle_bins" title="spiketools.stats.shuffle.shuffle_bins" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_bins</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bin_width_range</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">shuffled_poisson</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_poisson.html#spiketools.stats.shuffle.shuffle_poisson" title="spiketools.stats.shuffle.shuffle_poisson" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_poisson</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -159,161 +165,309 @@ surrogates of our original spikes.</p>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot original spike train</span>
-<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">[:],</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Non-shuffled&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Non-shuffled&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <img src="../_images/sphx_glr_plot_stats_001.png" srcset="../_images/sphx_glr_plot_stats_001.png" alt="Non-shuffled" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot different shuffles</span>
-<span class="n">fig</span><span class="p">,</span> <span class="p">((</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">),</span> <span class="p">(</span><span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">))</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharey</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span> <span class="o">=</span> <a href="../generated/spiketools.plts.utils.make_axes.html#spiketools.plts.utils.make_axes" title="spiketools.plts.utils.make_axes" class="sphx-glr-backref-module-spiketools-plts-utils sphx-glr-backref-type-py-function"><span class="n">make_axes</span></a><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
 
-<span class="c1"># isis</span>
-<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">shuffled_isis</span><span class="p">[:,</span> <span class="p">:],</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span>
-             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Shuffle ISIS n_shuffles = 10&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="c1"># Shuffle spikes based on inter-spike intervals</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">shuffled_isis</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Shuffle ISIS n_shuffles = 10&#39;</span><span class="p">)</span>
 
-<span class="c1"># Poisson</span>
-<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">shuffled_poisson</span><span class="p">[:,</span> <span class="p">:],</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span>
-             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Shuffle Poisson n_shuffles = 10&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="c1"># Shuffle spikes Poisson</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">shuffled_poisson</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Shuffle Poisson n_shuffles = 10&#39;</span><span class="p">)</span>
 
-<span class="c1"># shuffled bins</span>
-<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">shuffled_bins</span><span class="p">[:,</span> <span class="p">:],</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span>
-             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Shuffle bins n_shuffles = 10&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="c1"># Shuffled spikes using a binned circular shuffle</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">shuffled_bins</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Shuffle bins n_shuffles = 10&#39;</span><span class="p">)</span>
 
-<span class="c1"># shuffled circular</span>
-<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">shuffled_circular</span><span class="p">[:,</span> <span class="p">:],</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax4</span><span class="p">,</span>
-             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Shuffle circular n_shuffles = 10&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
-<span class="c1"># Add some padding between subplots &amp; make the figure bigger</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">((</span><span class="mi">40</span><span class="o">/</span><span class="mf">2.54</span><span class="p">,</span> <span class="mi">20</span><span class="o">/</span><span class="mf">2.54</span><span class="p">))</span>
+<span class="c1"># Circular shuffle</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">shuffled_circular</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax4</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Shuffle circular n_shuffles = 10&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_stats_002.png" srcset="../_images/sphx_glr_plot_stats_002.png" alt="Shuffle ISIS n_shuffles = 10, Shuffle Poisson n_shuffles = 10, Shuffle bins n_shuffles = 10, Shuffle circular n_shuffles = 10" class = "sphx-glr-single-img"/></section>
-<section id="compute-the-empirical-p-value-and-z-score-from-distribution-of-surrogates">
-<h3>2. Compute the empirical p-value and z-score from distribution of surrogates<a class="headerlink" href="#compute-the-empirical-p-value-and-z-score-from-distribution-of-surrogates" title="Permalink to this headline">¶</a></h3>
-<p>First generate data that simulates a change in spike rate due to an event.
-In this example case, we will be simulating spikes at 1Hz for 3 seconds for the pre-event, and
-spikes at at 5Hz for 3 seconds for the post-event.
-Next, calculate change in firing rate of the post-event with respect to the pre-event
-(delta = post firing rate - pre firing rate).
-To generate our distribution of surrogates, shuffle the data 100 times (using isis), and
-calculate change in firing rate for each of the 100 shuffled spike times.</p>
-<p>Compute the empirical p-value and z-score of delta firing rate from the distribution of
-surrogates. Lastly, plot the distribution of surrogates with calculated delta firing rate.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate change in firing rate given an event</span>
-<span class="c1"># Generate pre-event spike times: spikes at 5 Hz for 3 seconds (time_pre)</span>
+<img src="../_images/sphx_glr_plot_stats_002.png" srcset="../_images/sphx_glr_plot_stats_002.png" alt="Shuffle ISIS n_shuffles = 10, Shuffle Poisson n_shuffles = 10, Shuffle bins n_shuffles = 10, Shuffle circular n_shuffles = 10" class = "sphx-glr-single-img"/><p>In the above we ran different shuffling approaches by calling different shuffling functions.</p>
+<p>There is also the more general <a class="reference internal" href="../generated/spiketools.stats.shuffle.shuffle_spikes.html#spiketools.stats.shuffle.shuffle_spikes" title="spiketools.stats.shuffle.shuffle_spikes"><code class="xref py py-func docutils literal notranslate"><span class="pre">shuffle_spikes()</span></code></a> function, which can be used
+call the different shuffling methods by passing an argument to define which method to use.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shuffle spikes using the general `shuffle_spikes` function</span>
+<span class="n">shuffled_spikes</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_spikes.html#spiketools.stats.shuffle.shuffle_spikes" title="spiketools.stats.shuffle.shuffle_spikes" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_spikes</span></a><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="s1">&#39;CIRCULAR&#39;</span><span class="p">,</span> <span class="n">shuffle_min</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Plot shuffle spikes</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">shuffled_spikes</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Shuffled Spikes&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_stats_003.png" srcset="../_images/sphx_glr_plot_stats_003.png" alt="Shuffled Spikes" class = "sphx-glr-single-img"/></section>
+<section id="compute-t-test-t-and-p-values-to-test-for-an-event-related-firing-rate-change">
+<h3>Compute t-test t- and p-values to test for an event-related firing rate change<a class="headerlink" href="#compute-t-test-t-and-p-values-to-test-for-an-event-related-firing-rate-change" title="Permalink to this headline">¶</a></h3>
+<p>First generate data that simulates a change in spike rate due to an event across 10 trials.</p>
+<p>In this example case, across trials, we will simulate a change in firing rate
+around an event. Specifically, we will simulate trials with an average firing rate of
+5 Hz in the 3 second pre-event window, which changes to a firing rate of 10 Hz in
+3 second post-event window.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the number of trials to simulate</span>
+<span class="n">n_trials</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Define settings for the simulation</span>
 <span class="n">time_pre</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">spikes_pre</span> <span class="o">=</span> <span class="n">sim_spiketimes</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">time_pre</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-
-<span class="c1"># Generate pre-event spike times: spikes at 10 Hz for 3 seconds (time_post)</span>
+<span class="n">fr_pre</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">time_post</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="c1"># Add time_pre to the post spikes, since we will stack the pre and the post</span>
-<span class="n">spikes_post</span> <span class="o">=</span> <span class="n">sim_spiketimes</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">time_post</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span> <span class="o">+</span> <span class="n">time_pre</span>
+<span class="n">fr_post</span> <span class="o">=</span> <span class="mi">10</span>
 
-<span class="c1"># Stack pre and post</span>
-<span class="n">spikes_pre_post</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spikes_pre</span><span class="p">,</span> <span class="n">spikes_post</span><span class="p">)</span>
+<span class="c1"># Simulate spiking activity across trials</span>
+<span class="n">trial_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_trials</span>
+<span class="k">for</span> <span class="n">trial_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trials</span><span class="p">):</span>
+
+    <span class="c1"># Generate pre- and post-event spike times, offsetting post spikes to happen after pre</span>
+    <span class="n">spikes_pre</span> <span class="o">=</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a><span class="p">(</span><span class="n">fr_pre</span><span class="p">,</span> <span class="n">time_pre</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">spikes_post</span> <span class="o">=</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a><span class="p">(</span><span class="n">fr_post</span><span class="p">,</span> <span class="n">time_post</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span> <span class="o">+</span> <span class="n">time_pre</span>
+
+    <span class="c1"># Stack pre and post, making each trial 6 seconds long</span>
+    <span class="n">trial_spikes</span><span class="p">[</span><span class="n">trial_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spikes_pre</span><span class="p">,</span> <span class="n">spikes_post</span><span class="p">)</span>
+
+<span class="c1"># Plot the spike times across trials</span>
+<a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">vline</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Spikes per trial&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get firing rate (spikes/s) post-event (on the final time_post seconds)</span>
-<span class="n">fr_post</span> <span class="o">=</span> <span class="n">compute_firing_rate</span><span class="p">(</span><span class="n">get_range</span><span class="p">(</span><span class="n">spikes_pre_post</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="n">time_pre</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span>
+<img src="../_images/sphx_glr_plot_stats_004.png" srcset="../_images/sphx_glr_plot_stats_004.png" alt="Spikes per trial" class = "sphx-glr-single-img"/><p>Now that we have our simulated data, first we will calculate the firing rates across
+the pre- and post-event time ranges.</p>
+<p>To do so, we will use the <a class="reference internal" href="../generated/spiketools.measures.trials.compute_pre_post_rates.html#spiketools.measures.trials.compute_pre_post_rates" title="spiketools.measures.trials.compute_pre_post_rates"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_pre_post_rates()</span></code></a> function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define settings for the pre- and post- event time ranges</span>
+<span class="n">pre_window</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">time_pre</span><span class="p">]</span>
+<span class="n">post_window</span> <span class="o">=</span> <span class="p">[</span><span class="n">time_pre</span><span class="p">,</span> <span class="n">time_pre</span> <span class="o">+</span> <span class="n">time_post</span><span class="p">]</span>
 
-<span class="c1"># Get firing rate (spikes/s) pre-event (on the initial time_pre seconds)</span>
-<span class="n">fr_pre</span> <span class="o">=</span> <span class="n">compute_firing_rate</span><span class="p">(</span><span class="n">get_range</span><span class="p">(</span><span class="n">spikes_pre_post</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="n">time_pre</span><span class="p">))</span>
+<span class="c1"># Compute firing rates (Hz) pre- and post-event for all trials</span>
+<span class="n">frs_pre</span><span class="p">,</span> <span class="n">frs_post</span> <span class="o">=</span> <a href="../generated/spiketools.measures.trials.compute_pre_post_rates.html#spiketools.measures.trials.compute_pre_post_rates" title="spiketools.measures.trials.compute_pre_post_rates" class="sphx-glr-backref-module-spiketools-measures-trials sphx-glr-backref-type-py-function"><span class="n">compute_pre_post_rates</span></a><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">pre_window</span><span class="p">,</span> <span class="n">post_window</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, we can compute the t-test between the pre- and post-event firing rates across trials.</p>
+<p>To do this, we will use the <a class="reference internal" href="../generated/spiketools.stats.trials.compute_pre_post_ttest.html#spiketools.stats.trials.compute_pre_post_ttest" title="spiketools.stats.trials.compute_pre_post_ttest"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_pre_post_ttest()</span></code></a> function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute a t-test between the pre- and post-event firing rates</span>
+<span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span> <span class="o">=</span> <a href="../generated/spiketools.stats.trials.compute_pre_post_ttest.html#spiketools.stats.trials.compute_pre_post_ttest" title="spiketools.stats.trials.compute_pre_post_ttest" class="sphx-glr-backref-module-spiketools-stats-trials sphx-glr-backref-type-py-function"><span class="n">compute_pre_post_ttest</span></a><span class="p">(</span><span class="n">frs_pre</span><span class="p">,</span> <span class="n">frs_post</span><span class="p">)</span>
 
-<span class="c1"># Get firing rate difference between post and pre</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The t-value is -5.775, with a p-value of 2.676e-04
+</pre></div>
+</div>
+<p>In the above, we separately computed and then compared the firing rates around
+an event of interest.</p>
+<p>To compute average firing rates and compare them all together, we can use the
+<a class="reference internal" href="../generated/spiketools.stats.trials.compare_pre_post_activity.html#spiketools.stats.trials.compare_pre_post_activity" title="spiketools.stats.trials.compare_pre_post_activity"><code class="xref py py-func docutils literal notranslate"><span class="pre">compare_pre_post_activity()</span></code></a> function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate p-value and t-value between the firing rates using a t-test</span>
+<span class="c1"># Also calculate the average firing rates pre- and post-event</span>
+<span class="n">avg_pre</span><span class="p">,</span> <span class="n">avg_post</span><span class="p">,</span> <span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span> <span class="o">=</span> <a href="../generated/spiketools.stats.trials.compare_pre_post_activity.html#spiketools.stats.trials.compare_pre_post_activity" title="spiketools.stats.trials.compare_pre_post_activity" class="sphx-glr-backref-module-spiketools-stats-trials sphx-glr-backref-type-py-function"><span class="n">compare_pre_post_activity</span></a><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">pre_window</span><span class="p">,</span>
+                                                              <span class="n">post_window</span><span class="p">,</span> <span class="n">avg_type</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+
+<span class="c1"># Print the average firing rates &amp; t-test output</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average FR pre-event: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">avg_pre</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average FR post-event: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">avg_post</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 5.167
+Average FR post-event: 9.500
+The t-value is -5.775, with a p-value of 2.676e-04
+</pre></div>
+</div>
+</section>
+<section id="compare-1st-and-2nd-half-of-trials">
+<h3>Compare 1st and 2nd half of trials<a class="headerlink" href="#compare-1st-and-2nd-half-of-trials" title="Permalink to this headline">¶</a></h3>
+<p>In real data, time or trial index may influence the outcome.</p>
+<p>For another example analysis, next we will examine the binned pre / post firing
+rates, split up by a split-half of the trials, to examine whether there is
+evidence for a difference in spiking activity across different trials.</p>
+<p>To do this, we can use the <a class="reference internal" href="../generated/spiketools.stats.trials.compare_trial_frs.html#spiketools.stats.trials.compare_trial_frs" title="spiketools.stats.trials.compare_trial_frs"><code class="xref py py-func docutils literal notranslate"><span class="pre">compare_trial_frs()</span></code></a> function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Combine trials together into a 2d array</span>
+<span class="n">all_trials_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">frs_pre</span><span class="p">,</span> <span class="n">frs_post</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># For each bin (pre and post event bins), compare 1st half of trials to 2nd half of trials</span>
+<span class="n">pre_between_halfs</span><span class="p">,</span> <span class="n">post_between_halfs</span> <span class="o">=</span> <a href="../generated/spiketools.stats.trials.compare_trial_frs.html#spiketools.stats.trials.compare_trial_frs" title="spiketools.stats.trials.compare_trial_frs" class="sphx-glr-backref-module-spiketools-stats-trials sphx-glr-backref-type-py-function"><span class="n">compare_trial_frs</span></a><span class="p">(</span><span class="n">all_trials_data</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="n">all_trials_data</span><span class="p">[</span><span class="mi">5</span><span class="p">:])</span>
+
+<span class="c1"># Print out the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;For pre bin comparison, the t-value is </span><span class="si">{:1.3f}</span><span class="s1">, a p-value of </span><span class="si">{:.3e}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>\
+      <span class="n">pre_between_halfs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pre_between_halfs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;For post bin comparison, the t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>\
+      <span class="n">post_between_halfs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">post_between_halfs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For pre bin comparison, the t-value is 0.512, a p-value of 6.226e-01.
+For post bin comparison, the t-value is -0.796, with a p-value of 4.492e-01.
+</pre></div>
+</div>
+</section>
+<section id="run-2-way-anova-on-multiple-trials-data">
+<h3>Run 2-way ANOVA on multiple trials data<a class="headerlink" href="#run-2-way-anova-on-multiple-trials-data" title="Permalink to this headline">¶</a></h3>
+<p>Another way of testing whether there are event-related changes in firing rates
+rate is to run a 2-way ANOVA.</p>
+<p>To do that, we will first organize the firing rates and the factors in a pandas DataFrame,
+which we will prepare for by organizing the data we need into a dictionary.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Put the firing rates int a single array</span>
+<span class="n">pre_post_frs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">frs_pre</span><span class="p">,</span> <span class="n">frs_post</span><span class="p">])</span>
+
+<span class="c1"># Create a boolean array to differentiate between pre- and -post event</span>
+<span class="n">is_post_event</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">frs_pre</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">frs_pre</span><span class="p">))</span>
+
+<span class="c1"># Create array with trial number information</span>
+<span class="n">trial_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">frs_pre</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">frs_pre</span><span class="p">))])</span>
+
+<span class="c1"># Put it all together into a dictionary</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fr&#39;</span><span class="p">:</span> <span class="n">pre_post_frs</span><span class="p">,</span> <span class="s1">&#39;is_post_event&#39;</span><span class="p">:</span> <span class="n">is_post_event</span><span class="p">,</span> <span class="s1">&#39;trial_idx&#39;</span><span class="p">:</span> <span class="n">trial_idx</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>We can now turn our data into a dataframe using the <a class="reference internal" href="../generated/spiketools.stats.anova.create_dataframe.html#spiketools.stats.anova.create_dataframe" title="spiketools.stats.anova.create_dataframe"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_dataframe()</span></code></a> function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the dataframe</span>
+<span class="n">df_pre_post</span> <span class="o">=</span> <a href="../generated/spiketools.stats.anova.create_dataframe.html#spiketools.stats.anova.create_dataframe" title="spiketools.stats.anova.create_dataframe" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">create_dataframe</span></a><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now that we have our data organized into a dataframe, we can run an ANOVA using.</p>
+<p>Specifically, we will run an ANOVA to analyze whether there is an of the event on
+firing rates, as well as checking whether there is an effect of trial index on firing rate.</p>
+<p>To run the ANOVA, we need to define the formula we want to run.</p>
+<p>Then, using the dataframe and the formula, we can use
+the <a class="reference internal" href="../generated/spiketools.stats.anova.fit_anova.html#spiketools.stats.anova.fit_anova" title="spiketools.stats.anova.fit_anova"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit_anova()</span></code></a> function to fit our ANOVA.</p>
+<p>Note that in this example, we did not evaluate the effect of the interaction.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the formula for the ANOVA to fit</span>
+<span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;fr ~ C(is_post_event)+C(trial_idx)&#39;</span>
+
+<span class="c1"># Run 2-way ANOVA without interaction on our dataframe</span>
+<span class="n">anova_pre_post</span> <span class="o">=</span> <a href="../generated/spiketools.stats.anova.fit_anova.html#spiketools.stats.anova.fit_anova" title="spiketools.stats.anova.fit_anova" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">fit_anova</span></a><span class="p">(</span><span class="n">df_pre_post</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="n">anova_type</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Print out results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F-value, pre vs post: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">anova_pre_post</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">][</span><span class="s1">&#39;C(is_post_event)&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;P-value, pre vs post: </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">anova_pre_post</span><span class="p">[</span><span class="s1">&#39;PR(&gt;F)&#39;</span><span class="p">][</span><span class="s1">&#39;C(is_post_event)&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F-value, trial index: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">anova_pre_post</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">][</span><span class="s1">&#39;C(trial_idx)&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;P-value, trial index: </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">anova_pre_post</span><span class="p">[</span><span class="s1">&#39;PR(&gt;F)&#39;</span><span class="p">][</span><span class="s1">&#39;C(trial_idx)&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value, pre vs post: 33.355
+P-value, pre vs post: 2.676e-04
+F-value, trial index: 0.689
+P-value, trial index: 7.064e-01
+</pre></div>
+</div>
+</section>
+<section id="compute-the-empirical-p-value-and-z-score-from-distribution-of-surrogates">
+<h3>Compute the empirical p-value and z-score from distribution of surrogates<a class="headerlink" href="#compute-the-empirical-p-value-and-z-score-from-distribution-of-surrogates" title="Permalink to this headline">¶</a></h3>
+<p>Next, we will use surrogate data to test whether our analysis reflects a significant effect.</p>
+<p>First we calculate the change in firing rate for an example trial (first trial).</p>
+<p>Here firing rate different is computed between pre- and post-even rates
+(delta = post firing rate - pre firing rate).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get firing rate difference between post and pre</span>
 <span class="c1"># This will be the value we compute the empirical p-value and the z-score for</span>
-<span class="n">fr_diff</span> <span class="o">=</span> <span class="n">fr_post</span> <span class="o">-</span> <span class="n">fr_pre</span>
+<span class="n">fr_diff</span> <span class="o">=</span> <span class="n">frs_post</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">frs_pre</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get shuffled spikes_pre_post (used to calculate surrogates)</span>
+<p>To compare the delta firing rate, we need to generate our distribution of surrogates.</p>
+<p>Thus, we will shuffle the data from the first trial (as an example) 100 times (using isis).
+For each of the shuffles, we will calculate the change in firing rate.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Settings for shuffle the data</span>
 <span class="n">n_shuff</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">shuff_spikes_pre_post</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis" title="spiketools.stats.shuffle.shuffle_isis" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_isis</span></a><span class="p">(</span><span class="n">spikes_pre_post</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuff</span><span class="p">)</span>
 
-<span class="c1"># Calculate surrogates</span>
-<span class="c1"># This will be the surrogate distribution used to compute the empirical p-value and the z-score</span>
-<span class="n">surr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_shuff</span><span class="p">,))</span>
-<span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_shuff</span><span class="p">):</span>
-    <span class="n">fr_post</span> <span class="o">=</span> <span class="p">(</span><span class="n">compute_firing_rate</span><span class="p">(</span><span class="n">get_range</span><span class="p">(</span><span class="n">shuff_spikes_pre_post</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:],</span>
-                                             <span class="n">min_value</span><span class="o">=</span><span class="n">time_pre</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)))</span>
-    <span class="n">fr_pre</span> <span class="o">=</span> <span class="p">(</span><span class="n">compute_firing_rate</span><span class="p">(</span><span class="n">get_range</span><span class="p">(</span><span class="n">shuff_spikes_pre_post</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:],</span>
-                                            <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="n">time_pre</span><span class="p">)))</span>
-    <span class="n">surr</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">fr_post</span> <span class="o">-</span> <span class="n">fr_pre</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">surr</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">surr</span><span class="p">))</span>
+<span class="c1"># Shuffle the spike data, to be used to calculate surrogates</span>
+<span class="n">shuff_spikes</span> <span class="o">=</span> <a href="../generated/spiketools.stats.shuffle.shuffle_isis.html#spiketools.stats.shuffle.shuffle_isis" title="spiketools.stats.shuffle.shuffle_isis" class="sphx-glr-backref-module-spiketools-stats-shuffle sphx-glr-backref-type-py-function"><span class="n">shuffle_isis</span></a><span class="p">(</span><span class="n">trial_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="n">n_shuff</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>-5.6770066005587925 5.451720106613945
+<p>Now that we have shuffled spikes, we can compute our measure of interest on the
+surrogate data. This will give us a the surrogate distribution which we can then use
+to compute the empirical p-value and the z-score, to examine if the effect in the
+real data is greater than expected by change (in the shuffles).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate surrogate measures</span>
+<span class="n">shuff_frs_pre</span><span class="p">,</span> <span class="n">shuff_frs_post</span> <span class="o">=</span> <a href="../generated/spiketools.measures.trials.compute_pre_post_rates.html#spiketools.measures.trials.compute_pre_post_rates" title="spiketools.measures.trials.compute_pre_post_rates" class="sphx-glr-backref-module-spiketools-measures-trials sphx-glr-backref-type-py-function"><span class="n">compute_pre_post_rates</span></a><span class="p">(</span><span class="n">shuff_spikes</span><span class="p">,</span> <span class="n">pre_window</span><span class="p">,</span> <span class="n">post_window</span><span class="p">)</span>
+<span class="n">shuff_fr_diff</span> <span class="o">=</span> <span class="n">shuff_frs_post</span> <span class="o">-</span> <span class="n">shuff_frs_pre</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Minimum delta FR across surrogates: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">shuff_fr_diff</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Maximum delta FR across surrogates: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">shuff_fr_diff</span><span class="p">)))</span>
 </pre></div>
 </div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Minimum delta FR across surrogates: -5.000
+Maximum delta FR across surrogates: 3.000
+</pre></div>
+</div>
+<p>Now we can compute the empirical p-value and z-score of change in firing rate from
+the distribution of surrogates, using the <a class="reference internal" href="../generated/spiketools.stats.permutations.compute_surrogate_stats.html#spiketools.stats.permutations.compute_surrogate_stats" title="spiketools.stats.permutations.compute_surrogate_stats"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_surrogate_stats()</span></code></a> function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate empirical p-value and z-score of difference in firing rate with respect to surrogates</span>
-<span class="n">pval</span><span class="p">,</span> <span class="n">zscore</span> <span class="o">=</span> <a href="../generated/spiketools.stats.permutations.compute_surrogate_stats.html#spiketools.stats.permutations.compute_surrogate_stats" title="spiketools.stats.permutations.compute_surrogate_stats" class="sphx-glr-backref-module-spiketools-stats-permutations sphx-glr-backref-type-py-function"><span class="n">compute_surrogate_stats</span></a><span class="p">(</span><span class="n">fr_diff</span><span class="p">,</span> <span class="n">surr</span><span class="p">)</span>
+<span class="n">surr_pval</span><span class="p">,</span> <span class="n">surr_zscore</span> <span class="o">=</span> <a href="../generated/spiketools.stats.permutations.compute_surrogate_stats.html#spiketools.stats.permutations.compute_surrogate_stats" title="spiketools.stats.permutations.compute_surrogate_stats" class="sphx-glr-backref-module-spiketools-stats-permutations sphx-glr-backref-type-py-function"><span class="n">compute_surrogate_stats</span></a><span class="p">(</span><span class="n">fr_diff</span><span class="p">,</span> <span class="n">shuff_fr_diff</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The z-score of the delta firing rate (after - before the event) is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">zscore</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">, </span><span class="se">\</span>
-<span class="s1">and the empirical p-value is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;For the surrogate comparison, the z-score is </span><span class="si">{:1.3f}</span><span class="s1">, and the p-value is </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>\
+      <span class="n">surr_zscore</span><span class="p">,</span> <span class="n">surr_pval</span><span class="p">))</span>
 </pre></div>
 </div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The z-score of the delta firing rate (after - before the event) is 1.16, and the empirical p-value is 0.13
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For the surrogate comparison, the z-score is 1.295, and the p-value is 7.000e-02
 </pre></div>
 </div>
+<p>Lastly, plot the distribution of surrogates with calculated delta firing rate.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot distribution of surrogates, with calculated delta firing rate &amp; p-value</span>
-<a href="../generated/spiketools.plts.stats.plot_surrogates.html#spiketools.plts.stats.plot_surrogates" title="spiketools.plts.stats.plot_surrogates" class="sphx-glr-backref-module-spiketools-plts-stats sphx-glr-backref-type-py-function"><span class="n">plot_surrogates</span></a><span class="p">(</span><span class="n">surr</span><span class="p">,</span> <span class="n">fr_diff</span><span class="p">,</span> <span class="n">pval</span><span class="p">)</span>
+<a href="../generated/spiketools.plts.stats.plot_surrogates.html#spiketools.plts.stats.plot_surrogates" title="spiketools.plts.stats.plot_surrogates" class="sphx-glr-backref-module-spiketools-plts-stats sphx-glr-backref-type-py-function"><span class="n">plot_surrogates</span></a><span class="p">(</span><span class="n">shuff_fr_diff</span><span class="p">,</span> <span class="n">fr_diff</span><span class="p">,</span> <span class="n">surr_pval</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_stats_003.png" srcset="../_images/sphx_glr_plot_stats_003.png" alt="plot stats" class = "sphx-glr-single-img"/><ol class="arabic simple" start="3">
-<li><p>Compute f-value from spiking data using ANOVA</p></li>
-</ol>
-<blockquote>
-<div><p>First generate some spiking data. The simulated spike train has 8 seconds of data across trials
-and has a firing rate between 2-10 Hz, assumed 1k Hz sampling rate.
-Next, reorganize the computed firing rate (per trial, per bin) into dataframes.
-Lastly, compute the f-value from the generated spiking data using ANOVA.</p>
-<p>This method can also be applied to calculate the f-value from surrogates using ANOVA.</p>
-</div></blockquote>
-<hr class="docutils" />
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate a set of spiking data (same dataset from Spatial Analysis tutorial)</span>
-<span class="c1"># Set some positional data</span>
+<img src="../_images/sphx_glr_plot_stats_005.png" srcset="../_images/sphx_glr_plot_stats_005.png" alt="plot stats" class = "sphx-glr-single-img"/></section>
+<section id="compute-f-value-from-spiking-data-using-1-way-anova">
+<h3>Compute f-value from spiking data using 1-way ANOVA<a class="headerlink" href="#compute-f-value-from-spiking-data-using-1-way-anova" title="Permalink to this headline">¶</a></h3>
+<p>In this example, we will compute a statistical test of whether there is an effect
+of spatial position on neuron firing.</p>
+<p>To do so, we will simulating spike trains across trials (8 seconds) across spatial bins.</p>
+<p>The simulated data will then be organized (per trial, per bin) into dataframes,
+which we can then use to fit the ANOVA.</p>
+<p>For this example, we will generate a new set of spiking data.
+Note that this simulation matches the one used in the Spatial Analysis tutorial.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate some positional data</span>
 <span class="n">x_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
 <span class="n">y_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
 <span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">y_pos</span><span class="p">])</span>
+
 <span class="c1"># Set number of spatial bins, 3 x-bins and 5 y-bins</span>
 <span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-<span class="n">n_bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">n_bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="c1"># Compute spatial bin edges</span>
 <span class="n">x_edges</span><span class="p">,</span> <span class="n">y_edges</span> <span class="o">=</span> <a href="../generated/spiketools.spatial.occupancy.compute_bin_edges.html#spiketools.spatial.occupancy.compute_bin_edges" title="spiketools.spatial.occupancy.compute_bin_edges" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_edges</span></a><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
 
 <span class="c1"># Set number of trials</span>
 <span class="n">n_trials</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">bin_firing_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_trials</span><span class="p">,</span><span class="n">n_bins</span><span class="p">])</span>
+<span class="n">bin_firing_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_trials</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">])</span>
 
-<span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-    <span class="c1"># Simulate a spike train with a sampling rate of 1k Hz</span>
+<span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trials</span><span class="p">):</span>
+
+    <span class="c1"># Simulate a spike train with a sampling rate of 1000 Hz</span>
     <span class="n">spike_train</span> <span class="o">=</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_binom.html#spiketools.sim.train.sim_spiketrain_binom" title="spiketools.sim.train.sim_spiketrain_binom" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_binom</span></a><span class="p">(</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 
     <span class="c1"># Get spike position bins</span>
     <span class="n">spike_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">spike_train</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
     <span class="c1"># Get x and y position bins corresponding to spike positions</span>
     <span class="n">spike_x</span><span class="p">,</span> <span class="n">spike_y</span> <span class="o">=</span> <a href="../generated/spiketools.spatial.occupancy.compute_bin_assignment.html#spiketools.spatial.occupancy.compute_bin_assignment" title="spiketools.spatial.occupancy.compute_bin_assignment" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_assignment</span></a><span class="p">(</span><span class="n">position</span><span class="p">[:,</span> <span class="n">spike_bins</span><span class="p">],</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">y_edges</span><span class="p">,</span>
                                               <span class="n">include_edge</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
     <span class="c1"># Compute firing rate in each bin</span>
-    <span class="n">bin_firing</span> <span class="o">=</span> <span class="p">(</span><a href="../generated/spiketools.spatial.occupancy.compute_bin_firing.html#spiketools.spatial.occupancy.compute_bin_firing" title="spiketools.spatial.occupancy.compute_bin_firing" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_firing</span></a><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">xbins</span><span class="o">=</span><span class="n">spike_x</span><span class="p">,</span> <span class="n">ybins</span><span class="o">=</span><span class="n">spike_y</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">bin_firing</span> <span class="o">=</span> <span class="p">(</span><a href="../generated/spiketools.spatial.occupancy.compute_bin_counts_assgn.html#spiketools.spatial.occupancy.compute_bin_counts_assgn" title="spiketools.spatial.occupancy.compute_bin_counts_assgn" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_counts_assgn</span></a><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">xbins</span><span class="o">=</span><span class="n">spike_x</span><span class="p">,</span> <span class="n">ybins</span><span class="o">=</span><span class="n">spike_y</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
     <span class="n">bin_firing_all</span><span class="p">[</span><span class="n">ind</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">bin_firing</span>
 </pre></div>
 </div>
+<p>Note that in this example we have a different data organization, due to the binning, and so
+in this case we will create a dataframe using the <a class="reference internal" href="../generated/spiketools.stats.anova.create_dataframe_bins.html#spiketools.stats.anova.create_dataframe_bins" title="spiketools.stats.anova.create_dataframe_bins"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_dataframe_bins()</span></code></a> function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Organize spiking data into dataframe</span>
-<span class="n">df</span> <span class="o">=</span> <a href="../generated/spiketools.stats.anova.create_dataframe.html#spiketools.stats.anova.create_dataframe" title="spiketools.stats.anova.create_dataframe" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">create_dataframe</span></a><span class="p">(</span><span class="n">bin_firing_all</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">],</span> <span class="n">drop_na</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># Compute f_value from spiking data using ANOVA</span>
-<span class="n">f_val</span> <span class="o">=</span> <a href="../generated/spiketools.stats.anova.fit_anova.html#spiketools.stats.anova.fit_anova" title="spiketools.stats.anova.fit_anova" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">fit_anova</span></a><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;fr ~ C(bin)&#39;</span><span class="p">,</span> <span class="s1">&#39;C(bin)&#39;</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;f_val&#39;</span><span class="p">,</span> <span class="n">anova_type</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F-value:&#39;</span><span class="p">,</span> <span class="n">f_val</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <a href="../generated/spiketools.stats.anova.create_dataframe_bins.html#spiketools.stats.anova.create_dataframe_bins" title="spiketools.stats.anova.create_dataframe_bins" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">create_dataframe_bins</span></a><span class="p">(</span><span class="n">bin_firing_all</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value: 41.18613184866505
+<p>Once we have the dataframe, we can fit the ANOVA using the
+<a class="reference internal" href="../generated/spiketools.stats.anova.fit_anova.html#spiketools.stats.anova.fit_anova" title="spiketools.stats.anova.fit_anova"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit_anova()</span></code></a> function, as above.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute f_value from spiking data using ANOVA</span>
+<span class="n">f_val</span> <span class="o">=</span> <a href="../generated/spiketools.stats.anova.fit_anova.html#spiketools.stats.anova.fit_anova" title="spiketools.stats.anova.fit_anova" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">fit_anova</span></a><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;fr ~ C(bin)&#39;</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="s1">&#39;C(bin)&#39;</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;f_val&#39;</span><span class="p">,</span> <span class="n">anova_type</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F-value: </span><span class="si">{:.3}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f_val</span><span class="p">))</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.674 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-stats-py">
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value: 41.9
+</pre></div>
+</div>
+<p>Note that the procedure we employed here could also be combined with what we did above
+to shuffle the data, in order to calculate the ANOVA F-value across surrogates and
+then compare to the real data.</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.733 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-stats-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/3e1328885e3703795461db6650f78c35/plot_stats.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_stats.py</span></code></a></p>
 </div>
@@ -339,7 +493,7 @@ Lastly, compute the f-value from the generated spiking data using ANOVA.</p>
     </p>
     <p>
         &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>

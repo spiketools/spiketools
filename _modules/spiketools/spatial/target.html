@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>spiketools.spatial.target &#8212; spiketools 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          spiketools</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../api.html">API</a></li>
+                <li><a href="../../../glossary.html">Glossary</a></li>
+                <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for spiketools.spatial.target</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Spatial target related functions.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">spiketools.spatial.occupancy</span> <span class="kn">import</span> <span class="n">normalize_bin_counts</span>
+<span class="kn">from</span> <span class="nn">spiketools.spatial.checks</span> <span class="kn">import</span> <span class="n">check_position_bins</span>
+
+<span class="c1">###################################################################################################</span>
+<span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="compute_target_bins"><a class="viewcode-back" href="../../../generated/spiketools.spatial.target.compute_target_bins.html#spiketools.spatial.target.compute_target_bins">[docs]</a><span class="k">def</span> <span class="nf">compute_target_bins</span><span class="p">(</span><span class="n">target_frs</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">xbins</span><span class="p">,</span> <span class="n">ybins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_occupancy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute binned firing based on spatial target.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    target_frs : 2d array</span>
+<span class="sd">        The firing rate per target segment, organized as [n_trials, n_targets_per_trial].</span>
+<span class="sd">    bins : int or list of [int, int]</span>
+<span class="sd">        The bin definition for dividing up the space. If 1d, can be integer.</span>
+<span class="sd">        If 2d should be a list, defined as [number of x_bins, number of y_bins].</span>
+<span class="sd">    xbins, ybins : 1d array</span>
+<span class="sd">        The bin assignments per target. `ybins` is optional if using 1d binning.</span>
+<span class="sd">        The length should equal the length of flattened `target_frs`.</span>
+<span class="sd">    target_occupancy : 1d or 2d array, optional</span>
+<span class="sd">        The number of targets per spatial target bin.</span>
+<span class="sd">        If provided, used to normalize the spiking activity.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    target_bins : 1d or 2d array</span>
+<span class="sd">        The target related spiking activity.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    For the 2D case, note that while the inputs to this function list the x-axis first,</span>
+<span class="sd">    the output of this function, being a 2d array, follows the numpy convention in which</span>
+<span class="sd">    columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute target bin firing from firing rates from 3 trials:</span>
+
+<span class="sd">    &gt;&gt;&gt; target_frs = np.array([[2.5, 4.9, 0.2, 0.9], \</span>
+<span class="sd">                               [5.5, 9.9, 7.7, 3.5], \</span>
+<span class="sd">                               [1.2, 1.4, 2.1, 1.5]])</span>
+<span class="sd">    &gt;&gt;&gt; bins = [2, 3]</span>
+<span class="sd">    &gt;&gt;&gt; xbins, ybins = np.array([0, 1, 1, 0]), np.array([1, 1, 2, 0])</span>
+<span class="sd">    &gt;&gt;&gt; compute_target_bins(target_frs, bins, xbins, ybins)</span>
+<span class="sd">    array([[0.9, 0. ],</span>
+<span class="sd">           [2.5, 4.9],</span>
+<span class="sd">           [0. , 0.2]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_position_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+
+    <span class="n">target_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">target_bins</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">fr</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xbins</span><span class="p">,</span> <span class="n">target_frs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+            <span class="n">target_bins</span><span class="p">[</span><span class="n">xb</span><span class="p">]</span> <span class="o">+=</span> <span class="n">fr</span>
+
+    <span class="k">elif</span> <span class="n">target_bins</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span><span class="p">,</span> <span class="n">fr</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xbins</span><span class="p">,</span> <span class="n">ybins</span><span class="p">,</span> <span class="n">target_frs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+            <span class="n">target_bins</span><span class="p">[</span><span class="n">yb</span><span class="p">,</span> <span class="n">xb</span><span class="p">]</span> <span class="o">+=</span> <span class="n">fr</span>
+
+    <span class="k">if</span> <span class="n">target_occupancy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">target_bins</span> <span class="o">=</span> <span class="n">normalize_bin_counts</span><span class="p">(</span><span class="n">target_bins</span><span class="p">,</span> <span class="n">target_occupancy</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">target_bins</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
