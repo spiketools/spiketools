@@ -42,6 +42,13 @@ def convert_times_to_train(spikes, fs=1000, length=None):
     inds = [int(ind * fs) for ind in spikes if ind * fs <= spike_train.shape[-1]]
     spike_train[inds] = 1
 
+    # Check that the spike times are fully encoded into the spike train
+    msg = ("The spike times were not fully encoded into the spike train. " \
+           "This probably means the spike sampling rate is too low to encode spikes close together in time. " \
+           "Try increasing the sampling rate.")
+    if not sum(spike_train) == len(spikes):
+        raise ValueError(msg)
+
     return spike_train
 
 
