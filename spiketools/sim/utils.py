@@ -88,3 +88,21 @@ def apply_refractory_train(spike_train, refractory_samples):
             spike_train[ind + 1:ind + 1 + refractory_samples] = 0
 
     return spike_train
+
+
+def refractory_train(func):
+    """Decorator for applying a refractory time to spike train simulations."""
+
+    @wraps(func)
+    def decorated(*args, **kwargs):
+
+        refractory = get_function_argument('refractory', func, args, kwargs)
+
+        spike_train = func(*args, **kwargs)
+
+        if refractory:
+            spike_train = apply_refractory_train(spike_train, refractory)
+
+        return spike_train
+
+    return decorated
