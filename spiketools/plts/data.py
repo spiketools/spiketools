@@ -129,7 +129,7 @@ def plot_hist(data, bins=None, range=None, density=None,
 
 @savefig
 @set_plt_kwargs
-def plot_bar(data, labels=None, ax=None, **plt_kwargs):
+def plot_bar(data, labels=None, add_text=False, ax=None, **plt_kwargs):
     """Plot data in a bar graph.
 
     Parameters
@@ -138,6 +138,8 @@ def plot_bar(data, labels=None, ax=None, **plt_kwargs):
         Data to plot.
     labels : list of str
         Labels for the bar plot.
+    add_text : bool, optional, default: False
+        Whether to annotate the bars with text showing their numerical values.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -151,6 +153,9 @@ def plot_bar(data, labels=None, ax=None, **plt_kwargs):
 
     ax.bar(labels, data, **plt_kwargs)
     ax.set(xlim=[-0.5, len(data)-0.5])
+
+    if add_text:
+        _add_text_labels(data, axis='x', position=data, colors='white')
 
 
 @savefig

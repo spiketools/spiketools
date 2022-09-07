@@ -253,7 +253,7 @@ def _add_text_labels(texts, position='start', axis='x', offset=None,
     plot_range = getattr(ax, 'get_' + {'x' : 'y', 'y' : 'x'}[axis] + 'lim')()
 
     if not offset:
-        offset = 0.1 * np.max(plot_range)
+        offset = 0.15 * np.max(plot_range)
     if not values:
         values = range(len(texts))
 
