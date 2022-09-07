@@ -4,6 +4,7 @@ from itertools import repeat
 
 import numpy as np
 
+from spiketools.utils.checks import check_param_options
 from spiketools.plts.utils import check_ax
 
 ###################################################################################################
@@ -219,32 +220,60 @@ def _add_significance(stats, sig_level=0.05, x_vals=None, ax=None):
             ax.plot(x_vals[ind], 0, '*', color='black')
 
 
-def _add_side_text(texts, colors, y_values=None, ax=None, **plt_kwargs):
+def _add_text_labels(texts, position='start', axis='x', offset=None,
+                     values=None, colors='black', ax=None, **plt_kwargs):
     """Add text to the side of a plot.
 
     Parameters
     ----------
     texts : list of str
         Text(s) to add to the plot.
+    position : {'start', 'end'} or iterable
+        Positions to plot the text labels across the axis.
+    axis : {'x', 'y'}
+        Which axis to add text labels across.
+    offset : float, optional
+        An offset value to move the text.
+        If not provided, default to 10% of the plot range.
+    values : list of float, optional
+        Position values to plot the text on the axis defined in `axis`.
+        If not provided, defaults to the indices of the text labels.
     colors : str or list of str
-        Color(s) for each entry.
-    y_values : list of float, optional
-        xx
+        Color(s) for each entry. Defaults to 'black'.
     ax : Axes, optional
         Axis object upon which to plot.
+    plt_kwargs
+        Additional keyword arguments to pass to the `plt.text` call.
     """
 
     ax = check_ax(ax, return_current=True)
 
-    if not y_values:
-        y_values = range(len(texts))
+    check_param_options(axis, 'axis', ['x', 'y'])
+
+    plot_range = getattr(ax, 'get_' + {'x' : 'y', 'y' : 'x'}[axis] + 'lim')()
+
+    if not offset:
+        offset = 0.1 * np.max(plot_range)
+    if not values:
+        values = range(len(texts))
 
     colors = repeat(colors) if isinstance(colors, str) else colors
 
-    plot_end = ax.get_xlim()[1]
+    if isinstance(position, str):
+        check_param_options(position, 'position', ['start', 'end'])
+        ind = {'start' : 0, 'end' : 1}[position]
+        position = repeat(plot_range[ind])
+    else:
+        position = iter(position)
+        offset = -offset
 
-    for text, color, yval in zip(texts, colors, y_values):
-        ax.text(plot_end + 5, yval, text, color=color,
-                fontsize=plt_kwargs.pop('fontsize', 11),
+    for text, color, value in zip(texts, colors, values):
+        if axis == 'x':
+            tpos = [value, next(position) + offset]
+        if axis == 'y':
+            tpos = [next(position) + offset, value]
+        ax.text(*tpos, text, color=color,
+                fontsize=plt_kwargs.pop('fontsize', None),
                 fontweight=plt_kwargs.pop('fontweight', 'bold'),
+                ha='center', va='center',
                 **plt_kwargs)

@@ -8,7 +8,7 @@ from spiketools.tests.tutils import plot_test
 from spiketools.plts.annotate import *
 from spiketools.plts.annotate import (_add_vlines, _add_hlines, _add_vshade, _add_hshade,
                                       _add_box_shade, _add_box_shades, _add_dots,
-                                      _add_significance)
+                                      _add_significance, _add_text_labels)
 
 ###################################################################################################
 ###################################################################################################
@@ -86,3 +86,19 @@ def test_add_significance():
 
     ax.plot(x_values)
     _add_significance(stats, ax=ax)
+
+@plot_test
+def test_add_text_labels_x():
+
+    _, ax = plt.subplots()
+    data = [15, 12, 32, 22]
+    ax.bar(['A', 'B', 'C', 'D'], data)
+    _add_text_labels(data, axis='x')
+
+@plot_test
+def test_add_text_labels_y():
+
+    _, ax = plt.subplots()
+    data = [15, 12, 32, 22]
+    ax.barh(['A', 'B', 'C', 'D'], data)
+    _add_text_labels(data, axis='y', position='end')
