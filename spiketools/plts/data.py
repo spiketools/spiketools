@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from spiketools.measures.circular import bin_circular
 from spiketools.utils.options import get_avg_func
-from spiketools.plts.annotate import _add_vlines
+from spiketools.plts.annotate import _add_vlines, _add_text_labels
 from spiketools.plts.utils import check_ax, savefig
 from spiketools.plts.style import set_plt_kwargs
 from spiketools.plts.settings import TEXT_SETTINGS
@@ -136,7 +136,7 @@ def plot_bar(data, labels=None, add_text=False, ax=None, **plt_kwargs):
     ----------
     data : list of float
         Data to plot.
-    labels : list of str
+    labels : list of str, optional
         Labels for the bar plot.
     add_text : bool, optional, default: False
         Whether to annotate the bars with text showing their numerical values.
@@ -156,6 +156,36 @@ def plot_bar(data, labels=None, add_text=False, ax=None, **plt_kwargs):
 
     if add_text:
         _add_text_labels(data, axis='x', position=data, colors='white')
+
+
+@savefig
+@set_plt_kwargs
+def plot_barh(data, labels=None, add_text=False, ax=None, **plt_kwargs):
+    """Plot a horizontal bar plot.
+
+    Parameters
+    ----------
+    data : list or array of float
+        Data to plot.
+    labels : list of str
+        Labels for the bar plot.
+    add_text : bool, optional, default: False
+        Whether to annotate the bars with text showing their numerical values.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    if not labels:
+        labels = ['d' + str(ind) for ind in range(len(data))]
+
+    ax.barh(labels, data, **plt_kwargs)
+
+    if add_text:
+        _add_text_labels(data, axis='y', position=data, colors='white')
 
 
 @savefig
