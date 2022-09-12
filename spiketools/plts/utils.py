@@ -7,7 +7,7 @@ from os.path import join as pjoin
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 
-from spiketools.plts.settings import SET_KWARGS
+from spiketools.plts.style import get_attr_kwargs
 
 ###################################################################################################
 ###################################################################################################
@@ -87,69 +87,6 @@ def save_figure(file_name, file_path=None, close=False, **save_kwargs):
 
     if close:
         plt.close()
-
-
-def get_set_kwargs(kwargs):
-    """Get keyword arguments for the arguments that can be passed to 'set'.
-
-    Parameters
-    ----------
-    kwargs : dict
-        Plotting related keyword arguments.
-
-    Returns
-    -------
-    setters : dict
-        Selected keyword arguments related to setting attributes.
-    """
-
-    setters = {arg : kwargs.pop(arg, None) for arg in SET_KWARGS}
-    setters = {arg : value for arg, value in setters.items() if value is not None}
-
-    return setters
-
-
-def get_attr_kwargs(kwargs, attr):
-    """Get keyword arguments related to a particular attribute.
-
-    Parameters
-    ----------
-    kwargs : dict
-        Plotting related keyword arguments.
-    attr : str
-        The attribute to select related arguments.
-
-    Returns
-    -------
-    attr_kwargs : dict
-        Selected keyword arguments, related to the given attribute.
-    """
-
-    labels = [key for key in kwargs.keys() if attr in key]
-    attr_kwargs = {label.split('_')[1] : kwargs.pop(label) for label in labels}
-
-    return attr_kwargs
-
-
-def set_plt_kwargs(func):
-    """Collects and then sets plot kwargs that can be applied with 'set'."""
-
-    @wraps(func)
-    def decorated(*args, **kwargs):
-
-        setters = get_set_kwargs(kwargs)
-        title_kwargs = get_attr_kwargs(kwargs, 'title')
-
-        func(*args, **kwargs)
-
-        ax = kwargs['ax'] if 'ax' in kwargs and kwargs['ax'] is not None else plt.gca()
-
-        if 'title' in setters:
-            ax.set_title(setters.pop('title'), **title_kwargs)
-
-        ax.set(**setters)
-
-    return decorated
 
 
 def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,

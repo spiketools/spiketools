@@ -56,7 +56,7 @@ def get_range(data, min_value=None, max_value=None, reset=None):
     Returns
     -------
     data : 1d array
-        Data array, restricted to desired time range.
+        Data array, restricted to desired range.
 
     Examples
     --------
@@ -95,9 +95,9 @@ def get_value_range(times, data, min_value=None, max_value=None, reset=None):
     Parameters
     ----------
     times : 1d array
-        Time indices.
+        Timestamps.
     data : 1d array
-        Array of data.
+        Data values, corresponding to the time values in `times`.
     min_value, max_value : float, optional
         Minimum and/or maximum value to extract from the input array.
     reset : float, optional
@@ -106,7 +106,7 @@ def get_value_range(times, data, min_value=None, max_value=None, reset=None):
     Returns
     -------
     times : 1d array
-        Time indices, selected by value.
+        Timestamps, selected by value.
     data : 1d array
         Array of data, selected by value.
 
@@ -136,7 +136,7 @@ def get_ind_by_time(times, timepoint, threshold=None):
     Parameters
     ----------
     times : 1d array
-        Time indices.
+        Timestamps.
     timepoint : float
         Time value to extract the index for.
     threshold : float, optional
@@ -171,7 +171,7 @@ def get_inds_by_times(times, timepoints, threshold=None, drop_null=True):
     Parameters
     ----------
     times : 1d array
-        Time indices.
+        Timestamps.
     timepoints : 1d array
         The time values to extract indices for.
     threshold : float, optional
@@ -212,9 +212,9 @@ def get_value_by_time(times, values, timepoint, threshold=None):
     Parameters
     ----------
     times : 1d array
-        Time indices.
+        Timestamps.
     values : 1d or 2d array
-        Data values, corresponding to the times vector.
+        Data values, corresponding to the time values in `times`.
     timepoint : float
         Time value to extract.
     threshold : float, optional
@@ -248,17 +248,17 @@ def get_values_by_times(times, values, timepoints, threshold=None, drop_null=Tru
     Parameters
     ----------
     times : 1d array
-        Time indices.
+        Timestamps.
     values : 1d or 2d array
-        Data values, corresponding to the times vector.
+        Data values, corresponding to the time values in `times`.
     timepoints : 1d array
-        The time indices to extract corresponding values for.
+        The time values to extract corresponding values for.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
     drop_null : bool, optional, default: True
         Whether to drop any null values from the outputs (outside threshold range).
-        If False, indices for any null values are NaN.
+        If False, outputs for any null values are NaN.
 
     Returns
     -------
@@ -295,18 +295,18 @@ def get_values_by_time_range(times, values, t_min, t_max):
     Parameters
     ----------
     times : 1d array
-        Time indices.
+        Timestamps.
     values : ndarray
-        Data values, corresponding to the times indices.
+        Data values, corresponding to the time values in `times`.
     t_min, t_max : float
         Time range to extract.
 
     Returns
     -------
     times : 1d array
-        Selected time indices.
+        Selected time values.
     out : ndarray
-        Selected values.
+        Selected data values.
 
     Examples
     --------
@@ -332,10 +332,10 @@ def threshold_spikes_by_times(spikes, times, threshold):
     spikes : 1d array
         Spike times, in seconds.
     times : 1d array
-        Time indices.
+        Timestamps.
     threshold : float
         The threshold that closest time values must be within to be kept.
-        For any time indices greater than this threshold, the spike value is dropped.
+        For any time values greater than this threshold, the spike value is dropped.
 
     Returns
     -------
@@ -359,14 +359,14 @@ def threshold_spikes_by_values(spikes, times, values, data_threshold,
     spikes : 1d array
         Spike times, in seconds.
     times : 1d array
-        Time indices.
+        Timestamps.
     values : 1d array
-        Data values, corresponding to the times vector.
+        Data values, corresponding to the time values in `times`.
     data_threshold : float
-        The threshold that closest data values must be within to be kept.
+        The threshold that the closest data values must be within to be kept.
     time_threshold : float, optional
-        The threshold that closest time values must be within to be kept.
-        For any time indices greater than this threshold, the spike value is dropped.
+        The threshold that the closest time values must be within to be kept.
+        For any time values greater than this threshold, the spike value is dropped.
     comp_type : {'greater', 'less'}
         Which comparison function to use.
         This defines whether selected values must be greater than or less than the data threshold.

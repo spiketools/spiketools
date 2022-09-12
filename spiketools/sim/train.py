@@ -14,7 +14,7 @@ def sim_spiketrain(spike_param, n_samples, method, refractory=None, **kwargs):
     Parameters
     ----------
     spike_param : float
-        Parameter value that controls the simulated spiking. rate or probability.
+        Parameter value that controls the simulated spiking.
         For `prob` or `binom` methods, this is the probability of spiking.
         For `poisson`, this is the spike rate.
     n_samples : int
