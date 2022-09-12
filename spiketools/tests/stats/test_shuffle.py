@@ -3,6 +3,7 @@
 import numpy as np
 
 from spiketools.utils import set_random_seed
+from spiketools.utils.extract import drop_range
 
 from spiketools.stats.shuffle import *
 
@@ -17,6 +18,27 @@ def test_shuffle_spikes(tspikes):
     for approach, kwarg in zip(approaches, kwargs):
         shuffled = shuffle_spikes(tspikes, approach=approach, n_shuffles=1, **kwarg)
         assert isinstance(shuffled, np.ndarray)
+
+def test_drop_shuffle_range():
+
+    # Mock shuffle function
+    @drop_shuffle_range
+    def _shuffle_spikes(spikes, n_shuffles=2):
+        return np.array([spikes + 1] * n_shuffles)
+
+    n_shuffles = 2
+    spikes = np.array([0.5, 1.5, 1.9, 4.1, 5.4, 5.9])
+
+    # Check without activating decorator
+    out = _shuffle_spikes(spikes, n_shuffles)
+    assert np.allclose(out, np.array([spikes + 1] * n_shuffles))
+
+    # Check with applying a drop range
+    #   This test the spikes that get moved from the empty range (spikes @ ind: [1, 2])
+    drop_time_range = [2, 4]
+    out = _shuffle_spikes(spikes, n_shuffles, drop_time_range=drop_time_range)
+    toutput = np.array([0.5, 3.5, 3.9, 4.1, 5.4, 5.9])
+    assert np.allclose(out, np.array([toutput + 1] * n_shuffles))
 
 def test_shuffle_isis(tspikes):
 
