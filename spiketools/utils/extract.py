@@ -394,3 +394,101 @@ def threshold_spikes_by_values(spikes, times, values, data_threshold,
     spikes = spikes[get_comp_func(comp_type)(values, data_threshold)]
 
     return spikes
+
+
+def drop_range(spikes, time_range, check_empty=True):
+    """Drop a specified time range from a vector spike times.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times, in seconds.
+    time_range : list of [float, float] or list of list of [float, float]
+        Time range(s) to drop from spike times.
+        Each time range should be defined as [start_add_time, end_add_time].
+    check_empty : bool, optional, default: True
+        Whether to check if the dropped range is empty of spikes.
+        If True, and there are spikes within the drop `time_range`, an error is raised.
+
+    Returns
+    -------
+    out_spikes : 1d array
+        Spike times, in seconds, with the time range removed.
+    """
+
+    # Operate on a copy of the input, to not overwrite original array
+    spikes = spikes.copy()
+
+    total_len = 0
+    for trange in np.array(time_range, ndmin=2):
+
+        if total_len > 0:
+            trange = [trange[0] - total_len, trange[1] - total_len]
+
+        if check_empty:
+            assert get_range(spikes, *trange).size == 0, \
+                "Extracted range {} is not empty.".format(trange)
+
+        tlen = trange[1] - trange[0]
+        spikes = np.hstack([get_range(spikes, max_value=trange[0]),
+                            get_range(spikes, min_value=trange[1], reset=tlen)])
+
+        total_len += trange[1] - trange[0]
+
+    return spikes
+
+
+def _reinstate_range_1d(spikes, time_range):
+    """Reinstate a dropped time range into a vector of spike times.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times, in seconds.
+    time_range : list of [float, float]
+        Time range to reinstate into spike times, as [start_add_time, end_add_time].
+
+    Returns
+    -------
+    out_spikes : 1d array
+        Spike times, in seconds, with the time range reinstated.
+    """
+
+    tlen = time_range[1] - time_range[0]
+    out_spikes = np.hstack([get_range(spikes, max_value=time_range[0]),
+                            get_range(spikes, min_value=time_range[0]) + tlen])
+
+    return out_spikes
+
+
+def reinstate_range(spikes, time_range):
+    """Reinstate a dropped time range into an array of spike times.
+
+    Parameters
+    ----------
+    spikes : 1d or 2d array
+        An array of spikes times, in seconds.
+    time_range : list of [float, float] or list of list of [float, float]
+        Time range(s) to reinstate into shuffled spike times.
+        Each time range should be defined as [start_add_time, end_add_time].
+
+    Returns
+    -------
+    spikes_out : 1d or 2d array
+        An array of spikes times, in seconds, with the time range reinstated.
+    """
+
+    assert spikes.ndim < 3, 'The reinstate_range function only supports 1d or 2d arrays.'
+
+    # Operate on a copy of the input, to not overwrite original array
+    spikes = spikes.copy()
+
+    # By enforcing 2d (and later squeezing), the loops works for both 1d & 2d arrays
+    spikes = np.atleast_2d(spikes)
+    for trange in np.array(time_range, ndmin=2):
+        for ind, spikes_1d in enumerate(spikes):
+            spikes[ind, :] = _reinstate_range_1d(spikes_1d, trange)
+
+    spikes = np.squeeze(spikes)
+
+    return spikes

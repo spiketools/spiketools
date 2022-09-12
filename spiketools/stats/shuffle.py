@@ -1,5 +1,7 @@
 """Functions for shuffling data."""
 
+from functools import wraps
+
 import numpy as np
 
 from spiketools.measures import compute_isis, compute_firing_rate
@@ -8,6 +10,7 @@ from spiketools.measures.conversions import (convert_times_to_train, convert_isi
 from spiketools.stats.generators import poisson_generator
 from spiketools.stats.permutations import vec_perm
 from spiketools.utils.checks import check_param_options
+from spiketools.utils.extract import drop_range, reinstate_range
 
 ###################################################################################################
 ###################################################################################################
@@ -65,6 +68,44 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
     return shuffled_spikes
 
 
+def drop_shuffle_range(func):
+    """Decorator for shuffling functions that allows for dropping a time range for shuffling.
+
+    Notes
+    -----
+    This function is designed for `shuffle_xx` functions, which takes 1d array `spikes` as
+    the first input and return a 2d array `shuffled_spikes` as the sole output.
+
+    If a keyword argument `drop_time_range` is present, this triggers the drop process:
+
+    - The given drop range time is dropped from the given spike times, before shuffling
+    - The shuffle function is then run, without the dropped range
+    - The drop range time is then reinstated in the shuffled spike times
+
+    If `drop_time_range` is not present in the arguments, this decorator does nothing.
+    """
+
+    @wraps(func)
+    def decorated(*args, **kwargs):
+
+        spikes = args[0]
+        time_range = kwargs.pop('drop_time_range', None)
+        check_empty = kwargs.pop('check_empty', True)
+
+        if time_range:
+            spikes = drop_range(spikes, time_range, check_empty)
+
+        shuffles = func(spikes, *args[1:], **kwargs)
+
+        if time_range:
+            shuffles = reinstate_range(shuffles, time_range)
+
+        return shuffles
+
+    return decorated
+
+
+@drop_shuffle_range
 def shuffle_isis(spikes, n_shuffles=1000):
     """Create shuffled spike times using permuted inter-spike intervals.
 
@@ -98,6 +139,7 @@ def shuffle_isis(spikes, n_shuffles=1000):
     return shuffled_spikes
 
 
+@drop_shuffle_range
 def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
     """Shuffle data with circular shuffles of randomly sized bins of the spike train.
 
@@ -177,6 +219,7 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
     return shuffled_spikes
 
 
+@drop_shuffle_range
 def shuffle_poisson(spikes, n_shuffles=1000):
     """Shuffle spikes based on a Poisson distribution.
 
@@ -217,6 +260,7 @@ def shuffle_poisson(spikes, n_shuffles=1000):
     return shuffled_spikes
 
 
+@drop_shuffle_range
 def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
     """Shuffle spikes based on circularly shifting the spike train.
 
