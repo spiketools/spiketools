@@ -84,8 +84,8 @@ def compute_pos_ranges(position):
     return ranges
 
 
-def compute_bin_time(timestamps):
-    """Compute the time duration of each position sample.
+def compute_sample_durations(timestamps):
+    """Compute the time duration of each sample.
 
     Parameters
     ----------
@@ -95,14 +95,14 @@ def compute_bin_time(timestamps):
     Returns
     -------
     1d array
-        Width, in time, of each bin.
+        Time duration of each sampling bin.
 
     Examples
     --------
     Compute times between timestamp samples:
 
     >>> timestamps = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])
-    >>> compute_bin_time(timestamps)
+    >>> compute_sample_durations(timestamps)
     array([1., 2., 3., 2., 1., 0.])
     """
 

@@ -7,7 +7,7 @@ import pandas as pd
 
 from spiketools.utils.data import assign_data_to_bins
 from spiketools.spatial.checks import check_position, check_position_bins
-from spiketools.spatial.utils import compute_bin_time
+from spiketools.spatial.utils import compute_sample_durations
 
 ###################################################################################################
 ###################################################################################################
@@ -328,7 +328,7 @@ def create_position_df(position, timestamps, bins, area_range=None,
 
     bins = check_position_bins(bins, position)
 
-    data_dict = {'time' : compute_bin_time(timestamps)}
+    data_dict = {'time' : compute_sample_durations(timestamps)}
     if speed is not None:
         data_dict['speed'] = speed
 

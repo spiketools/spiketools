@@ -165,7 +165,7 @@ Utilities related to spatial data.
    :toctree: generated/
 
    compute_nbins
-   compute_bin_time
+   compute_sample_durations
    compute_bin_width
    compute_pos_ranges
    convert_2dindices
