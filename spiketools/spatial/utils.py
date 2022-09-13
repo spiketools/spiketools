@@ -90,7 +90,7 @@ def compute_sample_durations(timestamps):
     Parameters
     ----------
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds.
 
     Returns
     -------

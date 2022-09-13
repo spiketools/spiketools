@@ -290,9 +290,9 @@ def normalize_bin_counts(bin_counts, occupancy):
     return normalized_bin_counts
 
 
-def create_position_df(position, timestamps, bins, area_range=None,
-                       speed=None, speed_threshold=None, time_threshold=None,
-                       dropna=True, check_range=True):
+def create_position_df(position, timestamps, bins, area_range=None, speed=None,
+                       speed_threshold=None, time_threshold=None, dropna=True,
+                       check_range=True):
     """Create a dataframe that stores information about position bins.
 
     Parameters
@@ -300,7 +300,7 @@ def create_position_df(position, timestamps, bins, area_range=None,
     position : 1d or 2d array
         Position values.
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds, corresponding to the position values.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
@@ -427,7 +427,7 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     position : 1d or 2d array
         Position values.
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds, corresponding to the position values.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].

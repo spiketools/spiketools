@@ -46,7 +46,7 @@ def compare_pre_post_activity(trial_spikes, pre_window, post_window, avg_type='m
     trial_spikes : list of 1d array
         Spike times per trial, in seconds.
     pre_window, post_window : list of [float, float]
-        The time window to compute firing rate across, for the pre and post event windows.
+        The time window, in seconds, to compute firing rate across, for the pre and post event windows.
     avg_type : {'mean', 'median'}
         The type of averaging function to use.
 

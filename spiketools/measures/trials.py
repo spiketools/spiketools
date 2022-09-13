@@ -64,7 +64,7 @@ def compute_pre_post_rates(trial_spikes, pre_window, post_window):
     trial_spikes : list of 1d array
         Spike times per trial.
     pre_window, post_window : list of [float, float]
-        The time window to compute firing rate across, for the pre and post event windows.
+        The time window, in seconds, to compute firing rate across, for the pre and post event windows.
 
     Returns
     -------
