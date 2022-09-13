@@ -224,7 +224,7 @@ Methods and measures related to permutation statistics.
 .. autosummary::
    :toctree: generated/
 
-   vec_perm
+   permute_vector
    compute_surrogate_pvalue
    compute_surrogate_zscore
    compute_surrogate_stats

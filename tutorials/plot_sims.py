@@ -77,11 +77,32 @@ plot_rasters(spike_times_poisson)
 spike_times = sim_spiketimes(7, 2.5, 'poisson')
 
 ###################################################################################################
-# Utilities for working with simulated spike times
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# Refractory periods for simulated spike times
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
-# We can apply a refractory period to simulated spike times, using the
+# When simulating spike times, we will often want to add a refractory time such that we
+# don't simulate spike times that are implausible close together.
+#
+# To specify a refractory period, the `refractory` input takes a float value
+# specifying the refractory period, in seconds.
+#
+# This `refractory` parameter is accepted by all the spike time simulation functions.
+# Note that by default, the spike time simulation function apply a refractory period
+# of 0.001 seconds (1 ms).
+#
+
+###################################################################################################
+
+# Simulate spike times with a specified refractory period
+spike_times = sim_spiketimes(7, 2.5, 'poisson', refractory=0.002)
+
+###################################################################################################
+#
+# Behind the scenes, applying a refractory period to a set of spike times is done with the
 # :func:`~.apply_refractory_times` function.
+#
+# We can also use this function to apply a refractory period to
+# an existing set of spike times.
 #
 
 ###################################################################################################
@@ -208,18 +229,34 @@ spike_train1 = sim_spiketrain(0.05, 500, 'binom')
 spike_train2 = sim_spiketrain(12.0, 500, 'poisson')
 
 ###################################################################################################
-# Utilities for working with simulated spike trains
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# Refractory periods for simulated spike trains
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
-# We can apply a refractory period to simulated spike times, using the
-# :func:`~.apply_refractory_train` function.
+# Similarly to the spike time simulations, when simulating spike trains we may
+# want to specify a refractory period, which we can again do with the
+# `refractory` parameter, which in this case accepts an integer value of the
+# number of samples that are refractory after a spike.
+#
+# This `refractory` parameter is accepted by all spike train simulation functions,
+# and has a default of 1 sample.
 #
 
 ###################################################################################################
 
-# Apply a 0.003 seconds refractory period to the simulated spike trains
-spike_train_ref1 = apply_refractory_train(spike_train1, 0.003)
-spike_train_ref2 = apply_refractory_train(spike_train2, 0.003)
+# Simulate spike times with a specified refractory period
+spike_train = sim_spiketrain(0.05, 500, 'binom', refractory=2)
+
+###################################################################################################
+#
+# Refractory times for spike trains are applied with the
+# :func:`~.apply_refractory_train` function, which can also be used independently.
+#
+
+###################################################################################################
+
+# Apply a 3 sample refractory period to the simulated spike trains
+spike_train_ref1 = apply_refractory_train(spike_train1, 3)
+spike_train_ref2 = apply_refractory_train(spike_train2, 3)
 
 # Plot the simulated data
 spike_times1 = convert_train_to_times(spike_train_ref1, fs=1000)
