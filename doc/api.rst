@@ -377,6 +377,26 @@ Basic plot function for different data types.
    plot_polar_hist
    plot_text
 
+Annotate
+~~~~~~~~
+
+Helper functions to annotate plot axes.
+
+.. currentmodule:: spiketools.plts.data
+.. autosummary::
+   :toctree: generated/
+
+   color_pvalue
+   add_vlines
+   add_hlines
+   add_vshade
+   add_hshade
+   add_box_shade
+   add_box_shades
+   add_dots
+   add_significance
+   add_text_labels
+
 Utils
 ~~~~~
 
