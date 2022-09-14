@@ -167,7 +167,7 @@ def plot_barh(data, labels=None, add_text=False, ax=None, **plt_kwargs):
     ----------
     data : list or array of float
         Data to plot.
-    labels : list of str
+    labels : list of str, optional
         Labels for the bar plot.
     add_text : bool, optional, default: False
         Whether to annotate the bars with text showing their numerical values.

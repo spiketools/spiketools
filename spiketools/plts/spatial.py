@@ -62,7 +62,7 @@ def plot_positions(position, spike_positions=None, landmarks=None,
             add_dots(spike_positions.pop('positions'), ax=ax, **{**defaults, **spike_positions})
 
     if landmarks is not None:
-        defaults = defaults = {'alpha' : 0.85, 'ms' : 12}
+        defaults = {'alpha' : 0.85, 'ms' : 12}
         for landmark in [landmarks] if not isinstance(landmarks, list) else landmarks:
             if isinstance(landmark, np.ndarray):
                 add_dots(landmark, ax=ax, **defaults)

@@ -238,7 +238,7 @@ def add_text_labels(texts, location='start', axis='x', offset=None,
     values : list of float, optional
         Position values to plot the text on the axis defined in `axis`.
         If not provided, defaults to the indices of the text labels.
-    colors : str or list of str
+    colors : str or list of str, optional
         Color(s) for each entry. Defaults to 'black'.
     ax : Axes, optional
         Axis object upon which to plot.
