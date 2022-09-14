@@ -31,16 +31,6 @@ def test_check_param_options():
     with raises(ValueError):
         check_param_options('a', 'test', ['b', 'c'])
 
-def test_infer_time_unit(tspikes):
-
-    # Check test data in seconds
-    inferred = infer_time_unit(tspikes)
-    assert inferred == 'seconds'
-
-    # Check test data in milliseconds
-    inferred = infer_time_unit(tspikes * 1000)
-    assert inferred == 'milliseconds'
-
 def test_check_bin_range():
 
     values = np.array([0.5, 1.5, 2.5, 3.5, 4.5])

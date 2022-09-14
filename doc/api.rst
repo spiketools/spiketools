@@ -475,6 +475,7 @@ Utilities for working with timestamps.
 .. autosummary::
    :toctree: generated/
 
+   infer_time_unit
    convert_ms_to_sec
    convert_sec_to_min
    convert_min_to_hour
