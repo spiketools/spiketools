@@ -118,7 +118,7 @@ def convert_isis_to_times(isis, offset=0, add_offset=True):
     return spikes
 
 
-def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
+def convert_times_to_rates(spikes, bins, time_range=None, smooth=None):
     """Convert spike times to continuous firing rate.
 
     Parameters
@@ -129,7 +129,7 @@ def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
         The binning to apply to the spiking data.
         If float, the length of each bin.
         If array, precomputed bin definitions.
-    trange : list of [float, float]
+    time_range : list of [float, float]
         Time range, in seconds, to create the binned firing rate across.
         Only used if `bins` is a float.
     smooth : float, optional
@@ -149,7 +149,7 @@ def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
     array([ 5.,  5., 10.,  5.,  0.,  5., 15.,  5.])
     """
 
-    bins = check_time_bins(bins, spikes, trange)
+    bins = check_time_bins(bins, spikes, time_range)
     bin_counts, _ = np.histogram(spikes, bins)
     cfr = bin_counts / np.diff(bins)
 

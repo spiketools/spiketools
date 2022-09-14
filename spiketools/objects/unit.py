@@ -16,7 +16,7 @@ class Unit():
     uid : str
         Unit ID.
     spikes : 1d array
-        Spike times.
+        Spike times, in seconds.
     channel : str
         Channel label.
     region : str

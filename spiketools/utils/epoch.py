@@ -54,9 +54,9 @@ def epoch_spikes_by_range(spikes, start_times, stop_times, reset=False):
     spikes : 1d array
         Spike times, in seconds.
     start_times : list
-        The start times, in seconds, for each epoch to extract.
+        The start times, in seconds, of each epoch.
     stop_times : list
-        The stop times, in seconds, of each epoch to extract.
+        The stop times, in seconds, of each epoch.
     reset : bool, optional, default: False
         Whether to reset each set of trial timestamps to start at zero.
 
@@ -129,7 +129,7 @@ def epoch_data_by_time(timestamps, values, timepoints, threshold=None):
     values : 1d array
         Data values.
     timepoints : list of float
-        The time value, in seconds, to extract per trial.
+        The time value(s), in seconds, to extract per trial.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
@@ -209,11 +209,11 @@ def epoch_data_by_range(timestamps, values, start_times, stop_times, reset=False
     timestamps : 1d array
         Timestamps, in seconds.
     values : 1d array
-        Data values.
+        Data values, corresponding the the timestamps.
     start_times : list of float
-        The start times, in seconds, for each epoch to extract.
+        The start times, in seconds, of each epoch.
     stop_times : list of float
-        The stop times, in seconds, of each epoch to extract.
+        The stop times, in seconds, of each epoch.
     reset : bool, optional, default: True
         If True, resets the values in each epoch range to the start time of that epoch.
 

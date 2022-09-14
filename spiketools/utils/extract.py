@@ -97,7 +97,7 @@ def get_value_range(timestamps, data, min_value=None, max_value=None, reset=None
     timestamps : 1d array
         Timestamps, in seconds.
     data : 1d array
-        Data values, corresponding to the time values in `timestamps`.
+        Data values, corresponding to the timestamps.
     min_value, max_value : float, optional
         Minimum and/or maximum value to extract from the input array.
     reset : float, optional
@@ -138,7 +138,7 @@ def get_ind_by_time(timestamps, timepoint, threshold=None):
     timestamps : 1d array
         Timestamps, in seconds.
     timepoint : float
-        Time value to extract the index for.
+        The time value to extract the index for.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is -1.
@@ -173,7 +173,7 @@ def get_inds_by_times(timestamps, timepoints, threshold=None, drop_null=True):
     timestamps : 1d array
         Timestamps, in seconds.
     timepoints : 1d array
-        The time values to extract indices for.
+        The time values, in seconds, to extract indices for.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
@@ -325,7 +325,7 @@ def get_values_by_time_range(timestamps, values, t_min, t_max):
 
 
 def threshold_spikes_by_times(spikes, timestamps, threshold):
-    """Threshold spikes by sub-selecting those are temporally close to a set of time values.
+    """Threshold spikes by sub-selecting those that are temporally close to a set of time values.
 
     Parameters
     ----------
@@ -334,13 +334,22 @@ def threshold_spikes_by_times(spikes, timestamps, threshold):
     timestamps : 1d array
         Timestamps, in seconds.
     threshold : float
-        The threshold that the closest time value must be to the spike for it to be kept.
-        For any spikes further from a time value than this threshold, the spike value is dropped.
+        The threshold value for the time between the spike and a timestamp for the spike to be kept.
+        Any spikes further in time from a timestamp value are dropped.
 
     Returns
     -------
     spikes : 1d array
         Sub-selected spike times, in seconds.
+
+    Examples
+    --------
+    Extract spikes based on their proximity to timestamps:
+
+    >>> spikes = np.array([0.76, 1.12, 1.72, 2.05, 2.32, 2.92, 3.11, 3.63, 3.91])
+    >>> timestamps = np.array([1.0, 1.25, 1.5, 1.75, 2.0, 3.5, 3.75, 4.0])
+    >>> threshold_spikes_by_times(spikes, timestamps, threshold=0.25)
+    array([0.76, 1.12, 1.72, 2.05, 3.63, 3.91])
     """
 
     mask = np.empty_like(spikes, dtype=bool)
@@ -351,8 +360,8 @@ def threshold_spikes_by_times(spikes, timestamps, threshold):
 
 
 def threshold_spikes_by_values(spikes, timestamps, values, data_threshold,
-                               time_threshold=None, comp_type='greater'):
-    """Threshold spikes by sub-selecting those are exceed a value on another data stream.
+                               time_threshold=None, data_comparison='greater'):
+    """Threshold spikes by sub-selecting based on thresholding values on another data stream.
 
     Parameters
     ----------
@@ -361,14 +370,14 @@ def threshold_spikes_by_values(spikes, timestamps, values, data_threshold,
     timestamps : 1d array
         Timestamps, in seconds.
     values : 1d array
-        Data values, corresponding to the time values in `timestamps`.
+        Data values, corresponding to the timestamps.
     data_threshold : float
-        The threshold that the closest data values must be within to be kept.
+        The threshold for the data, used to select spikes based on data values
     time_threshold : float, optional
-        The threshold that the closest time values must be within to be kept.
-        For any time values greater than this threshold, the spike value is dropped.
-    comp_type : {'greater', 'less'}
-        Which comparison function to use.
+        The threshold value for the time between the spike and a timestamp for the spike to be kept.
+        Any spikes further in time from a timestamp value are dropped.
+    data_comparison : {'greater', 'less'}
+        Which comparison function to use for the data threshold.
         This defines whether selected values must be greater than or less than the data threshold.
 
     Returns
@@ -378,7 +387,7 @@ def threshold_spikes_by_values(spikes, timestamps, values, data_threshold,
 
     Examples
     --------
-    Threshold spikes based on a a minimum data threshold:
+    Threshold spikes based on a minimum data threshold:
 
     >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 1, 1.2, 1.6, 1.8])
     >>> timestamps = np.array([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4])
@@ -391,7 +400,7 @@ def threshold_spikes_by_values(spikes, timestamps, values, data_threshold,
 
     mask = ~np.isnan(values)
     spikes, values = spikes[mask], values[mask]
-    spikes = spikes[get_comp_func(comp_type)(values, data_threshold)]
+    spikes = spikes[get_comp_func(data_comparison)(values, data_threshold)]
 
     return spikes
 
@@ -414,6 +423,15 @@ def drop_range(spikes, time_range, check_empty=True):
     -------
     out_spikes : 1d array
         Spike times, in seconds, with the time range removed.
+
+    Examples
+    --------
+    Drop an empty time range from a set of spike times:
+
+    >>> spikes = np.array([0.24, 0.73, 1.22, 1.65, 10.15, 10.95, 11.52, 11.84])
+    >>> time_range = [2, 10]
+    >>> drop_range(spikes, time_range)
+    array([0.24, 0.73, 1.22, 1.65, 2.15, 2.95, 3.52, 3.84])
     """
 
     # Operate on a copy of the input, to not overwrite original array
@@ -476,6 +494,15 @@ def reinstate_range(spikes, time_range):
     -------
     spikes_out : 1d or 2d array
         An array of spikes times, in seconds, with the time range reinstated.
+
+    Examples
+    --------
+    Reinstate a time range into a set of spike times:
+
+    >>> spikes = np.array([0.24, 0.73, 1.22, 1.65, 2.15, 2.95, 3.52, 3.84])
+    >>> time_range = [2, 10]
+    >>> reinstate_range(spikes, time_range)
+    array([ 0.24,  0.73,  1.22,  1.65, 10.15, 10.95, 11.52, 11.84])
     """
 
     assert spikes.ndim < 3, 'The reinstate_range function only supports 1d or 2d arrays.'

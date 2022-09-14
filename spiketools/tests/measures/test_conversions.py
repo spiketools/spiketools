@@ -67,7 +67,7 @@ def test_convert_times_to_rates(tspikes):
     assert len(rates) == len(bins) - 1
 
     # Passing in bin width, with smoothing
-    rates = convert_times_to_rates(tspikes, 0.5, trange=[0, 8.5], smooth=0.5)
+    rates = convert_times_to_rates(tspikes, 0.5, time_range=[0, 8.5], smooth=0.5)
     assert isinstance(rates, np.ndarray)
 
     # Check bins with different sizes
