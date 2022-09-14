@@ -36,7 +36,7 @@ def test_apply_refractory_train():
 def test_refractory_times():
     # Tests the 'refractory' decorator, applied to 'times' functions
 
-    @refractory('times')
+    @apply_refractory('times')
     def _spike_times():
         return np.array([0.100, 0.5100, 0.5105, 0.75, 0.95])
 
@@ -49,7 +49,7 @@ def test_refractory_times():
     assert np.array_equal(out, np.array([0.100, 0.5100, 0.75, 0.95]))
 
     # test with accessing refractory time from function default
-    @refractory('times')
+    @apply_refractory('times')
     def _spike_times2(refractory=0.001):
         return np.array([0.100, 0.5100, 0.5105, 0.75, 0.95])
     out = _spike_times2()
@@ -58,7 +58,7 @@ def test_refractory_times():
 def test_refractory_train():
     # Tests the 'refractory' decorator, applied to 'train' functions
 
-    @refractory('train')
+    @apply_refractory('train')
     def _spike_train():
         return np.array([0, 1, 1, 0, 1])
 
@@ -71,7 +71,7 @@ def test_refractory_train():
     assert np.array_equal(out, np.array([0, 1, 0, 0, 1]))
 
     # test with accessing refractory time from function default
-    @refractory('train')
+    @apply_refractory('train')
     def _spike_train2(refractory=1):
         return np.array([0, 1, 1, 0, 1])
     out = _spike_train2()

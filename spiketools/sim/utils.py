@@ -83,8 +83,8 @@ REFRACTORY_FUNCTIONS = {
 ###################################################################################################
 ## REFRACTORY DECORATOR
 
-def refractory(spike_representation):
-    """Decorator for applying a refractory period to spike time simulations.
+def apply_refractory(spike_representation):
+    """Decorator for applying a refractory period to simulated spiking data.
 
     Parameters
     ----------
