@@ -87,4 +87,4 @@ def drop_spines(ax, sides):
     sides = [sides] if isinstance(sides, str) else sides
     check_list_options(sides, 'sides', ['left', 'right', 'top', 'bottom'])
     for side in sides:
-        getattr(ax.spines, side).set_visible(False)
+        ax.spines[side].set_visible(False)
