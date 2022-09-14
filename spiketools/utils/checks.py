@@ -122,7 +122,7 @@ def check_time_bins(bins, values, time_range=None, check_range=True):
         If array, precomputed bin definitions.
     values : 1d array
         The time values that are to be binned.
-    time_range : list of [float, float]
+    time_range : list of [float, float], optional
         Time range, in seconds, to create the binned firing rate across.
         Only used if `bins` is a float. If given, the end value is inclusive.
     check_range : True

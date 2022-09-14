@@ -382,7 +382,7 @@ Annotate
 
 Helper functions to annotate plot axes.
 
-.. currentmodule:: spiketools.plts.data
+.. currentmodule:: spiketools.plts.annotate
 .. autosummary::
    :toctree: generated/
 

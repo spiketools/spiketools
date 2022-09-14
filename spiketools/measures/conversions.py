@@ -129,7 +129,7 @@ def convert_times_to_rates(spikes, bins, time_range=None, smooth=None):
         The binning to apply to the spiking data.
         If float, the length of each bin.
         If array, precomputed bin definitions.
-    time_range : list of [float, float]
+    time_range : list of [float, float], optional
         Time range, in seconds, to create the binned firing rate across.
         Only used if `bins` is a float.
     smooth : float, optional
