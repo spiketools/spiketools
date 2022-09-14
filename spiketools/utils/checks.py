@@ -63,6 +63,37 @@ def check_param_options(param, label, options, ignore_case=False):
         raise ValueError(msg)
 
 
+def check_array_orientation(arr):
+    """Check the orientation of an array of data.
+
+    Parameters
+    ----------
+    arr : ndarray
+        Data array to check the orientation of.
+
+    Returns
+    -------
+    orientation : {'vector', 'row', 'column'}
+        The inferred orientation of the data array.
+        For 1d cases, 'vector' indicates data is vector with no directional orientation.
+        For 2d or 3d cases, 'row' or 'column' indicates data is organized row-wise or column-wise respectively.
+    """
+
+    assert arr.ndim < 4, "The check_array_orientation function only works up to 3d."
+
+    if arr.ndim == 1:
+        orientation = 'vector'
+    # This covers 2d or 3d arrays
+    else:
+        shape = arr.shape
+        if shape[-1] > shape[-2]:
+            orientation = 'row'
+        else:
+            orientation = 'column'
+
+    return orientation
+
+
 def check_bin_range(values, bin_area):
     """Checks data values against given bin edges, warning if values exceed bin range.
 

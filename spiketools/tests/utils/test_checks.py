@@ -31,6 +31,22 @@ def test_check_param_options():
     with raises(ValueError):
         check_param_options('a', 'test', ['b', 'c'])
 
+
+def test_check_array_orientation():
+
+    arr1 = np.array([1, 2, 3])
+    assert check_array_orientation(arr1) == 'vector'
+
+    arr2r = np.array([[1, 2, 3], [4, 5, 6]])
+    assert check_array_orientation(arr2r) == 'row'
+    arr2c = np.array([[1, 2], [3, 4], [5, 6]])
+    assert check_array_orientation(arr2c) == 'column'
+
+    arr3r = np.array([[[1, 2, 3], [4, 5, 6]], [[1, 2, 3], [4, 5, 6]]])
+    assert check_array_orientation(arr3r) == 'row'
+    arr3c = np.array([[[1, 2], [3, 4], [5, 6]], [[1, 2], [3, 4], [5, 6]]])
+    assert check_array_orientation(arr3c) == 'column'
+
 def test_check_bin_range():
 
     values = np.array([0.5, 1.5, 2.5, 3.5, 4.5])
