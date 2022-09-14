@@ -10,7 +10,7 @@ from spiketools.plts.utils import check_ax
 ###################################################################################################
 ###################################################################################################
 
-def color_pval(p_value, alpha=0.05, significant_color='red', null_color='black'):
+def color_pvalue(p_value, alpha=0.05, significant_color='red', null_color='black'):
     """Select a color based on the significance of a p-value.
 
     Parameters
@@ -33,7 +33,7 @@ def color_pval(p_value, alpha=0.05, significant_color='red', null_color='black')
     return significant_color if p_value < alpha else null_color
 
 
-def _add_vlines(vline, ax=None, **plt_kwargs):
+def add_vlines(vline, ax=None, **plt_kwargs):
     """Add vertical line(s) to a plot axis.
 
     Parameters
@@ -54,7 +54,7 @@ def _add_vlines(vline, ax=None, **plt_kwargs):
             ax.axvline(line, **plt_kwargs)
 
 
-def _add_hlines(hline, ax=None, **plt_kwargs):
+def add_hlines(hline, ax=None, **plt_kwargs):
     """Add horizontal line(s) to a plot axis.
 
     Parameters
@@ -75,7 +75,7 @@ def _add_hlines(hline, ax=None, **plt_kwargs):
             ax.axhline(line, **plt_kwargs)
 
 
-def _add_vshade(vshade, ax=None, **plt_kwargs):
+def add_vshade(vshade, ax=None, **plt_kwargs):
     """Add vertical shading to a plot axis.
 
     Parameters
@@ -94,7 +94,7 @@ def _add_vshade(vshade, ax=None, **plt_kwargs):
         ax.axvspan(*vshade, **plt_kwargs)
 
 
-def _add_hshade(hshade, ax=None, **plt_kwargs):
+def add_hshade(hshade, ax=None, **plt_kwargs):
     """Add horizontal shading to a plot axis.
 
     Parameters
@@ -113,7 +113,7 @@ def _add_hshade(hshade, ax=None, **plt_kwargs):
         ax.axhspan(*hshade, **plt_kwargs)
 
 
-def _add_box_shade(x1, x2, y_val, y_range=0.41, ax=None, **plt_kwargs):
+def add_box_shade(x1, x2, y_val, y_range=0.41, ax=None, **plt_kwargs):
     """Add a shaded box to a plot axis.
 
     Parameters
@@ -136,7 +136,7 @@ def _add_box_shade(x1, x2, y_val, y_range=0.41, ax=None, **plt_kwargs):
                     alpha=plt_kwargs.pop('alpha', 0.2), **plt_kwargs)
 
 
-def _add_box_shades(x_values, y_values=None, x_range=1, y_range=0.41, ax=None, **plt_kwargs):
+def add_box_shades(x_values, y_values=None, x_range=1, y_range=0.41, ax=None, **plt_kwargs):
     """Add multiple shaded boxes to a plot axis.
 
     Parameters
@@ -159,11 +159,11 @@ def _add_box_shades(x_values, y_values=None, x_range=1, y_range=0.41, ax=None, *
         y_values = range(0, len(x_values))
 
     for xval, yval in zip(x_values, y_values):
-        _add_box_shade(xval - x_range, xval + x_range, yval, y_range,
-                       color=color, ax=ax, **plt_kwargs)
+        add_box_shade(xval - x_range, xval + x_range, yval, y_range,
+                      color=color, ax=ax, **plt_kwargs)
 
 
-def _add_dots(dots, ax=None, **plt_kwargs):
+def add_dots(dots, ax=None, **plt_kwargs):
     """Add dots to a plot axis.
 
     Parameters
@@ -190,7 +190,7 @@ def _add_dots(dots, ax=None, **plt_kwargs):
                 **plt_kwargs)
 
 
-def _add_significance(stats, sig_level=0.05, x_vals=None, ax=None):
+def add_significance(stats, sig_level=0.05, x_vals=None, ax=None):
     """Add markers to a plot axis to indicate statistical significance.
 
     Parameters
@@ -220,8 +220,8 @@ def _add_significance(stats, sig_level=0.05, x_vals=None, ax=None):
             ax.plot(x_vals[ind], 0, '*', color='black')
 
 
-def _add_text_labels(texts, position='start', axis='x', offset=None,
-                     values=None, colors='black', ax=None, **plt_kwargs):
+def add_text_labels(texts, position='start', axis='x', offset=None,
+                    values=None, colors='black', ax=None, **plt_kwargs):
     """Add text to the side of a plot.
 
     Parameters

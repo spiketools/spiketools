@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from spiketools.utils.data import smooth_data, compute_range
 from spiketools.modutils.functions import get_function_parameters
-from spiketools.plts.annotate import _add_dots
+from spiketools.plts.annotate import add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.utils import check_ax, make_axes, savefig
 from spiketools.plts.style import set_plt_kwargs
@@ -57,17 +57,17 @@ def plot_positions(positions, spike_positions=None, landmarks=None,
     if spike_positions is not None:
         defaults = {'color' : 'red', 'alpha' : 0.4, 'ms' : 6}
         if isinstance(spike_positions, np.ndarray):
-            _add_dots(spike_positions, ax=ax, **defaults)
+            add_dots(spike_positions, ax=ax, **defaults)
         elif isinstance(spike_positions, dict):
-            _add_dots(spike_positions.pop('positions'), ax=ax, **{**defaults, **spike_positions})
+            add_dots(spike_positions.pop('positions'), ax=ax, **{**defaults, **spike_positions})
 
     if landmarks is not None:
         defaults = defaults = {'alpha' : 0.85, 'ms' : 12}
         for landmark in [landmarks] if not isinstance(landmarks, list) else landmarks:
             if isinstance(landmark, np.ndarray):
-                _add_dots(landmark, ax=ax, **defaults)
+                add_dots(landmark, ax=ax, **defaults)
             elif isinstance(landmark, dict):
-                _add_dots(landmark.pop('positions'), ax=ax, **landmark)
+                add_dots(landmark.pop('positions'), ax=ax, **landmark)
 
     if x_bins is not None:
         ax.set_xticks(x_bins, minor=False)

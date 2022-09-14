@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from spiketools.measures.circular import bin_circular
 from spiketools.utils.options import get_avg_func
-from spiketools.plts.annotate import _add_vlines, _add_text_labels
+from spiketools.plts.annotate import add_vlines, add_text_labels
 from spiketools.plts.utils import check_ax, savefig
 from spiketools.plts.style import set_plt_kwargs
 from spiketools.plts.settings import TEXT_SETTINGS
@@ -42,7 +42,7 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
     for x_vals, y_vals in zip(x_values, y_values):
         ax.plot(x_vals, y_vals, **plt_kwargs)
 
-    _add_vlines(vline, ax)
+    add_vlines(vline, ax)
 
 
 @savefig
@@ -124,7 +124,7 @@ def plot_hist(data, bins=None, range=None, density=None,
     ax.hist(data, bins=bins, range=range, density=density, **plt_kwargs)
 
     if average:
-        _add_vlines(get_avg_func(average)(data), lw=4, color='red', alpha=0.8, ax=ax)
+        add_vlines(get_avg_func(average)(data), lw=4, color='red', alpha=0.8, ax=ax)
 
 
 @savefig
@@ -155,7 +155,7 @@ def plot_bar(data, labels=None, add_text=False, ax=None, **plt_kwargs):
     ax.set(xlim=[-0.5, len(data)-0.5])
 
     if add_text:
-        _add_text_labels(data, axis='x', position=data, colors='white')
+        add_text_labels(data, axis='x', position=data, colors='white')
 
 
 @savefig
@@ -185,7 +185,7 @@ def plot_barh(data, labels=None, add_text=False, ax=None, **plt_kwargs):
     ax.barh(labels, data, **plt_kwargs)
 
     if add_text:
-        _add_text_labels(data, axis='y', position=data, colors='white')
+        add_text_labels(data, axis='y', position=data, colors='white')
 
 
 @savefig

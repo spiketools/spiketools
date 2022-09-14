@@ -5,7 +5,7 @@ import numpy as np
 from spiketools.utils.base import flatten
 from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.annotate import _add_vlines, _add_vshade, _add_significance
+from spiketools.plts.annotate import add_vlines, add_vshade, add_significance
 from spiketools.plts.utils import check_ax, savefig
 from spiketools.plts.style import set_plt_kwargs
 
@@ -59,8 +59,8 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
 
     ax.eventplot(data, colors=colors)
 
-    _add_vlines(vline, ax, lw=2.5, color=plt_kwargs.pop('line_color', 'green'), alpha=0.5)
-    _add_vshade(vshade, ax, color=plt_kwargs.pop('shade_color', 'red'), alpha=0.25)
+    add_vlines(vline, ax, lw=2.5, color=plt_kwargs.pop('line_color', 'green'), alpha=0.5)
+    add_vshade(vshade, ax, color=plt_kwargs.pop('shade_color', 'red'), alpha=0.25)
 
     if not show_axis:
         ax.set_axis_off()
@@ -119,7 +119,7 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
         ax.legend(loc='best')
 
     if stats:
-        _add_significance(stats, sig_level=sig_level, ax=ax)
+        add_significance(stats, sig_level=sig_level, ax=ax)
 
 
 def create_raster_title(label, avg_pre, avg_post, t_val=None, p_val=None):
