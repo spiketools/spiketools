@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.spatial.occupancy import normalize_bin_counts
-from spiketools.spatial.checks import check_position_bins
+from spiketools.spatial.checks import check_spatial_bins
 
 ###################################################################################################
 ###################################################################################################
@@ -51,7 +51,7 @@ def compute_target_bins(target_frs, bins, xbins, ybins=None, target_occupancy=No
            [0. , 0.2]])
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     target_bins = np.zeros(np.flip(bins))
 

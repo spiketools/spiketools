@@ -39,7 +39,7 @@ def add_vlines(vline, ax=None, **plt_kwargs):
     Parameters
     ----------
     vline : float or list
-        Positions(s) of the vertical lines to add to the plot.
+        Location(s) of the vertical lines to add to the plot.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -60,7 +60,7 @@ def add_hlines(hline, ax=None, **plt_kwargs):
     Parameters
     ----------
     hline : float or list
-        Positions(s) of the horizontal lines to add to the plot.
+        Location(s) of the horizontal lines to add to the plot.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -121,7 +121,7 @@ def add_box_shade(x1, x2, y_val, y_range=0.41, ax=None, **plt_kwargs):
     x1, x2 : float
         The start and end positions for the shaded box on the x-axis.
     y_val : float
-        The position for the shaded box on the y-axis.
+        The position of the shaded box on the y-axis.
     y_range : float
         The range, as +/-, around the y position to shade the box.
     ax : Axes, optional
@@ -142,7 +142,7 @@ def add_box_shades(x_values, y_values=None, x_range=1, y_range=0.41, ax=None, **
     Parameters
     ----------
     x_values, y_values : 1d array
-        A list of center position values for the x- and y-axes for each shaded box.
+        Center position values for the x- and y-axes for each shaded box.
     x_range, y_range : float
         The range, as +/-, around the x and y positions to shade the box.
     ax : Axes, optional
@@ -220,7 +220,7 @@ def add_significance(stats, sig_level=0.05, x_vals=None, ax=None):
             ax.plot(x_vals[ind], 0, '*', color='black')
 
 
-def add_text_labels(texts, position='start', axis='x', offset=None,
+def add_text_labels(texts, location='start', axis='x', offset=None,
                     values=None, colors='black', ax=None, **plt_kwargs):
     """Add text to the side of a plot.
 
@@ -228,8 +228,8 @@ def add_text_labels(texts, position='start', axis='x', offset=None,
     ----------
     texts : list of str
         Text(s) to add to the plot.
-    position : {'start', 'end'} or iterable
-        Positions to plot the text labels across the axis.
+    location : {'start', 'end'} or iterable
+        Location to plot the text labels across the axis.
     axis : {'x', 'y'}
         Which axis to add text labels across.
     offset : float, optional
@@ -259,19 +259,19 @@ def add_text_labels(texts, position='start', axis='x', offset=None,
 
     colors = repeat(colors) if isinstance(colors, str) else colors
 
-    if isinstance(position, str):
-        check_param_options(position, 'position', ['start', 'end'])
-        ind = {'start' : 0, 'end' : 1}[position]
-        position = repeat(plot_range[ind])
+    if isinstance(location, str):
+        check_param_options(location, 'location', ['start', 'end'])
+        ind = {'start' : 0, 'end' : 1}[location]
+        location = repeat(plot_range[ind])
     else:
-        position = iter(position)
+        location = iter(location)
         offset = -offset
 
     for text, color, value in zip(texts, colors, values):
         if axis == 'x':
-            tpos = [value, next(position) + offset]
+            tpos = [value, next(location) + offset]
         if axis == 'y':
-            tpos = [next(position) + offset, value]
+            tpos = [next(location) + offset, value]
         ax.text(*tpos, text, color=color,
                 fontsize=plt_kwargs.pop('fontsize', None),
                 fontweight=plt_kwargs.pop('fontweight', 'bold'),

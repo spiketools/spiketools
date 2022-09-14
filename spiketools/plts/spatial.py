@@ -17,13 +17,13 @@ from spiketools.plts.style import set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_positions(positions, spike_positions=None, landmarks=None,
+def plot_positions(position, spike_positions=None, landmarks=None,
                    x_bins=None, y_bins=None, ax=None, **plt_kwargs):
     """Plot positions.
 
     Parameters
     ----------
-    positions : 2d array or list of 2d array
+    position : 2d array or list of 2d array
         Position data.
         If a list, each array from the list is plotted separately, on the same plot.
     spike_positions : 2d array or dict, optional
@@ -47,9 +47,9 @@ def plot_positions(positions, spike_positions=None, landmarks=None,
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    positions = [positions] if isinstance(positions, np.ndarray) else positions
-    for cur_positions in positions:
-        ax.plot(*cur_positions,
+    position = [position] if isinstance(position, np.ndarray) else position
+    for cur_position in position:
+        ax.plot(*cur_position,
                 color=plt_kwargs.pop('color', DEFAULT_COLORS[0]),
                 alpha=plt_kwargs.pop('alpha', 0.35),
                 **plt_kwargs)
@@ -84,7 +84,7 @@ def plot_positions(positions, spike_positions=None, landmarks=None,
 
 @savefig
 @set_plt_kwargs
-def plot_position_by_time(timestamps, positions, spikes=None, spike_positions=None,
+def plot_position_by_time(timestamps, position, spikes=None, spike_positions=None,
                           ax=None, **plt_kwargs):
     """Plot the position across time for a single dimension.
 
@@ -92,7 +92,7 @@ def plot_position_by_time(timestamps, positions, spikes=None, spike_positions=No
     ----------
     timestamps : 1d array
         Timestamps, in seconds, corresponding to the position values.
-    positions : 1d array
+    position : 1d array
         Position values, for a single dimension.
     spikes : 1d array, optional
         Spike times, in seconds.
@@ -110,7 +110,7 @@ def plot_position_by_time(timestamps, positions, spikes=None, spike_positions=No
     if spikes is not None:
         spike_positions_plot = np.array([spikes, spike_positions])
 
-    plot_positions(np.array([timestamps, positions]), spike_positions_plot, ax=ax, **plt_kwargs)
+    plot_positions(np.array([timestamps, position]), spike_positions_plot, ax=ax, **plt_kwargs)
 
     ax.set(xlabel='Time', ylabel='Position')
 

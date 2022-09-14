@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.utils.data import compute_range
-from spiketools.spatial.checks import check_position_bins
+from spiketools.spatial.checks import check_spatial_bins
 
 ###################################################################################################
 ###################################################################################################
@@ -30,7 +30,7 @@ def compute_nbins(bins):
     20
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     if len(bins) == 1:
         n_bins = bins[0]

@@ -24,7 +24,7 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
         Spike times per trial.
         Multiple conditions can also be passed in.
     vline : float or list, optional
-        Position(s) to draw a vertical line. If None, no line is drawn.
+        Location(s) to draw a vertical line. If None, no line is drawn.
     colors : str or list of str, optional
         Color(s) to plot the raster ticks.
         If more than one, should be the length of data.

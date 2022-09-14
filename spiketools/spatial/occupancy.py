@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from spiketools.utils.data import assign_data_to_bins
-from spiketools.spatial.checks import check_position, check_position_bins
+from spiketools.spatial.checks import check_position, check_spatial_bins
 from spiketools.spatial.utils import compute_sample_durations
 
 ###################################################################################################
@@ -49,7 +49,7 @@ def compute_bin_edges(position, bins, area_range=None):
     (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
 
-    bins = check_position_bins(bins, position)
+    bins = check_spatial_bins(bins, position)
 
     if position.ndim == 1:
         _, x_edges = np.histogram(position, bins=bins[0], range=area_range)
@@ -173,7 +173,7 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
            [0, 2]])
     """
 
-    bins = check_position_bins(bins, position)
+    bins = check_spatial_bins(bins, position)
 
     if position.ndim == 1:
         bin_counts, _ = np.histogram(position, bins=bins[0], range=area_range)
@@ -237,7 +237,7 @@ def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
            [1., 1.]])
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     if ybins is None:
         bins = np.arange(0, bins[0] + 1)
@@ -326,7 +326,7 @@ def create_position_df(position, timestamps, bins, area_range=None, speed=None,
         Dataframe representation of position bin information.
     """
 
-    bins = check_position_bins(bins, position)
+    bins = check_spatial_bins(bins, position)
 
     data_dict = {'time' : compute_sample_durations(timestamps)}
     if speed is not None:
@@ -392,7 +392,7 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
         For 2d, has shape [n_y_bins, n_x_bins] (see notes in `compute_occupancy`).
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     # Group position samples into spatial bins, summing total time spent there
     groupby = sorted([el for el in list(bindf.columns) if 'bin' in el])

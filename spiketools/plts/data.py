@@ -25,7 +25,7 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
     x_values, y_values : 1d or 2d array or list of 1d array
         Data to plot on the x and y axis.
     vline : float or list, optional
-        Position(s) to draw a vertical line. If None, no line is drawn.
+        Location(s) to draw a vertical line. If None, no line is drawn.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -155,7 +155,7 @@ def plot_bar(data, labels=None, add_text=False, ax=None, **plt_kwargs):
     ax.set(xlim=[-0.5, len(data)-0.5])
 
     if add_text:
-        add_text_labels(data, axis='x', position=data, colors='white')
+        add_text_labels(data, axis='x', location=data, colors='white')
 
 
 @savefig
@@ -185,7 +185,7 @@ def plot_barh(data, labels=None, add_text=False, ax=None, **plt_kwargs):
     ax.barh(labels, data, **plt_kwargs)
 
     if add_text:
-        add_text_labels(data, axis='y', position=data, colors='white')
+        add_text_labels(data, axis='y', location=data, colors='white')
 
 
 @savefig
@@ -222,7 +222,7 @@ def plot_text(text, xpos=0.5, ypos=0.5, show_axis=False, ax=None, **plt_kwargs):
     text : str
         The text to plot.
     xpos, ypos : float, optional, default: 0.5
-        The x and y position to plot the text.
+        The x and y positions to plot the text.
     show_axis : bool, optional, default: False
         Whether to show the axis of the plot.
     ax : Axes, optional
