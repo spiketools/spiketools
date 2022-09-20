@@ -4,6 +4,8 @@ import warnings
 
 import numpy as np
 
+from spiketools.utils.base import lower_list
+
 ###################################################################################################
 ###################################################################################################
 
@@ -31,7 +33,7 @@ def check_param_range(param, label, bounds):
         raise ValueError(msg)
 
 
-def check_param_options(param, label, options):
+def check_param_options(param, label, options, ignore_case=False):
     """Check a parameter value is one of the acceptable options.
 
     Parameters
@@ -42,6 +44,8 @@ def check_param_options(param, label, options):
         Label of the parameter being checked.
     options : list of str
         Valid string values that `param` may be.
+    ignore_case : bool, optional, default: False
+        If True, ignore whether strings are upper or lower case for comparison.
 
     Raises
     ------
@@ -49,49 +53,45 @@ def check_param_options(param, label, options):
         If a parameter that is being checked is not in `options`.
     """
 
+    if ignore_case:
+        options = lower_list(options)
+        param = param.lower()
+
     if param not in options:
         msg = "The provided value for the {} parameter is invalid. ".format(label) + \
         "It should be chosen from {{{}}}.".format(str(options)[1:-1])
         raise ValueError(msg)
 
 
-def infer_time_unit(time_values):
-    """Infer the time unit of given time values.
+def check_array_orientation(arr):
+    """Check the orientation of an array of data.
 
     Parameters
     ----------
-    time_values : 1d array
-        Time values.
+    arr : ndarray
+        Data array to check the orientation of.
 
     Returns
     -------
-    time_unit : {'seconds', 'milliseconds'}
-        The inferred time unit of the input data.
-
-    Examples
-    --------
-    Infer the time unit of an array of time values:
-
-    >>> time_values = np.array([0.002, 0.01, 0.05, 0.1, 2])
-    >>> infer_time_unit(time_values)
-    'seconds'
+    orientation : {'vector', 'row', 'column'}
+        The inferred orientation of the data array.
+        For 1d cases, 'vector' indicates data is vector with no directional orientation.
+        For 2d or 3d cases, 'row' or 'column' indicates data is organized row-wise or column-wise respectively.
     """
 
-    time_unit = None
+    assert arr.ndim < 4, "The check_array_orientation function only works up to 3d."
 
-    # Infer seconds if there are any two spikes within the same time unit,
-    if len(np.unique((time_values).astype(int))) < len(np.unique(time_values)):
-        time_unit = 'seconds'
-
-    # Infer seconds if the mean time between spikes is low
-    elif np.mean(np.diff(time_values)) < 10:
-        time_unit = 'seconds'
-
-    # Otherwise, infer milliseconds
+    if arr.ndim == 1:
+        orientation = 'vector'
+    # This covers 2d or 3d arrays
     else:
-        time_unit = 'milliseconds'
+        shape = arr.shape
+        if shape[-1] > shape[-2]:
+            orientation = 'row'
+        else:
+            orientation = 'column'
 
-    return time_unit
+    return orientation
 
 
 def check_bin_range(values, bin_area):
@@ -111,7 +111,7 @@ def check_bin_range(values, bin_area):
             warnings.warn(msg)
 
 
-def check_time_bins(bins, values, trange=None, check_range=True):
+def check_time_bins(bins, values, time_range=None, check_range=True):
     """Check a given time bin definition, and define if only given a time resolution.
 
     Parameters
@@ -122,7 +122,7 @@ def check_time_bins(bins, values, trange=None, check_range=True):
         If array, precomputed bin definitions.
     values : 1d array
         The time values that are to be binned.
-    trange : list of [float, float]
+    time_range : list of [float, float], optional
         Time range, in seconds, to create the binned firing rate across.
         Only used if `bins` is a float. If given, the end value is inclusive.
     check_range : True
@@ -139,25 +139,25 @@ def check_time_bins(bins, values, trange=None, check_range=True):
 
     >>> bins = 0.5
     >>> values = np.array([0.2, 0.4, 0.6, 0.9, 1.4, 1.5, 1.6, 1.9])
-    >>> trange = [0., 2.]
-    >>> check_time_bins(bins, values, trange)
+    >>> time_range = [0., 2.]
+    >>> check_time_bins(bins, values, time_range)
     array([0. , 0.5, 1. , 1.5, 2. ])
 
     Check a time bin definition, where bins are already defined:
 
     >>> bins = np.array([0. , 0.5, 1. , 1.5, 2. ])
-    >>> check_time_bins(bins, values, trange)
+    >>> check_time_bins(bins, values, time_range)
     array([0. , 0.5, 1. , 1.5, 2. ])
     """
 
     if isinstance(bins, (int, float)):
         # Define time range based on data, if not otherwise set
-        if not trange:
-            trange = [0, np.max(values) + bins]
+        if not time_range:
+            time_range = [0, np.max(values) + bins]
         # If time range is given, update to include end value
         else:
-            trange[1] = trange[1] + bins
-        bins = np.arange(*trange, bins)
+            time_range[1] = time_range[1] + bins
+        bins = np.arange(*time_range, bins)
 
     elif isinstance(bins, np.ndarray):
         # Check that bins are well defined (monotonically increasing)

@@ -31,15 +31,21 @@ def test_check_param_options():
     with raises(ValueError):
         check_param_options('a', 'test', ['b', 'c'])
 
-def test_infer_time_unit(tspikes):
 
-    # Check test data in seconds
-    inferred = infer_time_unit(tspikes)
-    assert inferred == 'seconds'
+def test_check_array_orientation():
 
-    # Check test data in milliseconds
-    inferred = infer_time_unit(tspikes * 1000)
-    assert inferred == 'milliseconds'
+    arr1 = np.array([1, 2, 3])
+    assert check_array_orientation(arr1) == 'vector'
+
+    arr2r = np.array([[1, 2, 3], [4, 5, 6]])
+    assert check_array_orientation(arr2r) == 'row'
+    arr2c = np.array([[1, 2], [3, 4], [5, 6]])
+    assert check_array_orientation(arr2c) == 'column'
+
+    arr3r = np.array([[[1, 2, 3], [4, 5, 6]], [[1, 2, 3], [4, 5, 6]]])
+    assert check_array_orientation(arr3r) == 'row'
+    arr3c = np.array([[[1, 2], [3, 4], [5, 6]], [[1, 2], [3, 4], [5, 6]]])
+    assert check_array_orientation(arr3c) == 'column'
 
 def test_check_bin_range():
 
@@ -62,11 +68,11 @@ def test_check_time_bins(tspikes):
     assert np.array_equal(tbins, out)
 
     # Check time bins given a time resolution, which should create same bins as precomputed
-    out = check_time_bins(0.5, tspikes, trange=[0, 10])
+    out = check_time_bins(0.5, tspikes, time_range=[0, 10])
     assert np.array_equal(tbins, out)
 
     # Check error & warning
     with raises(AssertionError):
-        out = check_time_bins(np.array([1, 2, 1]), tspikes, trange=[0, 5])
+        out = check_time_bins(np.array([1, 2, 1]), tspikes, time_range=[0, 5])
     with warns(UserWarning):
-        out = check_time_bins(0.5, tspikes, trange=[0, 5])
+        out = check_time_bins(0.5, tspikes, time_range=[0, 5])

@@ -1,10 +1,9 @@
 """Spatial position related utility functions."""
 
 import numpy as np
-import math
 
 from spiketools.utils.data import compute_range
-from spiketools.spatial.checks import check_position_bins
+from spiketools.spatial.checks import check_spatial_bins
 
 ###################################################################################################
 ###################################################################################################
@@ -31,7 +30,7 @@ def compute_nbins(bins):
     20
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     if len(bins) == 1:
         n_bins = bins[0]
@@ -85,25 +84,25 @@ def compute_pos_ranges(position):
     return ranges
 
 
-def compute_bin_time(timestamps):
-    """Compute the time duration of each position sample.
+def compute_sample_durations(timestamps):
+    """Compute the time duration of each sample.
 
     Parameters
     ----------
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds.
 
     Returns
     -------
     1d array
-        Width, in time, of each bin.
+        Time duration of each sampling bin.
 
     Examples
     --------
     Compute times between timestamp samples:
 
     >>> timestamps = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])
-    >>> compute_bin_time(timestamps)
+    >>> compute_sample_durations(timestamps)
     array([1., 2., 3., 2., 1., 0.])
     """
 

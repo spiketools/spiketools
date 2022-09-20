@@ -5,12 +5,14 @@ from spiketools.stats.permutations import *
 ###################################################################################################
 ###################################################################################################
 
-def test_vec_perm():
+def test_permute_vector():
 
-    data = np.array([[1, 2, 3], [4, 5, 6]])
+    n_permutations = 5
+    data = np.array([1, 2, 3, 4, 5])
 
-    out = vec_perm(data)
+    out = permute_vector(data, n_permutations=n_permutations)
     assert isinstance(out, np.ndarray)
+    assert out.shape == (n_permutations, len(data))
 
 def test_compute_empirical_pvalue(tdata):
 

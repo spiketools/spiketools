@@ -35,14 +35,14 @@ def test_compute_trial_place_bins():
     position = np.array([[0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5],
                          [0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 2.5, 2.5, 2.5, 2.5]])
     timestamps = np.arange(0, 5.5, 0.5)
-    starts = np.array([0, 2.01])
-    stops = np.array([2.01, 4.51])
+    start_times = np.array([0, 2.01])
+    stop_times = np.array([2.01, 4.51])
     bins = [2, 3]
 
     place_bins_trial = compute_trial_place_bins(spikes, position, timestamps, bins,
-                                                starts, stops, normalize=False)
+                                                start_times, stop_times, normalize=False)
     assert isinstance(place_bins_trial, np.ndarray)
-    assert np.array_equal(place_bins_trial.shape, np.array([len(starts), bins[1], bins[0]]))
+    assert np.array_equal(place_bins_trial.shape, np.array([len(start_times), bins[1], bins[0]]))
     expected = np.array([[[0, 0], [0, 5], [0, 0]],
                          [[0, 2], [0, 0], [0, 3]]])
     assert np.array_equal(place_bins_trial, expected)
@@ -50,7 +50,8 @@ def test_compute_trial_place_bins():
     # Check with speed dropping
     speed = np.array([0, 1, 1, 1, 0, 1, 1, 0, 1, 1])
     speed_threshold = 0.5
-    place_bins_trial = compute_trial_place_bins(spikes, position, timestamps, bins, starts, stops,
+    place_bins_trial = compute_trial_place_bins(spikes, position, timestamps, bins,
+                                                start_times, stop_times,
                                                 speed=speed, speed_threshold=speed_threshold,
                                                 normalize=False)
     expected = np.array([[[0, 0], [0, 3], [0, 0]],
@@ -58,7 +59,8 @@ def test_compute_trial_place_bins():
     assert np.array_equal(place_bins_trial, expected)
 
     # Check with occupancy normalization
-    place_bins_trial = compute_trial_place_bins(spikes, position, timestamps, bins, starts, stops)
+    place_bins_trial = compute_trial_place_bins(spikes, position, timestamps, bins,
+                                                start_times, stop_times)
     expected = np.array([[[np.nan, np.nan], [np.nan, 2.5], [np.nan, np.nan]],
                          [[np.nan, 2], [np.nan, np.nan], [np.nan, 3]]])
     assert np.array_equal(place_bins_trial, expected, equal_nan=True)

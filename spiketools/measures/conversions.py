@@ -42,6 +42,13 @@ def convert_times_to_train(spikes, fs=1000, length=None):
     inds = [int(ind * fs) for ind in spikes if ind * fs <= spike_train.shape[-1]]
     spike_train[inds] = 1
 
+    # Check that the spike times are fully encoded into the spike train
+    msg = ("The spike times were not fully encoded into the spike train. " \
+           "This probably means the spike sampling rate is too low to encode " \
+           "spikes close together in time. Try increasing the sampling rate.")
+    if not sum(spike_train) == len(spikes):
+        raise ValueError(msg)
+
     return spike_train
 
 
@@ -111,7 +118,7 @@ def convert_isis_to_times(isis, offset=0, add_offset=True):
     return spikes
 
 
-def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
+def convert_times_to_rates(spikes, bins, time_range=None, smooth=None):
     """Convert spike times to continuous firing rate.
 
     Parameters
@@ -122,7 +129,7 @@ def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
         The binning to apply to the spiking data.
         If float, the length of each bin.
         If array, precomputed bin definitions.
-    trange : list of [float, float]
+    time_range : list of [float, float], optional
         Time range, in seconds, to create the binned firing rate across.
         Only used if `bins` is a float.
     smooth : float, optional
@@ -142,7 +149,7 @@ def convert_times_to_rates(spikes, bins, trange=None, smooth=None):
     array([ 5.,  5., 10.,  5.,  0.,  5., 15.,  5.])
     """
 
-    bins = check_time_bins(bins, spikes, trange)
+    bins = check_time_bins(bins, spikes, time_range)
     bin_counts, _ = np.histogram(spikes, bins)
     cfr = bin_counts / np.diff(bins)
 
