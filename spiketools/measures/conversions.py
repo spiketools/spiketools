@@ -52,12 +52,12 @@ def convert_times_to_train(spikes, fs=1000, length=None):
     return spike_train
 
 
-def convert_train_to_times(train, fs=1000):
+def convert_train_to_times(spike_train, fs=1000):
     """Convert a spike train representation into spike times, in seconds.
 
     Parameters
     ----------
-    train : 1d array
+    spike_train : 1d array
         Spike train.
     fs : int, optional, default: 1000
         The sampling rate of the computed spike train, in Hz.
@@ -76,7 +76,7 @@ def convert_train_to_times(train, fs=1000):
     array([0.004, 0.006, 0.009, 0.011, 0.012, 0.014])
     """
 
-    spikes = np.where(train)[0] + 1
+    spikes = np.where(spike_train)[0] + 1
     spikes = spikes * (1 / fs)
 
     return spikes
