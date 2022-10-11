@@ -1,14 +1,16 @@
 """Tests for spiketools.plts.style."""
 
+from spiketools.plts.settings import SET_KWARGS
+
 from spiketools.plts.style import *
 
 ###################################################################################################
 ###################################################################################################
 
-def test_get_set_kwargs():
+def test_get_kwargs():
 
     kwargs = {'title' : 'title', 'xlabel' : 'xlabel', 'lw' : 12}
-    out = get_set_kwargs(kwargs)
+    out = get_kwargs(kwargs, SET_KWARGS)
     for arg in ['title', 'xlabel']:
         assert arg in out
         assert arg not in kwargs

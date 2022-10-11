@@ -20,8 +20,8 @@ def check_position(position):
     assert position.ndim in (1, 2), 'Position input should be 1d or 2d.'
 
 
-def check_position_bins(bins, position=None):
-    """Check a bin definition for position binning.
+def check_spatial_bins(bins, position=None):
+    """Check a bin definition for binning spatial data.
 
     Parameters
     ----------

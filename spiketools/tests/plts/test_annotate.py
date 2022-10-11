@@ -6,22 +6,19 @@ import matplotlib.pyplot as plt
 from spiketools.tests.tutils import plot_test
 
 from spiketools.plts.annotate import *
-from spiketools.plts.annotate import (_add_vlines, _add_hlines, _add_vshade, _add_hshade,
-                                      _add_box_shade, _add_box_shades, _add_dots,
-                                      _add_significance)
 
 ###################################################################################################
 ###################################################################################################
 
-def test_color_pval():
+def test_color_pvalue():
 
-    out1 = color_pval(0.025)
+    out1 = color_pvalue(0.025)
     assert out1 == 'red'
 
-    out2 = color_pval(0.50)
+    out2 = color_pvalue(0.50)
     assert out2 == 'black'
 
-    out3 = color_pval(0.005, 0.01, 'green')
+    out3 = color_pvalue(0.005, 0.01, 'green')
     assert out3 == 'green'
 
 @plot_test
@@ -29,52 +26,52 @@ def test_add_vlines():
 
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
-    _add_vlines([1.5, 2.5, 3.5], ax=ax)
+    add_vlines([1.5, 2.5, 3.5], ax=ax)
 
 @plot_test
 def test_add_hlines():
 
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
-    _add_hlines([1.5, 2.5, 3.5], ax=ax)
+    add_hlines([1.5, 2.5, 3.5], ax=ax)
 
 @plot_test
 def test_add_vshade():
 
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
-    _add_vshade([2., 3.], ax=ax)
+    add_vshade([2., 3.], ax=ax)
 
 @plot_test
 def test_add_hshade():
 
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
-    _add_hshade([2., 3.], ax=ax)
+    add_hshade([2., 3.], ax=ax)
 
 @plot_test
 def test_add_box_shade():
 
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
-    _add_box_shade(1.5, 2.5, 2, ax=ax)
+    add_box_shade(1.5, 2.5, 2, ax=ax)
 
 @plot_test
 def test_add_box_shades():
 
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
-    _add_box_shades(np.array([1.5, 2.5]), np.array([1.5, 2.5]), ax=ax)
+    add_box_shades(np.array([1.5, 2.5]), np.array([1.5, 2.5]), ax=ax)
 
 @plot_test
 def test_add_dots():
 
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
-    _add_dots(np.array([[1, 2], [2, 3]]), ax=ax)
+    add_dots(np.array([[1, 2], [2, 3]]), ax=ax)
 
     # Test adding an additional dot from 1d array
-    _add_dots(np.array([2.5, 2.5]), color='red', ax=ax)
+    add_dots(np.array([2.5, 2.5]), color='red', ax=ax)
 
 @plot_test
 def test_add_significance():
@@ -85,4 +82,20 @@ def test_add_significance():
     stats = [1., 0.01, 0.5, 1.]
 
     ax.plot(x_values)
-    _add_significance(stats, ax=ax)
+    add_significance(stats, ax=ax)
+
+@plot_test
+def test_add_text_labels_x():
+
+    _, ax = plt.subplots()
+    data = [15, 12, 32, 22]
+    ax.bar(['A', 'B', 'C', 'D'], data)
+    add_text_labels(data, axis='x')
+
+@plot_test
+def test_add_text_labels_y():
+
+    _, ax = plt.subplots()
+    data = [15, 12, 32, 22]
+    ax.barh(['A', 'B', 'C', 'D'], data)
+    add_text_labels(data, axis='y', position='end')

@@ -5,10 +5,9 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from spiketools.utils.checks import check_bin_range
 from spiketools.utils.data import assign_data_to_bins
-from spiketools.spatial.checks import check_position, check_position_bins
-from spiketools.spatial.utils import compute_bin_time
+from spiketools.spatial.checks import check_position, check_spatial_bins
+from spiketools.spatial.utils import compute_sample_durations
 
 ###################################################################################################
 ###################################################################################################
@@ -50,7 +49,7 @@ def compute_bin_edges(position, bins, area_range=None):
     (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
 
-    bins = check_position_bins(bins, position)
+    bins = check_spatial_bins(bins, position)
 
     if position.ndim == 1:
         _, x_edges = np.histogram(position, bins=bins[0], range=area_range)
@@ -174,7 +173,7 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
            [0, 2]])
     """
 
-    bins = check_position_bins(bins, position)
+    bins = check_spatial_bins(bins, position)
 
     if position.ndim == 1:
         bin_counts, _ = np.histogram(position, bins=bins[0], range=area_range)
@@ -238,7 +237,7 @@ def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
            [1., 1.]])
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     if ybins is None:
         bins = np.arange(0, bins[0] + 1)
@@ -291,9 +290,9 @@ def normalize_bin_counts(bin_counts, occupancy):
     return normalized_bin_counts
 
 
-def create_position_df(position, timestamps, bins, area_range=None,
-                       speed=None, speed_threshold=None, time_threshold=None,
-                       dropna=True, check_range=True):
+def create_position_df(position, timestamps, bins, area_range=None, speed=None,
+                       speed_threshold=None, time_threshold=None, dropna=True,
+                       check_range=True):
     """Create a dataframe that stores information about position bins.
 
     Parameters
@@ -301,7 +300,7 @@ def create_position_df(position, timestamps, bins, area_range=None,
     position : 1d or 2d array
         Position values.
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds, corresponding to the position values.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
@@ -327,9 +326,9 @@ def create_position_df(position, timestamps, bins, area_range=None,
         Dataframe representation of position bin information.
     """
 
-    bins = check_position_bins(bins, position)
+    bins = check_spatial_bins(bins, position)
 
-    data_dict = {'time' : compute_bin_time(timestamps)}
+    data_dict = {'time' : compute_sample_durations(timestamps)}
     if speed is not None:
         data_dict['speed'] = speed
 
@@ -393,7 +392,7 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
         For 2d, has shape [n_y_bins, n_x_bins] (see notes in `compute_occupancy`).
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     # Group position samples into spatial bins, summing total time spent there
     groupby = sorted([el for el in list(bindf.columns) if 'bin' in el])
@@ -428,7 +427,7 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     position : 1d or 2d array
         Position values.
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds, corresponding to the position values.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].

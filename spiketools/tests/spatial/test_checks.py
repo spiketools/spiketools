@@ -20,7 +20,7 @@ def test_check_position():
     with raises(AssertionError):
         check_position(position3)
 
-def test_check_position_bins():
+def test_check_spatial_bins():
 
     bins_int = 12
     bins_1d = [12]
@@ -28,16 +28,16 @@ def test_check_position_bins():
 
     position = np.array([[1, 2, 3], [4, 5, 6]])
 
-    out1d1 = check_position_bins(bins_int)
-    out1d2 = check_position_bins(bins_1d)
+    out1d1 = check_spatial_bins(bins_int)
+    out1d2 = check_spatial_bins(bins_1d)
     assert out1d1 == out1d2 == bins_1d
 
-    bins = check_position_bins(bins_2d, position)
+    bins = check_spatial_bins(bins_2d, position)
     assert bins == bins_2d
 
     with raises(AssertionError):
-        check_position_bins([1.2, 2.3])
+        check_spatial_bins([1.2, 2.3])
     with raises(AssertionError):
-        check_position_bins([1, 2, 3])
+        check_spatial_bins([1, 2, 3])
     with raises(AssertionError):
-        check_position_bins(bins_1d, position)
+        check_spatial_bins(bins_1d, position)

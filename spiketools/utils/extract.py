@@ -89,15 +89,15 @@ def get_range(data, min_value=None, max_value=None, reset=None):
     return data
 
 
-def get_value_range(times, data, min_value=None, max_value=None, reset=None):
+def get_value_range(timestamps, data, min_value=None, max_value=None, reset=None):
     """Extract data and associated timestamps for a desired value range.
 
     Parameters
     ----------
-    times : 1d array
-        Timestamps.
+    timestamps : 1d array
+        Timestamps, in seconds.
     data : 1d array
-        Data values, corresponding to the time values in `times`.
+        Data values, corresponding to the timestamps.
     min_value, max_value : float, optional
         Minimum and/or maximum value to extract from the input array.
     reset : float, optional
@@ -105,8 +105,8 @@ def get_value_range(times, data, min_value=None, max_value=None, reset=None):
 
     Returns
     -------
-    times : 1d array
-        Timestamps, selected by value.
+    timestamps : 1d array
+        Timestamps, in seconds, selected by value.
     data : 1d array
         Array of data, selected by value.
 
@@ -115,30 +115,30 @@ def get_value_range(times, data, min_value=None, max_value=None, reset=None):
     Extract data and corresponding timestamps based on value range:
 
     >>> data = np.array([1, 2, 3, 4, 5, 6, 7, 8])
-    >>> times = np.array([0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1.2, 1.5])
-    >>> get_value_range(times, data, min_value=3, max_value=6)
+    >>> timestamps = np.array([0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1.2, 1.5])
+    >>> get_value_range(timestamps, data, min_value=3, max_value=6)
     (array([0.4, 0.5, 0.7, 0.9]), array([3, 4, 5, 6]))
     """
 
     mask = create_mask(data, min_value, max_value)
 
-    times, data = times[mask], data[mask]
+    timestamps, data = timestamps[mask], data[mask]
 
     if reset:
-        times = times - reset
+        timestamps = timestamps - reset
 
-    return times, data
+    return timestamps, data
 
 
-def get_ind_by_time(times, timepoint, threshold=None):
+def get_ind_by_time(timestamps, timepoint, threshold=None):
     """Get the index for a data array for a specified timepoint.
 
     Parameters
     ----------
-    times : 1d array
-        Timestamps.
+    timestamps : 1d array
+        Timestamps, in seconds.
     timepoint : float
-        Time value to extract the index for.
+        The time value to extract the index for.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is -1.
@@ -152,28 +152,28 @@ def get_ind_by_time(times, timepoint, threshold=None):
     --------
     Get the index for a specified timepoint:
 
-    >>> times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
-    >>> get_ind_by_time(times, 2.5)
+    >>> timestamps = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
+    >>> get_ind_by_time(timestamps, 2.5)
     4
     """
 
-    ind = np.abs(times - timepoint).argmin()
+    ind = np.abs(timestamps - timepoint).argmin()
     if threshold:
-        if np.abs(times[ind] - timepoint) > threshold:
+        if np.abs(timestamps[ind] - timepoint) > threshold:
             ind = -1
 
     return ind
 
 
-def get_inds_by_times(times, timepoints, threshold=None, drop_null=True):
+def get_inds_by_times(timestamps, timepoints, threshold=None, drop_null=True):
     """Get indices for a data array for a set of specified time points.
 
     Parameters
     ----------
-    times : 1d array
-        Timestamps.
+    timestamps : 1d array
+        Timestamps, in seconds.
     timepoints : 1d array
-        The time values to extract indices for.
+        The time values, in seconds, to extract indices for.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
@@ -190,15 +190,15 @@ def get_inds_by_times(times, timepoints, threshold=None, drop_null=True):
     --------
     Get the corresponding indices for specified timepoints:
 
-    >>> times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
+    >>> timestamps = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
     >>> timepoints = np.array([1, 2, 3])
-    >>> get_inds_by_times(times, timepoints)
+    >>> get_inds_by_times(timestamps, timepoints)
     array([1, 3, 5])
     """
 
     inds = np.zeros(len(timepoints), dtype=int)
     for ind, timepoint in enumerate(timepoints):
-        inds[ind] = get_ind_by_time(times, timepoint, threshold=threshold)
+        inds[ind] = get_ind_by_time(timestamps, timepoint, threshold=threshold)
 
     if drop_null:
         inds = inds[inds >= 0]
@@ -206,15 +206,15 @@ def get_inds_by_times(times, timepoints, threshold=None, drop_null=True):
     return inds
 
 
-def get_value_by_time(times, values, timepoint, threshold=None):
+def get_value_by_time(timestamps, values, timepoint, threshold=None):
     """Get the value from a data array at a specific time point.
 
     Parameters
     ----------
-    times : 1d array
-        Timestamps.
+    timestamps : 1d array
+        Timestamps, in seconds.
     values : 1d or 2d array
-        Data values, corresponding to the time values in `times`.
+        Data values, corresponding to the time values in `timestamps`.
     timepoint : float
         Time value to extract.
     threshold : float, optional
@@ -230,29 +230,29 @@ def get_value_by_time(times, values, timepoint, threshold=None):
     --------
     Get the data values for a specified timepoint:
 
-    >>> times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
-    >>> values = np.array([[1,2,3,4,5,6], [7,8,9,10,11,12]])
-    >>> get_value_by_time(times, values, 1.5)
+    >>> timestamps = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
+    >>> values = np.array([[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12]])
+    >>> get_value_by_time(timestamps, values, 1.5)
     array([3, 9])
     """
 
-    idx = get_ind_by_time(times, timepoint, threshold=threshold)
+    idx = get_ind_by_time(timestamps, timepoint, threshold=threshold)
     out = values.take(indices=idx, axis=-1) if idx >= 0 else np.nan
 
     return out
 
 
-def get_values_by_times(times, values, timepoints, threshold=None, drop_null=True):
+def get_values_by_times(timestamps, values, timepoints, threshold=None, drop_null=True):
     """Get values from a data array for a set of specified time points.
 
     Parameters
     ----------
-    times : 1d array
-        Timestamps.
+    timestamps : 1d array
+        Timestamps, in seconds.
     values : 1d or 2d array
-        Data values, corresponding to the time values in `times`.
+        Data values, corresponding to the time values in `timestamps`.
     timepoints : 1d array
-        The time values to extract corresponding values for.
+        The time values, in seconds, to extract corresponding values for.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
@@ -269,14 +269,14 @@ def get_values_by_times(times, values, timepoints, threshold=None, drop_null=Tru
     --------
     Get the data values for a specified set of timepoints:
 
-    >>> times = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
+    >>> timestamps = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
     >>> values = np.array([1, 2, 3, 4, 5, 6])
     >>> timepoints = np.array([1, 2, 3])
-    >>> get_values_by_times(times, values, timepoints)
+    >>> get_values_by_times(timestamps, values, timepoints)
     array([2, 4, 6])
     """
 
-    inds = get_inds_by_times(times, timepoints, threshold, drop_null)
+    inds = get_inds_by_times(timestamps, timepoints, threshold, drop_null)
 
     if drop_null:
         outputs = values.take(indices=inds, axis=-1)
@@ -289,22 +289,22 @@ def get_values_by_times(times, values, timepoints, threshold=None, drop_null=Tru
     return outputs
 
 
-def get_values_by_time_range(times, values, t_min, t_max):
+def get_values_by_time_range(timestamps, values, t_min, t_max):
     """Extract data for a requested time range.
 
     Parameters
     ----------
-    times : 1d array
-        Timestamps.
+    timestamps : 1d array
+        Timestamps, in seconds.
     values : ndarray
-        Data values, corresponding to the time values in `times`.
+        Data values, corresponding to the time values in `timestamps`.
     t_min, t_max : float
         Time range to extract.
 
     Returns
     -------
-    times : 1d array
-        Selected time values.
+    timestamps : 1d array
+        Selected timestamp values.
     out : ndarray
         Selected data values.
 
@@ -312,63 +312,72 @@ def get_values_by_time_range(times, values, t_min, t_max):
     --------
     Extract data within a specified time range:
 
-    >>> times = np.array([1, 2, 3, 4, 5, 6, 7])
+    >>> timestamps = np.array([1, 2, 3, 4, 5, 6, 7])
     >>> values = np.array([0.5, 1, 1.5, 2, 2.5, 3, 3.5])
-    >>> get_values_by_time_range(times, values, t_min=2, t_max=6)
+    >>> get_values_by_time_range(timestamps, values, t_min=2, t_max=6)
     (array([2, 3, 4, 5, 6]), array([1. , 1.5, 2. , 2.5, 3. ]))
     """
 
-    select = np.logical_and(times >= t_min, times <= t_max)
+    select = np.logical_and(timestamps >= t_min, timestamps <= t_max)
     out = values.take(indices=np.where(select)[0], axis=-1)
 
-    return times[select], out
+    return timestamps[select], out
 
 
-def threshold_spikes_by_times(spikes, times, threshold):
-    """Threshold spikes by sub-selecting those are temporally close to a set of time values.
+def threshold_spikes_by_times(spikes, timestamps, threshold):
+    """Threshold spikes by sub-selecting those that are temporally close to a set of time values.
 
     Parameters
     ----------
     spikes : 1d array
         Spike times, in seconds.
-    times : 1d array
-        Timestamps.
+    timestamps : 1d array
+        Timestamps, in seconds.
     threshold : float
-        The threshold that closest time values must be within to be kept.
-        For any time values greater than this threshold, the spike value is dropped.
+        The threshold value for the time between the spike and a timestamp for the spike to be kept.
+        Any spikes further in time from a timestamp value are dropped.
 
     Returns
     -------
     spikes : 1d array
         Sub-selected spike times, in seconds.
+
+    Examples
+    --------
+    Extract spikes based on their proximity to timestamps:
+
+    >>> spikes = np.array([0.76, 1.12, 1.72, 2.05, 2.32, 2.92, 3.11, 3.63, 3.91])
+    >>> timestamps = np.array([1.0, 1.25, 1.5, 1.75, 2.0, 3.5, 3.75, 4.0])
+    >>> threshold_spikes_by_times(spikes, timestamps, threshold=0.25)
+    array([0.76, 1.12, 1.72, 2.05, 3.63, 3.91])
     """
 
     mask = np.empty_like(spikes, dtype=bool)
     for ind, spike in enumerate(spikes):
-        mask[ind] = np.min(np.abs(times - spike)) < threshold
+        mask[ind] = np.min(np.abs(timestamps - spike)) < threshold
 
     return spikes[mask]
 
 
-def threshold_spikes_by_values(spikes, times, values, data_threshold,
-                               time_threshold=None, comp_type='greater'):
-    """Threshold spikes by sub-selecting those are exceed a value on another data stream.
+def threshold_spikes_by_values(spikes, timestamps, values, data_threshold,
+                               time_threshold=None, data_comparison='greater'):
+    """Threshold spikes by sub-selecting based on thresholding values on another data stream.
 
     Parameters
     ----------
     spikes : 1d array
         Spike times, in seconds.
-    times : 1d array
-        Timestamps.
+    timestamps : 1d array
+        Timestamps, in seconds.
     values : 1d array
-        Data values, corresponding to the time values in `times`.
+        Data values, corresponding to the timestamps.
     data_threshold : float
-        The threshold that the closest data values must be within to be kept.
+        The threshold for the data, used to select spikes based on data values
     time_threshold : float, optional
-        The threshold that the closest time values must be within to be kept.
-        For any time values greater than this threshold, the spike value is dropped.
-    comp_type : {'greater', 'less'}
-        Which comparison function to use.
+        The threshold value for the time between the spike and a timestamp for the spike to be kept.
+        Any spikes further in time from a timestamp value are dropped.
+    data_comparison : {'greater', 'less'}
+        Which comparison function to use for the data threshold.
         This defines whether selected values must be greater than or less than the data threshold.
 
     Returns
@@ -378,20 +387,20 @@ def threshold_spikes_by_values(spikes, times, values, data_threshold,
 
     Examples
     --------
-    Threshold spikes based on a a minimum data threshold:
+    Threshold spikes based on a minimum data threshold:
 
     >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 1, 1.2, 1.6, 1.8])
-    >>> times = np.array([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4])
+    >>> timestamps = np.array([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4])
     >>> values = np.array([1, 2, 3, 4, 5, 6, 7, 8])
-    >>> threshold_spikes_by_values(spikes, times, values, 2)
+    >>> threshold_spikes_by_values(spikes, timestamps, values, 2)
     array([1.6, 1.8])
     """
 
-    values = get_values_by_times(times, values, spikes, time_threshold, drop_null=False)
+    values = get_values_by_times(timestamps, values, spikes, time_threshold, drop_null=False)
 
     mask = ~np.isnan(values)
     spikes, values = spikes[mask], values[mask]
-    spikes = spikes[get_comp_func(comp_type)(values, data_threshold)]
+    spikes = spikes[get_comp_func(data_comparison)(values, data_threshold)]
 
     return spikes
 
@@ -404,7 +413,7 @@ def drop_range(spikes, time_range, check_empty=True):
     spikes : 1d array
         Spike times, in seconds.
     time_range : list of [float, float] or list of list of [float, float]
-        Time range(s) to drop from spike times.
+        Time range(s), in seconds, to drop from spike times.
         Each time range should be defined as [start_add_time, end_add_time].
     check_empty : bool, optional, default: True
         Whether to check if the dropped range is empty of spikes.
@@ -414,6 +423,15 @@ def drop_range(spikes, time_range, check_empty=True):
     -------
     out_spikes : 1d array
         Spike times, in seconds, with the time range removed.
+
+    Examples
+    --------
+    Drop an empty time range from a set of spike times:
+
+    >>> spikes = np.array([0.24, 0.73, 1.22, 1.65, 10.15, 10.95, 11.52, 11.84])
+    >>> time_range = [2, 10]
+    >>> drop_range(spikes, time_range)
+    array([0.24, 0.73, 1.22, 1.65, 2.15, 2.95, 3.52, 3.84])
     """
 
     # Operate on a copy of the input, to not overwrite original array
@@ -446,7 +464,7 @@ def _reinstate_range_1d(spikes, time_range):
     spikes : 1d array
         Spike times, in seconds.
     time_range : list of [float, float]
-        Time range to reinstate into spike times, as [start_add_time, end_add_time].
+        Time range, in seconds, to reinstate into spike times, as [start_add_time, end_add_time].
 
     Returns
     -------
@@ -469,13 +487,22 @@ def reinstate_range(spikes, time_range):
     spikes : 1d or 2d array
         An array of spikes times, in seconds.
     time_range : list of [float, float] or list of list of [float, float]
-        Time range(s) to reinstate into shuffled spike times.
+        Time range(s), in seconds, to reinstate into shuffled spike times.
         Each time range should be defined as [start_add_time, end_add_time].
 
     Returns
     -------
     spikes_out : 1d or 2d array
         An array of spikes times, in seconds, with the time range reinstated.
+
+    Examples
+    --------
+    Reinstate a time range into a set of spike times:
+
+    >>> spikes = np.array([0.24, 0.73, 1.22, 1.65, 2.15, 2.95, 3.52, 3.84])
+    >>> time_range = [2, 10]
+    >>> reinstate_range(spikes, time_range)
+    array([ 0.24,  0.73,  1.22,  1.65, 10.15, 10.95, 11.52, 11.84])
     """
 
     assert spikes.ndim < 3, 'The reinstate_range function only supports 1d or 2d arrays.'

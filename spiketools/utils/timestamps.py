@@ -1,7 +1,48 @@
 """Utility functions for working with timestamps."""
 
+import numpy as np
+
 ###################################################################################################
 ###################################################################################################
+
+def infer_time_unit(time_values):
+    """Infer the time unit of given time values.
+
+    Parameters
+    ----------
+    time_values : 1d array
+        Time values.
+
+    Returns
+    -------
+    time_unit : {'seconds', 'milliseconds'}
+        The inferred time unit of the input data.
+
+    Examples
+    --------
+    Infer the time unit of an array of time values:
+
+    >>> time_values = np.array([0.002, 0.01, 0.05, 0.1, 2])
+    >>> infer_time_unit(time_values)
+    'seconds'
+    """
+
+    time_unit = None
+
+    # Infer seconds if there are any two spikes within the same time unit,
+    if len(np.unique((time_values).astype(int))) < len(np.unique(time_values)):
+        time_unit = 'seconds'
+
+    # Infer seconds if the mean time between spikes is low
+    elif np.mean(np.diff(time_values)) < 10:
+        time_unit = 'seconds'
+
+    # Otherwise, infer milliseconds
+    else:
+        time_unit = 'milliseconds'
+
+    return time_unit
+
 
 def convert_ms_to_sec(ms):
     """Convert time value(s) from milliseconds to seconds.
@@ -97,6 +138,62 @@ def convert_ms_to_min(ms):
     """
 
     return convert_sec_to_min(convert_ms_to_sec(ms))
+
+
+def convert_nsamples_to_time(n_samples, fs):
+    """Convert a number of samples into the corresponding time length.
+
+    Parameters
+    ----------
+    n_samples : int
+        Number of samples.
+    fs : int
+        Sampling rate.
+
+    Returns
+    -------
+    time : float
+        Time duration.
+
+    Examples
+    --------
+    Convert a number of samples to a time length:
+
+    >>> convert_nsamples_to_time(5, fs=1000)
+    0.005
+    """
+
+    time = n_samples / fs
+
+    return time
+
+
+def convert_time_to_nsamples(time, fs):
+    """Convert a time length into the corresponding number of samples.
+
+    Parameters
+    ----------
+    time : float
+        Time duration.
+    fs : int
+        Sampling rate.
+
+    Returns
+    -------
+    n_samples : int
+        Number of samples.
+
+    Examples
+    --------
+    Convert a time length to a number of samples:
+
+    >>> convert_time_to_nsamples(0.005, fs=1000)
+    5
+    """
+
+    n_samples = int(np.ceil(time * fs))
+
+    return n_samples
 
 
 def split_time_value(sec):

@@ -4,7 +4,7 @@ import numpy as np
 
 from spiketools.spatial.utils import compute_nbins
 from spiketools.spatial.occupancy import compute_occupancy, compute_bin_counts_pos
-from spiketools.spatial.checks import check_position_bins
+from spiketools.spatial.checks import check_spatial_bins
 from spiketools.utils.extract import (get_range, get_values_by_time_range, get_values_by_times,
                                       threshold_spikes_by_values)
 
@@ -23,7 +23,7 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
     position : 1d or 2d array
         Position values.
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds, corresponding to the position values.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
@@ -71,7 +71,7 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
     return place_bins
 
 
-def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, trial_stops,
+def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, stop_times,
                              area_range=None, speed=None, speed_threshold=None,
                              time_threshold=None, normalize=True, flatten=False,
                              **occupancy_kwargs):
@@ -84,14 +84,14 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
     position : 1d or 2d array
         Position values.
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds, corresponding to the position values.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
-    trial_starts : 1d array
-        The start times of each trial.
-    trial_stops : 1d array
-        The stop times of each trial.
+    start_times : 1d array
+        The start times, in seconds, of each trial.
+    stop_times : 1d array
+        The stop times, in seconds, of each trial.
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
@@ -125,8 +125,8 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
     >>> position = np.array([1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0])
     >>> timestamps = np.array([0.1, 0.2, 0.25, 0.4, 0.45, 0.46, 0.6, 0.7, 1.0])
     >>> bins = 2
-    >>> trial_starts, trial_stops = np.array([0, 0.4]), np.array([0.3, 1])
-    >>> compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, trial_stops)
+    >>> start_times, stop_times = np.array([0, 0.4]), np.array([0.3, 1])
+    >>> compute_trial_place_bins(spikes, position, timestamps, bins, start_times, stop_times)
     array([[10. , 40. ],
            [10. ,  7.5]])
     """
@@ -134,10 +134,10 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
     t_occ = None
     t_speed = None
 
-    bins = check_position_bins(bins, position)
+    bins = check_spatial_bins(bins, position)
 
-    place_bins_trial = np.zeros([len(trial_starts), *np.flip(bins)])
-    for ind, (start, stop) in enumerate(zip(trial_starts, trial_stops)):
+    place_bins_trial = np.zeros([len(start_times), *np.flip(bins)])
+    for ind, (start, stop) in enumerate(zip(start_times, stop_times)):
 
         t_spikes = get_range(spikes, start, stop)
         t_times, t_pos = get_values_by_time_range(timestamps, position, start, stop)
@@ -158,6 +158,6 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, trial_starts, t
         occupancy_kwargs['check_range'] = False
 
     if flatten:
-        place_bins_trial = np.reshape(place_bins_trial, [len(trial_starts), compute_nbins(bins)])
+        place_bins_trial = np.reshape(place_bins_trial, [len(start_times), compute_nbins(bins)])
 
     return place_bins_trial

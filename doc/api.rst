@@ -165,7 +165,7 @@ Utilities related to spatial data.
    :toctree: generated/
 
    compute_nbins
-   compute_bin_time
+   compute_sample_durations
    compute_bin_width
    compute_pos_ranges
    convert_2dindices
@@ -224,7 +224,7 @@ Methods and measures related to permutation statistics.
 .. autosummary::
    :toctree: generated/
 
-   vec_perm
+   permute_vector
    compute_surrogate_pvalue
    compute_surrogate_zscore
    compute_surrogate_stats
@@ -377,6 +377,26 @@ Basic plot function for different data types.
    plot_polar_hist
    plot_text
 
+Annotate
+~~~~~~~~
+
+Helper functions to annotate plot axes.
+
+.. currentmodule:: spiketools.plts.annotate
+.. autosummary::
+   :toctree: generated/
+
+   color_pvalue
+   add_vlines
+   add_hlines
+   add_vshade
+   add_hshade
+   add_box_shade
+   add_box_shades
+   add_dots
+   add_significance
+   add_text_labels
+
 Utils
 ~~~~~
 
@@ -455,10 +475,13 @@ Utilities for working with timestamps.
 .. autosummary::
    :toctree: generated/
 
+   infer_time_unit
    convert_ms_to_sec
    convert_sec_to_min
    convert_min_to_hour
    convert_ms_to_min
+   convert_nsamples_to_time
+   convert_time_to_nsamples
    split_time_value
    format_time_string
 

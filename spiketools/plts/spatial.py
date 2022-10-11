@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from spiketools.utils.data import smooth_data, compute_range
 from spiketools.modutils.functions import get_function_parameters
-from spiketools.plts.annotate import _add_dots
+from spiketools.plts.annotate import add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.utils import check_ax, make_axes, savefig
 from spiketools.plts.style import set_plt_kwargs
@@ -17,13 +17,13 @@ from spiketools.plts.style import set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_positions(positions, spike_positions=None, landmarks=None,
+def plot_positions(position, spike_positions=None, landmarks=None,
                    x_bins=None, y_bins=None, ax=None, **plt_kwargs):
     """Plot positions.
 
     Parameters
     ----------
-    positions : 2d array or list of 2d array
+    position : 2d array or list of 2d array
         Position data.
         If a list, each array from the list is plotted separately, on the same plot.
     spike_positions : 2d array or dict, optional
@@ -47,9 +47,9 @@ def plot_positions(positions, spike_positions=None, landmarks=None,
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    positions = [positions] if isinstance(positions, np.ndarray) else positions
-    for cur_positions in positions:
-        ax.plot(*cur_positions,
+    position = [position] if isinstance(position, np.ndarray) else position
+    for cur_position in position:
+        ax.plot(*cur_position,
                 color=plt_kwargs.pop('color', DEFAULT_COLORS[0]),
                 alpha=plt_kwargs.pop('alpha', 0.35),
                 **plt_kwargs)
@@ -57,17 +57,17 @@ def plot_positions(positions, spike_positions=None, landmarks=None,
     if spike_positions is not None:
         defaults = {'color' : 'red', 'alpha' : 0.4, 'ms' : 6}
         if isinstance(spike_positions, np.ndarray):
-            _add_dots(spike_positions, ax=ax, **defaults)
+            add_dots(spike_positions, ax=ax, **defaults)
         elif isinstance(spike_positions, dict):
-            _add_dots(spike_positions.pop('positions'), ax=ax, **{**defaults, **spike_positions})
+            add_dots(spike_positions.pop('positions'), ax=ax, **{**defaults, **spike_positions})
 
     if landmarks is not None:
-        defaults = defaults = {'alpha' : 0.85, 'ms' : 12}
+        defaults = {'alpha' : 0.85, 'ms' : 12}
         for landmark in [landmarks] if not isinstance(landmarks, list) else landmarks:
             if isinstance(landmark, np.ndarray):
-                _add_dots(landmark, ax=ax, **defaults)
+                add_dots(landmark, ax=ax, **defaults)
             elif isinstance(landmark, dict):
-                _add_dots(landmark.pop('positions'), ax=ax, **landmark)
+                add_dots(landmark.pop('positions'), ax=ax, **landmark)
 
     if x_bins is not None:
         ax.set_xticks(x_bins, minor=False)
@@ -84,18 +84,18 @@ def plot_positions(positions, spike_positions=None, landmarks=None,
 
 @savefig
 @set_plt_kwargs
-def plot_position_by_time(times, positions, spike_times=None, spike_positions=None,
+def plot_position_by_time(timestamps, position, spikes=None, spike_positions=None,
                           ax=None, **plt_kwargs):
     """Plot the position across time for a single dimension.
 
     Parameters
     ----------
-    times : 1d array
-        Time values associated with the position values.
-    positions : 1d array
+    timestamps : 1d array
+        Timestamps, in seconds, corresponding to the position values.
+    position : 1d array
         Position values, for a single dimension.
-    spike_times : 1d array, optional
-        Timepoints at which spikes occur.
+    spikes : 1d array, optional
+        Spike times, in seconds.
     spike_positions : 1d array, optional
         Position values of spikes, to indicate on the plot.
     ax : Axes, optional
@@ -106,11 +106,11 @@ def plot_position_by_time(times, positions, spike_times=None, spike_positions=No
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    spikes = None
-    if spike_times is not None:
-        spikes = np.array([spike_times, spike_positions])
+    spike_positions_plot = None
+    if spikes is not None:
+        spike_positions_plot = np.array([spikes, spike_positions])
 
-    plot_positions(np.array([times, positions]), spikes, ax=ax, **plt_kwargs)
+    plot_positions(np.array([timestamps, position]), spike_positions_plot, ax=ax, **plt_kwargs)
 
     ax.set(xlabel='Time', ylabel='Position')
 
@@ -195,7 +195,7 @@ def plot_trial_heatmaps(trial_data, **plt_kwargs):
     """
 
     axis_kwargs = {key : plt_kwargs.pop(key) \
-        for key in get_function_parameters(make_axes) if key in plt_kwargs}
+        for key in get_function_parameters(make_axes).keys() if key in plt_kwargs}
     axes = make_axes(trial_data.shape[0], **axis_kwargs)
     for data, ax in zip(trial_data, axes):
         plot_heatmap(data, **plt_kwargs, ax=ax)
