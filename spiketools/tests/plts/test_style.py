@@ -45,3 +45,9 @@ def test_set_plt_kwargs():
 
     example_plot(title=title)
     assert plt.gca().get_title() == title
+
+
+def test_drop_spines():
+
+    _, ax = plt.subplots()
+    drop_spines(ax, ['top', 'right'])

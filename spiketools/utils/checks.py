@@ -63,6 +63,28 @@ def check_param_options(param, label, options, ignore_case=False):
         raise ValueError(msg)
 
 
+def check_list_options(contents, label, options):
+    """Check a list of values that each element is one of a set of acceptable options.
+
+    Parameters
+    ----------
+    contents : list of str
+        List of values to check
+    label : str
+        Label of the parameter being checked.
+    options : list of str
+        Valid string values that each element of `contents` may be.
+
+    Raises
+    ------
+    ValueError
+        If an element of `contents` is not in `options`.
+    """
+
+    for el in contents:
+        check_param_options(el, label, options)
+
+
 def check_array_orientation(arr):
     """Check the orientation of an array of data.
 

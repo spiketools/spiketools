@@ -4,6 +4,7 @@ from functools import wraps
 
 import matplotlib.pyplot as plt
 
+from spiketools.utils.checks import check_list_options
 from spiketools.plts.settings import SET_KWARGS, OTHER_KWARGS
 
 ###################################################################################################
@@ -78,3 +79,20 @@ def set_plt_kwargs(func):
             ax.legend(others.pop('legend'), **legend_kwargs)
 
     return decorated
+
+
+def drop_spines(ax, sides):
+    """Drop spines from a plot axis.
+
+    Parameters
+    ----------
+    ax : Axes
+        Axis object to update.
+    sides : {'left', 'right', 'top', 'bottom'} or list
+        Side(s) to drop spines from.
+    """
+
+    sides = [sides] if isinstance(sides, str) else sides
+    check_list_options(sides, 'sides', ['left', 'right', 'top', 'bottom'])
+    for side in sides:
+        ax.spines[side].set_visible(False)

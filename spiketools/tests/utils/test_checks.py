@@ -31,6 +31,12 @@ def test_check_param_options():
     with raises(ValueError):
         check_param_options('a', 'test', ['b', 'c'])
 
+def test_check_list_options():
+
+    check_list_options(['a', 'b', 'c'], 'test', ['a', 'b', 'c'])
+
+    with raises(ValueError):
+        check_list_options(['a', 'b', 'c'], 'test', ['b', 'c'])
 
 def test_check_array_orientation():
 
