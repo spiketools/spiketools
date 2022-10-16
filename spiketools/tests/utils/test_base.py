@@ -34,3 +34,28 @@ def test_count_elements():
     counter = count_elements(lst, labels='count', sort=True)
     assert list(counter.keys()) == list(range(max(lst) + 1))
     assert sum(counter.values()) == len(lst)
+
+def test_combine_dicts():
+
+    d1 = {'a' : 1, 'b' : 2}
+    d2 = {'c' : 3, 'd' : 4}
+    d3 = {'e' : 5, 'f' : 6}
+
+    out1 = combine_dicts([d1, d2])
+    for cdict in [d1, d2]:
+        for key, value in cdict.items():
+            assert out1[key] == value
+
+    out2 = combine_dicts([d1, d2, d3])
+    for cdict in [d1, d2, d3]:
+        for key, value in cdict.items():
+            assert out2[key] == value
+
+def test_add_key_prefix():
+
+    tdict = {'a' : 1, 'b' : 2}
+    prefix = 'test'
+    out = add_key_prefix(tdict, prefix)
+
+    for key, value in tdict.items():
+        assert out[prefix + '_' + key] == value

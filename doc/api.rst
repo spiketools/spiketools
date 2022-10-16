@@ -427,8 +427,11 @@ General utilities for basic data types.
    :toctree: generated/
 
    flatten
+   lower_list
    select_from_list
    count_elements
+   combine_dicts
+   add_key_prefix
 
 Data
 ~~~~
