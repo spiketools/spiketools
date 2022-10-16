@@ -115,3 +115,47 @@ def count_elements(data, labels=None, sort=False):
         counts = Counter(dict(sorted(counts.items())))
 
     return counts
+
+
+def combine_dicts(dicts):
+    """Combine a list of dictionaries together.
+
+    Parameters
+    ----------
+    dicts : list of dict
+        Dictionaries to combine.
+
+    Returns
+    -------
+    dict
+        Combined dictionary.
+    """
+
+    output = {}
+    for cdict in dicts:
+        output.update(cdict)
+
+    return output
+
+
+def add_key_prefix(indict, prefix):
+    """Update keys of a dictionary by appending a prefix.
+
+    Parameters
+    ----------
+    indict : dict
+        Dictionary to update keys for.
+    prefix : str
+        Prefix to add to each dictionary.
+
+    Returns
+    -------
+    dict
+        Dictionary with updated keys.
+    """
+
+    out = {}
+    for key, value in indict.items():
+        out[prefix + '_' + key] = value
+
+    return out
