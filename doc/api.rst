@@ -505,6 +505,19 @@ Utilities for epoching data.
    epoch_data_by_range
    epoch_data_by_segment
 
+Trials
+~~~~~~
+
+Utilities for working with trial-level data.
+
+.. currentmodule:: spiketools.utils.trials
+.. autosummary::
+   :toctree: generated/
+
+   split_trials_by_condition
+   split_trials_by_condition_list
+   split_trials_by_condition_array
+
 Run
 ~~~
 
