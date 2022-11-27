@@ -84,6 +84,8 @@ def plot_waveforms3d(waveforms, timestamps=None, **plt_kwargs):
         Voltage values for the waveforms, with shape [n_waveforms, n_timestamps].
     timestamps : 1d array, optional
         Timestamps corresponding to the waveforms.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
     """
 
     plt.figure(figsize=plt_kwargs.pop('figsize', None))
@@ -118,6 +120,10 @@ def plot_waveform_density(waveforms, timestamps=None, bins=(250, 50), cmap='viri
         Bin definition to use to create the figure.
     cmap : str
         Colormap to use for the figure.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
