@@ -63,6 +63,37 @@ def check_param_options(param, label, options, ignore_case=False):
         raise ValueError(msg)
 
 
+def check_param_lengths(params, labels, expected_length=None):
+    """Check that a set of parameters have the same length.
+
+    Parameters
+    ----------
+    params : list of collections
+        A set of parameters to check that they each have the same length.
+    labels : list of str
+        The names of the parameters, to print in the error message.
+    expected_length : int, optional
+        The expected length of each of the parameters, to check against.
+
+    Raises
+    ------
+    ValueError
+        If the parameters are not the same length and/or are not the expected length.
+    """
+
+    plen = len(params[0])
+    for param in params[1:]:
+        if len(param) != plen:
+            msg = "These parameters should be the same length: {}.".format(str(labels)[1:-1])
+            raise ValueError(msg)
+
+    if expected_length:
+        if plen != expected_length:
+            msg = "These parameters should all have length {}: {}.".format(\
+                expected_length, str(labels)[1:-1])
+            raise ValueError(msg)
+
+
 def check_list_options(contents, label, options):
     """Check a list of values that each element is one of a set of acceptable options.
 
