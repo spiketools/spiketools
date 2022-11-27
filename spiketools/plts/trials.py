@@ -40,17 +40,22 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
+    # This process infers whether there is are embedded lists of multiple conditions
     check = False
     for val in data:
+        # The try / except is to deal with potentially empty lists (trials with no spikes)
         try:
+            # This allows for plotting a raster with a single trial
             if isinstance(val, float):
                 break
+            # If this value is a collection, there are multiple conditions
             elif isinstance(val[0], (list, np.ndarray)):
                 check = True
                 break
         except (IndexError, TypeError):
             continue
 
+    # If multiple conditions, organize colors across trials, and flatten data for plotting
     if check:
         lens = [len(el) for el in data]
         colors = DEFAULT_COLORS[0:len(lens)] if not colors else colors
