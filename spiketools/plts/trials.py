@@ -27,7 +27,7 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
         Location(s) to draw a vertical line. If None, no line is drawn.
     colors : str or list of str, optional
         Color(s) to plot the raster ticks.
-        If more than one, should be the length of data.
+        If more than one, should match the number of conditions.
     vshade : list of float, optional
         Vertical region of the plot to shade in.
     show_axis : bool, optional, default: False
@@ -73,8 +73,8 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
 
 @savefig
 @set_plt_kwargs
-def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
-                      stats=None, sig_level=0.05, ax=None, **plt_kwargs):
+def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, colors=None,
+                      labels=None, stats=None, sig_level=0.05, ax=None, **plt_kwargs):
     """Plot continuous firing rates across time.
 
     Parameters
@@ -89,6 +89,9 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
         Averaging to apply to firing rate activity before plotting.
     shade : {'sem', 'std'} or list of array, optional
         Measure of variance to compute and/or plot as shading.
+    colors : str or list of str, optional
+        Color(s) to plot the firing rates.
+        If more than one, should match the number of conditions.
     labels : list of str, optional
         Labels for each set of y-values.
         If provided, a legend is added to the plot.
@@ -107,18 +110,23 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
     if not isinstance(y_vals[0], np.ndarray):
         y_vals = [y_vals]
 
+    colors = DEFAULT_COLORS[0:len(y_vals)] if not colors else colors
+
     if isinstance(shade, str):
         shade = [get_var_func(shade)(arr, 0) for arr in y_vals]
 
     if isinstance(average, str):
         y_vals = [get_avg_func(average)(arr, 0) for arr in y_vals]
 
-    for ind, ys in enumerate(y_vals):
+    for ind, (ys, color) in enumerate(zip(y_vals, colors)):
 
-        ax.plot(x_vals, ys, lw=3, label=labels[ind] if labels else None, **plt_kwargs)
+        ax.plot(x_vals, ys, color=color,
+                label=labels[ind] if labels else None,
+                lw=3, **plt_kwargs)
 
         if shade:
-            ax.fill_between(x_vals, ys-shade[ind], ys+shade[ind], alpha=0.25)
+            ax.fill_between(x_vals, ys-shade[ind], ys+shade[ind],
+                            color=color, alpha=0.25)
 
     if labels:
         ax.legend(loc='best')
