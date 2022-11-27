@@ -2,6 +2,7 @@
 
 import numpy as np
 
+from spiketools.utils.checks import check_param_lengths
 from spiketools.utils.extract import get_range, get_value_by_time, get_values_by_time_range
 
 ###################################################################################################
@@ -75,6 +76,8 @@ def epoch_spikes_by_range(spikes, start_times, stop_times, reset=False):
     >>> epoch_spikes_by_range(spikes, start_times, stop_times, reset=True)
     [array([0.1, 0.3, 0.4]), array([0.05, 0.15, 0.25]), array([0.1])]
     """
+
+    check_param_lengths([start_times, stop_times], ['start_times', 'stop_times'])
 
     trials = [None] * len(start_times)
     for ind, (start, stop) in enumerate(zip(start_times, stop_times)):
@@ -235,6 +238,8 @@ def epoch_data_by_range(timestamps, values, start_times, stop_times, reset=False
     >>> epoch_data_by_range(timestamps, values, start_times, stop_times, reset=True)
     ([array([0.1, 0.2]), array([0.])], [array([2, 3]), array([4])])
     """
+
+    check_param_lengths([start_times, stop_times], ['start_times', 'stop_times'])
 
     trial_timestamps = [None] * len(start_times)
     trial_values = [None] * len(start_times)
