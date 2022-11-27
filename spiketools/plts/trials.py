@@ -7,7 +7,7 @@ from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.annotate import add_vlines, add_vshade, add_significance
 from spiketools.plts.utils import check_ax, savefig
-from spiketools.plts.style import set_plt_kwargs
+from spiketools.plts.style import get_kwargs, set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
@@ -36,9 +36,13 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
+        Custom kwargs: 'line_color', 'line_lw', 'line_alpha', 'shade_color', 'shade_alpha'.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    custom_kwargs = ['line_color', 'line_lw', 'line_alpha', 'shade_color', 'shade_alpha']
+    custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
 
     # This process infers whether there is are embedded lists of multiple conditions
     check = False
@@ -62,10 +66,15 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
         colors = flatten([[col] * ll for col, ll in zip(colors, lens)])
         data = flatten(data)
 
-    ax.eventplot(data, colors=colors)
+    ax.eventplot(data, colors=colors, **plt_kwargs)
 
-    add_vlines(vline, ax, lw=2.5, color=plt_kwargs.pop('line_color', 'green'), alpha=0.5)
-    add_vshade(vshade, ax, color=plt_kwargs.pop('shade_color', 'red'), alpha=0.25)
+    add_vlines(vline, ax,
+               color=custom_plt_kwargs.pop('line_color', 'green'),
+               lw=custom_plt_kwargs.pop('line_lw', 2.5),
+               alpha=custom_plt_kwargs.pop('line_alpha', 0.5))
+    add_vshade(vshade, ax,
+               color=custom_plt_kwargs.pop('shade_color', 'red'),
+               alpha=custom_plt_kwargs.pop('shade_alpha', 0.25))
 
     if not show_axis:
         ax.set_axis_off()
@@ -103,9 +112,13 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, colors=None,
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
+        Custom kwargs: 'shade_alpha', 'legend_loc'.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    custom_kwargs = ['shade_alpha', 'legend_loc']
+    custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
 
     if not isinstance(y_vals[0], np.ndarray):
         y_vals = [y_vals]
@@ -122,14 +135,14 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, colors=None,
 
         ax.plot(x_vals, ys, color=color,
                 label=labels[ind] if labels else None,
-                lw=3, **plt_kwargs)
+                lw=plt_kwargs.pop('lw', 3), **plt_kwargs)
 
         if shade:
             ax.fill_between(x_vals, ys-shade[ind], ys+shade[ind],
-                            color=color, alpha=0.25)
+                            color=color, alpha=custom_plt_kwargs.pop('alpha', 0.25))
 
     if labels:
-        ax.legend(loc='best')
+        ax.legend(loc=custom_plt_kwargs.pop('legend_loc', 'best'))
 
     if stats:
         add_significance(stats, sig_level=sig_level, ax=ax)
