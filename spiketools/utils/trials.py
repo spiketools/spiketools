@@ -12,8 +12,8 @@ def split_trials_by_condition(trials, conditions):
     ----------
     trials : list or 2d array
         Trial data.
-        If list, each element of the list should represent a trial.
-        If array, with each row of the data frame should represent a trial.
+        If list, each element should represent a trial.
+        If array, each row should represent a trial.
     conditions : list
         Condition labels for each trial.
 
@@ -37,7 +37,7 @@ def split_trials_by_condition_list(trials, conditions):
     Parameters
     ----------
     trials : list
-        Trial data, with each element of the element representing a trial.
+        Trial data, with each element representing a trial.
     conditions : list
         Condition labels for each trial.
 
@@ -64,7 +64,7 @@ def split_trials_by_condition_array(trials, conditions):
     Parameters
     ----------
     trials : 2d array
-        Trial data, with each row of the data frame representing a trial.
+        Trial data, with each row representing a trial.
     conditions : list
         Condition labels for each trial.
 
