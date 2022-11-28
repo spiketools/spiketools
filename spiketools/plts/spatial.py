@@ -129,17 +129,15 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
 
 @savefig
 @set_plt_kwargs
-def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
-                 ignore_zero=False, cbar=False, cmap=None, vmin=None, vmax=None,
-                 invert=None, ax=None, **plt_kwargs):
+def plot_heatmap(data, smooth=False, smoothing_kernel=1.5, ignore_zero=False,
+                 cbar=False, cmap=None, vmin=None, vmax=None,
+                 transpose=False, invert=None, ax=None, **plt_kwargs):
     """Plot a spatial heat map.
 
     Parameters
     ----------
     data : 2d array
         Measure to plot across a grided environment.
-    transpose : bool, optional, default: False
-        Whether to transpose the data before plotting.
     smooth : bool, optional, default: False
         Whether to smooth the data before plotting.
     smoothing_kernel : float, optional, default: 1.5
@@ -152,6 +150,8 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
         Which colormap to use to plot.
     vmin, vmax : float, optional
         Min and max plot ranges.
+    transpose : bool, optional, default: False
+        Whether to transpose the data before plotting.
     invert : {'x', 'y', 'both'}, optional
         If provided, inverts the plot axes over x, y or both axes.
         Note that invert x is equivalent to flipping the data left/right, and y to flipping up/down.
