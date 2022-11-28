@@ -190,3 +190,26 @@ def get_grid_subplot(grid, row, col, **plt_kwargs):
     """
 
     return plt.subplot(grid[row, col], **plt_kwargs)
+
+
+def invert_axes(ax, invert):
+    """Invert plot axes.
+
+    Parameters
+    ----------
+    ax : Axes
+        Axis object to update.
+    invert : {'x', 'y', 'both'} or None
+        How to invert the plot axes, inverting the x, y, or both axes.
+
+    Notes
+    -----
+    Note that inverting axes is equivalent to flipping the data, specifically:
+    Flipping up/down is equivalent to inverting the  y-axis.
+            Flipping left/right to inverting the x axis.
+    """
+
+    if invert in ['x', 'both']:
+        ax.invert_xaxis()
+    if invert in ['y', 'both']:
+        ax.invert_yaxis()

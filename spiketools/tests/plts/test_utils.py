@@ -85,3 +85,22 @@ def test_get_grid_subplot():
     grid = make_grid(2, 2)
     ax = get_grid_subplot(grid, 0, 0)
     assert ax
+
+def test_invert_axes():
+
+    # test inverting x & y axes separately
+    _, ax1 = plt.subplots()
+    ax1.plot([1, 2], [3, 4])
+
+    invert_axes(ax1, 'x')
+    assert ax1.get_xlim()[0] > ax1.get_xlim()[1]
+
+    invert_axes(ax1, 'y')
+    assert ax1.get_ylim()[0] > ax1.get_ylim()[1]
+
+    # test inverting both axes together
+    _, ax2 = plt.subplots()
+    ax2.plot([1, 2], [3, 4])
+    invert_axes(ax2, 'both')
+    assert ax2.get_xlim()[0] > ax2.get_xlim()[1]
+    assert ax2.get_ylim()[0] > ax2.get_ylim()[1]
