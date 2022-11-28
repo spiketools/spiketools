@@ -1,8 +1,8 @@
-"""Tests for spiketools.measures.measures"""
+"""Tests for spiketools.measures.spikes"""
 
 import numpy as np
 
-from spiketools.measures.measures import *
+from spiketools.measures.spikes import *
 
 ###################################################################################################
 ###################################################################################################

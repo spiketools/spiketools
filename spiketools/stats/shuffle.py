@@ -1,25 +1,28 @@
 """Functions for shuffling data."""
 
+from functools import wraps
+
 import numpy as np
 
-from spiketools.measures import compute_isis, compute_firing_rate
+from spiketools.measures.spikes import compute_isis, compute_firing_rate
 from spiketools.measures.conversions import (convert_times_to_train, convert_isis_to_times,
                                              convert_train_to_times)
 from spiketools.stats.generators import poisson_generator
-from spiketools.stats.permutations import vec_perm
+from spiketools.stats.permutations import permute_vector
 from spiketools.utils.checks import check_param_options
+from spiketools.utils.extract import drop_range, reinstate_range
 
 ###################################################################################################
 ###################################################################################################
 
-def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
+def shuffle_spikes(spikes, approach, n_shuffles=1000, **kwargs):
     """Shuffle spikes.
 
     Parameters
     ----------
     spikes : 1d array
         Spike times, in seconds.
-    approach : {'ISI', 'BINCIRC', 'POISSON', 'CIRCULAR'}
+    approach : {'isi', 'bincirc', 'poisson', 'circular'}
         Which approach to take for shuffling spike times.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
@@ -31,32 +34,88 @@ def shuffle_spikes(spikes, approach='ISI', n_shuffles=1000, **kwargs):
     -------
     shuffled_spikes : 2d array
         Shuffled spike times.
+
+    Examples
+    --------
+    Simulate some example spikes for examples:
+
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
+
+    Create 5 spike time shuffles using the ISI shuffle method:
+
+    >>> shuffled_spikes = shuffle_spikes(spikes, 'isi', n_shuffles=5)
+
+    Create 5 spike time shuffles using a circular shuffle:
+
+    >>> shuffled_spikes = shuffle_spikes(spikes, 'circular', n_shuffles=5, shuffle_min=10000)
     """
 
-    check_param_options(approach, 'approach', ['ISI', 'BINCIRC', 'POISSON', 'CIRCULAR'])
+    # Use lowered string, for backwards compatibility for options were upper case
+    approach = approach.lower()
 
-    if approach == 'ISI':
+    check_param_options(approach, 'approach', ['isi', 'bincirc', 'poisson', 'circular'])
+
+    if approach == 'isi':
         shuffled_spikes = shuffle_isis(spikes, n_shuffles=n_shuffles)
 
-    elif approach == 'BINCIRC':
+    elif approach == 'bincirc':
         shuffled_spikes = shuffle_bins(spikes, n_shuffles=n_shuffles, **kwargs)
 
-    elif approach == 'POISSON':
+    elif approach == 'poisson':
         shuffled_spikes = shuffle_poisson(spikes, n_shuffles=n_shuffles)
 
-    elif approach == 'CIRCULAR':
+    elif approach == 'circular':
         shuffled_spikes = shuffle_circular(spikes, n_shuffles=n_shuffles, **kwargs)
 
     return shuffled_spikes
 
 
+def drop_shuffle_range(func):
+    """Decorator for shuffling functions that allows for dropping a time range for shuffling.
+
+    Notes
+    -----
+    This function is designed for `shuffle_xx` functions, which takes 1d array `spikes` as
+    the first input and return a 2d array `shuffled_spikes` as the sole output.
+
+    If a keyword argument `drop_time_range` is present, this triggers the drop process:
+
+    - The given drop range time is dropped from the given spike times, before shuffling
+    - The shuffle function is then run, without the dropped range
+    - The drop range time is then reinstated in the shuffled spike times
+
+    If `drop_time_range` is not present in the arguments, this decorator does nothing.
+    """
+
+    @wraps(func)
+    def decorated(*args, **kwargs):
+
+        spikes = args[0]
+        time_range = kwargs.pop('drop_time_range', None)
+        check_empty = kwargs.pop('check_empty', True)
+
+        if time_range:
+            spikes = drop_range(spikes, time_range, check_empty)
+
+        shuffles = func(spikes, *args[1:], **kwargs)
+
+        if time_range:
+            shuffles = reinstate_range(shuffles, time_range)
+
+        return shuffles
+
+    return decorated
+
+
+@drop_shuffle_range
 def shuffle_isis(spikes, n_shuffles=1000):
     """Create shuffled spike times using permuted inter-spike intervals.
 
     Parameters
     ----------
-    isis : 1d array
-        Inter-spike intervals.
+    spikes : 1d array
+        Spike times, in seconds.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
 
@@ -64,6 +123,14 @@ def shuffle_isis(spikes, n_shuffles=1000):
     -------
     shuffled_spikes : 2d array
         Shuffled spike times.
+
+    Examples
+    --------
+    Shuffle spike times using the ISI shuffle method:
+
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
+    >>> shuffled_spikes = shuffle_isis(spikes, n_shuffles=5)
     """
 
     isis = compute_isis(spikes)
@@ -75,6 +142,7 @@ def shuffle_isis(spikes, n_shuffles=1000):
     return shuffled_spikes
 
 
+@drop_shuffle_range
 def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
     """Shuffle data with circular shuffles of randomly sized bins of the spike train.
 
@@ -104,6 +172,14 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
     This shuffling process is very dependent on the `bin_width_range` argument.
     It is recommended that `bin_width_range[1] > 3`, and that the difference
     between the two values of `bin_width_range` is at least 1.
+
+    Examples
+    --------
+    Shuffle spike times using the circular bin method:
+
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
+    >>> shuffled_spikes = shuffle_bins(spikes, bin_width_range=[3, 4], n_shuffles=5)
     """
 
     spike_train = convert_times_to_train(spikes)
@@ -146,6 +222,7 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
     return shuffled_spikes
 
 
+@drop_shuffle_range
 def shuffle_poisson(spikes, n_shuffles=1000):
     """Shuffle spikes based on a Poisson distribution.
 
@@ -164,6 +241,14 @@ def shuffle_poisson(spikes, n_shuffles=1000):
     Notes
     -----
     This is an experimental implementation, and still has some issues matching spike counts.
+
+    Examples
+    --------
+    Shuffle spike times using the Poisson method:
+
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
+    >>> shuffled_spikes = shuffle_poisson(spikes, n_shuffles=5)
     """
 
     rate = compute_firing_rate(spikes)
@@ -171,13 +256,14 @@ def shuffle_poisson(spikes, n_shuffles=1000):
 
     poisson_spikes = list(poisson_generator(rate, length)) + spikes[0]
 
-    isis = vec_perm(compute_isis(poisson_spikes), n_perms=n_shuffles)
+    isis = permute_vector(compute_isis(poisson_spikes), n_permutations=n_shuffles)
 
     shuffled_spikes = np.cumsum(isis, axis=1) + spikes[0]
 
     return shuffled_spikes
 
 
+@drop_shuffle_range
 def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
     """Shuffle spikes based on circularly shifting the spike train.
 
@@ -198,6 +284,14 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
     Notes
     -----
     The input shuffle_min should always be less than the maximum time in which a spike occurred.
+
+    Examples
+    --------
+    Shuffle spike times using the circular method:
+
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
+    >>> shuffled_spikes = shuffle_circular(spikes, shuffle_min=10000, n_shuffles=5)
     """
 
     spike_train = convert_times_to_train(spikes)

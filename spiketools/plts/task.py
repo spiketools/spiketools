@@ -2,8 +2,9 @@
 
 import matplotlib.pyplot as plt
 
-from spiketools.plts.annotate import _add_vshade, _add_vlines
-from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
+from spiketools.plts.annotate import add_vshade, add_vlines
+from spiketools.plts.utils import check_ax, savefig
+from spiketools.plts.style import set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
@@ -21,7 +22,7 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
         List of start and end ranges to shade in, to indicate event durations.
         To add multiple different shaded regions, pass a list of multiple shade definitions.
     event_lines : list of float
-        Positions to draw vertical lines, to indicate point events.
+        Timestamps at which to draw vertical lines, to indicate point events.
         To add multiple different lines, pass a list of multiple line definitions.
     data_points : 1d array
         Set of timestamps to indicate data points of interest on the plot.
@@ -53,7 +54,7 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
         else:
             for st, en in zip(*task_ranges):
                 range_kwargs.setdefault('alpha', 0.25)
-                _add_vshade([st, en], **range_kwargs, ax=ax)
+                add_vshade([st, en], **range_kwargs, ax=ax)
 
     if event_lines is not None:
         if not isinstance(event_lines[0], (int, float)):
@@ -61,7 +62,7 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
                 event_kwargs['color'] = color
                 plot_task_structure(event_lines=eline, event_kwargs=event_kwargs, ax=ax)
         else:
-            _add_vlines(event_lines, **event_kwargs, ax=ax)
+            add_vlines(event_lines, **event_kwargs, ax=ax)
 
     if data_points is not None:
         ax.eventplot(data_points)

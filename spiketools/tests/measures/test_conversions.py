@@ -2,7 +2,9 @@
 
 import numpy as np
 
-from spiketools.measures import compute_isis
+from pytest import raises
+
+from spiketools.measures.spikes import compute_isis
 
 from spiketools.measures.conversions import *
 
@@ -15,6 +17,11 @@ def test_convert_times_to_train(tspikes):
     assert isinstance(spike_train, np.ndarray)
     assert spike_train.shape[-1] > tspikes.shape[-1]
     assert sum(spike_train) == tspikes.shape[-1]
+
+    # Check the error with times / sampling rate mismatch
+    spikes = np.array([0.1000, 0.1500, 0.1505, 0.2000])
+    with raises(ValueError):
+        convert_times_to_train(spikes, fs=1000)
 
 def test_convert_train_to_times():
 
@@ -60,7 +67,7 @@ def test_convert_times_to_rates(tspikes):
     assert len(rates) == len(bins) - 1
 
     # Passing in bin width, with smoothing
-    rates = convert_times_to_rates(tspikes, 0.5, trange=[0, 8.5], smooth=0.5)
+    rates = convert_times_to_rates(tspikes, 0.5, time_range=[0, 8.5], smooth=0.5)
     assert isinstance(rates, np.ndarray)
 
     # Check bins with different sizes

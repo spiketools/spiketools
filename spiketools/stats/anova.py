@@ -35,6 +35,13 @@ def create_dataframe(data, columns=None, dropna=True, dtypes=None):
     -------
     df : pd.DataFrame
         Constructed dataframe.
+
+    Examples
+    --------
+    Create a dataframe from arrays representing 3 trials of firing rate across 3 spatial bins:
+
+    >>> data = np.array([[1.5, 1.7, 1.9], [1.4, 1.2, 1.6], [1.5, 0.9, 0.8]])
+    >>> df = create_dataframe(data)
     """
 
     df = pd.DataFrame(data, columns=columns)
@@ -61,7 +68,7 @@ def create_dataframe_bins(bin_data, other_data=None, dropna=True, dtypes=None, b
     other_data : dict, optional
         Additional data columns, reflecting data per trial, to add to the dataframe.
         Each key should be a column label and each value should be an array of length n_trials.
-    drop_na : bool, optional, default: True
+    dropna : bool, optional, default: True
         Whether to drop NaN values from the dataframe.
     dtypes : dict, optional
         Data types to typecast columns to.
@@ -74,6 +81,13 @@ def create_dataframe_bins(bin_data, other_data=None, dropna=True, dtypes=None, b
     -------
     df : pd.DataFrame
         Constructed dataframe.
+
+    Examples
+    --------
+    Create a dataframe from arrays representing 3 trials of firing rate across 5 spatial bins:
+
+    >>> data = np.array([[1, 2, 3, 7, 2], [4, 5, 6, 4, 1], [8, 9, 10, 9, 8]])
+    >>> df = create_dataframe_bins(data)
     """
 
     if bin_data.ndim == 2:
@@ -147,6 +161,17 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
         If `return_type` is 'f_val', the f-value statistic of the ANOVA model.
         If `return_type` is 'results', the results of the model fit.
         If `return_type` is 'model', the fit model object.
+
+    Examples
+    --------
+    Fit an ANOVA on firing rates per spatial bin, returning model F-value:
+
+    >>> data = np.array([[1, 2, 3, 7, 2], [4, 5, 6, 4, 1], [8, 9, 10, 9, 8]])
+    >>> df = create_dataframe_bins(data)
+    >>> formula = 'fr ~ C(bin)'
+    >>> f_val = fit_anova(df, formula, feature='C(bin)', return_type='f_val', anova_type=1)
+    >>> round(f_val, 4)
+    0.4249
     """
 
     check_param_options(return_type, 'return_type', ['model', 'results', 'f_val'])

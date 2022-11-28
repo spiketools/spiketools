@@ -5,10 +5,9 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from spiketools.utils.checks import check_bin_range
 from spiketools.utils.data import assign_data_to_bins
-from spiketools.spatial.checks import check_position, check_position_bins
-from spiketools.spatial.utils import compute_bin_time
+from spiketools.spatial.checks import check_position, check_spatial_bins
+from spiketools.spatial.utils import compute_sample_durations
 
 ###################################################################################################
 ###################################################################################################
@@ -18,13 +17,14 @@ def compute_bin_edges(position, bins, area_range=None):
 
     Parameters
     ----------
-    position : 1d or 2d array
-        Position values.
+    position : 1d or 2d array or None
+        Position values. If None, area_range is required to define bins.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     area_range : list of list, optional
-        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+        Edges of the area to bin.
+        For 1d defined as [min, max]. For 2d, defined as [[x_min, x_max], [y_min, y_max]].
         Any values outside this range will be considered outliers, and not used to compute edges.
 
     Returns
@@ -32,34 +32,40 @@ def compute_bin_edges(position, bins, area_range=None):
     x_edges : 1d array
         Edge definitions for the spatial binning.
     y_edges : 1d array
-        Edge definitions for the spatial binning. Only returned in 2D case.
+        Edge definitions for the spatial binning. Only returned in 2d case.
 
     Examples
     --------
-    Compute bin edges for 1D position values:
+    Compute bin edges for 1d position values:
 
     >>> position = np.array([1, 2, 3, 4, 5])
     >>> compute_bin_edges(position, bins=[5])
     array([1. , 1.8, 2.6, 3.4, 4.2, 5. ])
 
-    Compute bin edges for 2D position values, with x-range of 1-5 & y-range of 6-10:
+    Compute bin edges for 2d position values:
 
-    >>> position = np.array([[1, 2, 3, 4, 5],
-    ...                      [6, 7, 8, 9, 10]])
+    >>> position = np.array([[1, 2, 3, 4, 5], \
+                             [6, 7, 8, 9, 10]])
     >>> compute_bin_edges(position, bins=[5, 4])
     (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
 
-    bins = check_position_bins(bins, position)
+    bins = check_spatial_bins(bins, position)
 
-    if position.ndim == 1:
-        _, x_edges = np.histogram(position, bins=bins[0], range=area_range)
+    if len(bins) == 1:
+
+        x_edges = np.histogram_bin_edges(position, bins=bins[0], range=area_range)
 
         return x_edges
 
-    elif position.ndim == 2:
-        _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :],
-                                             bins=bins, range=area_range)
+    elif len(bins) == 2:
+
+        x_pos, y_pos = position if isinstance(position, np.ndarray) else (None, None)
+        x_range, y_range = area_range if isinstance(area_range, list) else (None, None)
+
+        x_edges = np.histogram_bin_edges(x_pos, bins=bins[0], range=x_range)
+        y_edges = np.histogram_bin_edges(y_pos, bins=bins[1], range=y_range)
+
         return x_edges, y_edges
 
 
@@ -108,8 +114,8 @@ def compute_bin_assignment(position, x_edges, y_edges=None, check_range=True, in
 
     Compute bin assignment for 2D position values, given precomputed bin edges:
 
-    >>> position = np.array([[1.5, 2.5, 3.5, 5],
-    ...                      [6.5, 7.5, 8.5, 9]])
+    >>> position = np.array([[1.5, 2.5, 3.5, 5], \
+                             [6.5, 7.5, 8.5, 9]])
     >>> x_edges = np.array([1, 2, 3, 4, 5])
     >>> y_edges = np.array([6, 7, 8, 9, 10])
     >>> compute_bin_assignment(position, x_edges, y_edges)
@@ -160,9 +166,21 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
     For the 2D case, note that while the inputs to this function list the x-axis first,
     the output of this function, being a 2d array, follows the numpy convention in which
     columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
+
+    Examples
+    --------
+    Compute counts across 2d bins from position data:
+
+    >>> position = np.array([[0.5, 1.0, 1.5, 2.0, 3.0], \
+                             [0.1, 0.2, 0.3, 0.4, 0.5]])
+    >>> bins = [2, 3]
+    >>> compute_bin_counts_pos(position, bins)
+    array([[2, 0],
+           [1, 0],
+           [0, 2]])
     """
 
-    bins = check_position_bins(bins, position)
+    bins = check_spatial_bins(bins, position)
 
     if position.ndim == 1:
         bin_counts, _ = np.histogram(position, bins=bins[0], range=area_range)
@@ -209,14 +227,14 @@ def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
 
     Examples
     --------
-    Compute the bin counts per bin for 1D data, given precomputed xbins:
+    Compute the bin counts per bin for 1D data, given precomputed x bin assignments:
 
     >>> bins = 3
     >>> xbins = [0, 2, 1, 0, 1]
     >>> compute_bin_counts_assgn(bins, xbins)
     array([2, 2, 1])
 
-    Compute the bin counts for 2D data, given precomputed x & y bins:
+    Compute the bin counts for 2D data, given precomputed x & y bin assignments:
 
     >>> bins = [2, 2]
     >>> xbins = [0, 0, 0, 1]
@@ -226,7 +244,7 @@ def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
            [1., 1.]])
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     if ybins is None:
         bins = np.arange(0, bins[0] + 1)
@@ -279,9 +297,9 @@ def normalize_bin_counts(bin_counts, occupancy):
     return normalized_bin_counts
 
 
-def create_position_df(position, timestamps, bins, area_range=None,
-                       speed=None, speed_threshold=None, time_threshold=None,
-                       dropna=True, check_range=True):
+def create_position_df(position, timestamps, bins, area_range=None, speed=None,
+                       speed_threshold=None, time_threshold=None, dropna=True,
+                       check_range=True):
     """Create a dataframe that stores information about position bins.
 
     Parameters
@@ -289,7 +307,7 @@ def create_position_df(position, timestamps, bins, area_range=None,
     position : 1d or 2d array
         Position values.
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds, corresponding to the position values.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
@@ -315,9 +333,9 @@ def create_position_df(position, timestamps, bins, area_range=None,
         Dataframe representation of position bin information.
     """
 
-    bins = check_position_bins(bins, position)
+    bins = check_spatial_bins(bins, position)
 
-    data_dict = {'time' : compute_bin_time(timestamps)}
+    data_dict = {'time' : compute_sample_durations(timestamps)}
     if speed is not None:
         data_dict['speed'] = speed
 
@@ -381,7 +399,7 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
         For 2d, has shape [n_y_bins, n_x_bins] (see notes in `compute_occupancy`).
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     # Group position samples into spatial bins, summing total time spent there
     groupby = sorted([el for el in list(bindf.columns) if 'bin' in el])
@@ -416,7 +434,7 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     position : 1d or 2d array
         Position values.
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds, corresponding to the position values.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
@@ -464,8 +482,8 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
 
     Compute occupancy for a set of 2D position values:
 
-    >>> position = np.array([[1.0, 2.5, 1.5, 3.0, 3.5, 5.0],
-    ...                      [5.0, 7.5, 6.5, 5.0, 8.5, 9.0]])
+    >>> position = np.array([[1.0, 2.5, 1.5, 3.0, 3.5, 5.0], \
+                             [5.0, 7.5, 6.5, 5.0, 8.5, 9.0]])
     >>> timestamps = np.linspace(0, 1, position.shape[1])
     >>> compute_occupancy(position, timestamps, bins=[2, 2])
     array([[0.4, 0.2],

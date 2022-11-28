@@ -47,8 +47,17 @@ def test_plot_bar():
     plot_bar(np.array([1., 2., 3.]),
             file_path=TEST_PLOTS_PATH, file_name='tplot_bar.png')
 
-    plot_bar(np.array([1., 2., 3.]), labels=['A1', 'A2', 'A3'],
+    plot_bar(np.array([1., 2., 3.]), labels=['A1', 'A2', 'A3'], add_text=True,
             file_path=TEST_PLOTS_PATH, file_name='tplot_bar_labels.png')
+
+@plot_test
+def test_plot_barh():
+
+    plot_barh(np.array([1., 2., 3.]),
+              file_path=TEST_PLOTS_PATH, file_name='tplot_bar.png')
+
+    plot_barh(np.array([1., 2., 3.]), labels=['A1', 'A2', 'A3'], add_text=True,
+              file_path=TEST_PLOTS_PATH, file_name='tplot_bar_labels.png')
 
 @plot_test
 def test_plot_polar_hist():

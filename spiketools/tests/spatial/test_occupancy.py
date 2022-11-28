@@ -10,37 +10,44 @@ from spiketools.spatial.occupancy import *
 
 def test_compute_bin_edges():
 
-    # check 1d case
+    ## 1d case
     bins = 3
     position = np.array([0, 1, 2, 3, 4, 5])
+    area_range = [1, 4]
+
+    # 1d case with position data
     edges = compute_bin_edges(position, bins)
     assert len(edges) == bins + 1
-    assert edges[0] == min(position)
-    assert edges[-1] == max(position)
+    assert [edges[0], edges[-1]] == [min(position), max(position)]
 
-    # check 2d case - with two inputs of the same size, different number of bins
+    # 1d case with area range
+    edges = compute_bin_edges(position, bins, area_range)
+    assert np.array_equal(edges, np.array([1.0, 2.0, 3.0, 4.0]))
+
+    # 1d case with no position data (uses area range)
+    edges = compute_bin_edges(None, bins, area_range)
+    assert np.array_equal(edges, np.array([1.0, 2.0, 3.0, 4.0]))
+
+    ## 2d case
     bins = [2, 4]
-    position = np.array([[1., 2., 3., 4.], [0., 1., 2., 3.]])
-    x_edges, y_edges = compute_bin_edges(position, bins)
-    assert len(x_edges) == bins[0] + 1
-    assert len(y_edges) == bins[1] + 1
-    assert x_edges[0] == min(position[0, :])
-    assert x_edges[-1] == max(position[0, :])
-    assert y_edges[0] == min(position[1, :])
-    assert y_edges[-1] == max(position[1, :])
-    assert np.all(np.sort(x_edges) == x_edges)
-    assert np.all(np.sort(y_edges) == y_edges)
+    position = np.array([[1., 2., 3., 4., 5.], [0., 1., 2., 3., 4.]])
+    area_range = [[1, 4], [1, 4]]
 
-    # checks for two inputs such that one is the other one shuffled
-    position = np.array([[1., 2., 3., 4.], [4., 1., 3., 2.]])
+    # 2d case with position data
     x_edges, y_edges = compute_bin_edges(position, bins)
-    assert x_edges[0] == y_edges[0]
-    assert x_edges[-1] == y_edges[-1]
+    assert [len(x_edges), len(y_edges)] == [bins[0] + 1, bins[1] + 1]
+    assert [x_edges[0], x_edges[-1]] == [min(position[0, :]), max(position[0, :])]
+    assert [y_edges[0], y_edges[-1]] == [min(position[1, :]), max(position[1, :])]
 
-    # test for regular input (x) and all zeros input (y)
-    position = np.array([[1., 2., 3., 4.], [0., 0., 0., 0.]])
-    x_edges, y_edges = compute_bin_edges(position, bins)
-    assert np.sum(y_edges == np.linspace(-0.5, 0.5, bins[1] + 1)) == bins[1] + 1
+    # 2d case with area range
+    x_edges, y_edges = compute_bin_edges(position, bins, area_range)
+    assert np.array_equal(x_edges, np.array([1.0, 2.5, 4.0]))
+    assert np.array_equal(y_edges, np.array([1.0, 1.75, 2.5, 3.25, 4.0]))
+
+    # 2d case with no position data (uses area range)
+    x_edges, y_edges = compute_bin_edges(None, bins, area_range)
+    assert np.array_equal(x_edges, np.array([1.0, 2.5, 4.0]))
+    assert np.array_equal(y_edges, np.array([1.0, 1.75, 2.5, 3.25, 4.0]))
 
 def test_compute_bin_assignment():
 

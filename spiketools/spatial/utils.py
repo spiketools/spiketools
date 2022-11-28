@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.utils.data import compute_range
-from spiketools.spatial.checks import check_position_bins
+from spiketools.spatial.checks import check_spatial_bins
 
 ###################################################################################################
 ###################################################################################################
@@ -30,7 +30,7 @@ def compute_nbins(bins):
     20
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     if len(bins) == 1:
         n_bins = bins[0]
@@ -84,25 +84,25 @@ def compute_pos_ranges(position):
     return ranges
 
 
-def compute_bin_time(timestamps):
-    """Compute the time duration of each position sample.
+def compute_sample_durations(timestamps):
+    """Compute the time duration of each sample.
 
     Parameters
     ----------
     timestamps : 1d array
-        Timestamps.
+        Timestamps, in seconds.
 
     Returns
     -------
     1d array
-        Width, in time, of each bin.
+        Time duration of each sampling bin.
 
     Examples
     --------
     Compute times between timestamp samples:
 
-    >>> timestamp = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])
-    >>> compute_bin_time(timestamp)
+    >>> timestamps = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])
+    >>> compute_sample_durations(timestamps)
     array([1., 2., 3., 2., 1., 0.])
     """
 
@@ -121,9 +121,22 @@ def compute_bin_width(bin_edges):
     -------
     float
         The bin width.
+
+    Examples
+    --------
+    Compute bin width from an array of 5 bin edges:
+
+    >>> bin_edges = [1.5, 3.5, 5.5, 7.5, 9.5]
+    >>> compute_bin_width(bin_edges)
+    2.0
     """
 
-    return np.diff(bin_edges)[0]
+    widths = np.diff(bin_edges)
+
+    # Check that all bin widths are the same, representing equidistant bins
+    assert np.all(np.isclose(widths, widths[0])), 'Bin edges should be equidistant.'
+
+    return widths[0]
 
 
 def convert_2dindices(xbins, ybins, bins):
@@ -134,8 +147,6 @@ def convert_2dindices(xbins, ybins, bins):
     xbins, ybins : 1d array
         Bin assignment indices for the x and y dimension of a 2D binning.
     bins : list of [int, int]
-        The bin definition for dividing up the space.
-        If 2d should be a list, defined as [number of x_bins, number of y_bins].
 
     Returns
     -------
@@ -146,6 +157,15 @@ def convert_2dindices(xbins, ybins, bins):
     -----
     The equivalent 1D indices for a set of 2D indices are those that access the
     equivalent values once the data array has been flattened into a 1d array.
+
+    Examples
+    --------
+    Convert 2d bins with shape [3, 2] into the equivalent 1d indices:
+
+    >>> xbins, ybins = np.array([2, 0, 1, 0, 1, 2]), np.array([0, 1, 1, 0, 0, 1])
+    >>> bins = [3, 2]
+    >>> convert_2dindices(xbins, ybins, bins)
+    array([2, 3, 4, 0, 1, 5])
     """
 
     indices = np.ravel_multi_index((ybins, xbins), np.flip(bins))
@@ -173,6 +193,15 @@ def convert_1dindices(indices, bins):
     -----
     The equivalent 2D indices for a set of 1d indices are those that access the
     equivalent values once the data array has been reshaped to the given 2D bin definition.
+
+    Examples
+    --------
+    Convert 1d bin indices into equivalent 2d indices with a [4, 4] shape:
+
+    >>> indices = np.array([0, 4, 5, 6, 7, 3, 2, 1, 0])
+    >>> bins = [3, 3]
+    >>> convert_1dindices(indices, bins)
+    (array([0, 1, 2, 0, 1, 0, 2, 1, 0]), array([0, 1, 1, 2, 2, 1, 0, 0, 0]))
     """
 
     ybins, xbins = np.unravel_index(indices, np.flip(bins))

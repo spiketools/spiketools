@@ -26,11 +26,11 @@ def test_compute_pos_ranges():
     ranges[0] == [1, 5]
     ranges[1] == [5, 9]
 
-def test_compute_bin_time():
+def test_compute_sample_durations():
 
     # define a timestamp, with irregular times
     timestamp = np.array([0.0, 1.0, 2.0, 3.0, 4.5, 5.0, 6.0, 7.0, 8.0, 9.0, 12.0])
-    bin_time = compute_bin_time(timestamp)
+    bin_time = compute_sample_durations(timestamp)
 
     # check dimensions & sum
     assert bin_time.shape[0] == timestamp.shape[0]

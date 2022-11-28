@@ -23,6 +23,14 @@ def compute_range(data):
     -------
     min, max : float
         Minimum and maximum values of the data array.
+
+    Examples
+    --------
+    Compute the range of some position data:
+
+    >>> data = np.array([1.5, 1, 0.5, 2, 3, 2.5])
+    >>> compute_range(data)
+    (0.5, 3.0)
     """
 
     return np.nanmin(data), np.nanmax(data)
@@ -47,6 +55,14 @@ def smooth_data(data, sigma):
     -----
     This function is applied on a copy of the data (to not change the original).
     Any NaN values will be set as 0 for smoothing purposes.
+
+    Examples
+    --------
+    Smooth a 1d data array using a gaussian kernel:
+
+    >>> data = np.array([1, 3, 5, 7, 9])
+    >>> smooth_data(data, sigma=0.8)
+    array([1, 3, 5, 6, 8])
     """
 
     data = deepcopy(data)
@@ -73,6 +89,14 @@ def drop_nans(data):
     Notes
     -----
     For 2d arrays, this function assumes the same columns to be NaN across all rows.
+
+    Examples
+    --------
+    Drop all NaNs values from a 1d array:
+
+    >>> data = np.array([1, 2, 3.5, np.nan, 6, 2, np.nan, 1])
+    >>> drop_nans(data)
+    array([1. , 2. , 3.5, 6. , 2. , 1. ])
     """
 
     nans = np.isnan(data)
@@ -106,6 +130,15 @@ def assign_data_to_bins(data, edges, check_range=True, include_edge=True):
     -------
     assignments : 1d array
         Bin assignments per data value.
+
+    Examples
+    --------
+    Assign data values into bins given the bin edges:
+
+    >>> data = np.array([0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 1.1, 1.2, 1.3, 1.4])
+    >>> edges = np.array([0, 0.5, 1, 1.5])
+    >>> assign_data_to_bins(data, edges)
+    array([0, 0, 0, 1, 1, 1, 2, 2, 2, 2])
     """
 
     if check_range:
@@ -143,6 +176,16 @@ def _include_bin_edge(assignments, position, edges, side='left'):
     (from np.digitize), one of these sides will be considered an outlier. This is because bin
     assignment is computed as `pos >= left_bin_edge & pos < right_bin_edge (flipped if right=True).
     To address this, this function resets position values == edges as with the bin on the edge.
+
+    Examples
+    --------
+    Update bin assignment of some position data using left side bin edges:
+
+    >>> position = np.array([0.5, 1, 1.5, 2, 1.5, 3])
+    >>> assignments = np.array([0, 1, 1, 2, 1, 3])
+    >>> edges = np.array([0, 1, 2, 3])
+    >>> _include_bin_edge(assignments, position, edges, side='left')
+    array([0, 1, 1, 2, 1, 2])
     """
 
     check_param_options(side, 'side', ['left', 'right'])

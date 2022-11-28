@@ -2,12 +2,15 @@
 
 from itertools import repeat
 
+import numpy as np
+
+from spiketools.utils.checks import check_param_options
 from spiketools.plts.utils import check_ax
 
 ###################################################################################################
 ###################################################################################################
 
-def color_pval(p_value, alpha=0.05, significant_color='red', null_color='black'):
+def color_pvalue(p_value, alpha=0.05, significant_color='red', null_color='black'):
     """Select a color based on the significance of a p-value.
 
     Parameters
@@ -30,13 +33,13 @@ def color_pval(p_value, alpha=0.05, significant_color='red', null_color='black')
     return significant_color if p_value < alpha else null_color
 
 
-def _add_vlines(vline, ax=None, **plt_kwargs):
+def add_vlines(vline, ax=None, **plt_kwargs):
     """Add vertical line(s) to a plot axis.
 
     Parameters
     ----------
     vline : float or list
-        Positions(s) of the vertical lines to add to the plot.
+        Location(s) of the vertical lines to add to the plot.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -51,13 +54,13 @@ def _add_vlines(vline, ax=None, **plt_kwargs):
             ax.axvline(line, **plt_kwargs)
 
 
-def _add_hlines(hline, ax=None, **plt_kwargs):
+def add_hlines(hline, ax=None, **plt_kwargs):
     """Add horizontal line(s) to a plot axis.
 
     Parameters
     ----------
     hline : float or list
-        Positions(s) of the horizontal lines to add to the plot.
+        Location(s) of the horizontal lines to add to the plot.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -72,7 +75,7 @@ def _add_hlines(hline, ax=None, **plt_kwargs):
             ax.axhline(line, **plt_kwargs)
 
 
-def _add_vshade(vshade, ax=None, **plt_kwargs):
+def add_vshade(vshade, ax=None, **plt_kwargs):
     """Add vertical shading to a plot axis.
 
     Parameters
@@ -91,7 +94,7 @@ def _add_vshade(vshade, ax=None, **plt_kwargs):
         ax.axvspan(*vshade, **plt_kwargs)
 
 
-def _add_hshade(hshade, ax=None, **plt_kwargs):
+def add_hshade(hshade, ax=None, **plt_kwargs):
     """Add horizontal shading to a plot axis.
 
     Parameters
@@ -110,7 +113,7 @@ def _add_hshade(hshade, ax=None, **plt_kwargs):
         ax.axhspan(*hshade, **plt_kwargs)
 
 
-def _add_box_shade(x1, x2, y_val, y_range=0.41, ax=None, **plt_kwargs):
+def add_box_shade(x1, x2, y_val, y_range=0.41, ax=None, **plt_kwargs):
     """Add a shaded box to a plot axis.
 
     Parameters
@@ -118,7 +121,7 @@ def _add_box_shade(x1, x2, y_val, y_range=0.41, ax=None, **plt_kwargs):
     x1, x2 : float
         The start and end positions for the shaded box on the x-axis.
     y_val : float
-        The position for the shaded box on the y-axis.
+        The position of the shaded box on the y-axis.
     y_range : float
         The range, as +/-, around the y position to shade the box.
     ax : Axes, optional
@@ -133,13 +136,13 @@ def _add_box_shade(x1, x2, y_val, y_range=0.41, ax=None, **plt_kwargs):
                     alpha=plt_kwargs.pop('alpha', 0.2), **plt_kwargs)
 
 
-def _add_box_shades(x_values, y_values=None, x_range=1, y_range=0.41, ax=None, **plt_kwargs):
+def add_box_shades(x_values, y_values=None, x_range=1, y_range=0.41, ax=None, **plt_kwargs):
     """Add multiple shaded boxes to a plot axis.
 
     Parameters
     ----------
     x_values, y_values : 1d array
-        A list of center position values for the x- and y-axes for each shaded box.
+        Center position values for the x- and y-axes for each shaded box.
     x_range, y_range : float
         The range, as +/-, around the x and y positions to shade the box.
     ax : Axes, optional
@@ -156,17 +159,19 @@ def _add_box_shades(x_values, y_values=None, x_range=1, y_range=0.41, ax=None, *
         y_values = range(0, len(x_values))
 
     for xval, yval in zip(x_values, y_values):
-        _add_box_shade(xval - x_range, xval + x_range, yval, y_range,
-                       color=color, ax=ax, **plt_kwargs)
+        add_box_shade(xval - x_range, xval + x_range, yval, y_range,
+                      color=color, ax=ax, **plt_kwargs)
 
 
-def _add_dots(dots, ax=None, **plt_kwargs):
+def add_dots(dots, ax=None, **plt_kwargs):
     """Add dots to a plot axis.
 
     Parameters
     ----------
-    dots : 2d array
+    dots : 1d or 2d array
         Definitions of the dots to add to the plot.
+        If 1d array, defines a single dot as [x_pos, y_pos].
+        If 2d array, 0th row is x-pos and 1th row is y-pos for multiple dot positions.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -176,12 +181,16 @@ def _add_dots(dots, ax=None, **plt_kwargs):
     ax = check_ax(ax, return_current=True)
 
     if dots is not None:
+
+        # If dots are 1d, convert to 2D, transposing to match row organization
+        dots = np.atleast_2d(dots).T if dots.ndim == 1 else dots
+
         ax.plot(dots[0, :], dots[1, :], linestyle='',
                 marker=plt_kwargs.pop('marker', '.'),
                 **plt_kwargs)
 
 
-def _add_significance(stats, sig_level=0.05, x_vals=None, ax=None):
+def add_significance(stats, sig_level=0.05, x_vals=None, ax=None):
     """Add markers to a plot axis to indicate statistical significance.
 
     Parameters
@@ -211,32 +220,60 @@ def _add_significance(stats, sig_level=0.05, x_vals=None, ax=None):
             ax.plot(x_vals[ind], 0, '*', color='black')
 
 
-def _add_side_text(texts, colors, y_values=None, ax=None, **plt_kwargs):
+def add_text_labels(texts, location='start', axis='x', offset=None,
+                    values=None, colors='black', ax=None, **plt_kwargs):
     """Add text to the side of a plot.
 
     Parameters
     ----------
     texts : list of str
         Text(s) to add to the plot.
-    colors : str or list of str
-        Color(s) for each entry.
-    y_values : list of float, optional
-        xx
+    location : {'start', 'end'} or iterable
+        Location to plot the text labels across the axis.
+    axis : {'x', 'y'}
+        Which axis to add text labels across.
+    offset : float, optional
+        An offset value to move the text.
+        If not provided, default to 10% of the plot range.
+    values : list of float, optional
+        Position values to plot the text on the axis defined in `axis`.
+        If not provided, defaults to the indices of the text labels.
+    colors : str or list of str, optional
+        Color(s) for each entry. Defaults to 'black'.
     ax : Axes, optional
         Axis object upon which to plot.
+    plt_kwargs
+        Additional keyword arguments to pass to the `plt.text` call.
     """
 
     ax = check_ax(ax, return_current=True)
 
-    if not y_values:
-        y_values = range(len(texts))
+    check_param_options(axis, 'axis', ['x', 'y'])
+
+    plot_range = getattr(ax, 'get_' + {'x' : 'y', 'y' : 'x'}[axis] + 'lim')()
+
+    if not offset:
+        offset = 0.15 * np.max(plot_range)
+    if not values:
+        values = range(len(texts))
 
     colors = repeat(colors) if isinstance(colors, str) else colors
 
-    plot_end = ax.get_xlim()[1]
+    if isinstance(location, str):
+        check_param_options(location, 'location', ['start', 'end'])
+        ind = {'start' : 0, 'end' : 1}[location]
+        location = repeat(plot_range[ind])
+    else:
+        location = iter(location)
+        offset = -offset
 
-    for text, color, yval in zip(texts, colors, y_values):
-        ax.text(plot_end + 5, yval, text, color=color,
-                fontsize=plt_kwargs.pop('fontsize', 11),
+    for text, color, value in zip(texts, colors, values):
+        if axis == 'x':
+            tpos = [value, next(location) + offset]
+        if axis == 'y':
+            tpos = [next(location) + offset, value]
+        ax.text(*tpos, text, color=color,
+                fontsize=plt_kwargs.pop('fontsize', None),
                 fontweight=plt_kwargs.pop('fontweight', 'bold'),
+                ha='center', va='center',
                 **plt_kwargs)

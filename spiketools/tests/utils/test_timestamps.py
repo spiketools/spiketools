@@ -7,6 +7,16 @@ from spiketools.utils.timestamps import *
 ###################################################################################################
 ###################################################################################################
 
+def test_infer_time_unit(tspikes):
+
+    # Check test data in seconds
+    inferred = infer_time_unit(tspikes)
+    assert inferred == 'seconds'
+
+    # Check test data in milliseconds
+    inferred = infer_time_unit(tspikes * 1000)
+    assert inferred == 'milliseconds'
+
 def test_convert_ms_to_sec():
 
     value = 1250
@@ -46,6 +56,24 @@ def test_convert_ms_to_min():
     array = np.array([30000, 60000, 120000])
     output2 = convert_ms_to_min(array)
     assert np.array_equal(output2, np.array([0.5, 1.0, 2.0]))
+
+def test_convert_nsamples_to_time():
+
+    n_samples = 12
+    fs = 500
+
+    out = convert_nsamples_to_time(n_samples, fs)
+    assert isinstance(out, float)
+    assert out == 0.024
+
+def test_convert_time_to_nsamples():
+
+    time = 0.024
+    fs = 500
+
+    out = convert_time_to_nsamples(time, fs)
+    assert isinstance(out, int)
+    assert out == 12
 
 def test_split_time_value():
 

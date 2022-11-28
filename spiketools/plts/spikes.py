@@ -5,23 +5,25 @@ import matplotlib.pyplot as plt
 
 from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.plts.data import plot_bar, plot_hist, plot_lines
-from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
+from spiketools.plts.utils import check_ax, savefig
+from spiketools.plts.style import get_kwargs, set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
 
 @savefig
 @set_plt_kwargs
-def plot_waveform(waveform, times=None, average=None, shade=None, add_traces=False,
+def plot_waveform(waveform, timestamps=None, average=None, shade=None, add_traces=False,
                   ax=None, **plt_kwargs):
     """Plot a spike waveform.
 
     Parameters
     ----------
     waveform : 1d or 2d array
-        Voltage values of the spike waveform(s). If 2d, should have shape [n_waveforms, n_times].
-    times : 1d array, optional
-        Time values corresponding to the waveform(s).
+        Voltage values of the spike waveform(s).
+        If 2d, should have shape [n_waveforms, n_timestamps].
+    timestamps : 1d array, optional
+        Timestamps corresponding to the waveform(s).
     average : {'mean', 'median'}, optional
         Averaging to apply to waveforms before plotting.
         If provided, this takes an average across an assumed 2d array of waveforms.
@@ -34,9 +36,13 @@ def plot_waveform(waveform, times=None, average=None, shade=None, add_traces=Fal
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
+        Custom kwargs: 'traces_lw', 'traces_alpha', 'shade_alpha'.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    custom_kwargs = ['traces_lw', 'traces_alpha', 'shade_alpha']
+    custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
 
     if isinstance(shade, str):
         shade = get_var_func(shade)(waveform, 0)
@@ -46,46 +52,51 @@ def plot_waveform(waveform, times=None, average=None, shade=None, add_traces=Fal
         waveform = get_avg_func(average)(waveform, 0)
 
     xlabel = 'Time (s)'
-    if times is None:
-        times = np.arange(waveform.shape[-1])
+    if timestamps is None:
+        timestamps = np.arange(waveform.shape[-1])
         xlabel = 'Samples'
 
-    plot_lines(times, waveform, ax=ax,
+    plot_lines(timestamps, waveform, ax=ax,
                xlabel=plt_kwargs.pop('xlabel', xlabel),
                ylabel=plt_kwargs.pop('ylabel', 'Voltage'),
                title=plt_kwargs.pop('title', 'Spike Waveform'),
                **plt_kwargs)
 
     if add_traces:
-        ax.plot(times, all_waveforms.T,
-                lw=1, alpha=0.5, color=ax.lines[0].get_color())
+        ax.plot(timestamps, all_waveforms.T,
+                lw=custom_plt_kwargs.pop('traces_lw', 1),
+                alpha=custom_plt_kwargs.pop('traces_alpha', 0.5),
+                color=ax.lines[0].get_color())
 
     if shade is not None:
-        ax.fill_between(times, waveform - shade, waveform + shade, alpha=0.25)
+        ax.fill_between(timestamps, waveform - shade, waveform + shade,
+                        alpha=custom_plt_kwargs.pop('shade_alpha', 0.25))
 
 
 @savefig
 @set_plt_kwargs
-def plot_waveforms3d(waveforms, times=None, **plt_kwargs):
+def plot_waveforms3d(waveforms, timestamps=None, **plt_kwargs):
     """Plot waveforms on a 3D axis.
 
     Parameters
     ----------
     waveforms : 2d array
-        Voltage values for the waveforms, with shape [n_waveforms, n_times].
-    times : 1d array, optional
-        Time values corresponding to the waveforms.
+        Voltage values for the waveforms, with shape [n_waveforms, n_timestamps].
+    timestamps : 1d array, optional
+        Timestamps corresponding to the waveforms.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
     """
 
     plt.figure(figsize=plt_kwargs.pop('figsize', None))
     ax = plt.subplot(projection='3d')
 
-    if times is None:
-        times = np.arange(waveforms.shape[-1])
+    if timestamps is None:
+        timestamps = np.arange(waveforms.shape[-1])
 
     ys = np.ones(waveforms.shape[1])
     for ind, waveform in enumerate(waveforms):
-        ax.plot(times, ys * ind, waveform)
+        ax.plot(timestamps, ys * ind, waveform)
 
     # Set axis view orientation and hide axes
     ax.view_init(None, None)
@@ -95,31 +106,35 @@ def plot_waveforms3d(waveforms, times=None, **plt_kwargs):
 
 @savefig
 @set_plt_kwargs
-def plot_waveform_density(waveforms, times=None, bins=(250, 50), cmap='viridis',
+def plot_waveform_density(waveforms, timestamps=None, bins=(250, 50), cmap='viridis',
                           ax=None, **plt_kwargs):
     """Plot a heatmap of waveform density, created as a 2D histogram of spike waveforms.
 
     Parameters
     ----------
     waveforms : 2d array
-        Voltage values for the waveforms, with shape [n_waveforms, n_times].
-    times : 1d array, optional
-        Time values corresponding to the waveforms.
+        Voltage values for the waveforms, with shape [n_waveforms, n_timestamps].
+    timestamps : 1d array, optional
+        Timestamps corresponding to the waveforms.
     bins : tuple of (int, int)
         Bin definition to use to create the figure.
     cmap : str
         Colormap to use for the figure.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
     xlabel = 'Time (s)'
-    if times is None:
-        times = np.arange(waveforms.shape[-1])
+    if timestamps is None:
+        timestamps = np.arange(waveforms.shape[-1])
         xlabel = 'Samples'
-    times = np.vstack([times] * waveforms.shape[0])
+    timestamps = np.vstack([timestamps] * waveforms.shape[0])
 
-    ax.hist2d(times.flatten(), waveforms.flatten(), bins=bins, cmap=cmap)
+    ax.hist2d(timestamps.flatten(), waveforms.flatten(), bins=bins, cmap=cmap)
 
     ax.set(xlabel=plt_kwargs.pop('xlabel', xlabel),
            ylabel=plt_kwargs.pop('ylabel', 'Voltage'),

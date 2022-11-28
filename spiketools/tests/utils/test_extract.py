@@ -2,7 +2,10 @@
 
 import numpy as np
 
+from pytest import raises
+
 from spiketools.utils.extract import *
+from spiketools.utils.extract import _reinstate_range_1d
 
 ###################################################################################################
 ###################################################################################################
@@ -131,8 +134,68 @@ def test_threshold_spikes_by_values():
     tthresh = 0.25
     dthresh = 0.5
 
-    out1 = threshold_spikes_by_values(spikes, times, values, dthresh, tthresh, comp_type='greater')
+    out1 = threshold_spikes_by_values(spikes, times, values, dthresh, tthresh, data_comparison='greater')
     assert np.array_equal(out1, np.array([1., 2.]))
 
-    out2 = threshold_spikes_by_values(spikes, times, values, dthresh, tthresh, comp_type='less')
+    out2 = threshold_spikes_by_values(spikes, times, values, dthresh, tthresh, data_comparison='less')
     assert np.array_equal(out2, np.array([0.5, 2.5]))
+
+def test_drop_range():
+
+    spikes = np.array([0.5, 1.5, 1.9, 4.1, 5.4, 5.9])
+    time_range = [2, 4]
+
+    out = drop_range(spikes, time_range)
+    assert isinstance(out, np.ndarray)
+    assert spikes.shape == out.shape
+    assert np.allclose(out, np.array([0.5, 1.5, 1.9, 2.1, 3.4, 3.9]))
+
+    # check that error is raised with no empty range
+    with raises(AssertionError):
+        out = drop_range(spikes, [1.5, 4])
+
+    # Test multiple time ranges
+    spikes = np.array([0.5, 1.5, 1.9, 4.1, 5.4, 5.9, 8.2, 9.7])
+    time_ranges = [[2, 4], [6, 8]]
+    out = drop_range(spikes, time_ranges)
+    assert isinstance(out, np.ndarray)
+    assert spikes.shape == out.shape
+    assert np.allclose(out, np.array([0.5, 1.5, 1.9, 2.1, 3.4, 3.9, 4.2, 5.7]))
+
+def test_reinstate_range_1d():
+
+    spikes = np.array([0.5, 1.5, 1.9, 2.1, 3.4, 3.9])
+    time_range = [2, 4]
+
+    out = _reinstate_range_1d(spikes, time_range)
+    assert isinstance(out, np.ndarray)
+    assert spikes.shape == out.shape
+    assert get_range(out, *time_range).size == 0
+    assert np.allclose(out, np.array([0.5, 1.5, 1.9, 4.1, 5.4, 5.9]))
+
+def test_reinstate_range():
+
+    spikes = np.array([[0.5, 1.5, 1.9, 2.1, 3.4, 3.9],
+                       [0.2, 0.8, 1.2, 1.8, 2.5, 3.2]])
+    time_range = [2, 4]
+
+    out = reinstate_range(spikes, time_range)
+
+    assert isinstance(out, np.ndarray)
+    for row in out:
+        assert len(row) == spikes.shape[1]
+        assert get_range(row, *time_range).size == 0
+    assert np.allclose(out, np.array([[0.5, 1.5, 1.9, 4.1, 5.4, 5.9],
+                                      [0.2, 0.8, 1.2, 1.8, 4.5, 5.2]]))
+
+    # Test multiple time ranges
+    time_ranges = [[1, 2], [3, 4]]
+    out = reinstate_range(spikes, time_ranges)
+
+    assert isinstance(out, np.ndarray)
+    for row in out:
+        assert len(row) == spikes.shape[1]
+        for time_range in time_ranges:
+            assert get_range(row, *time_range).size == 0
+    assert np.allclose(out, np.array([[0.5, 2.5, 2.9, 4.1, 5.4, 5.9],
+                                      [0.2, 0.8, 2.2, 2.8, 4.5, 5.2]]))

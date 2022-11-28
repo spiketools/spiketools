@@ -18,12 +18,12 @@ Measures
 
 Spike related measures and conversions, available in the `measures` sub-module.
 
-Measures
-~~~~~~~~
+Spikes
+~~~~~~
 
-Spike measures.
+Measures for spike data.
 
-.. currentmodule:: spiketools.measures.measures
+.. currentmodule:: spiketools.measures.spikes
 .. autosummary::
    :toctree: generated/
 
@@ -92,6 +92,8 @@ Functionality for processing spatial data, available in the `spatial` sub-module
 Position
 ~~~~~~~~
 
+Measures and methods related to positions.
+
 .. currentmodule:: spiketools.spatial.position
 .. autosummary::
    :toctree: generated/
@@ -104,6 +106,8 @@ Position
 Occupancy
 ~~~~~~~~~
 
+Measures and methods related to computing spatial occupancy.
+
 .. currentmodule:: spiketools.spatial.occupancy
 .. autosummary::
    :toctree: generated/
@@ -113,10 +117,14 @@ Occupancy
    compute_bin_counts_pos
    compute_bin_counts_assgn
    normalize_bin_counts
+   create_position_df
+   compute_occupancy_df
    compute_occupancy
 
 Place
 ~~~~~
+
+Measures and methods related to place cell analyses.
 
 .. currentmodule:: spiketools.spatial.place
 .. autosummary::
@@ -128,6 +136,8 @@ Place
 Target
 ~~~~~~
 
+Measures and methods related to spatial target cell analyses.
+
 .. currentmodule:: spiketools.spatial.target
 .. autosummary::
    :toctree: generated/
@@ -136,6 +146,8 @@ Target
 
 Information
 ~~~~~~~~~~~
+
+Measures and methods related to computing spatial information.
 
 .. currentmodule:: spiketools.spatial.information
 .. autosummary::
@@ -146,12 +158,14 @@ Information
 Utilities
 ~~~~~~~~~
 
+Utilities related to spatial data.
+
 .. currentmodule:: spiketools.spatial.utils
 .. autosummary::
    :toctree: generated/
 
    compute_nbins
-   compute_bin_time
+   compute_sample_durations
    compute_bin_width
    compute_pos_ranges
    convert_2dindices
@@ -165,6 +179,8 @@ Statistical analyses, available in the `stats` sub-module.
 Generators
 ~~~~~~~~~~
 
+Statistical generators.
+
 .. currentmodule:: spiketools.stats.generators
 .. autosummary::
    :toctree: generated/
@@ -173,6 +189,8 @@ Generators
 
 Trials
 ~~~~~~
+
+Statistical measures for trial-epoched data.
 
 .. currentmodule:: spiketools.stats.trials
 .. autosummary::
@@ -184,6 +202,8 @@ Trials
 
 Shuffle
 ~~~~~~~
+
+Methods for shuffling data.
 
 .. currentmodule:: spiketools.stats.shuffle
 .. autosummary::
@@ -198,17 +218,21 @@ Shuffle
 Permutations
 ~~~~~~~~~~~~
 
+Methods and measures related to permutation statistics.
+
 .. currentmodule:: spiketools.stats.permutations
 .. autosummary::
    :toctree: generated/
 
-   vec_perm
+   permute_vector
    compute_surrogate_pvalue
    compute_surrogate_zscore
    compute_surrogate_stats
 
 ANOVA
 ~~~~~
+
+Methods and measures related to computing ANOVAs.
 
 .. currentmodule:: spiketools.stats.anova
 .. autosummary::
@@ -227,30 +251,37 @@ Functionality for simulating spiking data, available in the `sim` sub-module.
 .. autosummary::
    :toctree: generated/
 
+   sim_spiketimes
+   sim_spiketrain
+
 Spike Times
 ~~~~~~~~~~~
+
+Simulate spike times.
 
 .. currentmodule:: spiketools.sim.times
 .. autosummary::
    :toctree: generated/
 
-   sim_spiketimes
    sim_spiketimes_poisson
 
 Spike Trains
 ~~~~~~~~~~~~
 
+Simulate spike trains.
+
 .. currentmodule:: spiketools.sim.train
 .. autosummary::
    :toctree: generated/
 
-   sim_spiketrain
    sim_spiketrain_prob
    sim_spiketrain_binom
    sim_spiketrain_poisson
 
 Utilities
 ~~~~~~~~~
+
+Simulation related utilities.
 
 .. currentmodule:: spiketools.sim.utils
 .. autosummary::
@@ -267,6 +298,8 @@ Functions in the `plts` sub-module for visualizing spiking data and related meas
 Spikes
 ~~~~~~
 
+Plots for spike data.
+
 .. currentmodule:: spiketools.plts.spikes
 .. autosummary::
    :toctree: generated/
@@ -277,8 +310,10 @@ Spikes
    plot_isis
    plot_firing_rates
 
-Space
-~~~~~
+Spatial
+~~~~~~~
+
+Plots for spatial data.
 
 .. currentmodule:: spiketools.plts.spatial
 .. autosummary::
@@ -287,9 +322,13 @@ Space
    plot_positions
    plot_position_by_time
    plot_heatmap
+   plot_trial_heatmaps
+   create_heat_title
 
 Task
 ~~~~
+
+Plots for visualizing task structure.
 
 .. currentmodule:: spiketools.plts.task
 .. autosummary::
@@ -299,15 +338,21 @@ Task
 
 Trials
 ~~~~~~
+
+Plots for trial-epoched data.
+
 .. currentmodule:: spiketools.plts.trials
 .. autosummary::
    :toctree: generated/
 
    plot_rasters
    plot_rate_by_time
+   create_raster_title
 
 Stats
 ~~~~~
+
+Plots for statistical measures and methods.
 
 .. currentmodule:: spiketools.plts.stats
 .. autosummary::
@@ -317,6 +362,8 @@ Stats
 
 Data
 ~~~~
+
+Basic plot function for different data types.
 
 .. currentmodule:: spiketools.plts.data
 .. autosummary::
@@ -330,13 +377,66 @@ Data
    plot_polar_hist
    plot_text
 
+Annotate
+~~~~~~~~
+
+Helper functions to annotate plot axes.
+
+.. currentmodule:: spiketools.plts.annotate
+.. autosummary::
+   :toctree: generated/
+
+   color_pvalue
+   add_vlines
+   add_hlines
+   add_vshade
+   add_hshade
+   add_box_shade
+   add_box_shades
+   add_dots
+   add_significance
+   add_text_labels
+
+Utils
+~~~~~
+
+Plot related utilities.
+
+.. currentmodule:: spiketools.plts.utils
+.. autosummary::
+   :toctree: generated/
+
+   check_ax
+   make_axes
+   make_grid
+   get_grid_subplot
+   save_figure
+
 Utilities
 ---------
 
 Utility functions, in the `utils` sub-module.
 
+Base
+~~~~
+
+General utilities for basic data types.
+
+.. currentmodule:: spiketools.utils.base
+.. autosummary::
+   :toctree: generated/
+
+   flatten
+   lower_list
+   select_from_list
+   count_elements
+   combine_dicts
+   add_key_prefix
+
 Data
 ~~~~
+
+Utilities for working with arrays of data.
 
 .. currentmodule:: spiketools.utils.data
 .. autosummary::
@@ -345,9 +445,12 @@ Data
    compute_range
    smooth_data
    drop_nans
+   assign_data_to_bins
 
 Extract
 ~~~~~~~
+
+Utilities for extracting data segments of interest.
 
 .. currentmodule:: spiketools.utils.extract
 .. autosummary::
@@ -363,23 +466,32 @@ Extract
    get_values_by_time_range
    threshold_spikes_by_times
    threshold_spikes_by_values
+   drop_range
+   reinstate_range
 
 Timestamps
 ~~~~~~~~~~
+
+Utilities for working with timestamps.
 
 .. currentmodule:: spiketools.utils.timestamps
 .. autosummary::
    :toctree: generated/
 
+   infer_time_unit
    convert_ms_to_sec
    convert_sec_to_min
    convert_min_to_hour
    convert_ms_to_min
+   convert_nsamples_to_time
+   convert_time_to_nsamples
    split_time_value
    format_time_string
 
 Epoch
 ~~~~~
+
+Utilities for epoching data.
 
 .. currentmodule:: spiketools.utils.epoch
 .. autosummary::
@@ -393,8 +505,34 @@ Epoch
    epoch_data_by_range
    epoch_data_by_segment
 
+Trials
+~~~~~~
+
+Utilities for working with trial-level data.
+
+.. currentmodule:: spiketools.utils.trials
+.. autosummary::
+   :toctree: generated/
+
+   split_trials_by_condition
+   split_trials_by_condition_list
+   split_trials_by_condition_array
+
+Run
+~~~
+
+Utilities for helping with running analyses.
+
+.. currentmodule:: spiketools.utils.run
+.. autosummary::
+   :toctree: generated/
+
+   create_methods_list
+
 Utils
 ~~~~~
+
+Other utilities.
 
 .. currentmodule:: spiketools.utils.utils
 .. autosummary::

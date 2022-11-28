@@ -2,11 +2,12 @@
 
 import numpy as np
 
-from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.annotate import _add_vlines, _add_vshade, _add_significance
-from spiketools.plts.utils import check_ax, savefig, set_plt_kwargs
-from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.utils.base import flatten
+from spiketools.utils.options import get_avg_func, get_var_func
+from spiketools.plts.settings import DEFAULT_COLORS
+from spiketools.plts.annotate import add_vlines, add_vshade, add_significance
+from spiketools.plts.utils import check_ax, savefig
+from spiketools.plts.style import get_kwargs, set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
@@ -23,10 +24,10 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
         Spike times per trial.
         Multiple conditions can also be passed in.
     vline : float or list, optional
-        Position(s) to draw a vertical line. If None, no line is drawn.
+        Location(s) to draw a vertical line. If None, no line is drawn.
     colors : str or list of str, optional
         Color(s) to plot the raster ticks.
-        If more than one, should be the length of data.
+        If more than one, should match the number of conditions.
     vshade : list of float, optional
         Vertical region of the plot to shade in.
     show_axis : bool, optional, default: False
@@ -35,31 +36,45 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
+        Custom kwargs: 'line_color', 'line_lw', 'line_alpha', 'shade_color', 'shade_alpha'.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
+    custom_kwargs = ['line_color', 'line_lw', 'line_alpha', 'shade_color', 'shade_alpha']
+    custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
+
+    # This process infers whether there is are embedded lists of multiple conditions
     check = False
     for val in data:
+        # The try / except is to deal with potentially empty lists (trials with no spikes)
         try:
+            # This allows for plotting a raster with a single trial
             if isinstance(val, float):
                 break
+            # If this value is a collection, there are multiple conditions
             elif isinstance(val[0], (list, np.ndarray)):
                 check = True
                 break
         except (IndexError, TypeError):
             continue
 
+    # If multiple conditions, organize colors across trials, and flatten data for plotting
     if check:
         lens = [len(el) for el in data]
         colors = DEFAULT_COLORS[0:len(lens)] if not colors else colors
         colors = flatten([[col] * ll for col, ll in zip(colors, lens)])
         data = flatten(data)
 
-    ax.eventplot(data, colors=colors)
+    ax.eventplot(data, colors=colors, **plt_kwargs)
 
-    _add_vlines(vline, ax, lw=2.5, color=plt_kwargs.pop('line_color', 'green'), alpha=0.5)
-    _add_vshade(vshade, ax, color=plt_kwargs.pop('shade_color', 'red'), alpha=0.25)
+    add_vlines(vline, ax,
+               color=custom_plt_kwargs.pop('line_color', 'green'),
+               lw=custom_plt_kwargs.pop('line_lw', 2.5),
+               alpha=custom_plt_kwargs.pop('line_alpha', 0.5))
+    add_vshade(vshade, ax,
+               color=custom_plt_kwargs.pop('shade_color', 'red'),
+               alpha=custom_plt_kwargs.pop('shade_alpha', 0.25))
 
     if not show_axis:
         ax.set_axis_off()
@@ -67,8 +82,8 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
 
 @savefig
 @set_plt_kwargs
-def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
-                      stats=None, sig_level=0.05, ax=None, **plt_kwargs):
+def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, colors=None,
+                      labels=None, stats=None, sig_level=0.05, ax=None, **plt_kwargs):
     """Plot continuous firing rates across time.
 
     Parameters
@@ -83,6 +98,9 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
         Averaging to apply to firing rate activity before plotting.
     shade : {'sem', 'std'} or list of array, optional
         Measure of variance to compute and/or plot as shading.
+    colors : str or list of str, optional
+        Color(s) to plot the firing rates.
+        If more than one, should match the number of conditions.
     labels : list of str, optional
         Labels for each set of y-values.
         If provided, a legend is added to the plot.
@@ -94,12 +112,18 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
+        Custom kwargs: 'shade_alpha', 'legend_loc'.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
+    custom_kwargs = ['shade_alpha', 'legend_loc']
+    custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
+
     if not isinstance(y_vals[0], np.ndarray):
         y_vals = [y_vals]
+
+    colors = DEFAULT_COLORS[0:len(y_vals)] if not colors else colors
 
     if isinstance(shade, str):
         shade = [get_var_func(shade)(arr, 0) for arr in y_vals]
@@ -107,18 +131,21 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, labels=None,
     if isinstance(average, str):
         y_vals = [get_avg_func(average)(arr, 0) for arr in y_vals]
 
-    for ind, ys in enumerate(y_vals):
+    for ind, (ys, color) in enumerate(zip(y_vals, colors)):
 
-        ax.plot(x_vals, ys, lw=3, label=labels[ind] if labels else None, **plt_kwargs)
+        ax.plot(x_vals, ys, color=color,
+                label=labels[ind] if labels else None,
+                lw=plt_kwargs.pop('lw', 3), **plt_kwargs)
 
         if shade:
-            ax.fill_between(x_vals, ys-shade[ind], ys+shade[ind], alpha=0.25)
+            ax.fill_between(x_vals, ys-shade[ind], ys+shade[ind],
+                            color=color, alpha=custom_plt_kwargs.pop('alpha', 0.25))
 
     if labels:
-        ax.legend(loc='best')
+        ax.legend(loc=custom_plt_kwargs.pop('legend_loc', 'best'))
 
     if stats:
-        _add_significance(stats, sig_level=sig_level, ax=ax)
+        add_significance(stats, sig_level=sig_level, ax=ax)
 
 
 def create_raster_title(label, avg_pre, avg_post, t_val=None, p_val=None):

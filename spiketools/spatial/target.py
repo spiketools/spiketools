@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.spatial.occupancy import normalize_bin_counts
-from spiketools.spatial.checks import check_position_bins
+from spiketools.spatial.checks import check_spatial_bins
 
 ###################################################################################################
 ###################################################################################################
@@ -35,9 +35,23 @@ def compute_target_bins(target_frs, bins, xbins, ybins=None, target_occupancy=No
     For the 2D case, note that while the inputs to this function list the x-axis first,
     the output of this function, being a 2d array, follows the numpy convention in which
     columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
+
+    Examples
+    --------
+    Compute target bin firing from firing rates from 3 trials:
+
+    >>> target_frs = np.array([[2.5, 4.9, 0.2, 0.9], \
+                               [5.5, 9.9, 7.7, 3.5], \
+                               [1.2, 1.4, 2.1, 1.5]])
+    >>> bins = [2, 3]
+    >>> xbins, ybins = np.array([0, 1, 1, 0]), np.array([1, 1, 2, 0])
+    >>> compute_target_bins(target_frs, bins, xbins, ybins)
+    array([[0.9, 0. ],
+           [2.5, 4.9],
+           [0. , 0.2]])
     """
 
-    bins = check_position_bins(bins)
+    bins = check_spatial_bins(bins)
 
     target_bins = np.zeros(np.flip(bins))
 

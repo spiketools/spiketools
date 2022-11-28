@@ -97,7 +97,6 @@ html_theme_options = {
         ("API", "api"),
         ("Glossary", "glossary"),
         ("Tutorials", "auto_tutorials/index"),
-        ("Examples", "auto_examples/index"),
         #("Reference", "reference"),
         ("GitHub", "https://github.com/spiketools/spiketools", True),
     ],
@@ -121,8 +120,8 @@ html_show_sourcelink = False
 
 # Configurations for sphinx gallery
 sphinx_gallery_conf = {
-    'examples_dirs': ['../examples', '../tutorials'],
-    'gallery_dirs': ['auto_examples', 'auto_tutorials'],
+    'examples_dirs': ['../tutorials'],
+    'gallery_dirs': ['auto_tutorials'],
     #'subsection_order' : ExplicitOrder([]),
     'within_subsection_order': FileNameSortKey,
     #'default_thumb_file': 'img/spectrum.png',

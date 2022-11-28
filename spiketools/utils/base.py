@@ -17,9 +17,34 @@ def flatten(lst):
     -------
     lst
         A flattened list.
+
+    Examples
+    --------
+    Flatten a list of 3 lists inside:
+
+    >>> lst = [[1, 2, 3, 4], [5, 6, 7 ,8], [9, 10, 11, 12]]
+    >>> flatten(lst)
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     """
 
     return [item for sublist in lst for item in sublist]
+
+
+def lower_list(lst):
+    """Convert all strings in a list to lowercase.
+
+    Parameters
+    ----------
+    lst : list of str
+        A list of strings.
+
+    Returns
+    -------
+    lst
+        A list of string, all lowercase.
+    """
+
+    return [el.lower() for el in lst]
 
 
 def select_from_list(lst, select):
@@ -36,6 +61,15 @@ def select_from_list(lst, select):
     -------
     lst
         Selected elements from the list.
+
+    Examples
+    --------
+    Select the first and last element from given list:
+
+    >>> lst = [1, 4, 3, 6, 8]
+    >>> select = [True, False, False, False, True]
+    >>> select_from_list(lst, select)
+    [1, 8]
     """
 
     return [el for el, sel in zip(lst, select) if sel]
@@ -59,6 +93,14 @@ def count_elements(data, labels=None, sort=False):
     -------
     counts : Counter
         Counts of the elements within the given data object.
+
+    Examples
+    --------
+    Count the number of occurrences of each element in a 1d array:
+
+    >>> data = [1, 3, 3, 4, 5, 6, 9, 3, 4, 5, 6]
+    >>> count_elements(data)
+    Counter({3: 3, 4: 2, 5: 2, 6: 2, 1: 1, 9: 1})
     """
 
     counts = Counter(data)
@@ -73,3 +115,47 @@ def count_elements(data, labels=None, sort=False):
         counts = Counter(dict(sorted(counts.items())))
 
     return counts
+
+
+def combine_dicts(dicts):
+    """Combine a list of dictionaries together.
+
+    Parameters
+    ----------
+    dicts : list of dict
+        Dictionaries to combine.
+
+    Returns
+    -------
+    dict
+        Combined dictionary.
+    """
+
+    output = {}
+    for cdict in dicts:
+        output.update(cdict)
+
+    return output
+
+
+def add_key_prefix(indict, prefix):
+    """Update keys of a dictionary by appending a prefix.
+
+    Parameters
+    ----------
+    indict : dict
+        Dictionary to update keys for.
+    prefix : str
+        Prefix to add to each dictionary.
+
+    Returns
+    -------
+    dict
+        Dictionary with updated keys.
+    """
+
+    out = {}
+    for key, value in indict.items():
+        out[prefix + '_' + key] = value
+
+    return out
