@@ -9,7 +9,7 @@ from spiketools.utils.data import smooth_data, compute_range
 from spiketools.modutils.functions import get_function_parameters
 from spiketools.plts.annotate import add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.utils import check_ax, make_axes, savefig
+from spiketools.plts.utils import check_ax, make_axes, savefig, invert_axes
 from spiketools.plts.style import set_plt_kwargs
 
 ###################################################################################################
@@ -17,8 +17,8 @@ from spiketools.plts.style import set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_positions(position, spike_positions=None, landmarks=None,
-                   x_bins=None, y_bins=None, ax=None, **plt_kwargs):
+def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
+                   y_bins=None, invert=None, ax=None, **plt_kwargs):
     """Plot positions.
 
     Parameters
@@ -39,6 +39,9 @@ def plot_positions(position, spike_positions=None, landmarks=None,
     x_bins, y_bins : list of float, optional
         Bin edges for each axis.
         If provided, these are used to draw grid lines on the plot.
+    invert : {'x', 'y', 'both'}, optional
+        If provided, inverts the plot axes over x, y or both axes.
+        Note that invert x is equivalent to flipping the data left/right, and y to flipping up/down.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -81,11 +84,14 @@ def plot_positions(position, spike_positions=None, landmarks=None,
     if x_bins is not None or y_bins is not None:
         ax.grid()
 
+    if invert:
+        invert_axes(ax, invert)
+
 
 @savefig
 @set_plt_kwargs
 def plot_position_by_time(timestamps, position, spikes=None, spike_positions=None,
-                          ax=None, **plt_kwargs):
+                          invert=None, ax=None, **plt_kwargs):
     """Plot the position across time for a single dimension.
 
     Parameters
@@ -98,6 +104,9 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
         Spike times, in seconds.
     spike_positions : 1d array, optional
         Position values of spikes, to indicate on the plot.
+    invert : {'x', 'y', 'both'}, optional
+        If provided, inverts the plot axes over x, y or both axes.
+        Note that invert x is equivalent to flipping the data left/right, and y to flipping up/down.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -114,12 +123,15 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
 
     ax.set(xlabel='Time', ylabel='Position')
 
+    if invert:
+        invert_axes(ax, invert)
+
 
 @savefig
 @set_plt_kwargs
 def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
                  ignore_zero=False, cbar=False, cmap=None, vmin=None, vmax=None,
-                 ax=None, **plt_kwargs):
+                 invert=None, ax=None, **plt_kwargs):
     """Plot a spatial heat map.
 
     Parameters
@@ -140,8 +152,9 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
         Which colormap to use to plot.
     vmin, vmax : float, optional
         Min and max plot ranges.
-    title : str, optional
-        Title to add to the figure.
+    invert : {'x', 'y', 'both'}, optional
+        If provided, inverts the plot axes over x, y or both axes.
+        Note that invert x is equivalent to flipping the data left/right, and y to flipping up/down.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -179,6 +192,9 @@ def plot_heatmap(data, transpose=False, smooth=False, smoothing_kernel=1.5,
     if cbar:
         colorbar = plt.colorbar(im)
         colorbar.outline.set_visible(False)
+
+    if invert:
+        invert_axes(ax, invert)
 
 
 @savefig
