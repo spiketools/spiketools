@@ -1,25 +1,26 @@
-"""Tests for spiketools.measures.measures"""
+"""Tests for spiketools.measures.spikes"""
 
 import numpy as np
 
-from spiketools.measures.measures import *
+from spiketools.measures.spikes import *
 
 ###################################################################################################
 ###################################################################################################
 
-def test_compute_spike_rate(tspikes_s):
+def test_compute_firing_rate(tspikes):
 
-    rate = compute_spike_rate(tspikes_s)
+    rate = compute_firing_rate(tspikes)
 
     assert isinstance(rate, float)
     assert np.isclose(rate, 2.0)
 
-def test_compute_isis(tspikes_s):
+def test_compute_isis(tspikes):
 
-    isis = compute_isis(tspikes_s)
+    isis = compute_isis(tspikes)
     assert isinstance(isis, np.ndarray)
-    assert isis.shape[-1] + 1 == tspikes_s.shape[-1]
-    assert np.allclose(isis, np.array([0.5, 1, 0.5]))
+    assert isis.shape[-1] + 1 == tspikes.shape[-1]
+    assert np.allclose(isis, np.array([1.0, 0.5, 0.5, 0.5, 0.75, 0.25, 0.25,
+                                       0.75, 0.5, 0.25, 0.25, 1.0, 0.5, 0.5]))
     assert sum(isis < 0) == 0
 
 def test_compute_cv():

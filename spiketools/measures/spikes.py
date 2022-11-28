@@ -2,32 +2,44 @@
 
 import numpy as np
 
+from spiketools.utils.extract import get_range
+
 ###################################################################################################
 ###################################################################################################
 
-def compute_spike_rate(spikes):
-    """Estimate spike rate from a vector of spike times, in seconds.
+def compute_firing_rate(spikes, start_time=None, stop_time=None):
+    """Estimate firing rate from a vector of spike times, in seconds.
 
     Parameters
     ----------
     spikes : 1d array
         Spike times, in seconds.
+    start_time, stop_time : float, optional
+        Start and stop time of the range to compute the firing rate over.
 
     Returns
     -------
-    float
+    fr : float
         Average firing rate.
 
     Examples
     --------
-    Compute spike rate of 6 spikes
+    Compute spike rate from spike times:
 
-    >>> spikes = [0.5, 1, 1.5, 2, 2.5, 3]
-    >>> compute_spike_rate(spikes)
+    >>> spikes = np.array([0.5, 1, 1.5, 2, 2.5, 3])
+    >>> compute_firing_rate(spikes)
     2.4
     """
 
-    return len(spikes) / (spikes[-1] - spikes[0])
+    if start_time or stop_time:
+        spikes = get_range(spikes, start_time, stop_time)
+
+    start_time = spikes[0] if start_time is None else start_time
+    stop_time = spikes[-1] if stop_time is None else stop_time
+
+    fr = len(spikes) / (stop_time - start_time)
+
+    return fr
 
 
 def compute_isis(spikes):
@@ -45,9 +57,9 @@ def compute_isis(spikes):
 
     Examples
     --------
-    Compute inter-spike intervals of 6 spikes
+    Compute inter-spike intervals from spike times:
 
-    >>> spikes = [0.5, 0.8, 1.4, 2, 2.2, 2.9]
+    >>> spikes = np.array([0.5, 0.8, 1.4, 2, 2.2, 2.9])
     >>> compute_isis(spikes)
     array([0.3, 0.6, 0.6, 0.2, 0.7])
     """
@@ -70,7 +82,7 @@ def compute_cv(isis):
 
     Examples
     --------
-    Compute the coefficient of variation of 6 interval-spike intervals
+    Compute the coefficient of variation from interval-spike intervals:
 
     >>> isis = [0.3, 0.6, 0.6, 0.2, 0.7]
     >>> compute_cv(isis)
@@ -95,7 +107,7 @@ def compute_fano_factor(spike_train):
 
     Examples
     --------
-    Compute the fano factor of a spike train with 6 time points
+    Compute the fano factor from a spike train:
 
     >>> spike_train = [0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0]
     >>> compute_fano_factor(spike_train)

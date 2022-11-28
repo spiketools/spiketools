@@ -1,119 +1,81 @@
 """Measures of spatial information."""
 
-import warnings
-
 import numpy as np
 
+from spiketools.spatial.occupancy import normalize_bin_counts
+
 ###################################################################################################
 ###################################################################################################
 
-def compute_spatial_information_2d(spike_x, spike_y, bins, occupancy):
-    """Compute spatial information across a 2d space.
-
-    Parameters
-    ----------
-    spike_x, spike_y : 1d array
-        Spike positions.
-    bins : list of int
-        Binning to use.
-    occupancy : 2d array
-        Occupancy of the space.
-
-    Returns
-    -------
-    info : float
-        Spike information rate for spatial information (bits/spike).
-
-    Examples
-    --------
-    Compute spatial information across a 2d space using spike x- and y-position, bins, and occupancy:
-
-    >>> position = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
-    >>> spike_x = [1, 2, 3, 4, 5]
-    >>> spike_y = [6, 7, 8, 9, 10]
-    >>> bins = [2, 4]
-    >>> # Used precomputed occupancy, calculated with same bins and position
-    >>> #   Note: occupancy computed with timestamps as `np.linspace(0, 100000, position.shape[1])`
-    >>> occupancy = np.array([[0,  0,  0,  0],
-    ...                       [0, 25, 25,  0]])
-    >>> compute_spatial_information_2d(spike_x, spike_y, bins, occupancy)
-    -0.2643856189774725
-    """
-
-    spike_map = np.histogram2d(spike_x, spike_y, bins=bins)[0]
-    info = _compute_spatial_information(spike_map, occupancy)
-
-    return info
-
-
-def compute_spatial_information_1d(data, occupancy, bins):
-    """Compute spatial information across a 1d space using Skaggs information.
-
-    Parameters
-    ----------
-    data : 1d array
-        Spike positions.
-    occupancy : 1d array
-        Occupancy data.
-    bins : int
-        Number of bins to use.
-
-    Returns
-    -------
-    info : float
-        Spike information rate for spatial information (bits/spike).
-
-
-    Examples
-    --------
-    Compute spatial information across a 1d space using spike position, occupancy, and bins:
-
-    >>> data = [1, 2, 3, 4, 5]
-    >>> occupancy = np.array([0, 25, 25, 0])
-    >>> bins = [2, 4]
-    >>> compute_spatial_information_1d(data, occupancy, bins)
-    2.0
-    """
-
-    spike_map = np.histogram(data, bins=bins)[0]
-    info = _compute_spatial_information(spike_map, occupancy)
-
-    return info
-
-
-def _compute_spatial_information(spike_map, occupancy):
+def compute_spatial_information(bin_firing, occupancy, normalize=False):
     """Compute spatial information.
 
     Parameters
     ----------
-    spike_map : ndarray
-        Spike positions.
-    occupancy : ndarray
-        Occupancy.
+    bin_firing : 1d or 2d array
+        Binned firing.
+    occupancy : 1d or 2d array
+        Occupancy across the space.
+    normalize : bool, optional, default: False
+        If True, normalize the binned firing rate data by the occupancy.
+        If False, it is assumed that the binned firing has already been normalized.
 
     Returns
     -------
     info : float
         Spike information rate for spatial information (bits/spike).
+
+    Notes
+    -----
+    This measure computes the spatial information between the firing and spatial location, as:
+
+    .. math::
+
+        I = \\sum{\\lambda (x) log_2 \\frac{\\lambda(x)} {\\lambda} p(x)dx}
+
+    References
+    ----------
+    .. [1] Skaggs, W. E., McNaughton, B. L., & Gothard, K. M. (1992). An
+           Information-Theoretic Approach to Deciphering the Hippocampal Code.
+           Advances in neural information processing systems.
+
+    Examples
+    --------
+    Compute spatial information across a 1d space:
+
+    >>> bin_firing = np.array([1, 1, 1, 1, 4])
+    >>> occupancy = np.array([1, 1, 1, 1, 1])
+    >>> info = compute_spatial_information(bin_firing, occupancy)
+    >>> print('{:5.4f}'.format(info))
+    0.3219
+
+    Compute spatial information across a 2d space:
+
+    >>> bin_firing = np.array([[1, 1, 1, 5], \
+                               [1, 1, 1, 5]])
+    >>> occupancy = np.array([[1, 1, 1, 1], \
+                              [1, 1, 1, 1]])
+    >>> info = compute_spatial_information(bin_firing, occupancy)
+    >>> print('{:5.4f}'.format(info))
+    0.4512
     """
 
-    # Calculate average firing rate
-    rate = np.nansum(spike_map) / np.nansum(occupancy)
+    if normalize:
+        bin_firing = normalize_bin_counts(bin_firing, occupancy)
+
+    # Calculate average firing rate of the neuron, dividing out by total occupancy time
+    #   Note: this recomputes total spike (basically, de-normalizing)
+    rate = np.nansum(bin_firing * occupancy) / np.nansum(occupancy)
+
+    # Catch for a neuron with no firing - return 0 information
     if rate == 0.0:
         return 0.0
 
-    # Compute the occupancy probability (per bin)
+    # Compute the occupancy probability, per bin
     occ_prob = occupancy / np.nansum(occupancy)
 
-    # Supress RunTime warnings for invalid values that might occur in the arrays during calculations
-    with warnings.catch_warnings():
-        warnings.filterwarnings("ignore", category=RuntimeWarning)
-
-        # Calculate the normalized spiking (by occupancy)
-        spike_map_norm = spike_map / occupancy
-
-        # Calculate the spatial information, using a mask for nonzero values
-        nz = np.nonzero(spike_map_norm)
-        info = np.nansum(occ_prob[nz] * spike_map_norm[nz] * np.log2(spike_map_norm[nz] / rate)) / rate
+    # Calculate the spatial information, using a mask for nonzero values
+    nz = np.nonzero(bin_firing)
+    info = np.nansum(occ_prob[nz] * bin_firing[nz] * np.log2(bin_firing[nz] / rate)) / rate
 
     return info

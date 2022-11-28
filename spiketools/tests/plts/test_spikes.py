@@ -14,23 +14,23 @@ from spiketools.plts.spikes import *
 def test_plot_waveform(twaveform):
 
     plot_waveform(twaveform,
-                  file_path=TEST_PLOTS_PATH, file_name='tplot_waveform1.png')
+                  file_path=TEST_PLOTS_PATH, file_name='tplot_waveform1d.png')
 
     plot_waveform(np.array([twaveform, twaveform + 1, twaveform -1]),
                   average='mean', shade='var', add_traces=True,
-                  file_path=TEST_PLOTS_PATH, file_name='tplot_waveform2.png')
+                  file_path=TEST_PLOTS_PATH, file_name='tplot_waveform2d.png')
 
 @plot_test
 def test_plot_waveforms3d(twaveform):
 
-    plot_waveforms3d(np.arange(len(twaveform)), np.vstack([twaveform] *  3),
+    plot_waveforms3d(np.vstack([twaveform] *  3),
                      file_path=TEST_PLOTS_PATH, file_name='tplot_waveforms3d.png')
 
 @plot_test
-def plot_spikehist2d(twaveform):
+def test_plot_waveform_density(twaveform):
 
-    plot_spikehist2d(np.arange(len(twaveform)), np.vstack([twaveform] *  3),
-                     file_path=TEST_PLOTS_PATH, file_name='tplot_spikehist2d.png')
+    plot_waveform_density(np.vstack([twaveform] *  3),
+                          file_path=TEST_PLOTS_PATH, file_name='tplot_waveform_density.png')
 
 @plot_test
 def test_plot_isis(tisis):
@@ -39,7 +39,7 @@ def test_plot_isis(tisis):
               file_path=TEST_PLOTS_PATH, file_name='tplot_isis.png')
 
 @plot_test
-def test_plot_unit_frs():
+def test_plot_firing_rates():
 
-    plot_unit_frs(np.array([2.5, 0.5, 1.2, 3.4]),
-                  file_path=TEST_PLOTS_PATH, file_name='tplot_units_frs.png')
+    plot_firing_rates(np.array([2.5, 0.5, 1.2, 3.4]),
+                      file_path=TEST_PLOTS_PATH, file_name='tplot_firing_rates.png')

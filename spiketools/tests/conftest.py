@@ -6,7 +6,7 @@ import pytest
 
 import numpy as np
 
-from spiketools.objects import Cell
+from spiketools.objects import Unit, Session
 from spiketools.utils import set_random_seed
 from spiketools.tests.tsettings import BASE_TEST_FILE_PATH, TEST_PLOTS_PATH
 
@@ -36,42 +36,46 @@ def check_dir():
 @pytest.fixture(scope='session')
 def tspikes():
 
-    yield np.array([0.01, 1.5, 2., 2.5, 3., 4., 5.2501]) * 1000
-
+    yield np.array([0.5, 1.5, 2., 2.5, 3., 3.75, 4., 4.25,
+                    5., 5.5, 5.75, 6., 7., 7.5, 8.])
 
 @pytest.fixture(scope='session')
-def tspikes_s():
+def ttrial_spikes():
 
-    yield np.array([0.0, 0.5, 1.5, 2.])
-
+    yield np.array([-0.75, -0.5, -0.25, 0.25, 0.5, 0.55, 0.6, 0.75, 0.80, 0.90])
 
 @pytest.fixture(scope='session')
 def twaveform():
 
     yield np.array([0, 0, 0, 1, 2, 3, 4, 5, 3, 1, 0, 0])
 
-
 @pytest.fixture(scope='session')
 def tisis():
 
     yield np.array([0.1, 0.25, 0.4, 0.1, 0.05, 0.2, 0.125])
-
 
 @pytest.fixture(scope='session')
 def tdata():
 
     yield np.random.random(10)
 
+@pytest.fixture(scope='session')
+def tdata2d():
+
+    yield np.random.random((5, 2))
 
 @pytest.fixture(scope='session')
-def tcell(tspikes):
+def tdata3d():
 
-    yield Cell(subject='SubjectCode',
-               session='SessionCode',
-               task='TaskCode',
+    yield np.random.random((2, 3, 4))
+
+@pytest.fixture(scope='session')
+def tunit(tspikes):
+
+    yield Unit(uid='UnitID',
+               spikes=tspikes,
                channel='ChannelCode',
                region='RegionCode',
-               spikes=tspikes,
                cluster=None)
 
 @pytest.fixture(scope='session')

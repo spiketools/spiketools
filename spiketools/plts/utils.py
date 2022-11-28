@@ -5,19 +5,25 @@ from functools import wraps
 from os.path import join as pjoin
 
 import matplotlib.pyplot as plt
+from matplotlib import gridspec
 
-from spiketools.plts.settings import SET_KWARGS
+from spiketools.plts.style import get_attr_kwargs
 
 ###################################################################################################
 ###################################################################################################
 
-def check_ax(ax, figsize=None):
-    """Check whether a figure axes object is defined, define if not.
+def check_ax(ax, figsize=None, return_current=False):
+    """Check whether a figure axes object is defined, and define or return current axis if not.
 
     Parameters
     ----------
     ax : matplotlib.Axes or None
         Axes object to check if is defined.
+    figsize : tuple of float, optional
+        Size to make the axis.
+    return_current : bool, optional, default: False
+        Whether to return the current axis, if axis is not defined.
+        If False, creates a new plot axis instead.
 
     Returns
     -------
@@ -26,7 +32,10 @@ def check_ax(ax, figsize=None):
     """
 
     if not ax:
-        _, ax = plt.subplots(figsize=figsize)
+        if return_current:
+            ax = plt.gca()
+        else:
+            _, ax = plt.subplots(figsize=figsize)
 
     return ax
 
@@ -45,44 +54,45 @@ def savefig(func):
         #   Defaults to saving when file name given (since bool(str)->True; bool(None)->False)
         save_fig = kwargs.pop('save_fig', bool(file_name))
 
-        # Check any collect any other plot keywords
+        # Check and collect any other plot keywords
         save_kwargs = kwargs.pop('save_kwargs', {})
         save_kwargs.setdefault('bbox_inches', 'tight')
 
         # Check and collect whether to close the plot
-        close = kwargs.pop('close', None)
+        close = kwargs.pop('close', False)
 
         func(*args, **kwargs)
 
         if save_fig:
-            full_path = pjoin(file_path, file_name) if file_path else file_name
-            plt.savefig(full_path, **save_kwargs)
-
-        if close:
-            plt.close()
+            save_figure(file_name, file_path, close, **save_kwargs)
 
     return decorated
 
 
-def set_plt_kwargs(func):
-    """Collects and then sets plot kwargs that can be applied with 'set'."""
+def save_figure(file_name, file_path=None, close=False, **save_kwargs):
+    """Save out a figure.
 
-    @wraps(func)
-    def decorated(*args, **kwargs):
+    Parameters
+    ----------
+    file_name : str
+        File name for the figure file to save out.
+    file_path : str or Path
+        Path for where to save out the figure to.
+    close : bool, optional, default: False
+        Whether to close the plot after saving.
+    save_kwargs
+        Additional arguments to pass into the save function.
+    """
 
-        setters = {arg : kwargs.pop(arg, None) for arg in SET_KWARGS}
-        setters = {arg : value for arg, value in setters.items() if value}
+    full_path = pjoin(file_path, file_name) if file_path else file_name
+    plt.savefig(full_path, **save_kwargs)
 
-        func(*args, **kwargs)
-
-        ax = kwargs['ax'] if 'ax' in kwargs and kwargs['ax'] is not None else plt.gca()
-        ax.set(**setters)
-
-    return decorated
+    if close:
+        plt.close()
 
 
 def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
-              wspace=None, hspace=None, **plt_kwargs):
+              wspace=None, hspace=None, title=None, **plt_kwargs):
     """Make a subplot with multiple axes.
 
     Parameters
@@ -98,8 +108,10 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
         The size to use per row / column.
         Only used if `figsize` is None.
     wspace, hspace : float, optional
-        Spacing parameters
+        Spacing parameters for between subplots.
         These get passed into `plt.subplots_adjust`.
+    title : str, optional
+        A title to add to the figure.
     **plt_kwargs
         Extra arguments to pass to `plt.subplots`.
 
@@ -114,12 +126,67 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
     if not figsize:
         figsize = (n_cols * col_size, n_rows * row_size)
 
+    title_kwargs = get_attr_kwargs(plt_kwargs, 'title')
+
     _, axes = plt.subplots(n_rows, n_cols, figsize=figsize, **plt_kwargs)
 
     if wspace or hspace:
         plt.subplots_adjust(wspace=wspace, hspace=hspace)
 
     # Turn off axes for any extra subplots in last row
-    [x.axis('off') for x in axes.ravel()[n_axes:]]
+    _ = [ax.axis('off') for ax in axes.ravel()[n_axes:]]
+
+    if title:
+        plt.suptitle(title,
+                     fontsize=title_kwargs.pop('title_fontsize', 24),
+                     **title_kwargs)
 
     return axes.flatten()
+
+
+def make_grid(nrows, ncols, title=None, **plt_kwargs):
+    """Create a plot grid.
+
+    Parameters
+    ----------
+    nrows, ncols : int
+        The number of rows and columns to add to the data.
+    title : str, optional
+        A title to add to the figure.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    title_kwargs = get_attr_kwargs(plt_kwargs, 'title')
+
+    _ = plt.figure(figsize=plt_kwargs.pop('figsize', None))
+    grid = gridspec.GridSpec(nrows, ncols, **plt_kwargs)
+
+    if title:
+        plt.suptitle(title,
+                     fontsize=title_kwargs.pop('title_fontsize', 24),
+                     y=title_kwargs.pop('title_y', 0.95),
+                     **title_kwargs)
+
+    return grid
+
+
+def get_grid_subplot(grid, row, col, **plt_kwargs):
+    """Get a subplot section from a grid layout.
+
+    Parameters
+    ----------
+    grid : matplotlib.gridspec.GridSpec
+        A predefined plot grid layout.
+    row, col : int or slice
+        The row(s) and column(s) in which to place the subplot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+
+    Returns
+    -------
+    matplotlib.AxesSubplot
+        Subplot axis.
+    """
+
+    return plt.subplot(grid[row, col], **plt_kwargs)

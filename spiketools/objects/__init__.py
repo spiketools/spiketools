@@ -1,4 +1,4 @@
-"""Object sub-module."""
+"""Objects."""
 
-from .cell import Cell
+from .unit import Unit
 from .session import Session

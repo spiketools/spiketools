@@ -1,1 +1,1 @@
-"""Space related analyses and utilities."""
+"""Analyses and utilities related to spatial data."""

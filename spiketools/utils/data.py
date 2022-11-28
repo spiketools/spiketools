@@ -1,51 +1,205 @@
-"""Utility functions for managing data."""
+"""Utility functions for working with data arrays."""
+
+from copy import deepcopy
 
 import numpy as np
 
+from scipy.ndimage import gaussian_filter
+
+from spiketools.utils.checks import check_param_options, check_bin_range
+
 ###################################################################################################
 ###################################################################################################
 
-def get_value_by_time(times, values, time):
-    """Get the value for a data array at a specific time point.
+def compute_range(data):
+    """Compute the range of an array of data.
 
     Parameters
     ----------
-    times : 1d array
-        Time indices.
-    values : ndarray
-        Data values, corresponding to the times vector.
-    time : float
-        Time value to extract
+    data : array
+        Array of numerical data.
 
     Returns
     -------
-    out
-        The value at the requested time point.
+    min, max : float
+        Minimum and maximum values of the data array.
+
+    Examples
+    --------
+    Compute the range of some position data:
+
+    >>> data = np.array([1.5, 1, 0.5, 2, 3, 2.5])
+    >>> compute_range(data)
+    (0.5, 3.0)
     """
 
-    return values[:].take(indices=np.abs(times[:] - time).argmin(), axis=-1)
+    return np.nanmin(data), np.nanmax(data)
 
 
-def get_value_by_time_range(times, values, t_min, t_max):
-    """Extract data for a requested time range.
+def smooth_data(data, sigma):
+    """Smooth an array of data, using a gaussian kernel.
 
     Parameters
     ----------
-    times : 1d array
-        Time indices.
-    values : ndarray
-        Data values, corresponding to the times indices.
-    t_min, t_max : float
-        Time range to extract.
+    data : ndarray
+        Data to smooth.
+    sigma : float
+        Standard deviation of the gaussian kernel to apply for smoothing.
 
     Returns
     -------
-    times : 1d array
-        Selected time indices.
-    out : ndarray
-        Selected values.
+    data : 2d array
+        The smoothed data.
+
+    Notes
+    -----
+    This function is applied on a copy of the data (to not change the original).
+    Any NaN values will be set as 0 for smoothing purposes.
+
+    Examples
+    --------
+    Smooth a 1d data array using a gaussian kernel:
+
+    >>> data = np.array([1, 3, 5, 7, 9])
+    >>> smooth_data(data, sigma=0.8)
+    array([1, 3, 5, 6, 8])
     """
 
-    select = np.logical_and(times[:] >= t_min, times[:] <= t_max)
+    data = deepcopy(data)
+    data[np.isnan(data)] = 0
 
-    return times[select], values[:].take(indices=np.where(select)[0], axis=-1)
+    data = gaussian_filter(data, sigma=sigma)
+
+    return data
+
+
+def drop_nans(data):
+    """Drop any NaNs values from an array.
+
+    Parameters
+    ----------
+    data : 1d or 2d array
+        Data array to check and drop NaNs from.
+
+    Returns
+    -------
+    data : 1d or 2d array
+        Data array with NaNs removed.
+
+    Notes
+    -----
+    For 2d arrays, this function assumes the same columns to be NaN across all rows.
+
+    Examples
+    --------
+    Drop all NaNs values from a 1d array:
+
+    >>> data = np.array([1, 2, 3.5, np.nan, 6, 2, np.nan, 1])
+    >>> drop_nans(data)
+    array([1. , 2. , 3.5, 6. , 2. , 1. ])
+    """
+
+    nans = np.isnan(data)
+
+    if data.ndim == 1:
+        data = data[np.where(~nans)]
+    elif data.ndim == 2:
+        data = data[~nans].reshape(nans.shape[0], sum(~nans[0, :]))
+    else:
+        raise ValueError('Only 1d or 2d arrays supported.')
+
+    return data
+
+
+def assign_data_to_bins(data, edges, check_range=True, include_edge=True):
+    """Assign data values to data bins, based on given edges.
+
+    Parameters
+    ----------
+    data : 1d array
+        Data values to bin.
+    edges : 1d array
+        Edge definitions for the binning.
+    check_range : bool, optional, default: True
+        Whether to check if the given edges fully cover the given data.
+        If True, runs a check that raises a warning if any data values exceed edge ranges.
+    include_edge : bool, optional, default: True
+        Whether to include data values on the edge into the bin.
+
+    Returns
+    -------
+    assignments : 1d array
+        Bin assignments per data value.
+
+    Examples
+    --------
+    Assign data values into bins given the bin edges:
+
+    >>> data = np.array([0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 1.1, 1.2, 1.3, 1.4])
+    >>> edges = np.array([0, 0.5, 1, 1.5])
+    >>> assign_data_to_bins(data, edges)
+    array([0, 0, 0, 1, 1, 1, 2, 2, 2, 2])
+    """
+
+    if check_range:
+        check_bin_range(data, edges)
+    assignments = np.digitize(data, edges, right=False)
+
+    if include_edge:
+        assignments = _include_bin_edge(assignments, data, edges, side='left')
+
+    return assignments - 1
+
+
+def _include_bin_edge(assignments, position, edges, side='left'):
+    """Update bin assignment so last bin includes edge values.
+
+    Parameters
+    ----------
+    assignments : 1d array
+        The bin assignment for each position.
+    position : 1d array
+        Position values.
+    edges : 1d array
+        The bin edges.
+    side : {'left', 'right'}
+        Which side was used to compute bin assignment.
+
+    Returns
+    -------
+    assignments : 1d array
+        The bin assignment for each position.
+
+    Notes
+    -----
+    For any position values that exactly match the left-most or right-most bin edges, by default
+    (from np.digitize), one of these sides will be considered an outlier. This is because bin
+    assignment is computed as `pos >= left_bin_edge & pos < right_bin_edge (flipped if right=True).
+    To address this, this function resets position values == edges as with the bin on the edge.
+
+    Examples
+    --------
+    Update bin assignment of some position data using left side bin edges:
+
+    >>> position = np.array([0.5, 1, 1.5, 2, 1.5, 3])
+    >>> assignments = np.array([0, 1, 1, 2, 1, 3])
+    >>> edges = np.array([0, 1, 2, 3])
+    >>> _include_bin_edge(assignments, position, edges, side='left')
+    array([0, 1, 1, 2, 1, 2])
+    """
+
+    check_param_options(side, 'side', ['left', 'right'])
+
+    if side == 'left':
+
+        # If side left, right position == edge gets set as len(bins), so decrement by 1
+        mask = position == edges[-1]
+        assignments[mask] = assignments[mask] - 1
+
+    elif side == 'right':
+
+        # If side right, left position == edge gets set as 0, so increment by 1
+        mask = position == edges[0]
+        assignments[mask] = assignments[mask] + 1
+
+    return assignments
