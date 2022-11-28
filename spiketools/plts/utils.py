@@ -19,6 +19,8 @@ def check_ax(ax, figsize=None, return_current=False):
     ----------
     ax : matplotlib.Axes or None
         Axes object to check if is defined.
+    figsize : tuple of float, optional
+        Size to make the axis.
     return_current : bool, optional, default: False
         Whether to return the current axis, if axis is not defined.
         If False, creates a new plot axis instead.

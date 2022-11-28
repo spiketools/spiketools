@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.plts.data import plot_bar, plot_hist, plot_lines
 from spiketools.plts.utils import check_ax, savefig
-from spiketools.plts.style import set_plt_kwargs
+from spiketools.plts.style import get_kwargs, set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
@@ -36,9 +36,13 @@ def plot_waveform(waveform, timestamps=None, average=None, shade=None, add_trace
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
+        Custom kwargs: 'traces_lw', 'traces_alpha', 'shade_alpha'.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    custom_kwargs = ['traces_lw', 'traces_alpha', 'shade_alpha']
+    custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
 
     if isinstance(shade, str):
         shade = get_var_func(shade)(waveform, 0)
@@ -60,10 +64,13 @@ def plot_waveform(waveform, timestamps=None, average=None, shade=None, add_trace
 
     if add_traces:
         ax.plot(timestamps, all_waveforms.T,
-                lw=1, alpha=0.5, color=ax.lines[0].get_color())
+                lw=custom_plt_kwargs.pop('traces_lw', 1),
+                alpha=custom_plt_kwargs.pop('traces_alpha', 0.5),
+                color=ax.lines[0].get_color())
 
     if shade is not None:
-        ax.fill_between(timestamps, waveform - shade, waveform + shade, alpha=0.25)
+        ax.fill_between(timestamps, waveform - shade, waveform + shade,
+                        alpha=custom_plt_kwargs.pop('shade_alpha', 0.25))
 
 
 @savefig
@@ -77,6 +84,8 @@ def plot_waveforms3d(waveforms, timestamps=None, **plt_kwargs):
         Voltage values for the waveforms, with shape [n_waveforms, n_timestamps].
     timestamps : 1d array, optional
         Timestamps corresponding to the waveforms.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
     """
 
     plt.figure(figsize=plt_kwargs.pop('figsize', None))
@@ -111,6 +120,10 @@ def plot_waveform_density(waveforms, timestamps=None, bins=(250, 50), cmap='viri
         Bin definition to use to create the figure.
     cmap : str
         Colormap to use for the figure.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))

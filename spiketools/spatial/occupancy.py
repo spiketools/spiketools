@@ -17,13 +17,14 @@ def compute_bin_edges(position, bins, area_range=None):
 
     Parameters
     ----------
-    position : 1d or 2d array
-        Position values.
+    position : 1d or 2d array or None
+        Position values. If None, area_range is required to define bins.
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     area_range : list of list, optional
-        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+        Edges of the area to bin.
+        For 1d defined as [min, max]. For 2d, defined as [[x_min, x_max], [y_min, y_max]].
         Any values outside this range will be considered outliers, and not used to compute edges.
 
     Returns
@@ -31,17 +32,17 @@ def compute_bin_edges(position, bins, area_range=None):
     x_edges : 1d array
         Edge definitions for the spatial binning.
     y_edges : 1d array
-        Edge definitions for the spatial binning. Only returned in 2D case.
+        Edge definitions for the spatial binning. Only returned in 2d case.
 
     Examples
     --------
-    Compute bin edges for 1D position values:
+    Compute bin edges for 1d position values:
 
     >>> position = np.array([1, 2, 3, 4, 5])
     >>> compute_bin_edges(position, bins=[5])
     array([1. , 1.8, 2.6, 3.4, 4.2, 5. ])
 
-    Compute bin edges for 2D position values:
+    Compute bin edges for 2d position values:
 
     >>> position = np.array([[1, 2, 3, 4, 5], \
                              [6, 7, 8, 9, 10]])
@@ -51,14 +52,20 @@ def compute_bin_edges(position, bins, area_range=None):
 
     bins = check_spatial_bins(bins, position)
 
-    if position.ndim == 1:
-        _, x_edges = np.histogram(position, bins=bins[0], range=area_range)
+    if len(bins) == 1:
+
+        x_edges = np.histogram_bin_edges(position, bins=bins[0], range=area_range)
 
         return x_edges
 
-    elif position.ndim == 2:
-        _, x_edges, y_edges = np.histogram2d(position[0, :], position[1, :],
-                                             bins=bins, range=area_range)
+    elif len(bins) == 2:
+
+        x_pos, y_pos = position if isinstance(position, np.ndarray) else (None, None)
+        x_range, y_range = area_range if isinstance(area_range, list) else (None, None)
+
+        x_edges = np.histogram_bin_edges(x_pos, bins=bins[0], range=x_range)
+        y_edges = np.histogram_bin_edges(y_pos, bins=bins[1], range=y_range)
+
         return x_edges, y_edges
 
 

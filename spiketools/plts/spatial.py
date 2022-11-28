@@ -191,7 +191,7 @@ def plot_trial_heatmaps(trial_data, **plt_kwargs):
         Spatially binned spike activity, per trial, with shape of [n_trials, n_xbins, n_ybins].
     plt_kwargs
         Additional arguments to pass into the plot function.
-        This can include argument into `make_axes`, which initialize the set of axes.
+        This can include arguments into `make_axes`, which initializes the set of axes.
     """
 
     axis_kwargs = {key : plt_kwargs.pop(key) \

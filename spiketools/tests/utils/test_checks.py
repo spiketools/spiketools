@@ -38,6 +38,21 @@ def test_check_list_options():
     with raises(ValueError):
         check_list_options(['a', 'b', 'c'], 'test', ['b', 'c'])
 
+def test_check_param_lengths():
+
+    a1 = [1, 2, 3]
+    a2 = ['a', 'b', 'c']
+    a3 = [True, False]
+
+    check_param_lengths([a1, a2], ['a1', 'a2'])
+
+    with raises(ValueError):
+        check_param_lengths([a1, a3], ['a1', 'a3'])
+
+    check_param_lengths([a1, a2], ['a1', 'a2'], expected_length=3)
+    with raises(ValueError):
+        check_param_lengths([a1, a2], ['a1', 'a2'], expected_length=2)
+
 def test_check_array_orientation():
 
     arr1 = np.array([1, 2, 3])

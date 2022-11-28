@@ -76,6 +76,8 @@ def plot_points(data, label=None, ax=None, **plt_kwargs):
         Data values to plot
     label : str, optional
         Label for the x-axis.
+    ax : Axes, optional
+        Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
     """
