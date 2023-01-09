@@ -9,7 +9,7 @@ authors:
   - name: Thomas Donoghue
     orcid: 0000-0001-5911-0472
     affiliation: "1"
-  - name: Sandra Maestra
+  - name: Sandra Maesta Pereira
     orcid: XX
     affiliation: "1"
   - name: Zhixian Han
