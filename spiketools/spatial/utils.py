@@ -51,31 +51,31 @@ def compute_pos_ranges(position):
 
     Returns
     -------
-    ranges : list of float or list of list of float
+    ranges : 1d array or list of 1d array
         Ranges for each dimension in the spatial data.
 
     Examples
     --------
     Compute the 2D position ranges for:
-    (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5, 9).
+    (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5.1, 9.1).
 
-    >>> position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])
+    >>> position = np.array([[1.5, 2.5, 3.5, 5.1], [6.5, 7.5, 8.5, 9.1]])
     >>> compute_pos_ranges(position)
-    [[1.5, 5.0], [6.5, 9.0]]
+    [array([1.5, 5.1]), array([6.5, 9.1])]
 
     Compute the 1D position range for:
-    x = 1.5, 2.5, 3.5, 5.
+    x = 1.5, 2.5, 3.5, 5.1
 
-    >>> position = np.array([1.5, 2.5, 3.5, 5])
+    >>> position = np.array([1.5, 2.5, 3.5, 5.1])
     >>> compute_pos_ranges(position)
-    [1.5, 5.0]
+    array([1.5, 5.1])
     """
 
     if position.ndim == 1:
-        ranges = [*compute_range(position)]
+        ranges = np.array(compute_range(position))
 
     elif position.ndim == 2:
-        ranges = np.apply_along_axis(compute_range, check_axis(None, position), position)
+        ranges = list(np.apply_along_axis(compute_range, check_axis(None, position), position))
 
     else:
         raise ValueError('Position input should be 1d or 2d.')
