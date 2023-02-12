@@ -140,7 +140,7 @@ def compute_bin_assignment(position, x_edges, y_edges=None, check_range=True, in
         return x_bins, y_bins
 
 
-def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
+def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None, orientation=None):
     """Compute counts per bin, from position data.
 
     Parameters
@@ -156,6 +156,9 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
     occupancy : 1d or 2d array, optional
         Occupancy across the spatial bins.
         If provided, used to normalize bin counts.
+    orientation : {'row', 'column'}, optional
+        The orientation of the position data.
+        If not provided, is inferred from the position data.
 
     Returns
     -------
@@ -188,7 +191,8 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
         bin_counts, _ = np.histogram(position, bins=bins[0], range=area_range)
 
     elif position.ndim == 2:
-        bin_counts, _, _ = np.histogram2d(*get_position_xy(position), bins=bins, range=area_range)
+        bin_counts, _, _ = np.histogram2d(*get_position_xy(position, orientation=orientation),
+                                          bins=bins, range=area_range)
         bin_counts = bin_counts.T
 
     bin_counts = bin_counts.astype('int')
