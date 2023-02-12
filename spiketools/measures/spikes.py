@@ -3,6 +3,7 @@
 import numpy as np
 
 from spiketools.utils.extract import get_range
+from spiketools.measures.conversions import convert_times_to_counts
 
 ###################################################################################################
 ###################################################################################################
@@ -115,3 +116,34 @@ def compute_fano_factor(spike_train):
     """
 
     return np.var(spike_train) / np.mean(spike_train)
+
+
+def compute_presence_ratio(spikes, bins, time_range=None):
+    """Compute the presence ratio for a set of spike times.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times, in seconds.
+    bins : float or 1d array
+        The binning to apply to the spiking data.
+        If float, the length of each bin.
+        If array, precomputed bin definitions.
+    time_range : list of [float, float], optional
+        Time range, in seconds, to create the binned firing rate across.
+        Only used if `bins` is a float.
+
+    Returns
+    -------
+    presence_ratio : float
+        The computed presence ratio.
+
+    Notes
+    -----
+    The presence ratio reflects the proportion of time bins in which at least 1 spike occurred.
+    """
+
+    spike_bin_counts = convert_times_to_counts(spikes, bins, time_range)
+    presence_ratio = sum(spike_bin_counts != 0) / len(spike_bin_counts)
+
+    return presence_ratio
