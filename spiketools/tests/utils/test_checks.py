@@ -68,6 +68,19 @@ def test_check_array_orientation():
     arr3c = np.array([[[1, 2], [3, 4], [5, 6]], [[1, 2], [3, 4], [5, 6]]])
     assert check_array_orientation(arr3c) == 'column'
 
+def test_check_axis():
+
+    arr1d = np.array([1, 2, 3])
+    arr2dr = np.array([[1, 2, 3], [1, 2, 3]])
+    arr2dc = np.array([[1, 2], [1, 2], [1, 2]])
+
+    assert check_axis(0, arr1d) == 0
+    assert check_axis(1, arr1d) == 1
+    assert check_axis(None, arr1d) == 0
+    assert check_axis(None, arr2dr) == 1
+    assert check_axis(None, arr2dc) == 0
+    assert check_axis(None, arr2dr) == 1
+
 def test_check_bin_range():
 
     values = np.array([0.5, 1.5, 2.5, 3.5, 4.5])

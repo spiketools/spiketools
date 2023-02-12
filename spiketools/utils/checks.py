@@ -1,6 +1,7 @@
 """General purpose checker functions."""
 
 import warnings
+from collections import defaultdict
 
 import numpy as np
 
@@ -8,6 +9,8 @@ from spiketools.utils.base import lower_list
 
 ###################################################################################################
 ###################################################################################################
+
+AXISARG = defaultdict(lambda : -1, {'vector' : 0, 'row' : 1, 'column' : 0})
 
 def check_param_range(param, label, bounds):
     """Check a parameter value is within an acceptable range.
@@ -128,8 +131,8 @@ def check_array_orientation(arr):
     -------
     orientation : {'vector', 'row', 'column'}
         The inferred orientation of the data array.
-        For 1d cases, 'vector' indicates data is vector with no directional orientation.
-        For 2d or 3d cases, 'row' or 'column' indicates data is organized row-wise or column-wise respectively.
+        For 1d arrays, 'vector' is returned.
+        For 2d or 3d arrays, 'row' or 'column' is returned based on the shape of the array.
     """
 
     assert arr.ndim < 4, "The check_array_orientation function only works up to 3d."
@@ -139,12 +142,37 @@ def check_array_orientation(arr):
     # This covers 2d or 3d arrays
     else:
         shape = arr.shape
-        if shape[-1] > shape[-2]:
+        # For the ambiguous case of a square shape, 'row' is returned by default
+        if shape[-1] >= shape[-2]:
             orientation = 'row'
         else:
             orientation = 'column'
 
     return orientation
+
+
+def check_axis(axis, arr):
+    """Check axis argument, and infer from array if not defined.
+
+    Parameters
+    ----------
+    axis : {None, -1, 0, 1}
+        Axis argument.
+        If not None, this value is returned.
+        If  None, the given array is checked to infer axis.
+    arr : ndarray
+        Array to check the axis argument for.
+
+    Returns
+    -------
+    axis : {-1, 0, 1}
+        Axis argument.
+    """
+
+    if not axis:
+        axis = AXISARG[check_array_orientation(arr)]
+
+    return axis
 
 
 def check_bin_range(values, bin_area):
