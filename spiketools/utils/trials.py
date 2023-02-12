@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from spiketools.utils.checks import check_param_lengths, check_axis
+
 ###################################################################################################
 ###################################################################################################
 
@@ -83,3 +85,32 @@ def split_trials_by_condition_array(trials, conditions):
         out[condition] = trials[np.where(np.array(conditions)==condition)[0], :]
 
     return out
+
+
+def recombine_trial_data(times_trials, values_trials, axis=None):
+    """Recombine data across trials.
+
+    Parameters
+    ----------
+    times_trials : list of 1d array
+        Epoched timestamps.
+    values_trials : list of 1d or 2d array
+        Epoched trial data.
+    axis : {-1, 0, 1}, optional
+        The axis argument to index the `values` data: 0 for row, 1 for column.
+        If not provided, is inferred from the `values_trials` data.
+
+    Returns
+    -------
+    time : 1d array
+        Recombined timestamps.
+    values : 1d or 2d array
+        Recombined trial data.
+    """
+
+    check_param_lengths([times_trials, values_trials], ['times_trials', 'values_trials'])
+
+    times = np.concatenate(times_trials)
+    values = np.concatenate(values_trials, axis=check_axis(axis, values_trials[0]))
+
+    return times, values
