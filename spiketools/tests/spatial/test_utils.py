@@ -43,11 +43,20 @@ def test_compute_pos_ranges():
     ranges = compute_pos_ranges(positions)
     assert np.array_equal(ranges, np.array([1, 5]))
 
-    # Test 2d position data
+    # 2d tests
     positions = np.array([[1, 2, 3, 4, 5], [5, 6, 7, 8, 9]])
-    ranges = compute_pos_ranges(positions)
-    assert np.array_equal(ranges[0], np.array([1, 5]))
-    assert np.array_equal(ranges[1], np.array([5, 9]))
+    exp1 = np.array([1, 5])
+    exp2 = np.array([5, 9])
+
+    # Test 2d position data (row data)
+    ranges_2d = compute_pos_ranges(positions)
+    assert np.array_equal(ranges_2d[0], exp1)
+    assert np.array_equal(ranges_2d[1], exp2)
+
+    # Test 2d position data (column data)
+    ranges_2dc = compute_pos_ranges(positions.T)
+    assert np.array_equal(ranges_2dc[0], exp1)
+    assert np.array_equal(ranges_2dc[1], exp2)
 
 def test_compute_sample_durations():
 

@@ -104,7 +104,10 @@ def compute_pos_ranges(position):
         ranges = np.array(compute_range(position))
 
     elif position.ndim == 2:
-        ranges = list(np.apply_along_axis(compute_range, check_axis(None, position), position))
+        # Regardless of row / column input data, organizes output to have same orientation
+        axis = check_axis(None, position)
+        ranges = np.apply_along_axis(compute_range, axis, position)
+        ranges = list(ranges.T if axis == 0 else ranges)
 
     else:
         raise ValueError('Position input should be 1d or 2d.')
