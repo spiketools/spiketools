@@ -151,6 +151,31 @@ def check_array_orientation(arr):
     return orientation
 
 
+def check_array_lst_orientation(arr_lst):
+    """Check the orientation of arrays in a list.
+
+    Parameters
+    ----------
+    arr_lst : list of array
+        List of arrays to check orientation for.
+
+    Returns
+    -------
+    orientation : {'vector', 'row', 'column'}
+        The inferred orientation of the data array.
+        For 1d arrays, 'vector' is returned.
+        For 2d or 3d arrays, 'row' or 'column' is returned based on the shape of the array.
+    """
+
+    # Loop over arrays, skipping any with too few elements to infer orientation
+    for cur_arr in arr_lst:
+        if cur_arr.size > 4:
+            array = cur_arr
+            break
+
+    return check_array_orientation(array)
+
+
 def check_axis(axis, arr):
     """Check axis argument, and infer from array if not defined.
 
@@ -160,7 +185,7 @@ def check_axis(axis, arr):
         Axis argument.
         If not None, this value is returned.
         If  None, the given array is checked to infer axis.
-    arr : ndarray
+    arr : ndarray or list of ndarray
         Array to check the axis argument for.
 
     Returns
@@ -170,7 +195,13 @@ def check_axis(axis, arr):
     """
 
     if not axis:
-        axis = AXISARG[check_array_orientation(arr)]
+
+        if isinstance(arr, list):
+            orientation = check_array_lst_orientation(arr)
+        else:
+            orientation = check_array_orientation(arr)
+
+        axis = AXISARG[orientation]
 
     return axis
 

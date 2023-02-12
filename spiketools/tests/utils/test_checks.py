@@ -68,6 +68,16 @@ def test_check_array_orientation():
     arr3c = np.array([[[1, 2], [3, 4], [5, 6]], [[1, 2], [3, 4], [5, 6]]])
     assert check_array_orientation(arr3c) == 'column'
 
+def test_check_array_lst_orientation():
+
+    arr_lst1 = [np.array([[], []]), np.array([[1, 2, 4], [5, 6, 7]])]
+    out1 = check_array_lst_orientation(arr_lst1)
+    assert out1 == 'row'
+
+    arr_lst2 = [np.array([[], []]), np.array([[1, 2, 4], [5, 6, 7]]).T]
+    out2 = check_array_lst_orientation(arr_lst2)
+    assert out2 == 'column'
+
 def test_check_axis():
 
     arr1d = np.array([1, 2, 3])
