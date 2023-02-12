@@ -20,11 +20,16 @@ def test_compute_nbins():
 
 def test_compute_pos_ranges():
 
-    positions = np.array([[1, 2, 3, 4, 5], [5, 6, 7, 8, 9]])
-
+    # Test 1d position data
+    positions = np.array([1, 2, 3, 4, 5])
     ranges = compute_pos_ranges(positions)
-    ranges[0] == [1, 5]
-    ranges[1] == [5, 9]
+    assert np.array_equal(ranges, np.array([1, 5]))
+
+    # Test 2d position data
+    positions = np.array([[1, 2, 3, 4, 5], [5, 6, 7, 8, 9]])
+    ranges = compute_pos_ranges(positions)
+    assert np.array_equal(ranges[0], np.array([1, 5]))
+    assert np.array_equal(ranges[1], np.array([5, 9]))
 
 def test_compute_sample_durations():
 
