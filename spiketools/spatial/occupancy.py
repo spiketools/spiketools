@@ -7,7 +7,7 @@ import pandas as pd
 
 from spiketools.utils.data import assign_data_to_bins
 from spiketools.spatial.checks import check_position, check_spatial_bins
-from spiketools.spatial.utils import compute_sample_durations
+from spiketools.spatial.utils import get_position_xy, compute_sample_durations
 
 ###################################################################################################
 ###################################################################################################
@@ -60,7 +60,8 @@ def compute_bin_edges(position, bins, area_range=None):
 
     elif len(bins) == 2:
 
-        x_pos, y_pos = position if isinstance(position, np.ndarray) else (None, None)
+        x_pos, y_pos = get_position_xy(position) \
+            if isinstance(position, np.ndarray) else (None, None)
         x_range, y_range = area_range if isinstance(area_range, list) else (None, None)
 
         x_edges = np.histogram_bin_edges(x_pos, bins=bins[0], range=x_range)
@@ -132,8 +133,9 @@ def compute_bin_assignment(position, x_edges, y_edges=None, check_range=True, in
 
     elif position.ndim == 2:
 
-        x_bins = assign_data_to_bins(position[0, :], x_edges, check_range, include_edge)
-        y_bins = assign_data_to_bins(position[1, :], y_edges, check_range, include_edge)
+        x_pos, y_pos = get_position_xy(position)
+        x_bins = assign_data_to_bins(x_pos, x_edges, check_range, include_edge)
+        y_bins = assign_data_to_bins(y_pos, y_edges, check_range, include_edge)
 
         return x_bins, y_bins
 
@@ -186,8 +188,7 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None):
         bin_counts, _ = np.histogram(position, bins=bins[0], range=area_range)
 
     elif position.ndim == 2:
-        bin_counts, _, _ = np.histogram2d(position[0, :], position[1, :],
-                                          bins=bins, range=area_range)
+        bin_counts, _, _ = np.histogram2d(*get_position_xy(position), bins=bins, range=area_range)
         bin_counts = bin_counts.T
 
     bin_counts = bin_counts.astype('int')

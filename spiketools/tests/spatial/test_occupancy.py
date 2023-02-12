@@ -33,6 +33,9 @@ def test_compute_bin_edges():
     position = np.array([[1., 2., 3., 4., 5.], [0., 1., 2., 3., 4.]])
     area_range = [[1, 4], [1, 4]]
 
+    exp_x = np.array([1.0, 2.5, 4.0])
+    exp_y = np.array([1.0, 1.75, 2.5, 3.25, 4.0])
+
     # 2d case with position data
     x_edges, y_edges = compute_bin_edges(position, bins)
     assert [len(x_edges), len(y_edges)] == [bins[0] + 1, bins[1] + 1]
@@ -41,13 +44,18 @@ def test_compute_bin_edges():
 
     # 2d case with area range
     x_edges, y_edges = compute_bin_edges(position, bins, area_range)
-    assert np.array_equal(x_edges, np.array([1.0, 2.5, 4.0]))
-    assert np.array_equal(y_edges, np.array([1.0, 1.75, 2.5, 3.25, 4.0]))
+    assert np.array_equal(x_edges, exp_x)
+    assert np.array_equal(y_edges, exp_y)
 
     # 2d case with no position data (uses area range)
     x_edges, y_edges = compute_bin_edges(None, bins, area_range)
-    assert np.array_equal(x_edges, np.array([1.0, 2.5, 4.0]))
-    assert np.array_equal(y_edges, np.array([1.0, 1.75, 2.5, 3.25, 4.0]))
+    assert np.array_equal(x_edges, exp_x)
+    assert np.array_equal(y_edges, exp_y)
+
+    # Test 2d column data
+    x_edges_c, y_edges_c = compute_bin_edges(position.T, bins, area_range)
+    assert np.array_equal(x_edges_c, exp_x)
+    assert np.array_equal(y_edges_c, exp_y)
 
 def test_compute_bin_assignment():
 
@@ -70,6 +78,11 @@ def test_compute_bin_assignment():
     assert np.array_equal(x_bins, expected1)
     assert np.array_equal(y_bins, expected2)
 
+    # test 2d column data
+    x_bins_c, y_bins_c = compute_bin_assignment(position.T, x_edges, y_edges)
+    assert np.array_equal(x_bins_c, expected1)
+    assert np.array_equal(y_bins_c, expected2)
+
 def test_compute_bin_counts_pos():
 
     # test 1d case
@@ -82,9 +95,13 @@ def test_compute_bin_counts_pos():
     # test 2d case
     pos2d = np.array([[0.5, 1.5, 0.5, 2.5, 1.5], [0.5, 1.5, 0.5, 1.5, 0.5]])
     bins2d = [3, 2]
-    bin_counts = compute_bin_counts_pos(pos2d, bins2d)
-    assert isinstance(bin_counts, np.ndarray)
-    assert np.array_equal(bin_counts, np.array([[2, 1, 0], [0, 1, 1]]))
+    bin_counts_2d = compute_bin_counts_pos(pos2d, bins2d)
+    assert isinstance(bin_counts_2d, np.ndarray)
+    assert np.array_equal(bin_counts_2d, np.array([[2, 1, 0], [0, 1, 1]]))
+
+    # test 2d column data
+    bin_counts_2dc = compute_bin_counts_pos(pos2d.T, bins2d)
+    assert np.array_equal(bin_counts_2dc, np.array([[2, 1, 0], [0, 1, 1]]))
 
 def test_compute_bin_counts_assgn():
 
