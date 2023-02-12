@@ -185,7 +185,8 @@ def convert_times_to_rates(spikes, bins, time_range=None, smooth=None):
     """
 
     bins = check_time_bins(bins, spikes, time_range)
-    bin_counts, _ = np.histogram(spikes, bins)
+    bin_counts = convert_times_to_counts(spikes, bins, time_range)
+
     cfr = bin_counts / np.diff(bins)
 
     if smooth:
