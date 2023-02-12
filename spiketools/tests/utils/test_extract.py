@@ -15,9 +15,21 @@ def test_create_mask():
     data = np.array([0.5, 1., 1.5, 2., 2.5])
     min_value = 1
     max_value = 2
+    expected = np.array([False, True, True, True, False])
+
     mask = create_mask(data, min_value, max_value)
     assert isinstance(mask, np.ndarray)
-    assert np.array_equal(mask, np.array([False, True, True, True, False]))
+    assert np.array_equal(mask, expected)
+
+    # Test on 2d: row data
+    data_row = np.atleast_2d(data)
+    mask_row = create_mask(data_row, min_value, max_value)
+    assert np.array_equal(mask_row, np.atleast_2d(expected))
+
+    # Test on 2d: column data
+    data_col = data_row.T
+    mask_col = create_mask(data_col, min_value, max_value)
+    assert np.array_equal(mask_col, np.atleast_2d(expected).T)
 
 def test_get_range():
 
@@ -33,7 +45,18 @@ def test_get_range():
     assert np.array_equal(out3, np.array([1., 1.5, 2.]))
 
     out4 = get_range(data, min_value=1., max_value=2., reset=1.)
-    assert np.array_equal(out4, np.array([0., 0.5, 1.0]))
+    expected4 = np.array([0., 0.5, 1.0])
+    assert np.array_equal(out4, expected4)
+
+    # Test on 2d: row data
+    data_row = np.atleast_2d(data)
+    out_row = get_range(data_row, min_value=1., max_value=2., reset=1.)
+    assert np.array_equal(out_row, np.atleast_2d(expected4))
+
+    # Test on 2d: column data
+    data_col = data_row.T
+    out_col = get_range(data_col, min_value=1., max_value=2., reset=1.)
+    assert np.array_equal(out_col, np.atleast_2d(expected4).T)
 
 def test_get_value_range():
 
