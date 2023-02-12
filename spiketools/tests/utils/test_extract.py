@@ -107,15 +107,16 @@ def test_get_value_by_time():
 def test_get_values_by_times():
 
     times = np.array([1, 2, 3, 4, 5])
-    values_1d = np.array([5, 8, 4, 6, 7])
-    values_2d = np.array([[5, 8, 4, 6, 7], [5, 8, 4, 6, 7]])
-
     timepoints = np.array([1.75, 4.15])
 
+    # Test 1d extraction
+    values_1d = np.array([5, 8, 4, 6, 7])
     outputs = get_values_by_times(times, values_1d, timepoints)
     assert len(outputs) == len(timepoints)
     assert np.array_equal(outputs, np.array([8, 6]))
 
+    # Test 2d extraction (row data)
+    values_2d = np.array([[5, 8, 4, 6, 7], [5, 8, 4, 6, 7]])
     outputs = get_values_by_times(times, values_2d, timepoints)
     assert len(outputs) == len(timepoints)
     assert np.array_equal(outputs, np.array([[8, 6], [8, 6]]))
@@ -123,11 +124,19 @@ def test_get_values_by_times():
 def test_get_values_by_time_range():
 
     times = np.array([1, 2, 3, 4, 5])
-    values = np.array([5, 8, 4, 6, 7])
 
-    times_out, values_out = get_values_by_time_range(times, values, 2, 4)
-    assert np.array_equal(times_out, np.array([2, 3, 4]))
-    assert np.array_equal(values_out, np.array([8, 4, 6]))
+    # Test 1d extraction
+    values_1d = np.array([5, 8, 4, 6, 7])
+    times_out_1d, values_out_1d = get_values_by_time_range(times, values_1d, 2, 4)
+    assert np.array_equal(times_out_1d, np.array([2, 3, 4]))
+    assert np.array_equal(values_out_1d, np.array([8, 4, 6]))
+
+    # Test 2d extraction (row data)
+    values_2d = np.array([[5, 8, 4, 6, 7],
+                          [5, 8, 4, 6, 7]])
+    times_out_2d, values_out_2d = get_values_by_time_range(times, values_2d, 2, 4)
+    assert np.array_equal(times_out_2d, np.array([2, 3, 4]))
+    assert np.array_equal(values_out_2d, np.array([[8, 4, 6], [8, 4, 6]]))
 
 def test_threshold_spikes_by_times():
 
