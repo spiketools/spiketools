@@ -2,6 +2,7 @@
 
 import numpy as np
 
+from spiketools.utils.checks import check_axis
 from spiketools.utils.data import compute_range
 from spiketools.spatial.checks import check_spatial_bins
 
@@ -74,9 +75,7 @@ def compute_pos_ranges(position):
         ranges = [*compute_range(position)]
 
     elif position.ndim == 2:
-        ranges = []
-        for dim in range(position.shape[0]):
-            ranges.append([*compute_range(position[dim, :])])
+        ranges = np.apply_along_axis(compute_range, check_axis(None, position), position)
 
     else:
         raise ValueError('Position input should be 1d or 2d.')
