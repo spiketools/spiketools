@@ -9,20 +9,22 @@ authors:
   - name: Thomas Donoghue
     orcid: 0000-0001-5911-0472
     affiliation: "1"
-  - name: Sandra Maesta Pereira
-    orcid: XX
+  - name: Sandra Maesta-Pereira
+    orcid: 0000-0001-6522-8311
     affiliation: "1"
-  - name: Zhixian Han
-    orcid: XX
+  - name: Claire Zhixian Han
+    orcid: 0000-0001-9710-8381
     affiliation: "1"
-  - name: Salman Qasim
-    orcid: XX
-    affiliation: "1"
+  - name: Salman Ehtesham Qasim
+    orcid: 0000-0001-8739-5962
+    affiliation: "2"
   - name: Joshua Jacobs
-    orcid: XX
+    orcid: 0000-0003-1807-6882
     affiliation: "1"
 affiliations:
  - name: Department of Biomedical Engineering, Columbia University
+   index: 1
+- name: Icahn School of Medicine, Mount Sinai
    index: 1
 date: XX XX XX
 bibliography: paper.bib
