@@ -2,12 +2,41 @@
 
 import numpy as np
 
-from spiketools.utils.checks import check_axis
 from spiketools.utils.data import compute_range
+from spiketools.utils.checks import check_axis, check_array_orientation
 from spiketools.spatial.checks import check_spatial_bins
 
 ###################################################################################################
 ###################################################################################################
+
+def get_position_xy(position, orientation=None):
+    """Get the x & y data vectors from a 2d position data array.
+
+    Parameters
+    ----------
+    position : 2d array
+        Position values.
+    orientation : {'row', 'column'}, optional
+        The orientation of the position data.
+        If not provided, is inferred from the given data.
+
+    Returns
+    -------
+    x_data, y_data : 1d array
+        Extracted X & Y position data.
+    """
+
+    assert position.ndim == 2, "Position data must be 2d to unpack X & Y dimensions."
+
+    orientation = check_array_orientation(position) if not orientation else orientation
+
+    if orientation == 'row':
+        x_data, y_data = position
+    else:
+        x_data, y_data = position[:, 0], position[:, 1]
+
+    return x_data, y_data
+
 
 def compute_nbins(bins):
     """Compute the number of bins for a given bin definition.

@@ -7,6 +7,24 @@ from spiketools.spatial.utils import *
 ###################################################################################################
 ###################################################################################################
 
+def test_get_position_xy():
+
+    position_2dr = np.array([[1, 2, 3, 4, 5], [5, 6, 7, 8, 9]])
+    position_2dc = position_2dr.T
+
+    exp_x = np.array([1, 2, 3, 4, 5])
+    exp_y = np.array([5, 6, 7, 8, 9])
+
+    # Test 2d position data (rows)
+    x_data, y_data = get_position_xy(position_2dr)
+    assert np.array_equal(x_data, exp_x)
+    assert np.array_equal(y_data, exp_y)
+
+    # Test 2d position data (columns)
+    x_data, y_data = get_position_xy(position_2dc)
+    assert np.array_equal(x_data, exp_x)
+    assert np.array_equal(y_data, exp_y)
+
 def test_compute_nbins():
 
     # check 1d case
