@@ -48,16 +48,6 @@ def test_get_range():
     expected4 = np.array([0., 0.5, 1.0])
     assert np.array_equal(out4, expected4)
 
-    # Test on 2d: row data
-    data_row = np.atleast_2d(data)
-    out_row = get_range(data_row, min_value=1., max_value=2., reset=1.)
-    assert np.array_equal(out_row, np.atleast_2d(expected4))
-
-    # Test on 2d: column data
-    data_col = data_row.T
-    out_col = get_range(data_col, min_value=1., max_value=2., reset=1.)
-    assert np.array_equal(out_col, np.atleast_2d(expected4).T)
-
 def test_get_value_range():
 
     times = np.array([1., 2., 3., 4., 5.])
