@@ -2,6 +2,7 @@
 
 import numpy as np
 
+from spiketools.utils.checks import check_axis
 from spiketools.utils.options import get_comp_func
 
 ###################################################################################################
@@ -206,7 +207,7 @@ def get_inds_by_times(timestamps, timepoints, threshold=None, drop_null=True):
     return inds
 
 
-def get_value_by_time(timestamps, values, timepoint, threshold=None):
+def get_value_by_time(timestamps, values, timepoint, threshold=None, axis=None):
     """Get the value from a data array at a specific time point.
 
     Parameters
@@ -220,6 +221,9 @@ def get_value_by_time(timestamps, values, timepoint, threshold=None):
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
+    axis : int, optional
+        The axis argument to index the `values` data: 0 for row, 1 for column.
+        If not provided, is inferred from the `values` array.
 
     Returns
     -------
@@ -237,12 +241,12 @@ def get_value_by_time(timestamps, values, timepoint, threshold=None):
     """
 
     idx = get_ind_by_time(timestamps, timepoint, threshold=threshold)
-    out = values.take(indices=idx, axis=-1) if idx >= 0 else np.nan
+    out = values.take(indices=idx, axis=check_axis(axis, values)) if idx >= 0 else np.nan
 
     return out
 
 
-def get_values_by_times(timestamps, values, timepoints, threshold=None, drop_null=True):
+def get_values_by_times(timestamps, values, timepoints, threshold=None, drop_null=True, axis=None):
     """Get values from a data array for a set of specified time points.
 
     Parameters
@@ -259,6 +263,9 @@ def get_values_by_times(timestamps, values, timepoints, threshold=None, drop_nul
     drop_null : bool, optional, default: True
         Whether to drop any null values from the outputs (outside threshold range).
         If False, outputs for any null values are NaN.
+    axis : int, optional
+        The axis argument to index the `values` data: 0 for row, 1 for column.
+        If not provided, is inferred from the `values` array.
 
     Returns
     -------
@@ -279,17 +286,18 @@ def get_values_by_times(timestamps, values, timepoints, threshold=None, drop_nul
     inds = get_inds_by_times(timestamps, timepoints, threshold, drop_null)
 
     if drop_null:
-        outputs = values.take(indices=inds, axis=-1)
+        outputs = values.take(indices=inds, axis=check_axis(axis, values))
     else:
         outputs = np.full([np.atleast_2d(values).shape[0], len(timepoints)], np.nan)
         mask = inds >= 0
-        outputs[:, np.where(mask)[0]] = values.take(indices=inds[mask], axis=-1)
+        outputs[:, np.where(mask)[0]] = values.take(indices=inds[mask],
+                                                    axis=check_axis(axis, values))
         outputs = np.squeeze(outputs)
 
     return outputs
 
 
-def get_values_by_time_range(timestamps, values, t_min, t_max):
+def get_values_by_time_range(timestamps, values, t_min, t_max, axis=None):
     """Extract data for a requested time range.
 
     Parameters
@@ -300,6 +308,9 @@ def get_values_by_time_range(timestamps, values, t_min, t_max):
         Data values, corresponding to the time values in `timestamps`.
     t_min, t_max : float
         Time range to extract.
+    axis : int, optional
+        The axis argument to index the `values` data: 0 for row, 1 for column.
+        If not provided, is inferred from the `values` array.
 
     Returns
     -------
@@ -319,7 +330,7 @@ def get_values_by_time_range(timestamps, values, t_min, t_max):
     """
 
     select = np.logical_and(timestamps >= t_min, timestamps <= t_max)
-    out = values.take(indices=np.where(select)[0], axis=-1)
+    out = values.take(indices=np.where(select)[0], axis=check_axis(axis, values))
 
     return timestamps[select], out
 
