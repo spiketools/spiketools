@@ -31,6 +31,7 @@ Measures for spike data.
    compute_isis
    compute_cv
    compute_fano_factor
+   compute_presence_ratio
 
 Conversions
 ~~~~~~~~~~~
@@ -44,6 +45,7 @@ Conversions between spike representations.
    convert_times_to_train
    convert_train_to_times
    convert_isis_to_times
+   convert_times_to_counts
    convert_times_to_rates
 
 Circular
@@ -485,6 +487,7 @@ Utilities for working with timestamps.
    convert_ms_to_min
    convert_nsamples_to_time
    convert_time_to_nsamples
+   create_bin_times
    split_time_value
    format_time_string
 
