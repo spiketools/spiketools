@@ -49,6 +49,17 @@ def test_compute_fano_factor():
     assert isinstance(fano2, float)
     assert fano2 < 1
 
+def test_compute_spike_presence(tspikes):
+
+    tspike_presence = compute_spike_presence(tspikes, 0.5, [0, 10])
+    assert isinstance(tspike_presence, np.ndarray)
+    assert tspike_presence.dtype == 'bool'
+
+    spikes = np.array([1.1, 1.75, 2.25, 2.9])
+    bins = np.array([0, 1, 2, 3, 4, 5])
+    spike_presence = compute_spike_presence(spikes, bins)
+    assert np.array_equal(spike_presence, np.array([False, True, True, False, False]))
+
 def test_compute_presence_ratio():
 
     spikes1 = np.array([0.1, 0.3, 0.4, 0.775, 0.825, 0.900])
