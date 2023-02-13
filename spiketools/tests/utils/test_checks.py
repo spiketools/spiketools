@@ -97,3 +97,7 @@ def test_check_time_bins(tspikes):
         out = check_time_bins(np.array([1, 2, 1]), tspikes, time_range=[0, 5])
     with warns(UserWarning):
         out = check_time_bins(0.5, tspikes, time_range=[0, 5])
+
+    # Test bin definition with no values provided
+    tbins = check_time_bins(0.5, None, [0, 5])
+    assert np.array_equal(tbins, np.arange(0, 5.5, 0.5))

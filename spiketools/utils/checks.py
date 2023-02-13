@@ -1,6 +1,7 @@
 """General purpose checker functions."""
 
 import warnings
+from copy import deepcopy
 
 import numpy as np
 
@@ -164,7 +165,7 @@ def check_bin_range(values, bin_area):
             warnings.warn(msg)
 
 
-def check_time_bins(bins, values, time_range=None, check_range=True):
+def check_time_bins(bins, values=None, time_range=None, check_range=True):
     """Check a given time bin definition, and define if only given a time resolution.
 
     Parameters
@@ -173,8 +174,9 @@ def check_time_bins(bins, values, time_range=None, check_range=True):
         The binning to apply to the spiking data.
         If float, the length of each bin.
         If array, precomputed bin definitions.
-    values : 1d array
+    values : 1d array, optional
         The time values that are to be binned.
+        Optional if time range is provided instead.
     time_range : list of [float, float], optional
         Time range, in seconds, to create the binned firing rate across.
         Only used if `bins` is a float. If given, the end value is inclusive.
@@ -203,13 +205,17 @@ def check_time_bins(bins, values, time_range=None, check_range=True):
     array([0. , 0.5, 1. , 1.5, 2. ])
     """
 
+    # Take a copy of `time_range` (otherwise, can get an aliasing problem)
+    time_range = deepcopy(time_range)
+
     if isinstance(bins, (int, float)):
-        # Define time range based on data, if not otherwise set
-        if not time_range:
-            time_range = [0, np.max(values) + bins]
         # If time range is given, update to include end value
-        else:
+        if time_range:
             time_range[1] = time_range[1] + bins
+        # Otherwise, define time range based on data
+        else:
+            assert values is not None, "check_time_bins: either `values` or `time_range` required"
+            time_range = [0, np.max(values) + bins]
         bins = np.arange(*time_range, bins)
 
     elif isinstance(bins, np.ndarray):
