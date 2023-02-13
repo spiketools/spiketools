@@ -78,6 +78,12 @@ def test_check_array_lst_orientation():
     out2 = check_array_lst_orientation(arr_lst2)
     assert out2 == 'column'
 
+    # Check special cases - empty list and no array with enough elements to infer from
+    sc_1 = check_array_lst_orientation([])
+    assert sc_1 == None
+    sc_2 = check_array_lst_orientation([np.array([[1, 2], [3, 4]])])
+    assert sc_2 == 'row'
+
 def test_check_axis():
 
     arr1d = np.array([1, 2, 3])

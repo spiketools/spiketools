@@ -167,14 +167,21 @@ def check_array_lst_orientation(arr_lst):
         For 2d or 3d arrays, 'row' or 'column' is returned based on the shape of the array.
     """
 
-    # Loop over arrays, skipping any with too few elements to infer orientation
-    array = arr_lst[0]
-    for cur_arr in arr_lst:
-        if cur_arr.size > 4:
-            array = cur_arr
-            break
+    # Special case - empty list: return default option
+    if len(arr_lst) == 0:
+        orientation = None
 
-    return check_array_orientation(array)
+    else:
+        # Find an array with enough elements to infer orientation
+        array = arr_lst[0]
+        for cur_arr in arr_lst:
+            if cur_arr.size > 4:
+                array = cur_arr
+                break
+
+        orientation = check_array_orientation(array)
+
+    return orientation
 
 
 def check_axis(axis, arr):
