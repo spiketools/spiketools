@@ -127,10 +127,10 @@ def convert_times_to_counts(spikes, bins, time_range=None):
         Spike times, in seconds.
     bins : float or 1d array
         The binning to apply to the spiking data.
-        If float, the length of each bin.
+        If float, the time length of each bin.
         If array, precomputed bin definitions.
     time_range : list of [float, float], optional
-        Time range, in seconds, to create the binned firing rate across.
+        Time range, in seconds, to calculate the spike counts across.
         Only used if `bins` is a float.
 
     Returns
@@ -162,10 +162,10 @@ def convert_times_to_rates(spikes, bins, time_range=None, smooth=None):
         Spike times, in seconds.
     bins : float or 1d array
         The binning to apply to the spiking data.
-        If float, the length of each bin.
+        If float, the time length of each bin.
         If array, precomputed bin definitions.
     time_range : list of [float, float], optional
-        Time range, in seconds, to create the binned firing rate across.
+        Time range, in seconds, to calculate the binned firing rate across.
         Only used if `bins` is a float.
     smooth : float, optional
         If provided, the kernel to use to smooth the continuous firing rate.

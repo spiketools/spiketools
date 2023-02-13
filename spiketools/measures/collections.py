@@ -20,7 +20,7 @@ def detect_empty_time_ranges(all_spikes, bins, time_range=None):
         If float, the time length of each bin.
         If array, precomputed bin definitions.
     time_range : list of [float, float], optional
-        Time range, in seconds, to compute the spike presence across.
+        Time range, in seconds, to use to check for empty time ranges.
         Only used if `bins` is a float.
 
     Returns
@@ -34,6 +34,7 @@ def detect_empty_time_ranges(all_spikes, bins, time_range=None):
 
     return empty_ranges
 
+
 def find_empty_bins(all_spikes, bins, time_range=None):
     """Find empty time bins across a collection of recorded neurons.
 
@@ -46,7 +47,7 @@ def find_empty_bins(all_spikes, bins, time_range=None):
         If float, the time length of each bin.
         If array, precomputed bin definitions.
     time_range : list of [float, float], optional
-        Time range, in seconds, to compute the spike presence across.
+        Time range, in seconds, to use to check for empty time bins.
         Only used if `bins` is a float.
 
     Returns
@@ -58,8 +59,8 @@ def find_empty_bins(all_spikes, bins, time_range=None):
     bins = check_time_bins(bins, time_range)
 
     all_presences = np.full([len(all_spikes), len(bins)-1], False)
-    for ind in range(len(all_spikes)):
-        all_presences[ind, :] = compute_spike_presence(all_spikes[ind], bins)
+    for ind, cur_spikes in enumerate(all_spikes):
+        all_presences[ind, :] = compute_spike_presence(cur_spikes, bins)
 
     bin_emptiness = np.all(~all_presences, 0)
 
@@ -78,7 +79,7 @@ def find_empty_ranges(bin_emptiness, bins, time_range=None):
         If float, the time length of each bin.
         If array, precomputed bin definitions.
     time_range : list of [float, float], optional
-        Time range, in seconds, to compute the empty time ranges across.
+        Time range, in seconds, to use to check for empty time ranges.
         Only used if `bins` is a float.
 
     Returns

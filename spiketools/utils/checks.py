@@ -130,7 +130,7 @@ def check_array_orientation(arr):
     orientation : {'vector', 'row', 'column'}
         The inferred orientation of the data array.
         For 1d cases, 'vector' indicates data is vector with no directional orientation.
-        For 2d or 3d cases, 'row' or 'column' indicates data is organized row-wise or column-wise respectively.
+        For 2d or 3d cases, 'row' or 'column' indicates it's a row-wise / column-wise data array.
     """
 
     assert arr.ndim < 4, "The check_array_orientation function only works up to 3d."
