@@ -168,6 +168,7 @@ def check_array_lst_orientation(arr_lst):
     """
 
     # Loop over arrays, skipping any with too few elements to infer orientation
+    array = arr_lst[0]
     for cur_arr in arr_lst:
         if cur_arr.size > 4:
             array = cur_arr
