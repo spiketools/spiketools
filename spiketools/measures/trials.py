@@ -52,7 +52,7 @@ def compute_trial_frs(trial_spikes, bins, time_range=None, smooth=None):
            [4., 4.]])
     """
 
-    bins = check_time_bins(bins, trial_spikes[0], time_range=time_range)
+    bins = check_time_bins(bins, time_range)
     bin_times = create_bin_times(bins)
 
     trial_cfrs = np.zeros([len(trial_spikes), len(bin_times)])

@@ -147,7 +147,7 @@ def convert_times_to_counts(spikes, bins, time_range=None):
     array([1, 2, 0, 2])
     """
 
-    bins = check_time_bins(bins, spikes, time_range)
+    bins = check_time_bins(bins, time_range, spikes)
     spike_bin_counts, _ = np.histogram(spikes, bins)
 
     return spike_bin_counts
@@ -184,7 +184,7 @@ def convert_times_to_rates(spikes, bins, time_range=None, smooth=None):
     array([ 5.,  5., 10.,  5.,  0.,  5., 15.,  5.])
     """
 
-    bins = check_time_bins(bins, spikes, time_range)
+    bins = check_time_bins(bins, time_range, spikes)
     bin_counts = convert_times_to_counts(spikes, bins, time_range)
 
     cfr = bin_counts / np.diff(bins)
