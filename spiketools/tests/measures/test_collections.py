@@ -7,11 +7,11 @@ from spiketools.measures.collections import *
 ###################################################################################################
 ###################################################################################################
 
-def test_compute_empty_time_ranges():
+def test_detect_empty_time_ranges():
 
     all_spikes = [np.array([0.5, 1.1, 1.9, 4.1]),
                   np.array([1.5, 2.5, 4.25])]
-    empty_ranges = compute_empty_time_ranges(all_spikes, 1, [0, 5])
+    empty_ranges = detect_empty_time_ranges(all_spikes, 1, [0, 5])
     assert empty_ranges == [[3, 4]]
 
 

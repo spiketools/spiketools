@@ -74,6 +74,17 @@ Measures related to trial-epoched data.
    compute_pre_post_averages
    compute_pre_post_diffs
 
+Collections
+~~~~~~~~~~~
+
+Measures that can be applied to collections (groups) of neurons.
+
+.. currentmodule:: spiketools.measures.collections
+.. autosummary::
+   :toctree: generated/
+
+   detect_empty_time_ranges
+
 Objects
 -------
 

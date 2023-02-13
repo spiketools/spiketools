@@ -8,7 +8,7 @@ from spiketools.measures.spikes import compute_spike_presence
 ###################################################################################################
 ###################################################################################################
 
-def compute_empty_time_ranges(all_spikes, bins, time_range=None):
+def detect_empty_time_ranges(all_spikes, bins, time_range=None):
     """Compute the empty time ranges that are common across a collection of recorded neurons.
 
     Parameters
