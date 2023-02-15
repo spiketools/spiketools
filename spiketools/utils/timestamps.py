@@ -214,13 +214,13 @@ def sum_time_ranges(ranges):
     Sum the amount of time in a single time range:
 
     >>> time_range = [2.5, 10]
-    >>> sum_total_range(time_range)
+    >>> sum_time_ranges(time_range)
     7.5
 
     Sum the amount of time across a collection of time ranges:
 
     >>> time_ranges = [[2.5, 10], [14, 15], [18.5, 20]]
-    >>> sum_total_range(time_ranges)
+    >>> sum_time_ranges(time_ranges)
     10.0
     """
 
