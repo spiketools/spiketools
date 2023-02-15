@@ -75,6 +75,16 @@ def test_convert_time_to_nsamples():
     assert isinstance(out, int)
     assert out == 12
 
+def test_sum_time_ranges():
+
+    range1 = [0, 15.5]
+    out1 = sum_time_ranges(range1)
+    assert out1 == 15.5
+
+    ranges = [[0, 5.5], [10, 14.5]]
+    out2 = sum_time_ranges(ranges)
+    assert out2 == 10.0
+
 def test_split_time_value():
 
     value = 3600 + 1800 + 30
