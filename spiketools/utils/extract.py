@@ -221,8 +221,8 @@ def get_value_by_time(timestamps, values, timepoint, threshold=None, axis=None):
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
-    axis : int, optional
-        The axis argument to index the `values` data: 0 for row, 1 for column.
+    axis : {0, 1}, optional
+        The axis argument for the `values` data, if it's a 2d array, as {0: column, 1: row}.
         If not provided, is inferred from the `values` array.
 
     Returns
@@ -263,8 +263,8 @@ def get_values_by_times(timestamps, values, timepoints, threshold=None, drop_nul
     drop_null : bool, optional, default: True
         Whether to drop any null values from the outputs (outside threshold range).
         If False, outputs for any null values are NaN.
-    axis : int, optional
-        The axis argument to index the `values` data: 0 for row, 1 for column.
+    axis : {0, 1}, optional
+        The axis argument for the `values` data, if it's a 2d array, as {0: column, 1: row}.
         If not provided, is inferred from the `values` array.
 
     Returns
@@ -308,8 +308,8 @@ def get_values_by_time_range(timestamps, values, t_min, t_max, axis=None):
         Data values, corresponding to the time values in `timestamps`.
     t_min, t_max : float
         Time range to extract.
-    axis : int, optional
-        The axis argument to index the `values` data: 0 for row, 1 for column.
+    axis : {0, 1}, optional
+        The axis argument for the `values` data, if it's a 2d array, as {0: column, 1: row}.
         If not provided, is inferred from the `values` array.
 
     Returns

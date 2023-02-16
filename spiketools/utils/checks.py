@@ -198,22 +198,27 @@ def check_array_lst_orientation(arr_lst):
 
 
 def check_axis(axis, arr):
-    """Check axis argument, and infer from array if not defined.
+    """Check axis argument, and infer from array orientation if not defined.
 
     Parameters
     ----------
-    axis : {None, -1, 0, 1}
+    axis : {None, 0, 1, -1}
         Axis argument.
         If not None, this value is returned.
-        If  None, the given array is checked to infer axis.
+        If None, the given array is checked to infer axis.
     arr : ndarray or list of ndarray
         Array to check the axis argument for.
 
     Returns
     -------
-    axis : {-1, 0, 1}
+    axis : {0, 1, -1}
         Axis argument.
+        For 1d array, 0 is returned, reflecting a vector.
+        For 2d array, 0 is for column, and 1 is for row.
+        If the axis could not be inferred, -1 is returned.
     """
+
+    AXISARG = defaultdict(lambda : -1, {'vector' : 0, 'row' : 1, 'column' : 0})
 
     if not axis:
 

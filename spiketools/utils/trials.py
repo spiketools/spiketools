@@ -96,9 +96,9 @@ def recombine_trial_data(times_trials, values_trials, axis=None):
         Epoched timestamps.
     values_trials : list of 1d or 2d array
         Epoched trial data.
-    axis : {-1, 0, 1}, optional
-        The axis argument to index the `values` data: 0 for row, 1 for column.
-        If not provided, is inferred from the `values_trials` data.
+    axis : {0, 1}, optional
+        The axis argument for the `values` data, if it's a 2d array, as {0: column, 1: row}.
+        If not provided, is inferred from the `values` array.
 
     Returns
     -------
