@@ -99,6 +99,7 @@ def test_check_array_lst_orientation():
 
 def test_check_axis():
 
+    # Test array inputs
     arr1d = np.array([1, 2, 3])
     arr2dr = np.array([[1, 2, 3], [1, 2, 3]])
     arr2dc = np.array([[1, 2], [1, 2], [1, 2]])
@@ -109,6 +110,16 @@ def test_check_axis():
     assert check_axis(None, arr2dr) == 1
     assert check_axis(None, arr2dc) == 0
     assert check_axis(None, arr2dr) == 1
+
+    # Test array list inputs
+    arr_lst_1d = [arr1d, arr1d]
+    arr_lst_2dr = [arr2dr, arr2dr]
+    arr_lst_2dc = [arr2dc, arr2dc]
+    arr_lst_emp = []
+    assert check_axis(None, arr_lst_1d) == 0
+    assert check_axis(None, arr_lst_2dr) == 1
+    assert check_axis(None, arr_lst_2dc) == 0
+    assert check_axis(None, arr_lst_emp) == -1
 
 def test_check_bin_range():
 
