@@ -94,9 +94,9 @@ def test_check_time_bins(tspikes):
 
     # Check error & warning
     with raises(AssertionError):
-        out = check_time_bins(np.array([1, 2, 1]), [0, 5], tspikes)
+        out = check_time_bins(np.array([1, 2, 1]), [0, 5], tspikes, True)
     with warns(UserWarning):
-        out = check_time_bins(0.5, [0, 5], tspikes)
+        out = check_time_bins(0.5, [0, 5], tspikes, True)
 
     # Test bin definition with no values provided
     tbins = check_time_bins(0.5, [0, 5])
