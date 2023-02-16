@@ -63,10 +63,23 @@ def test_check_array_orientation():
     arr2c = np.array([[1, 2], [3, 4], [5, 6]])
     assert check_array_orientation(arr2c) == 'column'
 
+    # Check empty 2d arrays arrays
+    arr2re = arr2re = np.ones((2, 0))
+    assert check_array_orientation(arr2re) == 'row'
+    arr2ce = arr2ce = np.ones((0, 2))
+    assert check_array_orientation(arr2ce) == 'column'
+
+    # Check 3d arrays
     arr3r = np.array([[[1, 2, 3], [4, 5, 6]], [[1, 2, 3], [4, 5, 6]]])
     assert check_array_orientation(arr3r) == 'row'
     arr3c = np.array([[[1, 2], [3, 4], [5, 6]], [[1, 2], [3, 4], [5, 6]]])
     assert check_array_orientation(arr3c) == 'column'
+
+    # Check empty 2d arrays arrays
+    arr3re = np.ones((1, 2, 0))
+    assert check_array_orientation(arr3re) == 'row'
+    arr3ce = np.ones((1, 0, 2))
+    assert check_array_orientation(arr3ce) == 'column'
 
 def test_check_array_lst_orientation():
 
