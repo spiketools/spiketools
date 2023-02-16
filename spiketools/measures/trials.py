@@ -38,7 +38,7 @@ def compute_trial_frs(trial_spikes, bins, time_range=None, smooth=None):
     Compute the continuous firing rates across time bins for 3 trials:
 
     >>> trial_spikes = [np.array([0.005, 0.150, 0.250]), \
-                        np.array([0.126, 0.275, 0.300, 0.350, 0.500]), \
+                        np.array([0.126, 0.275, 0.300, 0.350, 0.600]), \
                         np.array([0.250, 0.350, 0.700, 0.900])]
     >>> bins = 0.5
     >>> time_range = [0.0, 1.0]
@@ -76,7 +76,7 @@ def compute_pre_post_rates(trial_spikes, pre_window, post_window):
     Compute the pre & post firing rates for specified time windows across 3 trials:
 
     >>> trial_spikes = [np.array([-0.150, -0.005, -0.002, 0.250, 0.450, 0.625]), \
-                        np.array([-0.250, 0.275, 0.290, 0.3, 0.350, 0.5]), \
+                        np.array([-0.250, 0.275, 0.290, 0.3, 0.350, 0.6]), \
                         np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
     >>> pre_window, post_window = [-0.5, 0.0], [0.5, 0.9]
     >>> compute_pre_post_rates(trial_spikes, pre_window, post_window)

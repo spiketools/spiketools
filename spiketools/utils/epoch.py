@@ -33,11 +33,11 @@ def epoch_spikes_by_event(spikes, events, window):
     --------
     Epoch spike times based on an event window:
 
-    >>> spikes = np.array([0.3, 0.4, 0.5, 0.6, 0.7, 1, 1.3])
+    >>> spikes = np.array([0.3, 0.4, 0.5, 0.6, 0.7, 0.9, 1.3])
     >>> events = np.array([0.2, 0.8, 1.2])
-    >>> window = [0.0, 0.2]
+    >>> window = [0.0, 0.25]
     >>> epoch_spikes_by_event(spikes, events, window)
-    [array([0.1, 0.2]), array([0.2]), array([0.1])]
+    [array([0.1, 0.2]), array([0.1]), array([0.1])]
     """
 
     trials = [None] * len(events)
@@ -70,11 +70,11 @@ def epoch_spikes_by_range(spikes, start_times, stop_times, reset=False):
     --------
     Epoch an array of spiking data into trials, resetting each trial to start at time 0:
 
-    >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 0.6, 0.7, 1, 1.4])
+    >>> spikes = np.array([0.1, 0.2, 0.3, 0.5, 0.6, 0.7, 1, 1.4])
     >>> start_times = [0.0, 0.45, 0.9]
     >>> stop_times = [0.4, 0.85, 1.35]
     >>> epoch_spikes_by_range(spikes, start_times, stop_times, reset=True)
-    [array([0.1, 0.3, 0.4]), array([0.05, 0.15, 0.25]), array([0.1])]
+    [array([0.1, 0.2, 0.3]), array([0.05, 0.15, 0.25]), array([0.1])]
     """
 
     check_param_lengths([start_times, stop_times], ['start_times', 'stop_times'])
@@ -186,9 +186,9 @@ def epoch_data_by_event(timestamps, values, events, window):
     Epoch data into trials based on event windows:
 
     >>> timestamps = np.array([0.1, 0.3, 0.5, 0.7, 0.9])
-    >>> values = np.array([1, 1.5, 2, 2.5, 3])
+    >>> values = np.array([1.0, 1.5, 2.0, 2.5, 3.0])
     >>> events = np.array([0.3, 0.6])
-    >>> window = [0.0, 0.2]
+    >>> window = [0.0, 0.25]
     >>> epoch_data_by_event(timestamps, values, events, window)
     ([array([0. , 0.2]), array([0.1])], [array([1.5, 2. ]), array([2.5])])
     """
@@ -234,7 +234,7 @@ def epoch_data_by_range(timestamps, values, start_times, stop_times, reset=False
     >>> timestamps = np.array([0.1, 0.3, 0.4, 0.5])
     >>> values = np.array([1, 2, 3, 4])
     >>> start_times = [0.2, 0.5]
-    >>> stop_times = [0.4, 0.7]
+    >>> stop_times = [0.45, 0.75]
     >>> epoch_data_by_range(timestamps, values, start_times, stop_times, reset=True)
     ([array([0.1, 0.2]), array([0.])], [array([2, 3]), array([4])])
     """
