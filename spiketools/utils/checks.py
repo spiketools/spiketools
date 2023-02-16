@@ -124,7 +124,7 @@ def check_array_orientation(arr):
 
     Parameters
     ----------
-    arr : 1d or 2d array
+    arr : ndarray
         Data array to check the orientation of.
 
     Returns
@@ -132,33 +132,31 @@ def check_array_orientation(arr):
     orientation : {'vector', 'row', 'column'}
         The inferred orientation of the data array.
         For 1d arrays, 'vector' is returned.
-        For 2d arrays, 'row' or 'column' is returned based on the shape of the array.
+        For 2d or 3rd arrays, 'row' or 'column' is returned based on the shape of the array.
 
     Notes
     -----
-    In arrays with number of elements <= number of dimensions, the orientation can be ambiguous.
+    In cases where # elements > 0 <= # dimensions, orientation can be ambiguous.
     In such cases, 'row' is returned by default.
     """
 
-    assert arr.ndim < 4, "The check_array_orientation function only works up to 2d."
+    assert arr.ndim < 4, "The check_array_orientation function only works up to 3d."
 
     if arr.ndim == 1:
         orientation = 'vector'
 
     else:
 
-        shape = arr.shape
-
         # Special case - empty array, infer based on where zero dimension is
-        if 0 in shape:
-            if shape[-1] == 0:
+        if 0 in arr.shape:
+            if arr.shape[-1] == 0:
                 orientation = 'row'
-            elif shape[-2] == 0:
+            elif arr.shape[-2] == 0:
                 orientation = 'column'
 
         # Otherwise, infer shape based on the relative size of each dimension
         else:
-            if shape[-1] >= shape[-2]:
+            if arr.shape[-1] >= arr.shape[-2]:
                 orientation = 'row'
             else:
                 orientation = 'column'
