@@ -7,15 +7,15 @@ from spiketools.utils.extract import get_range
 ###################################################################################################
 ###################################################################################################
 
-def compute_firing_rate(spikes, start_time=None, stop_time=None):
+def compute_firing_rate(spikes, time_range=None):
     """Estimate firing rate from a vector of spike times, in seconds.
 
     Parameters
     ----------
     spikes : 1d array
         Spike times, in seconds.
-    start_time, stop_time : float, optional
-        Start and stop time of the range to compute the firing rate over.
+    time_range : list of [float, float], optional
+        Time range, in seconds, to calculate the firing rate across.
 
     Returns
     -------
@@ -31,11 +31,11 @@ def compute_firing_rate(spikes, start_time=None, stop_time=None):
     2.4
     """
 
-    if start_time or stop_time:
-        spikes = get_range(spikes, start_time, stop_time)
+    if time_range:
+        spikes = get_range(spikes, time_range[0], time_range[1])
 
-    start_time = spikes[0] if start_time is None else start_time
-    stop_time = spikes[-1] if stop_time is None else stop_time
+    start_time = spikes[0] if time_range is None else time_range[0]
+    stop_time = spikes[-1] if time_range is None else time_range[1]
 
     fr = len(spikes) / (stop_time - start_time)
 

@@ -83,8 +83,8 @@ def compute_pre_post_rates(trial_spikes, pre_window, post_window):
     (array([6., 2., 0.]), array([ 2.5,  2.5, 10. ]))
     """
 
-    frs_pre = np.array([compute_firing_rate(trial, *pre_window) for trial in trial_spikes])
-    frs_post = np.array([compute_firing_rate(trial, *post_window) for trial in trial_spikes])
+    frs_pre = np.array([compute_firing_rate(trial, pre_window) for trial in trial_spikes])
+    frs_post = np.array([compute_firing_rate(trial, post_window) for trial in trial_spikes])
 
     return frs_pre, frs_post
 
