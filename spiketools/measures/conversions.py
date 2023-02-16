@@ -119,7 +119,7 @@ def convert_isis_to_times(isis, offset=0, add_offset=True):
 
 
 def convert_times_to_counts(spikes, bins, time_range=None):
-    """Compute spikes times to counts of spikes per time bin.
+    """Convert spikes times to counts of spikes per time bin.
 
     Parameters
     ----------

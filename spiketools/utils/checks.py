@@ -165,7 +165,7 @@ def check_bin_range(values, bin_area):
             warnings.warn(msg)
 
 
-def check_time_bins(bins, time_range=None, values=None, check_range=True):
+def check_time_bins(bins, time_range=None, values=None, check_range=False):
     """Check a given time bin definition, and define if only given a time resolution.
 
     Parameters
@@ -180,7 +180,7 @@ def check_time_bins(bins, time_range=None, values=None, check_range=True):
     values : 1d array, optional
         The time values that are to be binned.
         Optional if time range is provided instead.
-    check_range : bool, optional, default: True
+    check_range : bool, optional, default: False
         Whether to check the range of the data values against the time bins.
 
     Returns
