@@ -12,18 +12,18 @@ def test_get_position_xy():
     position_2dr = np.array([[1, 2, 3, 4, 5], [5, 6, 7, 8, 9]])
     position_2dc = position_2dr.T
 
-    exp_x = np.array([1, 2, 3, 4, 5])
-    exp_y = np.array([5, 6, 7, 8, 9])
+    expected_x = np.array([1, 2, 3, 4, 5])
+    expected_y = np.array([5, 6, 7, 8, 9])
 
     # Test 2d position data (rows)
     x_data, y_data = get_position_xy(position_2dr)
-    assert np.array_equal(x_data, exp_x)
-    assert np.array_equal(y_data, exp_y)
+    assert np.array_equal(x_data, expected_x)
+    assert np.array_equal(y_data, expected_y)
 
     # Test 2d position data (columns)
     x_data, y_data = get_position_xy(position_2dc)
-    assert np.array_equal(x_data, exp_x)
-    assert np.array_equal(y_data, exp_y)
+    assert np.array_equal(x_data, expected_x)
+    assert np.array_equal(y_data, expected_y)
 
 def test_compute_nbins():
 
@@ -45,18 +45,18 @@ def test_compute_pos_ranges():
 
     # 2d tests
     positions = np.array([[1, 2, 3, 4, 5], [5, 6, 7, 8, 9]])
-    exp1 = np.array([1, 5])
-    exp2 = np.array([5, 9])
+    expected_x = np.array([1, 5])
+    expected_y = np.array([5, 9])
 
     # Test 2d position data (row data)
     ranges_2d = compute_pos_ranges(positions)
-    assert np.array_equal(ranges_2d[0], exp1)
-    assert np.array_equal(ranges_2d[1], exp2)
+    assert np.array_equal(ranges_2d[0], expected_x)
+    assert np.array_equal(ranges_2d[1], expected_y)
 
     # Test 2d position data (column data)
     ranges_2dc = compute_pos_ranges(positions.T)
-    assert np.array_equal(ranges_2dc[0], exp1)
-    assert np.array_equal(ranges_2dc[1], exp2)
+    assert np.array_equal(ranges_2dc[0], expected_x)
+    assert np.array_equal(ranges_2dc[1], expected_y)
 
 def test_compute_sample_durations():
 

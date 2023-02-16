@@ -33,8 +33,8 @@ def test_compute_bin_edges():
     position = np.array([[1., 2., 3., 4., 5.], [0., 1., 2., 3., 4.]])
     area_range = [[1, 4], [1, 4]]
 
-    exp_x = np.array([1.0, 2.5, 4.0])
-    exp_y = np.array([1.0, 1.75, 2.5, 3.25, 4.0])
+    expected_x = np.array([1.0, 2.5, 4.0])
+    expected_y = np.array([1.0, 1.75, 2.5, 3.25, 4.0])
 
     # 2d case with position data
     x_edges, y_edges = compute_bin_edges(position, bins)
@@ -44,18 +44,18 @@ def test_compute_bin_edges():
 
     # 2d case with area range
     x_edges, y_edges = compute_bin_edges(position, bins, area_range)
-    assert np.array_equal(x_edges, exp_x)
-    assert np.array_equal(y_edges, exp_y)
+    assert np.array_equal(x_edges, expected_x)
+    assert np.array_equal(y_edges, expected_y)
 
     # 2d case with no position data (uses area range)
     x_edges, y_edges = compute_bin_edges(None, bins, area_range)
-    assert np.array_equal(x_edges, exp_x)
-    assert np.array_equal(y_edges, exp_y)
+    assert np.array_equal(x_edges, expected_x)
+    assert np.array_equal(y_edges, expected_y)
 
     # Test 2d column data
     x_edges_c, y_edges_c = compute_bin_edges(position.T, bins, area_range)
-    assert np.array_equal(x_edges_c, exp_x)
-    assert np.array_equal(y_edges_c, exp_y)
+    assert np.array_equal(x_edges_c, expected_x)
+    assert np.array_equal(y_edges_c, expected_y)
 
 def test_compute_bin_assignment():
 

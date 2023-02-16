@@ -42,29 +42,29 @@ def test_split_trials_by_condition_array():
 def test_recombine_trial_data():
 
     trial_times = [np.array([1, 2, 3]), np.array([6, 7])]
-    exp_times = np.array([1, 2, 3, 6, 7])
+    expected_times = np.array([1, 2, 3, 6, 7])
 
     # 1d test
     trial_values = [np.array([10, 11, 12]), np.array([1, 2])]
     times_1d, values_1d = recombine_trial_data(trial_times, trial_values)
-    assert np.array_equal(times_1d, exp_times)
+    assert np.array_equal(times_1d, expected_times)
     assert np.array_equal(values_1d, np.array([10, 11, 12, 1, 2]))
 
     # 2d test (row data)
     trial_values_2dr = [np.array([[10, 11, 12], [20, 21, 22]]), np.array([[1, 2], [1, 2]])]
     times_2dr, values_2dr = recombine_trial_data(trial_times, trial_values_2dr)
-    assert np.array_equal(times_2dr, exp_times)
+    assert np.array_equal(times_2dr, expected_times)
     assert np.array_equal(values_2dr, np.array([[10, 11, 12, 1, 2], [20, 21, 22, 1, 2]]))
 
     # 2d test (column data)
     trial_values_2dc = [el.T for el in trial_values_2dr]
     times_2dc, values_2dc = recombine_trial_data(trial_times, trial_values_2dc)
-    assert np.array_equal(times_2dc, exp_times)
+    assert np.array_equal(times_2dc, expected_times)
     assert np.array_equal(values_2dc, np.array([[10, 11, 12, 1, 2], [20, 21, 22, 1, 2]]).T)
 
     # test with empty trials
     trial_times_missing = [np.array([]), np.array([1, 2, 3]), np.array([]), np.array([6, 7])]
     trial_values_missing = [np.array([]), np.array([10, 11, 12]), np.array([]), np.array([1, 2])]
     times_missing, values_missing = recombine_trial_data(trial_times_missing, trial_values_missing)
-    assert np.array_equal(times_missing, exp_times)
+    assert np.array_equal(times_missing, expected_times)
     assert np.array_equal(values_missing, np.array([10, 11, 12, 1, 2]))
