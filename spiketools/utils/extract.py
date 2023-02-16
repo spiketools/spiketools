@@ -434,24 +434,27 @@ def drop_range(spikes, time_range, check_empty=True):
     array([0.24, 0.73, 1.22, 1.65, 2.15, 2.95, 3.52, 3.84])
     """
 
-    # Operate on a copy of the input, to not overwrite original array
-    spikes = spikes.copy()
+    # Check for time range is not empty (if is empty list, do nothing)
+    if time_range:
 
-    total_len = 0
-    for trange in np.array(time_range, ndmin=2):
+        # Operate on a copy of the input, to not overwrite original array
+        spikes = spikes.copy()
 
-        if total_len > 0:
-            trange = [trange[0] - total_len, trange[1] - total_len]
+        total_len = 0
+        for trange in np.array(time_range, ndmin=2):
 
-        if check_empty:
-            assert get_range(spikes, *trange).size == 0, \
-                "Extracted range {} is not empty.".format(trange)
+            if total_len > 0:
+                trange = [trange[0] - total_len, trange[1] - total_len]
 
-        tlen = trange[1] - trange[0]
-        spikes = np.hstack([get_range(spikes, max_value=trange[0]),
-                            get_range(spikes, min_value=trange[1], reset=tlen)])
+            if check_empty:
+                assert get_range(spikes, *trange).size == 0, \
+                    "Extracted range {} is not empty.".format(trange)
 
-        total_len += trange[1] - trange[0]
+            tlen = trange[1] - trange[0]
+            spikes = np.hstack([get_range(spikes, max_value=trange[0]),
+                                get_range(spikes, min_value=trange[1], reset=tlen)])
+
+            total_len += trange[1] - trange[0]
 
     return spikes
 

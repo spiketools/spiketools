@@ -142,15 +142,15 @@ def test_threshold_spikes_by_values():
 
 def test_drop_range():
 
+    # test a single drop range
     spikes = np.array([0.5, 1.5, 1.9, 4.1, 5.4, 5.9])
     time_range = [2, 4]
-
     out = drop_range(spikes, time_range)
     assert isinstance(out, np.ndarray)
     assert spikes.shape == out.shape
     assert np.allclose(out, np.array([0.5, 1.5, 1.9, 2.1, 3.4, 3.9]))
 
-    # check that error is raised with no empty range
+    # check that error is raised with a range that is not empty
     with raises(AssertionError):
         out = drop_range(spikes, [1.5, 4])
 
@@ -161,6 +161,11 @@ def test_drop_range():
     assert isinstance(out, np.ndarray)
     assert spikes.shape == out.shape
     assert np.allclose(out, np.array([0.5, 1.5, 1.9, 2.1, 3.4, 3.9, 4.2, 5.7]))
+
+    # check that it works if passed an empty time range
+    time_range = []
+    out = drop_range(spikes, time_range)
+    assert np.array_equal(out, spikes)
 
 def test_reinstate_range_1d():
 
