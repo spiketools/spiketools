@@ -13,11 +13,17 @@ from spiketools.utils.extract import _reinstate_range_1d
 def test_create_mask():
 
     data = np.array([0.5, 1., 1.5, 2., 2.5])
-    min_value = 1
-    max_value = 2
+    min_value = 0.75
+    max_value = 2.25
     mask = create_mask(data, min_value, max_value)
     assert isinstance(mask, np.ndarray)
     assert np.array_equal(mask, np.array([False, True, True, True, False]))
+
+    # Test case on boundary
+    min_value2 = 1.
+    max_value2 = 2.
+    mask2 = create_mask(data, min_value2, max_value2)
+    assert np.array_equal(mask2, np.array([False, True, True, False, False]))
 
 def test_get_range():
 
@@ -26,21 +32,25 @@ def test_get_range():
     out1 = get_range(data, min_value=1.)
     assert np.array_equal(out1, np.array([1., 1.5, 2., 2.5]))
 
-    out2 = get_range(data, max_value=2.)
+    out2 = get_range(data, max_value=2.25)
     assert np.array_equal(out2, np.array([0.5, 1., 1.5, 2.]))
 
-    out3 = get_range(data, min_value=1., max_value=2.)
+    out3 = get_range(data, min_value=1., max_value=2.25)
     assert np.array_equal(out3, np.array([1., 1.5, 2.]))
 
-    out4 = get_range(data, min_value=1., max_value=2., reset=1.)
+    out4 = get_range(data, min_value=1., max_value=2.25, reset=1.)
     assert np.array_equal(out4, np.array([0., 0.5, 1.0]))
+
+    # Check range on boundary
+    out5 = get_range(data, min_value=1., max_value=2.)
+    assert np.array_equal(out5, np.array([1., 1.5]))
 
 def test_get_value_range():
 
     times = np.array([1., 2., 3., 4., 5.])
     data = np.array([0.5, 1., 1.5, 2., 2.5])
 
-    out_times, out_data = get_value_range(times, data, min_value=1., max_value=2.)
+    out_times, out_data = get_value_range(times, data, min_value=1., max_value=2.25)
     assert np.array_equal(out_times, np.array([2., 3., 4.]))
     assert np.array_equal(out_data, np.array([1., 1.5, 2.]))
 
@@ -177,6 +187,11 @@ def test_reinstate_range_1d():
     assert spikes.shape == out.shape
     assert get_range(out, *time_range).size == 0
     assert np.allclose(out, np.array([0.5, 1.5, 1.9, 4.1, 5.4, 5.9]))
+
+    # Test special case where a spike is the same value as time range start
+    time_range2 = [2.1, 3.4]
+    out2 = _reinstate_range_1d(spikes, time_range2)
+    assert spikes.shape == out2.shape
 
 def test_reinstate_range():
 
