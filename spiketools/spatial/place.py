@@ -121,14 +121,14 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
     --------
     Compute spike activity in 1d spatial bins across 2 trials:
 
-    >>> spikes = np.array([0.15, 0.22, 0.28, 0.38, 0.41, 0.50, 0.59, 0.77, 0.95])
-    >>> position = np.array([0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0])
-    >>> timestamps = np.array([0.10, 0.20, 0.25, 0.35, 0.45, 0.46, 0.6, 0.65, 0.7, 0.95])
+    >>> spikes = np.array([0.15, 0.22, 0.28, 0.41, 0.50, 0.65, 0.77, 0.81, 0.95])
+    >>> position = np.array([1.0, 3.5, 2.0, 1.5, 3.0, 3.5, 4.0, 5.0, 3.5, 2.5])
+    >>> timestamps = np.array([0.10, 0.20, 0.25, 0.35, 0.45, 0.55, 0.6, 0.7, 0.80, 0.95])
     >>> bins = 2
-    >>> start_times, stop_times = np.array([0, 0.6]), np.array([0.4, 1])
+    >>> start_times, stop_times = np.array([0, 0.6]), np.array([0.4, 1.0])
     >>> compute_trial_place_bins(spikes, position, timestamps, bins, start_times, stop_times)
-    array([[10. , 40. ],
-           [10. ,  7.5]])
+    array([[10., 20.],
+           [20.,  5.]])
     """
 
     t_occ = None

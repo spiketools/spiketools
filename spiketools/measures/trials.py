@@ -80,7 +80,7 @@ def compute_pre_post_rates(trial_spikes, pre_window, post_window):
                         np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
     >>> pre_window, post_window = [-0.5, 0.0], [0.5, 0.9]
     >>> compute_pre_post_rates(trial_spikes, pre_window, post_window)
-    (array([6., 2., 0.]), array([ 2.5,  2.5, 10. ]))
+    (array([6., 2., 0.]), array([2.5, 2.5, 7.5]))
     """
 
     frs_pre = np.array([compute_firing_rate(trial, pre_window) for trial in trial_spikes])
@@ -109,16 +109,16 @@ def compute_segment_frs(spikes, segments):
     --------
     Compute firing rate across segments, with custom segment times per trial:
 
-    >>> spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \
-                  np.array([0.275, 0.290, 0.3, 0.350, 0.5]), \
-                  np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
-    >>> segments = np.array([[0, 0.1, 0.15, 0.26], \
-                             [0.27, 0.35, 0.4, 0.51], \
-                             [0.52, 0.7, 0.9, 1]])
+    >>> spikes = [np.array([0.002, 0.005, 0.120, 0.175, 0.250]), \
+                  np.array([0.275, 0.290, 0.300, 0.350, 0.500]), \
+                  np.array([0.550, 0.650, 0.700, 0.950])]
+    >>> segments = np.array([[0.00, 0.15, 0.25], \
+                             [0.20, 0.40, 0.60], \
+                             [0.50, 0.70, 0.90]])
     >>> compute_segment_frs(spikes, segments)
-    array([[20.        , 20.        , 18.18181818],
-           [37.5       , 20.        ,  9.09090909],
-           [11.11111111,  5.        , 20.        ]])
+    array([[20., 20.],
+           [20.,  5.],
+           [10.,  5.]])
     """
 
     if not isinstance(spikes, list):
