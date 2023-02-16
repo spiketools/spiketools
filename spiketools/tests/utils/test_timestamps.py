@@ -77,6 +77,10 @@ def test_convert_time_to_nsamples():
 
 def test_sum_time_ranges():
 
+    range0 = []
+    out0 = sum_time_ranges(range0)
+    assert out0 == 0
+
     range1 = [0, 15.5]
     out1 = sum_time_ranges(range1)
     assert out1 == 15.5

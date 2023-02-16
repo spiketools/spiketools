@@ -224,7 +224,7 @@ def sum_time_ranges(ranges):
     10.0
     """
 
-    if isinstance(ranges[0], (int, float)):
+    if ranges and isinstance(ranges[0], (int, float)):
         ranges = [ranges]
 
     total = 0
