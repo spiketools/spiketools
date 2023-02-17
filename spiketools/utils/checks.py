@@ -1,6 +1,7 @@
 """General purpose checker functions."""
 
 import warnings
+from collections import defaultdict
 
 import numpy as np
 
@@ -8,6 +9,8 @@ from spiketools.utils.base import lower_list
 
 ###################################################################################################
 ###################################################################################################
+
+AXISARG = defaultdict(lambda : -1, {'vector' : 0, 'row' : 1, 'column' : 0})
 
 def check_param_range(param, label, bounds):
     """Check a parameter value is within an acceptable range.
@@ -128,23 +131,105 @@ def check_array_orientation(arr):
     -------
     orientation : {'vector', 'row', 'column'}
         The inferred orientation of the data array.
-        For 1d cases, 'vector' indicates data is vector with no directional orientation.
-        For 2d or 3d cases, 'row' or 'column' indicates data is organized row-wise or column-wise respectively.
+        For 1d arrays, 'vector' is returned.
+        For 2d or 3rd arrays, 'row' or 'column' is returned based on the shape of the array.
+
+    Notes
+    -----
+    In cases where # elements > 0 <= # dimensions, orientation can be ambiguous.
+    In such cases, 'row' is returned by default.
     """
 
     assert arr.ndim < 4, "The check_array_orientation function only works up to 3d."
 
     if arr.ndim == 1:
         orientation = 'vector'
-    # This covers 2d or 3d arrays
+
     else:
-        shape = arr.shape
-        if shape[-1] > shape[-2]:
-            orientation = 'row'
+
+        # Special case - empty array, infer based on where zero dimension is
+        if 0 in arr.shape:
+            if arr.shape[-1] == 0:
+                orientation = 'row'
+            elif arr.shape[-2] == 0:
+                orientation = 'column'
+
+        # Otherwise, infer shape based on the relative size of each dimension
         else:
-            orientation = 'column'
+            if arr.shape[-1] >= arr.shape[-2]:
+                orientation = 'row'
+            else:
+                orientation = 'column'
 
     return orientation
+
+
+def check_array_lst_orientation(arr_lst):
+    """Check the orientation of arrays in a list.
+
+    Parameters
+    ----------
+    arr_lst : list of array
+        List of arrays to check orientation for.
+
+    Returns
+    -------
+    orientation : {'vector', 'row', 'column'}
+        The inferred orientation of the data array.
+        For 1d arrays, 'vector' is returned.
+        For 2d or 3d arrays, 'row' or 'column' is returned based on the shape of the array.
+    """
+
+    # Special case - empty list: return default option
+    if len(arr_lst) == 0:
+        orientation = None
+
+    else:
+        # Find an array with enough elements to infer orientation
+        array = arr_lst[0]
+        for cur_arr in arr_lst:
+            if cur_arr.size > 4:
+                array = cur_arr
+                break
+
+        orientation = check_array_orientation(array)
+
+    return orientation
+
+
+def check_axis(axis, arr):
+    """Check axis argument, and infer from array orientation if not defined.
+
+    Parameters
+    ----------
+    axis : {None, 0, 1, -1}
+        Axis argument.
+        If not None, this value is returned.
+        If None, the given array is checked to infer axis.
+    arr : ndarray or list of ndarray
+        Array to check the axis argument for.
+
+    Returns
+    -------
+    axis : {0, 1, -1}
+        Axis argument.
+        For 1d array, 0 is returned, reflecting a vector.
+        For 2d array, 0 is for column, and 1 is for row.
+        If the axis could not be inferred, -1 is returned.
+    """
+
+    AXISARG = defaultdict(lambda : -1, {'vector' : 0, 'row' : 1, 'column' : 0})
+
+    if not axis:
+
+        if isinstance(arr, list):
+            orientation = check_array_lst_orientation(arr)
+        else:
+            orientation = check_array_orientation(arr)
+
+        axis = AXISARG[orientation]
+
+    return axis
 
 
 def check_bin_range(values, bin_area):

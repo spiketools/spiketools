@@ -3,10 +3,40 @@
 import numpy as np
 
 from spiketools.utils.data import compute_range
+from spiketools.utils.checks import check_axis, check_array_orientation
 from spiketools.spatial.checks import check_spatial_bins
 
 ###################################################################################################
 ###################################################################################################
+
+def get_position_xy(position, orientation=None):
+    """Get the x & y data vectors from a 2d position data array.
+
+    Parameters
+    ----------
+    position : 2d array
+        Position values.
+    orientation : {'row', 'column'}, optional
+        The orientation of the position data.
+        If not provided, is inferred from the given data.
+
+    Returns
+    -------
+    x_data, y_data : 1d array
+        Extracted X & Y position data.
+    """
+
+    assert position.ndim == 2, "Position data must be 2d to unpack X & Y dimensions."
+
+    orientation = check_array_orientation(position) if not orientation else orientation
+
+    if orientation == 'row':
+        x_data, y_data = position
+    else:
+        x_data, y_data = position[:, 0], position[:, 1]
+
+    return x_data, y_data
+
 
 def compute_nbins(bins):
     """Compute the number of bins for a given bin definition.
@@ -50,33 +80,34 @@ def compute_pos_ranges(position):
 
     Returns
     -------
-    ranges : list of float or list of list of float
+    ranges : 1d array or list of 1d array
         Ranges for each dimension in the spatial data.
 
     Examples
     --------
     Compute the 2D position ranges for:
-    (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5, 9).
+    (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5.1, 9.1).
 
-    >>> position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])
+    >>> position = np.array([[1.5, 2.5, 3.5, 5.1], [6.5, 7.5, 8.5, 9.1]])
     >>> compute_pos_ranges(position)
-    [[1.5, 5.0], [6.5, 9.0]]
+    [array([1.5, 5.1]), array([6.5, 9.1])]
 
     Compute the 1D position range for:
-    x = 1.5, 2.5, 3.5, 5.
+    x = 1.5, 2.5, 3.5, 5.1
 
-    >>> position = np.array([1.5, 2.5, 3.5, 5])
+    >>> position = np.array([1.5, 2.5, 3.5, 5.1])
     >>> compute_pos_ranges(position)
-    [1.5, 5.0]
+    array([1.5, 5.1])
     """
 
     if position.ndim == 1:
-        ranges = [*compute_range(position)]
+        ranges = np.array(compute_range(position))
 
     elif position.ndim == 2:
-        ranges = []
-        for dim in range(position.shape[0]):
-            ranges.append([*compute_range(position[dim, :])])
+        # Regardless of row / column input data, organizes output to have same orientation
+        axis = check_axis(None, position)
+        ranges = np.apply_along_axis(compute_range, axis, position)
+        ranges = list(ranges.T if axis == 0 else ranges)
 
     else:
         raise ValueError('Position input should be 1d or 2d.')

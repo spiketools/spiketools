@@ -517,6 +517,7 @@ Utilities for working with trial-level data.
    split_trials_by_condition
    split_trials_by_condition_list
    split_trials_by_condition_array
+   recombine_trial_data
 
 Run
 ~~~
