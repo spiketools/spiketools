@@ -6,6 +6,8 @@ import numpy as np
 import pandas as pd
 
 from spiketools.utils.data import assign_data_to_bins
+from spiketools.utils.checks import check_array_orientation
+from spiketools.utils.extract import get_values_by_time_range
 from spiketools.spatial.checks import check_position, check_spatial_bins
 from spiketools.spatial.utils import get_position_xy, compute_sample_durations
 
