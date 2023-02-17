@@ -90,10 +90,8 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
-    start_times : 1d array
-        The start times, in seconds, of each trial.
-    stop_times : 1d array
-        The stop times, in seconds, of each trial.
+    start_times, stop_times : 1d array
+        The start and stop times, in seconds, of each trial.
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
