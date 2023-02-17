@@ -74,11 +74,9 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
 
     return place_bins
 
-
 def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, stop_times,
-                             area_range=None, speed=None, speed_threshold=None,
-                             time_threshold=None, normalize=True, flatten=False,
-                             orientation=None, **occupancy_kwargs):
+                             area_range=None, speed=None, speed_threshold=None, time_threshold=None,
+                             trial_occupancy=None, flatten=False, orientation=None):
     """Compute the spatially binned spiking activity, across trials.
 
     Parameters
@@ -107,15 +105,14 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
     time_threshold : float, optional
         A maximum time threshold, per bin observation, to apply.
         If provided, any bin values with an associated time length above this value are dropped.
-    normalize : bool, optional, default: True
-        Whether to compute trial-level occupancy and use to normalize spatially binned firing.
+    trial_occupancy : 2d or 3d array, optional
+        Computed occupancy across the space, across trials.
+        If provided, used to normalize bin counts per trial.
     flatten : bool, optional, default: False
         Whether the flatten the spatial bins per trial. Only used if position data are 2d.
     orientation : {'row', 'column'}, optional
         The orientation of the position data.
         If not provided, is inferred from the position data.
-    occupancy_kwargs
-        Additional arguments to pass into the the `compute_occupancy` function.
 
     Returns
     -------
@@ -137,6 +134,38 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
     array([[10. , 40. ],
            [10. ,  7.5]])
     """
+
+    t_occ = None
+    t_speed = None
+
+    bins = check_spatial_bins(bins, position)
+    orientation = check_array_orientation(position) if not orientation else orientation
+
+    place_bins_trial = np.zeros([len(start_times), *np.flip(bins)])
+    for ind, (start, stop) in enumerate(zip(start_times, stop_times)):
+
+        t_spikes = get_range(spikes, start, stop)
+        t_times, t_pos = get_values_by_time_range(timestamps, position, start, stop)
+        if speed is not None:
+            _, t_speed = get_values_by_time_range(timestamps, speed, start, stop)
+
+        if trial_occupancy is not None:
+            t_occ = trial_occupancy[ind, :, :]
+
+        place_bins_trial[ind, :] = compute_place_bins(t_spikes, t_pos, t_times, bins, area_range,
+                                                      t_speed, speed_threshold, time_threshold,
+                                                      t_occ, orientation)
+
+    if flatten:
+        place_bins_trial = np.reshape(place_bins_trial, [len(start_times), compute_nbins(bins)])
+
+    return place_bins_trial
+
+
+def compute_trial_place_bins_old(spikes, position, timestamps, bins, start_times, stop_times,
+                             area_range=None, speed=None, speed_threshold=None,
+                             time_threshold=None, normalize=True, flatten=False,
+                             orientation=None, **occupancy_kwargs):
 
     t_occ = None
     t_speed = None
