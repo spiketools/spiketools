@@ -222,3 +222,11 @@ def test_compute_occupancy():
 
     # Test flipped binning should get the same total occupancy
     assert np.nansum(occ) == np.nansum(compute_occupancy(position, timestamps, [bins[1], bins[0]]))
+
+def test_compute_trial_occupancy():
+
+    # Test 1d case
+    ...
+
+    # Test 2d case
+    ...

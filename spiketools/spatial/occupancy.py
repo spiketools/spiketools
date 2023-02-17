@@ -501,3 +501,64 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     occupancy = compute_occupancy_df(df, bins, minimum, normalize, set_nan)
 
     return occupancy
+
+
+def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
+                            area_range=None, speed=None, speed_threshold=None,
+                            time_threshold=None, orientation=None, **occupancy_kwargs):
+    """Compute trial-level occupancy across spatial bin positions.
+
+    Parameters
+    ----------
+    position : 1d or 2d array
+        Position values.
+    timestamps : 1d array
+        Timestamps, in seconds, corresponding to the position values.
+    bins : int or list of [int, int]
+        The bin definition for dividing up the space. If 1d, can be integer.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
+    start_times : 1d array
+        The start times, in seconds, of each trial.
+    stop_times : 1d array
+        The stop times, in seconds, of each trial.
+    area_range : list of list, optional
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+    speed : 1d array, optional
+        Current speed for each position.
+        Should be the same length as timestamps.
+    speed_threshold : float, optional
+        Speed threshold to apply.
+        If provided, any position values with an associated speed below this value are dropped.
+    time_threshold : float, optional
+        A maximum time threshold, per bin observation, to apply.
+        If provided, any bin values with an associated time length above this value are dropped.
+    orientation : {'row', 'column'}, optional
+        The orientation of the position data.
+        If not provided, is inferred from the position data.
+    occupancy_kwargs
+        Additional arguments to pass into the the `compute_occupancy` function.
+
+    Returns
+    -------
+    trial_occupancy : ndarray
+        Occupancy data across trials.
+    """
+
+    t_speed = None
+
+    bins = check_spatial_bins(bins, position)
+    orientation = check_array_orientation(position) if not orientation else orientation
+
+    trial_occupancy = np.zeros([len(start_times), *np.flip(bins)])
+    for ind, (start, stop) in enumerate(zip(start_times, stop_times)):
+
+        t_times, t_pos = get_values_by_time_range(timestamps, position, start, stop)
+
+        if speed is not None:
+            _, t_speed = get_values_by_time_range(timestamps, speed, start, stop)
+
+        trial_occupancy[ind, :] = compute_occupancy(\
+            t_pos, t_times, bins, area_range, t_speed, speed_threshold,
+            time_threshold, **occupancy_kwargs)
+
+    return trial_occupancy
