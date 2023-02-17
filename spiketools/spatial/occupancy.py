@@ -544,13 +544,40 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
     -------
     trial_occupancy : ndarray
         Occupancy data across trials.
-    """
 
-    t_speed = None
+    Examples
+    --------
+    Compute trial-level occupancy for 1d position data:
+
+    >>> bins = 2
+    >>> position = np.array([1, 3, 5, 6, 9, 10, 2, 4, 6, 7, 9])
+    >>> timestamps = np.linspace(0, 50, len(position))
+    >>> start_times, stop_times = [0, 25], [26, 50]
+    >>> compute_trial_occupancy(position, timestamps, bins, start_times, stop_times)
+    array([[15., 10.],
+           [10., 15.]])
+
+    Compute trial-level occupancy for 1d position data:
+
+    >>> bins = [2, 3]
+    >>> position = np.array([[1, 2, 4, 4.5, 5, 2, 2.5, 3.5, 4, 5, 5.5],
+    ...                      [6, 7, 8, 8.5, 9.5, 10, 6, 6.5, 7, 8, 10]])
+    >>> timestamps = np.linspace(0, 50, position.shape[1])
+    >>> start_times, stop_times = [0, 25], [26, 50]
+    >>> compute_trial_occupancy(position, timestamps, bins, start_times, stop_times)
+    array([[[10.,  0.],
+            [ 0., 10.],
+            [ 0.,  5.]],
+    <BLANKLINE>
+           [[10.,  5.],
+            [ 0.,  5.],
+            [ 5.,  0.]]])
+    """
 
     bins = check_spatial_bins(bins, position)
     orientation = check_array_orientation(position) if not orientation else orientation
 
+    t_speed = None
     trial_occupancy = np.zeros([len(start_times), *np.flip(bins)])
     for ind, (start, stop) in enumerate(zip(start_times, stop_times)):
 

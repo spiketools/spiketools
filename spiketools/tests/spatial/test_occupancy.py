@@ -250,7 +250,7 @@ def test_compute_trial_occupancy():
     trial_occupancy = compute_trial_occupancy(
         position, timestamps, bins, start_times, stop_times)
     expected2 = np.array([[[10.,  0.], [ 0., 10.], [ 0., 10.]],
-                         [[10.,  0.], [ 0., 10.], [ 0.,  5.]]])
+                          [[10.,  0.], [ 0., 10.], [ 0.,  5.]]])
     assert isinstance(trial_occupancy, np.ndarray)
     assert trial_occupancy.shape == (len(start_times), bins[1], bins[0])
     assert np.array_equal(trial_occupancy, expected2)
