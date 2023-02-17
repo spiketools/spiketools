@@ -75,6 +75,23 @@ def test_convert_time_to_nsamples():
     assert isinstance(out, int)
     assert out == 12
 
+def test_create_bin_times():
+
+    # Check basic time bin definition
+    bins1 = np.array([0, 0.5, 1.0, 1.5, 2.0])
+    out1 = create_bin_times(bins1)
+    assert np.array_equal(out1, np.array([0.25, 0.75, 1.25, 1.75]))
+
+    # Check bin definition that doesn't start at zero
+    bins2 = np.array([-1.0, -0.5, 0, 0.5, 1.0])
+    out2 = create_bin_times(bins2)
+    assert np.array_equal(out2, np.array([-0.75, -0.25, 0.25, 0.75]))
+
+    # Check uneven bin definition
+    bins2 = np.array([0, 0.5, 1.0, 2.0])
+    out3 = create_bin_times(bins2)
+    assert np.array_equal(out3, np.array([0.25, 0.75, 1.5]))
+
 def test_split_time_value():
 
     value = 3600 + 1800 + 30

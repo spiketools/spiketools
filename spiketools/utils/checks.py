@@ -1,6 +1,7 @@
 """General purpose checker functions."""
 
 import warnings
+from copy import deepcopy
 from collections import defaultdict
 
 import numpy as np
@@ -249,7 +250,7 @@ def check_bin_range(values, bin_area):
             warnings.warn(msg)
 
 
-def check_time_bins(bins, values, time_range=None, check_range=True):
+def check_time_bins(bins, time_range=None, values=None, check_range=False):
     """Check a given time bin definition, and define if only given a time resolution.
 
     Parameters
@@ -258,13 +259,14 @@ def check_time_bins(bins, values, time_range=None, check_range=True):
         The binning to apply to the spiking data.
         If float, the length of each bin.
         If array, precomputed bin definitions.
-    values : 1d array
-        The time values that are to be binned.
     time_range : list of [float, float], optional
         Time range, in seconds, to create the binned firing rate across.
         Only used if `bins` is a float. If given, the end value is inclusive.
-    check_range : True
-        Whether the check the range of the data values against the time bins.
+    values : 1d array, optional
+        The time values that are to be binned.
+        Optional if time range is provided instead.
+    check_range : bool, optional, default: False
+        Whether to check the range of the data values against the time bins.
 
     Returns
     -------
@@ -278,23 +280,27 @@ def check_time_bins(bins, values, time_range=None, check_range=True):
     >>> bins = 0.5
     >>> values = np.array([0.2, 0.4, 0.6, 0.9, 1.4, 1.5, 1.6, 1.9])
     >>> time_range = [0., 2.]
-    >>> check_time_bins(bins, values, time_range)
+    >>> check_time_bins(bins, time_range, values)
     array([0. , 0.5, 1. , 1.5, 2. ])
 
     Check a time bin definition, where bins are already defined:
 
     >>> bins = np.array([0. , 0.5, 1. , 1.5, 2. ])
-    >>> check_time_bins(bins, values, time_range)
+    >>> check_time_bins(bins, time_range, values)
     array([0. , 0.5, 1. , 1.5, 2. ])
     """
 
+    # Take a copy of `time_range` (otherwise, can get an aliasing problem)
+    time_range = deepcopy(time_range)
+
     if isinstance(bins, (int, float)):
-        # Define time range based on data, if not otherwise set
-        if not time_range:
-            time_range = [0, np.max(values) + bins]
         # If time range is given, update to include end value
-        else:
+        if time_range:
             time_range[1] = time_range[1] + bins
+        # Otherwise, define time range based on data
+        else:
+            assert values is not None, "check_time_bins: either `values` or `time_range` required"
+            time_range = [0, np.max(values) + bins]
         bins = np.arange(*time_range, bins)
 
     elif isinstance(bins, np.ndarray):

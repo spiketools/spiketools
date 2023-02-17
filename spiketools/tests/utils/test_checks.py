@@ -138,15 +138,19 @@ def test_check_time_bins(tspikes):
 
     # Check precomputed time bins
     tbins = np.arange(0, 10 + 0.5, 0.5)
-    out = check_time_bins(tbins, tspikes)
+    out = check_time_bins(tbins, None, tspikes)
     assert np.array_equal(tbins, out)
 
     # Check time bins given a time resolution, which should create same bins as precomputed
-    out = check_time_bins(0.5, tspikes, time_range=[0, 10])
+    out = check_time_bins(0.5, [0, 10], tspikes)
     assert np.array_equal(tbins, out)
 
     # Check error & warning
     with raises(AssertionError):
-        out = check_time_bins(np.array([1, 2, 1]), tspikes, time_range=[0, 5])
+        out = check_time_bins(np.array([1, 2, 1]), [0, 5], tspikes, True)
     with warns(UserWarning):
-        out = check_time_bins(0.5, tspikes, time_range=[0, 5])
+        out = check_time_bins(0.5, [0, 5], tspikes, True)
+
+    # Test bin definition with no values provided
+    tbins = check_time_bins(0.5, [0, 5])
+    assert np.array_equal(tbins, np.arange(0, 5.5, 0.5))
