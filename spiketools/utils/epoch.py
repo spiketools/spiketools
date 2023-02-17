@@ -129,7 +129,7 @@ def epoch_data_by_time(timestamps, values, timepoints, threshold=None):
     ----------
     timestamps : 1d array
         Timestamps, in seconds.
-    values : 1d array
+    values : 1d or 2d array
         Data values.
     timepoints : list of float
         The time value(s), in seconds, to extract per trial.
@@ -167,7 +167,7 @@ def epoch_data_by_event(timestamps, values, events, window):
     ----------
     timestamps : 1d array
         Timestamps, in seconds.
-    values : 1d array
+    values : 1d or 2d array
         Data values.
     events : 1d array
         The set of event times to extract from the data.
@@ -211,7 +211,7 @@ def epoch_data_by_range(timestamps, values, start_times, stop_times, reset=False
     ----------
     timestamps : 1d array
         Timestamps, in seconds.
-    values : 1d array
+    values : 1d or 2d array
         Data values, corresponding the the timestamps.
     start_times : list of float
         The start times, in seconds, of each epoch.
@@ -260,7 +260,7 @@ def epoch_data_by_segment(timestamps, values, segments):
     ----------
     timestamps : 1d array
         Timestamps, in seconds.
-    values : 1d array
+    values : 1d or 2d array
         Data values.
     segments : list or 1d array of float
         Time values that define the segments.

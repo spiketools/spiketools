@@ -5,6 +5,7 @@ import numpy as np
 from spiketools.utils.extract import get_range
 from spiketools.utils.options import get_avg_func
 from spiketools.utils.checks import check_time_bins
+from spiketools.utils.timestamps import create_bin_times
 from spiketools.measures.spikes import compute_firing_rate
 from spiketools.measures.conversions import convert_times_to_rates
 
@@ -30,6 +31,8 @@ def compute_trial_frs(trial_spikes, bins, time_range=None, smooth=None):
 
     Returns
     -------
+    bin_times : 1d array
+        Timestamps for the computed time bins.
     trial_cfrs : 2d array
         Continuous firing rates per trial, with shape [n_trials, n_time_bins].
 
@@ -42,18 +45,21 @@ def compute_trial_frs(trial_spikes, bins, time_range=None, smooth=None):
                         np.array([0.250, 0.350, 0.700, 0.900])]
     >>> bins = 0.5
     >>> time_range = [0.0, 1.0]
-    >>> compute_trial_frs(trial_spikes, bins, time_range)
+    >>> bin_times, trial_cfrs = compute_trial_frs(trial_spikes, bins, time_range)
+    >>> trial_cfrs
     array([[6., 0.],
            [8., 2.],
            [4., 4.]])
     """
 
-    bins = check_time_bins(bins, trial_spikes[0], time_range=time_range)
-    trial_cfrs = np.zeros([len(trial_spikes), len(bins) - 1])
+    bins = check_time_bins(bins, time_range)
+    bin_times = create_bin_times(bins)
+
+    trial_cfrs = np.zeros([len(trial_spikes), len(bin_times)])
     for ind, t_spikes in enumerate(trial_spikes):
         trial_cfrs[ind, :] = convert_times_to_rates(t_spikes, bins, smooth)
 
-    return trial_cfrs
+    return bin_times, trial_cfrs
 
 
 def compute_pre_post_rates(trial_spikes, pre_window, post_window):

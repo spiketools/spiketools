@@ -6,10 +6,35 @@ import numpy as np
 
 from scipy.ndimage import gaussian_filter
 
-from spiketools.utils.checks import check_param_options, check_bin_range
+from spiketools.utils.checks import check_array_orientation, check_param_options, check_bin_range
 
 ###################################################################################################
 ###################################################################################################
+
+def make_row_orientation(arr, orientation=False):
+    """Check and make sure a 2d array is in row orientation.
+
+    Parameters
+    ----------
+    arr : 2d array
+        Array to check orientation.
+    orientation : {'row', 'column'}, optional
+        The orientation of the input array.
+        If not provided, is inferred from the input data.
+
+    Returns
+    -------
+    arr : 2d array
+        2d array in row orientation.
+    """
+
+    if not orientation:
+        orientation = check_array_orientation(arr)
+
+    arr = arr.T if orientation == 'column' else arr
+
+    return arr
+
 
 def compute_range(data):
     """Compute the range of an array of data.

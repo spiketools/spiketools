@@ -58,6 +58,18 @@ def test_convert_isis_to_times(tspikes):
     spikes4 = convert_isis_to_times(isis, offset=tspikes[0])
     assert np.array_equal(spikes4, tspikes)
 
+def test_convert_times_to_counts(tspikes):
+
+    bins = np.arange(0, 10, 1)
+    counts = convert_times_to_counts(tspikes, bins)
+    assert isinstance(counts, np.ndarray)
+    assert len(counts) == len(bins) - 1
+
+    # Check example with exact output check
+    spikes = np.array([0.1, 0.3, 0.4, 0.775, 0.825, 0.900])
+    counts = convert_times_to_counts(spikes, 0.250)
+    assert np.array_equal(counts, np.array([1, 2, 0, 3]))
+
 def test_convert_times_to_rates(tspikes):
 
     # Using precomputed bin definition

@@ -234,6 +234,30 @@ def sum_time_ranges(ranges):
     return total
 
 
+def create_bin_times(bins):
+    """Create a timepoints definitions for a set of time bins.
+
+    Parameters
+    ----------
+    bins : 1d array
+        Time bins.
+
+    Returns
+    -------
+    bin_times : 1d array
+        Time values corresponding to the bin definition.
+
+    Notes
+    -----
+    The bin timepoints are defined as the center point of each bin.
+    This function works for evenly spaced and uneven bin definitions.
+    """
+
+    bin_times = bins[:-1] + np.diff(bins) / 2
+
+    return bin_times
+
+
 def split_time_value(sec):
     """Split a time value from seconds to hours / minutes / seconds.
 

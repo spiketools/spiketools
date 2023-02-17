@@ -1,6 +1,8 @@
 """General purpose checker functions."""
 
 import warnings
+from copy import deepcopy
+from collections import defaultdict
 
 import numpy as np
 
@@ -8,6 +10,8 @@ from spiketools.utils.base import lower_list
 
 ###################################################################################################
 ###################################################################################################
+
+AXISARG = defaultdict(lambda : -1, {'vector' : 0, 'row' : 1, 'column' : 0})
 
 def check_param_range(param, label, bounds):
     """Check a parameter value is within an acceptable range.
@@ -128,23 +132,105 @@ def check_array_orientation(arr):
     -------
     orientation : {'vector', 'row', 'column'}
         The inferred orientation of the data array.
-        For 1d cases, 'vector' indicates data is vector with no directional orientation.
-        For 2d or 3d cases, 'row' or 'column' indicates data is organized row-wise or column-wise respectively.
+        For 1d arrays, 'vector' is returned.
+        For 2d or 3rd arrays, 'row' or 'column' is returned based on the shape of the array.
+
+    Notes
+    -----
+    In cases where # elements > 0 <= # dimensions, orientation can be ambiguous.
+    In such cases, 'row' is returned by default.
     """
 
     assert arr.ndim < 4, "The check_array_orientation function only works up to 3d."
 
     if arr.ndim == 1:
         orientation = 'vector'
-    # This covers 2d or 3d arrays
+
     else:
-        shape = arr.shape
-        if shape[-1] > shape[-2]:
-            orientation = 'row'
+
+        # Special case - empty array, infer based on where zero dimension is
+        if 0 in arr.shape:
+            if arr.shape[-1] == 0:
+                orientation = 'row'
+            elif arr.shape[-2] == 0:
+                orientation = 'column'
+
+        # Otherwise, infer shape based on the relative size of each dimension
         else:
-            orientation = 'column'
+            if arr.shape[-1] >= arr.shape[-2]:
+                orientation = 'row'
+            else:
+                orientation = 'column'
 
     return orientation
+
+
+def check_array_lst_orientation(arr_lst):
+    """Check the orientation of arrays in a list.
+
+    Parameters
+    ----------
+    arr_lst : list of array
+        List of arrays to check orientation for.
+
+    Returns
+    -------
+    orientation : {'vector', 'row', 'column'}
+        The inferred orientation of the data array.
+        For 1d arrays, 'vector' is returned.
+        For 2d or 3d arrays, 'row' or 'column' is returned based on the shape of the array.
+    """
+
+    # Special case - empty list: return default option
+    if len(arr_lst) == 0:
+        orientation = None
+
+    else:
+        # Find an array with enough elements to infer orientation
+        array = arr_lst[0]
+        for cur_arr in arr_lst:
+            if cur_arr.size > 4:
+                array = cur_arr
+                break
+
+        orientation = check_array_orientation(array)
+
+    return orientation
+
+
+def check_axis(axis, arr):
+    """Check axis argument, and infer from array orientation if not defined.
+
+    Parameters
+    ----------
+    axis : {None, 0, 1, -1}
+        Axis argument.
+        If not None, this value is returned.
+        If None, the given array is checked to infer axis.
+    arr : ndarray or list of ndarray
+        Array to check the axis argument for.
+
+    Returns
+    -------
+    axis : {0, 1, -1}
+        Axis argument.
+        For 1d array, 0 is returned, reflecting a vector.
+        For 2d array, 0 is for column, and 1 is for row.
+        If the axis could not be inferred, -1 is returned.
+    """
+
+    AXISARG = defaultdict(lambda : -1, {'vector' : 0, 'row' : 1, 'column' : 0})
+
+    if not axis:
+
+        if isinstance(arr, list):
+            orientation = check_array_lst_orientation(arr)
+        else:
+            orientation = check_array_orientation(arr)
+
+        axis = AXISARG[orientation]
+
+    return axis
 
 
 def check_bin_range(values, bin_area):
@@ -164,7 +250,7 @@ def check_bin_range(values, bin_area):
             warnings.warn(msg)
 
 
-def check_time_bins(bins, values, time_range=None, check_range=True):
+def check_time_bins(bins, time_range=None, values=None, check_range=False):
     """Check a given time bin definition, and define if only given a time resolution.
 
     Parameters
@@ -173,13 +259,14 @@ def check_time_bins(bins, values, time_range=None, check_range=True):
         The binning to apply to the spiking data.
         If float, the length of each bin.
         If array, precomputed bin definitions.
-    values : 1d array
-        The time values that are to be binned.
     time_range : list of [float, float], optional
         Time range, in seconds, to create the binned firing rate across.
         Only used if `bins` is a float. If given, the end value is inclusive.
-    check_range : True
-        Whether the check the range of the data values against the time bins.
+    values : 1d array, optional
+        The time values that are to be binned.
+        Optional if time range is provided instead.
+    check_range : bool, optional, default: False
+        Whether to check the range of the data values against the time bins.
 
     Returns
     -------
@@ -193,23 +280,27 @@ def check_time_bins(bins, values, time_range=None, check_range=True):
     >>> bins = 0.5
     >>> values = np.array([0.2, 0.4, 0.6, 0.9, 1.4, 1.5, 1.6, 1.9])
     >>> time_range = [0., 2.]
-    >>> check_time_bins(bins, values, time_range)
+    >>> check_time_bins(bins, time_range, values)
     array([0. , 0.5, 1. , 1.5, 2. ])
 
     Check a time bin definition, where bins are already defined:
 
     >>> bins = np.array([0. , 0.5, 1. , 1.5, 2. ])
-    >>> check_time_bins(bins, values, time_range)
+    >>> check_time_bins(bins, time_range, values)
     array([0. , 0.5, 1. , 1.5, 2. ])
     """
 
+    # Take a copy of `time_range` (otherwise, can get an aliasing problem)
+    time_range = deepcopy(time_range)
+
     if isinstance(bins, (int, float)):
-        # Define time range based on data, if not otherwise set
-        if not time_range:
-            time_range = [0, np.max(values) + bins]
         # If time range is given, update to include end value
-        else:
+        if time_range:
             time_range[1] = time_range[1] + bins
+        # Otherwise, define time range based on data
+        else:
+            assert values is not None, "check_time_bins: either `values` or `time_range` required"
+            time_range = [0, np.max(values) + bins]
         bins = np.arange(*time_range, bins)
 
     elif isinstance(bins, np.ndarray):
