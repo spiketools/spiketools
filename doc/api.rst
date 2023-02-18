@@ -402,8 +402,8 @@ Helper functions to annotate plot axes.
    color_pvalue
    add_vlines
    add_hlines
-   add_vshade
-   add_hshade
+   add_vshades
+   add_hshades
    add_box_shade
    add_box_shades
    add_dots

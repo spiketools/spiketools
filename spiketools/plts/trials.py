@@ -23,13 +23,13 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
     data : list of list of float
         Spike times per trial.
         Multiple conditions can also be passed in.
-    vline : float or list, optional
+    vline : float or list of float, optional
         Location(s) to draw a vertical line. If None, no line is drawn.
     colors : str or list of str, optional
         Color(s) to plot the raster ticks.
         If more than one, should match the number of conditions.
-    vshade : list of float, optional
-        Vertical region of the plot to shade in.
+    vshade : list of float or list of list of float, optional
+        Vertical region(s) of the plot to shade in.
     show_axis : bool, optional, default: False
         Whether to show the axis around the plot.
     ax : Axes, optional
