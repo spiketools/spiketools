@@ -5,7 +5,7 @@ import numpy as np
 from spiketools.utils.base import flatten
 from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.annotate import add_vlines, add_vshade, add_significance
+from spiketools.plts.annotate import add_vlines, add_vshades, add_significance
 from spiketools.plts.utils import check_ax, savefig
 from spiketools.plts.style import get_kwargs, set_plt_kwargs
 
@@ -72,9 +72,9 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
                color=custom_plt_kwargs.pop('line_color', 'green'),
                lw=custom_plt_kwargs.pop('line_lw', 2.5),
                alpha=custom_plt_kwargs.pop('line_alpha', 0.5))
-    add_vshade(vshade, ax,
-               color=custom_plt_kwargs.pop('shade_color', 'red'),
-               alpha=custom_plt_kwargs.pop('shade_alpha', 0.25))
+    add_vshades(vshade, ax,
+                color=custom_plt_kwargs.pop('shade_color', 'red'),
+                alpha=custom_plt_kwargs.pop('shade_alpha', 0.25))
 
     if not show_axis:
         ax.set_axis_off()
