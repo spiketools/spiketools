@@ -11,9 +11,9 @@ def test_compute_trial_frs(ttrial_spikes):
 
     trial_spikes = [ttrial_spikes, ttrial_spikes]
     bins = np.arange(-1, 1 + 0.25, 0.25)
-    out = compute_trial_frs(trial_spikes, bins)
-    assert isinstance(out, np.ndarray)
-    assert out.shape == (len(trial_spikes), len(bins) - 1)
+    bin_times, trial_frs = compute_trial_frs(trial_spikes, bins)
+    assert isinstance(trial_frs, np.ndarray)
+    assert trial_frs.shape == (len(trial_spikes), len(bins) - 1)
 
 def test_compute_pre_post_rates(ttrial_spikes):
 

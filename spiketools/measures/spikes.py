@@ -3,6 +3,7 @@
 import numpy as np
 
 from spiketools.utils.extract import get_range
+from spiketools.measures.conversions import convert_times_to_counts
 
 ###################################################################################################
 ###################################################################################################
@@ -115,3 +116,61 @@ def compute_fano_factor(spike_train):
     """
 
     return np.var(spike_train) / np.mean(spike_train)
+
+
+def compute_spike_presence(spikes, bins, time_range=None):
+    """Compute the spike presence across time bins.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times, in seconds.
+    bins : float or 1d array
+        The binning to apply to the spiking data.
+        If float, the time length of each bin.
+        If array, precomputed bin definitions.
+    time_range : list of [float, float], optional
+        Time range, in seconds, to calculate the spike presence across.
+        Only used if `bins` is a float.
+
+    Returns
+    -------
+    spike_presence : 1d array
+        Boolean array indicating spike presence across time bins.
+    """
+
+    spike_counts = convert_times_to_counts(spikes, bins, time_range)
+    spike_presence = spike_counts != 0
+
+    return spike_presence
+
+
+def compute_presence_ratio(spikes, bins, time_range=None):
+    """Compute the presence ratio for a set of spike times.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times, in seconds.
+    bins : float or 1d array
+        The binning to apply to the spiking data.
+        If float, the time length of each bin.
+        If array, precomputed bin definitions.
+    time_range : list of [float, float], optional
+        Time range, in seconds, to calculate the presence ratio across.
+        Only used if `bins` is a float.
+
+    Returns
+    -------
+    presence_ratio : float
+        The computed presence ratio.
+
+    Notes
+    -----
+    The presence ratio reflects the proportion of time bins in which at least 1 spike occurred.
+    """
+
+    spike_presence = compute_spike_presence(spikes, bins, time_range)
+    presence_ratio = sum(spike_presence) / len(spike_presence)
+
+    return presence_ratio

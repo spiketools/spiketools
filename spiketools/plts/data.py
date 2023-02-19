@@ -62,7 +62,7 @@ def plot_dots(x_values, y_values, ax=None, **plt_kwargs):
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    plt.plot(x_values, y_values, '.', **plt_kwargs)
+    ax.plot(x_values, y_values, '.', **plt_kwargs)
 
 
 @savefig
