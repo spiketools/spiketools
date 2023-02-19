@@ -54,10 +54,8 @@ def epoch_spikes_by_range(spikes, start_times, stop_times, reset=False):
     ----------
     spikes : 1d array
         Spike times, in seconds.
-    start_times : list
-        The start times, in seconds, of each epoch.
-    stop_times : list
-        The stop times, in seconds, of each epoch.
+    start_times, stop_times : list of float
+        The start and stop times, in seconds, of each epoch.
     reset : bool, optional, default: False
         Whether to reset each set of trial timestamps to start at zero.
 
@@ -213,10 +211,8 @@ def epoch_data_by_range(timestamps, values, start_times, stop_times, reset=False
         Timestamps, in seconds.
     values : 1d or 2d array
         Data values, corresponding the the timestamps.
-    start_times : list of float
-        The start times, in seconds, of each epoch.
-    stop_times : list of float
-        The stop times, in seconds, of each epoch.
+    start_times, stop_times : list of float
+        The start and stop times, in seconds, of each epoch.
     reset : bool, optional, default: True
         If True, resets the values in each epoch range to the start time of that epoch.
 

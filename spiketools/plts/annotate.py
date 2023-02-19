@@ -182,7 +182,7 @@ def add_dots(dots, ax=None, **plt_kwargs):
 
     if dots is not None:
 
-        # If dots are 1d, convert to 2D, transposing to match row organization
+        # If dots are 1d, convert to 2d, transposing to match row organization
         dots = np.atleast_2d(dots).T if dots.ndim == 1 else dots
 
         ax.plot(dots[0, :], dots[1, :], linestyle='',
