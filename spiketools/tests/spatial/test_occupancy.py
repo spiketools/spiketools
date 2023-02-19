@@ -108,13 +108,13 @@ def test_compute_bin_counts_assgn():
     xbins = [0, 0, 0, 1]
     ybins = [0, 0, 1, 2]
 
-    # check 1D case
+    # check 1d case
     bins = 2
     bin_counts = compute_bin_counts_assgn(bins, xbins)
     assert isinstance(bin_counts, np.ndarray)
     assert np.array_equal(bin_counts, np.array([3, 1]))
 
-    # check 2D case
+    # check 2d case
     bins = [2, 3]
     bin_counts = compute_bin_counts_assgn(bins, xbins, ybins)
     assert isinstance(bin_counts, np.ndarray)
@@ -207,18 +207,50 @@ def test_compute_occupancy():
     position = np.array([1, 2, 3, 5, 6, 9, 10])
     timestamps = np.linspace(0, 30, len(position))
     occ = compute_occupancy(position, timestamps, bins)
+    expected1 = np.array([15, 10, 5])
     assert isinstance(occ, np.ndarray)
-    assert np.array_equal(occ, np.array([15, 10, 5]))
     assert occ.shape[0] == bins
+    assert np.array_equal(occ, expected1)
 
     # Test 2d case
     bins = [2, 3]
     position = np.array([[1, 2, 3, 4, 4.5, 5], [6, 7, 8, 8.5, 9.5, 10]])
     timestamps = np.linspace(0, 25, position.shape[1])
     occ = compute_occupancy(position, timestamps, bins)
+    expected2 = np.array([[10., 0.], [0., 10.], [0., 5.]])
     assert isinstance(occ, np.ndarray)
     assert np.array_equal(occ.shape, np.array([bins[1], bins[0]]))
-    assert np.array_equal(occ, np.array([[10., 0.], [0., 10.], [0., 5.]]))
+    assert np.array_equal(occ, expected2)
 
     # Test flipped binning should get the same total occupancy
     assert np.nansum(occ) == np.nansum(compute_occupancy(position, timestamps, [bins[1], bins[0]]))
+
+def test_compute_trial_occupancy():
+
+    # Test 1d case
+    bins = 3
+    position = np.array([1, 2, 3, 5, 6, 9, 10, 2, 4, 6, 7, 8, 9])
+    timestamps = np.linspace(0, 60, len(position))
+    start_times = [0, 31]
+    stop_times = [30, 60]
+    trial_occupancy = compute_trial_occupancy(
+        position, timestamps, bins, start_times, stop_times)
+    expected1 = np.array([[15., 10.,  5.], [10., 5.,  10.]])
+    assert isinstance(trial_occupancy, np.ndarray)
+    assert trial_occupancy.shape == (len(start_times), bins)
+    assert np.array_equal(trial_occupancy, expected1)
+
+    # Test 2d case
+    bins = [2, 3]
+    position = np.array([[1, 2, 3, 4, 4.5, 5, 2, 2.5, 3.5, 4, 4.5, 5, 5.5],
+                         [6, 7, 8, 8.5, 9.5, 10, 6, 6.5, 7, 8, 8.5, 9.5, 10]])
+    timestamps = np.linspace(0, 60, position.shape[1])
+    start_times = [0, 31]
+    stop_times = [30, 60]
+    trial_occupancy = compute_trial_occupancy(
+        position, timestamps, bins, start_times, stop_times)
+    expected2 = np.array([[[10.,  0.], [ 0., 10.], [ 0., 10.]],
+                          [[10.,  0.], [ 0., 10.], [ 0.,  5.]]])
+    assert isinstance(trial_occupancy, np.ndarray)
+    assert trial_occupancy.shape == (len(start_times), bins[1], bins[0])
+    assert np.array_equal(trial_occupancy, expected2)

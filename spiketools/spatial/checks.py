@@ -29,7 +29,7 @@ def check_spatial_bins(bins, position=None):
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     position : 1d or 2d array, optional
-        Position values across a 1D or 2D space.
+        Position values across a 1d or 2d space.
         If provided, used to check consistency between position dimensionality and bin definition.
 
     Returns

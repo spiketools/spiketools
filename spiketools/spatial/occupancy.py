@@ -6,6 +6,8 @@ import numpy as np
 import pandas as pd
 
 from spiketools.utils.data import assign_data_to_bins
+from spiketools.utils.checks import check_array_orientation
+from spiketools.utils.extract import get_values_by_time_range
 from spiketools.spatial.checks import check_position, check_spatial_bins
 from spiketools.spatial.utils import get_position_xy, compute_sample_durations
 
@@ -92,12 +94,12 @@ def compute_bin_assignment(position, x_edges, y_edges=None, check_range=True, in
     x_bins : 1d array
         Bin assignments for the x-dimension for each position.
     y_bins : 1d array
-        Bin assignments for the y-dimension for each position. Only returned in 2D case.
+        Bin assignments for the y-dimension for each position. Only returned in 2d case.
 
     Notes
     -----
     - Values in the edge array(s) should be monotonically increasing.
-    - If there are no outliers (all position values are between edge ranges), the returned
+    - If there are no outliers (all position values are within edge ranges), the returned
       bin assignments will range from (0, n_bins-1).
     - Outliers (position values beyond the given edges definitions), will be encoded as -1
       (left side) or `n_bins` (right side). If `check_range` is True, a warning will be raised.
@@ -106,14 +108,14 @@ def compute_bin_assignment(position, x_edges, y_edges=None, check_range=True, in
 
     Examples
     --------
-    Compute bin assignment for 1D position values, given precomputed bin edges:
+    Compute bin assignment for 1d position values, given precomputed bin edges:
 
     >>> position = np.array([1.5, 2.5, 3.5, 5])
     >>> x_edges = np.array([1, 2, 3, 4, 5])
     >>> compute_bin_assignment(position, x_edges)
     array([0, 1, 2, 3])
 
-    Compute bin assignment for 2D position values, given precomputed bin edges:
+    Compute bin assignment for 2d position values, given precomputed bin edges:
 
     >>> position = np.array([[1.5, 2.5, 3.5, 5], \
                              [6.5, 7.5, 8.5, 9]])
@@ -168,7 +170,7 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None, orie
 
     Notes
     -----
-    For the 2D case, note that while the inputs to this function list the x-axis first,
+    For the 2d case, note that while the inputs to this function list the x-axis first,
     the output of this function, being a 2d array, follows the numpy convention in which
     columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
 
@@ -226,20 +228,20 @@ def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
 
     Notes
     -----
-    For the 2D case, note that while the inputs to this function list the x-axis first,
+    For the 2d case, note that while the inputs to this function list the x-axis first,
     the output of this function, being a 2d array, follows the numpy convention in which
     columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
 
     Examples
     --------
-    Compute the bin counts per bin for 1D data, given precomputed x bin assignments:
+    Compute the bin counts per bin for 1d data, given precomputed x bin assignments:
 
     >>> bins = 3
     >>> xbins = [0, 2, 1, 0, 1]
     >>> compute_bin_counts_assgn(bins, xbins)
     array([2, 2, 1])
 
-    Compute the bin counts for 2D data, given precomputed x & y bin assignments:
+    Compute the bin counts for 1d data, given precomputed x & y bin assignments:
 
     >>> bins = [2, 2]
     >>> xbins = [0, 0, 0, 1]
@@ -286,7 +288,7 @@ def normalize_bin_counts(bin_counts, occupancy):
 
     Examples
     --------
-    Normalized a pre-computed 2D bin counts array by occupancy:
+    Normalized a pre-computed 2d bin counts array by occupancy:
 
     >>> bin_counts = np.array([[0, 1, 0], [1, 2, 0]])
     >>> occupancy = np.array([[0, 2, 1], [1, 1, 0]])
@@ -472,20 +474,20 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
 
     Notes
     -----
-    For the 2D case, note that while the inputs to this function list the x-axis first,
+    For the 2d case, note that while the inputs to this function list the x-axis first,
     the output of this function, being a 2d array, follows the numpy convention in which
     columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
 
     Examples
     --------
-    Compute occupancy for a set of 1D position values:
+    Compute occupancy for a set of 1d position values:
 
     >>> position = np.array([1.0, 1.5, 2.5, 3.5, 5])
     >>> timestamps = np.linspace(0, 1, position.shape[0])
     >>> compute_occupancy(position, timestamps, bins=[4])
     array([0.5 , 0.25, 0.25, 0.  ])
 
-    Compute occupancy for a set of 2D position values:
+    Compute occupancy for a set of 2d position values:
 
     >>> position = np.array([[1.0, 2.5, 1.5, 3.0, 3.5, 5.0], \
                              [5.0, 7.5, 6.5, 5.0, 8.5, 9.0]])
@@ -501,3 +503,89 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     occupancy = compute_occupancy_df(df, bins, minimum, normalize, set_nan)
 
     return occupancy
+
+
+def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
+                            area_range=None, speed=None, speed_threshold=None,
+                            time_threshold=None, orientation=None, **occupancy_kwargs):
+    """Compute trial-level occupancy across spatial bin positions.
+
+    Parameters
+    ----------
+    position : 1d or 2d array
+        Position values.
+    timestamps : 1d array
+        Timestamps, in seconds, corresponding to the position values.
+    bins : int or list of [int, int]
+        The bin definition for dividing up the space. If 1d, can be integer.
+        If 2d should be a list, defined as [number of x_bins, number of y_bins].
+    start_times, stop_times : 1d array
+        The start and stop times, in seconds, of each trial.
+    area_range : list of list, optional
+        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+    speed : 1d array, optional
+        Current speed for each position.
+        Should be the same length as timestamps.
+    speed_threshold : float, optional
+        Speed threshold to apply.
+        If provided, any position values with an associated speed below this value are dropped.
+    time_threshold : float, optional
+        A maximum time threshold, per bin observation, to apply.
+        If provided, any bin values with an associated time length above this value are dropped.
+    orientation : {'row', 'column'}, optional
+        The orientation of the position data.
+        If not provided, is inferred from the position data.
+    occupancy_kwargs
+        Additional arguments to pass into the the `compute_occupancy` function.
+
+    Returns
+    -------
+    trial_occupancy : ndarray
+        Occupancy data across trials.
+
+    Examples
+    --------
+    Compute trial-level occupancy for 1d position data:
+
+    >>> bins = 2
+    >>> position = np.array([1, 3, 5, 6, 9, 10, 2, 4, 6, 7, 9])
+    >>> timestamps = np.linspace(0, 50, len(position))
+    >>> start_times, stop_times = [0, 25], [26, 50]
+    >>> compute_trial_occupancy(position, timestamps, bins, start_times, stop_times)
+    array([[15., 10.],
+           [10., 15.]])
+
+    Compute trial-level occupancy for 2d position data:
+
+    >>> bins = [2, 3]
+    >>> position = np.array([[1, 2, 4, 4.5, 5, 2, 2.5, 3.5, 4, 5, 5.5],
+    ...                      [6, 7, 8, 8.5, 9.5, 10, 6, 6.5, 7, 8, 10]])
+    >>> timestamps = np.linspace(0, 50, position.shape[1])
+    >>> start_times, stop_times = [0, 25], [26, 50]
+    >>> compute_trial_occupancy(position, timestamps, bins, start_times, stop_times)
+    array([[[10.,  0.],
+            [ 0., 10.],
+            [ 0.,  5.]],
+    <BLANKLINE>
+           [[10.,  5.],
+            [ 0.,  5.],
+            [ 5.,  0.]]])
+    """
+
+    bins = check_spatial_bins(bins, position)
+    orientation = check_array_orientation(position) if not orientation else orientation
+
+    t_speed = None
+    trial_occupancy = np.zeros([len(start_times), *np.flip(bins)])
+    for ind, (start, stop) in enumerate(zip(start_times, stop_times)):
+
+        t_times, t_pos = get_values_by_time_range(timestamps, position, start, stop)
+
+        if speed is not None:
+            _, t_speed = get_values_by_time_range(timestamps, speed, start, stop)
+
+        trial_occupancy[ind, :] = compute_occupancy(\
+            t_pos, t_times, bins, area_range, t_speed, speed_threshold,
+            time_threshold, **occupancy_kwargs)
+
+    return trial_occupancy

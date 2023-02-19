@@ -3,7 +3,7 @@
 import numpy as np
 
 from spiketools.spatial.utils import compute_nbins
-from spiketools.spatial.occupancy import compute_occupancy, compute_bin_counts_pos
+from spiketools.spatial.occupancy import compute_bin_counts_pos
 from spiketools.spatial.checks import check_spatial_bins
 from spiketools.utils.checks import check_array_orientation
 from spiketools.utils.extract import (get_range, get_values_by_time_range, get_values_by_times,
@@ -76,9 +76,8 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
 
 
 def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, stop_times,
-                             area_range=None, speed=None, speed_threshold=None,
-                             time_threshold=None, normalize=True, flatten=False,
-                             orientation=None, **occupancy_kwargs):
+                             area_range=None, speed=None, speed_threshold=None, time_threshold=None,
+                             trial_occupancy=None, flatten=False, orientation=None):
     """Compute the spatially binned spiking activity, across trials.
 
     Parameters
@@ -92,10 +91,8 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
     bins : int or list of [int, int]
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
-    start_times : 1d array
-        The start times, in seconds, of each trial.
-    stop_times : 1d array
-        The stop times, in seconds, of each trial.
+    start_times, stop_times : 1d array
+        The start and stop times, in seconds, of each trial.
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
@@ -107,15 +104,14 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
     time_threshold : float, optional
         A maximum time threshold, per bin observation, to apply.
         If provided, any bin values with an associated time length above this value are dropped.
-    normalize : bool, optional, default: True
-        Whether to compute trial-level occupancy and use to normalize spatially binned firing.
+    trial_occupancy : 2d or 3d array, optional
+        Computed occupancy across the space, across trials.
+        If provided, used to normalize bin counts per trial.
     flatten : bool, optional, default: False
         Whether the flatten the spatial bins per trial. Only used if position data are 2d.
     orientation : {'row', 'column'}, optional
         The orientation of the position data.
         If not provided, is inferred from the position data.
-    occupancy_kwargs
-        Additional arguments to pass into the the `compute_occupancy` function.
 
     Returns
     -------
@@ -126,16 +122,25 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
 
     Examples
     --------
-    Compute spike activity in 1d spatial bins across 2 trials:
+    Compute spike activity, in 1d spatial bins across 2 trials:
 
-    >>> spikes = np.array([0.2, 0.25, 0.3, 0.38, 0.41, 0.5, 0.59, 0.77, 0.95])
-    >>> position = np.array([1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0])
-    >>> timestamps = np.array([0.1, 0.2, 0.25, 0.4, 0.45, 0.46, 0.6, 0.7, 1.0])
+    >>> spikes = np.array([0.15, 0.22, 0.28, 0.41, 0.50, 0.65, 0.77, 0.81, 0.95])
+    >>> position = np.array([1.0, 3.5, 2.0, 1.5, 3.0, 3.5, 4.0, 5.0, 3.5, 2.5])
+    >>> timestamps = np.array([0.10, 0.20, 0.25, 0.35, 0.45, 0.55, 0.6, 0.7, 0.80, 0.95])
     >>> bins = 2
-    >>> start_times, stop_times = np.array([0, 0.4]), np.array([0.3, 1])
+    >>> start_times, stop_times = np.array([0, 0.6]), np.array([0.4, 1.0])
     >>> compute_trial_place_bins(spikes, position, timestamps, bins, start_times, stop_times)
-    array([[10. , 40. ],
-           [10. ,  7.5]])
+    array([[2., 1.],
+           [3., 1.]])
+
+    Compute spike activity across trials, normalizing by trial-level occupancy:
+
+    >>> from spiketools.spatial.occupancy import compute_trial_occupancy
+    >>> trial_occ = compute_trial_occupancy(position, timestamps, bins, start_times, stop_times)
+    >>> compute_trial_place_bins(spikes, position, timestamps, bins,
+    ...                          start_times, stop_times, trial_occupancy=trial_occ)
+    array([[10., 20.],
+           [20.,  5.]])
     """
 
     t_occ = None
@@ -152,18 +157,12 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
         if speed is not None:
             _, t_speed = get_values_by_time_range(timestamps, speed, start, stop)
 
-        if normalize:
-            t_occ = compute_occupancy(t_pos, t_times, bins, area_range,
-                                      t_speed, speed_threshold, time_threshold,
-                                      **occupancy_kwargs)
+        if trial_occupancy is not None:
+            t_occ = trial_occupancy[ind, :]
 
         place_bins_trial[ind, :] = compute_place_bins(t_spikes, t_pos, t_times, bins, area_range,
                                                       t_speed, speed_threshold, time_threshold,
                                                       t_occ, orientation)
-
-        # This to turn off the range warning for subsequent loop iterations
-        #   This should be addressed by a warning filter, but that approach doesn't seem to work...
-        occupancy_kwargs['check_range'] = False
 
     if flatten:
         place_bins_trial = np.reshape(place_bins_trial, [len(start_times), compute_nbins(bins)])
