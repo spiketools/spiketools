@@ -22,10 +22,10 @@ authors:
     orcid: 0000-0003-1807-6882
     affiliation: "1"
 affiliations:
- - name: Department of Biomedical Engineering, Columbia University
-   index: 1
-- name: Icahn School of Medicine, Mount Sinai
-   index: 1
+  - name: Department of Biomedical Engineering, Columbia University
+    index: 1
+  - name: Icahn School of Medicine, Mount Sinai
+    index: 2
 date: XX XX XX
 bibliography: paper.bib
 ---
