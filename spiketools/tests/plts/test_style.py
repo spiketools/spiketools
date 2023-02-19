@@ -50,4 +50,4 @@ def test_set_plt_kwargs():
 def test_drop_spines():
 
     _, ax = plt.subplots()
-    drop_spines(ax, ['top', 'right'])
+    drop_spines(['top', 'right'], ax)

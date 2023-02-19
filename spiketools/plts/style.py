@@ -81,16 +81,21 @@ def set_plt_kwargs(func):
     return decorated
 
 
-def drop_spines(ax, sides):
+def drop_spines(sides, ax=None):
     """Drop spines from a plot axis.
 
     Parameters
     ----------
-    ax : Axes
-        Axis object to update.
     sides : {'left', 'right', 'top', 'bottom'} or list
         Side(s) to drop spines from.
+    ax : Axes, optional
+        Axis object to update.
+        If not provided, takes the current axis.
     """
+    # TEMP: avoid circular import
+    from spiketools.plts.utils import check_ax
+
+    ax = check_ax(ax, return_current=True)
 
     sides = [sides] if isinstance(sides, str) else sides
     check_list_options(sides, 'sides', ['left', 'right', 'top', 'bottom'])
