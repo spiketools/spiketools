@@ -410,6 +410,18 @@ Helper functions to annotate plot axes.
    add_significance
    add_text_labels
 
+Style
+~~~~~
+
+Helper functions for managing plot style.
+
+.. currentmodule:: spiketools.plts.utils
+.. autosummary::
+   :toctree: generated/
+
+   drop_spines
+   invert_axes
+
 Utils
 ~~~~~
 
@@ -420,10 +432,10 @@ Plot related utilities.
    :toctree: generated/
 
    check_ax
+   save_figure
    make_axes
    make_grid
    get_grid_subplot
-   save_figure
 
 Utilities
 ---------
