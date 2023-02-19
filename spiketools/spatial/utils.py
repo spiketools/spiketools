@@ -85,14 +85,14 @@ def compute_pos_ranges(position):
 
     Examples
     --------
-    Compute the 2D position ranges for:
+    Compute the 2d position ranges for:
     (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5.1, 9.1).
 
     >>> position = np.array([[1.5, 2.5, 3.5, 5.1], [6.5, 7.5, 8.5, 9.1]])
     >>> compute_pos_ranges(position)
     [array([1.5, 5.1]), array([6.5, 9.1])]
 
-    Compute the 1D position range for:
+    Compute the 1d position range for:
     x = 1.5, 2.5, 3.5, 5.1
 
     >>> position = np.array([1.5, 2.5, 3.5, 5.1])
@@ -171,22 +171,22 @@ def compute_bin_width(bin_edges):
 
 
 def convert_2dindices(xbins, ybins, bins):
-    """Convert a set of 2D bin indices into the equivalent 1D indices.
+    """Convert a set of 2d bin indices into the equivalent 1d indices.
 
     Parameters
     ----------
     xbins, ybins : 1d array
-        Bin assignment indices for the x and y dimension of a 2D binning.
+        Bin assignment indices for the x and y dimension of a 2d binning.
     bins : list of [int, int]
 
     Returns
     -------
     indices : 1d array
-        Bin assignment indices for a 1D binning.
+        Bin assignment indices for a 1d binning.
 
     Notes
     -----
-    The equivalent 1D indices for a set of 2D indices are those that access the
+    The equivalent 1d indices for a set of 2d indices are those that access the
     equivalent values once the data array has been flattened into a 1d array.
 
     Examples
@@ -205,12 +205,12 @@ def convert_2dindices(xbins, ybins, bins):
 
 
 def convert_1dindices(indices, bins):
-    """Convert a set of 1D bin indices into the equivalent 2D indices.
+    """Convert a set of 1d bin indices into the equivalent 2d indices.
 
     Parameters
     ----------
     indices : 1d array
-        Bin assignment indices for a 1D binning.
+        Bin assignment indices for a 1d binning.
     bins : list of [int, int]
         The bin definition for dividing up the space.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
@@ -218,12 +218,12 @@ def convert_1dindices(indices, bins):
     Returns
     -------
     xbins, ybins : 1d array
-        Bin assignment indices for the x and y dimension of a 2D binning.
+        Bin assignment indices for the x and y dimension of a 2d binning.
 
     Notes
     -----
-    The equivalent 2D indices for a set of 1d indices are those that access the
-    equivalent values once the data array has been reshaped to the given 2D bin definition.
+    The equivalent 2d indices for a set of 1d indices are those that access the
+    equivalent values once the data array has been reshaped to the given 2d bin definition.
 
     Examples
     --------

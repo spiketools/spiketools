@@ -108,13 +108,13 @@ def test_compute_bin_counts_assgn():
     xbins = [0, 0, 0, 1]
     ybins = [0, 0, 1, 2]
 
-    # check 1D case
+    # check 1d case
     bins = 2
     bin_counts = compute_bin_counts_assgn(bins, xbins)
     assert isinstance(bin_counts, np.ndarray)
     assert np.array_equal(bin_counts, np.array([3, 1]))
 
-    # check 2D case
+    # check 2d case
     bins = [2, 3]
     bin_counts = compute_bin_counts_assgn(bins, xbins, ybins)
     assert isinstance(bin_counts, np.ndarray)
