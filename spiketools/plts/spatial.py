@@ -10,8 +10,8 @@ from spiketools.utils.data import make_row_orientation, smooth_data, compute_ran
 from spiketools.modutils.functions import get_function_parameters
 from spiketools.plts.annotate import add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.utils import check_ax, make_axes, savefig, invert_axes
-from spiketools.plts.style import set_plt_kwargs
+from spiketools.plts.utils import check_ax, make_axes, savefig
+from spiketools.plts.style import set_plt_kwargs, invert_axes
 
 ###################################################################################################
 ###################################################################################################
@@ -92,7 +92,7 @@ def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
         ax.grid()
 
     if invert:
-        invert_axes(ax, invert)
+        invert_axes(invert, ax)
 
 
 @savefig
@@ -131,7 +131,7 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
     ax.set(xlabel='Time', ylabel='Position')
 
     if invert:
-        invert_axes(ax, invert)
+        invert_axes(invert, ax)
 
 
 @savefig
@@ -201,7 +201,7 @@ def plot_heatmap(data, smooth=False, smoothing_kernel=1.5, ignore_zero=False,
         colorbar.outline.set_visible(False)
 
     if invert:
-        invert_axes(ax, invert)
+        invert_axes(invert, ax)
 
 
 @savefig

@@ -7,28 +7,6 @@ from spiketools.plts.style import *
 ###################################################################################################
 ###################################################################################################
 
-def test_get_kwargs():
-
-    kwargs = {'title' : 'title', 'xlabel' : 'xlabel', 'lw' : 12}
-    out = get_kwargs(kwargs, SET_KWARGS)
-    for arg in ['title', 'xlabel']:
-        assert arg in out
-        assert arg not in kwargs
-    for arg in ['lw']:
-        assert arg not in out
-        assert arg in kwargs
-
-def test_get_attr_kwargs():
-
-    kwargs = {'title_color' : 'red', 'xlabel' : 'xlabel', 'lw' : 12}
-    out = get_attr_kwargs(kwargs, 'title')
-    for arg in ['color']:
-        assert arg in out
-        assert 'title_' + arg not in kwargs
-    for arg in ['xlabel', 'lw']:
-        assert arg not in out
-        assert arg in kwargs
-
 def test_set_plt_kwargs():
 
     @set_plt_kwargs
@@ -51,3 +29,22 @@ def test_drop_spines():
 
     _, ax = plt.subplots()
     drop_spines(['top', 'right'], ax)
+
+def test_invert_axes():
+
+    # test inverting x & y axes separately
+    _, ax1 = plt.subplots()
+    ax1.plot([1, 2], [3, 4])
+
+    invert_axes('x', ax1)
+    assert ax1.get_xlim()[0] > ax1.get_xlim()[1]
+
+    invert_axes('y', ax1)
+    assert ax1.get_ylim()[0] > ax1.get_ylim()[1]
+
+    # test inverting both axes together
+    _, ax2 = plt.subplots()
+    ax2.plot([1, 2], [3, 4])
+    invert_axes('both', ax2)
+    assert ax2.get_xlim()[0] > ax2.get_xlim()[1]
+    assert ax2.get_ylim()[0] > ax2.get_ylim()[1]

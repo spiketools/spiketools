@@ -2,6 +2,8 @@
 
 import os
 
+from spiketools.plts.settings import SET_KWARGS
+
 from spiketools.tests.tutils import fig_test
 from spiketools.tests.tsettings import TEST_PLOTS_PATH
 
@@ -31,6 +33,28 @@ def test_check_ax():
     _, ax = plt.subplots()
     nax = check_ax(None, return_current=True)
     assert nax == ax
+
+def test_get_kwargs():
+
+    kwargs = {'title' : 'title', 'xlabel' : 'xlabel', 'lw' : 12}
+    out = get_kwargs(kwargs, SET_KWARGS)
+    for arg in ['title', 'xlabel']:
+        assert arg in out
+        assert arg not in kwargs
+    for arg in ['lw']:
+        assert arg not in out
+        assert arg in kwargs
+
+def test_get_attr_kwargs():
+
+    kwargs = {'title_color' : 'red', 'xlabel' : 'xlabel', 'lw' : 12}
+    out = get_attr_kwargs(kwargs, 'title')
+    for arg in ['color']:
+        assert arg in out
+        assert 'title_' + arg not in kwargs
+    for arg in ['xlabel', 'lw']:
+        assert arg not in out
+        assert arg in kwargs
 
 def test_savefig():
 
@@ -85,22 +109,3 @@ def test_get_grid_subplot():
     grid = make_grid(2, 2)
     ax = get_grid_subplot(grid, 0, 0)
     assert ax
-
-def test_invert_axes():
-
-    # test inverting x & y axes separately
-    _, ax1 = plt.subplots()
-    ax1.plot([1, 2], [3, 4])
-
-    invert_axes(ax1, 'x')
-    assert ax1.get_xlim()[0] > ax1.get_xlim()[1]
-
-    invert_axes(ax1, 'y')
-    assert ax1.get_ylim()[0] > ax1.get_ylim()[1]
-
-    # test inverting both axes together
-    _, ax2 = plt.subplots()
-    ax2.plot([1, 2], [3, 4])
-    invert_axes(ax2, 'both')
-    assert ax2.get_xlim()[0] > ax2.get_xlim()[1]
-    assert ax2.get_ylim()[0] > ax2.get_ylim()[1]
