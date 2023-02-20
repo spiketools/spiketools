@@ -17,8 +17,7 @@ def create_mask(data, min_value=None, max_value=None):
         Array of data.
     min_value, max_value : float, optional
         Minimum and/or maximum value to extract from the input array.
-    reset : float, optional
-        If provided, resets the values in the data array by the given reset value.
+        The minimum value is inclusive, but the maximum value is exclusive.
 
     Returns
     -------
@@ -30,14 +29,17 @@ def create_mask(data, min_value=None, max_value=None):
     Create a mask to select data within a given value range:
 
     >>> data = np.array([1, 2, 3, 4, 5, 6, 7, 8])
-    >>> create_mask(data, min_value=3, max_value=6)
+    >>> create_mask(data, min_value=2.5, max_value=6.5)
     array([False, False,  True,  True,  True,  True, False, False])
     """
 
     min_value = -np.inf if min_value is None else min_value
     max_value = np.inf if max_value is None else max_value
 
-    mask = np.logical_and(data >= min_value, data <= max_value)
+    # Make the mask inclusive for min / exclusive for max value
+    #   If inclusive for both, there can be issues double-selecting spikes
+    #   For example, if a spike ==  time_range, and select contiguous segments
+    mask = np.logical_and(data >= min_value, data < max_value)
 
     return mask
 
@@ -70,13 +72,13 @@ def get_range(data, min_value=None, max_value=None, reset=None):
     Get all values less than a specific value:
 
     >>> data = np.array([5, 10, 15, 20, 25, 30])
-    >>> get_range(data, min_value=None, max_value=25)
-    array([ 5, 10, 15, 20, 25])
+    >>> get_range(data, min_value=None, max_value=22.5)
+    array([ 5, 10, 15, 20])
 
     Get a specified range from a data array:
 
     >>> data = np.array([5, 10, 15, 20, 25, 30])
-    >>> get_range(data, min_value=10, max_value=20)
+    >>> get_range(data, min_value=10, max_value=22.5)
     array([10, 15, 20])
     """
 
@@ -101,6 +103,7 @@ def get_value_range(timestamps, data, min_value=None, max_value=None, reset=None
         Data values, corresponding to the timestamps.
     min_value, max_value : float, optional
         Minimum and/or maximum value to extract from the input array.
+        The minimum value is inclusive, but the maximum value is exclusive.
     reset : float, optional
         If provided, resets the time values by the given reset value.
 
@@ -117,7 +120,7 @@ def get_value_range(timestamps, data, min_value=None, max_value=None, reset=None
 
     >>> data = np.array([1, 2, 3, 4, 5, 6, 7, 8])
     >>> timestamps = np.array([0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1.2, 1.5])
-    >>> get_value_range(timestamps, data, min_value=3, max_value=6)
+    >>> get_value_range(timestamps, data, min_value=2.5, max_value=6.5)
     (array([0.4, 0.5, 0.7, 0.9]), array([3, 4, 5, 6]))
     """
 
@@ -191,7 +194,7 @@ def get_inds_by_times(timestamps, timepoints, threshold=None, drop_null=True):
     --------
     Get the corresponding indices for specified timepoints:
 
-    >>> timestamps = np.array([0.5, 1, 1.5, 2, 2.5, 3 ])
+    >>> timestamps = np.array([0.5, 1.0, 1.5, 2.0, 2.5, 3.0])
     >>> timepoints = np.array([1, 2, 3])
     >>> get_inds_by_times(timestamps, timepoints)
     array([1, 3, 5])
@@ -445,24 +448,27 @@ def drop_range(spikes, time_range, check_empty=True):
     array([0.24, 0.73, 1.22, 1.65, 2.15, 2.95, 3.52, 3.84])
     """
 
-    # Operate on a copy of the input, to not overwrite original array
-    spikes = spikes.copy()
+    # Check for time range is not empty (if is empty list, do nothing)
+    if time_range:
 
-    total_len = 0
-    for trange in np.array(time_range, ndmin=2):
+        # Operate on a copy of the input, to not overwrite original array
+        spikes = spikes.copy()
 
-        if total_len > 0:
-            trange = [trange[0] - total_len, trange[1] - total_len]
+        total_len = 0
+        for trange in np.array(time_range, ndmin=2):
 
-        if check_empty:
-            assert get_range(spikes, *trange).size == 0, \
-                "Extracted range {} is not empty.".format(trange)
+            if total_len > 0:
+                trange = [trange[0] - total_len, trange[1] - total_len]
 
-        tlen = trange[1] - trange[0]
-        spikes = np.hstack([get_range(spikes, max_value=trange[0]),
-                            get_range(spikes, min_value=trange[1], reset=tlen)])
+            if check_empty:
+                assert get_range(spikes, *trange).size == 0, \
+                    "Extracted range {} is not empty.".format(trange)
 
-        total_len += trange[1] - trange[0]
+            tlen = trange[1] - trange[0]
+            spikes = np.hstack([get_range(spikes, max_value=trange[0]),
+                                get_range(spikes, min_value=trange[1], reset=tlen)])
+
+            total_len += trange[1] - trange[0]
 
     return spikes
 

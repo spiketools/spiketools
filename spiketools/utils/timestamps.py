@@ -196,6 +196,44 @@ def convert_time_to_nsamples(time, fs):
     return n_samples
 
 
+def sum_time_ranges(ranges):
+    """Sum the total amount of time defined by time range(s).
+
+    Parameters
+    ----------
+    ranges : list of float or list of list of float
+        Time range(s) to sum the total defined time for.
+
+    Returns
+    -------
+    total : float
+        The total amount of time defined by the given time range(s).
+
+    Examples
+    --------
+    Sum the amount of time in a single time range:
+
+    >>> time_range = [2.5, 10]
+    >>> sum_time_ranges(time_range)
+    7.5
+
+    Sum the amount of time across a collection of time ranges:
+
+    >>> time_ranges = [[2.5, 10], [14, 15], [18.5, 20]]
+    >>> sum_time_ranges(time_ranges)
+    10.0
+    """
+
+    if ranges and isinstance(ranges[0], (int, float)):
+        ranges = [ranges]
+
+    total = 0
+    for crange in ranges:
+        total += crange[1] - crange[0]
+
+    return total
+
+
 def create_bin_times(bins):
     """Create a timepoints definitions for a set of time bins.
 

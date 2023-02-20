@@ -75,6 +75,20 @@ def test_convert_time_to_nsamples():
     assert isinstance(out, int)
     assert out == 12
 
+def test_sum_time_ranges():
+
+    range0 = []
+    out0 = sum_time_ranges(range0)
+    assert out0 == 0
+
+    range1 = [0, 15.5]
+    out1 = sum_time_ranges(range1)
+    assert out1 == 15.5
+
+    ranges = [[0, 5.5], [10, 14.5]]
+    out2 = sum_time_ranges(ranges)
+    assert out2 == 10.0
+
 def test_create_bin_times():
 
     # Check basic time bin definition

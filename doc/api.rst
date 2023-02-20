@@ -498,6 +498,7 @@ Utilities for working with timestamps.
    convert_ms_to_min
    convert_nsamples_to_time
    convert_time_to_nsamples
+   sum_time_ranges
    create_bin_times
    split_time_value
    format_time_string
