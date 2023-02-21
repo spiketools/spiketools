@@ -5,9 +5,9 @@ import numpy as np
 from spiketools.utils.base import flatten
 from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.plts.settings import DEFAULT_COLORS
-from spiketools.plts.annotate import add_vlines, add_vshade, add_significance
-from spiketools.plts.utils import check_ax, savefig
-from spiketools.plts.style import get_kwargs, set_plt_kwargs
+from spiketools.plts.annotate import add_vlines, add_vshades, add_significance
+from spiketools.plts.utils import check_ax, get_kwargs, savefig
+from spiketools.plts.style import set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
@@ -23,13 +23,13 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
     data : list of list of float
         Spike times per trial.
         Multiple conditions can also be passed in.
-    vline : float or list, optional
+    vline : float or list of float, optional
         Location(s) to draw a vertical line. If None, no line is drawn.
     colors : str or list of str, optional
         Color(s) to plot the raster ticks.
         If more than one, should match the number of conditions.
-    vshade : list of float, optional
-        Vertical region of the plot to shade in.
+    vshade : list of float or list of list of float, optional
+        Vertical region(s) of the plot to shade in.
     show_axis : bool, optional, default: False
         Whether to show the axis around the plot.
     ax : Axes, optional
@@ -72,9 +72,9 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
                color=custom_plt_kwargs.pop('line_color', 'green'),
                lw=custom_plt_kwargs.pop('line_lw', 2.5),
                alpha=custom_plt_kwargs.pop('line_alpha', 0.5))
-    add_vshade(vshade, ax,
-               color=custom_plt_kwargs.pop('shade_color', 'red'),
-               alpha=custom_plt_kwargs.pop('shade_alpha', 0.25))
+    add_vshades(vshade, ax,
+                color=custom_plt_kwargs.pop('shade_color', 'red'),
+                alpha=custom_plt_kwargs.pop('shade_alpha', 0.25))
 
     if not show_axis:
         ax.set_axis_off()

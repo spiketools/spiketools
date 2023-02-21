@@ -7,8 +7,6 @@ from os.path import join as pjoin
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 
-from spiketools.plts.style import get_attr_kwargs
-
 ###################################################################################################
 ###################################################################################################
 
@@ -38,6 +36,50 @@ def check_ax(ax, figsize=None, return_current=False):
             _, ax = plt.subplots(figsize=figsize)
 
     return ax
+
+
+def get_kwargs(kwargs, select):
+    """Get keyword arguments.
+
+    Parameters
+    ----------
+    kwargs : dict
+        Keyword arguments to extract from.
+    select : list of str
+        The arguments to extract.
+
+    Returns
+    -------
+    setters : dict
+        Selected keyword arguments.
+    """
+
+    setters = {arg : kwargs.pop(arg, None) for arg in select}
+    setters = {arg : value for arg, value in setters.items() if value is not None}
+
+    return setters
+
+
+def get_attr_kwargs(kwargs, attr):
+    """Get keyword arguments related to a particular attribute.
+
+    Parameters
+    ----------
+    kwargs : dict
+        Plotting related keyword arguments.
+    attr : str
+        The attribute to select related arguments.
+
+    Returns
+    -------
+    attr_kwargs : dict
+        Selected keyword arguments, related to the given attribute.
+    """
+
+    labels = [key for key in kwargs.keys() if attr in key]
+    attr_kwargs = {label.split('_')[1] : kwargs.pop(label) for label in labels}
+
+    return attr_kwargs
 
 
 def savefig(func):
@@ -190,26 +232,3 @@ def get_grid_subplot(grid, row, col, **plt_kwargs):
     """
 
     return plt.subplot(grid[row, col], **plt_kwargs)
-
-
-def invert_axes(ax, invert):
-    """Invert plot axes.
-
-    Parameters
-    ----------
-    ax : Axes
-        Axis object to update.
-    invert : {'x', 'y', 'both'} or None
-        How to invert the plot axes, inverting the x, y, or both axes.
-
-    Notes
-    -----
-    Note that for a 2d array, inverting axes is equivalent to flipping the data, specifically:
-        Flipping up/down is equivalent to inverting the y-axis.
-        Flipping left/right is equivalent to inverting the x-axis.
-    """
-
-    if invert in ['x', 'both']:
-        ax.invert_xaxis()
-    if invert in ['y', 'both']:
-        ax.invert_yaxis()

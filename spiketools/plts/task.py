@@ -2,7 +2,7 @@
 
 import matplotlib.pyplot as plt
 
-from spiketools.plts.annotate import add_vshade, add_vlines
+from spiketools.plts.annotate import add_vshades, add_vlines
 from spiketools.plts.utils import check_ax, savefig
 from spiketools.plts.style import set_plt_kwargs
 
@@ -52,9 +52,9 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
                 range_kwargs['color'] = color
                 plot_task_structure(task_ranges=trange, range_kwargs=range_kwargs, ax=ax)
         else:
-            for st, en in zip(*task_ranges):
-                range_kwargs.setdefault('alpha', 0.25)
-                add_vshade([st, en], **range_kwargs, ax=ax)
+            range_kwargs.setdefault('alpha', 0.25)
+            shade_ranges = [[st, en] for st, en in zip(*task_ranges)]
+            add_vshades(shade_ranges, **range_kwargs, ax=ax)
 
     if event_lines is not None:
         if not isinstance(event_lines[0], (int, float)):

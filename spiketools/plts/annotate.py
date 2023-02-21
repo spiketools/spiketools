@@ -75,13 +75,13 @@ def add_hlines(hline, ax=None, **plt_kwargs):
             ax.axhline(line, **plt_kwargs)
 
 
-def add_vshade(vshade, ax=None, **plt_kwargs):
-    """Add vertical shading to a plot axis.
+def add_vshades(vshades, ax=None, **plt_kwargs):
+    """Add vertical shade region(s) to a plot axis.
 
     Parameters
     ----------
-    vshade : list of float
-        Region of the plot to shade in.
+    vshade : list of float or list of list of float
+        Region(s) of the plot to shade in.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -90,17 +90,19 @@ def add_vshade(vshade, ax=None, **plt_kwargs):
 
     ax = check_ax(ax, return_current=True)
 
-    if vshade is not None:
-        ax.axvspan(*vshade, **plt_kwargs)
+    if vshades is not None:
+        vshades = [vshades] if isinstance(vshades[0], (int, float)) else vshades
+        for vshade in vshades:
+            ax.axvspan(*vshade, **plt_kwargs)
 
 
-def add_hshade(hshade, ax=None, **plt_kwargs):
-    """Add horizontal shading to a plot axis.
+def add_hshades(hshades, ax=None, **plt_kwargs):
+    """Add horizontal shade region(s) to a plot axis.
 
     Parameters
     ----------
     hshade : list of float
-        Region of the plot to shade in.
+        Region(s) of the plot to shade in.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -109,8 +111,10 @@ def add_hshade(hshade, ax=None, **plt_kwargs):
 
     ax = check_ax(ax, return_current=True)
 
-    if hshade is not None:
-        ax.axhspan(*hshade, **plt_kwargs)
+    if hshades is not None:
+        hshades = [hshades] if isinstance(hshades[0], (int, float)) else hshades
+        for hshade in hshades:
+            ax.axhspan(*hshade, **plt_kwargs)
 
 
 def add_box_shade(x1, x2, y_val, y_range=0.41, ax=None, **plt_kwargs):

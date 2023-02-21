@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.plts.data import plot_bar, plot_hist, plot_lines
-from spiketools.plts.utils import check_ax, savefig
-from spiketools.plts.style import get_kwargs, set_plt_kwargs
+from spiketools.plts.utils import check_ax, get_kwargs, savefig
+from spiketools.plts.style import set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
