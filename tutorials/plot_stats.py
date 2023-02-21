@@ -90,7 +90,7 @@ shuffled_circular = shuffle_circular(spikes, shuffle_min=200, n_shuffles=10)
 ###################################################################################################
 
 # Plot original spike train
-plot_rasters(spikes, xlim=[0, 6], title='Non-shuffled', line=None)
+plot_rasters(spikes, xlim=[0, 6], title='Non-shuffled', vline=None)
 
 ###################################################################################################
 

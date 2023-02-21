@@ -242,7 +242,7 @@ plot_rasters(trial_spikes, title='Spikes per trial')
 
 # Compute firing rates per trial, using a 2 second bin width
 bin_width = 2
-trial_frs = compute_trial_frs(trial_spikes, bin_width, time_range=None, smooth=None)
+trial_times, trial_frs = compute_trial_frs(trial_spikes, bin_width, time_range=[0, 6], smooth=None)
 
 # Plot trial firing rates (2 second bins)
 plot_heatmap(trial_frs, title='Trial FRs, 2s bins')
