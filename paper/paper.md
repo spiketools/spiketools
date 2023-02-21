@@ -48,14 +48,14 @@ Modules in ``spiketools`` include:
 
 ``spiketools`` is has the following required dependencies:
 
-* numpy : which is used for managing and computing with arrays [@harris_array_2020]
-* scipy : which is used for some existing algorithms [@virtanen_scipy_2020]
-* pandas : which is used for managing heterogeneous data [@mckinney_pandas_2011]
-* matplotlib : which is used for plotting [@hunter_matplotlib_2007]
+* numpy : used for managing and computing with arrays [@harris_array_2020]
+* scipy : used for some existing algorithms [@virtanen_scipy_2020]
+* pandas : used for managing heterogeneous data [@mckinney_pandas_2011]
+* matplotlib : used for plotting [@hunter_matplotlib_2007]
 
 ``spiketools`` also has some optional dependencies that offer extra functionality:
 
-* statsmodels : which is used for statistical testing single-unit responses [@seabold_statsmodels_2010]
+* statsmodels : used for statistically testing responses [@seabold_statsmodels_2010]
 
 # Statement of Need
 
@@ -65,7 +65,7 @@ Benefits of ``spiketools`` include that it follows modular organization, include
 
 ``spiketools`` complements related tools that support other functionality in the ecosystem, including `neo` [@garcia_neo_2014], which supports loading and working with electrophysiological data, and `spike interface` [@buccino_spikeinterface_2020], which implements and supports spike-sorting related functionality. It's lightweight architecture also allows for integration with other related tools, for example, it could be used in combination with `NeuroDSP` [@cole_neurodsp_2019], which provides functionality for analyzing neural time series, in order to examine relationships between spiking activity and the local field potential.
 
-``spiketools`` also offers a module for simulating spiking activity, offering several methods for simulating spiking activity with specified parameters. Note that these simulations are designed to mimic the statistics of single unit spiking activity, but are not designed to replicate or reflect biophysical properties of neurons, and therefore should be over-interpreted as biophysically realistic. Nevertheless, this simulation system allows for method testing, as new methods and implementations can be tested against synthetic data for which ground truth parameters are known.
+``spiketools`` also offers a module for simulating spiking activity, offering several methods for simulating spiking activity with specified parameters. Note that these simulations are designed to mimic the statistics of single unit spiking activity, but are not designed to replicate or reflect biophysical properties of neurons, and therefore should not be over-interpreted as biophysically realistic. Nevertheless, this simulation system allows for method testing, as new methods and implementations can be tested against synthetic data for which ground truth parameters are known.
 
 # Acknowledgments
 
