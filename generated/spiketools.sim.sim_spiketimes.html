@@ -97,7 +97,7 @@
 <h1>spiketools.sim.sim_spiketimes<a class="headerlink" href="#spiketools-sim-sim-spiketimes" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.sim.sim_spiketimes">
-<span class="sig-prename descclassname"><span class="pre">spiketools.sim.</span></span><span class="sig-name descname"><span class="pre">sim_spiketimes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spike_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/times.html#sim_spiketimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.sim_spiketimes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.sim.</span></span><span class="sig-name descname"><span class="pre">sim_spiketimes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spike_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/times.html#sim_spiketimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.sim_spiketimes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulate spike times.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -109,22 +109,23 @@ For <cite>poisson</cite>, this is the spike rate.</p>
 </dd>
 <dt><strong>method</strong><span class="classifier">{‘poisson’}</span></dt><dd><p>The method to use for the simulation.</p>
 </dd>
-<dt><strong>refractory</strong><span class="classifier">float, optional</span></dt><dd><p>The refractory period to apply to the simulated data, in seconds.</p>
+<dt><strong>refractory</strong><span class="classifier">float, optional, default: 0.001</span></dt><dd><p>The refractory period to apply to the simulated data, in seconds.</p>
 </dd>
-<dt><strong>**kwargs</strong></dt><dd><p>Additional keyword arguments.</p>
+<dt><strong>**kwargs</strong></dt><dd><p>Additional keyword arguments.
+There are passed into the simulate function specified by <cite>method</cite>.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike times, in seconds.</p>
+<dt><strong>spike_times</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike times, in seconds.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <p>Simulate spike times at a rate of 5Hz for 3 seconds, using the poisson method:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">sim_spiketimes</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spike_times</span> <span class="o">=</span> <span class="n">sim_spiketimes</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -143,7 +144,7 @@ For <cite>poisson</cite>, this is the spike rate.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

@@ -100,13 +100,14 @@
 <span class="kn">from</span> <span class="nn">spiketools.utils.extract</span> <span class="kn">import</span> <span class="n">get_range</span>
 <span class="kn">from</span> <span class="nn">spiketools.utils.options</span> <span class="kn">import</span> <span class="n">get_avg_func</span>
 <span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_time_bins</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.timestamps</span> <span class="kn">import</span> <span class="n">create_bin_times</span>
 <span class="kn">from</span> <span class="nn">spiketools.measures.spikes</span> <span class="kn">import</span> <span class="n">compute_firing_rate</span>
 <span class="kn">from</span> <span class="nn">spiketools.measures.conversions</span> <span class="kn">import</span> <span class="n">convert_times_to_rates</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="compute_trial_frs"><a class="viewcode-back" href="../../../generated/spiketools.measures.trials.compute_trial_frs.html#spiketools.measures.trials.compute_trial_frs">[docs]</a><span class="k">def</span> <span class="nf">compute_trial_frs</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">trange</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="compute_trial_frs"><a class="viewcode-back" href="../../../generated/spiketools.measures.trials.compute_trial_frs.html#spiketools.measures.trials.compute_trial_frs">[docs]</a><span class="k">def</span> <span class="nf">compute_trial_frs</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute continuous binned firing rates for a set of epoched spike times.</span>
 
 <span class="sd">    Parameters</span>
@@ -117,7 +118,7 @@
 <span class="sd">        The binning to apply to the spiking data.</span>
 <span class="sd">        If float, the length of each bin.</span>
 <span class="sd">        If array, precomputed bin definitions.</span>
-<span class="sd">    trange : list of [float, float], optional</span>
+<span class="sd">    time_range : list of [float, float], optional</span>
 <span class="sd">        Time range, in seconds, to create the binned firing rate across.</span>
 <span class="sd">        Only used if `bins` is a float.</span>
 <span class="sd">    smooth : float, optional</span>
@@ -125,6 +126,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
+<span class="sd">    bin_times : 1d array</span>
+<span class="sd">        Timestamps for the computed time bins.</span>
 <span class="sd">    trial_cfrs : 2d array</span>
 <span class="sd">        Continuous firing rates per trial, with shape [n_trials, n_time_bins].</span>
 
@@ -133,22 +136,25 @@
 <span class="sd">    Compute the continuous firing rates across time bins for 3 trials:</span>
 
 <span class="sd">    &gt;&gt;&gt; trial_spikes = [np.array([0.005, 0.150, 0.250]), \</span>
-<span class="sd">                        np.array([0.126, 0.275, 0.300, 0.350, 0.500]), \</span>
+<span class="sd">                        np.array([0.126, 0.275, 0.300, 0.350, 0.600]), \</span>
 <span class="sd">                        np.array([0.250, 0.350, 0.700, 0.900])]</span>
 <span class="sd">    &gt;&gt;&gt; bins = 0.5</span>
-<span class="sd">    &gt;&gt;&gt; trange = [0.0, 1.0]</span>
-<span class="sd">    &gt;&gt;&gt; compute_trial_frs(trial_spikes, bins, trange)</span>
+<span class="sd">    &gt;&gt;&gt; time_range = [0.0, 1.0]</span>
+<span class="sd">    &gt;&gt;&gt; bin_times, trial_cfrs = compute_trial_frs(trial_spikes, bins, time_range)</span>
+<span class="sd">    &gt;&gt;&gt; trial_cfrs</span>
 <span class="sd">    array([[6., 0.],</span>
 <span class="sd">           [8., 2.],</span>
 <span class="sd">           [4., 4.]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_time_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">trial_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">trange</span><span class="o">=</span><span class="n">trange</span><span class="p">)</span>
-    <span class="n">trial_cfrs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_time_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">time_range</span><span class="p">)</span>
+    <span class="n">bin_times</span> <span class="o">=</span> <span class="n">create_bin_times</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+
+    <span class="n">trial_cfrs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">bin_times</span><span class="p">)])</span>
     <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">t_spikes</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">):</span>
         <span class="n">trial_cfrs</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">convert_times_to_rates</span><span class="p">(</span><span class="n">t_spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">smooth</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">trial_cfrs</span></div>
+    <span class="k">return</span> <span class="n">bin_times</span><span class="p">,</span> <span class="n">trial_cfrs</span></div>
 
 
 <div class="viewcode-block" id="compute_pre_post_rates"><a class="viewcode-back" href="../../../generated/spiketools.measures.trials.compute_pre_post_rates.html#spiketools.measures.trials.compute_pre_post_rates">[docs]</a><span class="k">def</span> <span class="nf">compute_pre_post_rates</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">pre_window</span><span class="p">,</span> <span class="n">post_window</span><span class="p">):</span>
@@ -159,7 +165,7 @@
 <span class="sd">    trial_spikes : list of 1d array</span>
 <span class="sd">        Spike times per trial.</span>
 <span class="sd">    pre_window, post_window : list of [float, float]</span>
-<span class="sd">        The time window to compute firing rate across, for the pre and post event windows.</span>
+<span class="sd">        The pre and post event time window, in seconds, to compute firing rate across.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -171,15 +177,15 @@
 <span class="sd">    Compute the pre &amp; post firing rates for specified time windows across 3 trials:</span>
 
 <span class="sd">    &gt;&gt;&gt; trial_spikes = [np.array([-0.150, -0.005, -0.002, 0.250, 0.450, 0.625]), \</span>
-<span class="sd">                        np.array([-0.250, 0.275, 0.290, 0.3, 0.350, 0.5]), \</span>
+<span class="sd">                        np.array([-0.250, 0.275, 0.290, 0.3, 0.350, 0.6]), \</span>
 <span class="sd">                        np.array([0.550, 0.650, 0.70, 0.9, 0.950])]</span>
 <span class="sd">    &gt;&gt;&gt; pre_window, post_window = [-0.5, 0.0], [0.5, 0.9]</span>
 <span class="sd">    &gt;&gt;&gt; compute_pre_post_rates(trial_spikes, pre_window, post_window)</span>
-<span class="sd">    (array([6., 2., 0.]), array([ 2.5,  2.5, 10. ]))</span>
+<span class="sd">    (array([6., 2., 0.]), array([2.5, 2.5, 7.5]))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">frs_pre</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">compute_firing_rate</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="o">*</span><span class="n">pre_window</span><span class="p">)</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trial_spikes</span><span class="p">])</span>
-    <span class="n">frs_post</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">compute_firing_rate</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="o">*</span><span class="n">post_window</span><span class="p">)</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trial_spikes</span><span class="p">])</span>
+    <span class="n">frs_pre</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">compute_firing_rate</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">pre_window</span><span class="p">)</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trial_spikes</span><span class="p">])</span>
+    <span class="n">frs_post</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">compute_firing_rate</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">post_window</span><span class="p">)</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trial_spikes</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">frs_pre</span><span class="p">,</span> <span class="n">frs_post</span></div>
 
@@ -204,16 +210,16 @@
 <span class="sd">    --------</span>
 <span class="sd">    Compute firing rate across segments, with custom segment times per trial:</span>
 
-<span class="sd">    &gt;&gt;&gt; spikes = [np.array([0.002, 0.005, 0.120, 0.150, 0.250]), \</span>
-<span class="sd">                  np.array([0.275, 0.290, 0.3, 0.350, 0.5]), \</span>
-<span class="sd">                  np.array([0.550, 0.650, 0.70, 0.9, 0.950])]</span>
-<span class="sd">    &gt;&gt;&gt; segments = np.array([[0, 0.1, 0.15, 0.26], \</span>
-<span class="sd">                             [0.27, 0.35, 0.4, 0.51], \</span>
-<span class="sd">                             [0.52, 0.7, 0.9, 1]])</span>
+<span class="sd">    &gt;&gt;&gt; spikes = [np.array([0.002, 0.005, 0.120, 0.175, 0.250]), \</span>
+<span class="sd">                  np.array([0.275, 0.290, 0.300, 0.350, 0.500]), \</span>
+<span class="sd">                  np.array([0.550, 0.650, 0.700, 0.950])]</span>
+<span class="sd">    &gt;&gt;&gt; segments = np.array([[0.00, 0.15, 0.25], \</span>
+<span class="sd">                             [0.20, 0.40, 0.60], \</span>
+<span class="sd">                             [0.50, 0.70, 0.90]])</span>
 <span class="sd">    &gt;&gt;&gt; compute_segment_frs(spikes, segments)</span>
-<span class="sd">    array([[20.        , 20.        , 18.18181818],</span>
-<span class="sd">           [37.5       , 20.        ,  9.09090909],</span>
-<span class="sd">           [11.11111111,  5.        , 20.        ]])</span>
+<span class="sd">    array([[20., 20.],</span>
+<span class="sd">           [20.,  5.],</span>
+<span class="sd">           [10.,  5.]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -305,7 +311,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

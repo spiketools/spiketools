@@ -101,10 +101,35 @@
 
 <span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">gaussian_filter</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_options</span><span class="p">,</span> <span class="n">check_bin_range</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_array_orientation</span><span class="p">,</span> <span class="n">check_param_options</span><span class="p">,</span> <span class="n">check_bin_range</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
+
+<span class="k">def</span> <span class="nf">make_row_orientation</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check and make sure a 2d array is in row orientation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    arr : 2d array</span>
+<span class="sd">        Array to check orientation.</span>
+<span class="sd">    orientation : {&#39;row&#39;, &#39;column&#39;}, optional</span>
+<span class="sd">        The orientation of the input array.</span>
+<span class="sd">        If not provided, is inferred from the input data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    arr : 2d array</span>
+<span class="sd">        2d array in row orientation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">orientation</span><span class="p">:</span>
+        <span class="n">orientation</span> <span class="o">=</span> <span class="n">check_array_orientation</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">T</span> <span class="k">if</span> <span class="n">orientation</span> <span class="o">==</span> <span class="s1">&#39;column&#39;</span> <span class="k">else</span> <span class="n">arr</span>
+
+    <span class="k">return</span> <span class="n">arr</span>
+
 
 <div class="viewcode-block" id="compute_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.data.compute_range.html#spiketools.utils.data.compute_range">[docs]</a><span class="k">def</span> <span class="nf">compute_range</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute the range of an array of data.</span>
@@ -311,7 +336,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

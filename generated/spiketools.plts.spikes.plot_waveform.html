@@ -97,14 +97,15 @@
 <h1>spiketools.plts.spikes.plot_waveform<a class="headerlink" href="#spiketools-plts-spikes-plot-waveform" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.plts.spikes.plot_waveform">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spikes.</span></span><span class="sig-name descname"><span class="pre">plot_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waveform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shade</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_traces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spikes.html#plot_waveform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spikes.plot_waveform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spikes.</span></span><span class="sig-name descname"><span class="pre">plot_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waveform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shade</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_traces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spikes.html#plot_waveform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spikes.plot_waveform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a spike waveform.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>waveform</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Voltage values of the spike waveform(s). If 2d, should have shape [n_waveforms, n_times].</p>
+<dt><strong>waveform</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Voltage values of the spike waveform(s).
+If 2d, should have shape [n_waveforms, n_timestamps].</p>
 </dd>
-<dt><strong>times</strong><span class="classifier">1d array, optional</span></dt><dd><p>Time values corresponding to the waveform(s).</p>
+<dt><strong>timestamps</strong><span class="classifier">1d array, optional</span></dt><dd><p>Timestamps corresponding to the waveform(s).</p>
 </dd>
 <dt><strong>average</strong><span class="classifier">{‘mean’, ‘median’}, optional</span></dt><dd><p>Averaging to apply to waveforms before plotting.
 If provided, this takes an average across an assumed 2d array of waveforms.</p>
@@ -116,7 +117,8 @@ Only applicable if <cite>waveform</cite> is a 2d array.</p>
 </dd>
 <dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
 </dd>
-<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.</p>
+<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.
+Custom kwargs: ‘traces_lw’, ‘traces_alpha’, ‘shade_alpha’.</p>
 </dd>
 </dl>
 </dd>
@@ -137,7 +139,7 @@ Only applicable if <cite>waveform</cite> is a 2d array.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

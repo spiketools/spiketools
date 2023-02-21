@@ -104,7 +104,7 @@
 <dd class="field-odd"><dl class="simple">
 <dt><strong>trial_spikes</strong><span class="classifier">list of 1d array</span></dt><dd><p>Spike times per trial.</p>
 </dd>
-<dt><strong>pre_window, post_window</strong><span class="classifier">list of [float, float]</span></dt><dd><p>The time window to compute firing rate across, for the pre and post event windows.</p>
+<dt><strong>pre_window, post_window</strong><span class="classifier">list of [float, float]</span></dt><dd><p>The pre and post event time window, in seconds, to compute firing rate across.</p>
 </dd>
 </dl>
 </dd>
@@ -117,10 +117,10 @@
 </dl>
 <p class="rubric">Examples</p>
 <p>Compute the pre &amp; post firing rates for specified time windows across 3 trials:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trial_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.150</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.005</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.002</span><span class="p">,</span> <span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.450</span><span class="p">,</span> <span class="mf">0.625</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.275</span><span class="p">,</span> <span class="mf">0.290</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.350</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.550</span><span class="p">,</span> <span class="mf">0.650</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.950</span><span class="p">])]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trial_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.150</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.005</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.002</span><span class="p">,</span> <span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.450</span><span class="p">,</span> <span class="mf">0.625</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.275</span><span class="p">,</span> <span class="mf">0.290</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.350</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.550</span><span class="p">,</span> <span class="mf">0.650</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.950</span><span class="p">])]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pre_window</span><span class="p">,</span> <span class="n">post_window</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">compute_pre_post_rates</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">pre_window</span><span class="p">,</span> <span class="n">post_window</span><span class="p">)</span>
-<span class="go">(array([6., 2., 0.]), array([ 2.5,  2.5, 10. ]))</span>
+<span class="go">(array([6., 2., 0.]), array([2.5, 2.5, 7.5]))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -139,7 +139,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

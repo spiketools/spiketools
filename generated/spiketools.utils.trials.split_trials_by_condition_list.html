@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.stats.permutations.vec_perm &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.utils.trials.split_trials_by_condition_list &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -93,42 +93,29 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-stats-permutations-vec-perm">
-<h1>spiketools.stats.permutations.vec_perm<a class="headerlink" href="#spiketools-stats-permutations-vec-perm" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-utils-trials-split-trials-by-condition-list">
+<h1>spiketools.utils.trials.split_trials_by_condition_list<a class="headerlink" href="#spiketools-utils-trials-split-trials-by-condition-list" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.stats.permutations.vec_perm">
-<span class="sig-prename descclassname"><span class="pre">spiketools.stats.permutations.</span></span><span class="sig-name descname"><span class="pre">vec_perm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_perms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/permutations.html#vec_perm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.permutations.vec_perm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Vectorized permutations.</p>
+<dt class="sig sig-object py" id="spiketools.utils.trials.split_trials_by_condition_list">
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.trials.</span></span><span class="sig-name descname"><span class="pre">split_trials_by_condition_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conditions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/trials.html#split_trials_by_condition_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.trials.split_trials_by_condition_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split trial data by condition label, for trial data as a list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">1d array</span></dt><dd><p>Data to permute.</p>
+<dt><strong>trials</strong><span class="classifier">list</span></dt><dd><p>Trial data, with each element representing a trial.</p>
 </dd>
-<dt><strong>n_perms</strong><span class="classifier">int, optional, default: 1000</span></dt><dd><p>Number of permutations to do.</p>
+<dt><strong>conditions</strong><span class="classifier">list</span></dt><dd><p>Condition labels for each trial.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>perms</strong><span class="classifier">2d array</span></dt><dd><p>Permutations of the input data.</p>
+<dt><strong>split_trials</strong><span class="classifier">dict</span></dt><dd><p>The trial data, organized by condition.
+Each key is a condition label with values as the data for that condition.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>Code adapted from here: <a class="reference external" href="https://stackoverflow.com/questions/46859304/">https://stackoverflow.com/questions/46859304/</a>
-This function doesn’t have any randomness - for a given array it will
-iterate through the same set of permutations, in sequence.</p>
-<p class="rubric">Examples</p>
-<p>Create permutations for a given vector:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vec_perm</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">n_perms</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="go">array([[ 0,  5, 10, 15, 20],</span>
-<span class="go">       [ 5, 10, 15, 20,  0],</span>
-<span class="go">       [10, 15, 20,  0,  5],</span>
-<span class="go">       [15, 20,  0,  5, 10]])</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>
@@ -145,7 +132,7 @@ iterate through the same set of permutations, in sequence.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

@@ -96,13 +96,42 @@
 <span></span><span class="sd">&quot;&quot;&quot;Spatial position related utility functions.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">compute_range</span>
-<span class="kn">from</span> <span class="nn">spiketools.spatial.checks</span> <span class="kn">import</span> <span class="n">check_position_bins</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_axis</span><span class="p">,</span> <span class="n">check_array_orientation</span>
+<span class="kn">from</span> <span class="nn">spiketools.spatial.checks</span> <span class="kn">import</span> <span class="n">check_spatial_bins</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
+
+<span class="k">def</span> <span class="nf">get_position_xy</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the x &amp; y data vectors from a 2d position data array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    position : 2d array</span>
+<span class="sd">        Position values.</span>
+<span class="sd">    orientation : {&#39;row&#39;, &#39;column&#39;}, optional</span>
+<span class="sd">        The orientation of the position data.</span>
+<span class="sd">        If not provided, is inferred from the given data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x_data, y_data : 1d array</span>
+<span class="sd">        Extracted X &amp; Y position data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Position data must be 2d to unpack X &amp; Y dimensions.&quot;</span>
+
+    <span class="n">orientation</span> <span class="o">=</span> <span class="n">check_array_orientation</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">orientation</span> <span class="k">else</span> <span class="n">orientation</span>
+
+    <span class="k">if</span> <span class="n">orientation</span> <span class="o">==</span> <span class="s1">&#39;row&#39;</span><span class="p">:</span>
+        <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span> <span class="o">=</span> <span class="n">position</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">position</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span>
+
 
 <div class="viewcode-block" id="compute_nbins"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_nbins.html#spiketools.spatial.utils.compute_nbins">[docs]</a><span class="k">def</span> <span class="nf">compute_nbins</span><span class="p">(</span><span class="n">bins</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute the number of bins for a given bin definition.</span>
@@ -126,7 +155,7 @@
 <span class="sd">    20</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_position_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_spatial_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">n_bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -146,33 +175,34 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    ranges : list of float or list of list of float</span>
+<span class="sd">    ranges : 1d array or list of 1d array</span>
 <span class="sd">        Ranges for each dimension in the spatial data.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Compute the 2D position ranges for:</span>
-<span class="sd">    (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5, 9).</span>
+<span class="sd">    Compute the 2d position ranges for:</span>
+<span class="sd">    (x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5.1, 9.1).</span>
 
-<span class="sd">    &gt;&gt;&gt; position = np.array([[1.5, 2.5, 3.5, 5], [6.5, 7.5, 8.5, 9]])</span>
+<span class="sd">    &gt;&gt;&gt; position = np.array([[1.5, 2.5, 3.5, 5.1], [6.5, 7.5, 8.5, 9.1]])</span>
 <span class="sd">    &gt;&gt;&gt; compute_pos_ranges(position)</span>
-<span class="sd">    [[1.5, 5.0], [6.5, 9.0]]</span>
+<span class="sd">    [array([1.5, 5.1]), array([6.5, 9.1])]</span>
 
-<span class="sd">    Compute the 1D position range for:</span>
-<span class="sd">    x = 1.5, 2.5, 3.5, 5.</span>
+<span class="sd">    Compute the 1d position range for:</span>
+<span class="sd">    x = 1.5, 2.5, 3.5, 5.1</span>
 
-<span class="sd">    &gt;&gt;&gt; position = np.array([1.5, 2.5, 3.5, 5])</span>
+<span class="sd">    &gt;&gt;&gt; position = np.array([1.5, 2.5, 3.5, 5.1])</span>
 <span class="sd">    &gt;&gt;&gt; compute_pos_ranges(position)</span>
-<span class="sd">    [1.5, 5.0]</span>
+<span class="sd">    array([1.5, 5.1])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">ranges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">compute_range</span><span class="p">(</span><span class="n">position</span><span class="p">)]</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">compute_range</span><span class="p">(</span><span class="n">position</span><span class="p">))</span>
 
     <span class="k">elif</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">ranges</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">position</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">ranges</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="o">*</span><span class="n">compute_range</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="n">dim</span><span class="p">,</span> <span class="p">:])])</span>
+        <span class="c1"># Regardless of row / column input data, organizes output to have same orientation</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">check_axis</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">compute_range</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ranges</span><span class="o">.</span><span class="n">T</span> <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">ranges</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Position input should be 1d or 2d.&#39;</span><span class="p">)</span>
@@ -180,25 +210,25 @@
     <span class="k">return</span> <span class="n">ranges</span></div>
 
 
-<div class="viewcode-block" id="compute_bin_time"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_bin_time.html#spiketools.spatial.utils.compute_bin_time">[docs]</a><span class="k">def</span> <span class="nf">compute_bin_time</span><span class="p">(</span><span class="n">timestamps</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the time duration of each position sample.</span>
+<div class="viewcode-block" id="compute_sample_durations"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_sample_durations.html#spiketools.spatial.utils.compute_sample_durations">[docs]</a><span class="k">def</span> <span class="nf">compute_sample_durations</span><span class="p">(</span><span class="n">timestamps</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the time duration of each sample.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    timestamps : 1d array</span>
-<span class="sd">        Timestamps.</span>
+<span class="sd">        Timestamps, in seconds.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    1d array</span>
-<span class="sd">        Width, in time, of each bin.</span>
+<span class="sd">        Time duration of each sampling bin.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    Compute times between timestamp samples:</span>
 
 <span class="sd">    &gt;&gt;&gt; timestamps = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])</span>
-<span class="sd">    &gt;&gt;&gt; compute_bin_time(timestamps)</span>
+<span class="sd">    &gt;&gt;&gt; compute_sample_durations(timestamps)</span>
 <span class="sd">    array([1., 2., 3., 2., 1., 0.])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -236,22 +266,22 @@
 
 
 <div class="viewcode-block" id="convert_2dindices"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.convert_2dindices.html#spiketools.spatial.utils.convert_2dindices">[docs]</a><span class="k">def</span> <span class="nf">convert_2dindices</span><span class="p">(</span><span class="n">xbins</span><span class="p">,</span> <span class="n">ybins</span><span class="p">,</span> <span class="n">bins</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert a set of 2D bin indices into the equivalent 1D indices.</span>
+    <span class="sd">&quot;&quot;&quot;Convert a set of 2d bin indices into the equivalent 1d indices.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    xbins, ybins : 1d array</span>
-<span class="sd">        Bin assignment indices for the x and y dimension of a 2D binning.</span>
+<span class="sd">        Bin assignment indices for the x and y dimension of a 2d binning.</span>
 <span class="sd">    bins : list of [int, int]</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    indices : 1d array</span>
-<span class="sd">        Bin assignment indices for a 1D binning.</span>
+<span class="sd">        Bin assignment indices for a 1d binning.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    The equivalent 1D indices for a set of 2D indices are those that access the</span>
+<span class="sd">    The equivalent 1d indices for a set of 2d indices are those that access the</span>
 <span class="sd">    equivalent values once the data array has been flattened into a 1d array.</span>
 
 <span class="sd">    Examples</span>
@@ -270,12 +300,12 @@
 
 
 <div class="viewcode-block" id="convert_1dindices"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.convert_1dindices.html#spiketools.spatial.utils.convert_1dindices">[docs]</a><span class="k">def</span> <span class="nf">convert_1dindices</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">bins</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert a set of 1D bin indices into the equivalent 2D indices.</span>
+    <span class="sd">&quot;&quot;&quot;Convert a set of 1d bin indices into the equivalent 2d indices.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    indices : 1d array</span>
-<span class="sd">        Bin assignment indices for a 1D binning.</span>
+<span class="sd">        Bin assignment indices for a 1d binning.</span>
 <span class="sd">    bins : list of [int, int]</span>
 <span class="sd">        The bin definition for dividing up the space.</span>
 <span class="sd">        If 2d should be a list, defined as [number of x_bins, number of y_bins].</span>
@@ -283,12 +313,12 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    xbins, ybins : 1d array</span>
-<span class="sd">        Bin assignment indices for the x and y dimension of a 2D binning.</span>
+<span class="sd">        Bin assignment indices for the x and y dimension of a 2d binning.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    The equivalent 2D indices for a set of 1d indices are those that access the</span>
-<span class="sd">    equivalent values once the data array has been reshaped to the given 2D bin definition.</span>
+<span class="sd">    The equivalent 2d indices for a set of 1d indices are those that access the</span>
+<span class="sd">    equivalent values once the data array has been reshaped to the given 2d bin definition.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -316,7 +346,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

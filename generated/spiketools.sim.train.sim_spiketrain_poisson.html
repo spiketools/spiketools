@@ -97,7 +97,7 @@
 <h1>spiketools.sim.train.sim_spiketrain_poisson<a class="headerlink" href="#spiketools-sim-train-sim-spiketrain-poisson" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.sim.train.sim_spiketrain_poisson">
-<span class="sig-prename descclassname"><span class="pre">spiketools.sim.train.</span></span><span class="sig-name descname"><span class="pre">sim_spiketrain_poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/train.html#sim_spiketrain_poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.train.sim_spiketrain_poisson" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.sim.train.</span></span><span class="sig-name descname"><span class="pre">sim_spiketrain_poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/train.html#sim_spiketrain_poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.train.sim_spiketrain_poisson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulate spike train from a Poisson distribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -108,18 +108,20 @@
 </dd>
 <dt><strong>fs</strong><span class="classifier">int, optional, default: 1000</span></dt><dd><p>The sampling rate, in Hz.</p>
 </dd>
+<dt><strong>refractory</strong><span class="classifier">int, optional</span></dt><dd><p>The refractory period to apply to the simulated data, in number of samples.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike train.</p>
+<dt><strong>spike_train</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike train.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <p>Simulate a spike train at a rate of 2 Hz for 100 samples:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">sim_spiketrain_poisson</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spike_train</span> <span class="o">=</span> <span class="n">sim_spiketrain_poisson</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -138,7 +140,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

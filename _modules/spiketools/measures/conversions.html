@@ -137,15 +137,22 @@
     <span class="n">inds</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">ind</span> <span class="o">*</span> <span class="n">fs</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">spikes</span> <span class="k">if</span> <span class="n">ind</span> <span class="o">*</span> <span class="n">fs</span> <span class="o">&lt;=</span> <span class="n">spike_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
     <span class="n">spike_train</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 
+    <span class="c1"># Check that the spike times are fully encoded into the spike train</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;The spike times were not fully encoded into the spike train. &quot;</span> \
+           <span class="s2">&quot;This probably means the spike sampling rate is too low to encode &quot;</span> \
+           <span class="s2">&quot;spikes close together in time. Try increasing the sampling rate.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">sum</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">spikes</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">spike_train</span></div>
 
 
-<div class="viewcode-block" id="convert_train_to_times"><a class="viewcode-back" href="../../../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times">[docs]</a><span class="k">def</span> <span class="nf">convert_train_to_times</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<div class="viewcode-block" id="convert_train_to_times"><a class="viewcode-back" href="../../../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times">[docs]</a><span class="k">def</span> <span class="nf">convert_train_to_times</span><span class="p">(</span><span class="n">spike_train</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert a spike train representation into spike times, in seconds.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    train : 1d array</span>
+<span class="sd">    spike_train : 1d array</span>
 <span class="sd">        Spike train.</span>
 <span class="sd">    fs : int, optional, default: 1000</span>
 <span class="sd">        The sampling rate of the computed spike train, in Hz.</span>
@@ -164,7 +171,7 @@
 <span class="sd">    array([0.004, 0.006, 0.009, 0.011, 0.012, 0.014])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">train</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">spikes</span> <span class="o">=</span> <span class="n">spikes</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">fs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">spikes</span></div>
@@ -206,7 +213,42 @@
     <span class="k">return</span> <span class="n">spikes</span></div>
 
 
-<div class="viewcode-block" id="convert_times_to_rates"><a class="viewcode-back" href="../../../generated/spiketools.measures.conversions.convert_times_to_rates.html#spiketools.measures.conversions.convert_times_to_rates">[docs]</a><span class="k">def</span> <span class="nf">convert_times_to_rates</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">trange</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="convert_times_to_counts"><a class="viewcode-back" href="../../../generated/spiketools.measures.conversions.convert_times_to_counts.html#spiketools.measures.conversions.convert_times_to_counts">[docs]</a><span class="k">def</span> <span class="nf">convert_times_to_counts</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert spikes times to counts of spikes per time bin.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spikes : 1d array</span>
+<span class="sd">        Spike times, in seconds.</span>
+<span class="sd">    bins : float or 1d array</span>
+<span class="sd">        The binning to apply to the spiking data.</span>
+<span class="sd">        If float, the time length of each bin.</span>
+<span class="sd">        If array, precomputed bin definitions.</span>
+<span class="sd">    time_range : list of [float, float], optional</span>
+<span class="sd">        Time range, in seconds, to calculate the spike counts across.</span>
+<span class="sd">        Only used if `bins` is a float.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spike_bin_counts : 1d array</span>
+<span class="sd">        Vector of counts of the number of spikes per time bin.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Convert spike times (in seconds) to counts of spikes per time bin:</span>
+
+<span class="sd">    &gt;&gt;&gt; spikes = np.array([0.100, 0.350, 0.450, 0.775, 0.975])</span>
+<span class="sd">    &gt;&gt;&gt; convert_times_to_counts(spikes, bins=0.250)</span>
+<span class="sd">    array([1, 2, 0, 2])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_time_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">spikes</span><span class="p">)</span>
+    <span class="n">spike_bin_counts</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">spike_bin_counts</span></div>
+
+
+<div class="viewcode-block" id="convert_times_to_rates"><a class="viewcode-back" href="../../../generated/spiketools.measures.conversions.convert_times_to_rates.html#spiketools.measures.conversions.convert_times_to_rates">[docs]</a><span class="k">def</span> <span class="nf">convert_times_to_rates</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert spike times to continuous firing rate.</span>
 
 <span class="sd">    Parameters</span>
@@ -215,10 +257,10 @@
 <span class="sd">        Spike times, in seconds.</span>
 <span class="sd">    bins : float or 1d array</span>
 <span class="sd">        The binning to apply to the spiking data.</span>
-<span class="sd">        If float, the length of each bin.</span>
+<span class="sd">        If float, the time length of each bin.</span>
 <span class="sd">        If array, precomputed bin definitions.</span>
-<span class="sd">    trange : list of [float, float]</span>
-<span class="sd">        Time range, in seconds, to create the binned firing rate across.</span>
+<span class="sd">    time_range : list of [float, float], optional</span>
+<span class="sd">        Time range, in seconds, to calculate the binned firing rate across.</span>
 <span class="sd">        Only used if `bins` is a float.</span>
 <span class="sd">    smooth : float, optional</span>
 <span class="sd">        If provided, the kernel to use to smooth the continuous firing rate.</span>
@@ -237,8 +279,9 @@
 <span class="sd">    array([ 5.,  5., 10.,  5.,  0.,  5., 15.,  5.])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_time_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">spikes</span><span class="p">,</span> <span class="n">trange</span><span class="p">)</span>
-    <span class="n">bin_counts</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_time_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">spikes</span><span class="p">)</span>
+    <span class="n">bin_counts</span> <span class="o">=</span> <span class="n">convert_times_to_counts</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">time_range</span><span class="p">)</span>
+
     <span class="n">cfr</span> <span class="o">=</span> <span class="n">bin_counts</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">smooth</span><span class="p">:</span>
@@ -258,7 +301,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

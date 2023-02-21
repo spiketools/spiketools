@@ -17,7 +17,7 @@ This tutorial primarily covers the ``spiketools.stats`` module.
 #
 # 1. Compute and plot different shuffles of spikes
 # 2. Compute t-test t- and p-values to test for an event-related firing rate change
-# 3. Compare 1st and last half of trials
+# 3. Compare first and last half of trials
 # 4. Run a 2-way ANOVA on multiple trials data
 # 5. Compute empirical p-value and z-score from distribution of surrogates
 # 6. Compute f-value from spiking data using 1-way ANOVA
@@ -90,7 +90,7 @@ shuffled_circular = shuffle_circular(spikes, shuffle_min=200, n_shuffles=10)
 ###################################################################################################
 
 # Plot original spike train
-plot_rasters(spikes, xlim=[0, 6], title='Non-shuffled', line=None)
+plot_rasters(spikes, xlim=[0, 6], title='Non-shuffled', vline=None)
 
 ###################################################################################################
 

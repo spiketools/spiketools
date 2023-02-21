@@ -97,7 +97,7 @@
 <h1>spiketools.measures.conversions.convert_times_to_rates<a class="headerlink" href="#spiketools-measures-conversions-convert-times-to-rates" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.measures.conversions.convert_times_to_rates">
-<span class="sig-prename descclassname"><span class="pre">spiketools.measures.conversions.</span></span><span class="sig-name descname"><span class="pre">convert_times_to_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/measures/conversions.html#convert_times_to_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.measures.conversions.convert_times_to_rates" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.measures.conversions.</span></span><span class="sig-name descname"><span class="pre">convert_times_to_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/measures/conversions.html#convert_times_to_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.measures.conversions.convert_times_to_rates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert spike times to continuous firing rate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -105,10 +105,10 @@
 <dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times, in seconds.</p>
 </dd>
 <dt><strong>bins</strong><span class="classifier">float or 1d array</span></dt><dd><p>The binning to apply to the spiking data.
-If float, the length of each bin.
+If float, the time length of each bin.
 If array, precomputed bin definitions.</p>
 </dd>
-<dt><strong>trange</strong><span class="classifier">list of [float, float]</span></dt><dd><p>Time range, in seconds, to create the binned firing rate across.
+<dt><strong>time_range</strong><span class="classifier">list of [float, float], optional</span></dt><dd><p>Time range, in seconds, to calculate the binned firing rate across.
 Only used if <cite>bins</cite> is a float.</p>
 </dd>
 <dt><strong>smooth</strong><span class="classifier">float, optional</span></dt><dd><p>If provided, the kernel to use to smooth the continuous firing rate.</p>
@@ -145,7 +145,7 @@ Only used if <cite>bins</cite> is a float.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

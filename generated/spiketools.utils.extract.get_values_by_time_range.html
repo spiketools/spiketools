@@ -97,22 +97,25 @@
 <h1>spiketools.utils.extract.get_values_by_time_range<a class="headerlink" href="#spiketools-utils-extract-get-values-by-time-range" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.utils.extract.get_values_by_time_range">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.extract.</span></span><span class="sig-name descname"><span class="pre">get_values_by_time_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_max</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/extract.html#get_values_by_time_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.extract.get_values_by_time_range" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.extract.</span></span><span class="sig-name descname"><span class="pre">get_values_by_time_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/extract.html#get_values_by_time_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.extract.get_values_by_time_range" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract data for a requested time range.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps.</p>
+<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps, in seconds.</p>
 </dd>
-<dt><strong>values</strong><span class="classifier">ndarray</span></dt><dd><p>Data values, corresponding to the time values in <cite>times</cite>.</p>
+<dt><strong>values</strong><span class="classifier">ndarray</span></dt><dd><p>Data values, corresponding to the time values in <cite>timestamps</cite>.</p>
 </dd>
 <dt><strong>t_min, t_max</strong><span class="classifier">float</span></dt><dd><p>Time range to extract.</p>
+</dd>
+<dt><strong>axis</strong><span class="classifier">{0, 1}, optional</span></dt><dd><p>The axis argument for the <cite>values</cite> data, if it’s a 2d array, as {0: column, 1: row}.
+If not provided, is inferred from the <cite>values</cite> array.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Selected time values.</p>
+<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Selected timestamp values.</p>
 </dd>
 <dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>Selected data values.</p>
 </dd>
@@ -121,9 +124,9 @@
 </dl>
 <p class="rubric">Examples</p>
 <p>Extract data within a specified time range:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">get_values_by_time_range</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">t_min</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_values_by_time_range</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">t_min</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
 <span class="go">(array([2, 3, 4, 5, 6]), array([1. , 1.5, 2. , 2.5, 3. ]))</span>
 </pre></div>
 </div>
@@ -143,7 +146,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

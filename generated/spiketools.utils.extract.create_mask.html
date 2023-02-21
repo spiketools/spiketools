@@ -104,9 +104,8 @@
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">1d array</span></dt><dd><p>Array of data.</p>
 </dd>
-<dt><strong>min_value, max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Minimum and/or maximum value to extract from the input array.</p>
-</dd>
-<dt><strong>reset</strong><span class="classifier">float, optional</span></dt><dd><p>If provided, resets the values in the data array by the given reset value.</p>
+<dt><strong>min_value, max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Minimum and/or maximum value to extract from the input array.
+The minimum value is inclusive, but the maximum value is exclusive.</p>
 </dd>
 </dl>
 </dd>
@@ -120,7 +119,7 @@
 <p class="rubric">Examples</p>
 <p>Create a mask to select data within a given value range:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">create_mask</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">create_mask</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mf">6.5</span><span class="p">)</span>
 <span class="go">array([False, False,  True,  True,  True,  True, False, False])</span>
 </pre></div>
 </div>
@@ -140,7 +139,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

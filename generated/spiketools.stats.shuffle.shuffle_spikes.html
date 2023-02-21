@@ -97,14 +97,14 @@
 <h1>spiketools.stats.shuffle.shuffle_spikes<a class="headerlink" href="#spiketools-stats-shuffle-shuffle-spikes" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.stats.shuffle.shuffle_spikes">
-<span class="sig-prename descclassname"><span class="pre">spiketools.stats.shuffle.</span></span><span class="sig-name descname"><span class="pre">shuffle_spikes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approach</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ISI'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shuffles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/shuffle.html#shuffle_spikes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.shuffle.shuffle_spikes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.stats.shuffle.</span></span><span class="sig-name descname"><span class="pre">shuffle_spikes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approach</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shuffles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/shuffle.html#shuffle_spikes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.shuffle.shuffle_spikes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shuffle spikes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times, in seconds.</p>
 </dd>
-<dt><strong>approach</strong><span class="classifier">{‘ISI’, ‘BINCIRC’, ‘POISSON’, ‘CIRCULAR’}</span></dt><dd><p>Which approach to take for shuffling spike times.</p>
+<dt><strong>approach</strong><span class="classifier">{‘isi’, ‘bincirc’, ‘poisson’, ‘circular’}</span></dt><dd><p>Which approach to take for shuffling spike times.</p>
 </dd>
 <dt><strong>n_shuffles</strong><span class="classifier">int, optional, default: 1000</span></dt><dd><p>The number of shuffles to create.</p>
 </dd>
@@ -127,11 +127,11 @@ See shuffle sub-functions for details.</p>
 </pre></div>
 </div>
 <p>Create 5 spike time shuffles using the ISI shuffle method:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_spikes</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="s1">&#39;ISI&#39;</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_spikes</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="s1">&#39;isi&#39;</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Create 5 spike time shuffles using the ‘CIRCULAR’ shuffle method:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_spikes</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="s1">&#39;CIRCULAR&#39;</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle_min</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<p>Create 5 spike time shuffles using a circular shuffle:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_spikes</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="s1">&#39;circular&#39;</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle_min</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -150,7 +150,7 @@ See shuffle sub-functions for details.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

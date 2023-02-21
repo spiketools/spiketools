@@ -97,16 +97,14 @@
 <h1>spiketools.utils.epoch.epoch_spikes_by_range<a class="headerlink" href="#spiketools-utils-epoch-epoch-spikes-by-range" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.utils.epoch.epoch_spikes_by_range">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.epoch.</span></span><span class="sig-name descname"><span class="pre">epoch_spikes_by_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">starts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stops</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/epoch.html#epoch_spikes_by_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.epoch.epoch_spikes_by_range" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.epoch.</span></span><span class="sig-name descname"><span class="pre">epoch_spikes_by_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/epoch.html#epoch_spikes_by_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.epoch.epoch_spikes_by_range" title="Permalink to this definition">¶</a></dt>
 <dd><p>Epoch spiking data into trials, based on time ranges of interest.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times.</p>
+<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times, in seconds.</p>
 </dd>
-<dt><strong>starts</strong><span class="classifier">list</span></dt><dd><p>The start times for each epoch to extract.</p>
-</dd>
-<dt><strong>stops</strong><span class="classifier">list</span></dt><dd><p>The stop times of each epoch to extract.</p>
+<dt><strong>start_times, stop_times</strong><span class="classifier">list of float</span></dt><dd><p>The start and stop times, in seconds, of each epoch.</p>
 </dd>
 <dt><strong>reset</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to reset each set of trial timestamps to start at zero.</p>
 </dd>
@@ -114,18 +112,18 @@
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>trials</strong><span class="classifier">list of 1d array</span></dt><dd><p>Spike data per trial.</p>
+<dt><strong>trials</strong><span class="classifier">list of 1d array</span></dt><dd><p>Spike times per trial.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <p>Epoch an array of spiking data into trials, resetting each trial to start at time 0:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">starts</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">stops</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">1.35</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">epoch_spikes_by_range</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">starts</span><span class="p">,</span> <span class="n">stops</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="go">[array([0.1, 0.3, 0.4]), array([0.05, 0.15, 0.25]), array([0.1])]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start_times</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stop_times</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">1.35</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">epoch_spikes_by_range</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">start_times</span><span class="p">,</span> <span class="n">stop_times</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">[array([0.1, 0.2, 0.3]), array([0.05, 0.15, 0.25]), array([0.1])]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -144,7 +142,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

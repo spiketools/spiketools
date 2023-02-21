@@ -102,9 +102,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps.</p>
+<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps, in seconds.</p>
 </dd>
-<dt><strong>values</strong><span class="classifier">1d array</span></dt><dd><p>Data values.</p>
+<dt><strong>values</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Data values.</p>
 </dd>
 <dt><strong>segments</strong><span class="classifier">list or 1d array of float</span></dt><dd><p>Time values that define the segments.
 Each segment time is defined as the interval between segment[n] and segment[n+1].</p>
@@ -113,7 +113,7 @@ Each segment time is defined as the interval between segment[n] and segment[n+1]
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>segment_times</strong><span class="classifier">list of 1d array</span></dt><dd><p>The timestamps, per segment.</p>
+<dt><strong>segment_timestamps</strong><span class="classifier">list of 1d array</span></dt><dd><p>The timestamps, in seconds, per segment.</p>
 </dd>
 <dt><strong>segment_values</strong><span class="classifier">list of 1d array</span></dt><dd><p>The values, per segment.</p>
 </dd>
@@ -145,7 +145,7 @@ Each segment time is defined as the interval between segment[n] and segment[n+1]
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

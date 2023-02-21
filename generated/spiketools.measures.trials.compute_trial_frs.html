@@ -97,7 +97,7 @@
 <h1>spiketools.measures.trials.compute_trial_frs<a class="headerlink" href="#spiketools-measures-trials-compute-trial-frs" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.measures.trials.compute_trial_frs">
-<span class="sig-prename descclassname"><span class="pre">spiketools.measures.trials.</span></span><span class="sig-name descname"><span class="pre">compute_trial_frs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/measures/trials.html#compute_trial_frs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.measures.trials.compute_trial_frs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.measures.trials.</span></span><span class="sig-name descname"><span class="pre">compute_trial_frs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/measures/trials.html#compute_trial_frs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.measures.trials.compute_trial_frs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute continuous binned firing rates for a set of epoched spike times.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -108,7 +108,7 @@
 If float, the length of each bin.
 If array, precomputed bin definitions.</p>
 </dd>
-<dt><strong>trange</strong><span class="classifier">list of [float, float], optional</span></dt><dd><p>Time range, in seconds, to create the binned firing rate across.
+<dt><strong>time_range</strong><span class="classifier">list of [float, float], optional</span></dt><dd><p>Time range, in seconds, to create the binned firing rate across.
 Only used if <cite>bins</cite> is a float.</p>
 </dd>
 <dt><strong>smooth</strong><span class="classifier">float, optional</span></dt><dd><p>If provided, the kernel to use to smooth the continuous firing rate.</p>
@@ -117,6 +117,8 @@ Only used if <cite>bins</cite> is a float.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
+<dt><strong>bin_times</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps for the computed time bins.</p>
+</dd>
 <dt><strong>trial_cfrs</strong><span class="classifier">2d array</span></dt><dd><p>Continuous firing rates per trial, with shape [n_trials, n_time_bins].</p>
 </dd>
 </dl>
@@ -124,10 +126,11 @@ Only used if <cite>bins</cite> is a float.</p>
 </dl>
 <p class="rubric">Examples</p>
 <p>Compute the continuous firing rates across time bins for 3 trials:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trial_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.150</span><span class="p">,</span> <span class="mf">0.250</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.126</span><span class="p">,</span> <span class="mf">0.275</span><span class="p">,</span> <span class="mf">0.300</span><span class="p">,</span> <span class="mf">0.350</span><span class="p">,</span> <span class="mf">0.500</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.350</span><span class="p">,</span> <span class="mf">0.700</span><span class="p">,</span> <span class="mf">0.900</span><span class="p">])]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trial_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.150</span><span class="p">,</span> <span class="mf">0.250</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.126</span><span class="p">,</span> <span class="mf">0.275</span><span class="p">,</span> <span class="mf">0.300</span><span class="p">,</span> <span class="mf">0.350</span><span class="p">,</span> <span class="mf">0.600</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.350</span><span class="p">,</span> <span class="mf">0.700</span><span class="p">,</span> <span class="mf">0.900</span><span class="p">])]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_trial_frs</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">trange</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_range</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bin_times</span><span class="p">,</span> <span class="n">trial_cfrs</span> <span class="o">=</span> <span class="n">compute_trial_frs</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">time_range</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trial_cfrs</span>
 <span class="go">array([[6., 0.],</span>
 <span class="go">       [8., 2.],</span>
 <span class="go">       [4., 4.]])</span>
@@ -149,7 +152,7 @@ Only used if <cite>bins</cite> is a float.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

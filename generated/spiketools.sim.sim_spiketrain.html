@@ -110,26 +110,27 @@ For <cite>poisson</cite>, this is the spike rate.</p>
 </dd>
 <dt><strong>method</strong><span class="classifier">{‘prob’, ‘binom’, ‘poisson’}</span></dt><dd><p>The method to use for the simulation.</p>
 </dd>
-<dt><strong>refractory</strong><span class="classifier">float, optional</span></dt><dd><p>The refractory period to apply to the simulated data, in seconds.</p>
+<dt><strong>refractory</strong><span class="classifier">int, optional</span></dt><dd><p>The refractory period to apply to the simulated data, in number of samples.</p>
 </dd>
-<dt><strong>**kwargs</strong></dt><dd><p>Additional keyword arguments.</p>
+<dt><strong>**kwargs</strong></dt><dd><p>Additional keyword arguments.
+There are passed into the simulate function specified by <cite>method</cite>.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>train</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike train.</p>
+<dt><strong>spike_train</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike train.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <p>Simulate a spike train based on probability of spiking:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span> <span class="o">=</span> <span class="n">sim_spiketrain</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spike_train</span> <span class="o">=</span> <span class="n">sim_spiketrain</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Simulate a spike train based on a Poisson distribution:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span> <span class="o">=</span> <span class="n">sim_spiketrain</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;poisson&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spike_train</span> <span class="o">=</span> <span class="n">sim_spiketrain</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;poisson&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -148,7 +149,7 @@ For <cite>poisson</cite>, this is the spike rate.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

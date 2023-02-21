@@ -102,19 +102,19 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps.</p>
+<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps, in seconds.</p>
 </dd>
-<dt><strong>values</strong><span class="classifier">1d array</span></dt><dd><p>Data values.</p>
+<dt><strong>values</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Data values.</p>
 </dd>
 <dt><strong>events</strong><span class="classifier">1d array</span></dt><dd><p>The set of event times to extract from the data.</p>
 </dd>
-<dt><strong>window</strong><span class="classifier">list of [float, float]</span></dt><dd><p>The time window to extract around each event.</p>
+<dt><strong>window</strong><span class="classifier">list of [float, float]</span></dt><dd><p>The time window to extract around each event, in seconds.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>trial_times</strong><span class="classifier">list of 1d array</span></dt><dd><p>The timestamps, per trial.</p>
+<dt><strong>trial_timestamps</strong><span class="classifier">list of 1d array</span></dt><dd><p>The timestamps, per trial.</p>
 </dd>
 <dt><strong>trial_values</strong><span class="classifier">list of 1d array</span></dt><dd><p>The values, per trial.</p>
 </dd>
@@ -124,9 +124,9 @@
 <p class="rubric">Examples</p>
 <p>Epoch data into trials based on event windows:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">window</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">window</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">epoch_data_by_event</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">window</span><span class="p">)</span>
 <span class="go">([array([0. , 0.2]), array([0.1])], [array([1.5, 2. ]), array([2.5])])</span>
 </pre></div>
@@ -147,7 +147,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

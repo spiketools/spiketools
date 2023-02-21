@@ -103,19 +103,19 @@
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<div class="viewcode-block" id="vec_perm"><a class="viewcode-back" href="../../../generated/spiketools.stats.permutations.vec_perm.html#spiketools.stats.permutations.vec_perm">[docs]</a><span class="k">def</span> <span class="nf">vec_perm</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n_perms</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Vectorized permutations.</span>
+<div class="viewcode-block" id="permute_vector"><a class="viewcode-back" href="../../../generated/spiketools.stats.permutations.permute_vector.html#spiketools.stats.permutations.permute_vector">[docs]</a><span class="k">def</span> <span class="nf">permute_vector</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n_permutations</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create permutations of a vector of data.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : 1d array</span>
-<span class="sd">        Data to permute.</span>
-<span class="sd">    n_perms : int, optional, default: 1000</span>
+<span class="sd">        Vector to permute.</span>
+<span class="sd">    n_permutations : int, optional, default: 1000</span>
 <span class="sd">        Number of permutations to do.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    perms : 2d array</span>
+<span class="sd">    permutations : 2d array</span>
 <span class="sd">        Permutations of the input data.</span>
 
 <span class="sd">    Notes</span>
@@ -126,23 +126,26 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Create permutations for a given vector:</span>
+<span class="sd">    Create permutations for a vector of data:</span>
 
-<span class="sd">    &gt;&gt;&gt; vec = np.array([0, 5, 10, 15, 20])</span>
-<span class="sd">    &gt;&gt;&gt; vec_perm(vec, n_perms=4)</span>
+<span class="sd">    &gt;&gt;&gt; data = np.array([0, 5, 10, 15, 20])</span>
+<span class="sd">    &gt;&gt;&gt; permute_vector(data, n_permutations=4)</span>
 <span class="sd">    array([[ 0,  5, 10, 15, 20],</span>
 <span class="sd">           [ 5, 10, 15, 20,  0],</span>
 <span class="sd">           [10, 15, 20,  0,  5],</span>
 <span class="sd">           [15, 20,  0,  5, 10]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;The permute_vector function only works on 1d arrays.&#39;</span>
+
     <span class="n">data_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
     <span class="n">strides</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">strides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">perms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">stride_tricks</span><span class="o">.</span><span class="n">as_strided</span><span class="p">(</span><span class="n">data_ext</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_perms</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span>
-                                            <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="n">strides</span><span class="p">,</span> <span class="n">strides</span><span class="p">),</span>
-                                            <span class="n">writeable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">permutations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">stride_tricks</span><span class="o">.</span><span class="n">as_strided</span><span class="p">(</span><span class="n">data_ext</span><span class="p">,</span>
+                                                   <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_permutations</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span>
+                                                   <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="n">strides</span><span class="p">,</span> <span class="n">strides</span><span class="p">),</span>
+                                                   <span class="n">writeable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="n">perms</span></div>
+    <span class="k">return</span> <span class="n">permutations</span></div>
 
 
 <div class="viewcode-block" id="compute_surrogate_pvalue"><a class="viewcode-back" href="../../../generated/spiketools.stats.permutations.compute_surrogate_pvalue.html#spiketools.stats.permutations.compute_surrogate_pvalue">[docs]</a><span class="k">def</span> <span class="nf">compute_surrogate_pvalue</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">surrogates</span><span class="p">):</span>
@@ -253,7 +256,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

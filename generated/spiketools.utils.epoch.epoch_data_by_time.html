@@ -102,11 +102,11 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps.</p>
+<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps, in seconds.</p>
 </dd>
-<dt><strong>values</strong><span class="classifier">1d array</span></dt><dd><p>Data values.</p>
+<dt><strong>values</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Data values.</p>
 </dd>
-<dt><strong>timepoints</strong><span class="classifier">list of float</span></dt><dd><p>The time value to extract per trial.</p>
+<dt><strong>timepoints</strong><span class="classifier">list of float</span></dt><dd><p>The time value(s), in seconds, to extract per trial.</p>
 </dd>
 <dt><strong>threshold</strong><span class="classifier">float, optional</span></dt><dd><p>The threshold that the closest time value must be within to be returned.
 If the temporal distance is greater than the threshold, output is NaN.</p>
@@ -145,7 +145,7 @@ If the temporal distance is greater than the threshold, output is NaN.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

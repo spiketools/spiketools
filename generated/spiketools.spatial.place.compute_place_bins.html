@@ -97,7 +97,7 @@
 <h1>spiketools.spatial.place.compute_place_bins<a class="headerlink" href="#spiketools-spatial-place-compute-place-bins" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.spatial.place.compute_place_bins">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.place.</span></span><span class="sig-name descname"><span class="pre">compute_place_bins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/place.html#compute_place_bins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.place.compute_place_bins" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.place.</span></span><span class="sig-name descname"><span class="pre">compute_place_bins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/place.html#compute_place_bins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.place.compute_place_bins" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the spatially binned spiking activity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -106,7 +106,7 @@
 </dd>
 <dt><strong>position</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Position values.</p>
 </dd>
-<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps.</p>
+<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps, in seconds, corresponding to the position values.</p>
 </dd>
 <dt><strong>bins</strong><span class="classifier">int or list of [int, int]</span></dt><dd><p>The bin definition for dividing up the space. If 1d, can be integer.
 If 2d should be a list, defined as [number of x_bins, number of y_bins].</p>
@@ -124,6 +124,9 @@ If provided, any bin values with an associated time length above this value are
 </dd>
 <dt><strong>occupancy</strong><span class="classifier">1d or 2d array, optional</span></dt><dd><p>Computed occupancy across the space.
 If provided, used to normalize bin counts.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">{‘row’, ‘column’}, optional</span></dt><dd><p>The orientation of the position data.
+If not provided, is inferred from the position data.</p>
 </dd>
 </dl>
 </dd>
@@ -161,7 +164,7 @@ If provided, used to normalize bin counts.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

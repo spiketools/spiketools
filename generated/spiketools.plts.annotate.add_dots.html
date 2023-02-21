@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.spatial.utils.compute_bin_time &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.plts.annotate.add_dots &#8212; spiketools 0.1.0-dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -93,33 +93,26 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-spatial-utils-compute-bin-time">
-<h1>spiketools.spatial.utils.compute_bin_time<a class="headerlink" href="#spiketools-spatial-utils-compute-bin-time" title="Permalink to this headline">¶</a></h1>
+  <section id="spiketools-plts-annotate-add-dots">
+<h1>spiketools.plts.annotate.add_dots<a class="headerlink" href="#spiketools-plts-annotate-add-dots" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.spatial.utils.compute_bin_time">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.utils.</span></span><span class="sig-name descname"><span class="pre">compute_bin_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/utils.html#compute_bin_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.utils.compute_bin_time" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the time duration of each position sample.</p>
+<dt class="sig sig-object py" id="spiketools.plts.annotate.add_dots">
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.annotate.</span></span><span class="sig-name descname"><span class="pre">add_dots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/annotate.html#add_dots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.annotate.add_dots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add dots to a plot axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps.</p>
+<dt><strong>dots</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Definitions of the dots to add to the plot.
+If 1d array, defines a single dot as [x_pos, y_pos].
+If 2d array, 0th row is x-pos and 1th row is y-pos for multiple dot positions.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
+</dd>
+<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>1d array</dt><dd><p>Width, in time, of each bin.</p>
-</dd>
 </dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<p>Compute times between timestamp samples:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_bin_time</span><span class="p">(</span><span class="n">timestamps</span><span class="p">)</span>
-<span class="go">array([1., 2., 3., 2., 1., 0.])</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>
@@ -136,7 +129,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

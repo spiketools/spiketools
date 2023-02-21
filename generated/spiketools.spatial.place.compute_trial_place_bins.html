@@ -97,7 +97,7 @@
 <h1>spiketools.spatial.place.compute_trial_place_bins<a class="headerlink" href="#spiketools-spatial-place-compute-trial-place-bins" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.spatial.place.compute_trial_place_bins">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.place.</span></span><span class="sig-name descname"><span class="pre">compute_trial_place_bins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_starts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_stops</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatten</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">occupancy_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/place.html#compute_trial_place_bins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.place.compute_trial_place_bins" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.place.</span></span><span class="sig-name descname"><span class="pre">compute_trial_place_bins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_occupancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatten</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/place.html#compute_trial_place_bins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.place.compute_trial_place_bins" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the spatially binned spiking activity, across trials.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -106,14 +106,12 @@
 </dd>
 <dt><strong>position</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Position values.</p>
 </dd>
-<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps.</p>
+<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps, in seconds, corresponding to the position values.</p>
 </dd>
 <dt><strong>bins</strong><span class="classifier">int or list of [int, int]</span></dt><dd><p>The bin definition for dividing up the space. If 1d, can be integer.
 If 2d should be a list, defined as [number of x_bins, number of y_bins].</p>
 </dd>
-<dt><strong>trial_starts</strong><span class="classifier">1d array</span></dt><dd><p>The start times of each trial.</p>
-</dd>
-<dt><strong>trial_stops</strong><span class="classifier">1d array</span></dt><dd><p>The stop times of each trial.</p>
+<dt><strong>start_times, stop_times</strong><span class="classifier">1d array</span></dt><dd><p>The start and stop times, in seconds, of each trial.</p>
 </dd>
 <dt><strong>area_range</strong><span class="classifier">list of list, optional</span></dt><dd><p>Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].</p>
 </dd>
@@ -126,11 +124,13 @@ If provided, any position values with an associated speed below this value are d
 <dt><strong>time_threshold</strong><span class="classifier">float, optional</span></dt><dd><p>A maximum time threshold, per bin observation, to apply.
 If provided, any bin values with an associated time length above this value are dropped.</p>
 </dd>
-<dt><strong>normalize</strong><span class="classifier">bool, optional, default: True</span></dt><dd><p>Whether to compute trial-level occupancy and use to normalize spatially binned firing.</p>
+<dt><strong>trial_occupancy</strong><span class="classifier">2d or 3d array, optional</span></dt><dd><p>Computed occupancy across the space, across trials.
+If provided, used to normalize bin counts per trial.</p>
 </dd>
 <dt><strong>flatten</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether the flatten the spatial bins per trial. Only used if position data are 2d.</p>
 </dd>
-<dt><strong>occupancy_kwargs</strong></dt><dd><p>Additional arguments to pass into the the <cite>compute_occupancy</cite> function.</p>
+<dt><strong>orientation</strong><span class="classifier">{‘row’, ‘column’}, optional</span></dt><dd><p>The orientation of the position data.
+If not provided, is inferred from the position data.</p>
 </dd>
 </dl>
 </dd>
@@ -144,15 +144,24 @@ Otherwise, for a 2d position input, the output is 3d, as [n_trials, n_ybins, n_x
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Compute spike activity in 1d spatial bins across 2 trials:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.38</span><span class="p">,</span> <span class="mf">0.41</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.59</span><span class="p">,</span> <span class="mf">0.77</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.46</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<p>Compute spike activity, in 1d spatial bins across 2 trials:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.28</span><span class="p">,</span> <span class="mf">0.41</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.77</span><span class="p">,</span> <span class="mf">0.81</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trial_starts</span><span class="p">,</span> <span class="n">trial_stops</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_trial_place_bins</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">trial_starts</span><span class="p">,</span> <span class="n">trial_stops</span><span class="p">)</span>
-<span class="go">array([[10. , 40. ],</span>
-<span class="go">       [10. ,  7.5]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start_times</span><span class="p">,</span> <span class="n">stop_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_trial_place_bins</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">start_times</span><span class="p">,</span> <span class="n">stop_times</span><span class="p">)</span>
+<span class="go">array([[2., 1.],</span>
+<span class="go">       [3., 1.]])</span>
+</pre></div>
+</div>
+<p>Compute spike activity across trials, normalizing by trial-level occupancy:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spiketools.spatial.occupancy</span> <span class="kn">import</span> <span class="n">compute_trial_occupancy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trial_occ</span> <span class="o">=</span> <span class="n">compute_trial_occupancy</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">start_times</span><span class="p">,</span> <span class="n">stop_times</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_trial_place_bins</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span>
+<span class="gp">... </span>                         <span class="n">start_times</span><span class="p">,</span> <span class="n">stop_times</span><span class="p">,</span> <span class="n">trial_occupancy</span><span class="o">=</span><span class="n">trial_occ</span><span class="p">)</span>
+<span class="go">array([[10., 20.],</span>
+<span class="go">       [20.,  5.]])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -171,7 +180,7 @@ Otherwise, for a 2d position input, the output is 3d, as [n_trials, n_ybins, n_x
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

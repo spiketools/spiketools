@@ -97,18 +97,21 @@
 <h1>spiketools.plts.spatial.plot_position_by_time<a class="headerlink" href="#spiketools-plts-spatial-plot-position-by-time" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.plts.spatial.plot_position_by_time">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spatial.</span></span><span class="sig-name descname"><span class="pre">plot_position_by_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spatial.html#plot_position_by_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spatial.plot_position_by_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spatial.</span></span><span class="sig-name descname"><span class="pre">plot_position_by_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spikes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spatial.html#plot_position_by_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spatial.plot_position_by_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the position across time for a single dimension.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Time values associated with the position values.</p>
+<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps, in seconds, corresponding to the position values.</p>
 </dd>
-<dt><strong>positions</strong><span class="classifier">1d array</span></dt><dd><p>Position values, for a single dimension.</p>
+<dt><strong>position</strong><span class="classifier">1d array</span></dt><dd><p>Position values, for a single dimension.</p>
 </dd>
-<dt><strong>spike_times</strong><span class="classifier">1d array, optional</span></dt><dd><p>Timepoints at which spikes occur.</p>
+<dt><strong>spikes</strong><span class="classifier">1d array, optional</span></dt><dd><p>Spike times, in seconds.</p>
 </dd>
 <dt><strong>spike_positions</strong><span class="classifier">1d array, optional</span></dt><dd><p>Position values of spikes, to indicate on the plot.</p>
+</dd>
+<dt><strong>invert</strong><span class="classifier">{‘x’, ‘y’, ‘both’}, optional</span></dt><dd><p>If provided, inverts the plot axes over x, y or both axes.
+Note that invert x is equivalent to flipping the data left/right, and y to flipping up/down.</p>
 </dd>
 <dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
 </dd>
@@ -133,7 +136,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

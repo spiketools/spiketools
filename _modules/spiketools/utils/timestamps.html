@@ -95,8 +95,49 @@
   <h1>Source code for spiketools.utils.timestamps</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Utility functions for working with timestamps.&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="infer_time_unit"><a class="viewcode-back" href="../../../generated/spiketools.utils.timestamps.infer_time_unit.html#spiketools.utils.timestamps.infer_time_unit">[docs]</a><span class="k">def</span> <span class="nf">infer_time_unit</span><span class="p">(</span><span class="n">time_values</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Infer the time unit of given time values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time_values : 1d array</span>
+<span class="sd">        Time values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    time_unit : {&#39;seconds&#39;, &#39;milliseconds&#39;}</span>
+<span class="sd">        The inferred time unit of the input data.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Infer the time unit of an array of time values:</span>
+
+<span class="sd">    &gt;&gt;&gt; time_values = np.array([0.002, 0.01, 0.05, 0.1, 2])</span>
+<span class="sd">    &gt;&gt;&gt; infer_time_unit(time_values)</span>
+<span class="sd">    &#39;seconds&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">time_unit</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Infer seconds if there are any two spikes within the same time unit,</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">((</span><span class="n">time_values</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)))</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">time_values</span><span class="p">)):</span>
+        <span class="n">time_unit</span> <span class="o">=</span> <span class="s1">&#39;seconds&#39;</span>
+
+    <span class="c1"># Infer seconds if the mean time between spikes is low</span>
+    <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">time_values</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="n">time_unit</span> <span class="o">=</span> <span class="s1">&#39;seconds&#39;</span>
+
+    <span class="c1"># Otherwise, infer milliseconds</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">time_unit</span> <span class="o">=</span> <span class="s1">&#39;milliseconds&#39;</span>
+
+    <span class="k">return</span> <span class="n">time_unit</span></div>
+
 
 <div class="viewcode-block" id="convert_ms_to_sec"><a class="viewcode-back" href="../../../generated/spiketools.utils.timestamps.convert_ms_to_sec.html#spiketools.utils.timestamps.convert_ms_to_sec">[docs]</a><span class="k">def</span> <span class="nf">convert_ms_to_sec</span><span class="p">(</span><span class="n">ms</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert time value(s) from milliseconds to seconds.</span>
@@ -194,6 +235,124 @@
     <span class="k">return</span> <span class="n">convert_sec_to_min</span><span class="p">(</span><span class="n">convert_ms_to_sec</span><span class="p">(</span><span class="n">ms</span><span class="p">))</span></div>
 
 
+<div class="viewcode-block" id="convert_nsamples_to_time"><a class="viewcode-back" href="../../../generated/spiketools.utils.timestamps.convert_nsamples_to_time.html#spiketools.utils.timestamps.convert_nsamples_to_time">[docs]</a><span class="k">def</span> <span class="nf">convert_nsamples_to_time</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a number of samples into the corresponding time length.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_samples : int</span>
+<span class="sd">        Number of samples.</span>
+<span class="sd">    fs : int</span>
+<span class="sd">        Sampling rate.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    time : float</span>
+<span class="sd">        Time duration.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Convert a number of samples to a time length:</span>
+
+<span class="sd">    &gt;&gt;&gt; convert_nsamples_to_time(5, fs=1000)</span>
+<span class="sd">    0.005</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">time</span> <span class="o">=</span> <span class="n">n_samples</span> <span class="o">/</span> <span class="n">fs</span>
+
+    <span class="k">return</span> <span class="n">time</span></div>
+
+
+<div class="viewcode-block" id="convert_time_to_nsamples"><a class="viewcode-back" href="../../../generated/spiketools.utils.timestamps.convert_time_to_nsamples.html#spiketools.utils.timestamps.convert_time_to_nsamples">[docs]</a><span class="k">def</span> <span class="nf">convert_time_to_nsamples</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a time length into the corresponding number of samples.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time : float</span>
+<span class="sd">        Time duration.</span>
+<span class="sd">    fs : int</span>
+<span class="sd">        Sampling rate.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    n_samples : int</span>
+<span class="sd">        Number of samples.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Convert a time length to a number of samples:</span>
+
+<span class="sd">    &gt;&gt;&gt; convert_time_to_nsamples(0.005, fs=1000)</span>
+<span class="sd">    5</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">time</span> <span class="o">*</span> <span class="n">fs</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">n_samples</span></div>
+
+
+<div class="viewcode-block" id="sum_time_ranges"><a class="viewcode-back" href="../../../generated/spiketools.utils.timestamps.sum_time_ranges.html#spiketools.utils.timestamps.sum_time_ranges">[docs]</a><span class="k">def</span> <span class="nf">sum_time_ranges</span><span class="p">(</span><span class="n">ranges</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sum the total amount of time defined by time range(s).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ranges : list of float or list of list of float</span>
+<span class="sd">        Time range(s) to sum the total defined time for.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    total : float</span>
+<span class="sd">        The total amount of time defined by the given time range(s).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Sum the amount of time in a single time range:</span>
+
+<span class="sd">    &gt;&gt;&gt; time_range = [2.5, 10]</span>
+<span class="sd">    &gt;&gt;&gt; sum_time_ranges(time_range)</span>
+<span class="sd">    7.5</span>
+
+<span class="sd">    Sum the amount of time across a collection of time ranges:</span>
+
+<span class="sd">    &gt;&gt;&gt; time_ranges = [[2.5, 10], [14, 15], [18.5, 20]]</span>
+<span class="sd">    &gt;&gt;&gt; sum_time_ranges(time_ranges)</span>
+<span class="sd">    10.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">ranges</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="p">[</span><span class="n">ranges</span><span class="p">]</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">crange</span> <span class="ow">in</span> <span class="n">ranges</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">crange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">crange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">total</span></div>
+
+
+<div class="viewcode-block" id="create_bin_times"><a class="viewcode-back" href="../../../generated/spiketools.utils.timestamps.create_bin_times.html#spiketools.utils.timestamps.create_bin_times">[docs]</a><span class="k">def</span> <span class="nf">create_bin_times</span><span class="p">(</span><span class="n">bins</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a timepoints definitions for a set of time bins.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bins : 1d array</span>
+<span class="sd">        Time bins.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bin_times : 1d array</span>
+<span class="sd">        Time values corresponding to the bin definition.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The bin timepoints are defined as the center point of each bin.</span>
+<span class="sd">    This function works for evenly spaced and uneven bin definitions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bin_times</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">bin_times</span></div>
+
+
 <div class="viewcode-block" id="split_time_value"><a class="viewcode-back" href="../../../generated/spiketools.utils.timestamps.split_time_value.html#spiketools.utils.timestamps.split_time_value">[docs]</a><span class="k">def</span> <span class="nf">split_time_value</span><span class="p">(</span><span class="n">sec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Split a time value from seconds to hours / minutes / seconds.</span>
 
@@ -257,7 +416,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

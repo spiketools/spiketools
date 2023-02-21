@@ -97,7 +97,7 @@
 <h1>spiketools.sim.times.sim_spiketimes_poisson<a class="headerlink" href="#spiketools-sim-times-sim-spiketimes-poisson" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.sim.times.sim_spiketimes_poisson">
-<span class="sig-prename descclassname"><span class="pre">spiketools.sim.times.</span></span><span class="sig-name descname"><span class="pre">sim_spiketimes_poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/times.html#sim_spiketimes_poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.times.sim_spiketimes_poisson" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.sim.times.</span></span><span class="sig-name descname"><span class="pre">sim_spiketimes_poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/times.html#sim_spiketimes_poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.times.sim_spiketimes_poisson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulate spike times based on a Poisson distribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -108,18 +108,20 @@
 </dd>
 <dt><strong>start_time: float, optional</strong></dt><dd><p>Timestamp of the start time for the simulated spike times.</p>
 </dd>
+<dt><strong>refractory</strong><span class="classifier">float, optional, default: 0.001</span></dt><dd><p>The refractory period to apply to the simulated data, in seconds.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>times</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike times, in seconds.</p>
+<dt><strong>spike_times</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike times, in seconds.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <p>Simulate spike times at a rate of 10Hz for 5 seconds, starting at 2 seconds:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">sim_spiketimes_poisson</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spike_times</span> <span class="o">=</span> <span class="n">sim_spiketimes_poisson</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -138,7 +140,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

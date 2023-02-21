@@ -95,7 +95,12 @@
   <h1>Source code for spiketools.sim.utils</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Utilities for working with simulated spiking data.&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_options</span>
+<span class="kn">from</span> <span class="nn">spiketools.modutils.functions</span> <span class="kn">import</span> <span class="n">get_function_argument</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -132,17 +137,15 @@
     <span class="k">return</span> <span class="n">spike_times</span></div>
 
 
-<div class="viewcode-block" id="apply_refractory_train"><a class="viewcode-back" href="../../../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train">[docs]</a><span class="k">def</span> <span class="nf">apply_refractory_train</span><span class="p">(</span><span class="n">spike_train</span><span class="p">,</span> <span class="n">refractory_time</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<div class="viewcode-block" id="apply_refractory_train"><a class="viewcode-back" href="../../../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train">[docs]</a><span class="k">def</span> <span class="nf">apply_refractory_train</span><span class="p">(</span><span class="n">spike_train</span><span class="p">,</span> <span class="n">refractory_samples</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Apply a refractory period to a simulated spike train.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    spike_train : 1d array</span>
 <span class="sd">        Spike train.</span>
-<span class="sd">    refractory_time : float</span>
-<span class="sd">        The duration of the refractory period, after a spike, in seconds.</span>
-<span class="sd">    fs : float, optional, default: 1000</span>
-<span class="sd">        The sampling rate of the spike train.</span>
+<span class="sd">    refractory_samples : int</span>
+<span class="sd">        The duration of the refractory period, after a spike, in number of samples.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -151,20 +154,70 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Apply a 0.003 seconds refractory period to a binary spike train with 1000 Hz sampling rate:</span>
+<span class="sd">    Apply a 1-sample refractory period to a spike train:</span>
 
-<span class="sd">    &gt;&gt;&gt; spike_train = np.array([0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0])</span>
-<span class="sd">    &gt;&gt;&gt; apply_refractory_train(spike_train, 0.003, 1000)</span>
-<span class="sd">    array([0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0])</span>
+<span class="sd">    &gt;&gt;&gt; spike_train = np.array([0, 1, 1, 0, 0, 1, 1, 1, 0, 1])</span>
+<span class="sd">    &gt;&gt;&gt; apply_refractory_train(spike_train, 1)</span>
+<span class="sd">    array([0, 1, 0, 0, 0, 1, 0, 1, 0, 1])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">ref_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">refractory_time</span> <span class="o">*</span> <span class="n">fs</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">spike_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
         <span class="k">if</span> <span class="n">spike_train</span><span class="p">[</span><span class="n">ind</span><span class="p">]:</span>
-            <span class="n">spike_train</span><span class="p">[</span><span class="n">ind</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">ind</span><span class="o">+</span><span class="n">ref_len</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">spike_train</span><span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">refractory_samples</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">return</span> <span class="n">spike_train</span></div>
+
+<span class="c1">###################################################################################################</span>
+<span class="c1">## COLLECT REFRACTORY FUNCTION OPTIONS TOGETHER</span>
+
+<span class="n">REFRACTORY_FUNCTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;times&#39;</span> <span class="p">:</span> <span class="n">apply_refractory_times</span><span class="p">,</span>
+    <span class="s1">&#39;train&#39;</span> <span class="p">:</span> <span class="n">apply_refractory_train</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1">###################################################################################################</span>
+<span class="c1">## REFRACTORY DECORATOR</span>
+
+<span class="k">def</span> <span class="nf">apply_refractory</span><span class="p">(</span><span class="n">spike_representation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decorator for applying a refractory period to simulated spiking data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spike_representation : {&#39;times&#39;, &#39;train&#39;}</span>
+<span class="sd">        Defines the representation of the simulated spikes.</span>
+<span class="sd">        Based on this input, the decorator applies the appropriate refractory function.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This decorator manages applying a refractory period to simulated spiking data.</span>
+<span class="sd">    It assumes the following aspects:</span>
+<span class="sd">    - the wrapped function takes `refractory` as an argument, in the last position</span>
+<span class="sd">        - the expected units of this argument vary by `spike_representation`</span>
+<span class="sd">            - for `times`, refractory should be in seconds</span>
+<span class="sd">            - for `train`, refractory should be in samples</span>
+<span class="sd">        - if `refractory` is defined (not None), as a specified input or as</span>
+<span class="sd">          as default value in the function signature, this refractory period is applied</span>
+<span class="sd">    - the wrapped function outputs a single `spikes` output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+
+        <span class="n">check_param_options</span><span class="p">(</span><span class="n">spike_representation</span><span class="p">,</span> <span class="s1">&#39;spike_representation&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">,</span> <span class="s1">&#39;train&#39;</span><span class="p">])</span>
+        <span class="n">refractory_function</span> <span class="o">=</span> <span class="n">REFRACTORY_FUNCTIONS</span><span class="p">[</span><span class="n">spike_representation</span><span class="p">]</span>
+
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">decorated</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+            <span class="n">refractory</span> <span class="o">=</span> <span class="n">get_function_argument</span><span class="p">(</span><span class="s1">&#39;refractory&#39;</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="n">spikes</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">refractory</span><span class="p">:</span>
+                <span class="n">spikes</span> <span class="o">=</span> <span class="n">refractory_function</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">refractory</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">spikes</span>
+        <span class="k">return</span> <span class="n">decorated</span>
+    <span class="k">return</span> <span class="n">wrap</span>
 </pre></div>
 
     </div>
@@ -178,7 +231,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

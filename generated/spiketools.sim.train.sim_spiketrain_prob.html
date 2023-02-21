@@ -97,7 +97,7 @@
 <h1>spiketools.sim.train.sim_spiketrain_prob<a class="headerlink" href="#spiketools-sim-train-sim-spiketrain-prob" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.sim.train.sim_spiketrain_prob">
-<span class="sig-prename descclassname"><span class="pre">spiketools.sim.train.</span></span><span class="sig-name descname"><span class="pre">sim_spiketrain_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_spiking</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/train.html#sim_spiketrain_prob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.train.sim_spiketrain_prob" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.sim.train.</span></span><span class="sig-name descname"><span class="pre">sim_spiketrain_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_spiking</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/train.html#sim_spiketrain_prob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.train.sim_spiketrain_prob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulate spikes based on a probability of spiking per sample.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -106,11 +106,13 @@
 </dd>
 <dt><strong>n_samples</strong><span class="classifier">int, optional</span></dt><dd><p>The number of samples to simulate.</p>
 </dd>
+<dt><strong>refractory</strong><span class="classifier">int, optional</span></dt><dd><p>The refractory period to apply to the simulated data, in number of samples.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike train.</p>
+<dt><strong>spike_train</strong><span class="classifier">1d array</span></dt><dd><p>Simulated spike train.</p>
 </dd>
 </dl>
 </dd>
@@ -152,7 +154,7 @@ Otherwise <cite>n_samples</cite> is just the length of p_spiking.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

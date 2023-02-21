@@ -102,12 +102,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>position</strong><span class="classifier">1d or 2d array</span></dt><dd><p>Position values.</p>
+<dt><strong>position</strong><span class="classifier">1d or 2d array or None</span></dt><dd><p>Position values. If None, area_range is required to define bins.</p>
 </dd>
 <dt><strong>bins</strong><span class="classifier">int or list of [int, int]</span></dt><dd><p>The bin definition for dividing up the space. If 1d, can be integer.
 If 2d should be a list, defined as [number of x_bins, number of y_bins].</p>
 </dd>
-<dt><strong>area_range</strong><span class="classifier">list of list, optional</span></dt><dd><p>Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
+<dt><strong>area_range</strong><span class="classifier">list of list, optional</span></dt><dd><p>Edges of the area to bin.
+For 1d defined as [min, max]. For 2d, defined as [[x_min, x_max], [y_min, y_max]].
 Any values outside this range will be considered outliers, and not used to compute edges.</p>
 </dd>
 </dl>
@@ -116,19 +117,19 @@ Any values outside this range will be considered outliers, and not used to compu
 <dd class="field-even"><dl class="simple">
 <dt><strong>x_edges</strong><span class="classifier">1d array</span></dt><dd><p>Edge definitions for the spatial binning.</p>
 </dd>
-<dt><strong>y_edges</strong><span class="classifier">1d array</span></dt><dd><p>Edge definitions for the spatial binning. Only returned in 2D case.</p>
+<dt><strong>y_edges</strong><span class="classifier">1d array</span></dt><dd><p>Edge definitions for the spatial binning. Only returned in 2d case.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Compute bin edges for 1D position values:</p>
+<p>Compute bin edges for 1d position values:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">compute_bin_edges</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
 <span class="go">array([1. , 1.8, 2.6, 3.4, 4.2, 5. ])</span>
 </pre></div>
 </div>
-<p>Compute bin edges for 2D position values:</p>
+<p>Compute bin edges for 2d position values:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>                              <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">compute_bin_edges</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 <span class="go">(array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))</span>
@@ -150,7 +151,7 @@ Any values outside this range will be considered outliers, and not used to compu
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

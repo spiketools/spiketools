@@ -38,7 +38,8 @@ from spiketools.spatial.position import (compute_distance, compute_distances,
 from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignment,
                                           compute_bin_counts_assgn, compute_bin_counts_pos,
                                           normalize_bin_counts, compute_occupancy)
-from spiketools.spatial.utils import compute_pos_ranges, compute_bin_width, compute_bin_time
+from spiketools.spatial.utils import (compute_pos_ranges, compute_bin_width,
+                                      compute_sample_durations)
 from spiketools.spatial.information import compute_spatial_information
 
 # Import spiketrain simulation function
@@ -88,21 +89,21 @@ print('The y-position ranges from {:1.1f} to {:1.1f}'.format(ranges[1][0], range
 ###################################################################################################
 
 # Plot positions (coordinates marked x are the actual points)
-plot_positions(position, alpha=1, ls='-', marker='x', color='tab:gray', markersize=10,
-               title='Tracking', xlabel='x-position', ylabel='y-position')
-_ = plt.legend(['coordinates'])
+plot_positions(position, alpha=1, ls='-', marker='x', color='tab:gray',
+               markersize=10, xlabel='x-position', ylabel='y-position',
+               legend=['coordinates'], title='Tracking')
 
 ###################################################################################################
 
 # Plot x-position by time
 plot_position_by_time(timestamps, x_pos, alpha=1, ls='-', marker='x', color='tab:gray',
-                      markersize=10, title='X-position by time', xlabel='time', ylabel='x-position')
-_ = plt.legend(['coordinates'])
+                      markersize=10,  xlabel='time', ylabel='x-position',
+                      legend=['coordinates'], title='X-position by time')
 
 # Plot y-position by time
 plot_position_by_time(timestamps, y_pos, alpha=1, ls='-', marker='x', color='tab:gray',
-                      markersize=10, title='Y-position by time', xlabel='time', ylabel='y-position')
-_ = plt.legend(['coordinates'])
+                      markersize=10, xlabel='time', ylabel='y-position',
+                      legend=['coordinates'], title='Y-position by time')
 
 ###################################################################################################
 #
@@ -157,10 +158,10 @@ plot_position_by_time(timestamps[1:], speeds,
 # Now we can start binning our position data.
 #
 # To do so, we will compute x- and y- spatial bin edges, using the
-# :func:`~.compute_bin_edges`: function.
+# :func:`~.compute_bin_edges` function.
 #
 # Once we have our bin edges, we can compute the bin widths using the
-# :func:`~.compute_bin_width`: function.
+# :func:`~.compute_bin_width` function.
 #
 
 ###################################################################################################
@@ -183,9 +184,10 @@ print('The y spatial bins have width = {:.3}'.format(y_bins_spatial_width))
 
 # Plot grid of spatial bins with tracking on top
 plot_positions(position, x_bins=x_edges, y_bins=y_edges,
-               alpha=1, ls='-', marker='x', color='tab:gray', markersize=10,
-               title='Tracking and spatial bins', xlabel='x-position', ylabel='y-position')
-_ = plt.legend(['Tracking'], loc='upper left')
+               alpha=1, ls='-', marker='x', color='tab:gray',
+               markersize=10, xlabel='x-position', ylabel='y-position',
+               legend=['Tracking'], legend_loc='upper left',
+               title='Tracking and spatial bins')
 
 ###################################################################################################
 # Compute spatial bin assignment using spatial bin edges
@@ -194,7 +196,7 @@ _ = plt.legend(['Tracking'], loc='upper left')
 # Next, we will compute the spatial bin assignment for the position data using the
 # previously computed spatial bin edges.
 #
-# To do so, we will use the :func:`~.compute_bin_assignment`: function.
+# To do so, we will use the :func:`~.compute_bin_assignment` function.
 #
 
 ###################################################################################################
@@ -209,18 +211,18 @@ for ind in range(0, n_points):
           position[0, ind], position[1, ind], x_bins[ind], y_bins[ind]))
 
 ###################################################################################################
-# Compute time in each timestamp sample
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Compute duration of each sample
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# Compute time width of the timestamp sampling bins, using the
-# :func:`~.compute_bin_time`: function.
+# Compute the time duration of the position samples, using the
+# :func:`~.compute_sample_durations` function.
 #
 
 ###################################################################################################
 
-# Let us now compute the time in each timestamp bin
-bin_time = compute_bin_time(timestamps)
-print('The time widths of the sampling bins are: ', bin_time)
+# Compute the durations of the timestamps
+sample_times = compute_sample_durations(timestamps)
+print('The time durations of position samples are: ', sample_times)
 
 ###################################################################################################
 # Compute and plot occupancy and position counts
@@ -229,7 +231,7 @@ print('The time widths of the sampling bins are: ', bin_time)
 # Now we are interested in how much time was spent in each bin of the spatial grid.
 #
 # To measure this, we will compute the occupancy across the spatial bins, using
-# the :func:`~.compute_occupancy`: function.
+# the :func:`~.compute_occupancy` function.
 #
 # For 2D case, compute occupancy using position, timestamps, bins, speed, and a speed threshold.
 # Also compute 2D position bin occurrence counts (no speed thresholding).
@@ -257,7 +259,7 @@ plot_heatmap(occupancy, cbar=True,
 # Another way to explore occupancy measures is to check the number of
 # occurrences with each spatial bin.
 #
-# This can be computed with the :func:`~.compute_bin_counts_pos`: function.
+# This can be computed with the :func:`~.compute_bin_counts_pos` function.
 #
 
 ###################################################################################################
@@ -306,7 +308,7 @@ plot_heatmap(bin_counts_pos_1d, title='X-position bin occurrence counts heatmap'
 # To do so, we will compute a spatial information measure between simulated spiking data
 # and associated position data.
 #
-# To do so, we will use the :func:`~.compute_spatial_information`: function.
+# To do so, we will use the :func:`~.compute_spatial_information` function.
 #
 
 ###################################################################################################
@@ -324,10 +326,10 @@ spike_x, spike_y = compute_bin_assignment(position[:, spike_bins], x_edges, y_ed
 # Let's first calculate the 1D spatial information, using only the x-dimension.
 #
 # To do so, we will compute the bin firing, using the
-# :func:`~.compute_bin_counts_assgn`: function to compute the number of spikes per bin.
+# :func:`~.compute_bin_counts_assgn` function to compute the number of spikes per bin.
 #
 # We then need to normalize this measure by occupancy, which we can do with the
-# :func:`~.normalize_bin_counts`: function.
+# :func:`~.normalize_bin_counts` function.
 #
 
 ###################################################################################################

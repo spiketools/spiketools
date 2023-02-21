@@ -123,18 +123,18 @@ For 2d, has shape [n_y_bins, n_x_bins] (see notes).</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>For the 2D case, note that while the inputs to this function list the x-axis first,
+<p>For the 2d case, note that while the inputs to this function list the x-axis first,
 the output of this function, being a 2d array, follows the numpy convention in which
 columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.</p>
 <p class="rubric">Examples</p>
-<p>Compute the bin counts per bin for 1D data, given precomputed x bin assignments:</p>
+<p>Compute the bin counts per bin for 1d data, given precomputed x bin assignments:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xbins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">compute_bin_counts_assgn</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">xbins</span><span class="p">)</span>
 <span class="go">array([2, 2, 1])</span>
 </pre></div>
 </div>
-<p>Compute the bin counts for 2D data, given precomputed x &amp; y bin assignments:</p>
+<p>Compute the bin counts for 1d data, given precomputed x &amp; y bin assignments:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xbins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ybins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
@@ -159,7 +159,7 @@ columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dime
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

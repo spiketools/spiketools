@@ -98,11 +98,11 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.spatial.utils.convert_1dindices">
 <span class="sig-prename descclassname"><span class="pre">spiketools.spatial.utils.</span></span><span class="sig-name descname"><span class="pre">convert_1dindices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/utils.html#convert_1dindices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.utils.convert_1dindices" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a set of 1D bin indices into the equivalent 2D indices.</p>
+<dd><p>Convert a set of 1d bin indices into the equivalent 2d indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>indices</strong><span class="classifier">1d array</span></dt><dd><p>Bin assignment indices for a 1D binning.</p>
+<dt><strong>indices</strong><span class="classifier">1d array</span></dt><dd><p>Bin assignment indices for a 1d binning.</p>
 </dd>
 <dt><strong>bins</strong><span class="classifier">list of [int, int]</span></dt><dd><p>The bin definition for dividing up the space.
 If 2d should be a list, defined as [number of x_bins, number of y_bins].</p>
@@ -111,14 +111,14 @@ If 2d should be a list, defined as [number of x_bins, number of y_bins].</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>xbins, ybins</strong><span class="classifier">1d array</span></dt><dd><p>Bin assignment indices for the x and y dimension of a 2D binning.</p>
+<dt><strong>xbins, ybins</strong><span class="classifier">1d array</span></dt><dd><p>Bin assignment indices for the x and y dimension of a 2d binning.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The equivalent 2D indices for a set of 1d indices are those that access the
-equivalent values once the data array has been reshaped to the given 2D bin definition.</p>
+<p>The equivalent 2d indices for a set of 1d indices are those that access the
+equivalent values once the data array has been reshaped to the given 2d bin definition.</p>
 <p class="rubric">Examples</p>
 <p>Convert 1d bin indices into equivalent 2d indices with a [4, 4] shape:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
@@ -143,7 +143,7 @@ equivalent values once the data array has been reshaped to the given 2D bin defi
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

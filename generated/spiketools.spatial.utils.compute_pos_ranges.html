@@ -108,24 +108,24 @@
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>ranges</strong><span class="classifier">list of float or list of list of float</span></dt><dd><p>Ranges for each dimension in the spatial data.</p>
+<dt><strong>ranges</strong><span class="classifier">1d array or list of 1d array</span></dt><dd><p>Ranges for each dimension in the spatial data.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Compute the 2D position ranges for:
-(x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5, 9).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mf">6.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+<p>Compute the 2d position ranges for:
+(x, y) = (1.5, 6.5), (2.5, 7.5), (3.5, 8.5), (5.1, 9.1).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">6.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">9.1</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">compute_pos_ranges</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
-<span class="go">[[1.5, 5.0], [6.5, 9.0]]</span>
+<span class="go">[array([1.5, 5.1]), array([6.5, 9.1])]</span>
 </pre></div>
 </div>
-<p>Compute the 1D position range for:
-x = 1.5, 2.5, 3.5, 5.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<p>Compute the 1d position range for:
+x = 1.5, 2.5, 3.5, 5.1</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">compute_pos_ranges</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
-<span class="go">[1.5, 5.0]</span>
+<span class="go">array([1.5, 5.1])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -144,7 +144,7 @@ x = 1.5, 2.5, 3.5, 5.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

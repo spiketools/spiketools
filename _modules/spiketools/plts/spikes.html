@@ -100,7 +100,7 @@
 
 <span class="kn">from</span> <span class="nn">spiketools.utils.options</span> <span class="kn">import</span> <span class="n">get_avg_func</span><span class="p">,</span> <span class="n">get_var_func</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.data</span> <span class="kn">import</span> <span class="n">plot_bar</span><span class="p">,</span> <span class="n">plot_hist</span><span class="p">,</span> <span class="n">plot_lines</span>
-<span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span><span class="p">,</span> <span class="n">savefig</span>
+<span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span><span class="p">,</span> <span class="n">get_kwargs</span><span class="p">,</span> <span class="n">savefig</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.style</span> <span class="kn">import</span> <span class="n">set_plt_kwargs</span>
 
 <span class="c1">###################################################################################################</span>
@@ -108,16 +108,17 @@
 
 <div class="viewcode-block" id="plot_waveform"><a class="viewcode-back" href="../../../generated/spiketools.plts.spikes.plot_waveform.html#spiketools.plts.spikes.plot_waveform">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
-<span class="k">def</span> <span class="nf">plot_waveform</span><span class="p">(</span><span class="n">waveform</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shade</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">add_traces</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">plot_waveform</span><span class="p">(</span><span class="n">waveform</span><span class="p">,</span> <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shade</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">add_traces</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                   <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot a spike waveform.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    waveform : 1d or 2d array</span>
-<span class="sd">        Voltage values of the spike waveform(s). If 2d, should have shape [n_waveforms, n_times].</span>
-<span class="sd">    times : 1d array, optional</span>
-<span class="sd">        Time values corresponding to the waveform(s).</span>
+<span class="sd">        Voltage values of the spike waveform(s).</span>
+<span class="sd">        If 2d, should have shape [n_waveforms, n_timestamps].</span>
+<span class="sd">    timestamps : 1d array, optional</span>
+<span class="sd">        Timestamps corresponding to the waveform(s).</span>
 <span class="sd">    average : {&#39;mean&#39;, &#39;median&#39;}, optional</span>
 <span class="sd">        Averaging to apply to waveforms before plotting.</span>
 <span class="sd">        If provided, this takes an average across an assumed 2d array of waveforms.</span>
@@ -130,9 +131,13 @@
 <span class="sd">        Axis object upon which to plot.</span>
 <span class="sd">    plt_kwargs</span>
 <span class="sd">        Additional arguments to pass into the plot function.</span>
+<span class="sd">        Custom kwargs: &#39;traces_lw&#39;, &#39;traces_alpha&#39;, &#39;shade_alpha&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;figsize&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+    <span class="n">custom_kwargs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;traces_lw&#39;</span><span class="p">,</span> <span class="s1">&#39;traces_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;shade_alpha&#39;</span><span class="p">]</span>
+    <span class="n">custom_plt_kwargs</span> <span class="o">=</span> <span class="n">get_kwargs</span><span class="p">(</span><span class="n">plt_kwargs</span><span class="p">,</span> <span class="n">custom_kwargs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shade</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">shade</span> <span class="o">=</span> <span class="n">get_var_func</span><span class="p">(</span><span class="n">shade</span><span class="p">)(</span><span class="n">waveform</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -142,46 +147,51 @@
         <span class="n">waveform</span> <span class="o">=</span> <span class="n">get_avg_func</span><span class="p">(</span><span class="n">average</span><span class="p">)(</span><span class="n">waveform</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Time (s)&#39;</span>
-    <span class="k">if</span> <span class="n">times</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">waveform</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">timestamps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">waveform</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Samples&#39;</span>
 
-    <span class="n">plot_lines</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="n">plot_lines</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
                <span class="n">xlabel</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;xlabel&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">),</span>
                <span class="n">ylabel</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;ylabel&#39;</span><span class="p">,</span> <span class="s1">&#39;Voltage&#39;</span><span class="p">),</span>
                <span class="n">title</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;Spike Waveform&#39;</span><span class="p">),</span>
                <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">add_traces</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">all_waveforms</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
-                <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">all_waveforms</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                <span class="n">lw</span><span class="o">=</span><span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;traces_lw&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;traces_alpha&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>
 
     <span class="k">if</span> <span class="n">shade</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">waveform</span> <span class="o">-</span> <span class="n">shade</span><span class="p">,</span> <span class="n">waveform</span> <span class="o">+</span> <span class="n">shade</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span></div>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">waveform</span> <span class="o">-</span> <span class="n">shade</span><span class="p">,</span> <span class="n">waveform</span> <span class="o">+</span> <span class="n">shade</span><span class="p">,</span>
+                        <span class="n">alpha</span><span class="o">=</span><span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;shade_alpha&#39;</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="plot_waveforms3d"><a class="viewcode-back" href="../../../generated/spiketools.plts.spikes.plot_waveforms3d.html#spiketools.plts.spikes.plot_waveforms3d">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
-<span class="k">def</span> <span class="nf">plot_waveforms3d</span><span class="p">(</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_waveforms3d</span><span class="p">(</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot waveforms on a 3D axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    waveforms : 2d array</span>
-<span class="sd">        Voltage values for the waveforms, with shape [n_waveforms, n_times].</span>
-<span class="sd">    times : 1d array, optional</span>
-<span class="sd">        Time values corresponding to the waveforms.</span>
+<span class="sd">        Voltage values for the waveforms, with shape [n_waveforms, n_timestamps].</span>
+<span class="sd">    timestamps : 1d array, optional</span>
+<span class="sd">        Timestamps corresponding to the waveforms.</span>
+<span class="sd">    plt_kwargs</span>
+<span class="sd">        Additional arguments to pass into the plot function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;figsize&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">times</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">waveforms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">timestamps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">waveforms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">waveforms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">waveform</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">waveforms</span><span class="p">):</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">ys</span> <span class="o">*</span> <span class="n">ind</span><span class="p">,</span> <span class="n">waveform</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">ys</span> <span class="o">*</span> <span class="n">ind</span><span class="p">,</span> <span class="n">waveform</span><span class="p">)</span>
 
     <span class="c1"># Set axis view orientation and hide axes</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -191,31 +201,35 @@
 
 <div class="viewcode-block" id="plot_waveform_density"><a class="viewcode-back" href="../../../generated/spiketools.plts.spikes.plot_waveform_density.html#spiketools.plts.spikes.plot_waveform_density">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
-<span class="k">def</span> <span class="nf">plot_waveform_density</span><span class="p">(</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">plot_waveform_density</span><span class="p">(</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span>
                           <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot a heatmap of waveform density, created as a 2D histogram of spike waveforms.</span>
+    <span class="sd">&quot;&quot;&quot;Plot a heatmap of waveform density, created as a 2d histogram of spike waveforms.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    waveforms : 2d array</span>
-<span class="sd">        Voltage values for the waveforms, with shape [n_waveforms, n_times].</span>
-<span class="sd">    times : 1d array, optional</span>
-<span class="sd">        Time values corresponding to the waveforms.</span>
+<span class="sd">        Voltage values for the waveforms, with shape [n_waveforms, n_timestamps].</span>
+<span class="sd">    timestamps : 1d array, optional</span>
+<span class="sd">        Timestamps corresponding to the waveforms.</span>
 <span class="sd">    bins : tuple of (int, int)</span>
 <span class="sd">        Bin definition to use to create the figure.</span>
 <span class="sd">    cmap : str</span>
 <span class="sd">        Colormap to use for the figure.</span>
+<span class="sd">    ax : Axes, optional</span>
+<span class="sd">        Axis object upon which to plot.</span>
+<span class="sd">    plt_kwargs</span>
+<span class="sd">        Additional arguments to pass into the plot function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;figsize&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
 
     <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Time (s)&#39;</span>
-    <span class="k">if</span> <span class="n">times</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">waveforms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">timestamps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">waveforms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Samples&#39;</span>
-    <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">times</span><span class="p">]</span> <span class="o">*</span> <span class="n">waveforms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">timestamps</span><span class="p">]</span> <span class="o">*</span> <span class="n">waveforms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-    <span class="n">ax</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="n">times</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">waveforms</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="n">timestamps</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">waveforms</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;xlabel&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">),</span>
            <span class="n">ylabel</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;ylabel&#39;</span><span class="p">,</span> <span class="s1">&#39;Voltage&#39;</span><span class="p">),</span>
@@ -282,7 +296,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

@@ -97,16 +97,14 @@
 <h1>spiketools.sim.utils.apply_refractory_train<a class="headerlink" href="#spiketools-sim-utils-apply-refractory-train" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.sim.utils.apply_refractory_train">
-<span class="sig-prename descclassname"><span class="pre">spiketools.sim.utils.</span></span><span class="sig-name descname"><span class="pre">apply_refractory_train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spike_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/utils.html#apply_refractory_train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.utils.apply_refractory_train" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.sim.utils.</span></span><span class="sig-name descname"><span class="pre">apply_refractory_train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spike_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory_samples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/utils.html#apply_refractory_train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.utils.apply_refractory_train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply a refractory period to a simulated spike train.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>spike_train</strong><span class="classifier">1d array</span></dt><dd><p>Spike train.</p>
 </dd>
-<dt><strong>refractory_time</strong><span class="classifier">float</span></dt><dd><p>The duration of the refractory period, after a spike, in seconds.</p>
-</dd>
-<dt><strong>fs</strong><span class="classifier">float, optional, default: 1000</span></dt><dd><p>The sampling rate of the spike train.</p>
+<dt><strong>refractory_samples</strong><span class="classifier">int</span></dt><dd><p>The duration of the refractory period, after a spike, in number of samples.</p>
 </dd>
 </dl>
 </dd>
@@ -118,10 +116,10 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Apply a 0.003 seconds refractory period to a binary spike train with 1000 Hz sampling rate:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spike_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">apply_refractory_train</span><span class="p">(</span><span class="n">spike_train</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="go">array([0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0])</span>
+<p>Apply a 1-sample refractory period to a spike train:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spike_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">apply_refractory_train</span><span class="p">(</span><span class="n">spike_train</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">array([0, 1, 0, 0, 0, 1, 0, 1, 0, 1])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -140,7 +138,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

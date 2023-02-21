@@ -153,10 +153,23 @@ with allows for simulating spike times by specifying a method to do so.</p>
 </pre></div>
 </div>
 </section>
-<section id="utilities-for-working-with-simulated-spike-times">
-<h4>Utilities for working with simulated spike times<a class="headerlink" href="#utilities-for-working-with-simulated-spike-times" title="Permalink to this headline">¶</a></h4>
-<p>We can apply a refractory period to simulated spike times, using the
+<section id="refractory-periods-for-simulated-spike-times">
+<h4>Refractory periods for simulated spike times<a class="headerlink" href="#refractory-periods-for-simulated-spike-times" title="Permalink to this headline">¶</a></h4>
+<p>When simulating spike times, we will often want to add a refractory time such that we
+don’t simulate spike times that are implausible close together.</p>
+<p>To specify a refractory period, the <cite>refractory</cite> input takes a float value
+specifying the refractory period, in seconds.</p>
+<p>This <cite>refractory</cite> parameter is accepted by all the spike time simulation functions.
+Note that by default, the spike time simulation function apply a refractory period
+of 0.001 seconds (1 ms).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike times with a specified refractory period</span>
+<span class="n">spike_times</span> <span class="o">=</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mf">0.002</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Behind the scenes, applying a refractory period to a set of spike times is done with the
 <a class="reference internal" href="../generated/spiketools.sim.utils.apply_refractory_times.html#spiketools.sim.utils.apply_refractory_times" title="spiketools.sim.utils.apply_refractory_times"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_refractory_times()</span></code></a> function.</p>
+<p>We can also use this function to apply a refractory period to
+an existing set of spike times.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply a 0.003 seconds refractory period to the simulated spike times</span>
 <span class="n">spike_times_ref</span> <span class="o">=</span> <a href="../generated/spiketools.sim.utils.apply_refractory_times.html#spiketools.sim.utils.apply_refractory_times" title="spiketools.sim.utils.apply_refractory_times" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_times</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
 </pre></div>
@@ -190,8 +203,8 @@ with allows for simulating spike times by specifying a method to do so.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spike times data:&#39;</span><span class="p">,</span> <span class="n">spike_times_prob</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Spike train data: [0 1 1 1 0 1 1 1 1 1]
-Spike times data: [0.002 0.003 0.004 0.006 0.007 0.008 0.009 0.01  0.011 0.012]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Spike train data: [0 1 0 0 1 1 1 1 1 1]
+Spike times data: [0.002 0.005 0.006 0.007 0.008 0.009 0.01  0.011 0.012 0.013]
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the spike times</span>
@@ -255,13 +268,23 @@ with allows for simulating spike trains by specifying a method to do so.</p>
 </pre></div>
 </div>
 </section>
-<section id="utilities-for-working-with-simulated-spike-trains">
-<h4>Utilities for working with simulated spike trains<a class="headerlink" href="#utilities-for-working-with-simulated-spike-trains" title="Permalink to this headline">¶</a></h4>
-<p>We can apply a refractory period to simulated spike times, using the
-<a class="reference internal" href="../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train" title="spiketools.sim.utils.apply_refractory_train"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_refractory_train()</span></code></a> function.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply a 0.003 seconds refractory period to the simulated spike trains</span>
-<span class="n">spike_train_ref1</span> <span class="o">=</span> <a href="../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train" title="spiketools.sim.utils.apply_refractory_train" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_train</span></a><span class="p">(</span><span class="n">spike_train1</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
-<span class="n">spike_train_ref2</span> <span class="o">=</span> <a href="../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train" title="spiketools.sim.utils.apply_refractory_train" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_train</span></a><span class="p">(</span><span class="n">spike_train2</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
+<section id="refractory-periods-for-simulated-spike-trains">
+<h4>Refractory periods for simulated spike trains<a class="headerlink" href="#refractory-periods-for-simulated-spike-trains" title="Permalink to this headline">¶</a></h4>
+<p>Similarly to the spike time simulations, when simulating spike trains we may
+want to specify a refractory period, which we can again do with the
+<cite>refractory</cite> parameter, which in this case accepts an integer value of the
+number of samples that are refractory after a spike.</p>
+<p>This <cite>refractory</cite> parameter is accepted by all spike train simulation functions,
+and has a default of 1 sample.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate spike times with a specified refractory period</span>
+<span class="n">spike_train</span> <span class="o">=</span> <a href="../generated/spiketools.sim.sim_spiketrain.html#spiketools.sim.sim_spiketrain" title="spiketools.sim.sim_spiketrain" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain</span></a><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;binom&#39;</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Refractory times for spike trains are applied with the
+<a class="reference internal" href="../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train" title="spiketools.sim.utils.apply_refractory_train"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_refractory_train()</span></code></a> function, which can also be used independently.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply a 3 sample refractory period to the simulated spike trains</span>
+<span class="n">spike_train_ref1</span> <span class="o">=</span> <a href="../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train" title="spiketools.sim.utils.apply_refractory_train" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_train</span></a><span class="p">(</span><span class="n">spike_train1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">spike_train_ref2</span> <span class="o">=</span> <a href="../generated/spiketools.sim.utils.apply_refractory_train.html#spiketools.sim.utils.apply_refractory_train" title="spiketools.sim.utils.apply_refractory_train" class="sphx-glr-backref-module-spiketools-sim-utils sphx-glr-backref-type-py-function"><span class="n">apply_refractory_train</span></a><span class="p">(</span><span class="n">spike_train2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
 <span class="c1"># Plot the simulated data</span>
 <span class="n">spike_times1</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_train_to_times.html#spiketools.measures.conversions.convert_train_to_times" title="spiketools.measures.conversions.convert_train_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_train_to_times</span></a><span class="p">(</span><span class="n">spike_train_ref1</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
@@ -269,7 +292,7 @@ with allows for simulating spike trains by specifying a method to do so.</p>
 <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">([</span><span class="n">spike_times1</span><span class="p">,</span> <span class="n">spike_times2</span><span class="p">])</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_sims_006.png" srcset="../_images/sphx_glr_plot_sims_006.png" alt="plot sims" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.307 seconds)</p>
+<img src="../_images/sphx_glr_plot_sims_006.png" srcset="../_images/sphx_glr_plot_sims_006.png" alt="plot sims" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.303 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-sims-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/1ce28eb34b7d7dcc9b057f6d029f6e8c/plot_sims.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_sims.py</span></code></a></p>
@@ -296,7 +319,7 @@ with allows for simulating spike trains by specifying a method to do so.</p>
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>

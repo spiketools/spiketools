@@ -97,7 +97,7 @@
 <h1>spiketools.spatial.occupancy.compute_bin_counts_pos<a class="headerlink" href="#spiketools-spatial-occupancy-compute-bin-counts-pos" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.spatial.occupancy.compute_bin_counts_pos">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.occupancy.</span></span><span class="sig-name descname"><span class="pre">compute_bin_counts_pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/occupancy.html#compute_bin_counts_pos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.occupancy.compute_bin_counts_pos" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.occupancy.</span></span><span class="sig-name descname"><span class="pre">compute_bin_counts_pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/occupancy.html#compute_bin_counts_pos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.occupancy.compute_bin_counts_pos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute counts per bin, from position data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -113,6 +113,9 @@ Any values outside this range will be considered outliers, and not used to compu
 <dt><strong>occupancy</strong><span class="classifier">1d or 2d array, optional</span></dt><dd><p>Occupancy across the spatial bins.
 If provided, used to normalize bin counts.</p>
 </dd>
+<dt><strong>orientation</strong><span class="classifier">{‘row’, ‘column’}, optional</span></dt><dd><p>The orientation of the position data.
+If not provided, is inferred from the position data.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -124,7 +127,7 @@ For 2d, has shape [n_y_bins, n_x_bins] (see notes).</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>For the 2D case, note that while the inputs to this function list the x-axis first,
+<p>For the 2d case, note that while the inputs to this function list the x-axis first,
 the output of this function, being a 2d array, follows the numpy convention in which
 columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.</p>
 <p class="rubric">Examples</p>
@@ -153,7 +156,7 @@ columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dime
       
     </p>
     <p>
-        &copy; Copyright 2021-2022, Thomas Donoghue.<br/>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
