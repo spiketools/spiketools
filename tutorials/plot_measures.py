@@ -68,7 +68,7 @@ print(spike_times[0:5])
 
 ###################################################################################################
 #
-# Now we can convert our simualted spike times to a binary spike train.
+# Now we can convert our simulated spike times to a binary spike train.
 #
 # A spike train is a representation of spiking activity in which each
 # element in a binary represents a time step, and a value of 1 represents that
