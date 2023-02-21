@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.plts.data import plot_bar, plot_hist, plot_lines
-from spiketools.plts.utils import check_ax, savefig
-from spiketools.plts.style import get_kwargs, set_plt_kwargs
+from spiketools.plts.utils import check_ax, get_kwargs, savefig
+from spiketools.plts.style import set_plt_kwargs
 
 ###################################################################################################
 ###################################################################################################
@@ -108,7 +108,7 @@ def plot_waveforms3d(waveforms, timestamps=None, **plt_kwargs):
 @set_plt_kwargs
 def plot_waveform_density(waveforms, timestamps=None, bins=(250, 50), cmap='viridis',
                           ax=None, **plt_kwargs):
-    """Plot a heatmap of waveform density, created as a 2D histogram of spike waveforms.
+    """Plot a heatmap of waveform density, created as a 2d histogram of spike waveforms.
 
     Parameters
     ----------

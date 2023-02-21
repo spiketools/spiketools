@@ -36,18 +36,20 @@ def test_add_hlines():
     add_hlines([1.5, 2.5, 3.5], ax=ax)
 
 @plot_test
-def test_add_vshade():
+def test_add_vshades():
 
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
-    add_vshade([2., 3.], ax=ax)
+    add_vshades([2., 3.], ax=ax)
+    add_vshades([[0.5, 0.75], [3.5, 3.75]], color='red', ax=ax)
 
 @plot_test
-def test_add_hshade():
+def test_add_hshades():
 
     _, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [1, 2, 3, 4])
-    add_hshade([2., 3.], ax=ax)
+    add_hshades([2., 3.], ax=ax)
+    add_hshades([[0.5, 0.75], [3.5, 3.75]], color='red', ax=ax)
 
 @plot_test
 def test_add_box_shade():

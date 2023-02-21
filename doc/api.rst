@@ -402,13 +402,25 @@ Helper functions to annotate plot axes.
    color_pvalue
    add_vlines
    add_hlines
-   add_vshade
-   add_hshade
+   add_vshades
+   add_hshades
    add_box_shade
    add_box_shades
    add_dots
    add_significance
    add_text_labels
+
+Style
+~~~~~
+
+Helper functions for managing plot style.
+
+.. currentmodule:: spiketools.plts.utils
+.. autosummary::
+   :toctree: generated/
+
+   drop_spines
+   invert_axes
 
 Utils
 ~~~~~
@@ -420,10 +432,10 @@ Plot related utilities.
    :toctree: generated/
 
    check_ax
+   save_figure
    make_axes
    make_grid
    get_grid_subplot
-   save_figure
 
 Utilities
 ---------
@@ -498,6 +510,7 @@ Utilities for working with timestamps.
    convert_ms_to_min
    convert_nsamples_to_time
    convert_time_to_nsamples
+   sum_time_ranges
    create_bin_times
    split_time_value
    format_time_string

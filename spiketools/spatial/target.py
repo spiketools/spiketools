@@ -32,7 +32,7 @@ def compute_target_bins(target_frs, bins, xbins, ybins=None, target_occupancy=No
 
     Notes
     -----
-    For the 2D case, note that while the inputs to this function list the x-axis first,
+    For the 2d case, note that while the inputs to this function list the x-axis first,
     the output of this function, being a 2d array, follows the numpy convention in which
     columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
 
