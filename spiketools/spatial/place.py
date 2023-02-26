@@ -56,8 +56,8 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
     Compute spike activity across 2d spatial bins:
 
     >>> spikes = np.array([0.2, 0.25, 0.3, 0.38, 0.41, 0.5, 0.59, 0.77, 0.95, 0.96])
-    >>> position = np.array([[0.1, 0.3, 0.35, 0.36, 0.37, 0.4, 0.45, 0.46, 0.55, 0.7], \
-                             [1.0, 1.5, 1.55, 1.65, 1.66, 2.0, 3.0, 4.0, 5.5, 7.0]])
+    >>> position = np.array([[0.1, 0.3, 0.35, 0.36, 0.37, 0.4, 0.45, 0.46, 0.55, 0.7],
+    ...                      [1.0, 1.5, 1.55, 1.65, 1.66, 2.0, 3.0, 4.0, 5.5, 7.0]])
     >>> timestamps = np.array([0.01, 0.03, 0.2, 0.25, 0.45, 0.46, 0.47, 0.49, 0.5, 0.65])
     >>> bins = [3, 2]
     >>> compute_place_bins(spikes, position, timestamps, bins)

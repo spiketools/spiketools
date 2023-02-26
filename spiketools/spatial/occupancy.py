@@ -46,8 +46,8 @@ def compute_bin_edges(position, bins, area_range=None):
 
     Compute bin edges for 2d position values:
 
-    >>> position = np.array([[1, 2, 3, 4, 5], \
-                             [6, 7, 8, 9, 10]])
+    >>> position = np.array([[1, 2, 3, 4, 5],
+    ...                      [6, 7, 8, 9, 10]])
     >>> compute_bin_edges(position, bins=[5, 4])
     (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))
     """
@@ -117,8 +117,8 @@ def compute_bin_assignment(position, x_edges, y_edges=None, check_range=True, in
 
     Compute bin assignment for 2d position values, given precomputed bin edges:
 
-    >>> position = np.array([[1.5, 2.5, 3.5, 5], \
-                             [6.5, 7.5, 8.5, 9]])
+    >>> position = np.array([[1.5, 2.5, 3.5, 5],
+    ...                      [6.5, 7.5, 8.5, 9]])
     >>> x_edges = np.array([1, 2, 3, 4, 5])
     >>> y_edges = np.array([6, 7, 8, 9, 10])
     >>> compute_bin_assignment(position, x_edges, y_edges)
@@ -178,8 +178,8 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None, orie
     --------
     Compute counts across 2d bins from position data:
 
-    >>> position = np.array([[0.5, 1.0, 1.5, 2.0, 3.0], \
-                             [0.1, 0.2, 0.3, 0.4, 0.5]])
+    >>> position = np.array([[0.5, 1.0, 1.5, 2.0, 3.0],
+    ...                      [0.1, 0.2, 0.3, 0.4, 0.5]])
     >>> bins = [2, 3]
     >>> compute_bin_counts_pos(position, bins)
     array([[2, 0],
@@ -489,8 +489,8 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
 
     Compute occupancy for a set of 2d position values:
 
-    >>> position = np.array([[1.0, 2.5, 1.5, 3.0, 3.5, 5.0], \
-                             [5.0, 7.5, 6.5, 5.0, 8.5, 9.0]])
+    >>> position = np.array([[1.0, 2.5, 1.5, 3.0, 3.5, 5.0],
+    ...                      [5.0, 7.5, 6.5, 5.0, 8.5, 9.0]])
     >>> timestamps = np.linspace(0, 1, position.shape[1])
     >>> compute_occupancy(position, timestamps, bins=[2, 2])
     array([[0.4, 0.2],
