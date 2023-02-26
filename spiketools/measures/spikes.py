@@ -140,7 +140,7 @@ def compute_spike_presence(spikes, bins, time_range=None):
 
     Examples
     --------
-    Compute the presence ratio from spike times:
+    Compute the spike presence from spike times:
 
     >>> spikes = np.array([0.25, 1.15, 1.75, 2.25, 2.75, 4.5])
     >>> compute_spike_presence(spikes, bins=1, time_range=[0, 5])
