@@ -9,7 +9,7 @@ for minor releases, see the `release page <https://github.com/spiketools/spiketo
 0.X.X Series
 ------------
 
-The 0.X.X series, starting with 0.1, is the initial and current release series.
+The 0.X.X series, starting with 0.0.0, is the initial and current release series.
 
 This release series contains code working with spiking data, including
 measures and conversions, spatial analyses, statistical analyses, simulations, and plotting.
