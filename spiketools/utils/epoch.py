@@ -213,7 +213,7 @@ def epoch_data_by_range(timestamps, values, start_times, stop_times, reset=False
         Data values, corresponding the the timestamps.
     start_times, stop_times : list of float
         The start and stop times, in seconds, of each epoch.
-    reset : bool, optional, default: True
+    reset : bool, optional, default: False
         If True, resets the values in each epoch range to the start time of that epoch.
 
     Returns

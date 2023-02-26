@@ -219,8 +219,6 @@ def check_axis(axis, arr):
         If the axis could not be inferred, -1 is returned.
     """
 
-    AXISARG = defaultdict(lambda : -1, {'vector' : 0, 'row' : 1, 'column' : 0})
-
     if not axis:
 
         if isinstance(arr, list):

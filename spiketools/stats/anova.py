@@ -148,9 +148,9 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
     return_type : {'f_val', 'results', 'model'}
         What to return after the model fitting. Options:
 
-            * 'f_val' : returns the F-value for the requested feature
-            * 'results' : returns the full set of model results
-            * 'model' : returns the fit model object
+        * 'f_val' : returns the F-value for the requested feature
+        * 'results' : returns the full set of model results
+        * 'model' : returns the fit model object
     anova_type : {2, 3, 1}
         Which type of ANOVA test to perform.
         See `statsmodels.stats.anova.anova_lm` for details.

@@ -154,7 +154,7 @@ def convert_times_to_counts(spikes, bins, time_range=None):
 
 
 def convert_times_to_rates(spikes, bins, time_range=None, smooth=None):
-    """Convert spike times to continuous firing rate.
+    """Convert spike times to continuous firing rates.
 
     Parameters
     ----------

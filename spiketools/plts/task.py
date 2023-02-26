@@ -18,21 +18,21 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
 
     Parameters
     ----------
-    task_ranges : list of list of float
+    task_ranges : list of list of float, optional
         List of start and end ranges to shade in, to indicate event durations.
         To add multiple different shaded regions, pass a list of multiple shade definitions.
-    event_lines : list of float
+    event_lines : list of float, optional
         Timestamps at which to draw vertical lines, to indicate point events.
         To add multiple different lines, pass a list of multiple line definitions.
-    data_points : 1d array
+    data_points : 1d array, optional
         Set of timestamps to indicate data points of interest on the plot.
-    range_colors : list of str
+    range_colors : list of str, optional
         Colors to plot the ranges in. Used if passing multiple task range sections.
-    line_colors : list of str
+    line_colors : list of str, optional
         Colors to plot the lines in. Used if passing multiple line sections.
-    range_kwargs : dict
+    range_kwargs : dict, optional
         Additional keyword arguments for the range shades.
-    event_kwargs : dict
+    event_kwargs : dict, optional
         Additional keyword arguments for the event lines.
     ax : Axes, optional
         Axis object upon which to plot.

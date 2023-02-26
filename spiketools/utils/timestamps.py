@@ -251,6 +251,14 @@ def create_bin_times(bins):
     -----
     The bin timepoints are defined as the center point of each bin.
     This function works for evenly spaced and uneven bin definitions.
+
+    Examples
+    --------
+    Create bin times:
+
+    >>> bins = np.array([0, 1, 2, 3, 4, 5])
+    >>> create_bin_times(bins)
+    array([0.5, 1.5, 2.5, 3.5, 4.5])
     """
 
     bin_times = bins[:-1] + np.diff(bins) / 2

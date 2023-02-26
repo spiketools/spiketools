@@ -72,8 +72,9 @@ def invert_axes(invert, ax=None):
     Notes
     -----
     Note that for a 2d array, inverting axes is equivalent to flipping the data, specifically:
-        Flipping up/down is equivalent to inverting the y-axis.
-        Flipping left/right is equivalent to inverting the x-axis.
+
+    - Flipping up/down is equivalent to inverting the y-axis.
+    - Flipping left/right is equivalent to inverting the x-axis.
     """
 
     ax = check_ax(ax, return_current=True)

@@ -20,10 +20,10 @@ def test_plot_lines():
                file_path=TEST_PLOTS_PATH, file_name='tplot_line.png')
 
 @plot_test
-def test_plot_dots(tdata):
+def test_plot_scatter(tdata):
 
-    plot_dots(tdata, tdata,
-              file_path=TEST_PLOTS_PATH, file_name='tplot_dots.png')
+    plot_scatter(tdata, tdata,
+                 file_path=TEST_PLOTS_PATH, file_name='tplot_scatter.png')
 
 @plot_test
 def test_plot_points():

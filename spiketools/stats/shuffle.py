@@ -157,7 +157,7 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
 
     Returns
     -------
-    spike_time_diff : 2d array
+    shuffled_spikes : 2d array
         Shuffled spike times.
 
     Notes

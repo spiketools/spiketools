@@ -51,10 +51,10 @@ def compute_spatial_information(bin_firing, occupancy, normalize=False):
 
     Compute spatial information across a 2d space:
 
-    >>> bin_firing = np.array([[1, 1, 1, 5], \
-                               [1, 1, 1, 5]])
-    >>> occupancy = np.array([[1, 1, 1, 1], \
-                              [1, 1, 1, 1]])
+    >>> bin_firing = np.array([[1, 1, 1, 5],
+    ...                        [1, 1, 1, 5]])
+    >>> occupancy = np.array([[1, 1, 1, 1],
+    ...                       [1, 1, 1, 1]])
     >>> info = compute_spatial_information(bin_firing, occupancy)
     >>> print('{:5.4f}'.format(info))
     0.4512

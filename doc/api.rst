@@ -383,7 +383,7 @@ Basic plot function for different data types.
    :toctree: generated/
 
    plot_lines
-   plot_dots
+   plot_scatter
    plot_points
    plot_hist
    plot_bar

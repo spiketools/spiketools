@@ -42,6 +42,14 @@ def lower_list(lst):
     -------
     lst
         A list of string, all lowercase.
+
+    Examples
+    --------
+    Lower a list of mixed case entries:
+
+    >>> lst = ['First', 'SECOND', 'Third']
+    >>> lower_list(lst)
+    ['first', 'second', 'third']
     """
 
     return [el.lower() for el in lst]
@@ -129,6 +137,15 @@ def combine_dicts(dicts):
     -------
     dict
         Combined dictionary.
+
+    Examples
+    --------
+    Combine two dictionaries:
+
+    >>> dict1 = {'a' : 1, 'b' : 2}
+    >>> dict2 = {'c' : 3, 'd' : 4}
+    >>> combine_dicts([dict1, dict2])
+    {'a': 1, 'b': 2, 'c': 3, 'd': 4}
     """
 
     output = {}
@@ -152,6 +169,14 @@ def add_key_prefix(indict, prefix):
     -------
     dict
         Dictionary with updated keys.
+
+    Examples
+    --------
+    Add a prefix to dictionary keys:
+
+    >>> indict = {'setting' : 12, 'param' : 22}
+    >>> add_key_prefix(indict, 'analysis')
+    {'analysis_setting': 12, 'analysis_param': 22}
     """
 
     out = {}

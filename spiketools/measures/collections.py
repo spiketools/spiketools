@@ -27,6 +27,15 @@ def detect_empty_time_ranges(all_spikes, bins, time_range=None):
     -------
     empty_ranges : list of list of float
         List of ranges indicating time ranges with no spiking across all neurons.
+
+    Examples
+    --------
+    Detect an empty range across a collection of 2 spiking neurons:
+
+    >>> all_spikes = [np.array([0.25, 0.80, 1.25, 1.75, 4.15, 4.95]),
+    ...               np.array([0.15, 0.55, 1.55, 1.95, 4.35, 4.85])]
+    >>> detect_empty_time_ranges(all_spikes, bins=1, time_range=[0, 5])
+    [[2, 4]]
     """
 
     bin_emptiness = find_empty_bins(all_spikes, bins, time_range)

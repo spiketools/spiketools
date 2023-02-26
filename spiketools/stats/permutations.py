@@ -26,6 +26,7 @@ def permute_vector(data, n_permutations=1000):
     Notes
     -----
     Code adapted from here: https://stackoverflow.com/questions/46859304/
+
     This function doesn't have any randomness - for a given array it will
     iterate through the same set of permutations, in sequence.
 
