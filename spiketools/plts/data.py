@@ -192,14 +192,14 @@ def plot_barh(data, labels=None, add_text=False, ax=None, **plt_kwargs):
 
 @savefig
 @set_plt_kwargs
-def plot_polar_hist(data, bin_width=None, ax=None, **plt_kwargs):
+def plot_polar_hist(data, bin_width=10, ax=None, **plt_kwargs):
     """Plot a polar histogram.
 
     Parameters
     ----------
     data : 1d array
         Data to plot in a circular histogram.
-    bin_width : int, optional, default: 10
+    bin_width : float, optional, default: 10
         Width of the bins to use for the histogram.
     ax : Axes, optional
         Axis object upon which to plot.

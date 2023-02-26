@@ -116,9 +116,9 @@ def plot_waveform_density(waveforms, timestamps=None, bins=(250, 50), cmap='viri
         Voltage values for the waveforms, with shape [n_waveforms, n_timestamps].
     timestamps : 1d array, optional
         Timestamps corresponding to the waveforms.
-    bins : tuple of (int, int)
+    bins : tuple of (int, int), optional, default: (250, 50)
         Bin definition to use to create the figure.
-    cmap : str
+    cmap : str, optional, default: 'viridis'
         Colormap to use for the figure.
     ax : Axes, optional
         Axis object upon which to plot.

@@ -12,7 +12,7 @@ def bin_circular(data, bin_width=10):
     ----------
     data : 1d array
         Data to bin.
-    bin_width : int, optional, default: 10
+    bin_width : float, optional, default: 10
         Width of the bins to use for the histogram.
 
     Returns
@@ -27,7 +27,7 @@ def bin_circular(data, bin_width=10):
     This function currently only supports data in degrees.
     """
 
-    bin_edges = np.arange(0, 370, bin_width)
+    bin_edges = np.arange(0, 360 + bin_width, bin_width)
     counts, _ = np.histogram(data, bins=bin_edges)
 
     return bin_edges, counts

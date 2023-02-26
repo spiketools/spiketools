@@ -137,6 +137,14 @@ def compute_spike_presence(spikes, bins, time_range=None):
     -------
     spike_presence : 1d array
         Boolean array indicating spike presence across time bins.
+
+    Examples
+    --------
+    Compute the presence ratio from spike times:
+
+    >>> spikes = np.array([0.25, 1.15, 1.75, 2.25, 2.75, 4.5])
+    >>> compute_spike_presence(spikes, bins=1, time_range=[0, 5])
+    array([ True,  True,  True, False,  True])
     """
 
     spike_counts = convert_times_to_counts(spikes, bins, time_range)
@@ -168,6 +176,14 @@ def compute_presence_ratio(spikes, bins, time_range=None):
     Notes
     -----
     The presence ratio reflects the proportion of time bins in which at least 1 spike occurred.
+
+    Examples
+    --------
+    Compute the presence ratio from spike times:
+
+    >>> spikes = np.array([0.25, 1.15, 1.75, 2.25, 2.75, 4.5])
+    >>> compute_presence_ratio(spikes, bins=1, time_range=[0, 5])
+    0.8
     """
 
     spike_presence = compute_spike_presence(spikes, bins, time_range)
