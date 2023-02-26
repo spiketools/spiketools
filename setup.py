@@ -27,7 +27,7 @@ setup(
     packages = find_packages(),
     license = 'Apache License, 2.0',
     classifiers = [
-        'Development Status :: 3 - Alpha'
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering',
         'License :: OSI Approved :: Apache Software License',
