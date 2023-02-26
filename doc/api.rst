@@ -415,7 +415,7 @@ Style
 
 Helper functions for managing plot style.
 
-.. currentmodule:: spiketools.plts.utils
+.. currentmodule:: spiketools.plts.style
 .. autosummary::
    :toctree: generated/
 
