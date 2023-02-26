@@ -17,5 +17,6 @@ doc/auto_tutorials/
 doc/generated/
 
 # Ignore module build files
+dist/*
 build/*
 *.egg-info/*
