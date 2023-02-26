@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Statistical Analyses &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>Statistical Analyses &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -16,6 +16,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -25,9 +26,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -43,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -99,11 +100,11 @@
 to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="statistical-analyses">
-<span id="sphx-glr-auto-tutorials-plot-stats-py"></span><h1>Statistical Analyses<a class="headerlink" href="#statistical-analyses" title="Permalink to this headline">¶</a></h1>
+<span id="sphx-glr-auto-tutorials-plot-stats-py"></span><h1>Statistical Analyses<a class="headerlink" href="#statistical-analyses" title="Permalink to this heading">¶</a></h1>
 <p>Apply statistical analyses to spiking data.</p>
 <p>This tutorial primarily covers the <code class="docutils literal notranslate"><span class="pre">spiketools.stats</span></code> module.</p>
 <section id="applying-statistical-measures-to-spiking-data">
-<h2>Applying statistical measures to spiking data<a class="headerlink" href="#applying-statistical-measures-to-spiking-data" title="Permalink to this headline">¶</a></h2>
+<h2>Applying statistical measures to spiking data<a class="headerlink" href="#applying-statistical-measures-to-spiking-data" title="Permalink to this heading">¶</a></h2>
 <p>This tutorial covers applying statistical measures to spike data.</p>
 <p>This tutorial contains the following sections:</p>
 <ol class="arabic simple">
@@ -147,7 +148,7 @@ spikes occurring within the same millisecond</p>
 </pre></div>
 </div>
 <section id="compute-and-plot-different-shuffles-of-spikes">
-<h3>Compute and plot different shuffles of spikes<a class="headerlink" href="#compute-and-plot-different-shuffles-of-spikes" title="Permalink to this headline">¶</a></h3>
+<h3>Compute and plot different shuffles of spikes<a class="headerlink" href="#compute-and-plot-different-shuffles-of-spikes" title="Permalink to this heading">¶</a></h3>
 <p>Here, we will explore different shuffle approaches to create different shuffled
 surrogates of our original spikes.</p>
 <p>The approaches we will try are:</p>
@@ -200,7 +201,7 @@ call the different shuffling methods by passing an argument to define which meth
 </div>
 <img src="../_images/sphx_glr_plot_stats_003.png" srcset="../_images/sphx_glr_plot_stats_003.png" alt="Shuffled Spikes" class = "sphx-glr-single-img"/></section>
 <section id="compute-t-test-t-and-p-values-to-test-for-an-event-related-firing-rate-change">
-<h3>Compute t-test t- and p-values to test for an event-related firing rate change<a class="headerlink" href="#compute-t-test-t-and-p-values-to-test-for-an-event-related-firing-rate-change" title="Permalink to this headline">¶</a></h3>
+<h3>Compute t-test t- and p-values to test for an event-related firing rate change<a class="headerlink" href="#compute-t-test-t-and-p-values-to-test-for-an-event-related-firing-rate-change" title="Permalink to this heading">¶</a></h3>
 <p>First generate data that simulates a change in spike rate due to an event across 10 trials.</p>
 <p>In this example case, across trials, we will simulate a change in firing rate
 around an event. Specifically, we will simulate trials with an average firing rate of
@@ -249,7 +250,7 @@ the pre- and post-event time ranges.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The t-value is -6.983, with a p-value of 6.445e-05
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The t-value is -15.435, with a p-value of 8.798e-08
 </pre></div>
 </div>
 <p>In the above, we separately computed and then compared the firing rates around
@@ -268,14 +269,14 @@ an event of interest.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 5.067
-Average FR post-event: 9.467
-The t-value is -6.983, with a p-value of 6.445e-05
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 4.433
+Average FR post-event: 10.667
+The t-value is -15.435, with a p-value of 8.798e-08
 </pre></div>
 </div>
 </section>
 <section id="compare-1st-and-2nd-half-of-trials">
-<h3>Compare 1st and 2nd half of trials<a class="headerlink" href="#compare-1st-and-2nd-half-of-trials" title="Permalink to this headline">¶</a></h3>
+<h3>Compare 1st and 2nd half of trials<a class="headerlink" href="#compare-1st-and-2nd-half-of-trials" title="Permalink to this heading">¶</a></h3>
 <p>In real data, time or trial index may influence the outcome.</p>
 <p>For another example analysis, next we will examine the binned pre / post firing
 rates, split up by a split-half of the trials, to examine whether there is
@@ -294,13 +295,13 @@ evidence for a difference in spiking activity across different trials.</p>
       <span class="n">post_between_halfs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">post_between_halfs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For pre bin comparison, the t-value is 0.832, a p-value of 4.296e-01.
-For post bin comparison, the t-value is -0.233, with a p-value of 8.212e-01.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For pre bin comparison, the t-value is -0.186, a p-value of 8.574e-01.
+For post bin comparison, the t-value is 0.147, with a p-value of 8.866e-01.
 </pre></div>
 </div>
 </section>
 <section id="run-2-way-anova-on-multiple-trials-data">
-<h3>Run 2-way ANOVA on multiple trials data<a class="headerlink" href="#run-2-way-anova-on-multiple-trials-data" title="Permalink to this headline">¶</a></h3>
+<h3>Run 2-way ANOVA on multiple trials data<a class="headerlink" href="#run-2-way-anova-on-multiple-trials-data" title="Permalink to this heading">¶</a></h3>
 <p>Another way of testing whether there are event-related changes in firing rates
 rate is to run a 2-way ANOVA.</p>
 <p>To do that, we will first organize the firing rates and the factors in a pandas DataFrame,
@@ -343,15 +344,15 @@ the <a class="reference internal" href="../generated/spiketools.stats.anova.fit_
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;P-value, trial index: </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">anova_pre_post</span><span class="p">[</span><span class="s1">&#39;PR(&gt;F)&#39;</span><span class="p">][</span><span class="s1">&#39;C(trial_idx)&#39;</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value, pre vs post: 48.761
-P-value, pre vs post: 6.445e-05
-F-value, trial index: 1.251
-P-value, trial index: 3.720e-01
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value, pre vs post: 238.245
+P-value, pre vs post: 8.798e-08
+F-value, trial index: 4.422
+P-value, trial index: 1.866e-02
 </pre></div>
 </div>
 </section>
 <section id="compute-the-empirical-p-value-and-z-score-from-distribution-of-surrogates">
-<h3>Compute the empirical p-value and z-score from distribution of surrogates<a class="headerlink" href="#compute-the-empirical-p-value-and-z-score-from-distribution-of-surrogates" title="Permalink to this headline">¶</a></h3>
+<h3>Compute the empirical p-value and z-score from distribution of surrogates<a class="headerlink" href="#compute-the-empirical-p-value-and-z-score-from-distribution-of-surrogates" title="Permalink to this heading">¶</a></h3>
 <p>Next, we will use surrogate data to test whether our analysis reflects a significant effect.</p>
 <p>First we calculate the change in firing rate for an example trial (first trial).</p>
 <p>Here firing rate different is computed between pre- and post-even rates
@@ -383,8 +384,8 @@ real data is greater than expected by change (in the shuffles).</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Maximum delta FR across surrogates: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">shuff_fr_diff</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Minimum delta FR across surrogates: -6.000
-Maximum delta FR across surrogates: 4.667
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Minimum delta FR across surrogates: -5.000
+Maximum delta FR across surrogates: 4.333
 </pre></div>
 </div>
 <p>Now we can compute the empirical p-value and z-score of change in firing rate from
@@ -396,7 +397,7 @@ the distribution of surrogates, using the <a class="reference internal" href="..
       <span class="n">surr_zscore</span><span class="p">,</span> <span class="n">surr_pval</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For the surrogate comparison, the z-score is 1.082, and the p-value is 1.200e-01
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For the surrogate comparison, the z-score is 3.516, and the p-value is 0.000e+00
 </pre></div>
 </div>
 <p>Lastly, plot the distribution of surrogates with calculated delta firing rate.</p>
@@ -406,7 +407,7 @@ the distribution of surrogates, using the <a class="reference internal" href="..
 </div>
 <img src="../_images/sphx_glr_plot_stats_005.png" srcset="../_images/sphx_glr_plot_stats_005.png" alt="plot stats" class = "sphx-glr-single-img"/></section>
 <section id="compute-f-value-from-spiking-data-using-1-way-anova">
-<h3>Compute f-value from spiking data using 1-way ANOVA<a class="headerlink" href="#compute-f-value-from-spiking-data-using-1-way-anova" title="Permalink to this headline">¶</a></h3>
+<h3>Compute f-value from spiking data using 1-way ANOVA<a class="headerlink" href="#compute-f-value-from-spiking-data-using-1-way-anova" title="Permalink to this heading">¶</a></h3>
 <p>In this example, we will compute a statistical test of whether there is an effect
 of spatial position on neuron firing.</p>
 <p>To do so, we will simulating spike trains across trials (8 seconds) across spatial bins.</p>
@@ -460,13 +461,13 @@ in this case we will create a dataframe using the <a class="reference internal" 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F-value: </span><span class="si">{:.3}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f_val</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value: 37.9
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value: 56.6
 </pre></div>
 </div>
 <p>Note that the procedure we employed here could also be combined with what we did above
 to shuffle the data, in order to calculate the ANOVA F-value across surrogates and
 then compare to the real data.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.827 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.607 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-stats-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/3e1328885e3703795461db6650f78c35/plot_stats.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_stats.py</span></code></a></p>
@@ -493,7 +494,7 @@ then compare to the real data.</p>
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
     </p>
   </div>
 </footer>

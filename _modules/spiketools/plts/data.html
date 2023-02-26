@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.plts.data &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.plts.data &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
@@ -24,9 +25,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -42,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -140,10 +141,10 @@
     <span class="n">add_vlines</span><span class="p">(</span><span class="n">vline</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plot_dots"><a class="viewcode-back" href="../../../generated/spiketools.plts.data.plot_dots.html#spiketools.plts.data.plot_dots">[docs]</a><span class="nd">@savefig</span>
+<div class="viewcode-block" id="plot_scatter"><a class="viewcode-back" href="../../../generated/spiketools.plts.data.plot_scatter.html#spiketools.plts.data.plot_scatter">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
-<span class="k">def</span> <span class="nf">plot_dots</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">y_values</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot data as dots.</span>
+<span class="k">def</span> <span class="nf">plot_scatter</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">y_values</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot 2d data as a scatter plot.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -163,7 +164,7 @@
 <div class="viewcode-block" id="plot_points"><a class="viewcode-back" href="../../../generated/spiketools.plts.data.plot_points.html#spiketools.plts.data.plot_points">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
 <span class="k">def</span> <span class="nf">plot_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot data as points.</span>
+    <span class="sd">&quot;&quot;&quot;Plot 1d data as points.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -287,14 +288,14 @@
 
 <div class="viewcode-block" id="plot_polar_hist"><a class="viewcode-back" href="../../../generated/spiketools.plts.data.plot_polar_hist.html#spiketools.plts.data.plot_polar_hist">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
-<span class="k">def</span> <span class="nf">plot_polar_hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_polar_hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot a polar histogram.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : 1d array</span>
 <span class="sd">        Data to plot in a circular histogram.</span>
-<span class="sd">    bin_width : int, optional, default: 10</span>
+<span class="sd">    bin_width : float, optional, default: 10</span>
 <span class="sd">        Width of the bins to use for the histogram.</span>
 <span class="sd">    ax : Axes, optional</span>
 <span class="sd">        Axis object upon which to plot.</span>
@@ -352,7 +353,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
     </p>
   </div>
 </footer>

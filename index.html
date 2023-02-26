@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -16,6 +16,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
@@ -25,9 +26,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -43,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="#">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -94,12 +95,11 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="spiketools">
-<h1>spiketools<a class="headerlink" href="#spiketools" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://www.repostatus.org/#wip"><img alt="ProjectStatus" src="http://www.repostatus.org/badges/latest/wip.svg" /></a> <a class="reference external" href="https://github.com/spiketools/SpikeTools/actions/workflows/build.yml"><img alt="BuildStatus" src="https://github.com/spiketools/SpikeTools/actions/workflows/build.yml/badge.svg" /></a></p>
+<h1>spiketools<a class="headerlink" href="#spiketools" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="https://www.repostatus.org/#active"><img alt="ProjectStatus" src="http://www.repostatus.org/badges/latest/active.svg" /></a> <a class="reference external" href="https://pypi.python.org/pypi/spiketools/"><img alt="Version" src="https://img.shields.io/pypi/v/spiketools.svg" /></a> <a class="reference external" href="https://github.com/spiketools/SpikeTools/actions/workflows/build.yml"><img alt="BuildStatus" src="https://github.com/spiketools/SpikeTools/actions/workflows/build.yml/badge.svg" /></a> <a class="reference external" href="https://codecov.io/gh/spiketools/spiketools"><img alt="Coverage" src="https://codecov.io/gh/spiketools/spiketools/branch/main/graph/badge.svg" /></a> <a class="reference external" href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/pypi/l/spiketools.svg" /></a> <a class="reference external" href="https://pypi.python.org/pypi/spiketools/"><img alt="PythonVersions" src="https://img.shields.io/pypi/pyversions/spiketools.svg" /></a></p>
 <p><code class="docutils literal notranslate"><span class="pre">spiketools</span></code> is a collection of tools and utilities for analyzing spiking data.</p>
-<p>WARNING: This module is in early development, and may change at any time.</p>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">spiketools</span></code> is an open-source module for processing and analyzing single-unit activity from neuro-electrophysiological recordings.</p>
 <p>Available sub-modules in <code class="docutils literal notranslate"><span class="pre">spiketools</span></code> include:</p>
 <ul class="simple">
@@ -111,13 +111,16 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">plts</span></code> : plotting functions for visualizing spike data and related measures</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">utils</span></code> : additional utilities for working with spiking data</p></li>
 </ul>
-<p>In terms of scope, note that <code class="docutils literal notranslate"><span class="pre">spiketools</span></code> is currently organized around analyses of single cell activity, and is not focused on
-population measures (though this may be extended in the future).</p>
-<p>Note that <code class="docutils literal notranslate"><span class="pre">spiketools</span></code> does <em>not</em> cover spike sorting. Check out
-<a class="reference external" href="https://github.com/SpikeInterface/">spikeinterface</a> for spike sorting.</p>
+</section>
+<section id="scope">
+<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">spiketools</span></code> is currently organized around analyses of single cell activity.</p>
+<p>The current scope does not include population measures, though this may be extended in the future.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">spiketools</span></code> does <em>not</em> cover spike sorting.
+Check out <a class="reference external" href="https://github.com/SpikeInterface/">spikeinterface</a> for spike sorting.</p>
 </section>
 <section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">¶</a></h2>
 <p>Documentation for <code class="docutils literal notranslate"><span class="pre">spiketools</span></code> is available
 <a class="reference external" href="https://spiketools.github.io/">here</a>.</p>
 <p>The documentation includes:</p>
@@ -131,7 +134,7 @@ population measures (though this may be extended in the future).</p>
 open an <a class="reference external" href="https://github.com/spiketools/spiketools/issues">issue</a> and ask!</p>
 </section>
 <section id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">spiketools</span></code> is written in Python, and requires Python &gt;= 3.6 to run.</p>
 <p>It has the following required dependencies:</p>
 <ul class="simple">
@@ -148,8 +151,14 @@ open an <a class="reference external" href="https://github.com/spiketools/spiket
 <p>We recommend using the <a class="reference external" href="https://www.anaconda.com/distribution/">Anaconda</a> distribution to manage these requirements.</p>
 </section>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>This module is currently in development, with no stable release version yet.</p>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+<p>The current release version of <cite>spiketools</cite> is the 0.X.X series.</p>
+<p>See the <a class="reference external" href="https://spiketools.github.io/spiketools/changelog.html">changelog</a> for notes on major version releases.</p>
+<p><strong>Stable Release Version</strong></p>
+<p>To install the latest stable release, you can use pip:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ pip install spiketools
+</pre></div>
+</div>
 <p><strong>Development Version</strong></p>
 <p>To get the current development version, first clone this repository:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/spiketools/spiketools
@@ -166,7 +175,7 @@ open an <a class="reference external" href="https://github.com/spiketools/spiket
 </div>
 </section>
 <section id="contribute">
-<h2>Contribute<a class="headerlink" href="#contribute" title="Permalink to this headline">¶</a></h2>
+<h2>Contribute<a class="headerlink" href="#contribute" title="Permalink to this heading">¶</a></h2>
 <p>This project welcomes and encourages contributions from the community!</p>
 <p>To file bug reports and/or ask questions about this project, please use the
 <a class="reference external" href="https://github.com/spiketools/spiketools/issues">Github issue tracker</a>.</p>
@@ -195,7 +204,7 @@ and follow the
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
     </p>
   </div>
 </footer>

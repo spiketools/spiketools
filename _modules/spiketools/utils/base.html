@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.utils.base &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.utils.base &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
@@ -24,9 +25,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -42,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -137,6 +138,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    lst</span>
 <span class="sd">        A list of string, all lowercase.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Lower a list of mixed case entries:</span>
+
+<span class="sd">    &gt;&gt;&gt; lst = [&#39;First&#39;, &#39;SECOND&#39;, &#39;Third&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; lower_list(lst)</span>
+<span class="sd">    [&#39;first&#39;, &#39;second&#39;, &#39;third&#39;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="p">[</span><span class="n">el</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">]</span></div>
@@ -224,6 +233,15 @@
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
 <span class="sd">        Combined dictionary.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Combine two dictionaries:</span>
+
+<span class="sd">    &gt;&gt;&gt; dict1 = {&#39;a&#39; : 1, &#39;b&#39; : 2}</span>
+<span class="sd">    &gt;&gt;&gt; dict2 = {&#39;c&#39; : 3, &#39;d&#39; : 4}</span>
+<span class="sd">    &gt;&gt;&gt; combine_dicts([dict1, dict2])</span>
+<span class="sd">    {&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3, &#39;d&#39;: 4}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
@@ -247,6 +265,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
 <span class="sd">        Dictionary with updated keys.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Add a prefix to dictionary keys:</span>
+
+<span class="sd">    &gt;&gt;&gt; indict = {&#39;setting&#39; : 12, &#39;param&#39; : 22}</span>
+<span class="sd">    &gt;&gt;&gt; add_key_prefix(indict, &#39;analysis&#39;)</span>
+<span class="sd">    {&#39;analysis_setting&#39;: 12, &#39;analysis_param&#39;: 22}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
@@ -268,7 +294,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
     </p>
   </div>
 </footer>

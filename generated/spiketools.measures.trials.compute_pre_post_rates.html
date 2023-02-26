@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.measures.trials.compute_pre_post_rates &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.measures.trials.compute_pre_post_rates &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -16,6 +16,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -25,9 +26,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -43,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -94,13 +95,13 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="spiketools-measures-trials-compute-pre-post-rates">
-<h1>spiketools.measures.trials.compute_pre_post_rates<a class="headerlink" href="#spiketools-measures-trials-compute-pre-post-rates" title="Permalink to this headline">¶</a></h1>
+<h1>spiketools.measures.trials.compute_pre_post_rates<a class="headerlink" href="#spiketools-measures-trials-compute-pre-post-rates" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.measures.trials.compute_pre_post_rates">
 <span class="sig-prename descclassname"><span class="pre">spiketools.measures.trials.</span></span><span class="sig-name descname"><span class="pre">compute_pre_post_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_window</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/measures/trials.html#compute_pre_post_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.measures.trials.compute_pre_post_rates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the firing rates in pre and post event windows.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>trial_spikes</strong><span class="classifier">list of 1d array</span></dt><dd><p>Spike times per trial.</p>
 </dd>
@@ -108,7 +109,7 @@
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>frs_pre, frs_post</strong><span class="classifier">1d array</span></dt><dd><p>Computed pre &amp; post firing rate for each trial.</p>
 </dd>
@@ -117,7 +118,9 @@
 </dl>
 <p class="rubric">Examples</p>
 <p>Compute the pre &amp; post firing rates for specified time windows across 3 trials:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trial_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.150</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.005</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.002</span><span class="p">,</span> <span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.450</span><span class="p">,</span> <span class="mf">0.625</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.275</span><span class="p">,</span> <span class="mf">0.290</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.350</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]),</span>                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.550</span><span class="p">,</span> <span class="mf">0.650</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.950</span><span class="p">])]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trial_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.150</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.005</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.002</span><span class="p">,</span> <span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.450</span><span class="p">,</span> <span class="mf">0.625</span><span class="p">]),</span>
+<span class="gp">... </span>                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.250</span><span class="p">,</span> <span class="mf">0.275</span><span class="p">,</span> <span class="mf">0.290</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.350</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]),</span>
+<span class="gp">... </span>                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.550</span><span class="p">,</span> <span class="mf">0.650</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.950</span><span class="p">])]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pre_window</span><span class="p">,</span> <span class="n">post_window</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">compute_pre_post_rates</span><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">pre_window</span><span class="p">,</span> <span class="n">post_window</span><span class="p">)</span>
 <span class="go">(array([6., 2., 0.]), array([2.5, 2.5, 7.5]))</span>
@@ -140,7 +143,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
     </p>
   </div>
 </footer>

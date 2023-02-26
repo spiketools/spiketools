@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.spatial.occupancy &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.spatial.occupancy &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
@@ -24,9 +25,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -42,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -141,8 +142,8 @@
 
 <span class="sd">    Compute bin edges for 2d position values:</span>
 
-<span class="sd">    &gt;&gt;&gt; position = np.array([[1, 2, 3, 4, 5], \</span>
-<span class="sd">                             [6, 7, 8, 9, 10]])</span>
+<span class="sd">    &gt;&gt;&gt; position = np.array([[1, 2, 3, 4, 5],</span>
+<span class="sd">    ...                      [6, 7, 8, 9, 10]])</span>
 <span class="sd">    &gt;&gt;&gt; compute_bin_edges(position, bins=[5, 4])</span>
 <span class="sd">    (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -212,8 +213,8 @@
 
 <span class="sd">    Compute bin assignment for 2d position values, given precomputed bin edges:</span>
 
-<span class="sd">    &gt;&gt;&gt; position = np.array([[1.5, 2.5, 3.5, 5], \</span>
-<span class="sd">                             [6.5, 7.5, 8.5, 9]])</span>
+<span class="sd">    &gt;&gt;&gt; position = np.array([[1.5, 2.5, 3.5, 5],</span>
+<span class="sd">    ...                      [6.5, 7.5, 8.5, 9]])</span>
 <span class="sd">    &gt;&gt;&gt; x_edges = np.array([1, 2, 3, 4, 5])</span>
 <span class="sd">    &gt;&gt;&gt; y_edges = np.array([6, 7, 8, 9, 10])</span>
 <span class="sd">    &gt;&gt;&gt; compute_bin_assignment(position, x_edges, y_edges)</span>
@@ -273,8 +274,8 @@
 <span class="sd">    --------</span>
 <span class="sd">    Compute counts across 2d bins from position data:</span>
 
-<span class="sd">    &gt;&gt;&gt; position = np.array([[0.5, 1.0, 1.5, 2.0, 3.0], \</span>
-<span class="sd">                             [0.1, 0.2, 0.3, 0.4, 0.5]])</span>
+<span class="sd">    &gt;&gt;&gt; position = np.array([[0.5, 1.0, 1.5, 2.0, 3.0],</span>
+<span class="sd">    ...                      [0.1, 0.2, 0.3, 0.4, 0.5]])</span>
 <span class="sd">    &gt;&gt;&gt; bins = [2, 3]</span>
 <span class="sd">    &gt;&gt;&gt; compute_bin_counts_pos(position, bins)</span>
 <span class="sd">    array([[2, 0],</span>
@@ -584,8 +585,8 @@
 
 <span class="sd">    Compute occupancy for a set of 2d position values:</span>
 
-<span class="sd">    &gt;&gt;&gt; position = np.array([[1.0, 2.5, 1.5, 3.0, 3.5, 5.0], \</span>
-<span class="sd">                             [5.0, 7.5, 6.5, 5.0, 8.5, 9.0]])</span>
+<span class="sd">    &gt;&gt;&gt; position = np.array([[1.0, 2.5, 1.5, 3.0, 3.5, 5.0],</span>
+<span class="sd">    ...                      [5.0, 7.5, 6.5, 5.0, 8.5, 9.0]])</span>
 <span class="sd">    &gt;&gt;&gt; timestamps = np.linspace(0, 1, position.shape[1])</span>
 <span class="sd">    &gt;&gt;&gt; compute_occupancy(position, timestamps, bins=[2, 2])</span>
 <span class="sd">    array([[0.4, 0.2],</span>
@@ -698,7 +699,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
     </p>
   </div>
 </footer>

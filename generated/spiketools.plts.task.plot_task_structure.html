@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.plts.task.plot_task_structure &#8212; spiketools 0.1.0-dev documentation</title>
+    <title>spiketools.plts.task.plot_task_structure &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -16,6 +16,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -25,9 +26,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
 <script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -43,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0-dev</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -94,29 +95,29 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="spiketools-plts-task-plot-task-structure">
-<h1>spiketools.plts.task.plot_task_structure<a class="headerlink" href="#spiketools-plts-task-plot-task-structure" title="Permalink to this headline">¶</a></h1>
+<h1>spiketools.plts.task.plot_task_structure<a class="headerlink" href="#spiketools-plts-task-plot-task-structure" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.plts.task.plot_task_structure">
 <span class="sig-prename descclassname"><span class="pre">spiketools.plts.task.</span></span><span class="sig-name descname"><span class="pre">plot_task_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_ranges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range_colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/task.html#plot_task_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.task.plot_task_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot task structure, shaded ranges of event durations, and lines of point events.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>task_ranges</strong><span class="classifier">list of list of float</span></dt><dd><p>List of start and end ranges to shade in, to indicate event durations.
+<dt><strong>task_ranges</strong><span class="classifier">list of list of float, optional</span></dt><dd><p>List of start and end ranges to shade in, to indicate event durations.
 To add multiple different shaded regions, pass a list of multiple shade definitions.</p>
 </dd>
-<dt><strong>event_lines</strong><span class="classifier">list of float</span></dt><dd><p>Timestamps at which to draw vertical lines, to indicate point events.
+<dt><strong>event_lines</strong><span class="classifier">list of float, optional</span></dt><dd><p>Timestamps at which to draw vertical lines, to indicate point events.
 To add multiple different lines, pass a list of multiple line definitions.</p>
 </dd>
-<dt><strong>data_points</strong><span class="classifier">1d array</span></dt><dd><p>Set of timestamps to indicate data points of interest on the plot.</p>
+<dt><strong>data_points</strong><span class="classifier">1d array, optional</span></dt><dd><p>Set of timestamps to indicate data points of interest on the plot.</p>
 </dd>
-<dt><strong>range_colors</strong><span class="classifier">list of str</span></dt><dd><p>Colors to plot the ranges in. Used if passing multiple task range sections.</p>
+<dt><strong>range_colors</strong><span class="classifier">list of str, optional</span></dt><dd><p>Colors to plot the ranges in. Used if passing multiple task range sections.</p>
 </dd>
-<dt><strong>line_colors</strong><span class="classifier">list of str</span></dt><dd><p>Colors to plot the lines in. Used if passing multiple line sections.</p>
+<dt><strong>line_colors</strong><span class="classifier">list of str, optional</span></dt><dd><p>Colors to plot the lines in. Used if passing multiple line sections.</p>
 </dd>
-<dt><strong>range_kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments for the range shades.</p>
+<dt><strong>range_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments for the range shades.</p>
 </dd>
-<dt><strong>event_kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments for the event lines.</p>
+<dt><strong>event_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments for the event lines.</p>
 </dd>
 <dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
 </dd>
@@ -142,7 +143,7 @@ To add multiple different lines, pass a list of multiple line definitions.</p>
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
     </p>
   </div>
 </footer>
