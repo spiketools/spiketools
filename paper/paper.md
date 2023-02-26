@@ -20,7 +20,7 @@ authors:
     affiliation: "2"
   - name: Joshua Jacobs
     orcid: 0000-0003-1807-6882
-    affiliation: "1"
+    affiliation: "1, 3"
 affiliations:
   - name: Department of Biomedical Engineering, Columbia University
     index: 1
@@ -28,7 +28,7 @@ affiliations:
     index: 2
   - name: Department of Neurological Surgery, Columbia University
     index: 3
-date: XX XX XX
+date: 25 February, 2023
 bibliography: paper.bib
 ---
 
@@ -71,6 +71,6 @@ Benefits of ``spiketools`` include that it follows modular organization, include
 
 # Acknowledgments
 
-We thank like to thank the Jacobs Lab for useful discussions throughout the development of this toolbox. This work was supported by the National Institute of Health (NIH) grants U01-NS121472 and 2R01-MH104606, as well as funding from the National Science Foundation (NSF).
+We would like to thank the Jacobs Lab for useful discussions throughout the development of this toolbox. This work was supported by National Institute of Health (NIH) grants U01-NS121472 and 2R01-MH104606, as well as funding from the National Science Foundation (NSF).
 
 # References
