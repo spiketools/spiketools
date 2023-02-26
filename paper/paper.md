@@ -24,8 +24,10 @@ authors:
 affiliations:
   - name: Department of Biomedical Engineering, Columbia University
     index: 1
-  - name: Icahn School of Medicine, Mount Sinai
+  - name: Department of Psychiatry. Icahn School of Medicine at Mount Sinai
     index: 2
+  - name: Department of Neurological Surgery, Columbia University
+    index: 3
 date: XX XX XX
 bibliography: paper.bib
 ---
@@ -69,6 +71,6 @@ Benefits of ``spiketools`` include that it follows modular organization, include
 
 # Acknowledgments
 
-We thank ....
+We thank like to thank the Jacobs Lab for useful discussions throughout the development of this toolbox. This work was supported by the National Institute of Health (NIH) grants U01-NS121472 and 2R01-MH104606, as well as funding from the National Science Foundation (NSF).
 
 # References
