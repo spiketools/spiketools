@@ -47,8 +47,8 @@ def plot_lines(x_values, y_values, vline=None, ax=None, **plt_kwargs):
 
 @savefig
 @set_plt_kwargs
-def plot_dots(x_values, y_values, ax=None, **plt_kwargs):
-    """Plot data as dots.
+def plot_scatter(x_values, y_values, ax=None, **plt_kwargs):
+    """Plot 2d data as a scatter plot.
 
     Parameters
     ----------
@@ -68,7 +68,7 @@ def plot_dots(x_values, y_values, ax=None, **plt_kwargs):
 @savefig
 @set_plt_kwargs
 def plot_points(data, label=None, ax=None, **plt_kwargs):
-    """Plot data as points.
+    """Plot 1d data as points.
 
     Parameters
     ----------
