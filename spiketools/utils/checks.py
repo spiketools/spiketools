@@ -319,6 +319,8 @@ def check_time_bins(bins, time_range=None, values=None, check_range=False):
     # Take a copy of `time_range` (otherwise, can get an aliasing problem)
     time_range = deepcopy(time_range)
 
+    check_param_type(bins, 'bins', (int, float, np.ndarray))
+
     if isinstance(bins, (int, float)):
         # If time range is given, update to include end value
         if time_range:

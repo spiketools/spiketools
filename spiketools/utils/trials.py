@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.utils.checks import check_param_lengths, check_axis
+from spiketools.utils.checks import check_param_lengths, check_param_type, check_axis
 
 ###################################################################################################
 ###################################################################################################
@@ -26,6 +26,7 @@ def split_trials_by_condition(trials, conditions):
         Each key is a condition label with values as the data for that condition.
     """
 
+    check_param_type(trials, 'trials', (list, np.ndarray))
     if isinstance(trials, list):
         out = split_trials_by_condition_list(trials, conditions)
     if isinstance(trials, np.ndarray):

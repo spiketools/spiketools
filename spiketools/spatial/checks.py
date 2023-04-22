@@ -1,5 +1,7 @@
 """Checker functions for spatial related functionality."""
 
+from spiketools.utils.checks import check_param_type
+
 ###################################################################################################
 ###################################################################################################
 
@@ -42,6 +44,8 @@ def check_spatial_bins(bins, position=None):
     AssertionError
         Raised if there are any issues with the given bin definition.
     """
+
+    check_param_type(bins, 'bins', (int, list))
 
     if isinstance(bins, int):
         bins = [bins]
