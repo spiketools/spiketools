@@ -98,6 +98,34 @@ def check_param_lengths(params, labels, expected_length=None):
             raise ValueError(msg)
 
 
+def check_param_type(param, label, types):
+    """Check that a parameter has an acceptable type.
+
+    Parameters
+    ----------
+    param : object
+        Parameter to check type of.
+    label : str
+        Label of the parameter being checked.
+    types : tuple of type
+        Types to check the given paramter is one of.
+
+    Raises
+    ------
+    ValueError
+        If the parameter is not one of the specified acceptable types.
+
+    Notes
+    -----
+    If checking elements in an array, then proper checking should include relevant numpy types.
+    """
+
+    if not isinstance(param, tuple(types)):
+        type_strings = [str(el).split(' ')[1][1:-2] for el in types]
+        msg = "The parameter {} should have type: {}.".format(label, type_strings)
+        raise ValueError(msg)
+
+
 def check_list_options(contents, label, options):
     """Check a list of values that each element is one of a set of acceptable options.
 
