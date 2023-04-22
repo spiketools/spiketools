@@ -128,6 +128,7 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, colors=None,
         y_vals = [y_vals]
 
     colors = DEFAULT_COLORS[0:len(y_vals)] if not colors else colors
+    colors = [colors] if isinstance(colors, str) else colors
 
     if isinstance(shade, str):
         shade = [get_var_func(shade)(arr, 0) for arr in y_vals]
