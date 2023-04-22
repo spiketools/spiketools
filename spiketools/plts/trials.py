@@ -120,7 +120,11 @@ def plot_rate_by_time(x_vals, y_vals, average=None, shade=None, colors=None,
     custom_kwargs = ['shade_alpha', 'legend_loc']
     custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
 
+    # If not a list of arrays, embed in a list to allow for looping (to support multiple inputs)
     if not isinstance(y_vals[0], np.ndarray):
+        y_vals = [y_vals]
+    # If a 2d array that will get averaged to 1d, also embed into a list (not caught by above)
+    if isinstance(y_vals, np.ndarray) and y_vals.ndim == 2 and isinstance(average, str):
         y_vals = [y_vals]
 
     colors = DEFAULT_COLORS[0:len(y_vals)] if not colors else colors
