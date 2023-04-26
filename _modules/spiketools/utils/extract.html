@@ -13,10 +13,8 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -25,9 +23,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -105,7 +103,7 @@
 <span class="c1">###################################################################################################</span>
 
 <div class="viewcode-block" id="create_mask"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.create_mask.html#spiketools.utils.extract.create_mask">[docs]</a><span class="k">def</span> <span class="nf">create_mask</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Create a mask to select data points based on value.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a mask to select data points based on value.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -141,7 +139,7 @@
 
 
 <div class="viewcode-block" id="get_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_range.html#spiketools.utils.extract.get_range">[docs]</a><span class="k">def</span> <span class="nf">get_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a specified range from a vector of data.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a specified range from a vector of data.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -189,7 +187,7 @@
 
 
 <div class="viewcode-block" id="get_value_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_value_range.html#spiketools.utils.extract.get_value_range">[docs]</a><span class="k">def</span> <span class="nf">get_value_range</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extract data and associated timestamps for a desired value range.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract data and associated timestamps for a desired value range.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -231,7 +229,7 @@
 
 
 <div class="viewcode-block" id="get_ind_by_time"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_ind_by_time.html#spiketools.utils.extract.get_ind_by_time">[docs]</a><span class="k">def</span> <span class="nf">get_ind_by_time</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get the index for a data array for a specified timepoint.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the index for a data array for a specified timepoint.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -266,7 +264,7 @@
 
 
 <div class="viewcode-block" id="get_inds_by_times"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_inds_by_times.html#spiketools.utils.extract.get_inds_by_times">[docs]</a><span class="k">def</span> <span class="nf">get_inds_by_times</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">timepoints</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drop_null</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get indices for a data array for a set of specified time points.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get indices for a data array for a set of specified time points.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -307,7 +305,7 @@
 
 
 <div class="viewcode-block" id="get_value_by_time"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_value_by_time.html#spiketools.utils.extract.get_value_by_time">[docs]</a><span class="k">def</span> <span class="nf">get_value_by_time</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get the value from a data array at a specific time point.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the value from a data array at a specific time point.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -346,7 +344,7 @@
 
 
 <div class="viewcode-block" id="get_values_by_times"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_values_by_times.html#spiketools.utils.extract.get_values_by_times">[docs]</a><span class="k">def</span> <span class="nf">get_values_by_times</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoints</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drop_null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get values from a data array for a set of specified time points.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get values from a data array for a set of specified time points.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -397,7 +395,7 @@
 
 
 <div class="viewcode-block" id="get_values_by_time_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.get_values_by_time_range.html#spiketools.utils.extract.get_values_by_time_range">[docs]</a><span class="k">def</span> <span class="nf">get_values_by_time_range</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extract data for a requested time range.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract data for a requested time range.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -435,7 +433,7 @@
 
 
 <div class="viewcode-block" id="threshold_spikes_by_times"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.threshold_spikes_by_times.html#spiketools.utils.extract.threshold_spikes_by_times">[docs]</a><span class="k">def</span> <span class="nf">threshold_spikes_by_times</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Threshold spikes by sub-selecting those that are temporally close to a set of time values.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Threshold spikes by sub-selecting those that are temporally close to a set of time values.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -471,7 +469,7 @@
 
 <div class="viewcode-block" id="threshold_spikes_by_values"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.threshold_spikes_by_values.html#spiketools.utils.extract.threshold_spikes_by_values">[docs]</a><span class="k">def</span> <span class="nf">threshold_spikes_by_values</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">data_threshold</span><span class="p">,</span>
                                <span class="n">time_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_comparison</span><span class="o">=</span><span class="s1">&#39;greater&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Threshold spikes by sub-selecting based on thresholding values on another data stream.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Threshold spikes by sub-selecting based on thresholding values on another data stream.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -516,7 +514,7 @@
 
 
 <div class="viewcode-block" id="drop_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.drop_range.html#spiketools.utils.extract.drop_range">[docs]</a><span class="k">def</span> <span class="nf">drop_range</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">check_empty</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Drop a specified time range from a vector spike times.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Drop a specified time range from a vector spike times.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -570,7 +568,7 @@
 
 
 <span class="k">def</span> <span class="nf">_reinstate_range_1d</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">time_range</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Reinstate a dropped time range into a vector of spike times.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reinstate a dropped time range into a vector of spike times.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -593,7 +591,7 @@
 
 
 <div class="viewcode-block" id="reinstate_range"><a class="viewcode-back" href="../../../generated/spiketools.utils.extract.reinstate_range.html#spiketools.utils.extract.reinstate_range">[docs]</a><span class="k">def</span> <span class="nf">reinstate_range</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">time_range</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Reinstate a dropped time range into an array of spike times.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reinstate a dropped time range into an array of spike times.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -646,7 +644,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.<br/>
     </p>
   </div>
 </footer>

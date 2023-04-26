@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Statistical Analyses &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -14,10 +14,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -26,9 +24,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -96,7 +94,7 @@
       
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-tutorials-plot-stats-py"><span class="std std-ref">here</span></a>
+<p><a class="reference internal" href="#sphx-glr-download-auto-tutorials-plot-stats-py"><span class="std std-ref">Go to the end</span></a>
 to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="statistical-analyses">
@@ -250,7 +248,7 @@ the pre- and post-event time ranges.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The t-value is -15.435, with a p-value of 8.798e-08
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The t-value is -7.352, with a p-value of 4.316e-05
 </pre></div>
 </div>
 <p>In the above, we separately computed and then compared the firing rates around
@@ -269,9 +267,9 @@ an event of interest.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 4.433
-Average FR post-event: 10.667
-The t-value is -15.435, with a p-value of 8.798e-08
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 4.733
+Average FR post-event: 10.033
+The t-value is -7.352, with a p-value of 4.316e-05
 </pre></div>
 </div>
 </section>
@@ -295,8 +293,8 @@ evidence for a difference in spiking activity across different trials.</p>
       <span class="n">post_between_halfs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">post_between_halfs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For pre bin comparison, the t-value is -0.186, a p-value of 8.574e-01.
-For post bin comparison, the t-value is 0.147, with a p-value of 8.866e-01.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For pre bin comparison, the t-value is 1.002, a p-value of 3.457e-01.
+For post bin comparison, the t-value is 0.855, with a p-value of 4.176e-01.
 </pre></div>
 </div>
 </section>
@@ -322,10 +320,72 @@ which we will prepare for by organizing the data we need into a dictionary.</p>
 <p>We can now turn our data into a dataframe using the <a class="reference internal" href="../generated/spiketools.stats.anova.create_dataframe.html#spiketools.stats.anova.create_dataframe" title="spiketools.stats.anova.create_dataframe"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_dataframe()</span></code></a> function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the dataframe</span>
 <span class="n">df_pre_post</span> <span class="o">=</span> <a href="../generated/spiketools.stats.anova.create_dataframe.html#spiketools.stats.anova.create_dataframe" title="spiketools.stats.anova.create_dataframe" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">create_dataframe</span></a><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># Visualize the first entries of the dataframe</span>
+<span class="n">df_pre_post</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Now that we have our data organized into a dataframe, we can run an ANOVA using.</p>
-<p>Specifically, we will run an ANOVA to analyze whether there is an of the event on
+<div class="output_subarea output_html rendered_html output_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fr</th>
+      <th>is_post_event</th>
+      <th>trial_idx</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7.666667</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.333333</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.333333</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.000000</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7.000000</td>
+      <td>0</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<br />
+<br /><p>Now that we have our data organized into a dataframe, we can run an ANOVA.</p>
+<p>Specifically, we will run an ANOVA to analyze whether there is an effect of the event on
 firing rates, as well as checking whether there is an effect of trial index on firing rate.</p>
 <p>To run the ANOVA, we need to define the formula we want to run.</p>
 <p>Then, using the dataframe and the formula, we can use
@@ -344,10 +404,10 @@ the <a class="reference internal" href="../generated/spiketools.stats.anova.fit_
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;P-value, trial index: </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">anova_pre_post</span><span class="p">[</span><span class="s1">&#39;PR(&gt;F)&#39;</span><span class="p">][</span><span class="s1">&#39;C(trial_idx)&#39;</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value, pre vs post: 238.245
-P-value, pre vs post: 8.798e-08
-F-value, trial index: 4.422
-P-value, trial index: 1.866e-02
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value, pre vs post: 54.058
+P-value, pre vs post: 4.316e-05
+F-value, trial index: 1.369
+P-value, trial index: 3.238e-01
 </pre></div>
 </div>
 </section>
@@ -373,7 +433,7 @@ For each of the shuffles, we will calculate the change in firing rate.</p>
 </pre></div>
 </div>
 <p>Now that we have shuffled spikes, we can compute our measure of interest on the
-surrogate data. This will give us a the surrogate distribution which we can then use
+surrogate data. This will give us a surrogate distribution which we can then use
 to compute the empirical p-value and the z-score, to examine if the effect in the
 real data is greater than expected by change (in the shuffles).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate surrogate measures</span>
@@ -384,8 +444,8 @@ real data is greater than expected by change (in the shuffles).</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Maximum delta FR across surrogates: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">shuff_fr_diff</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Minimum delta FR across surrogates: -5.000
-Maximum delta FR across surrogates: 4.333
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Minimum delta FR across surrogates: -7.333
+Maximum delta FR across surrogates: 2.667
 </pre></div>
 </div>
 <p>Now we can compute the empirical p-value and z-score of change in firing rate from
@@ -397,7 +457,7 @@ the distribution of surrogates, using the <a class="reference internal" href="..
       <span class="n">surr_zscore</span><span class="p">,</span> <span class="n">surr_pval</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For the surrogate comparison, the z-score is 3.516, and the p-value is 0.000e+00
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For the surrogate comparison, the z-score is 1.674, and the p-value is 3.000e-02
 </pre></div>
 </div>
 <p>Lastly, plot the distribution of surrogates with calculated delta firing rate.</p>
@@ -410,7 +470,7 @@ the distribution of surrogates, using the <a class="reference internal" href="..
 <h3>Compute f-value from spiking data using 1-way ANOVA<a class="headerlink" href="#compute-f-value-from-spiking-data-using-1-way-anova" title="Permalink to this heading">¶</a></h3>
 <p>In this example, we will compute a statistical test of whether there is an effect
 of spatial position on neuron firing.</p>
-<p>To do so, we will simulating spike trains across trials (8 seconds) across spatial bins.</p>
+<p>To do so, we will simulate spike trains across trials (8 seconds) across spatial bins.</p>
 <p>The simulated data will then be organized (per trial, per bin) into dataframes,
 which we can then use to fit the ANOVA.</p>
 <p>For this example, we will generate a new set of spiking data.
@@ -452,22 +512,84 @@ Note that this simulation matches the one used in the Spatial Analysis tutorial.
 in this case we will create a dataframe using the <a class="reference internal" href="../generated/spiketools.stats.anova.create_dataframe_bins.html#spiketools.stats.anova.create_dataframe_bins" title="spiketools.stats.anova.create_dataframe_bins"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_dataframe_bins()</span></code></a> function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Organize spiking data into dataframe</span>
 <span class="n">df</span> <span class="o">=</span> <a href="../generated/spiketools.stats.anova.create_dataframe_bins.html#spiketools.stats.anova.create_dataframe_bins" title="spiketools.stats.anova.create_dataframe_bins" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">create_dataframe_bins</span></a><span class="p">(</span><span class="n">bin_firing_all</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Visualize the first entries of the dataframe</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Once we have the dataframe, we can fit the ANOVA using the
+<div class="output_subarea output_html rendered_html output_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trial</th>
+      <th>bin</th>
+      <th>fr</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>3</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>4</td>
+      <td>2.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<br />
+<br /><p>Once we have the dataframe, we can fit the ANOVA using the
 <a class="reference internal" href="../generated/spiketools.stats.anova.fit_anova.html#spiketools.stats.anova.fit_anova" title="spiketools.stats.anova.fit_anova"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit_anova()</span></code></a> function, as above.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute f_value from spiking data using ANOVA</span>
 <span class="n">f_val</span> <span class="o">=</span> <a href="../generated/spiketools.stats.anova.fit_anova.html#spiketools.stats.anova.fit_anova" title="spiketools.stats.anova.fit_anova" class="sphx-glr-backref-module-spiketools-stats-anova sphx-glr-backref-type-py-function"><span class="n">fit_anova</span></a><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;fr ~ C(bin)&#39;</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="s1">&#39;C(bin)&#39;</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;f_val&#39;</span><span class="p">,</span> <span class="n">anova_type</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F-value: </span><span class="si">{:.3}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f_val</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value: 56.6
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value: 49.4
 </pre></div>
 </div>
 <p>Note that the procedure we employed here could also be combined with what we did above
 to shuffle the data, in order to calculate the ANOVA F-value across surrogates and
 then compare to the real data.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.607 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.781 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-stats-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/3e1328885e3703795461db6650f78c35/plot_stats.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_stats.py</span></code></a></p>
@@ -494,7 +616,7 @@ then compare to the real data.</p>
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.<br/>
     </p>
   </div>
 </footer>

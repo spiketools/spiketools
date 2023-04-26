@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Simulations &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -14,10 +14,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -26,9 +24,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -96,7 +94,7 @@
       
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-tutorials-plot-sims-py"><span class="std std-ref">here</span></a>
+<p><a class="reference internal" href="#sphx-glr-download-auto-tutorials-plot-sims-py"><span class="std std-ref">Go to the end</span></a>
 to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="simulations">
@@ -204,8 +202,8 @@ an existing set of spike times.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spike times data:&#39;</span><span class="p">,</span> <span class="n">spike_times_prob</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Spike train data: [1 1 1 1 0 1 0 0 0 0]
-Spike times data: [0.001 0.002 0.003 0.004 0.006 0.011 0.012 0.013 0.014 0.015]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Spike train data: [0 0 1 0 1 0 1 0 0 0]
+Spike times data: [0.003 0.005 0.007 0.011 0.012 0.013 0.014 0.016 0.017 0.018]
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the spike times</span>
@@ -293,7 +291,7 @@ and has a default of 1 sample.</p>
 <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">([</span><span class="n">spike_times1</span><span class="p">,</span> <span class="n">spike_times2</span><span class="p">])</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_sims_006.png" srcset="../_images/sphx_glr_plot_sims_006.png" alt="plot sims" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.188 seconds)</p>
+<img src="../_images/sphx_glr_plot_sims_006.png" srcset="../_images/sphx_glr_plot_sims_006.png" alt="plot sims" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.299 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-sims-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/1ce28eb34b7d7dcc9b057f6d029f6e8c/plot_sims.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_sims.py</span></code></a></p>
@@ -321,7 +319,7 @@ and has a default of 1 sample.</p>
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.<br/>
     </p>
   </div>
 </footer>

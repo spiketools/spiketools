@@ -13,10 +13,8 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -25,9 +23,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -105,7 +103,7 @@
 <span class="c1">###################################################################################################</span>
 
 <div class="viewcode-block" id="Unit"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit">[docs]</a><span class="k">class</span> <span class="nc">Unit</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;A Unit object.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Unit object.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -122,7 +120,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Unit.__init__"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spikes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cluster</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize a Unit object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a Unit object.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">uid</span> <span class="o">=</span> <span class="n">uid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">channel</span>
@@ -132,37 +130,37 @@
 
 
 <div class="viewcode-block" id="Unit.spike_train"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.spike_train">[docs]</a>    <span class="k">def</span> <span class="nf">spike_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Convert spike times into a spike train vector (binary).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert spike times into a spike train vector (binary).&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">convert_times_to_train</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spikes</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Unit.firing_rate"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.firing_rate">[docs]</a>    <span class="k">def</span> <span class="nf">firing_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute average firing rate.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute average firing rate.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">compute_firing_rate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spikes</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Unit.isis"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.isis">[docs]</a>    <span class="k">def</span> <span class="nf">isis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute inter-spike intervals.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute inter-spike intervals.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">compute_isis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spikes</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Unit.cv"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.cv">[docs]</a>    <span class="k">def</span> <span class="nf">cv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute coefficient of variation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute coefficient of variation.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">compute_cv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isis</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="Unit.fano"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.fano">[docs]</a>    <span class="k">def</span> <span class="nf">fano</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute fano factor.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute fano factor.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">compute_fano_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spike_train</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="Unit.shuffle"><a class="viewcode-back" href="../../../generated/spiketools.objects.Unit.html#spiketools.objects.Unit.shuffle">[docs]</a>    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">approach</span><span class="o">=</span><span class="s1">&#39;ISI&#39;</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Shuffle spikes to create surrogates.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shuffle spikes to create surrogates.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -190,7 +188,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.<br/>
     </p>
   </div>
 </footer>

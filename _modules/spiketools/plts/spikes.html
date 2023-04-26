@@ -13,10 +13,8 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -25,9 +23,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -111,7 +109,7 @@
 <span class="nd">@set_plt_kwargs</span>
 <span class="k">def</span> <span class="nf">plot_waveform</span><span class="p">(</span><span class="n">waveform</span><span class="p">,</span> <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shade</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">add_traces</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                   <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot a spike waveform.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot a spike waveform.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -172,7 +170,7 @@
 <div class="viewcode-block" id="plot_waveforms3d"><a class="viewcode-back" href="../../../generated/spiketools.plts.spikes.plot_waveforms3d.html#spiketools.plts.spikes.plot_waveforms3d">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
 <span class="k">def</span> <span class="nf">plot_waveforms3d</span><span class="p">(</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot waveforms on a 3D axis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot waveforms on a 3D axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -204,7 +202,7 @@
 <span class="nd">@set_plt_kwargs</span>
 <span class="k">def</span> <span class="nf">plot_waveform_density</span><span class="p">(</span><span class="n">waveforms</span><span class="p">,</span> <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span>
                           <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot a heatmap of waveform density, created as a 2d histogram of spike waveforms.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot a heatmap of waveform density, created as a 2d histogram of spike waveforms.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -240,7 +238,7 @@
 <div class="viewcode-block" id="plot_isis"><a class="viewcode-back" href="../../../generated/spiketools.plts.spikes.plot_isis.html#spiketools.plts.spikes.plot_isis">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
 <span class="k">def</span> <span class="nf">plot_isis</span><span class="p">(</span><span class="n">isis</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot a distribution of ISIs.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot a distribution of ISIs.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -267,7 +265,7 @@
 <div class="viewcode-block" id="plot_firing_rates"><a class="viewcode-back" href="../../../generated/spiketools.plts.spikes.plot_firing_rates.html#spiketools.plts.spikes.plot_firing_rates">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
 <span class="k">def</span> <span class="nf">plot_firing_rates</span><span class="p">(</span><span class="n">rates</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot firing rates for a group of neurons.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot firing rates for a group of neurons.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -298,7 +296,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.<br/>
     </p>
   </div>
 </footer>

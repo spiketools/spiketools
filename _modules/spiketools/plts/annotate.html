@@ -13,10 +13,8 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -25,9 +23,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -107,7 +105,7 @@
 <span class="c1">###################################################################################################</span>
 
 <div class="viewcode-block" id="color_pvalue"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.color_pvalue.html#spiketools.plts.annotate.color_pvalue">[docs]</a><span class="k">def</span> <span class="nf">color_pvalue</span><span class="p">(</span><span class="n">p_value</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">significant_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">null_color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Select a color based on the significance of a p-value.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Select a color based on the significance of a p-value.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -130,7 +128,7 @@
 
 
 <div class="viewcode-block" id="add_vlines"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_vlines.html#spiketools.plts.annotate.add_vlines">[docs]</a><span class="k">def</span> <span class="nf">add_vlines</span><span class="p">(</span><span class="n">vline</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add vertical line(s) to a plot axis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add vertical line(s) to a plot axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -151,7 +149,7 @@
 
 
 <div class="viewcode-block" id="add_hlines"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_hlines.html#spiketools.plts.annotate.add_hlines">[docs]</a><span class="k">def</span> <span class="nf">add_hlines</span><span class="p">(</span><span class="n">hline</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add horizontal line(s) to a plot axis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add horizontal line(s) to a plot axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -172,7 +170,7 @@
 
 
 <div class="viewcode-block" id="add_vshades"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_vshades.html#spiketools.plts.annotate.add_vshades">[docs]</a><span class="k">def</span> <span class="nf">add_vshades</span><span class="p">(</span><span class="n">vshades</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add vertical shade region(s) to a plot axis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add vertical shade region(s) to a plot axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -193,7 +191,7 @@
 
 
 <div class="viewcode-block" id="add_hshades"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_hshades.html#spiketools.plts.annotate.add_hshades">[docs]</a><span class="k">def</span> <span class="nf">add_hshades</span><span class="p">(</span><span class="n">hshades</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add horizontal shade region(s) to a plot axis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add horizontal shade region(s) to a plot axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -214,7 +212,7 @@
 
 
 <div class="viewcode-block" id="add_box_shade"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_box_shade.html#spiketools.plts.annotate.add_box_shade">[docs]</a><span class="k">def</span> <span class="nf">add_box_shade</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">y_range</span><span class="o">=</span><span class="mf">0.41</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add a shaded box to a plot axis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a shaded box to a plot axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -237,7 +235,7 @@
 
 
 <div class="viewcode-block" id="add_box_shades"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_box_shades.html#spiketools.plts.annotate.add_box_shades">[docs]</a><span class="k">def</span> <span class="nf">add_box_shades</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">y_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_range</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_range</span><span class="o">=</span><span class="mf">0.41</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add multiple shaded boxes to a plot axis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add multiple shaded boxes to a plot axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -264,7 +262,7 @@
 
 
 <div class="viewcode-block" id="add_dots"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_dots.html#spiketools.plts.annotate.add_dots">[docs]</a><span class="k">def</span> <span class="nf">add_dots</span><span class="p">(</span><span class="n">dots</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add dots to a plot axis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add dots to a plot axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -291,7 +289,7 @@
 
 
 <div class="viewcode-block" id="add_significance"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_significance.html#spiketools.plts.annotate.add_significance">[docs]</a><span class="k">def</span> <span class="nf">add_significance</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">sig_level</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">x_vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add markers to a plot axis to indicate statistical significance.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add markers to a plot axis to indicate statistical significance.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -322,7 +320,7 @@
 
 <div class="viewcode-block" id="add_text_labels"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_text_labels.html#spiketools.plts.annotate.add_text_labels">[docs]</a><span class="k">def</span> <span class="nf">add_text_labels</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add text to the side of a plot.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add text to the side of a plot.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -391,7 +389,7 @@
     </p>
     <p>
         &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.<br/>
     </p>
   </div>
 </footer>
