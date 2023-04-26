@@ -117,7 +117,7 @@ plot_rasters(spike_times[spike_times < 1], title='Raster spike times from spike 
 # We can convert from the inter-spike intervals to spike times using the
 # :func:`~.convert_isis_to_times` function.
 #
-# Again, we can see the converted data has the same raster plot as the original data.
+# Here we can see the converted data has the same raster plot as the original data, minus an offset.
 #
 
 ###################################################################################################
