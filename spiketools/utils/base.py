@@ -138,6 +138,10 @@ def combine_dicts(dicts):
     dict
         Combined dictionary.
 
+    Notes
+    -----
+    If multiple dictionaries have the same keys, the value of the last dictionary is kept.
+
     Examples
     --------
     Combine two dictionaries:

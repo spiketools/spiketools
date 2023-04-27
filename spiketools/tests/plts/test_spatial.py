@@ -41,12 +41,19 @@ def test_plot_position_by_time():
     positions = np.array([1, 2, 3, 2, 3, 3, 2, 3, 4, 3])
     spike_times = np.array([3, 5, 8])
     spike_pos = np.array([2, 3, 4])
+    event_times = np.array([2, 5])
+    event_positions = np.array([3, 3])
 
     plot_position_by_time(ptimes, positions,
-                          file_path=TEST_PLOTS_PATH, file_name='tplot_position_by_time1.png')
+                          file_path=TEST_PLOTS_PATH, file_name='tplot_position_by_time.png')
 
+    # Test with spikes
     plot_position_by_time(ptimes, positions, spike_times, spike_pos,
-                          file_path=TEST_PLOTS_PATH, file_name='tplot_position_by_time2.png')
+                          file_path=TEST_PLOTS_PATH, file_name='tplot_position_by_time_spikes.png')
+
+    # Test with events
+    plot_position_by_time(ptimes, positions, event_times=event_times, event_positions=event_positions,
+                          file_path=TEST_PLOTS_PATH, file_name='tplot_position_by_time_events.png')
 
 @plot_test
 def test_plot_heatmap():

@@ -5,6 +5,7 @@ from copy import deepcopy
 import numpy as np
 import matplotlib.pyplot as plt
 
+from spiketools.utils.base import combine_dicts
 from spiketools.utils.checks import check_array_lst_orientation
 from spiketools.utils.data import make_row_orientation, smooth_data, compute_range
 from spiketools.modutils.functions import get_function_parameters
@@ -86,6 +87,7 @@ def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
 @savefig
 @set_plt_kwargs
 def plot_position_by_time(timestamps, position, spikes=None, spike_positions=None,
+                          event_times=None, event_positions=None, event_kwargs=None,
                           time_bins=None, position_bins=None, invert=None,
                           ax=None, **plt_kwargs):
     """Plot the position across time for a single dimension.
@@ -100,6 +102,14 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
         Spike times, in seconds.
     spike_positions : 1d array, optional
         Position values of spikes, to indicate on the plot.
+    event_times : 1d array, optional
+        Time values of event markers to add to the plot.
+        If provided, `event_positions` must also be provided.
+    event_positions : 1d array, optional
+        Position values of event markers to add to the plot
+        If provided, `event_times` must also be provided.
+    event_kwargs : dict, optional
+        Keyword arguments for styling the events to be added to the plot.
     time_bins : list of float, optional
         Bin edges for the time axis.
         If provided, these are used to draw vertical grid lines on the plot.
@@ -121,8 +131,13 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
     if spikes is not None:
         spike_positions_plot = np.array([spikes, spike_positions])
 
-    plot_positions(np.array([timestamps, position]), spike_positions_plot, ax=ax,
-                   x_bins=time_bins, y_bins=position_bins, invert=invert, **plt_kwargs)
+    event_defaults = {'alpha' : 0.85, 'ms' : 10}
+    landmarks = {'positions' : np.array([event_times, event_positions]),
+                 **combine_dicts([event_defaults, {} if not event_kwargs else event_kwargs])}
+
+    plot_positions(np.array([timestamps, position]), spike_positions_plot,
+                   landmarks=landmarks, x_bins=time_bins, y_bins=position_bins,
+                   invert=invert, ax=ax, **plt_kwargs)
 
     ax.set(xlabel='Time', ylabel='Position')
 
