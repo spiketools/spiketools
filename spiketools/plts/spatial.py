@@ -86,7 +86,8 @@ def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
 @savefig
 @set_plt_kwargs
 def plot_position_by_time(timestamps, position, spikes=None, spike_positions=None,
-                          invert=None, ax=None, **plt_kwargs):
+                          time_bins=None, position_bins=None, invert=None,
+                          ax=None, **plt_kwargs):
     """Plot the position across time for a single dimension.
 
     Parameters
@@ -99,6 +100,12 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
         Spike times, in seconds.
     spike_positions : 1d array, optional
         Position values of spikes, to indicate on the plot.
+    time_bins : list of float, optional
+        Bin edges for the time axis.
+        If provided, these are used to draw vertical grid lines on the plot.
+    position_bins : list of float, optional
+        Bin edges for the position axis.
+        If provided, these are used to draw horizontal grid lines on the plot.
     invert : {'x', 'y', 'both'}, optional
         If provided, inverts the plot axes over x, y or both axes.
         Note that invert x is equivalent to flipping the data left/right, and y to flipping up/down.
@@ -114,12 +121,10 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
     if spikes is not None:
         spike_positions_plot = np.array([spikes, spike_positions])
 
-    plot_positions(np.array([timestamps, position]), spike_positions_plot, ax=ax, **plt_kwargs)
+    plot_positions(np.array([timestamps, position]), spike_positions_plot, ax=ax,
+                   x_bins=time_bins, y_bins=position_bins, invert=invert, **plt_kwargs)
 
     ax.set(xlabel='Time', ylabel='Position')
-
-    #add_gridlines(XX, YY, ax)
-    invert_axes(invert, ax)
 
 
 @savefig

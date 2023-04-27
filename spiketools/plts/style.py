@@ -103,6 +103,11 @@ def add_gridlines(x_bins, y_bins, ax):
     ax.set_xticks(x_bins if x_bins is not None else [], minor=False)
     ax.set_yticks(y_bins if y_bins is not None else [], minor=False)
 
+    # Although this looks like it doubles the above code, what actually happens
+    #   is that the above sets the ticks, and the below removes them from being displayed
+    #   but they are still there, meaning grid lines get added when the grid call added
+    # Note: it's tricky to have different grid lines and axis labels
+    #   To refactor to do this, could use axvline / axhline to add custom lines
     ax.set(xticklabels=[], yticklabels=[])
     ax.xaxis.set_ticks_position('none')
     ax.yaxis.set_ticks_position('none')
