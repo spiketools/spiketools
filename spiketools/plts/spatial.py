@@ -11,7 +11,7 @@ from spiketools.modutils.functions import get_function_parameters
 from spiketools.plts.annotate import add_dots
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.utils import check_ax, make_axes, savefig
-from spiketools.plts.style import set_plt_kwargs, invert_axes
+from spiketools.plts.style import set_plt_kwargs, invert_axes, add_gridlines
 
 ###################################################################################################
 ###################################################################################################
@@ -79,20 +79,8 @@ def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
                 add_dots(make_row_orientation(landmark.pop('positions'), orientation),
                          ax=ax, **landmark)
 
-    if x_bins is not None:
-        ax.set_xticks(x_bins, minor=False)
-    if y_bins is not None:
-        ax.set_yticks(y_bins, minor=False)
-
-    ax.set(xticklabels=[], yticklabels=[])
-    ax.xaxis.set_ticks_position('none')
-    ax.yaxis.set_ticks_position('none')
-
-    if x_bins is not None or y_bins is not None:
-        ax.grid()
-
-    if invert:
-        invert_axes(invert, ax)
+    add_gridlines(x_bins, y_bins, ax)
+    invert_axes(invert, ax)
 
 
 @savefig
@@ -130,8 +118,8 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
 
     ax.set(xlabel='Time', ylabel='Position')
 
-    if invert:
-        invert_axes(invert, ax)
+    #add_gridlines(XX, YY, ax)
+    invert_axes(invert, ax)
 
 
 @savefig
@@ -200,8 +188,7 @@ def plot_heatmap(data, smooth=False, smoothing_kernel=1.5, ignore_zero=False,
         colorbar = plt.colorbar(im)
         colorbar.outline.set_visible(False)
 
-    if invert:
-        invert_axes(invert, ax)
+    invert_axes(invert, ax)
 
 
 @savefig
