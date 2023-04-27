@@ -20,12 +20,12 @@ def test_plot_positions():
     x_bins = [1, 2, 3, 4, 5]
     y_bins = [6, 7, 8, 9]
 
-    plot_positions(positions, spike_pos, x_bins, y_bins,
+    plot_positions(positions, spike_pos, x_bins=x_bins, y_bins=y_bins,
                    file_path=TEST_PLOTS_PATH, file_name='tplot_positions.png')
 
     # Test with list of positions input
     positions_lst = [positions, positions + 1.5]
-    plot_positions(positions_lst, spike_pos, x_bins, y_bins,
+    plot_positions(positions_lst, spike_pos, x_bins=x_bins, y_bins=y_bins,
                    file_path=TEST_PLOTS_PATH, file_name='tplot_positions_lst.png')
 
     # Test with landmarks
