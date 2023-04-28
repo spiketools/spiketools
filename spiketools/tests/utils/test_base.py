@@ -59,3 +59,15 @@ def test_add_key_prefix():
 
     for key, value in tdict.items():
         assert out[prefix + '_' + key] == value
+
+def test_relabel_keys():
+
+    indict = {'a' : 1, 'b' : 2}
+    new_keys = {'a' : 'c'}
+
+    outdict = relabel_keys(indict, new_keys)
+    assert isinstance(outdict, dict)
+    assert len(outdict) == len(indict)
+    for key, val in new_keys.items():
+        assert key not in outdict
+        assert val in outdict

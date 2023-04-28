@@ -188,3 +188,27 @@ def add_key_prefix(indict, prefix):
         out[prefix + '_' + key] = value
 
     return out
+
+
+def relabel_keys(indict, new_keys):
+    """Relabel keys in a dictionary.
+
+    Parameters
+    ----------
+    indict : dict
+        Dictionary with key names to be updated.
+    new_keys : dict
+        Dictionary defining new key names.
+        Each key should be the current name, and each value the name to update to.
+
+    Returns
+    -------
+    outdict : dict
+        Dictionary with updated key names.
+    """
+
+    outdict = {}
+    for key in indict:
+        outdict[new_keys.get(key, key)] = indict[key]
+
+    return outdict
