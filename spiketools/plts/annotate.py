@@ -74,6 +74,37 @@ def add_hlines(hline, ax=None, **plt_kwargs):
             ax.axhline(line, **plt_kwargs)
 
 
+def add_gridlines(x_bins, y_bins, ax=None, **plt_kwargs):
+    """Add gridlines to a plot axis.
+
+    Parameters
+    ----------
+    x_bins, y_bins : list of float, optional
+        Bin edges for each axis.
+        If provided, these are used to draw grid lines on the plot.
+    ax : Axes, optional
+        Axis object to update.
+        If not provided, takes the current axis.
+    """
+
+    ax = check_ax(ax, return_current=True)
+
+    ax.set_xticks(x_bins if x_bins is not None else [], minor=False)
+    ax.set_yticks(y_bins if y_bins is not None else [], minor=False)
+
+    # Although this looks like it doubles the above code, what actually happens
+    #   is that the above sets the ticks, and the below removes them from being displayed
+    #   but they are still there, meaning grid lines get added when the grid call added
+    # Note: it's tricky to have different grid lines and axis labels
+    #   To refactor to do this, could use axvline / axhline to add custom lines
+    ax.set(xticklabels=[], yticklabels=[])
+    ax.xaxis.set_ticks_position('none')
+    ax.yaxis.set_ticks_position('none')
+
+    if x_bins is not None or y_bins is not None:
+        ax.grid(**plt_kwargs)
+
+
 def add_vshades(vshades, ax=None, **plt_kwargs):
     """Add vertical shade region(s) to a plot axis.
 

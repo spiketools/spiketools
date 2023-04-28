@@ -10,10 +10,10 @@ from spiketools.utils.base import listify, combine_dicts, relabel_keys
 from spiketools.utils.checks import check_array_lst_orientation
 from spiketools.utils.data import make_row_orientation, smooth_data, compute_range
 from spiketools.modutils.functions import get_function_parameters
-from spiketools.plts.annotate import add_dots
+from spiketools.plts.annotate import add_dots, add_gridlines
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.utils import check_ax, make_axes, savefig
-from spiketools.plts.style import set_plt_kwargs, invert_axes, add_gridlines
+from spiketools.plts.style import set_plt_kwargs, invert_axes
 
 ###################################################################################################
 ###################################################################################################
