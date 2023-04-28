@@ -78,3 +78,7 @@ def test_listify():
     assert listify(['test']) == ['test']
     assert listify(0.5) == [0.5]
     assert listify([0.5]) == [0.5]
+
+    # Test with indexing
+    listify([1, 2], index=True) == [[1, 2]]
+    listify([[1, 2]], index=True) == [[1, 2]]

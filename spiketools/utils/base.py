@@ -214,7 +214,7 @@ def relabel_keys(indict, new_keys):
     return outdict
 
 
-def listify(param):
+def listify(param, index=None):
     """Check and embed a parameter into a list, if is not already in a list.
 
     Parameters
@@ -225,7 +225,11 @@ def listify(param):
     Returns
     -------
     list
-        Param as a list.
+        Param embedded in a list.
     """
 
-    return [param] if not isinstance(param, list) else param
+    check = param[0] if index is not None else param
+
+    out = [param] if not isinstance(check, list) else param
+
+    return out
