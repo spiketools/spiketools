@@ -212,3 +212,20 @@ def relabel_keys(indict, new_keys):
         outdict[new_keys.get(key, key)] = indict[key]
 
     return outdict
+
+
+def listify(param):
+    """Check and embed a parameter into a list, if is not already in a list.
+
+    Parameters
+    ----------
+    param : object
+        Parameter to check and embed in a list, if it is not already.
+
+    Returns
+    -------
+    list
+        Param as a list.
+    """
+
+    return [param] if not isinstance(param, list) else param

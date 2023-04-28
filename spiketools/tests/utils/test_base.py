@@ -71,3 +71,10 @@ def test_relabel_keys():
     for key, val in new_keys.items():
         assert key not in outdict
         assert val in outdict
+
+def test_listify():
+
+    assert listify('test') == ['test']
+    assert listify(['test']) == ['test']
+    assert listify(0.5) == [0.5]
+    assert listify([0.5]) == [0.5]
