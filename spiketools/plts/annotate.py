@@ -4,6 +4,7 @@ from itertools import repeat
 
 import numpy as np
 
+from spiketools.utils.base import listify
 from spiketools.utils.checks import check_param_options
 from spiketools.plts.utils import check_ax
 
@@ -49,8 +50,7 @@ def add_vlines(vline, ax=None, **plt_kwargs):
     ax = check_ax(ax, return_current=True)
 
     if vline is not None:
-        vline = [vline] if isinstance(vline, (int, float)) else vline
-        for line in vline:
+        for line in listify(vline):
             ax.axvline(line, **plt_kwargs)
 
 
@@ -70,8 +70,7 @@ def add_hlines(hline, ax=None, **plt_kwargs):
     ax = check_ax(ax, return_current=True)
 
     if hline is not None:
-        hline = [hline] if isinstance(hline, (int, float)) else hline
-        for line in hline:
+        for line in listify(hline):
             ax.axhline(line, **plt_kwargs)
 
 
@@ -91,8 +90,7 @@ def add_vshades(vshades, ax=None, **plt_kwargs):
     ax = check_ax(ax, return_current=True)
 
     if vshades is not None:
-        vshades = [vshades] if isinstance(vshades[0], (int, float)) else vshades
-        for vshade in vshades:
+        for vshade in listify(vshades, index=True):
             ax.axvspan(*vshade, **plt_kwargs)
 
 
@@ -112,8 +110,7 @@ def add_hshades(hshades, ax=None, **plt_kwargs):
     ax = check_ax(ax, return_current=True)
 
     if hshades is not None:
-        hshades = [hshades] if isinstance(hshades[0], (int, float)) else hshades
-        for hshade in hshades:
+        for hshade in listify(hshades, index=True):
             ax.axhspan(*hshade, **plt_kwargs)
 
 

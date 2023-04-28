@@ -4,7 +4,8 @@ from functools import wraps
 
 import matplotlib.pyplot as plt
 
-from spiketools.utils.checks import check_list_options
+from spiketools.utils.base import listify
+from spiketools.utils.checks import check_param_options
 from spiketools.plts.utils import check_ax, get_kwargs, get_attr_kwargs
 from spiketools.plts.settings import SET_KWARGS, OTHER_KWARGS
 
@@ -52,9 +53,8 @@ def drop_spines(sides, ax=None):
 
     ax = check_ax(ax, return_current=True)
 
-    sides = [sides] if isinstance(sides, str) else sides
-    check_list_options(sides, 'sides', ['left', 'right', 'top', 'bottom'])
-    for side in sides:
+    for side in listify(sides):
+        check_param_options(side, 'side', ['left', 'right', 'top', 'bottom'])
         ax.spines[side].set_visible(False)
 
 
