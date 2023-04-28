@@ -1,11 +1,12 @@
 """Plots for spatial measures and analyses."""
 
 from copy import deepcopy
+from itertools import repeat
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-from spiketools.utils.base import listify, combine_dicts
+from spiketools.utils.base import listify, combine_dicts, relabel_keys
 from spiketools.utils.checks import check_array_lst_orientation
 from spiketools.utils.data import make_row_orientation, smooth_data, compute_range
 from spiketools.modutils.functions import get_function_parameters
@@ -80,6 +81,51 @@ def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
 
     add_gridlines(x_bins, y_bins, ax)
     invert_axes(invert, ax)
+
+
+@savefig
+@set_plt_kwargs
+def plot_position_1d(position, events=None, colors=None, sizes=None, ax=None, **plt_kwargs):
+    """Position 1d position data, with annotated events.
+
+    Parameters
+    ----------
+    position : 1d array
+        Position data.
+    events : 1d array or dict or list
+        Events to add to the plot, as vertical lines.
+        If array, defines the position(s) of each event.
+        If dictionary, should include a 'positions' key with an array plus additional arguments.
+        Multiple event definitions can be passed in as a list of dictionaries or arrays.
+    colors : str or list of str
+        Color(s) for each event.
+        Only used if `events` are passed in as an array or list of arrays.
+    sizes : float or list of float
+        Size(s) for each event.
+        Only used if `events` are passed in as an array or list of arrays.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    if position is not None:
+        ax.plot(position, [1] * len(position), alpha=0.75, **plt_kwargs)
+
+    colors = iter(listify(colors)) if colors else iter(DEFAULT_COLORS[1:])
+    sizes = iter(listify(sizes)) if sizes else repeat(1)
+
+    events = [events] if isinstance(events, (dict, np.ndarray)) else events
+    for event in events:
+
+        if isinstance(event, np.ndarray):
+            ax.eventplot(event, color=next(colors), linelengths=next(sizes))
+        elif isinstance(event, dict):
+            ax.eventplot(**relabel_keys(event, {'size' : 'linelengths'}))
+
+    ax.set(xlabel='Position', yticks=[])
 
 
 @savefig

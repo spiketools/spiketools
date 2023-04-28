@@ -35,6 +35,27 @@ def test_plot_positions():
                    file_path=TEST_PLOTS_PATH, file_name='tplot_positions_landmarks.png')
 
 @plot_test
+def test_plot_position_1d():
+
+    position = np.array([1.5, 2.5, 3.5])
+
+    # test single array event input
+    events = np.array([1, 2, 3])
+    plot_position_1d(position, events,
+                     file_path=TEST_PLOTS_PATH, file_name='tplot_position_1d_array.png')
+
+    # test multi array event input
+    events = [np.array([1, 2, 3]), np.array([0.5, 2.5, 3.5])]
+    plot_position_1d(position, events, colors=['red', 'green'], sizes=[1, 0.75],
+                     file_path=TEST_PLOTS_PATH, file_name='tplot_position_1d_list.png')
+
+    # test dict event input
+    events = [{'positions' : np.array([1, 2, 3]), 'color' : 'purple', 'size' : 1},
+              {'positions' : np.array([0.5, 2.5, 3.5]), 'color' : 'green', 'size' : 0.75}]
+    plot_position_1d(position, events,
+                     file_path=TEST_PLOTS_PATH, file_name='tplot_position_1d_dict.png')
+
+@plot_test
 def test_plot_position_by_time():
 
     ptimes = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
