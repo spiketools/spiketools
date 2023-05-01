@@ -1,14 +1,16 @@
 """Plots for spatial measures and analyses."""
 
 from copy import deepcopy
+from itertools import repeat
 
 import numpy as np
 import matplotlib.pyplot as plt
 
+from spiketools.utils.base import listify, combine_dicts, relabel_keys
 from spiketools.utils.checks import check_array_lst_orientation
 from spiketools.utils.data import make_row_orientation, smooth_data, compute_range
 from spiketools.modutils.functions import get_function_parameters
-from spiketools.plts.annotate import add_dots
+from spiketools.plts.annotate import add_dots, add_gridlines
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.utils import check_ax, make_axes, savefig
 from spiketools.plts.style import set_plt_kwargs, invert_axes
@@ -51,10 +53,8 @@ def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    position = [position] if isinstance(position, np.ndarray) else position
-    orientation = check_array_lst_orientation(position)
-
-    for cur_position in position:
+    orientation = check_array_lst_orientation(listify(position))
+    for cur_position in listify(position):
         ax.plot(*make_row_orientation(cur_position, orientation),
                 color=plt_kwargs.pop('color', DEFAULT_COLORS[0]),
                 alpha=plt_kwargs.pop('alpha', 0.35),
@@ -79,26 +79,61 @@ def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
                 add_dots(make_row_orientation(landmark.pop('positions'), orientation),
                          ax=ax, **landmark)
 
-    if x_bins is not None:
-        ax.set_xticks(x_bins, minor=False)
-    if y_bins is not None:
-        ax.set_yticks(y_bins, minor=False)
+    add_gridlines(x_bins, y_bins, ax)
+    invert_axes(invert, ax)
 
-    ax.set(xticklabels=[], yticklabels=[])
-    ax.xaxis.set_ticks_position('none')
-    ax.yaxis.set_ticks_position('none')
 
-    if x_bins is not None or y_bins is not None:
-        ax.grid()
+@savefig
+@set_plt_kwargs
+def plot_position_1d(position, events=None, colors=None, sizes=None, ax=None, **plt_kwargs):
+    """Position 1d position data, with annotated events.
 
-    if invert:
-        invert_axes(invert, ax)
+    Parameters
+    ----------
+    position : 1d array
+        Position data.
+    events : 1d array or dict or list
+        Events to add to the plot, as vertical lines.
+        If array, defines the position(s) of each event.
+        If dictionary, should include a 'positions' key with an array plus additional arguments.
+        Multiple event definitions can be passed in as a list of dictionaries or arrays.
+    colors : str or list of str
+        Color(s) for each event.
+        Only used if `events` are passed in as an array or list of arrays.
+    sizes : float or list of float
+        Size(s) for each event.
+        Only used if `events` are passed in as an array or list of arrays.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
+
+    if position is not None:
+        ax.plot(position, [1] * len(position), alpha=0.75, **plt_kwargs)
+
+    colors = iter(listify(colors)) if colors else iter(DEFAULT_COLORS[1:])
+    sizes = iter(listify(sizes)) if sizes else repeat(1)
+
+    events = [events] if isinstance(events, (dict, np.ndarray)) else events
+    for event in events:
+
+        if isinstance(event, np.ndarray):
+            ax.eventplot(event, color=next(colors), linelengths=next(sizes))
+        elif isinstance(event, dict):
+            ax.eventplot(**relabel_keys(event, {'size' : 'linelengths'}))
+
+    ax.set(xlabel='Position', yticks=[])
 
 
 @savefig
 @set_plt_kwargs
 def plot_position_by_time(timestamps, position, spikes=None, spike_positions=None,
-                          invert=None, ax=None, **plt_kwargs):
+                          event_times=None, event_positions=None, event_kwargs=None,
+                          time_bins=None, position_bins=None, invert=None,
+                          ax=None, **plt_kwargs):
     """Plot the position across time for a single dimension.
 
     Parameters
@@ -111,6 +146,20 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
         Spike times, in seconds.
     spike_positions : 1d array, optional
         Position values of spikes, to indicate on the plot.
+    event_times : 1d array, optional
+        Time values of event markers to add to the plot.
+        If provided, `event_positions` must also be provided.
+    event_positions : 1d array, optional
+        Position values of event markers to add to the plot
+        If provided, `event_times` must also be provided.
+    event_kwargs : dict, optional
+        Keyword arguments for styling the events to be added to the plot.
+    time_bins : list of float, optional
+        Bin edges for the time axis.
+        If provided, these are used to draw vertical grid lines on the plot.
+    position_bins : list of float, optional
+        Bin edges for the position axis.
+        If provided, these are used to draw horizontal grid lines on the plot.
     invert : {'x', 'y', 'both'}, optional
         If provided, inverts the plot axes over x, y or both axes.
         Note that invert x is equivalent to flipping the data left/right, and y to flipping up/down.
@@ -126,12 +175,15 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
     if spikes is not None:
         spike_positions_plot = np.array([spikes, spike_positions])
 
-    plot_positions(np.array([timestamps, position]), spike_positions_plot, ax=ax, **plt_kwargs)
+    event_defaults = {'alpha' : 0.85, 'ms' : 10}
+    landmarks = {'positions' : np.array([event_times, event_positions]),
+                 **combine_dicts([event_defaults, {} if not event_kwargs else event_kwargs])}
+
+    plot_positions(np.array([timestamps, position]), spike_positions_plot,
+                   landmarks=landmarks, x_bins=time_bins, y_bins=position_bins,
+                   invert=invert, ax=ax, **plt_kwargs)
 
     ax.set(xlabel='Time', ylabel='Position')
-
-    if invert:
-        invert_axes(invert, ax)
 
 
 @savefig
@@ -200,8 +252,7 @@ def plot_heatmap(data, smooth=False, smoothing_kernel=1.5, ignore_zero=False,
         colorbar = plt.colorbar(im)
         colorbar.outline.set_visible(False)
 
-    if invert:
-        invert_axes(invert, ax)
+    invert_axes(invert, ax)
 
 
 @savefig

@@ -36,6 +36,23 @@ def test_add_hlines():
     add_hlines([1.5, 2.5, 3.5], ax=ax)
 
 @plot_test
+def test_add_gridlines():
+
+    _, ax1 = plt.subplots()
+    ax1.plot([0, 2], [0, 2])
+
+    bins = [0.5, 1.5]
+    add_gridlines(bins, None, ax1)
+    assert np.array_equal(ax1.get_xticks(), bins)
+    assert np.array_equal(ax1.get_yticks(), [])
+    add_gridlines(None, bins, ax1)
+    assert np.array_equal(ax1.get_xticks(), [])
+    assert np.array_equal(ax1.get_yticks(), bins)
+    add_gridlines(bins, bins, ax1)
+    assert np.array_equal(ax1.get_xticks(), bins)
+    assert np.array_equal(ax1.get_yticks(), bins)
+
+@plot_test
 def test_add_vshades():
 
     _, ax = plt.subplots()
