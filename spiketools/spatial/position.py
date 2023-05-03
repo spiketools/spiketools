@@ -50,9 +50,10 @@ def compute_distances(xs, ys):
     --------
     Compute distances between vectors of x- and y-positions:
 
-    >>> xs, ys = np.array([1, 2, 3, 4, 5]), np.array([6, 7, 8, 9, 10])
+    >>> xs = np.array([0, 0, 0, 1, 2])
+    >>> ys = np.array([0, 1, 2, 2, 3])
     >>> compute_distances(xs, ys)
-    array([1.41421356, 1.41421356, 1.41421356, 1.41421356])
+    array([1.        , 1.        , 1.        , 1.41421356])
     """
 
     dists = np.zeros(len(xs) - 1)
@@ -79,9 +80,10 @@ def compute_cumulative_distances(xs, ys):
     --------
     Compute cumulative distances between vectors of x- and y-positions:
 
-    >>> xs, ys = np.array([1, 2, 3, 4, 5]), np.array([6, 7, 8, 9, 10])
+    >>> xs = np.array([0, 0, 0, 1])
+    >>> ys = np.array([0, 1, 2, 2])
     >>> compute_cumulative_distances(xs, ys)
-    array([1.41421356, 2.82842712, 4.24264069, 5.65685425])
+    array([0., 1., 2., 3.])
     """
 
     cumul_dists = np.cumsum(compute_distances(xs, ys))
@@ -109,10 +111,11 @@ def compute_speed(xs, ys, bin_widths):
     --------
     Compute speed across vectors of x- and y-positions:
 
-    >>> xs, ys = np.array([1, 2, 3, 4, 5]), np.array([6, 7, 8, 9, 10])
-    >>> bin_width = np.array([1, 1, 0.5, 1])
-    >>> compute_speed(xs, ys, bin_width)
-    array([1.41421356, 1.41421356, 2.82842712, 1.41421356])
+    >>> xs = np.array([0, 0, 0, 1, 1])
+    >>> ys = np.array([0, 1, 2, 2, 2])
+    >>> bin_widths = np.array([1, 1, 0.5, 1])
+    >>> compute_speed(xs, ys, bin_widths)
+    array([1., 1., 2., 0.])
     """
 
     distances = compute_distances(xs, ys)
