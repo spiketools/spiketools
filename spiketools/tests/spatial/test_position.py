@@ -35,12 +35,12 @@ def test_compute_distances():
 
 def test_compute_cumulative_distances():
 
-    xs = np.array([0, 0, 1, 1, 2])
-    ys = np.array([0, 0, 0, 1, 2])
+    xs = np.array([0, 1, 1, 2])
+    ys = np.array([0, 0, 1, 2])
 
     out = compute_cumulative_distances(xs, ys)
     assert isinstance(out, np.ndarray)
-    assert len(out) == len(xs) -1
+    assert len(out) == len(xs)
     assert np.allclose(out, np.array([0, 1, 1 + 1, 1 + 1 + np.sqrt(2)]))
 
 def test_compute_speed():

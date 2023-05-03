@@ -84,7 +84,10 @@ def compute_cumulative_distances(xs, ys):
     array([1.41421356, 2.82842712, 4.24264069, 5.65685425])
     """
 
-    return np.cumsum(compute_distances(xs, ys))
+    cumul_dists = np.cumsum(compute_distances(xs, ys))
+    cumul_dists = np.insert(cumul_dists, 0, 0)
+
+    return cumul_dists
 
 
 def compute_speed(xs, ys, bin_widths):
