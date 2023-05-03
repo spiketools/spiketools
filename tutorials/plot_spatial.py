@@ -61,12 +61,6 @@ x_pos = np.array([0, 1, 2, 3, 4, 3.2, 2.1, 2, 1, 0, 0, 0.1, 1, 1.5, 1, 1])
 y_pos = np.array([0, 0, 0.1, 1, 1.5, 1, 1, 2.1, 2, 1, 0, 1, 2, 3, 4, 3.2])
 position = np.array([x_pos, y_pos])
 
-# Set the time width of each position sample
-bin_widths = np.array([1, 1, 1, 2, 1.5, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0.5])
-
-# Set number of spatial bins, 3 x-bins and 5 y-bins
-bins = [3, 5]
-
 # Define timestamps
 timestamps = np.array([0, 1, 2, 3, 5, 6.5, 7.5, 8.5, 9.5, 11.5, 12.5, 13.5, 14.5, 15.5, 16.5, 17])
 
@@ -125,8 +119,9 @@ dist_traveled = compute_distances(x_pos, y_pos)
 # Compute total distance traveled
 cumulative_dist_traveled = compute_cumulative_distances(x_pos, y_pos)
 
+# Compute time difference between each position sampled
+bin_widths = np.diff(timestamps)
 # Compute speed at each point
-bin_widths = np.array([1, 1, 1, 2, 1.5, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0.5])
 speeds = compute_speed(x_pos, y_pos, bin_widths)
 
 ###################################################################################################
@@ -166,6 +161,8 @@ plot_position_by_time(timestamps[1:], speeds,
 
 ###################################################################################################
 
+# Define spatial binning: 3 x-bins and 5 y-bins
+bins = [3, 5]
 # Compute spatial bin edges
 x_edges, y_edges = compute_bin_edges(position, bins)
 
@@ -220,7 +217,7 @@ for ind in range(0, n_points):
 
 ###################################################################################################
 
-# Compute the durations of the timestamps
+# Compute the durations of the samples
 sample_times = compute_sample_durations(timestamps)
 print('The time durations of position samples are: ', sample_times)
 
@@ -243,7 +240,7 @@ print('The time durations of position samples are: ', sample_times)
 # Update speed to match length of position data
 speeds = np.insert(speeds, 0, 0)
 
-# Define speed threshold, used to position values for speed less than the threshold
+# Define speed threshold, used to remove position values at which the speed is less than the threshold
 speed_thresh =.5e-3
 
 # Compute the 2D occupancy

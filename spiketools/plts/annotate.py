@@ -4,6 +4,7 @@ from itertools import repeat
 
 import numpy as np
 
+from spiketools.utils.base import listify
 from spiketools.utils.checks import check_param_options
 from spiketools.plts.utils import check_ax
 
@@ -49,8 +50,7 @@ def add_vlines(vline, ax=None, **plt_kwargs):
     ax = check_ax(ax, return_current=True)
 
     if vline is not None:
-        vline = [vline] if isinstance(vline, (int, float)) else vline
-        for line in vline:
+        for line in listify(vline):
             ax.axvline(line, **plt_kwargs)
 
 
@@ -70,9 +70,39 @@ def add_hlines(hline, ax=None, **plt_kwargs):
     ax = check_ax(ax, return_current=True)
 
     if hline is not None:
-        hline = [hline] if isinstance(hline, (int, float)) else hline
-        for line in hline:
+        for line in listify(hline):
             ax.axhline(line, **plt_kwargs)
+
+
+def add_gridlines(x_bins, y_bins, ax=None, **plt_kwargs):
+    """Add gridlines to a plot axis.
+
+    Parameters
+    ----------
+    x_bins, y_bins : list of float, optional
+        Bin edges for each axis.
+        If provided, these are used to draw grid lines on the plot.
+    ax : Axes, optional
+        Axis object to update.
+        If not provided, takes the current axis.
+    """
+
+    ax = check_ax(ax, return_current=True)
+
+    ax.set_xticks(x_bins if x_bins is not None else [], minor=False)
+    ax.set_yticks(y_bins if y_bins is not None else [], minor=False)
+
+    # Although this looks like it doubles the above code, what actually happens
+    #   is that the above sets the ticks, and the below removes them from being displayed
+    #   but they are still there, meaning grid lines get added when the grid call added
+    # Note: it's tricky to have different grid lines and axis labels
+    #   To refactor to do this, could use axvline / axhline to add custom lines
+    ax.set(xticklabels=[], yticklabels=[])
+    ax.xaxis.set_ticks_position('none')
+    ax.yaxis.set_ticks_position('none')
+
+    if x_bins is not None or y_bins is not None:
+        ax.grid(**plt_kwargs)
 
 
 def add_vshades(vshades, ax=None, **plt_kwargs):
@@ -91,8 +121,7 @@ def add_vshades(vshades, ax=None, **plt_kwargs):
     ax = check_ax(ax, return_current=True)
 
     if vshades is not None:
-        vshades = [vshades] if isinstance(vshades[0], (int, float)) else vshades
-        for vshade in vshades:
+        for vshade in listify(vshades, index=True):
             ax.axvspan(*vshade, **plt_kwargs)
 
 
@@ -112,8 +141,7 @@ def add_hshades(hshades, ax=None, **plt_kwargs):
     ax = check_ax(ax, return_current=True)
 
     if hshades is not None:
-        hshades = [hshades] if isinstance(hshades[0], (int, float)) else hshades
-        for hshade in hshades:
+        for hshade in listify(hshades, index=True):
             ax.axhspan(*hshade, **plt_kwargs)
 
 

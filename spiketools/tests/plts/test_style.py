@@ -1,5 +1,7 @@
 """Tests for spiketools.plts.style."""
 
+import numpy as np
+
 from spiketools.plts.settings import SET_KWARGS
 
 from spiketools.plts.style import *

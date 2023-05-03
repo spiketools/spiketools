@@ -138,6 +138,10 @@ def combine_dicts(dicts):
     dict
         Combined dictionary.
 
+    Notes
+    -----
+    If multiple dictionaries have the same keys, the value of the last dictionary is kept.
+
     Examples
     --------
     Combine two dictionaries:
@@ -182,5 +186,50 @@ def add_key_prefix(indict, prefix):
     out = {}
     for key, value in indict.items():
         out[prefix + '_' + key] = value
+
+    return out
+
+
+def relabel_keys(indict, new_keys):
+    """Relabel keys in a dictionary.
+
+    Parameters
+    ----------
+    indict : dict
+        Dictionary with key names to be updated.
+    new_keys : dict
+        Dictionary defining new key names.
+        Each key should be the current name, and each value the name to update to.
+
+    Returns
+    -------
+    outdict : dict
+        Dictionary with updated key names.
+    """
+
+    outdict = {}
+    for key in indict:
+        outdict[new_keys.get(key, key)] = indict[key]
+
+    return outdict
+
+
+def listify(param, index=None):
+    """Check and embed a parameter into a list, if is not already in a list.
+
+    Parameters
+    ----------
+    param : object
+        Parameter to check and embed in a list, if it is not already.
+
+    Returns
+    -------
+    list
+        Param embedded in a list.
+    """
+
+    check = param[0] if index is not None else param
+
+    out = [param] if not isinstance(check, list) else param
 
     return out

@@ -1,5 +1,6 @@
 """Checker functions for spatial related functionality."""
 
+from spiketools.utils.base import listify
 from spiketools.utils.checks import check_param_type
 
 ###################################################################################################
@@ -45,14 +46,10 @@ def check_spatial_bins(bins, position=None):
         Raised if there are any issues with the given bin definition.
     """
 
-    check_param_type(bins, 'bins', (int, list))
-
-    if isinstance(bins, int):
-        bins = [bins]
-
-    if isinstance(bins, list):
-        for binval in bins:
-            assert isinstance(binval, int), 'Bin definition values should be integers.'
+    bins = listify(bins)
+    
+    for binval in bins:
+        check_param_type(bins, 'bins', int)
 
     assert len(bins) <= 2, 'Bin definition has too many values (>2).'
 

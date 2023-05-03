@@ -280,12 +280,14 @@ data = {'fr': pre_post_frs, 'is_post_event': is_post_event, 'trial_idx': trial_i
 
 # Create the dataframe
 df_pre_post = create_dataframe(data)
+# Visualize the first entries of the dataframe
+df_pre_post.head()
 
 ###################################################################################################
 #
-# Now that we have our data organized into a dataframe, we can run an ANOVA using.
+# Now that we have our data organized into a dataframe, we can run an ANOVA.
 #
-# Specifically, we will run an ANOVA to analyze whether there is an of the event on
+# Specifically, we will run an ANOVA to analyze whether there is an effect of the event on
 # firing rates, as well as checking whether there is an effect of trial index on firing rate.
 #
 # To run the ANOVA, we need to define the formula we want to run.
@@ -347,7 +349,7 @@ shuff_spikes = shuffle_isis(trial_spikes[0], n_shuffles=n_shuff)
 ###################################################################################################
 #
 # Now that we have shuffled spikes, we can compute our measure of interest on the
-# surrogate data. This will give us a the surrogate distribution which we can then use
+# surrogate data. This will give us a surrogate distribution which we can then use
 # to compute the empirical p-value and the z-score, to examine if the effect in the
 # real data is greater than expected by change (in the shuffles).
 #
@@ -392,7 +394,7 @@ plot_surrogates(shuff_fr_diff, fr_diff, surr_pval)
 # In this example, we will compute a statistical test of whether there is an effect
 # of spatial position on neuron firing.
 #
-# To do so, we will simulating spike trains across trials (8 seconds) across spatial bins.
+# To do so, we will simulate spike trains across trials (8 seconds) across spatial bins.
 #
 # The simulated data will then be organized (per trial, per bin) into dataframes,
 # which we can then use to fit the ANOVA.
@@ -445,6 +447,8 @@ for ind in range(n_trials):
 
 # Organize spiking data into dataframe
 df = create_dataframe_bins(bin_firing_all, dropna=True)
+# Visualize the first entries of the dataframe
+df.head()
 
 ###################################################################################################
 #

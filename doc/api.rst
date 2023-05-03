@@ -333,6 +333,7 @@ Plots for spatial data.
    :toctree: generated/
 
    plot_positions
+   plot_position_1d
    plot_position_by_time
    plot_heatmap
    plot_trial_heatmaps
@@ -402,6 +403,7 @@ Helper functions to annotate plot axes.
    color_pvalue
    add_vlines
    add_hlines
+   add_gridlines
    add_vshades
    add_hshades
    add_box_shade
@@ -457,6 +459,8 @@ General utilities for basic data types.
    count_elements
    combine_dicts
    add_key_prefix
+   relabel_keys
+   listify
 
 Data
 ~~~~
