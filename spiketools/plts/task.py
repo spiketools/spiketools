@@ -12,7 +12,7 @@ from spiketools.plts.style import set_plt_kwargs
 @savefig
 @set_plt_kwargs
 def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
-                        range_colors=None, line_colors=None, range_kwargs=None, event_kwargs=None,
+                        range_colors=None, line_colors=None, range_kwargs=None, line_kwargs=None,
                         ax=None, **plt_kwargs):
     """Plot task structure, shaded ranges of event durations, and lines of point events.
 
@@ -32,7 +32,7 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
         Colors to plot the lines in. Used if passing multiple line sections.
     range_kwargs : dict, optional
         Additional keyword arguments for the range shades.
-    event_kwargs : dict, optional
+    line_kwargs : dict, optional
         Additional keyword arguments for the event lines.
     ax : Axes, optional
         Axis object upon which to plot.
@@ -44,7 +44,7 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
 
     color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
     range_kwargs = {} if range_kwargs is None else range_kwargs
-    event_kwargs = {} if event_kwargs is None else event_kwargs
+    line_kwargs = {} if line_kwargs is None else line_kwargs
 
     if task_ranges is not None:
         if not isinstance(task_ranges[0][0], (int, float)):
@@ -59,10 +59,10 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
     if event_lines is not None:
         if not isinstance(event_lines[0], (int, float)):
             for eline, color in zip(event_lines, line_colors if line_colors else color_cycle):
-                event_kwargs['color'] = color
-                plot_task_structure(event_lines=eline, event_kwargs=event_kwargs, ax=ax)
+                line_kwargs['color'] = color
+                plot_task_structure(event_lines=list(eline), line_kwargs=line_kwargs, ax=ax)
         else:
-            add_vlines(event_lines, **event_kwargs, ax=ax)
+            add_vlines(event_lines, **line_kwargs, ax=ax)
 
     if data_points is not None:
         ax.eventplot(data_points)
