@@ -47,9 +47,9 @@ def check_spatial_bins(bins, position=None):
     """
 
     bins = listify(bins)
-    
+
     for binval in bins:
-        check_param_type(bins, 'bins', int)
+        check_param_type(binval, 'bins', int)
 
     assert len(bins) <= 2, 'Bin definition has too many values (>2).'
 

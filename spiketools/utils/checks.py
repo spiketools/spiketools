@@ -6,7 +6,7 @@ from collections import defaultdict
 
 import numpy as np
 
-from spiketools.utils.base import lower_list
+from spiketools.utils.base import lower_list, listify
 
 ###################################################################################################
 ###################################################################################################
@@ -107,8 +107,8 @@ def check_param_type(param, label, types):
         Parameter to check type of.
     label : str
         Label of the parameter being checked.
-    types : tuple of type
-        Types to check the given paramter is one of.
+    types : type or tuple of type
+        Type(s) to check the given paramter is one of.
 
     Raises
     ------
@@ -120,10 +120,11 @@ def check_param_type(param, label, types):
     If checking elements in an array, then proper checking should include relevant numpy types.
     """
 
-    if not isinstance(param, tuple(types)):
+    types = tuple(listify(types))
+    if not isinstance(param, types):
         type_strings = [str(el).split(' ')[1][1:-2] for el in types]
         msg = "The parameter {} should have type: {}.".format(label, type_strings)
-        raise ValueError(msg)
+        raise TypeError(msg)
 
 
 def check_list_options(contents, label, options):

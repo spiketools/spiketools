@@ -55,12 +55,12 @@ def test_check_param_lengths():
 
 def test_check_param_type():
 
-    param = [1, 2]
+    check_param_type(13, 'test', int)
 
-    check_param_type(param, 'test', [list, np.ndarray])
+    check_param_type([1, 2], 'test', [list, np.ndarray])
 
-    with raises(ValueError):
-        check_param_type(tuple(param), 'test', [list, np.ndarray])
+    with raises(TypeError):
+        check_param_type(tuple([1, 2]), 'test', [list, np.ndarray])
 
 def test_check_array_orientation():
 

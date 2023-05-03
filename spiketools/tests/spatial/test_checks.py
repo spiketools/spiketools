@@ -35,7 +35,7 @@ def test_check_spatial_bins():
     bins = check_spatial_bins(bins_2d, position)
     assert bins == bins_2d
 
-    with raises(AssertionError):
+    with raises(TypeError):
         check_spatial_bins([1.2, 2.3])
     with raises(AssertionError):
         check_spatial_bins([1, 2, 3])
