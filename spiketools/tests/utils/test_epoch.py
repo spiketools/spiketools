@@ -53,7 +53,7 @@ def test_epoch_spikes_by_segment():
 def test_epoch_data_by_time():
 
     times = np.array([2.5, 3.5, 4.25, 5.5, 6.1, 8., 9.25, 9.75, 10.5, 12., 14.1, 15.2, 15.9])
-    timepoints = np.array([5, 10, 15])
+    timepoints = np.array([5., 10., 15.])
 
     # Test 1d array
     values = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])

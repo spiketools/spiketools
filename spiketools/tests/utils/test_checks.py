@@ -56,7 +56,7 @@ def test_check_param_lengths():
 def test_check_param_type():
 
     check_param_type(13, 'test', int)
-
+    check_param_type(1.1, 'test', (int, float))
     check_param_type([1, 2], 'test', [list, np.ndarray])
 
     with raises(TypeError):

@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.utils.checks import check_axis
+from spiketools.utils.checks import check_axis, check_param_type
 from spiketools.utils.options import get_comp_func
 
 ###################################################################################################
@@ -161,7 +161,11 @@ def get_ind_by_time(timestamps, timepoint, threshold=None):
     4
     """
 
+    check_param_type(timepoint, 'timepoint', (int, float, np.int64, np.float64))
+    assert not np.isnan(timepoint), "The given `timepoint` is nan - cannot continue."
+
     ind = np.abs(timestamps - timepoint).argmin()
+
     if threshold:
         if np.abs(timestamps[ind] - timepoint) > threshold:
             ind = -1
