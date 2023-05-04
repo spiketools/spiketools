@@ -4,7 +4,7 @@ import numpy as np
 
 from spiketools.utils.data import compute_range
 from spiketools.utils.checks import check_axis, check_array_orientation
-from spiketools.spatial.checks import check_spatial_bins
+from spiketools.spatial.checks import check_position, check_bin_definition, check_bin_widths
 
 ###################################################################################################
 ###################################################################################################
@@ -60,7 +60,7 @@ def compute_nbins(bins):
     20
     """
 
-    bins = check_spatial_bins(bins)
+    bins = check_bin_definition(bins)
 
     if len(bins) == 1:
         n_bins = bins[0]
@@ -100,6 +100,8 @@ def compute_pos_ranges(position):
     array([1.5, 5.1])
     """
 
+    check_position(position)
+
     if position.ndim == 1:
         ranges = np.array(compute_range(position))
 
@@ -108,9 +110,6 @@ def compute_pos_ranges(position):
         axis = check_axis(None, position)
         ranges = np.apply_along_axis(compute_range, axis, position)
         ranges = list(ranges.T if axis == 0 else ranges)
-
-    else:
-        raise ValueError('Position input should be 1d or 2d.')
 
     return ranges
 
@@ -170,12 +169,11 @@ def compute_bin_width(bin_edges):
     2.0
     """
 
-    widths = np.diff(bin_edges)
+    bin_widths = np.diff(bin_edges)
+    check_bin_widths(bin_widths)
+    bin_width = bin_widths[0]
 
-    # Check that all bin widths are the same, representing equidistant bins
-    assert np.all(np.isclose(widths, widths[0])), 'Bin edges should be equidistant.'
-
-    return widths[0]
+    return bin_width
 
 
 def convert_2dindices(xbins, ybins, bins):
