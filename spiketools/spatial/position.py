@@ -39,7 +39,7 @@ def compute_distances(xs, ys):
     Parameters
     ----------
     xs, ys : 1d array
-        Position data, of X and Y locations.
+        Position data, of X and Y positions.
 
     Returns
     -------
@@ -63,13 +63,16 @@ def compute_distances(xs, ys):
     return dists
 
 
-def compute_cumulative_distances(xs, ys):
+def compute_cumulative_distances(xs, ys, align_output=True):
     """Compute cumulative distance across a sequence of positions.
 
     Parameters
     ----------
     xs, ys : 1d array
-        Position data, of X and Y locations.
+        Position data, of X and Y positions.
+    align_output : bool, optional, default: True
+        If True, aligns the output with the sampling of the input, to match length.
+        To do so, value of 0 is prepended to the output array.
 
     Returns
     -------
@@ -87,20 +90,24 @@ def compute_cumulative_distances(xs, ys):
     """
 
     cumul_dists = np.cumsum(compute_distances(xs, ys))
-    cumul_dists = np.insert(cumul_dists, 0, 0)
+    if align_output:
+        cumul_dists = np.insert(cumul_dists, 0, 0)
 
     return cumul_dists
 
 
-def compute_speed(xs, ys, bin_widths):
+def compute_speed(xs, ys, bin_widths, align_output=True):
     """Compute speeds across a sequence of positions.
 
     Parameters
     ----------
     xs, ys : 1d array
-        Position data, of X and Y locations.
+        Position data, of X and Y positions.
     bin_widths : 1d array
         Width of each position bin.
+    align_output : bool, optional, default: True
+        If True, aligns the output with the sampling of the input, to match length.
+        To do so, value of 0 is prepended to the output array.
 
     Returns
     -------
@@ -115,10 +122,13 @@ def compute_speed(xs, ys, bin_widths):
     >>> ys = np.array([0, 1, 2, 2, 2])
     >>> bin_widths = np.array([1, 1, 0.5, 1])
     >>> compute_speed(xs, ys, bin_widths)
-    array([1., 1., 2., 0.])
+    array([0., 1., 1., 2., 0.])
     """
 
     distances = compute_distances(xs, ys)
     speed = distances / bin_widths
+
+    if align_output:
+        speed = np.insert(speed, 0, 0)
 
     return speed
