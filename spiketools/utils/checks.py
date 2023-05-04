@@ -120,7 +120,7 @@ def check_param_type(param, label, types):
     If checking elements in an array, then proper checking should include relevant numpy types.
     """
 
-    types = tuple(listify(types))
+    types = tuple(listify(types)) if not isinstance(types, tuple) else types
     if not isinstance(param, types):
         type_strings = [str(el).split(' ')[1][1:-2] for el in types]
         msg = "The parameter {} should have type: {}.".format(label, type_strings)
