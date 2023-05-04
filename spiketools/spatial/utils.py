@@ -114,39 +114,6 @@ def compute_pos_ranges(position):
     return ranges
 
 
-def compute_sample_durations(timestamps, align_output=True):
-    """Compute the time duration of each sample.
-
-    Parameters
-    ----------
-    timestamps : 1d array
-        Timestamps, in seconds.
-    align_output : bool, optional, default: True
-        If True, aligns the output with the sampling of the input, to match length.
-        To do so, value of 0 is appended to the output array.
-
-    Returns
-    -------
-    1d array
-        Time duration of each sampling bin.
-
-    Examples
-    --------
-    Compute times between timestamp samples:
-
-    >>> timestamps = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])
-    >>> compute_sample_durations(timestamps)
-    array([1., 2., 3., 2., 1., 0.])
-    """
-
-    time_diffs = np.diff(timestamps)
-
-    if align_output:
-        time_diffs = np.append(time_diffs, 0)
-
-    return time_diffs
-
-
 def compute_bin_width(bin_edges):
     """Compute bin width from a set of bin edges.
 

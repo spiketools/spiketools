@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.spatial.utils import compute_sample_durations
+from spiketools.utils.timestamps import compute_sample_durations
 
 ###################################################################################################
 ###################################################################################################
