@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from spiketools.spatial.utils import compute_sample_durations
+
 ###################################################################################################
 ###################################################################################################
 
@@ -96,15 +98,15 @@ def compute_cumulative_distances(xs, ys, align_output=True):
     return cumul_dists
 
 
-def compute_speed(xs, ys, bin_widths, align_output=True):
+def compute_speed(xs, ys, timestamps, align_output=True):
     """Compute speeds across a sequence of positions.
 
     Parameters
     ----------
     xs, ys : 1d array
         Position data, of X and Y positions.
-    bin_widths : 1d array
-        Width of each position bin.
+    timestamps : 1d array
+        Timestamps, in seconds, corresponding to the position values.
     align_output : bool, optional, default: True
         If True, aligns the output with the sampling of the input, to match length.
         To do so, value of 0 is prepended to the output array.
@@ -120,13 +122,15 @@ def compute_speed(xs, ys, bin_widths, align_output=True):
 
     >>> xs = np.array([0, 0, 0, 1, 1])
     >>> ys = np.array([0, 1, 2, 2, 2])
-    >>> bin_widths = np.array([1, 1, 0.5, 1])
-    >>> compute_speed(xs, ys, bin_widths)
+    >>> timestamps = np.array([0, 1, 2, 2.5, 3.5])
+    >>> compute_speed(xs, ys, timestamps)
     array([0., 1., 1., 2., 0.])
     """
 
     distances = compute_distances(xs, ys)
-    speed = distances / bin_widths
+    durations = compute_sample_durations(timestamps, align_output=False)
+
+    speed = distances / durations
 
     if align_output:
         speed = np.insert(speed, 0, 0)
