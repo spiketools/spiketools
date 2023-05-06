@@ -1,12 +1,12 @@
 """Plots for tasks and task structure related visualizations."""
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 from spiketools.utils.base import listify
 from spiketools.plts.annotate import add_vshades, add_vlines
 from spiketools.plts.utils import check_ax, savefig
 from spiketools.plts.style import set_plt_kwargs
+from spiketools.plts.settings import DEFAULT_COLORS
 
 ###################################################################################################
 ###################################################################################################
@@ -44,13 +44,12 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', (16, 2)))
 
-    color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
     range_kwargs = {} if range_kwargs is None else range_kwargs
     line_kwargs = {} if line_kwargs is None else line_kwargs
 
     if task_ranges is not None:
         if not isinstance(task_ranges[0][0], (int, float)):
-            for trange, color in zip(task_ranges, range_colors if range_colors else color_cycle):
+            for trange, color in zip(task_ranges, range_colors if range_colors else DEFAULT_COLORS):
                 range_kwargs['color'] = color
                 plot_task_structure(task_ranges=trange, range_kwargs=range_kwargs, ax=ax)
         else:
@@ -60,7 +59,7 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
 
     if event_lines is not None:
         if not isinstance(event_lines[0], (int, float)):
-            for eline, color in zip(event_lines, line_colors if line_colors else color_cycle):
+            for eline, color in zip(event_lines, line_colors if line_colors else DEFAULT_COLORS):
                 line_kwargs['color'] = color
                 plot_task_structure(event_lines=list(eline), line_kwargs=line_kwargs, ax=ax)
         else:
@@ -69,7 +68,7 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
     if data_points is not None:
         ax.eventplot(data_points)
 
-    plt.yticks([])
+    ax.set_yticks([])
 
 
 @savefig
