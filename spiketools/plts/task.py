@@ -1,7 +1,9 @@
 """Plots for tasks and task structure related visualizations."""
 
+import numpy as np
 import matplotlib.pyplot as plt
 
+from spiketools.utils.base import listify
 from spiketools.plts.annotate import add_vshades, add_vlines
 from spiketools.plts.utils import check_ax, savefig
 from spiketools.plts.style import set_plt_kwargs
@@ -68,3 +70,30 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
         ax.eventplot(data_points)
 
     plt.yticks([])
+
+
+@savefig
+@set_plt_kwargs
+def plot_task_events(events, ax=None, **plt_kwargs):
+    """Plot task events.
+
+    Parameters
+    ----------
+    events : array or dict or list
+        If array, indicates the times to plot event markers.
+        If dict, should have the event markers as a 'times' key, plus any additional plot arguments.
+        If list, can be a list of array or of dictionaries.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', (16, 2)))
+
+    events = listify(events)
+    for event in events:
+        if isinstance(event, (list, np.ndarray)):
+            ax.eventplot(event, **plt_kwargs)
+        elif isinstance(event, dict):
+            ax.eventplot(event.pop('times'), **event, **plt_kwargs)
