@@ -349,6 +349,7 @@ Plots for visualizing task structure.
    :toctree: generated/
 
    plot_task_structure
+   plot_task_events
 
 Trials
 ~~~~~~
