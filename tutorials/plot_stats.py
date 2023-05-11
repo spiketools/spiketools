@@ -124,7 +124,7 @@ plot_rasters(shuffled_circular, xlim=[0, 6], ax=ax4,
 ###################################################################################################
 
 # Shuffle spikes using the general `shuffle_spikes` function
-shuffled_spikes = shuffle_spikes(spikes, 'CIRCULAR', shuffle_min=200, n_shuffles=10)
+shuffled_spikes = shuffle_spikes(spikes, 'circular', shuffle_min=200, n_shuffles=10)
 
 # Plot shuffle spikes
 plot_rasters(shuffled_spikes, xlim=[0, 6], title='Shuffled Spikes')

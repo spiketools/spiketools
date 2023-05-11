@@ -30,7 +30,6 @@ This tutorial primarily covers the ``spiketools.spatial`` module.
 
 # Import auxiliary libraries
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Import functions from spiketools.spatial
 from spiketools.spatial.position import (compute_distance, compute_distances,
@@ -240,8 +239,8 @@ print('The time durations of position samples are: ', sample_times)
 # Update speed to match length of position data
 speeds = np.insert(speeds, 0, 0)
 
-# Define speed threshold, used to remove position values at which the speed is less than the threshold
-speed_thresh =.5e-3
+# Define speed threshold, used to remove position values if the speed is less than the threshold
+speed_thresh = .5e-3
 
 # Compute the 2D occupancy
 occupancy = compute_occupancy(position, timestamps, bins,
