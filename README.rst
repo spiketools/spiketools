@@ -59,8 +59,7 @@ Documentation for ``spiketools`` is available
 
 The documentation includes:
 
-- `Tutorials <https://spiketools.github.io/spiketools/auto_tutorials/index.html>`_: which describe and work through each sub-module
-- `Examples <https://spiketools.github.io/spiketools/auto_examples/index.html>`_: demonstrating example applications and workflows
+- `Tutorials <https://spiketools.github.io/spiketools/auto_tutorials/index.html>`_: which describe and provide examples for each sub-module
 - `API List <https://spiketools.github.io/spiketools/api.html>`_: which lists and describes everything available in the module
 - `Glossary <https://spiketools.github.io/spiketools/glossary.html>`_: which defines key terms used in the module
 
