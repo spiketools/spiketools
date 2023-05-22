@@ -574,16 +574,19 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spatial.plot_positions.html#spiketools.plts.spatial.plot_positions" title="spiketools.plts.spatial.plot_positions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_positions</span></code></a>(position[, spike_positions, ...])</p></td>
 <td><p>Plot positions.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.spatial.plot_position_by_time.html#spiketools.plts.spatial.plot_position_by_time" title="spiketools.plts.spatial.plot_position_by_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_position_by_time</span></code></a>(timestamps, position)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.spatial.plot_position_1d.html#spiketools.plts.spatial.plot_position_1d" title="spiketools.plts.spatial.plot_position_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_position_1d</span></code></a>(position[, events, colors, ...])</p></td>
+<td><p>Position 1d position data, with annotated events.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spatial.plot_position_by_time.html#spiketools.plts.spatial.plot_position_by_time" title="spiketools.plts.spatial.plot_position_by_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_position_by_time</span></code></a>(timestamps, position)</p></td>
 <td><p>Plot the position across time for a single dimension.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spatial.plot_heatmap.html#spiketools.plts.spatial.plot_heatmap" title="spiketools.plts.spatial.plot_heatmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_heatmap</span></code></a>(data[, smooth, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.spatial.plot_heatmap.html#spiketools.plts.spatial.plot_heatmap" title="spiketools.plts.spatial.plot_heatmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_heatmap</span></code></a>(data[, smooth, ...])</p></td>
 <td><p>Plot a spatial heat map.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.spatial.plot_trial_heatmaps.html#spiketools.plts.spatial.plot_trial_heatmaps" title="spiketools.plts.spatial.plot_trial_heatmaps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trial_heatmaps</span></code></a>(trial_data, **plt_kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spatial.plot_trial_heatmaps.html#spiketools.plts.spatial.plot_trial_heatmaps" title="spiketools.plts.spatial.plot_trial_heatmaps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trial_heatmaps</span></code></a>(trial_data, **plt_kwargs)</p></td>
 <td><p>Plot spatial heat maps for a set of trials.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.spatial.create_heat_title.html#spiketools.plts.spatial.create_heat_title" title="spiketools.plts.spatial.create_heat_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_heat_title</span></code></a>(label, data[, stat, p_val])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.spatial.create_heat_title.html#spiketools.plts.spatial.create_heat_title" title="spiketools.plts.spatial.create_heat_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_heat_title</span></code></a>(label, data[, stat, p_val])</p></td>
 <td><p>Create a standardized title for an heatmap, listing the data range.</p></td>
 </tr>
 </tbody>
@@ -671,25 +674,28 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_hlines.html#spiketools.plts.annotate.add_hlines" title="spiketools.plts.annotate.add_hlines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_hlines</span></code></a>(hline[, ax])</p></td>
 <td><p>Add horizontal line(s) to a plot axis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_vshades.html#spiketools.plts.annotate.add_vshades" title="spiketools.plts.annotate.add_vshades"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_vshades</span></code></a>(vshades[, ax])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_gridlines.html#spiketools.plts.annotate.add_gridlines" title="spiketools.plts.annotate.add_gridlines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_gridlines</span></code></a>(x_bins, y_bins[, ax])</p></td>
+<td><p>Add gridlines to a plot axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_vshades.html#spiketools.plts.annotate.add_vshades" title="spiketools.plts.annotate.add_vshades"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_vshades</span></code></a>(vshades[, ax])</p></td>
 <td><p>Add vertical shade region(s) to a plot axis.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_hshades.html#spiketools.plts.annotate.add_hshades" title="spiketools.plts.annotate.add_hshades"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_hshades</span></code></a>(hshades[, ax])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_hshades.html#spiketools.plts.annotate.add_hshades" title="spiketools.plts.annotate.add_hshades"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_hshades</span></code></a>(hshades[, ax])</p></td>
 <td><p>Add horizontal shade region(s) to a plot axis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_box_shade.html#spiketools.plts.annotate.add_box_shade" title="spiketools.plts.annotate.add_box_shade"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_box_shade</span></code></a>(x1, x2, y_val[, y_range, ax])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_box_shade.html#spiketools.plts.annotate.add_box_shade" title="spiketools.plts.annotate.add_box_shade"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_box_shade</span></code></a>(x1, x2, y_val[, y_range, ax])</p></td>
 <td><p>Add a shaded box to a plot axis.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_box_shades.html#spiketools.plts.annotate.add_box_shades" title="spiketools.plts.annotate.add_box_shades"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_box_shades</span></code></a>(x_values[, y_values, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_box_shades.html#spiketools.plts.annotate.add_box_shades" title="spiketools.plts.annotate.add_box_shades"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_box_shades</span></code></a>(x_values[, y_values, ...])</p></td>
 <td><p>Add multiple shaded boxes to a plot axis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_dots.html#spiketools.plts.annotate.add_dots" title="spiketools.plts.annotate.add_dots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_dots</span></code></a>(dots[, ax])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_dots.html#spiketools.plts.annotate.add_dots" title="spiketools.plts.annotate.add_dots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_dots</span></code></a>(dots[, ax])</p></td>
 <td><p>Add dots to a plot axis.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_significance.html#spiketools.plts.annotate.add_significance" title="spiketools.plts.annotate.add_significance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_significance</span></code></a>(stats[, sig_level, x_vals, ax])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_significance.html#spiketools.plts.annotate.add_significance" title="spiketools.plts.annotate.add_significance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_significance</span></code></a>(stats[, sig_level, x_vals, ax])</p></td>
 <td><p>Add markers to a plot axis to indicate statistical significance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_text_labels.html#spiketools.plts.annotate.add_text_labels" title="spiketools.plts.annotate.add_text_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_text_labels</span></code></a>(texts[, location, axis, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.plts.annotate.add_text_labels.html#spiketools.plts.annotate.add_text_labels" title="spiketools.plts.annotate.add_text_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_text_labels</span></code></a>(texts[, location, axis, ...])</p></td>
 <td><p>Add text to the side of a plot.</p></td>
 </tr>
 </tbody>
@@ -758,6 +764,12 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.utils.base.add_key_prefix.html#spiketools.utils.base.add_key_prefix" title="spiketools.utils.base.add_key_prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_key_prefix</span></code></a>(indict, prefix)</p></td>
 <td><p>Update keys of a dictionary by appending a prefix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.utils.base.relabel_keys.html#spiketools.utils.base.relabel_keys" title="spiketools.utils.base.relabel_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">relabel_keys</span></code></a>(indict, new_keys)</p></td>
+<td><p>Relabel keys in a dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.utils.base.listify.html#spiketools.utils.base.listify" title="spiketools.utils.base.listify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">listify</span></code></a>(param[, index])</p></td>
+<td><p>Check and embed a parameter into a list, if is not already in a list.</p></td>
 </tr>
 </tbody>
 </table>

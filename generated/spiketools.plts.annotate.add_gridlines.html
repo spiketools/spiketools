@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.utils.base.combine_dicts &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.plts.annotate.add_gridlines &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -95,36 +95,24 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-utils-base-combine-dicts">
-<h1>spiketools.utils.base.combine_dicts<a class="headerlink" href="#spiketools-utils-base-combine-dicts" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-plts-annotate-add-gridlines">
+<h1>spiketools.plts.annotate.add_gridlines<a class="headerlink" href="#spiketools-plts-annotate-add-gridlines" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.utils.base.combine_dicts">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.base.</span></span><span class="sig-name descname"><span class="pre">combine_dicts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dicts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/base.html#combine_dicts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.base.combine_dicts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Combine a list of dictionaries together.</p>
+<dt class="sig sig-object py" id="spiketools.plts.annotate.add_gridlines">
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.annotate.</span></span><span class="sig-name descname"><span class="pre">add_gridlines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/annotate.html#add_gridlines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.annotate.add_gridlines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add gridlines to a plot axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>dicts</strong><span class="classifier">list of dict</span></dt><dd><p>Dictionaries to combine.</p>
+<dt><strong>x_bins, y_bins</strong><span class="classifier">list of float, optional</span></dt><dd><p>Bin edges for each axis.
+If provided, these are used to draw grid lines on the plot.</p>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>dict</dt><dd><p>Combined dictionary.</p>
+<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object to update.
+If not provided, takes the current axis.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>If multiple dictionaries have the same keys, the value of the last dictionary is kept.</p>
-<p class="rubric">Examples</p>
-<p>Combine two dictionaries:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dict1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dict2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">combine_dicts</span><span class="p">([</span><span class="n">dict1</span><span class="p">,</span> <span class="n">dict2</span><span class="p">])</span>
-<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3, &#39;d&#39;: 4}</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>

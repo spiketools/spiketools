@@ -98,7 +98,7 @@
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="#sphx-glr-download-auto-tutorials-plot-measures-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code</p>
+to download the full example code or to run this example in your browser via Binder</p>
 </div>
 <section class="sphx-glr-example-title" id="measures-conversions">
 <span id="sphx-glr-auto-tutorials-plot-measures-py"></span><h1>Measures &amp; Conversions<a class="headerlink" href="#measures-conversions" title="Permalink to this heading">¶</a></h1>
@@ -150,7 +150,7 @@ which spikes occur. By convention, spiketools encodes all spike times in seconds
 <span class="nb">print</span><span class="p">(</span><span class="n">spike_times</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.02962057 0.07329638 0.07659513 0.09959098 0.1393661 ]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.09114472 0.11541197 0.14609421 0.15169461 0.20240892]
 </pre></div>
 </div>
 <p>Now we can convert our simulated spike times to a binary spike train.</p>
@@ -213,7 +213,7 @@ from a vector of spike times.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The spike rate is </span><span class="si">{:1.3f}</span><span class="s1"> Hz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">spike_rate</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The spike rate is 24.901 Hz
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The spike rate is 26.861 Hz
 </pre></div>
 </div>
 <p>To compute the inter-spike intervals, which measures the time intervals between
@@ -233,7 +233,7 @@ successive spikes, we can use the <a class="reference internal" href="../generat
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Coefficient of variation: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cv</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Coefficient of variation: 1.066
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Coefficient of variation: 0.940
 </pre></div>
 </div>
 <p>Finally, we can compute the fano factor, which is another measure of the variability
@@ -244,7 +244,7 @@ of spiking activity, computed from the spike train.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fano factor: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fano</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Fano factor: 0.975
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Fano factor: 0.974
 </pre></div>
 </div>
 </section>
@@ -324,8 +324,8 @@ using the <a class="reference internal" href="../generated/spiketools.measures.t
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average FR post-event: </span><span class="si">{:1.3f}</span><span class="s1"> Hz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pre_post_avg</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 4.400 Hz
-Average FR post-event: 10.450 Hz
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 4.600 Hz
+Average FR post-event: 10.250 Hz
 </pre></div>
 </div>
 <p>We can also compute the difference between the firing rates before and after the event,
@@ -337,11 +337,14 @@ with the <a class="reference internal" href="../generated/spiketools.measures.tr
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Difference between pre- and post-event FR: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pre_post_diffs</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Difference between pre- and post-event FR: 6.050
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Difference between pre- and post-event FR: 5.650
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.378 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.390 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-measures-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/spiketools/spiketools/gh-pages?filepath=notebooks/auto_tutorials/plot_measures.ipynb"><img alt="Launch binder" src="../_images/binder_badge_logo.svg" width="150px" /></a>
+</div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/08fc5a17b25fcdf8b4d116abdcaf62a4/plot_measures.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_measures.py</span></code></a></p>
 </div>
