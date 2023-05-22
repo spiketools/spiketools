@@ -100,6 +100,12 @@ To install the latest stable release, you can use pip:
 
     $ pip install spiketools
 
+Optionally, to include dependencies required for the `stats` module:
+
+.. code-block:: shell
+
+    $ pip install spiketools[stats]
+
 **Development Version**
 
 To get the current development version, first clone this repository:

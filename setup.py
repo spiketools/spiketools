@@ -21,6 +21,9 @@ setup(
     description = 'Module for analyzing spiking data.',
     long_description = long_description,
     python_requires = '>=3.6',
+    extras_require={
+        "stats": ["statsmodels"],
+    },
     maintainer = 'Thomas Donoghue',
     maintainer_email = 'tdonoghue.research@gmail.com',
     url = 'https://github.com/spiketools/spiketools',
