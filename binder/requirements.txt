@@ -1,4 +1,3 @@
-numpy
-pandas
-scipy
-matplotlib
+-r ../requirements.txt
+-r ../optional-requirements.txt
+spiketools
