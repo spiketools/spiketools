@@ -235,10 +235,6 @@
 <span class="sd">    dict</span>
 <span class="sd">        Combined dictionary.</span>
 
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    If multiple dictionaries have the same keys, the value of the last dictionary is kept.</span>
-
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    Combine two dictionaries:</span>
@@ -283,51 +279,6 @@
     <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">indict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">out</span><span class="p">[</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-
-    <span class="k">return</span> <span class="n">out</span></div>
-
-
-<div class="viewcode-block" id="relabel_keys"><a class="viewcode-back" href="../../../generated/spiketools.utils.base.relabel_keys.html#spiketools.utils.base.relabel_keys">[docs]</a><span class="k">def</span> <span class="nf">relabel_keys</span><span class="p">(</span><span class="n">indict</span><span class="p">,</span> <span class="n">new_keys</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Relabel keys in a dictionary.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    indict : dict</span>
-<span class="sd">        Dictionary with key names to be updated.</span>
-<span class="sd">    new_keys : dict</span>
-<span class="sd">        Dictionary defining new key names.</span>
-<span class="sd">        Each key should be the current name, and each value the name to update to.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    outdict : dict</span>
-<span class="sd">        Dictionary with updated key names.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">outdict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">indict</span><span class="p">:</span>
-        <span class="n">outdict</span><span class="p">[</span><span class="n">new_keys</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">indict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-
-    <span class="k">return</span> <span class="n">outdict</span></div>
-
-
-<div class="viewcode-block" id="listify"><a class="viewcode-back" href="../../../generated/spiketools.utils.base.listify.html#spiketools.utils.base.listify">[docs]</a><span class="k">def</span> <span class="nf">listify</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check and embed a parameter into a list, if is not already in a list.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    param : object</span>
-<span class="sd">        Parameter to check and embed in a list, if it is not already.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    list</span>
-<span class="sd">        Param embedded in a list.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">check</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">param</span>
-
-    <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">param</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
 </pre></div>

@@ -101,7 +101,6 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.utils.base</span> <span class="kn">import</span> <span class="n">listify</span>
 <span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_options</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span>
 
@@ -147,7 +146,8 @@
     <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">return_current</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">vline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">listify</span><span class="p">(</span><span class="n">vline</span><span class="p">):</span>
+        <span class="n">vline</span> <span class="o">=</span> <span class="p">[</span><span class="n">vline</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vline</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="n">vline</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">vline</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">)</span></div>
 
 
@@ -167,39 +167,9 @@
     <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">return_current</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">hline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">listify</span><span class="p">(</span><span class="n">hline</span><span class="p">):</span>
+        <span class="n">hline</span> <span class="o">=</span> <span class="p">[</span><span class="n">hline</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hline</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="n">hline</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">hline</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="add_gridlines"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_gridlines.html#spiketools.plts.annotate.add_gridlines">[docs]</a><span class="k">def</span> <span class="nf">add_gridlines</span><span class="p">(</span><span class="n">x_bins</span><span class="p">,</span> <span class="n">y_bins</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add gridlines to a plot axis.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x_bins, y_bins : list of float, optional</span>
-<span class="sd">        Bin edges for each axis.</span>
-<span class="sd">        If provided, these are used to draw grid lines on the plot.</span>
-<span class="sd">    ax : Axes, optional</span>
-<span class="sd">        Axis object to update.</span>
-<span class="sd">        If not provided, takes the current axis.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">return_current</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x_bins</span> <span class="k">if</span> <span class="n">x_bins</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[],</span> <span class="n">minor</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">y_bins</span> <span class="k">if</span> <span class="n">y_bins</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[],</span> <span class="n">minor</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-    <span class="c1"># Although this looks like it doubles the above code, what actually happens</span>
-    <span class="c1">#   is that the above sets the ticks, and the below removes them from being displayed</span>
-    <span class="c1">#   but they are still there, meaning grid lines get added when the grid call added</span>
-    <span class="c1"># Note: it&#39;s tricky to have different grid lines and axis labels</span>
-    <span class="c1">#   To refactor to do this, could use axvline / axhline to add custom lines</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticklabels</span><span class="o">=</span><span class="p">[],</span> <span class="n">yticklabels</span><span class="o">=</span><span class="p">[])</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">x_bins</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y_bins</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="o">**</span><span class="n">plt_kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="add_vshades"><a class="viewcode-back" href="../../../generated/spiketools.plts.annotate.add_vshades.html#spiketools.plts.annotate.add_vshades">[docs]</a><span class="k">def</span> <span class="nf">add_vshades</span><span class="p">(</span><span class="n">vshades</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
@@ -218,7 +188,8 @@
     <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">return_current</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">vshades</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">vshade</span> <span class="ow">in</span> <span class="n">listify</span><span class="p">(</span><span class="n">vshades</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">vshades</span> <span class="o">=</span> <span class="p">[</span><span class="n">vshades</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vshades</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="n">vshades</span>
+        <span class="k">for</span> <span class="n">vshade</span> <span class="ow">in</span> <span class="n">vshades</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="o">*</span><span class="n">vshade</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">)</span></div>
 
 
@@ -238,7 +209,8 @@
     <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">return_current</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">hshades</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">hshade</span> <span class="ow">in</span> <span class="n">listify</span><span class="p">(</span><span class="n">hshades</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">hshades</span> <span class="o">=</span> <span class="p">[</span><span class="n">hshades</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hshades</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="n">hshades</span>
+        <span class="k">for</span> <span class="n">hshade</span> <span class="ow">in</span> <span class="n">hshades</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">axhspan</span><span class="p">(</span><span class="o">*</span><span class="n">hshade</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">)</span></div>
 
 

@@ -99,7 +99,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_axis</span><span class="p">,</span> <span class="n">check_param_type</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_axis</span>
 <span class="kn">from</span> <span class="nn">spiketools.utils.options</span> <span class="kn">import</span> <span class="n">get_comp_func</span>
 
 <span class="c1">###################################################################################################</span>
@@ -258,11 +258,7 @@
 <span class="sd">    4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">check_param_type</span><span class="p">(</span><span class="n">timepoint</span><span class="p">,</span> <span class="s1">&#39;timepoint&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
-    <span class="k">assert</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">timepoint</span><span class="p">),</span> <span class="s2">&quot;The given `timepoint` is nan - cannot continue.&quot;</span>
-
     <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">timestamps</span> <span class="o">-</span> <span class="n">timepoint</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
-
     <span class="k">if</span> <span class="n">threshold</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">timestamps</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">-</span> <span class="n">timepoint</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
             <span class="n">ind</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
