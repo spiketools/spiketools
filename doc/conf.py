@@ -133,7 +133,7 @@ sphinx_gallery_conf = {
         # Required keys
         'org': 'spiketools',
         'repo': 'spiketools',
-        'branch': 'v{}'.format(__version__), # Can be any branch, tag, or commit hash. Use a branch that hosts your docs.
+        'branch': 'gh-pages', # Can be any branch, tag, or commit hash. Use a branch that hosts your docs.
         'binderhub_url': 'https://mybinder.org', # Any URL of a binderhub deployment. Must be full URL (e.g. https://mybinder.org).
         'dependencies': ['../requirements.txt', '../optional-requirements.txt'],
         # Optional keys
