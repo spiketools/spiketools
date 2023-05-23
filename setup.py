@@ -1,4 +1,4 @@
-"""SpikeTools setup script."""
+"""spiketools setup script."""
 
 import os
 from setuptools import setup, find_packages
@@ -21,16 +21,13 @@ setup(
     description = 'Module for analyzing spiking data.',
     long_description = long_description,
     python_requires = '>=3.6',
-    extras_require={
-        "stats": ["statsmodels"],
-    },
     maintainer = 'Thomas Donoghue',
     maintainer_email = 'tdonoghue.research@gmail.com',
     url = 'https://github.com/spiketools/spiketools',
     packages = find_packages(),
     license = 'Apache License, 2.0',
     classifiers = [
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering',
         'License :: OSI Approved :: Apache Software License',
@@ -55,5 +52,8 @@ setup(
     download_url = 'https://github.com/spiketools/spiketools/releases',
     keywords = ['neuroscience', 'single units', 'spike analyses', 'electrophysiology'],
     install_requires = install_requires,
+    extras_require = {
+        "stats" : ["statsmodels"],
+    },
     tests_require = ['pytest'],
 )
