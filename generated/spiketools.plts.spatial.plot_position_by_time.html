@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>spiketools.plts.spatial.plot_position_by_time &#8212; spiketools 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -99,7 +99,7 @@
 <h1>spiketools.plts.spatial.plot_position_by_time<a class="headerlink" href="#spiketools-plts-spatial-plot-position-by-time" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.plts.spatial.plot_position_by_time">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spatial.</span></span><span class="sig-name descname"><span class="pre">plot_position_by_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spikes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spatial.html#plot_position_by_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spatial.plot_position_by_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.spatial.</span></span><span class="sig-name descname"><span class="pre">plot_position_by_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spikes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/spatial.html#plot_position_by_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.spatial.plot_position_by_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the position across time for a single dimension.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -111,6 +111,20 @@
 <dt><strong>spikes</strong><span class="classifier">1d array, optional</span></dt><dd><p>Spike times, in seconds.</p>
 </dd>
 <dt><strong>spike_positions</strong><span class="classifier">1d array, optional</span></dt><dd><p>Position values of spikes, to indicate on the plot.</p>
+</dd>
+<dt><strong>event_times</strong><span class="classifier">1d array, optional</span></dt><dd><p>Time values of event markers to add to the plot.
+If provided, <cite>event_positions</cite> must also be provided.</p>
+</dd>
+<dt><strong>event_positions</strong><span class="classifier">1d array, optional</span></dt><dd><p>Position values of event markers to add to the plot
+If provided, <cite>event_times</cite> must also be provided.</p>
+</dd>
+<dt><strong>event_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments for styling the events to be added to the plot.</p>
+</dd>
+<dt><strong>time_bins</strong><span class="classifier">list of float, optional</span></dt><dd><p>Bin edges for the time axis.
+If provided, these are used to draw vertical grid lines on the plot.</p>
+</dd>
+<dt><strong>position_bins</strong><span class="classifier">list of float, optional</span></dt><dd><p>Bin edges for the position axis.
+If provided, these are used to draw horizontal grid lines on the plot.</p>
 </dd>
 <dt><strong>invert</strong><span class="classifier">{‘x’, ‘y’, ‘both’}, optional</span></dt><dd><p>If provided, inverts the plot axes over x, y or both axes.
 Note that invert x is equivalent to flipping the data left/right, and y to flipping up/down.</p>
