@@ -116,6 +116,17 @@ html_copy_source = False
 html_show_sourcelink = False
 
 
+## Create a requirements that covers everything needed for binder
+
+requirements = []
+for file in ['../requirements.txt', '../optional-requirements.txt']:
+    with open(file) as file_obj:
+        requirements.extend(file_obj.readlines())
+requirements.append('spiketools')
+with open('requirements.txt', 'w') as out_file:
+    out_file.writelines(requirements)
+
+
 # -- Extension configuration -------------------------------------------------
 
 # Configurations for sphinx gallery
@@ -135,7 +146,7 @@ sphinx_gallery_conf = {
         'repo': 'spiketools',
         'branch': 'gh-pages', # Can be any branch, tag, or commit hash. Use a branch that hosts your docs.
         'binderhub_url': 'https://mybinder.org', # Any URL of a binderhub deployment. Must be full URL (e.g. https://mybinder.org).
-        'dependencies': ['../requirements.txt', '../optional-requirements.txt'],
+        'dependencies': ['requirements.txt'],
         # Optional keys
         # 'filepath_prefix': '<prefix>' # A prefix to prepend to any filepaths in Binder links.
         # 'notebooks_dir': '<notebooks-directory-name>' # Jupyter notebooks for Binder will be copied to this directory (relative to built documentation root).

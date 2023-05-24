@@ -15,6 +15,7 @@ doc/_build/
 doc/auto_examples/
 doc/auto_tutorials/
 doc/generated/
+doc/requirements.txt
 
 # Ignore module build files
 dist/*
