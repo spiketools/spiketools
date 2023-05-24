@@ -99,7 +99,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_lengths</span><span class="p">,</span> <span class="n">check_axis</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_param_lengths</span><span class="p">,</span> <span class="n">check_param_type</span><span class="p">,</span> <span class="n">check_axis</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -123,6 +123,7 @@
 <span class="sd">        Each key is a condition label with values as the data for that condition.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">check_param_type</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="s1">&#39;trials&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">split_trials_by_condition_list</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">conditions</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
