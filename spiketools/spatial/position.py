@@ -136,6 +136,32 @@ def compute_distances_to_location(position, location):
     return dists
 
 
+def get_closest_position(position, location, threshold=None):
+    """Get the index of the closest position value to a specified location.
+
+    Parameters
+    ----------
+    position : 1d or 2d array
+        Position values.
+    location : list of float
+        The position values of the two positions to calculate distance between.
+        Can be 1d (a single value per position) or 2d (x and y values per position).
+    threshold : float, optional
+        The threshold that the closest value must be within to be returned.
+        If the distance is greater than the threshold, output is -1.
+    """
+
+    dists = compute_distances_to_location(position, location)
+
+    min_ind = np.argmin(dists)
+
+    if threshold:
+        if dists[min_ind] > threshold:
+            min_ind = -1
+
+    return min_ind
+
+
 def compute_speed(position, bin_times):
     """Compute speeds across a sequence of positions.
 
