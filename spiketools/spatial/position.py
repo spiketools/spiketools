@@ -14,7 +14,7 @@ def compute_distance(p1, p2):
     ----------
     p1, p2 : list of float
         The position values of the two positions to calculate distance between.
-        If 1d,
+        Can be 1d (a single value per position) or 2d (x and y values per position).
 
     Returns
     -------
@@ -108,6 +108,32 @@ def compute_cumulative_distances(position):
     """
 
     return np.cumsum(compute_distances(position))
+
+
+def compute_distances_to_location(position, location):
+    """Compute distances between a sequence of positions and a specified location.
+
+    Parameters
+    ----------
+    position : 1d or 2d array
+        Position values.
+    location : list of float
+        The position values of the two positions to calculate distance between.
+        Can be 1d (a single value per position) or 2d (x and y values per position).
+
+    Returns
+    -------
+    dists : 1d array
+        Computed distances between each position in the sequence, and the specified location.
+    """
+
+    position = position.T if check_array_orientation(position) == 'row' else position
+
+    dists = np.zeros(len(position))
+    for ix, pos in enumerate(position):
+        dists[ix] = compute_distance(pos, location)
+
+    return dists
 
 
 def compute_speed(position, bin_times):

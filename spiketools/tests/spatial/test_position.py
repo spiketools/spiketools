@@ -67,6 +67,26 @@ def test_compute_cumulative_distances():
     assert len(out2d) == pos2d.shape[-1] - 1
     assert np.allclose(out2d, np.array([0, 1, 1 + 1, 1 + 1 + np.sqrt(2)]))
 
+def test_compute_distances_to_location():
+
+    # 1d
+    pos1d = np.array([0, 0, 1, 1, 2])
+    point1d = 1
+
+    out1d = compute_distances_to_location(pos1d, point1d)
+    assert isinstance(out1d, np.ndarray)
+    assert len(out1d) == pos1d.shape[-1]
+    assert np.allclose(out1d, np.array([1, 1, 0, 0, 1]))
+
+    # 2d
+    pos2d = np.array([[0, 0, 1, 1, 2],
+                      [0, 0, 0, 1, 2]])
+    point2d = [1, 0]
+    out2d = compute_distances_to_location(pos2d, point2d)
+    assert isinstance(out2d, np.ndarray)
+    assert len(out2d) == pos2d.shape[-1]
+    assert np.allclose(out2d, np.array([1, 1, 0, 1, np.sqrt(5)]))
+
 def test_compute_speed():
 
     widths1 = np.array([1, 1, 1, 1])
