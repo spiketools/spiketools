@@ -102,18 +102,30 @@ Spatial
 
 Functionality for processing spatial data, available in the `spatial` sub-module.
 
-Position
+Distance
 ~~~~~~~~
 
-Measures and methods related to positions.
+Measures and methods related to distances.
 
-.. currentmodule:: spiketools.spatial.position
+.. currentmodule:: spiketools.spatial.distance
 .. autosummary::
    :toctree: generated/
 
    compute_distance
    compute_distances
    compute_cumulative_distances
+   compute_distances_to_location
+   get_closest_position
+
+Speed
+~~~~~
+
+Measures and methods related to speed.
+
+.. currentmodule:: spiketools.spatial.speed
+.. autosummary::
+   :toctree: generated/
+
    compute_speed
 
 Occupancy
