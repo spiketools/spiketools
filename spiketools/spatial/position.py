@@ -2,18 +2,19 @@
 
 import numpy as np
 
+from spiketools.utils.checks import check_array_orientation
+
 ###################################################################################################
 ###################################################################################################
 
-def compute_distance(x1, y1, x2, y2):
+def compute_distance(p1, p2):
     """Compute the distance between two positions.
 
     Parameters
     ----------
-    x1, y1 : float
-        The X & Y values for the first position.
-    x2, y2 : float
-        The X & Y values for the second position.
+    p1, p2 : list of float
+        The position values of the two positions to calculate distance between.
+        If 1d,
 
     Returns
     -------
@@ -22,24 +23,30 @@ def compute_distance(x1, y1, x2, y2):
 
     Examples
     --------
-    Compute distance between the two points (x1, y1) and (x2, y2):
+    Compute distance between two 1d positions:
 
-    >>> x1, x2 = 1, 5
-    >>> y1, y2 = 6, 9
-    >>> compute_distance(x1, y1, x2, y2)
+    >>> p1, p2 = [2], [5]
+    >>> compute_distance(p1, p2)
+    3.0
+
+    Compute distance between the two 2d positions:
+
+    >>> p1 = [1, 6]
+    >>> p2 = [5, 9]
+    >>> compute_distance(p1, p2)
     5.0
     """
 
-    return np.linalg.norm(np.array([x1, y1]) - np.array([x2, y2]))
+    return np.linalg.norm(np.array(p1) - np.array(p2))
 
 
-def compute_distances(xs, ys):
+def compute_distances(position):
     """Compute distances across a sequence of positions.
 
     Parameters
     ----------
-    xs, ys : 1d array
-        Position data, of X and Y locations.
+    position : 1d or 2d array
+        Position values.
 
     Returns
     -------
@@ -48,27 +55,36 @@ def compute_distances(xs, ys):
 
     Examples
     --------
-    Compute distances between vectors of x- and y-positions:
+    Compute distances across a sequence of 1d positions:
 
-    >>> xs, ys = np.array([1, 2, 3, 4, 5]), np.array([6, 7, 8, 9, 10])
-    >>> compute_distances(xs, ys)
-    array([1.41421356, 1.41421356, 1.41421356, 1.41421356])
+    >>> position = np.array([1., 2., 4., 5.])
+    >>> compute_distances(position)
+    array([1., 2., 1.])
+
+    Compute distances across a sequence of 2d positions:
+
+    >>> position = np.array([[1, 2, 2, 3],
+    ...                      [1, 1, 2, 3]])
+    >>> compute_distances(position)
+    array([1.        , 1.        , 1.41421356])
     """
 
-    dists = np.zeros(len(xs) - 1)
-    for ix, (xi, yi, xj, yj) in enumerate(zip(xs, ys, xs[1:], ys[1:])):
-        dists[ix] = compute_distance(xi, yi, xj, yj)
+    position = position.T if check_array_orientation(position) == 'row' else position
+
+    dists = np.zeros(len(position) - 1)
+    for ix, (p1, p2) in enumerate(zip(position, position[1:])):
+        dists[ix] = compute_distance(p1, p2)
 
     return dists
 
 
-def compute_cumulative_distances(xs, ys):
+def compute_cumulative_distances(position):
     """Compute cumulative distance across a sequence of positions.
 
     Parameters
     ----------
-    xs, ys : 1d array
-        Position data, of X and Y locations.
+    position : 1d or 2d array
+        Position values.
 
     Returns
     -------
@@ -77,25 +93,32 @@ def compute_cumulative_distances(xs, ys):
 
     Examples
     --------
-    Compute cumulative distances between vectors of x- and y-positions:
+    Compute cumulative distances across a sequence of 1d positions:
 
-    >>> xs, ys = np.array([1, 2, 3, 4, 5]), np.array([6, 7, 8, 9, 10])
-    >>> compute_cumulative_distances(xs, ys)
-    array([1.41421356, 2.82842712, 4.24264069, 5.65685425])
+    >>> position = np.array([1., 2., 4., 5.])
+    >>> compute_cumulative_distances(position)
+    array([1., 3., 4.])
+
+    Compute cumulative distances across a sequence of 2d positions:
+
+    >>> position = np.array([[1, 2, 2, 3],
+    ...                      [1, 1, 2, 3]])
+    >>> compute_cumulative_distances(position)
+    array([1.        , 2.        , 3.41421356])
     """
 
-    return np.cumsum(compute_distances(xs, ys))
+    return np.cumsum(compute_distances(position))
 
 
-def compute_speed(xs, ys, bin_widths):
+def compute_speed(position, bin_times):
     """Compute speeds across a sequence of positions.
 
     Parameters
     ----------
-    xs, ys : 1d array
-        Position data, of X and Y locations.
-    bin_widths : 1d array
-        Width of each position bin.
+    position : 1d or 2d array
+        Position values.
+    bin_times : 1d array
+        Times spent traversing each position bin.
 
     Returns
     -------
@@ -104,15 +127,23 @@ def compute_speed(xs, ys, bin_widths):
 
     Examples
     --------
-    Compute speed across vectors of x- and y-positions:
+    Compute speed across a sequence of 1d positions:
 
-    >>> xs, ys = np.array([1, 2, 3, 4, 5]), np.array([6, 7, 8, 9, 10])
-    >>> bin_width = np.array([1, 1, 0.5, 1])
-    >>> compute_speed(xs, ys, bin_width)
-    array([1.41421356, 1.41421356, 2.82842712, 1.41421356])
+    >>> position = np.array([1., 2., 4., 5.])
+    >>> bin_times = np.array([1, 1, 0.5])
+    >>> compute_speed(position, bin_times)
+    array([1., 2., 2.])
+
+    Compute speed across a sequence of 2d positions:
+
+    >>> position = np.array([[1, 2, 2, 3],
+    ...                      [1, 1, 2, 3]])
+    >>> bin_times = np.array([1, 0.5, 1])
+    >>> compute_speed(position, bin_times)
+    array([1.        , 2.        , 1.41421356])
     """
 
-    distances = compute_distances(xs, ys)
-    speed = distances / bin_widths
+    distances = compute_distances(position)
+    speed = distances / bin_times
 
     return speed
