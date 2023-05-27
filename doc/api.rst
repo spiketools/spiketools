@@ -190,7 +190,6 @@ Utilities related to spatial data.
    :toctree: generated/
 
    compute_nbins
-   compute_sample_durations
    compute_bin_width
    compute_pos_ranges
    convert_2dindices
@@ -361,6 +360,7 @@ Plots for visualizing task structure.
    :toctree: generated/
 
    plot_task_structure
+   plot_task_events
 
 Trials
 ~~~~~~
@@ -521,6 +521,7 @@ Utilities for working with timestamps.
 .. autosummary::
    :toctree: generated/
 
+   compute_sample_durations
    infer_time_unit
    convert_ms_to_sec
    convert_sec_to_min

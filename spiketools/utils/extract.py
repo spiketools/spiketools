@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from spiketools.utils.checks import check_axis
+from spiketools.utils.checks import check_axis, check_param_type
 from spiketools.utils.options import get_comp_func
 
 ###################################################################################################
@@ -160,6 +160,9 @@ def get_ind_by_value(values, value, threshold=None):
     >>> get_ind_by_value(values, 12)
     1
     """
+
+    check_param_type(value, 'value', (int, float, np.int64, np.float64))
+    assert not np.isnan(value), "The given `value` is nan - cannot continue."
 
     ind = np.abs(values - value).argmin()
 

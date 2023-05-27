@@ -104,6 +104,10 @@ def test_get_inds_by_values():
     inds = get_inds_by_values(values, extract, threshold=0.25, drop_null=False)
     np.array_equal(inds, np.array([3]), equal_nan=True)
 
+    # test for error with nan input
+    with raises(AssertionError):
+        ind = get_ind_by_time(values, np.nan)
+
 def test_get_inds_by_times():
 
     times = np.array([1, 2, 3, 4, 5])

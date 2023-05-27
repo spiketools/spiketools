@@ -54,18 +54,23 @@ def test_compute_cumulative_distances():
 
     # 1d
     pos1d = np.array([0, 0, 1, 1, 2])
-    out1d = compute_cumulative_distances(pos1d)
+    out1d = compute_cumulative_distances(pos1d, align_output=False)
     assert isinstance(out1d, np.ndarray)
     assert len(out1d) == pos1d.shape[-1] - 1
     assert np.allclose(out1d, np.array([0, 1, 1, 2]))
+    # Test with alignment
+    assert np.allclose(compute_cumulative_distances(pos1d), np.array([0, 0, 1, 1, 2]))
 
     # 2d
     pos2d = np.array([[0, 0, 1, 1, 2],
                       [0, 0, 0, 1, 2]])
-    out2d = compute_cumulative_distances(pos2d)
+    out2d = compute_cumulative_distances(pos2d, align_output=False)
     assert isinstance(out2d, np.ndarray)
     assert len(out2d) == pos2d.shape[-1] - 1
     assert np.allclose(out2d, np.array([0, 1, 1 + 1, 1 + 1 + np.sqrt(2)]))
+    # Test with alignment
+    assert np.allclose(compute_cumulative_distances(pos2d),
+                       np.array([0, 0, 1, 1 + 1, 1 + 1 + np.sqrt(2)]))
 
 def test_compute_distances_to_location():
 

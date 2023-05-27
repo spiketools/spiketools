@@ -1,6 +1,9 @@
 """Checker functions for spatial related functionality."""
 
+import numpy as np
+
 from spiketools.utils.base import listify
+from spiketools.utils.checks import check_param_type
 
 ###################################################################################################
 ###################################################################################################
@@ -22,7 +25,7 @@ def check_position(position):
     assert position.ndim in (1, 2), 'Position input should be 1d or 2d.'
 
 
-def check_spatial_bins(bins, position=None):
+def check_bin_definition(bins, position=None):
     """Check a bin definition for binning spatial data.
 
     Parameters
@@ -48,7 +51,7 @@ def check_spatial_bins(bins, position=None):
     bins = listify(bins)
 
     for binval in bins:
-        assert isinstance(binval, int), 'Bin definition values should be integers.'
+        check_param_type(binval, 'bins', int)
 
     assert len(bins) <= 2, 'Bin definition has too many values (>2).'
 
@@ -58,3 +61,21 @@ def check_spatial_bins(bins, position=None):
             'There is a mismatch between position data and bin definition.'
 
     return bins
+
+
+def check_bin_widths(bin_widths):
+    """Check computed bin widths for a set of spatial bins.
+
+    Parameters
+    ----------
+    bin_widths : 1d array
+        Widths of the bins.
+
+    Raises
+    ------
+    AssertionError
+        Raised if there are any issues with the given bin widths.
+    """
+
+    # Check that all bin widths are the same, representing equidistant bins
+    assert np.all(np.isclose(bin_widths, bin_widths[0])), 'Bin edges should be equidistant.'

@@ -3,19 +3,23 @@
 import numpy as np
 
 from spiketools.spatial.distance import compute_distances
+from spiketools.utils.timestamps import compute_sample_durations
 
 ###################################################################################################
 ###################################################################################################
 
-def compute_speed(position, bin_times):
+def compute_speed(position, timestamps, align_output=True):
     """Compute speeds across a sequence of positions.
 
     Parameters
     ----------
     position : 1d or 2d array
         Position values.
-    bin_times : 1d array
-        Times spent traversing each position bin.
+    timestamps : 1d array
+        Timestamps, in seconds, corresponding to the position values.
+    align_output : bool, optional, default: True
+        If True, aligns the output with the sampling of the input, to match length.
+        To do so, value of 0 is prepended to the output array.
 
     Returns
     -------
@@ -27,20 +31,25 @@ def compute_speed(position, bin_times):
     Compute speed across a sequence of 1d positions:
 
     >>> position = np.array([1., 2., 4., 5.])
-    >>> bin_times = np.array([1, 1, 0.5])
-    >>> compute_speed(position, bin_times)
-    array([1., 2., 2.])
+    >>> timestamps = np.array([0, 1, 2, 2.5])
+    >>> compute_speed(position, timestamps)
+    array([0., 1., 2., 2.])
 
     Compute speed across a sequence of 2d positions:
 
     >>> position = np.array([[1, 2, 2, 3],
     ...                      [1, 1, 2, 3]])
-    >>> bin_times = np.array([1, 0.5, 1])
-    >>> compute_speed(position, bin_times)
-    array([1.        , 2.        , 1.41421356])
+    >>> timestamps = np.array([0, 1, 1.5, 2.5])
+    >>> compute_speed(position, timestamps)
+    array([0.        , 1.        , 2.        , 1.41421356])
     """
 
     distances = compute_distances(position)
-    speed = distances / bin_times
+    durations = compute_sample_durations(timestamps, align_output=False)
+
+    speed = distances / durations
+
+    if align_output:
+        speed = np.insert(speed, 0, 0)
 
     return speed

@@ -78,13 +78,16 @@ def compute_distances(position):
     return dists
 
 
-def compute_cumulative_distances(position):
+def compute_cumulative_distances(position, align_output=True):
     """Compute cumulative distance across a sequence of positions.
 
     Parameters
     ----------
     position : 1d or 2d array
         Position values.
+    align_output : bool, optional, default: True
+        If True, aligns the output with the sampling of the input, to match length.
+        To do so, value of 0 is prepended to the output array.
 
     Returns
     -------
@@ -97,17 +100,22 @@ def compute_cumulative_distances(position):
 
     >>> position = np.array([1., 2., 4., 5.])
     >>> compute_cumulative_distances(position)
-    array([1., 3., 4.])
+    array([0., 1., 3., 4.])
 
     Compute cumulative distances across a sequence of 2d positions:
 
     >>> position = np.array([[1, 2, 2, 3],
     ...                      [1, 1, 2, 3]])
     >>> compute_cumulative_distances(position)
-    array([1.        , 2.        , 3.41421356])
+    array([0.        , 1.        , 2.        , 3.41421356])
     """
 
-    return np.cumsum(compute_distances(position))
+    cumul_dists = np.cumsum(compute_distances(position))
+
+    if align_output:
+        cumul_dists = np.insert(cumul_dists, 0, 0)
+
+    return cumul_dists
 
 
 def compute_distances_to_location(position, location):
