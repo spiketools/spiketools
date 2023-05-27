@@ -108,7 +108,7 @@ def check_param_type(param, label, types):
     label : str
         Label of the parameter being checked.
     types : type or tuple of type
-        Type(s) to check the given paramter is one of.
+        Type(s) to check the given parameter is one of.
 
     Raises
     ------
