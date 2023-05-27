@@ -4,7 +4,7 @@ import numpy as np
 
 from spiketools.spatial.utils import compute_nbins
 from spiketools.spatial.occupancy import compute_bin_counts_pos
-from spiketools.spatial.checks import check_spatial_bins
+from spiketools.spatial.checks import check_bin_definition
 from spiketools.utils.checks import check_array_orientation
 from spiketools.utils.extract import (get_range, get_values_by_time_range, get_values_by_times,
                                       threshold_spikes_by_values)
@@ -146,7 +146,7 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
     t_occ = None
     t_speed = None
 
-    bins = check_spatial_bins(bins, position)
+    bins = check_bin_definition(bins, position)
     orientation = check_array_orientation(position) if not orientation else orientation
 
     place_bins_trial = np.zeros([len(start_times), *np.flip(bins)])

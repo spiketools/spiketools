@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from spiketools.utils.timestamps import compute_sample_durations
+
 ###################################################################################################
 ###################################################################################################
 
@@ -39,7 +41,7 @@ def compute_distances(xs, ys):
     Parameters
     ----------
     xs, ys : 1d array
-        Position data, of X and Y locations.
+        Position data, of X and Y positions.
 
     Returns
     -------
@@ -50,9 +52,10 @@ def compute_distances(xs, ys):
     --------
     Compute distances between vectors of x- and y-positions:
 
-    >>> xs, ys = np.array([1, 2, 3, 4, 5]), np.array([6, 7, 8, 9, 10])
+    >>> xs = np.array([0, 0, 0, 1, 2])
+    >>> ys = np.array([0, 1, 2, 2, 3])
     >>> compute_distances(xs, ys)
-    array([1.41421356, 1.41421356, 1.41421356, 1.41421356])
+    array([1.        , 1.        , 1.        , 1.41421356])
     """
 
     dists = np.zeros(len(xs) - 1)
@@ -62,13 +65,16 @@ def compute_distances(xs, ys):
     return dists
 
 
-def compute_cumulative_distances(xs, ys):
+def compute_cumulative_distances(xs, ys, align_output=True):
     """Compute cumulative distance across a sequence of positions.
 
     Parameters
     ----------
     xs, ys : 1d array
-        Position data, of X and Y locations.
+        Position data, of X and Y positions.
+    align_output : bool, optional, default: True
+        If True, aligns the output with the sampling of the input, to match length.
+        To do so, value of 0 is prepended to the output array.
 
     Returns
     -------
@@ -79,23 +85,31 @@ def compute_cumulative_distances(xs, ys):
     --------
     Compute cumulative distances between vectors of x- and y-positions:
 
-    >>> xs, ys = np.array([1, 2, 3, 4, 5]), np.array([6, 7, 8, 9, 10])
+    >>> xs = np.array([0, 0, 0, 1])
+    >>> ys = np.array([0, 1, 2, 2])
     >>> compute_cumulative_distances(xs, ys)
-    array([1.41421356, 2.82842712, 4.24264069, 5.65685425])
+    array([0., 1., 2., 3.])
     """
 
-    return np.cumsum(compute_distances(xs, ys))
+    cumul_dists = np.cumsum(compute_distances(xs, ys))
+    if align_output:
+        cumul_dists = np.insert(cumul_dists, 0, 0)
+
+    return cumul_dists
 
 
-def compute_speed(xs, ys, bin_widths):
+def compute_speed(xs, ys, timestamps, align_output=True):
     """Compute speeds across a sequence of positions.
 
     Parameters
     ----------
     xs, ys : 1d array
-        Position data, of X and Y locations.
-    bin_widths : 1d array
-        Width of each position bin.
+        Position data, of X and Y positions.
+    timestamps : 1d array
+        Timestamps, in seconds, corresponding to the position values.
+    align_output : bool, optional, default: True
+        If True, aligns the output with the sampling of the input, to match length.
+        To do so, value of 0 is prepended to the output array.
 
     Returns
     -------
@@ -106,13 +120,19 @@ def compute_speed(xs, ys, bin_widths):
     --------
     Compute speed across vectors of x- and y-positions:
 
-    >>> xs, ys = np.array([1, 2, 3, 4, 5]), np.array([6, 7, 8, 9, 10])
-    >>> bin_width = np.array([1, 1, 0.5, 1])
-    >>> compute_speed(xs, ys, bin_width)
-    array([1.41421356, 1.41421356, 2.82842712, 1.41421356])
+    >>> xs = np.array([0, 0, 0, 1, 1])
+    >>> ys = np.array([0, 1, 2, 2, 2])
+    >>> timestamps = np.array([0, 1, 2, 2.5, 3.5])
+    >>> compute_speed(xs, ys, timestamps)
+    array([0., 1., 1., 2., 0.])
     """
 
     distances = compute_distances(xs, ys)
-    speed = distances / bin_widths
+    durations = compute_sample_durations(timestamps, align_output=False)
+
+    speed = distances / durations
+
+    if align_output:
+        speed = np.insert(speed, 0, 0)
 
     return speed

@@ -35,27 +35,27 @@ def test_compute_distances():
 
 def test_compute_cumulative_distances():
 
-    xs = np.array([0, 0, 1, 1, 2])
-    ys = np.array([0, 0, 0, 1, 2])
+    xs = np.array([0, 1, 1, 2])
+    ys = np.array([0, 0, 1, 2])
 
     out = compute_cumulative_distances(xs, ys)
     assert isinstance(out, np.ndarray)
-    assert len(out) == len(xs) -1
+    assert len(out) == len(xs)
     assert np.allclose(out, np.array([0, 1, 1 + 1, 1 + 1 + np.sqrt(2)]))
 
 def test_compute_speed():
 
-    xs = np.array([0, 0, 1, 1, 2])
-    ys = np.array([0, 0, 0, 1, 2])
+    xs = np.array([0, 1, 1, 2])
+    ys = np.array([0, 0, 1, 2])
 
-    widths1 = np.array([1, 1, 1, 1])
-    out1 = compute_speed(xs, ys, widths1)
+    timestamps1 = np.array([0, 1, 2, 3])
+    out1 = compute_speed(xs, ys, timestamps1)
     assert isinstance(out1, np.ndarray)
-    assert len(out1) == len(xs) -1
+    assert len(out1) == len(xs)
     assert np.allclose(out1, np.array([0, 1, 1, np.sqrt(2)]))
 
-    widths2 = np.array([1, 1, 0.5, 0.5])
-    out2 = compute_speed(xs, ys, widths2)
+    timestamps2 = np.array([0, 1, 1.5, 2.0])
+    out2 = compute_speed(xs, ys, timestamps2)
     assert isinstance(out2, np.ndarray)
-    assert len(out2) == len(xs) -1
+    assert len(out2) == len(xs)
     assert np.allclose(out2, np.array([0, 1, 1 / 0.5, np.sqrt(2) / 0.5]))
