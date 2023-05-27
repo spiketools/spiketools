@@ -36,7 +36,7 @@ def test_check_bin_definition():
     assert bins == bins_2d
 
     with raises(TypeError):
-        check_spatial_bins([1.2, 2.3])
+        check_bin_definition([1.2, 2.3])
     with raises(AssertionError):
         check_bin_definition([1, 2, 3])
     with raises(AssertionError):
