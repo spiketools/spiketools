@@ -50,7 +50,7 @@ def compute_distances(position):
 
     Returns
     -------
-    1d array
+    distances : 1d array
         Vector of distances between positions.
 
     Examples
@@ -71,11 +71,11 @@ def compute_distances(position):
 
     position = position.T if check_array_orientation(position) == 'row' else position
 
-    dists = np.zeros(len(position) - 1)
+    distances = np.zeros(len(position) - 1)
     for ix, (p1, p2) in enumerate(zip(position, position[1:])):
-        dists[ix] = compute_distance(p1, p2)
+        distances[ix] = compute_distance(p1, p2)
 
-    return dists
+    return distances
 
 
 def compute_cumulative_distances(position, align_output=True):
@@ -131,17 +131,34 @@ def compute_distances_to_location(position, location):
 
     Returns
     -------
-    dists : 1d array
+    distances : 1d array
         Computed distances between each position in the sequence, and the specified location.
+
+    Examples
+    --------
+    Compute distances to location across a sequence of 1d positions:
+
+    >>> position = np.array([1., 2., 3., 4., 5.])
+    >>> location = [3.]
+    >>> compute_distances_to_location(position, location)
+    array([2., 1., 0., 1., 2.])
+
+    Compute distances to location across a sequence of 2d positions:
+
+    >>> position = np.array([[1, 2, 2, 3],
+    ...                      [1, 1, 2, 3]])
+    >>> location = [2, 2]
+    >>> compute_distances_to_location(position, location)
+    array([1.41421356, 1.        , 0.        , 1.41421356])
     """
 
     position = position.T if check_array_orientation(position) == 'row' else position
 
-    dists = np.zeros(len(position))
+    distances = np.zeros(len(position))
     for ix, pos in enumerate(position):
-        dists[ix] = compute_distance(pos, location)
+        distances[ix] = compute_distance(pos, location)
 
-    return dists
+    return distances
 
 
 def get_closest_position(position, location, threshold=None):
@@ -157,14 +174,41 @@ def get_closest_position(position, location, threshold=None):
     threshold : float, optional
         The threshold that the closest value must be within to be returned.
         If the distance is greater than the threshold, output is -1.
+
+    Returns
+    -------
+    min_ind : int
+        The index of the closest position value to the specified location.
+
+    Notes
+    -----
+    If there are multiple positions that are equivalently close to the location,
+    this function will return the index of first one.
+
+    Examples
+    --------
+    Get the index of the closest 1d position to a specified location:
+
+    >>> position = np.array([1., 2., 3., 4., 5.])
+    >>> location = [3.]
+    >>> get_closest_position(position, location)
+    2
+
+    Get the index of the closest 2d position to a specified location:
+
+    >>> position = np.array([[1, 2, 2, 3],
+    ...                      [1, 1, 2, 3]])
+    >>> location = [2, 2]
+    >>> get_closest_position(position, location)
+    2
     """
 
-    dists = compute_distances_to_location(position, location)
+    distances = compute_distances_to_location(position, location)
 
-    min_ind = np.argmin(dists)
+    min_ind = np.argmin(distances)
 
     if threshold:
-        if dists[min_ind] > threshold:
+        if distances[min_ind] > threshold:
             min_ind = -1
 
     return min_ind
