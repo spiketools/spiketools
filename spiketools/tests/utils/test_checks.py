@@ -53,6 +53,15 @@ def test_check_param_lengths():
     with raises(ValueError):
         check_param_lengths([a1, a2], ['a1', 'a2'], expected_length=2)
 
+def test_check_param_type():
+
+    check_param_type(13, 'test', int)
+    check_param_type(1.1, 'test', (int, float))
+    check_param_type([1, 2], 'test', [list, np.ndarray])
+
+    with raises(TypeError):
+        check_param_type(tuple([1, 2]), 'test', [list, np.ndarray])
+
 def test_check_array_orientation():
 
     arr1 = np.array([1, 2, 3])

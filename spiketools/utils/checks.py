@@ -6,7 +6,7 @@ from collections import defaultdict
 
 import numpy as np
 
-from spiketools.utils.base import lower_list
+from spiketools.utils.base import lower_list, listify
 
 ###################################################################################################
 ###################################################################################################
@@ -96,6 +96,35 @@ def check_param_lengths(params, labels, expected_length=None):
             msg = "These parameters should all have length {}: {}.".format(\
                 expected_length, str(labels)[1:-1])
             raise ValueError(msg)
+
+
+def check_param_type(param, label, types):
+    """Check that a parameter has an acceptable type.
+
+    Parameters
+    ----------
+    param : object
+        Parameter to check type of.
+    label : str
+        Label of the parameter being checked.
+    types : type or tuple of type
+        Type(s) to check the given parameter is one of.
+
+    Raises
+    ------
+    ValueError
+        If the parameter is not one of the specified acceptable types.
+
+    Notes
+    -----
+    If checking elements in an array, then proper checking should include relevant numpy types.
+    """
+
+    types = tuple(listify(types)) if not isinstance(types, tuple) else types
+    if not isinstance(param, types):
+        type_strings = [str(el).split(' ')[1][1:-2] for el in types]
+        msg = "The parameter {} should have type: {}.".format(label, type_strings)
+        raise TypeError(msg)
 
 
 def check_list_options(contents, label, options):
@@ -290,6 +319,8 @@ def check_time_bins(bins, time_range=None, values=None, check_range=False):
 
     # Take a copy of `time_range` (otherwise, can get an aliasing problem)
     time_range = deepcopy(time_range)
+
+    check_param_type(bins, 'bins', (int, float, np.ndarray))
 
     if isinstance(bins, (int, float)):
         # If time range is given, update to include end value

@@ -82,6 +82,10 @@ def test_get_ind_by_time():
     ind = get_ind_by_time(times, 3.5, threshold=0.25)
     assert ind == -1
 
+    # test for error with nan input
+    with raises(AssertionError):
+        ind = get_ind_by_time(times, np.nan)
+
 def test_get_inds_by_times():
 
     times = np.array([1, 2, 3, 4, 5])

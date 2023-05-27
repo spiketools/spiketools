@@ -3,6 +3,7 @@
 import numpy as np
 
 from spiketools.utils.base import listify
+from spiketools.utils.checks import check_param_type
 
 ###################################################################################################
 ###################################################################################################
@@ -50,7 +51,7 @@ def check_bin_definition(bins, position=None):
     bins = listify(bins)
 
     for binval in bins:
-        assert isinstance(binval, int), 'Bin definition values should be integers.'
+        check_param_type(binval, 'bins', int)
 
     assert len(bins) <= 2, 'Bin definition has too many values (>2).'
 
