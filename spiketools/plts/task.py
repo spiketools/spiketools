@@ -48,7 +48,7 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
     line_kwargs = {} if line_kwargs is None else line_kwargs
 
     if task_ranges is not None:
-        if not isinstance(task_ranges[0][0], (int, float)):
+        if not isinstance(task_ranges[0][0], (int, float, np.int64, np.float64)):
             for trange, color in zip(task_ranges, range_colors if range_colors else DEFAULT_COLORS):
                 range_kwargs['color'] = color
                 plot_task_structure(task_ranges=trange, range_kwargs=range_kwargs, ax=ax)
@@ -58,7 +58,7 @@ def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
             add_vshades(shade_ranges, **range_kwargs, ax=ax)
 
     if event_lines is not None:
-        if not isinstance(event_lines[0], (int, float)):
+        if not isinstance(event_lines[0], (int, float, np.int64, np.float64)):
             for eline, color in zip(event_lines, line_colors if line_colors else DEFAULT_COLORS):
                 line_kwargs['color'] = color
                 plot_task_structure(event_lines=list(eline), line_kwargs=line_kwargs, ax=ax)
