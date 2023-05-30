@@ -167,7 +167,7 @@ def add_key_prefix(indict, prefix):
     indict : dict
         Dictionary to update keys for.
     prefix : str
-        Prefix to add to each dictionary.
+        Prefix to add to each dictionary key.
 
     Returns
     -------
@@ -186,6 +186,40 @@ def add_key_prefix(indict, prefix):
     out = {}
     for key, value in indict.items():
         out[prefix + '_' + key] = value
+
+    return out
+
+
+def drop_key_prefix(indict, prefix):
+    """Update keys of a dictionary by dropping a prefix.
+
+    Parameters
+    ----------
+    indict : dict
+        Dictionary to update keys for.
+    prefix : str
+        Prefix to drop from each dictionary key.
+
+    Returns
+    -------
+    dict
+        Dictionary with updated keys.
+
+    Examples
+    --------
+    Drop a prefix from dictionary keys:
+
+    >>> indict = {'analysis_setting' : 12, 'analysis_param' : 22}
+    >>> drop_key_prefix(indict, 'analysis')
+    {'setting': 12, 'param': 22}
+    """
+
+    out = {}
+    for key, value in indict.items():
+        key_elements = key.split('_')
+        if prefix in key_elements:
+            key_elements.remove(prefix)
+        out['_'.join(key_elements)] = value
 
     return out
 

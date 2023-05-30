@@ -60,6 +60,16 @@ def test_add_key_prefix():
     for key, value in tdict.items():
         assert out[prefix + '_' + key] == value
 
+def test_drop_key_prefix():
+
+    tdict = {'test_a' : 1, 'test_b' : 2}
+    prefix = 'test'
+    out = drop_key_prefix(tdict, prefix)
+
+    for key, value in out.items():
+        assert prefix not in key
+        assert tdict[prefix + '_' + key] == out[key]
+
 def test_relabel_keys():
 
     indict = {'a' : 1, 'b' : 2}
