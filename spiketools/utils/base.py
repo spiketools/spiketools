@@ -1,6 +1,7 @@
 """Base utility functions, that manipulate basic data structures, etc."""
 
 from collections import Counter
+from collections.abc import Iterable
 
 ###################################################################################################
 ###################################################################################################
@@ -336,6 +337,9 @@ def listify(param, index=None):
     ----------
     param : object
         Parameter to check and embed in a list, if it is not already.
+    index : bool, optional
+        If True, indexes into `param` to check the 0th element, instead of `param` itself.
+        This can be used for checking and embedding a list into a list.
 
     Returns
     -------
@@ -345,6 +349,12 @@ def listify(param, index=None):
 
     check = param[0] if index is not None else param
 
-    out = [param] if not isinstance(check, list) else param
+    # Embed all non-iterable parameters into a list
+    #   Note: deal with str as a special case of iterable that we want to embed
+    if not isinstance(check, Iterable) or isinstance(check, str):
+        out = [param]
+    # If is iterable (eg tuple or numpy array), typecast to list
+    else:
+        out = list(param)
 
     return out
