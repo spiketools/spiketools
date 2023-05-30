@@ -205,6 +205,15 @@ def relabel_keys(indict, new_keys):
     -------
     outdict : dict
         Dictionary with updated key names.
+
+    Examples
+    --------
+    Relabel a set of keys in a dictionary:
+
+    >>> dictionary = {'spike_name' : 'a1', 'spike_type' : 0}
+    >>> new_keys = {'spike_name' : 'name', 'spike_type' : 'type'}
+    >>> relabel_keys(dictionary, new_keys)
+    {'name': 'a1', 'type': 0}
     """
 
     outdict = {}
@@ -212,6 +221,78 @@ def relabel_keys(indict, new_keys):
         outdict[new_keys.get(key, key)] = indict[key]
 
     return outdict
+
+
+def subset_dict(indict, label):
+    """Subset a dictionary based on key labels.
+
+    Parameters
+    ----------
+    indict : dict
+        Dictionary to subset.
+    label : str
+        Label to use to subset keys.
+
+    Returns
+    -------
+    dict
+        Subsetted dictionary.
+
+    Examples
+    --------
+    Subset a set of specified keys from a dictionary:
+
+    >>> dictionary = {'spike_name' : 'a1', 'spike_type' : 0, 'data' : [1, 2, 3]}
+    >>> label = 'spike'
+    >>> subset_dict(dictionary, label)
+    {'spike_name': 'a1', 'spike_type': 0}
+    """
+
+    output = {}
+    for key in list(indict.keys()):
+        if label in key:
+            output[key] = indict.pop(key)
+
+    return output
+
+
+def check_keys(indict, lst):
+    """Check a dictionary for a set of keys.
+
+    Parameters
+    ----------
+    indict : dict
+        Dictionary to check keys of.
+    lst : list
+        List of keys to check in the dictionary.
+
+    Returns
+    -------
+    str or None
+        Key label that was found in the dictionary, or None if no specified keys found.
+
+    Notes
+    -----
+    If more than one of the specified keys are in the dictionary, the first one is returned.
+
+    Examples
+    --------
+    Check which key is defined in dictionary:
+
+    >>> dictionary = {'spike_name' : 'a1', 'spike_type' : 0}
+    >>> lst = ['spike_name', 'spike_label']
+    >>> check_keys(dictionary, lst)
+    'spike_name'
+    """
+
+    for el in lst:
+        if el in indict.keys():
+            output = el
+            break
+    else:
+        output = None
+
+    return output
 
 
 def listify(param, index=None):

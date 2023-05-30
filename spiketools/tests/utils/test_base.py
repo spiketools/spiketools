@@ -72,6 +72,27 @@ def test_relabel_keys():
         assert key not in outdict
         assert val in outdict
 
+def test_subset_dict():
+
+    indict = {'a_1' : 1, 'a_2' : 2, 'b_1' : 3, 'b_2' : 4}
+    label = 'a'
+
+    out = subset_dict(indict, label)
+    assert out == {'a_1' : 1, 'a_2' : 2}
+    assert indict == {'b_1' : 3, 'b_2' : 4}
+
+def test_check_keys():
+
+    indict = {'a_1' : 1, 'a_2' : 2, 'b_1' : 3, 'b_2' : 4}
+
+    keys1 = ['a_0', 'a_1']
+    out1 = check_keys(indict, keys1)
+    assert out1 == 'a_1'
+
+    keys2 = ['c_0', 'c_1']
+    out2 = check_keys(indict, keys2)
+    assert out2 is None
+
 def test_listify():
 
     assert listify('test') == ['test']
