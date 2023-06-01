@@ -1,6 +1,7 @@
 """Base utility functions, that manipulate basic data structures, etc."""
 
 from collections import Counter
+from collections.abc import Iterable
 
 ###################################################################################################
 ###################################################################################################
@@ -167,7 +168,7 @@ def add_key_prefix(indict, prefix):
     indict : dict
         Dictionary to update keys for.
     prefix : str
-        Prefix to add to each dictionary.
+        Prefix to add to each dictionary key.
 
     Returns
     -------
@@ -190,6 +191,40 @@ def add_key_prefix(indict, prefix):
     return out
 
 
+def drop_key_prefix(indict, prefix):
+    """Update keys of a dictionary by dropping a prefix.
+
+    Parameters
+    ----------
+    indict : dict
+        Dictionary to update keys for.
+    prefix : str
+        Prefix to drop from each dictionary key.
+
+    Returns
+    -------
+    dict
+        Dictionary with updated keys.
+
+    Examples
+    --------
+    Drop a prefix from dictionary keys:
+
+    >>> indict = {'analysis_setting' : 12, 'analysis_param' : 22}
+    >>> drop_key_prefix(indict, 'analysis')
+    {'setting': 12, 'param': 22}
+    """
+
+    out = {}
+    for key, value in indict.items():
+        key_elements = key.split('_')
+        if prefix in key_elements:
+            key_elements.remove(prefix)
+        out['_'.join(key_elements)] = value
+
+    return out
+
+
 def relabel_keys(indict, new_keys):
     """Relabel keys in a dictionary.
 
@@ -205,6 +240,15 @@ def relabel_keys(indict, new_keys):
     -------
     outdict : dict
         Dictionary with updated key names.
+
+    Examples
+    --------
+    Relabel a set of keys in a dictionary:
+
+    >>> dictionary = {'spike_name' : 'a1', 'spike_type' : 0}
+    >>> new_keys = {'spike_name' : 'name', 'spike_type' : 'type'}
+    >>> relabel_keys(dictionary, new_keys)
+    {'name': 'a1', 'type': 0}
     """
 
     outdict = {}
@@ -214,6 +258,78 @@ def relabel_keys(indict, new_keys):
     return outdict
 
 
+def subset_dict(indict, label):
+    """Subset a dictionary based on key labels.
+
+    Parameters
+    ----------
+    indict : dict
+        Dictionary to subset.
+    label : str
+        Label to use to subset keys.
+
+    Returns
+    -------
+    dict
+        Subsetted dictionary.
+
+    Examples
+    --------
+    Subset a set of specified keys from a dictionary:
+
+    >>> dictionary = {'spike_name' : 'a1', 'spike_type' : 0, 'data' : [1, 2, 3]}
+    >>> label = 'spike'
+    >>> subset_dict(dictionary, label)
+    {'spike_name': 'a1', 'spike_type': 0}
+    """
+
+    output = {}
+    for key in list(indict.keys()):
+        if label in key:
+            output[key] = indict.pop(key)
+
+    return output
+
+
+def check_keys(indict, lst):
+    """Check a dictionary for a set of keys.
+
+    Parameters
+    ----------
+    indict : dict
+        Dictionary to check keys of.
+    lst : list
+        List of keys to check in the dictionary.
+
+    Returns
+    -------
+    str or None
+        Key label that was found in the dictionary, or None if no specified keys found.
+
+    Notes
+    -----
+    If more than one of the specified keys are in the dictionary, the first one is returned.
+
+    Examples
+    --------
+    Check which key is defined in dictionary:
+
+    >>> dictionary = {'spike_name' : 'a1', 'spike_type' : 0}
+    >>> lst = ['spike_name', 'spike_label']
+    >>> check_keys(dictionary, lst)
+    'spike_name'
+    """
+
+    for el in lst:
+        if el in indict.keys():
+            output = el
+            break
+    else:
+        output = None
+
+    return output
+
+
 def listify(param, index=None):
     """Check and embed a parameter into a list, if is not already in a list.
 
@@ -221,6 +337,9 @@ def listify(param, index=None):
     ----------
     param : object
         Parameter to check and embed in a list, if it is not already.
+    index : bool, optional
+        If True, indexes into `param` to check the 0th element, instead of `param` itself.
+        This can be used for checking and embedding a list into a list.
 
     Returns
     -------
@@ -230,6 +349,12 @@ def listify(param, index=None):
 
     check = param[0] if index is not None else param
 
-    out = [param] if not isinstance(check, list) else param
+    # Embed all non-iterable parameters into a list
+    #   Note: deal with str as a special case of iterable that we want to embed
+    if not isinstance(check, Iterable) or isinstance(check, str):
+        out = [param]
+    # If is iterable (eg tuple or numpy array), typecast to list
+    else:
+        out = list(param)
 
     return out

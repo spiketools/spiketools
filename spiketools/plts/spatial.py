@@ -6,7 +6,8 @@ from itertools import repeat
 import numpy as np
 import matplotlib.pyplot as plt
 
-from spiketools.utils.base import listify, combine_dicts, relabel_keys
+from spiketools.utils.base import (listify, combine_dicts, relabel_keys,
+                                   drop_key_prefix, subset_dict)
 from spiketools.utils.checks import check_array_lst_orientation
 from spiketools.utils.data import make_row_orientation, smooth_data, compute_range
 from spiketools.modutils.functions import get_function_parameters
@@ -107,12 +108,15 @@ def plot_position_1d(position, events=None, colors=None, sizes=None, ax=None, **
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
+        Custom kwargs: 'position_color', 'position_alpha', 'position_linewidth'.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
     if position is not None:
-        ax.plot(position, [1] * len(position), alpha=0.75, **plt_kwargs)
+
+        position_plt_kwargs = drop_key_prefix(subset_dict(plt_kwargs, 'position'), 'position')
+        ax.plot(position, [1] * len(position), **position_plt_kwargs)
 
     colors = iter(listify(colors)) if colors else iter(DEFAULT_COLORS[1:])
     sizes = iter(listify(sizes)) if sizes else repeat(1)
@@ -121,9 +125,9 @@ def plot_position_1d(position, events=None, colors=None, sizes=None, ax=None, **
     for event in events:
 
         if isinstance(event, np.ndarray):
-            ax.eventplot(event, color=next(colors), linelengths=next(sizes))
+            ax.eventplot(event, color=next(colors), linelengths=next(sizes), **plt_kwargs)
         elif isinstance(event, dict):
-            ax.eventplot(**relabel_keys(event, {'size' : 'linelengths'}))
+            ax.eventplot(**relabel_keys(event, {'size' : 'linelengths'}), **plt_kwargs)
 
     ax.set(xlabel='Position', yticks=[])
 

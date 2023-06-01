@@ -60,6 +60,16 @@ def test_add_key_prefix():
     for key, value in tdict.items():
         assert out[prefix + '_' + key] == value
 
+def test_drop_key_prefix():
+
+    tdict = {'test_a' : 1, 'test_b' : 2}
+    prefix = 'test'
+    out = drop_key_prefix(tdict, prefix)
+
+    for key, value in out.items():
+        assert prefix not in key
+        assert tdict[prefix + '_' + key] == out[key]
+
 def test_relabel_keys():
 
     indict = {'a' : 1, 'b' : 2}
@@ -71,6 +81,27 @@ def test_relabel_keys():
     for key, val in new_keys.items():
         assert key not in outdict
         assert val in outdict
+
+def test_subset_dict():
+
+    indict = {'a_1' : 1, 'a_2' : 2, 'b_1' : 3, 'b_2' : 4}
+    label = 'a'
+
+    out = subset_dict(indict, label)
+    assert out == {'a_1' : 1, 'a_2' : 2}
+    assert indict == {'b_1' : 3, 'b_2' : 4}
+
+def test_check_keys():
+
+    indict = {'a_1' : 1, 'a_2' : 2, 'b_1' : 3, 'b_2' : 4}
+
+    keys1 = ['a_0', 'a_1']
+    out1 = check_keys(indict, keys1)
+    assert out1 == 'a_1'
+
+    keys2 = ['c_0', 'c_1']
+    out2 = check_keys(indict, keys2)
+    assert out2 is None
 
 def test_listify():
 

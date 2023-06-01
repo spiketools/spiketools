@@ -459,6 +459,9 @@ General utilities for basic data types.
    count_elements
    combine_dicts
    add_key_prefix
+   drop_key_prefix
+   subset_dict
+   check_keys
    relabel_keys
    listify
 
