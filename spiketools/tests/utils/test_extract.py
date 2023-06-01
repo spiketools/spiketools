@@ -66,33 +66,53 @@ def test_get_value_range():
     assert np.array_equal(out_times, np.array([2., 3., 4.]))
     assert np.array_equal(out_data, np.array([1., 1.5, 2.]))
 
+def test_get_ind_by_value():
+
+    values = np.array([10, 20, 15, 25, 50])
+
+    # test 1d & 2d data cases
+    assert get_ind_by_value(values, 22) == 1
+    assert get_ind_by_value(values, 23) == 3
+
+    # test with threshold
+    assert get_ind_by_value(values, 26, threshold=2) == 3
+    assert get_ind_by_value(values, 30, threshold=1) == -1
+
 def test_get_ind_by_time():
 
     times = np.array([1, 2, 3, 4, 5])
 
     # test 1d & 2d data cases
-    ind = get_ind_by_time(times, 3.25)
-    assert ind == 2
-    ind = get_ind_by_time(times, 3.25)
-    assert ind == 2
+    assert get_ind_by_time(times, 3.25) == 2
+    assert get_ind_by_time(times, 3.25) == 2
 
     # test with threshold
-    ind = get_ind_by_time(times, 3.15, threshold=0.25)
-    assert ind == 2
-    ind = get_ind_by_time(times, 3.5, threshold=0.25)
-    assert ind == -1
+    assert get_ind_by_time(times, 3.15, threshold=0.25) == 2
+    assert get_ind_by_time(times, 3.5, threshold=0.25) == -1
+
+def test_get_inds_by_values():
+
+    values = np.array([10, 20, 15, 25, 50])
+
+    extract = [11, 16]
+    inds = get_inds_by_values(values, extract)
+    assert np.array_equal(inds, np.array([0, 2]))
+
+    extract = [17, 25.5]
+    inds = get_inds_by_values(values, extract, threshold=1, drop_null=True)
+    np.array_equal(inds, np.array([np.nan, 3]), equal_nan=True)
+    inds = get_inds_by_values(values, extract, threshold=0.25, drop_null=False)
+    np.array_equal(inds, np.array([3]), equal_nan=True)
 
     # test for error with nan input
     with raises(AssertionError):
-        ind = get_ind_by_time(times, np.nan)
+        ind = get_ind_by_time(values, np.nan)
 
 def test_get_inds_by_times():
 
     times = np.array([1, 2, 3, 4, 5])
 
     extract = [3.25, 3.75]
-    inds = get_inds_by_times(times, extract)
-    assert np.array_equal(inds, np.array([2, 3]))
     inds = get_inds_by_times(times, extract)
     assert np.array_equal(inds, np.array([2, 3]))
 

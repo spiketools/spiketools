@@ -134,8 +134,47 @@ def get_value_range(timestamps, data, min_value=None, max_value=None, reset=None
     return timestamps, data
 
 
+def get_ind_by_value(values, value, threshold=None):
+    """Get the index for a set of values closest to a specified value.
+
+    Parameters
+    ----------
+    values : 1d array
+        Values.
+    value : float
+        The value to extract the index for.
+    threshold : float, optional
+        The threshold that the closest value must be within to be returned.
+        If the distance is greater than the threshold, output is -1.
+
+    Returns
+    -------
+    ind : int
+        The index value for the requested value, or -1 if out of threshold range.
+
+    Examples
+    --------
+    Get the index for a specified value:
+
+    >>> values = np.array([5, 10, 15, 20, 25])
+    >>> get_ind_by_value(values, 12)
+    1
+    """
+
+    check_param_type(value, 'value', (int, float, np.int64, np.float64))
+    assert not np.isnan(value), "The given `value` is nan - cannot continue."
+
+    ind = np.abs(values - value).argmin()
+
+    if threshold:
+        if np.abs(values[ind] - value) > threshold:
+            ind = -1
+
+    return ind
+
+
 def get_ind_by_time(timestamps, timepoint, threshold=None):
-    """Get the index for a data array for a specified timepoint.
+    """Get the index for a set of timepoints closest to a specified timepoint.
 
     Parameters
     ----------
@@ -161,20 +200,52 @@ def get_ind_by_time(timestamps, timepoint, threshold=None):
     4
     """
 
-    check_param_type(timepoint, 'timepoint', (int, float, np.int64, np.float64))
-    assert not np.isnan(timepoint), "The given `timepoint` is nan - cannot continue."
+    return get_ind_by_value(timestamps, timepoint, threshold)
 
-    ind = np.abs(timestamps - timepoint).argmin()
 
-    if threshold:
-        if np.abs(timestamps[ind] - timepoint) > threshold:
-            ind = -1
+def get_inds_by_values(values, select, threshold=None, drop_null=True):
+    """Get indices for a set of specified time points.
 
-    return ind
+    Parameters
+    ----------
+    values : 1d array
+        Values to select from.
+    select : 1d array
+        The values to extract indices for.
+    threshold : float, optional
+        The threshold that the closest value must be within to be returned.
+        If the distance is greater than the threshold, output is NaN.
+    drop_null : bool, optional, default: True
+        Whether to drop any null indices from the outputs (outside threshold range).
+        If False, indices for any null values are -1.
+
+    Returns
+    -------
+    inds : 1d array
+        Indices for all requested values.
+
+    Examples
+    --------
+    Get the corresponding indices for specified values:
+
+    >>> values = np.array([10, 15, 20, 25, 30])
+    >>> select = np.array([11, 21])
+    >>> get_inds_by_values(values, select)
+    array([0, 2])
+    """
+
+    inds = np.zeros(len(select), dtype=int)
+    for ind, value in enumerate(select):
+        inds[ind] = get_ind_by_value(values, value, threshold=threshold)
+
+    if drop_null:
+        inds = inds[inds >= 0]
+
+    return inds
 
 
 def get_inds_by_times(timestamps, timepoints, threshold=None, drop_null=True):
-    """Get indices for a data array for a set of specified time points.
+    """Get indices for a set of specified time points.
 
     Parameters
     ----------
@@ -204,14 +275,7 @@ def get_inds_by_times(timestamps, timepoints, threshold=None, drop_null=True):
     array([1, 3, 5])
     """
 
-    inds = np.zeros(len(timepoints), dtype=int)
-    for ind, timepoint in enumerate(timepoints):
-        inds[ind] = get_ind_by_time(timestamps, timepoint, threshold=threshold)
-
-    if drop_null:
-        inds = inds[inds >= 0]
-
-    return inds
+    return get_inds_by_values(timestamps, timepoints, threshold, drop_null)
 
 
 def get_value_by_time(timestamps, values, timepoint, threshold=None, axis=None):
