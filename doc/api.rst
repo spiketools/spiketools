@@ -145,6 +145,7 @@ Measures and methods related to computing spatial occupancy.
    create_position_df
    compute_occupancy_df
    compute_occupancy
+   compute_trial_occupancy
 
 Place
 ~~~~~
