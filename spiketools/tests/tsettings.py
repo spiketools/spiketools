@@ -1,7 +1,7 @@
 """Settings for tests."""
 
 import os
-import pkg_resources as pkg
+from pathlib import Path
 
 ###################################################################################################
 ###################################################################################################
@@ -11,5 +11,6 @@ FS = 100
 N_SAMPLES = 100
 
 # Set paths for test files
-BASE_TEST_FILE_PATH = pkg.resource_filename(__name__, 'test_files')
-TEST_PLOTS_PATH = os.path.join(BASE_TEST_FILE_PATH, 'plots')
+TESTS_PATH = Path(os.path.abspath(os.path.dirname(__file__)))
+BASE_TEST_FILE_PATH = TESTS_PATH / 'test_files'
+TEST_PLOTS_PATH = BASE_TEST_FILE_PATH / 'plots'

@@ -20,6 +20,7 @@ setup(
     version = __version__,
     description = 'Module for analyzing spiking data.',
     long_description = long_description,
+    long_description_content_type = 'text/x-rst',
     python_requires = '>=3.6',
     maintainer = 'Thomas Donoghue',
     maintainer_email = 'tdonoghue.research@gmail.com',
