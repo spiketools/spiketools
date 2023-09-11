@@ -24,7 +24,7 @@ def shuffle_spikes(spikes, approach, n_shuffles=1000, **kwargs):
         Spike times, in seconds.
     approach : {'isi', 'circular', 'bincirc'}
         Which approach to take for shuffling spike times.
-        See sub-functions for details.
+        See shuffle sub-functions for details.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
     kwargs
@@ -268,7 +268,7 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
 
 @drop_shuffle_range
 def shuffle_poisson(spikes, n_shuffles=1000):
-    """Shuffle spikes based on a Poisson distribution.
+    """Shuffle spikes based on generating new spike trains from a Poisson distribution.
 
     Parameters
     ----------
@@ -284,7 +284,16 @@ def shuffle_poisson(spikes, n_shuffles=1000):
 
     Notes
     -----
-    This is an experimental implementation, and still has some issues matching spike counts.
+    This approach creates "shuffles" by simulating new spike trains from a Poisson distribution.
+
+    Note that this approach is therefore not strictly a "shuffle" in the sense that the outputs
+    are not literally 'shuffled' versions of the input, and are instead new / simulated set of spikes
+    sampled based on the statistics of the input.
+
+    In addition, since this approach simulates new spike trains based on an average rate, different
+    iterations of the shuffles are not guaranteed to have the same number of spikes (and are not
+    guaranteed to have the same number of spikes as the input). This is why the outputs are returned
+    are a list of shuffles.
 
     Examples
     --------
