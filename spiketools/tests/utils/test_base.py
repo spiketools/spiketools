@@ -1,5 +1,7 @@
 """Tests for spiketools.utils.base"""
 
+import numpy as np
+
 from spiketools.utils.base import *
 
 ###################################################################################################
@@ -109,6 +111,13 @@ def test_listify():
     assert listify(['test']) == ['test']
     assert listify(0.5) == [0.5]
     assert listify([0.5]) == [0.5]
+
+    # Test with array inputs
+    assert listify(np.array([1, 2, 3, 4])) == [1, 2, 3, 4]
+    out2d = listify(np.array([[1, 2], [3, 4]]))
+    assert isinstance(out2d, list)
+    assert len(out2d) == 1
+    assert np.array_equal(out2d[0], np.array([[1, 2], [3, 4]]))
 
     # Test with indexing
     listify([1, 2], index=True) == [[1, 2]]
