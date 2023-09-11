@@ -136,6 +136,52 @@ def drop_nans(data):
     return data
 
 
+def permute_vector(data, n_permutations=1000):
+    """Create permutations of a vector of data.
+
+    Parameters
+    ----------
+    data : 1d array
+        Vector to permute.
+    n_permutations : int, optional, default: 1000
+        Number of permutations to do.
+
+    Returns
+    -------
+    permutations : 2d array
+        Permutations of the input data.
+
+    Notes
+    -----
+    Code adapted from here: https://stackoverflow.com/questions/46859304/
+
+    This function doesn't have any randomness - for a given array it will
+    iterate through the same set of permutations, in sequence.
+
+    Examples
+    --------
+    Create permutations for a vector of data:
+
+    >>> data = np.array([0, 5, 10, 15, 20])
+    >>> permute_vector(data, n_permutations=4)
+    array([[ 0,  5, 10, 15, 20],
+           [ 5, 10, 15, 20,  0],
+           [10, 15, 20,  0,  5],
+           [15, 20,  0,  5, 10]])
+    """
+
+    assert data.ndim == 1, 'The permute_vector function only works on 1d arrays.'
+
+    data_ext = np.concatenate((data, data[:-1]))
+    strides = data.strides[0]
+    permutations = np.lib.stride_tricks.as_strided(data_ext,
+                                                   shape=(n_permutations, len(data)),
+                                                   strides=(strides, strides),
+                                                   writeable=False).copy()
+
+    return permutations
+
+
 def assign_data_to_bins(data, edges, check_range=True, include_edge=True):
     """Assign data values to data bins, based on given edges.
 

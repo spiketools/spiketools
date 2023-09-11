@@ -8,7 +8,6 @@ from spiketools.measures.spikes import compute_isis, compute_firing_rate
 from spiketools.measures.conversions import (convert_times_to_train, convert_isis_to_times,
                                              convert_train_to_times)
 from spiketools.stats.generators import poisson_generator
-from spiketools.stats.permutations import permute_vector
 from spiketools.utils.checks import check_param_options
 from spiketools.utils.extract import drop_range, reinstate_range
 

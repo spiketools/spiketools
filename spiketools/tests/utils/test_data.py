@@ -56,6 +56,15 @@ def test_drop_nans():
     assert isinstance(out, np.ndarray)
     assert np.array_equal(out, np.array([[0.5, 1.0, 1.5, 2.0, 2.5], [0.5, 1.0, 1.5, 2.0, 2.5]]))
 
+def test_permute_vector():
+
+    n_permutations = 5
+    data = np.array([1, 2, 3, 4, 5])
+
+    out = permute_vector(data, n_permutations=n_permutations)
+    assert isinstance(out, np.ndarray)
+    assert out.shape == (n_permutations, len(data))
+
 def test_assign_data_to_bins():
 
     data = np.array([1, 3, 5, 7])
