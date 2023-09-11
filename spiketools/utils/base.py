@@ -3,6 +3,8 @@
 from collections import Counter
 from collections.abc import Iterable
 
+import numpy as np
+
 ###################################################################################################
 ###################################################################################################
 
@@ -330,7 +332,7 @@ def check_keys(indict, lst):
     return output
 
 
-def listify(param, index=None):
+def listify(param, index=False):
     """Check and embed a parameter into a list, if is not already in a list.
 
     Parameters
@@ -347,11 +349,14 @@ def listify(param, index=None):
         Param embedded in a list.
     """
 
-    check = param[0] if index is not None else param
+    check = param[0] if index else param
 
     # Embed all non-iterable parameters into a list
     #   Note: deal with str as a special case of iterable that we want to embed
     if not isinstance(check, Iterable) or isinstance(check, str):
+        out = [param]
+    # Deal with special case of multi dimensional numpy arrays - want to embed without flattening
+    elif isinstance(check, np.ndarray) and np.ndim(check) > 1:
         out = [param]
     # If is iterable (eg tuple or numpy array), typecast to list
     else:
