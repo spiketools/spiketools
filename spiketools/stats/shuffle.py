@@ -22,8 +22,9 @@ def shuffle_spikes(spikes, approach, n_shuffles=1000, **kwargs):
     ----------
     spikes : 1d array
         Spike times, in seconds.
-    approach : {'isi', 'bincirc', 'poisson', 'circular'}
+    approach : {'isi', 'circular', 'bincirc'}
         Which approach to take for shuffling spike times.
+        See sub-functions for details.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
     kwargs
@@ -54,19 +55,16 @@ def shuffle_spikes(spikes, approach, n_shuffles=1000, **kwargs):
     # Use lowered string, for backwards compatibility for options were upper case
     approach = approach.lower()
 
-    check_param_options(approach, 'approach', ['isi', 'bincirc', 'poisson', 'circular'])
+    check_param_options(approach, 'approach', ['isi', 'circular', 'bincirc'])
 
     if approach == 'isi':
         shuffled_spikes = shuffle_isis(spikes, n_shuffles=n_shuffles)
 
-    elif approach == 'bincirc':
-        shuffled_spikes = shuffle_bins(spikes, n_shuffles=n_shuffles, **kwargs)
-
-    elif approach == 'poisson':
-        shuffled_spikes = shuffle_poisson(spikes, n_shuffles=n_shuffles)
-
     elif approach == 'circular':
         shuffled_spikes = shuffle_circular(spikes, n_shuffles=n_shuffles, **kwargs)
+
+    elif approach == 'bincirc':
+        shuffled_spikes = shuffle_bins(spikes, n_shuffles=n_shuffles, **kwargs)
 
     return shuffled_spikes
 
@@ -138,6 +136,52 @@ def shuffle_isis(spikes, n_shuffles=1000):
     shuffled_spikes = np.zeros([n_shuffles, spikes.shape[-1]])
     for ind in range(n_shuffles):
         shuffled_spikes[ind, :] = convert_isis_to_times(np.random.permutation(isis))
+
+    return shuffled_spikes
+
+
+@drop_shuffle_range
+def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
+    """Shuffle spikes based on circularly shifting the spike train.
+
+    Parameters
+    ----------
+    spikes : 1d array
+        Spike times, in seconds.
+    shuffle_min : int
+        The minimum amount to rotate data, in terms of units of the spike train.
+    n_shuffles : int, optional, default: 1000
+        The number of shuffles to create.
+
+    Returns
+    -------
+    shuffled_spikes : 2d array
+        Shuffled spike times.
+
+    Notes
+    -----
+    The input shuffle_min should always be less than the maximum time in which a spike occurred.
+
+    Examples
+    --------
+    Shuffle spike times using the circular method:
+
+    >>> from spiketools.sim.times import sim_spiketimes
+    >>> spikes = sim_spiketimes(5, 30, 'poisson')
+    >>> shuffled_spikes = shuffle_circular(spikes, shuffle_min=10000, n_shuffles=5)
+    """
+
+    spike_train = convert_times_to_train(spikes)
+
+    shuffles = np.random.randint(low=shuffle_min,
+                                 high=len(spike_train)-shuffle_min,
+                                 size=n_shuffles)
+
+    shuffled_spikes = np.zeros([n_shuffles, len(spikes)])
+
+    for ind, shuffle in enumerate(shuffles):
+        temp_train = np.roll(spike_train, shuffle)
+        shuffled_spikes[ind, :] = convert_train_to_times(temp_train)
 
     return shuffled_spikes
 
@@ -235,7 +279,7 @@ def shuffle_poisson(spikes, n_shuffles=1000):
 
     Returns
     -------
-    shuffled_spikes : 2d array
+    shuffled_spikes : list of 1d array
         Shuffled spike times.
 
     Notes
@@ -254,56 +298,8 @@ def shuffle_poisson(spikes, n_shuffles=1000):
     rate = compute_firing_rate(spikes)
     length = (spikes[-1] - spikes[0])
 
-    poisson_spikes = list(poisson_generator(rate, length)) + spikes[0]
-
-    isis = permute_vector(compute_isis(poisson_spikes), n_permutations=n_shuffles)
-
-    shuffled_spikes = np.cumsum(isis, axis=1) + spikes[0]
-
-    return shuffled_spikes
-
-
-@drop_shuffle_range
-def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
-    """Shuffle spikes based on circularly shifting the spike train.
-
-    Parameters
-    ----------
-    spikes : 1d array
-        Spike times, in seconds.
-    shuffle_min : int
-        The minimum amount to rotate data, in terms of units of the spike train.
-    n_shuffles : int, optional, default: 1000
-        The number of shuffles to create.
-
-    Returns
-    -------
-    shuffled_spikes : 2d array
-        Shuffled spike times.
-
-    Notes
-    -----
-    The input shuffle_min should always be less than the maximum time in which a spike occurred.
-
-    Examples
-    --------
-    Shuffle spike times using the circular method:
-
-    >>> from spiketools.sim.times import sim_spiketimes
-    >>> spikes = sim_spiketimes(5, 30, 'poisson')
-    >>> shuffled_spikes = shuffle_circular(spikes, shuffle_min=10000, n_shuffles=5)
-    """
-
-    spike_train = convert_times_to_train(spikes)
-
-    shuffles = np.random.randint(low=shuffle_min,
-                                 high=len(spike_train)-shuffle_min,
-                                 size=n_shuffles)
-
-    shuffled_spikes = np.zeros([n_shuffles, len(spikes)])
-
-    for ind, shuffle in enumerate(shuffles):
-        temp_train = np.roll(spike_train, shuffle)
-        shuffled_spikes[ind, :] = convert_train_to_times(temp_train)
+    shuffled_spikes = [None] * n_shuffles
+    for ind in range(n_shuffles):
+        shuffled_spikes[ind] = list(poisson_generator(rate, length)) + spikes[0]
 
     return shuffled_spikes
