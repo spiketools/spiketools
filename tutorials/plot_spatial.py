@@ -31,15 +31,16 @@ This tutorial primarily covers the ``spiketools.spatial`` module.
 # Import auxiliary libraries
 import numpy as np
 
-# Import functions from spiketools.spatial
-from spiketools.spatial.position import (compute_distance, compute_distances,
-                                         compute_cumulative_distances, compute_speed)
+# Import functions from spiketools.spatial and related utilities
+from spiketools.spatial.distance import (compute_distance, compute_distances,
+                                         compute_cumulative_distances)
+from spiketools.spatial.speed import compute_speed
 from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignment,
                                           compute_bin_counts_assgn, compute_bin_counts_pos,
                                           normalize_bin_counts, compute_occupancy)
-from spiketools.spatial.utils import (compute_pos_ranges, compute_bin_width,
-                                      compute_sample_durations)
+from spiketools.spatial.utils import compute_pos_ranges, compute_bin_width
 from spiketools.spatial.information import compute_spatial_information
+from spiketools.utils.timestamps import compute_sample_durations
 
 # Import spiketrain simulation function
 from spiketools.sim.train import sim_spiketrain_binom
@@ -110,18 +111,16 @@ plot_position_by_time(timestamps, y_pos, alpha=1, ls='-', marker='x', color='tab
 ###################################################################################################
 
 # Compute distance between start and end point
-dist_start_end = compute_distance(x_pos[0], y_pos[0], x_pos[-1], y_pos[-1])
+dist_start_end = compute_distance(position[:, 0], position[:, -1])
 
 # Compute distance traveled at each point
-dist_traveled = compute_distances(x_pos, y_pos)
+dist_traveled = compute_distances(position)
 
 # Compute total distance traveled
-cumulative_dist_traveled = compute_cumulative_distances(x_pos, y_pos)
+cumulative_dist_traveled = compute_cumulative_distances(position)
 
-# Compute time difference between each position sampled
-bin_widths = np.diff(timestamps)
 # Compute speed at each point
-speeds = compute_speed(x_pos, y_pos, bin_widths)
+speeds = compute_speed(position, timestamps)
 
 ###################################################################################################
 
@@ -235,9 +234,6 @@ print('The time durations of position samples are: ', sample_times)
 #
 
 ###################################################################################################
-
-# Update speed to match length of position data
-speeds = np.insert(speeds, 0, 0)
 
 # Define speed threshold, used to remove position values if the speed is less than the threshold
 speed_thresh = .5e-3
