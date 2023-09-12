@@ -249,7 +249,6 @@ Methods and measures related to permutation statistics.
 .. autosummary::
    :toctree: generated/
 
-   permute_vector
    compute_surrogate_pvalue
    compute_surrogate_zscore
    compute_surrogate_stats
@@ -487,9 +486,11 @@ Utilities for working with arrays of data.
 .. autosummary::
    :toctree: generated/
 
+   make_row_orientation
    compute_range
    smooth_data
    drop_nans
+   permute_vector
    assign_data_to_bins
 
 Extract
