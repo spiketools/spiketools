@@ -432,8 +432,8 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
 
 
 def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
-                      speed_threshold=None, time_threshold=None, check_range=True,
-                      minimum=None, normalize=False, set_nan=False):
+                      min_speed=None, max_speed=None, min_time=None, max_time=None,
+                      check_range=True, minimum=None, normalize=False, set_nan=False):
     """Compute occupancy across spatial bin positions.
 
     Parameters
@@ -450,12 +450,12 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     speed : 1d array, optional
         Current speed for each position.
         Should be the same length as timestamps.
-    speed_threshold : float, optional
-        Speed threshold to apply.
-        If provided, any position values with an associated speed below this value are dropped.
-    time_threshold : float, optional
-        A maximum time threshold, per bin observation, to apply.
-        If provided, any bin values with an associated time length above this value are dropped.
+    min_speed, max_speed : float, optional
+        Minimum and/or maximum speed thresholds to apply.
+        Any entries with an associated speed below the minimum or above maximum are dropped.
+    min_time, max_time : float, optional
+        Minimum and/or maximum time thresholds, per bin observation, to apply.
+        Any entries with an associated time length below the minimum or above maximum are dropped.
     check_range : bool, optional, default: True
         Whether to check the given bin definition range against the position values.
     minimum : float, optional
@@ -498,7 +498,7 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     """
 
     df = create_position_df(position, timestamps, bins, area_range,
-                            speed, speed_threshold, time_threshold,
+                            speed, min_speed, max_speed, min_time, max_time,
                             check_range=check_range)
     occupancy = compute_occupancy_df(df, bins, minimum, normalize, set_nan)
 
@@ -506,8 +506,8 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
 
 
 def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
-                            area_range=None, speed=None, speed_threshold=None,
-                            time_threshold=None, orientation=None, **occupancy_kwargs):
+                            area_range=None, speed=None, min_speed=None, max_speed=None,
+                            min_time=None, max_time=None, orientation=None, **occupancy_kwargs):
     """Compute trial-level occupancy across spatial bin positions.
 
     Parameters
@@ -526,12 +526,12 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
     speed : 1d array, optional
         Current speed for each position.
         Should be the same length as timestamps.
-    speed_threshold : float, optional
-        Speed threshold to apply.
-        If provided, any position values with an associated speed below this value are dropped.
-    time_threshold : float, optional
-        A maximum time threshold, per bin observation, to apply.
-        If provided, any bin values with an associated time length above this value are dropped.
+    min_speed, max_speed : float, optional
+        Minimum and/or maximum speed thresholds to apply.
+        Any entries with an associated speed below the minimum or above maximum are dropped.
+    min_time, max_time : float, optional
+        Minimum and/or maximum time thresholds, per bin observation, to apply.
+        Any entries with an associated time length below the minimum or above maximum are dropped.
     orientation : {'row', 'column'}, optional
         The orientation of the position data.
         If not provided, is inferred from the position data.
@@ -585,7 +585,8 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
             _, t_speed = get_values_by_time_range(timestamps, speed, start, stop)
 
         trial_occupancy[ind, :] = compute_occupancy(\
-            t_pos, t_times, bins, area_range, t_speed, speed_threshold,
-            time_threshold, **occupancy_kwargs)
+            t_pos, t_times, bins, area_range, t_speed,
+            min_speed, max_speed, min_time, max_time,
+            **occupancy_kwargs)
 
     return trial_occupancy
