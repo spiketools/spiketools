@@ -150,16 +150,21 @@ def test_create_position_df():
     assert len(df) == position.shape[-1]
     assert np.array_equal(df.xbin.values, np.array([0, 0, 1, 1]))
 
-    # check speed dropping - drop a time bin with zero speed
-    speed = np.array([1, 1, 0, 1])
-    df = create_position_df(position, timestamps, bins, speed=speed, speed_threshold=0.5)
+    # check speed dropping - drop entries based on min or max speed thresholds
+    speed = np.array([1, 1, 0, 2])
+    df = create_position_df(position, timestamps, bins, speed=speed, min_speed=0.5)
     assert np.all(df.index == [0, 1, 3]) # check correct index dropped
     assert np.array_equal(df.xbin.values, np.array([0, 0, 1])) # check expected bin output
+    df = create_position_df(position, timestamps, bins, speed=speed, max_speed=1.5)
+    assert np.all(df.index == [0, 1, 2]) # check correct index dropped
+    assert np.array_equal(df.xbin.values, np.array([0, 0, 1])) # check expected bin output
 
-    # check time threshold - drop a long time bin (should drop position at index 2)
-    timestamps = np.array([0, 1.5, 2.5, 10])
-    time_threshold = 2.0
-    df = create_position_df(position, timestamps, bins, time_threshold=time_threshold)
+    # check time threshold - drop entries based on min or miax time in bin
+    timestamps = np.array([0, 0.5, 1.5, 10])
+    df = create_position_df(position, timestamps, bins, min_time=1.0)
+    assert np.all(df.index == [1, 2]) # check correct index dropped
+    assert np.array_equal(df.xbin.values, np.array([0, 1])) # check expected bin output
+    df = create_position_df(position, timestamps, bins, max_time=2.0)
     assert np.all(df.index == [0, 1, 3]) # check correct index dropped
     assert np.array_equal(df.xbin.values, np.array([0, 0, 1])) # check expected bin output
 

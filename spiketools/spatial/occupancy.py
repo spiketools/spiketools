@@ -7,7 +7,7 @@ import pandas as pd
 
 from spiketools.utils.data import assign_data_to_bins
 from spiketools.utils.checks import check_array_orientation
-from spiketools.utils.extract import get_values_by_time_range
+from spiketools.utils.extract import create_mask, get_values_by_time_range
 from spiketools.utils.timestamps import compute_sample_durations
 from spiketools.spatial.checks import check_position, check_bin_definition
 from spiketools.spatial.utils import get_position_xy
@@ -306,8 +306,8 @@ def normalize_bin_counts(bin_counts, occupancy):
 
 
 def create_position_df(position, timestamps, bins, area_range=None, speed=None,
-                       speed_threshold=None, time_threshold=None, dropna=True,
-                       check_range=True):
+                       min_speed=None, max_speed=None, min_time=None, max_time=None,
+                       dropna=True, check_range=True):
     """Create a dataframe that stores information about position bins.
 
     Parameters
@@ -324,12 +324,12 @@ def create_position_df(position, timestamps, bins, area_range=None, speed=None,
     speed : 1d array, optional
         Current speed for each position.
         Should be the same length as timestamps.
-    speed_threshold : float, optional
-        A minimum speed threshold to apply.
-        If provided, any position values with an associated speed below this value are dropped.
-    time_threshold : float, optional
-        A maximum time threshold, per bin observation, to apply.
-        If provided, any bin values with an associated time length above this value are dropped.
+    min_speed, max_speed : float, optional
+        Minimum and/or maximum speed thresholds to apply.
+        Any entries with an associated speed below the minimum or above maximum are dropped.
+    min_time, max_time : float, optional
+        Minimum and/or maximum time thresholds, per bin observation, to apply.
+        Any entries with an associated time length below the minimum or above maximum are dropped.
     dropna : bool, optional, default: True
         If True, drops any rows from the dataframe that contain NaN values.
     check_range : bool, optional, default: True
@@ -370,11 +370,10 @@ def create_position_df(position, timestamps, bins, area_range=None, speed=None,
 
     bindf = pd.DataFrame(data_dict)
 
-    if time_threshold is not None:
-        bindf = bindf[bindf.time < time_threshold]
+    bindf = bindf[create_mask(bindf.time, min_time, max_time)]
 
-    if speed_threshold is not None:
-        bindf = bindf[bindf.speed > speed_threshold]
+    if speed is not None:
+        bindf = bindf[create_mask(bindf.speed, min_speed, max_speed)]
 
     if dropna:
         bindf = bindf.dropna()
