@@ -140,7 +140,7 @@ def test_normalize_bin_counts():
 
 def test_create_position_df():
 
-    timestamps = np.array([5, 5, 5, 5])
+    timestamps = np.array([0, 1, 2, 3])
 
     # 1d case
     bins = 2
@@ -150,11 +150,18 @@ def test_create_position_df():
     assert len(df) == position.shape[-1]
     assert np.array_equal(df.xbin.values, np.array([0, 0, 1, 1]))
 
-    # check speed dropping
+    # check speed dropping - drop a time bin with zero speed
     speed = np.array([1, 1, 0, 1])
     df = create_position_df(position, timestamps, bins, speed=speed, speed_threshold=0.5)
-    assert len(df) == sum(speed)
-    assert np.array_equal(df.xbin.values, np.array([0, 0, 1]))
+    assert np.all(df.index == [0, 1, 3]) # check correct index dropped
+    assert np.array_equal(df.xbin.values, np.array([0, 0, 1])) # check expected bin output
+
+    # check time threshold - drop a long time bin (should drop position at index 2)
+    timestamps = np.array([0, 1.5, 2.5, 10])
+    time_threshold = 2.0
+    df = create_position_df(position, timestamps, bins, time_threshold=time_threshold)
+    assert np.all(df.index == [0, 1, 3]) # check correct index dropped
+    assert np.array_equal(df.xbin.values, np.array([0, 0, 1])) # check expected bin output
 
     # 2d case
     bins = [2, 2]
