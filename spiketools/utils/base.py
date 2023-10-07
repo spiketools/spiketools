@@ -23,7 +23,7 @@ def flatten(lst):
 
     Examples
     --------
-    Flatten a list of 3 lists inside:
+    Flatten a list containing three embedded lists:
 
     >>> lst = [[1, 2, 3, 4], [5, 6, 7 ,8], [9, 10, 11, 12]]
     >>> flatten(lst)
@@ -346,7 +346,7 @@ def listify(param, index=False):
     Returns
     -------
     list
-        Param embedded in a list.
+        Parameter embedded in a list.
     """
 
     check = param[0] if index else param
@@ -358,7 +358,7 @@ def listify(param, index=False):
     # Deal with special case of multi dimensional numpy arrays - want to embed without flattening
     elif isinstance(check, np.ndarray) and np.ndim(check) > 1:
         out = [param]
-    # If is iterable (eg tuple or numpy array), typecast to list
+    # If is iterable (e.g. tuple or numpy array), typecast to list
     else:
         out = list(param)
 

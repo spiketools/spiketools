@@ -11,7 +11,7 @@ from spiketools.utils.checks import check_array_orientation, check_param_options
 ###################################################################################################
 ###################################################################################################
 
-def make_row_orientation(arr, orientation=False):
+def make_row_orientation(arr, orientation=None):
     """Check and make sure a 2d array is in row orientation.
 
     Parameters

@@ -266,7 +266,7 @@ def check_bin_range(values, bin_area):
     Parameters
     ----------
     values : 1d array
-        A set of value to check against bin edges.
+        A set of values to check against bin edges.
     bin_area : 1d array or list
         The bin range area to check. Can be a two-item area range, or an array of bin edges.
     """
@@ -291,7 +291,7 @@ def check_time_bins(bins, time_range=None, values=None, check_range=False):
         Only used if `bins` is a float. If given, the end value is inclusive.
     values : 1d array, optional
         The time values that are to be binned.
-        Optional if time range is provided instead.
+        Optional if `time_range` is provided instead.
     check_range : bool, optional, default: False
         Whether to check the range of the data values against the time bins.
 
