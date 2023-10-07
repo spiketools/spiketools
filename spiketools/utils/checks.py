@@ -149,13 +149,16 @@ def check_list_options(contents, label, options):
         check_param_options(el, label, options)
 
 
-def check_array_orientation(arr):
+def check_array_orientation(arr, expected=None):
     """Check the orientation of an array of data.
 
     Parameters
     ----------
     arr : ndarray
         Data array to check the orientation of.
+    expected : int, optional
+        The expected number of values per sample (e.g. 2 for (x,y) position values).
+        If provided, is used to infer orientation in ambiguous cases (e.g. # samples < # values).
 
     Returns
     -------
@@ -167,26 +170,31 @@ def check_array_orientation(arr):
     Notes
     -----
     In cases where # elements > 0 <= # dimensions, orientation can be ambiguous.
-    In such cases, 'row' is returned by default.
+    In such cases, if `expected` is not provided, 'row' is returned by default.
     """
 
-    assert arr.ndim < 4, "The check_array_orientation function only works up to 3d."
+    assert arr.ndim < 4, "The `check_array_orientation` function only works up to 3d."
 
     if arr.ndim == 1:
         orientation = 'vector'
 
     else:
 
+        shape = np.array(arr.shape)
+
+        # If expected number of values is given, use this
+        if expected is not None and sum(shape == expected) == 1:
+            opts = ['trial', 'row', 'column'] if arr.ndim == 3 else ['row', 'column']
+            orientation = opts[np.where(shape == expected)[0][0]]
+
         # Special case - empty array, infer based on where zero dimension is
-        if 0 in arr.shape:
-            if arr.shape[-1] == 0:
-                orientation = 'row'
-            elif arr.shape[-2] == 0:
-                orientation = 'column'
+        elif sum(shape == 0) == 1:
+            opts = ['trial', 'column', 'row'] if arr.ndim == 3 else ['column', 'row']
+            orientation = opts[np.where(shape == 0)[0][0]]
 
         # Otherwise, infer shape based on the relative size of each dimension
         else:
-            if arr.shape[-1] >= arr.shape[-2]:
+            if shape[-1] >= shape[-2]:
                 orientation = 'row'
             else:
                 orientation = 'column'
@@ -194,13 +202,16 @@ def check_array_orientation(arr):
     return orientation
 
 
-def check_array_lst_orientation(arr_lst):
+def check_array_lst_orientation(arr_lst, expected=None):
     """Check the orientation of arrays in a list.
 
     Parameters
     ----------
     arr_lst : list of array
         List of arrays to check orientation for.
+    expected : int, optional
+        The expected number of values per sample (e.g. 2 for (x,y) position values).
+        If provided, is used to infer orientation in ambiguous cases (e.g. # samples < # values).
 
     Returns
     -------
@@ -222,7 +233,7 @@ def check_array_lst_orientation(arr_lst):
                 array = cur_arr
                 break
 
-        orientation = check_array_orientation(array)
+        orientation = check_array_orientation(array, expected)
 
     return orientation
 

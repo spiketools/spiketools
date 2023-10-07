@@ -72,11 +72,17 @@ def test_check_array_orientation():
     arr2c = np.array([[1, 2], [3, 4], [5, 6]])
     assert check_array_orientation(arr2c) == 'column'
 
-    # Check empty 2d arrays arrays
-    arr2re = arr2re = np.ones((2, 0))
+    # Check empty 2d arrays
+    arr2re = np.ones((2, 0))
     assert check_array_orientation(arr2re) == 'row'
-    arr2ce = arr2ce = np.ones((0, 2))
+    arr2ce = np.ones((0, 2))
     assert check_array_orientation(arr2ce) == 'column'
+
+    # Check single sample 2d arrays, with expected shape
+    arr2r1s = np.array([[1], [1]])
+    assert check_array_orientation(arr2r1s, expected=2) == 'row'
+    arr2c1s = np.array([[1, 1]])
+    assert check_array_orientation(arr2c1s, expected=2) == 'column'
 
     # Check 3d arrays
     arr3r = np.array([[[1, 2, 3], [4, 5, 6]], [[1, 2, 3], [4, 5, 6]]])
@@ -84,11 +90,17 @@ def test_check_array_orientation():
     arr3c = np.array([[[1, 2], [3, 4], [5, 6]], [[1, 2], [3, 4], [5, 6]]])
     assert check_array_orientation(arr3c) == 'column'
 
-    # Check empty 2d arrays arrays
+    # Check empty 3d arrays
     arr3re = np.ones((1, 2, 0))
     assert check_array_orientation(arr3re) == 'row'
     arr3ce = np.ones((1, 0, 2))
     assert check_array_orientation(arr3ce) == 'column'
+
+    # Check single sample 3d arrays, with expected shape
+    arr3r1s = np.array([[[1], [1]]])
+    assert check_array_orientation(arr3r1s, expected=2) == 'row'
+    arr3c1s = np.array([[[1, 1]]])
+    assert check_array_orientation(arr3c1s, expected=2) == 'column'
 
 def test_check_array_lst_orientation():
 
