@@ -3,6 +3,7 @@
 import numpy as np
 
 from spiketools.utils.checks import check_array_orientation
+from spiketools.utils.data import make_orientation
 
 ###################################################################################################
 ###################################################################################################
@@ -69,7 +70,7 @@ def compute_distances(position):
     array([1.        , 1.        , 1.41421356])
     """
 
-    position = position.T if check_array_orientation(position) == 'row' else position
+    position = make_orientation(position, 'column')
 
     distances = np.zeros(len(position) - 1)
     for ix, (p1, p2) in enumerate(zip(position, position[1:])):
@@ -152,7 +153,7 @@ def compute_distances_to_location(position, location):
     array([1.41421356, 1.        , 0.        , 1.41421356])
     """
 
-    position = position.T if check_array_orientation(position) == 'row' else position
+    position = make_orientation(position, 'column')
 
     distances = np.zeros(len(position))
     for ix, pos in enumerate(position):

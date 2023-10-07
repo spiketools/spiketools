@@ -8,14 +8,14 @@ from spiketools.utils.data import _include_bin_edge
 ###################################################################################################
 ###################################################################################################
 
-def test_make_row_orientation():
+def test_make_orientation():
 
     arr_r = np.array([[1, 2, 3], [4, 5, 6]])
-    out_r = make_row_orientation(arr_r)
+    out_r = make_orientation(arr_r, 'row')
     assert np.array_equal(out_r, arr_r)
 
     arr_c = np.array([[1, 4], [2, 5], [3, 6]])
-    out_c = make_row_orientation(arr_c)
+    out_c = make_orientation(arr_c, 'row')
     assert np.array_equal(out_c, arr_r)
 
 def test_compute_range():

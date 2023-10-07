@@ -11,27 +11,31 @@ from spiketools.utils.checks import check_array_orientation, check_param_options
 ###################################################################################################
 ###################################################################################################
 
-def make_row_orientation(arr, orientation=None):
-    """Check and make sure a 2d array is in row orientation.
+def make_orientation(arr, to_orientation, from_orientation=None):
+    """Check and make sure a 2d array is in a specified orientation.
 
     Parameters
     ----------
     arr : 2d array
         Array to check orientation.
-    orientation : {'row', 'column'}, optional
+    to_orientation : {'row', 'column'}
+        The desired orientation of the output data.
+        If the input is not already in this orientation, is transposed.
+    from_orientation : {'row', 'column'}, optional
         The orientation of the input array.
         If not provided, is inferred from the input data.
 
     Returns
     -------
     arr : 2d array
-        2d array in row orientation.
+        2d array in specified orientation.
     """
 
-    if not orientation:
-        orientation = check_array_orientation(arr)
+    if not from_orientation:
+        from_orientation = check_array_orientation(arr)
 
-    arr = arr.T if orientation == 'column' else arr
+    if to_orientation != from_orientation:
+        arr = arr.T
 
     return arr
 
