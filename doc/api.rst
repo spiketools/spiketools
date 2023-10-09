@@ -91,13 +91,24 @@ Measures that can be applied to collections (groups) of neurons.
 Objects
 -------
 
-Object for managing spike-related data, available in the `objects` sub-module.
+Objects for managing spike-related data, available in the `objects` sub-module.
+
+Unit
+~~~~
 
 .. currentmodule:: spiketools.objects
 .. autosummary::
    :toctree: generated/
 
    Unit
+
+Session
+~~~~~~~
+
+.. currentmodule:: spiketools.objects
+.. autosummary::
+   :toctree: generated/
+
    Session
 
 Spatial
@@ -288,6 +299,18 @@ Simulations
 
 Functionality for simulating spiking data, available in the `sim` sub-module.
 
+General Simulation Functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+General simulation functions.
+
+.. currentmodule:: spiketools.sim
+.. autosummary::
+   :toctree: generated/
+
+   sim_spiketimes
+   sim_spiketrain
+
 Spike Times
 ~~~~~~~~~~~
 
@@ -297,7 +320,6 @@ Simulate spike times.
 .. autosummary::
    :toctree: generated/
 
-   sim_spiketimes
    sim_spiketimes_poisson
 
 Spike Trains
@@ -309,7 +331,6 @@ Simulate spike trains.
 .. autosummary::
    :toctree: generated/
 
-   sim_spiketrain
    sim_spiketrain_prob
    sim_spiketrain_binom
    sim_spiketrain_poisson
