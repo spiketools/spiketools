@@ -25,6 +25,14 @@ def test_get_position_xy():
     assert np.array_equal(x_data, expected_x)
     assert np.array_equal(y_data, expected_y)
 
+    # Test single data value cases
+    x_r1s, y_r1s = get_position_xy(np.array([[1], [5]]))
+    assert np.array_equal(x_r1s, np.array([1]))
+    assert np.array_equal(y_r1s, np.array([5]))
+    x_c1s, y_c1s = get_position_xy(np.array([[1, 5]]))
+    assert np.array_equal(x_c1s, np.array([1]))
+    assert np.array_equal(y_c1s, np.array([5]))
+
 def test_compute_nbins():
 
     # check 1d case

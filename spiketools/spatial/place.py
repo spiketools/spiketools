@@ -147,7 +147,7 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
     t_speed = None
 
     bins = check_bin_definition(bins, position)
-    orientation = check_array_orientation(position) if not orientation else orientation
+    orientation = check_array_orientation(position, len(bins)) if not orientation else orientation
 
     place_bins_trial = np.zeros([len(start_times), *np.flip(bins)])
     for ind, (start, stop) in enumerate(zip(start_times, stop_times)):

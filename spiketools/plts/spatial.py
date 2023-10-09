@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from spiketools.utils.base import (listify, combine_dicts, relabel_keys,
                                    drop_key_prefix, subset_dict)
 from spiketools.utils.checks import check_array_lst_orientation
-from spiketools.utils.data import make_row_orientation, smooth_data, compute_range
+from spiketools.utils.data import make_orientation, smooth_data, compute_range
 from spiketools.modutils.functions import get_function_parameters
 from spiketools.plts.annotate import add_dots, add_gridlines
 from spiketools.plts.settings import DEFAULT_COLORS
@@ -56,7 +56,7 @@ def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
 
     orientation = check_array_lst_orientation(listify(position))
     for cur_position in listify(position):
-        ax.plot(*make_row_orientation(cur_position, orientation),
+        ax.plot(*make_orientation(cur_position, 'row', orientation),
                 color=plt_kwargs.pop('color', DEFAULT_COLORS[0]),
                 alpha=plt_kwargs.pop('alpha', 0.35),
                 **plt_kwargs)
@@ -64,20 +64,20 @@ def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
     if spike_positions is not None:
         defaults = {'color' : 'red', 'alpha' : 0.4, 'ms' : 6}
         if isinstance(spike_positions, np.ndarray):
-            add_dots(make_row_orientation(spike_positions, orientation),
+            add_dots(make_orientation(spike_positions, 'row', orientation),
                      ax=ax, **defaults)
         elif isinstance(spike_positions, dict):
-            add_dots(make_row_orientation(spike_positions.pop('positions'), orientation),
+            add_dots(make_orientation(spike_positions.pop('positions'), 'row', orientation),
                      ax=ax, **{**defaults, **spike_positions})
 
     if landmarks is not None:
         defaults = {'alpha' : 0.85, 'ms' : 12}
         for landmark in [landmarks] if not isinstance(landmarks, list) else landmarks:
             if isinstance(landmark, np.ndarray):
-                add_dots(make_row_orientation(landmark, orientation),
+                add_dots(make_orientation(landmark, 'row', orientation),
                          ax=ax, **defaults)
             elif isinstance(landmark, dict):
-                add_dots(make_row_orientation(landmark.pop('positions'), orientation),
+                add_dots(make_orientation(landmark.pop('positions'), 'row', orientation),
                          ax=ax, **landmark)
 
     add_gridlines(x_bins, y_bins, ax)

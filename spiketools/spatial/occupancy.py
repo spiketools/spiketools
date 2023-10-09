@@ -573,7 +573,7 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
     """
 
     bins = check_bin_definition(bins, position)
-    orientation = check_array_orientation(position) if not orientation else orientation
+    orientation = check_array_orientation(position, len(bins)) if not orientation else orientation
 
     t_speed = None
     trial_occupancy = np.zeros([len(start_times), *np.flip(bins)])

@@ -28,7 +28,7 @@ def get_position_xy(position, orientation=None):
 
     assert position.ndim == 2, "Position data must be 2d to unpack X & Y dimensions."
 
-    orientation = check_array_orientation(position) if not orientation else orientation
+    orientation = check_array_orientation(position, 2) if not orientation else orientation
 
     if orientation == 'row':
         x_data, y_data = position
