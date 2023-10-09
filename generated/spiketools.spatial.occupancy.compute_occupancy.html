@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.spatial.occupancy.compute_occupancy &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.spatial.occupancy.compute_occupancy &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -99,7 +99,7 @@
 <h1>spiketools.spatial.occupancy.compute_occupancy<a class="headerlink" href="#spiketools-spatial-occupancy-compute-occupancy" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.spatial.occupancy.compute_occupancy">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.occupancy.</span></span><span class="sig-name descname"><span class="pre">compute_occupancy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_nan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/occupancy.html#compute_occupancy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.occupancy.compute_occupancy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.occupancy.</span></span><span class="sig-name descname"><span class="pre">compute_occupancy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_nan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/occupancy.html#compute_occupancy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.occupancy.compute_occupancy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute occupancy across spatial bin positions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -116,11 +116,11 @@ If 2d should be a list, defined as [number of x_bins, number of y_bins].</p>
 <dt><strong>speed</strong><span class="classifier">1d array, optional</span></dt><dd><p>Current speed for each position.
 Should be the same length as timestamps.</p>
 </dd>
-<dt><strong>speed_threshold</strong><span class="classifier">float, optional</span></dt><dd><p>Speed threshold to apply.
-If provided, any position values with an associated speed below this value are dropped.</p>
+<dt><strong>min_speed, max_speed</strong><span class="classifier">float, optional</span></dt><dd><p>Minimum and/or maximum speed thresholds to apply.
+Any entries with an associated speed below the minimum or above maximum are dropped.</p>
 </dd>
-<dt><strong>time_threshold</strong><span class="classifier">float, optional</span></dt><dd><p>A maximum time threshold, per bin observation, to apply.
-If provided, any bin values with an associated time length above this value are dropped.</p>
+<dt><strong>min_time, max_time</strong><span class="classifier">float, optional</span></dt><dd><p>Minimum and/or maximum time thresholds, per bin observation, to apply.
+Any entries with an associated time length below the minimum or above maximum are dropped.</p>
 </dd>
 <dt><strong>check_range</strong><span class="classifier">bool, optional, default: True</span></dt><dd><p>Whether to check the given bin definition range against the position values.</p>
 </dd>

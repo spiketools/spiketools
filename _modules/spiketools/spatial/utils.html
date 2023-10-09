@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.spatial.utils &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.spatial.utils &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -101,12 +101,12 @@
 
 <span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">compute_range</span>
 <span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_axis</span><span class="p">,</span> <span class="n">check_array_orientation</span>
-<span class="kn">from</span> <span class="nn">spiketools.spatial.checks</span> <span class="kn">import</span> <span class="n">check_spatial_bins</span>
+<span class="kn">from</span> <span class="nn">spiketools.spatial.checks</span> <span class="kn">import</span> <span class="n">check_position</span><span class="p">,</span> <span class="n">check_bin_definition</span><span class="p">,</span> <span class="n">check_bin_widths</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
 
-<span class="k">def</span> <span class="nf">get_position_xy</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="get_position_xy"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.get_position_xy.html#spiketools.spatial.utils.get_position_xy">[docs]</a><span class="k">def</span> <span class="nf">get_position_xy</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the x &amp; y data vectors from a 2d position data array.</span>
 
 <span class="sd">    Parameters</span>
@@ -125,14 +125,14 @@
 
     <span class="k">assert</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Position data must be 2d to unpack X &amp; Y dimensions.&quot;</span>
 
-    <span class="n">orientation</span> <span class="o">=</span> <span class="n">check_array_orientation</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">orientation</span> <span class="k">else</span> <span class="n">orientation</span>
+    <span class="n">orientation</span> <span class="o">=</span> <span class="n">check_array_orientation</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">orientation</span> <span class="k">else</span> <span class="n">orientation</span>
 
     <span class="k">if</span> <span class="n">orientation</span> <span class="o">==</span> <span class="s1">&#39;row&#39;</span><span class="p">:</span>
         <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span> <span class="o">=</span> <span class="n">position</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">position</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
 
-    <span class="k">return</span> <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span>
+    <span class="k">return</span> <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span></div>
 
 
 <div class="viewcode-block" id="compute_nbins"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_nbins.html#spiketools.spatial.utils.compute_nbins">[docs]</a><span class="k">def</span> <span class="nf">compute_nbins</span><span class="p">(</span><span class="n">bins</span><span class="p">):</span>
@@ -157,7 +157,7 @@
 <span class="sd">    20</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_spatial_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_bin_definition</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">n_bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -197,6 +197,8 @@
 <span class="sd">    array([1.5, 5.1])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">check_position</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">ranges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">compute_range</span><span class="p">(</span><span class="n">position</span><span class="p">))</span>
 
@@ -206,35 +208,7 @@
         <span class="n">ranges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">compute_range</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
         <span class="n">ranges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ranges</span><span class="o">.</span><span class="n">T</span> <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">ranges</span><span class="p">)</span>
 
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Position input should be 1d or 2d.&#39;</span><span class="p">)</span>
-
     <span class="k">return</span> <span class="n">ranges</span></div>
-
-
-<div class="viewcode-block" id="compute_sample_durations"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_sample_durations.html#spiketools.spatial.utils.compute_sample_durations">[docs]</a><span class="k">def</span> <span class="nf">compute_sample_durations</span><span class="p">(</span><span class="n">timestamps</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the time duration of each sample.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    timestamps : 1d array</span>
-<span class="sd">        Timestamps, in seconds.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    1d array</span>
-<span class="sd">        Time duration of each sampling bin.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    Compute times between timestamp samples:</span>
-
-<span class="sd">    &gt;&gt;&gt; timestamps = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])</span>
-<span class="sd">    &gt;&gt;&gt; compute_sample_durations(timestamps)</span>
-<span class="sd">    array([1., 2., 3., 2., 1., 0.])</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">timestamps</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="compute_bin_width"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.compute_bin_width.html#spiketools.spatial.utils.compute_bin_width">[docs]</a><span class="k">def</span> <span class="nf">compute_bin_width</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">):</span>
@@ -259,12 +233,11 @@
 <span class="sd">    2.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">widths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">)</span>
+    <span class="n">bin_widths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">)</span>
+    <span class="n">check_bin_widths</span><span class="p">(</span><span class="n">bin_widths</span><span class="p">)</span>
+    <span class="n">bin_width</span> <span class="o">=</span> <span class="n">bin_widths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="c1"># Check that all bin widths are the same, representing equidistant bins</span>
-    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">widths</span><span class="p">,</span> <span class="n">widths</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="s1">&#39;Bin edges should be equidistant.&#39;</span>
-
-    <span class="k">return</span> <span class="n">widths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">bin_width</span></div>
 
 
 <div class="viewcode-block" id="convert_2dindices"><a class="viewcode-back" href="../../../generated/spiketools.spatial.utils.convert_2dindices.html#spiketools.spatial.utils.convert_2dindices">[docs]</a><span class="k">def</span> <span class="nf">convert_2dindices</span><span class="p">(</span><span class="n">xbins</span><span class="p">,</span> <span class="n">ybins</span><span class="p">,</span> <span class="n">bins</span><span class="p">):</span>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.utils.base &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.utils.base &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -98,6 +98,9 @@
 <span></span><span class="sd">&quot;&quot;&quot;Base utility functions, that manipulate basic data structures, etc.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -117,7 +120,7 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Flatten a list of 3 lists inside:</span>
+<span class="sd">    Flatten a list containing three embedded lists:</span>
 
 <span class="sd">    &gt;&gt;&gt; lst = [[1, 2, 3, 4], [5, 6, 7 ,8], [9, 10, 11, 12]]</span>
 <span class="sd">    &gt;&gt;&gt; flatten(lst)</span>
@@ -264,7 +267,7 @@
 <span class="sd">    indict : dict</span>
 <span class="sd">        Dictionary to update keys for.</span>
 <span class="sd">    prefix : str</span>
-<span class="sd">        Prefix to add to each dictionary.</span>
+<span class="sd">        Prefix to add to each dictionary key.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -287,6 +290,40 @@
     <span class="k">return</span> <span class="n">out</span></div>
 
 
+<div class="viewcode-block" id="drop_key_prefix"><a class="viewcode-back" href="../../../generated/spiketools.utils.base.drop_key_prefix.html#spiketools.utils.base.drop_key_prefix">[docs]</a><span class="k">def</span> <span class="nf">drop_key_prefix</span><span class="p">(</span><span class="n">indict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update keys of a dictionary by dropping a prefix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    indict : dict</span>
+<span class="sd">        Dictionary to update keys for.</span>
+<span class="sd">    prefix : str</span>
+<span class="sd">        Prefix to drop from each dictionary key.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dictionary with updated keys.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Drop a prefix from dictionary keys:</span>
+
+<span class="sd">    &gt;&gt;&gt; indict = {&#39;analysis_setting&#39; : 12, &#39;analysis_param&#39; : 22}</span>
+<span class="sd">    &gt;&gt;&gt; drop_key_prefix(indict, &#39;analysis&#39;)</span>
+<span class="sd">    {&#39;setting&#39;: 12, &#39;param&#39;: 22}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">indict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">key_elements</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">key_elements</span><span class="p">:</span>
+            <span class="n">key_elements</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">key_elements</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
 <div class="viewcode-block" id="relabel_keys"><a class="viewcode-back" href="../../../generated/spiketools.utils.base.relabel_keys.html#spiketools.utils.base.relabel_keys">[docs]</a><span class="k">def</span> <span class="nf">relabel_keys</span><span class="p">(</span><span class="n">indict</span><span class="p">,</span> <span class="n">new_keys</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Relabel keys in a dictionary.</span>
 
@@ -302,6 +339,15 @@
 <span class="sd">    -------</span>
 <span class="sd">    outdict : dict</span>
 <span class="sd">        Dictionary with updated key names.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Relabel a set of keys in a dictionary:</span>
+
+<span class="sd">    &gt;&gt;&gt; dictionary = {&#39;spike_name&#39; : &#39;a1&#39;, &#39;spike_type&#39; : 0}</span>
+<span class="sd">    &gt;&gt;&gt; new_keys = {&#39;spike_name&#39; : &#39;name&#39;, &#39;spike_type&#39; : &#39;type&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; relabel_keys(dictionary, new_keys)</span>
+<span class="sd">    {&#39;name&#39;: &#39;a1&#39;, &#39;type&#39;: 0}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">outdict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -311,23 +357,107 @@
     <span class="k">return</span> <span class="n">outdict</span></div>
 
 
-<div class="viewcode-block" id="listify"><a class="viewcode-back" href="../../../generated/spiketools.utils.base.listify.html#spiketools.utils.base.listify">[docs]</a><span class="k">def</span> <span class="nf">listify</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="subset_dict"><a class="viewcode-back" href="../../../generated/spiketools.utils.base.subset_dict.html#spiketools.utils.base.subset_dict">[docs]</a><span class="k">def</span> <span class="nf">subset_dict</span><span class="p">(</span><span class="n">indict</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Subset a dictionary based on key labels.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    indict : dict</span>
+<span class="sd">        Dictionary to subset.</span>
+<span class="sd">    label : str</span>
+<span class="sd">        Label to use to subset keys.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Subsetted dictionary.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Subset a set of specified keys from a dictionary:</span>
+
+<span class="sd">    &gt;&gt;&gt; dictionary = {&#39;spike_name&#39; : &#39;a1&#39;, &#39;spike_type&#39; : 0, &#39;data&#39; : [1, 2, 3]}</span>
+<span class="sd">    &gt;&gt;&gt; label = &#39;spike&#39;</span>
+<span class="sd">    &gt;&gt;&gt; subset_dict(dictionary, label)</span>
+<span class="sd">    {&#39;spike_name&#39;: &#39;a1&#39;, &#39;spike_type&#39;: 0}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">indict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">indict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="check_keys"><a class="viewcode-back" href="../../../generated/spiketools.utils.base.check_keys.html#spiketools.utils.base.check_keys">[docs]</a><span class="k">def</span> <span class="nf">check_keys</span><span class="p">(</span><span class="n">indict</span><span class="p">,</span> <span class="n">lst</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check a dictionary for a set of keys.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    indict : dict</span>
+<span class="sd">        Dictionary to check keys of.</span>
+<span class="sd">    lst : list</span>
+<span class="sd">        List of keys to check in the dictionary.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str or None</span>
+<span class="sd">        Key label that was found in the dictionary, or None if no specified keys found.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If more than one of the specified keys are in the dictionary, the first one is returned.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Check which key is defined in dictionary:</span>
+
+<span class="sd">    &gt;&gt;&gt; dictionary = {&#39;spike_name&#39; : &#39;a1&#39;, &#39;spike_type&#39; : 0}</span>
+<span class="sd">    &gt;&gt;&gt; lst = [&#39;spike_name&#39;, &#39;spike_label&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; check_keys(dictionary, lst)</span>
+<span class="sd">    &#39;spike_name&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">indict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">el</span>
+            <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="listify"><a class="viewcode-back" href="../../../generated/spiketools.utils.base.listify.html#spiketools.utils.base.listify">[docs]</a><span class="k">def</span> <span class="nf">listify</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check and embed a parameter into a list, if is not already in a list.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    param : object</span>
 <span class="sd">        Parameter to check and embed in a list, if it is not already.</span>
+<span class="sd">    index : bool, optional</span>
+<span class="sd">        If True, indexes into `param` to check the 0th element, instead of `param` itself.</span>
+<span class="sd">        This can be used for checking and embedding a list into a list.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    list</span>
-<span class="sd">        Param embedded in a list.</span>
+<span class="sd">        Parameter embedded in a list.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">check</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">param</span>
+    <span class="n">check</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">index</span> <span class="k">else</span> <span class="n">param</span>
 
-    <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">param</span>
+    <span class="c1"># Embed all non-iterable parameters into a list</span>
+    <span class="c1">#   Note: deal with str as a special case of iterable that we want to embed</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span><span class="p">]</span>
+    <span class="c1"># Deal with special case of multi dimensional numpy arrays - want to embed without flattening</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">check</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span><span class="p">]</span>
+    <span class="c1"># If is iterable (e.g. tuple or numpy array), typecast to list</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
 </pre></div>

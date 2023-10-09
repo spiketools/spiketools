@@ -31,8 +31,7 @@ This tutorial primarily covers the ``spiketools.stats`` module.
 import numpy as np
 
 # Import statistics-related functions
-from spiketools.stats.shuffle import (shuffle_spikes, shuffle_isis, shuffle_bins,
-                                      shuffle_poisson, shuffle_circular)
+from spiketools.stats.shuffle import shuffle_spikes, shuffle_isis, shuffle_circular, shuffle_bins
 from spiketools.stats.permutations import compute_surrogate_stats
 from spiketools.stats.anova import create_dataframe, create_dataframe_bins, fit_anova
 from spiketools.stats.trials import (compute_pre_post_ttest, compare_pre_post_activity,
@@ -74,18 +73,16 @@ spikes = sim_spiketimes(10, 100, 'poisson', refractory=0.001)
 # The approaches we will try are:
 #
 # - :func:`~.shuffle_isis`: shuffle spike times using permuted inter-spike intervals (isis)
-# - :func:`~.shuffle_bins`: shuffle spikes by circularly shuffling bins of varying length
-# - :func:`~.shuffle_poisson`: shuffle spikes based on a Poisson distribution
 # - :func:`~.shuffle_circular`: shuffle spikes by circularly shifting the spike train
+# - :func:`~.shuffle_bins`: shuffle spikes by circularly shuffling bins of varying length
 #
 
 ###################################################################################################
 
 # Shuffle spikes using the four described methods
 shuffled_isis = shuffle_isis(spikes, n_shuffles=10)
-shuffled_bins = shuffle_bins(spikes, bin_width_range=[0.5, 7], n_shuffles=10)
-shuffled_poisson = shuffle_poisson(spikes, n_shuffles=10)
 shuffled_circular = shuffle_circular(spikes, shuffle_min=200, n_shuffles=10)
+shuffled_bins = shuffle_bins(spikes, bin_width_range=[0.5, 7], n_shuffles=10)
 
 ###################################################################################################
 
@@ -95,23 +92,19 @@ plot_rasters(spikes, xlim=[0, 6], title='Non-shuffled', vline=None)
 ###################################################################################################
 
 # Plot different shuffles
-ax1, ax2, ax3, ax4 = make_axes(4, 2, sharey=True, hspace=0.3, figsize=(15, 7))
+ax1, ax2, ax3 = make_axes(3, 1, sharey=True, hspace=0.3, figsize=(14, 9))
 
 # Shuffle spikes based on inter-spike intervals
 plot_rasters(shuffled_isis, xlim=[0, 6], ax=ax1,
              title='Shuffle ISIS n_shuffles = 10')
 
-# Shuffle spikes Poisson
-plot_rasters(shuffled_poisson, xlim=[0, 6], ax=ax2,
-             title='Shuffle Poisson n_shuffles = 10')
+# Circular shuffle
+plot_rasters(shuffled_circular, xlim=[0, 6], ax=ax2,
+             title='Shuffle circular n_shuffles = 10')
 
 # Shuffled spikes using a binned circular shuffle
 plot_rasters(shuffled_bins, xlim=[0, 6], ax=ax3,
              title='Shuffle bins n_shuffles = 10')
-
-# Circular shuffle
-plot_rasters(shuffled_circular, xlim=[0, 6], ax=ax4,
-             title='Shuffle circular n_shuffles = 10')
 
 ###################################################################################################
 #

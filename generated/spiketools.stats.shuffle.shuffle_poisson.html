@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.stats.shuffle.shuffle_poisson &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.stats.shuffle.shuffle_poisson &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -100,7 +100,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.stats.shuffle.shuffle_poisson">
 <span class="sig-prename descclassname"><span class="pre">spiketools.stats.shuffle.</span></span><span class="sig-name descname"><span class="pre">shuffle_poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shuffles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/shuffle.html#shuffle_poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.shuffle.shuffle_poisson" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shuffle spikes based on a Poisson distribution.</p>
+<dd><p>Shuffle spikes based on generating new spike trains from a Poisson distribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -112,13 +112,20 @@
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>shuffled_spikes</strong><span class="classifier">2d array</span></dt><dd><p>Shuffled spike times.</p>
+<dt><strong>shuffled_spikes</strong><span class="classifier">list of 1d array</span></dt><dd><p>Shuffled spike times.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>This is an experimental implementation, and still has some issues matching spike counts.</p>
+<p>This approach creates “shuffles” by simulating new spike trains from a Poisson distribution.</p>
+<p>Note that this approach is therefore not strictly a “shuffle” in the sense that the outputs
+are not literally ‘shuffled’ versions of the input, and are instead new / simulated set of spikes
+sampled based on the statistics of the input.</p>
+<p>In addition, since this approach simulates new spike trains based on an average rate, different
+iterations of the shuffles are not guaranteed to have the same number of spikes (and are not
+guaranteed to have the same number of spikes as the input). This is why the outputs are returned
+are a list of shuffles.</p>
 <p class="rubric">Examples</p>
 <p>Shuffle spike times using the Poisson method:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spiketools.sim.times</span> <span class="kn">import</span> <span class="n">sim_spiketimes</span>

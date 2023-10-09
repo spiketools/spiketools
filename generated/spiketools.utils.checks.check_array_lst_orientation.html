@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.spatial.position.compute_distance &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.utils.checks.check_array_lst_orientation &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -95,36 +95,31 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-spatial-position-compute-distance">
-<h1>spiketools.spatial.position.compute_distance<a class="headerlink" href="#spiketools-spatial-position-compute-distance" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-utils-checks-check-array-lst-orientation">
+<h1>spiketools.utils.checks.check_array_lst_orientation<a class="headerlink" href="#spiketools-utils-checks-check-array-lst-orientation" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.spatial.position.compute_distance">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.position.</span></span><span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/position.html#compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.position.compute_distance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the distance between two positions.</p>
+<dt class="sig sig-object py" id="spiketools.utils.checks.check_array_lst_orientation">
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.checks.</span></span><span class="sig-name descname"><span class="pre">check_array_lst_orientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr_lst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/checks.html#check_array_lst_orientation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.checks.check_array_lst_orientation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the orientation of arrays in a list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>x1, y1</strong><span class="classifier">float</span></dt><dd><p>The X &amp; Y values for the first position.</p>
+<dt><strong>arr_lst</strong><span class="classifier">list of array</span></dt><dd><p>List of arrays to check orientation for.</p>
 </dd>
-<dt><strong>x2, y2</strong><span class="classifier">float</span></dt><dd><p>The X &amp; Y values for the second position.</p>
+<dt><strong>expected</strong><span class="classifier">int, optional</span></dt><dd><p>The expected number of values per sample (e.g. 2 for (x,y) position values).
+If provided, is used to infer orientation in ambiguous cases (e.g. # samples &lt; # values).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>float</dt><dd><p>Distance between the two positions.</p>
+<dt><strong>orientation</strong><span class="classifier">{‘vector’, ‘row’, ‘column’}</span></dt><dd><p>The inferred orientation of the data array.
+For 1d arrays, ‘vector’ is returned.
+For 2d or 3d arrays, ‘row’ or ‘column’ is returned based on the shape of the array.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<p>Compute distance between the two points (x1, y1) and (x2, y2):</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
-<span class="go">5.0</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>

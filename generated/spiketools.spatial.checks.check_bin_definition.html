@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.spatial.position.compute_speed &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.spatial.checks.check_bin_definition &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -95,36 +95,36 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-spatial-position-compute-speed">
-<h1>spiketools.spatial.position.compute_speed<a class="headerlink" href="#spiketools-spatial-position-compute-speed" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-spatial-checks-check-bin-definition">
+<h1>spiketools.spatial.checks.check_bin_definition<a class="headerlink" href="#spiketools-spatial-checks-check-bin-definition" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.spatial.position.compute_speed">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.position.</span></span><span class="sig-name descname"><span class="pre">compute_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_widths</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/position.html#compute_speed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.position.compute_speed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute speeds across a sequence of positions.</p>
+<dt class="sig sig-object py" id="spiketools.spatial.checks.check_bin_definition">
+<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.checks.</span></span><span class="sig-name descname"><span class="pre">check_bin_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/checks.html#check_bin_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.checks.check_bin_definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check a bin definition for binning spatial data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>xs, ys</strong><span class="classifier">1d array</span></dt><dd><p>Position data, of X and Y locations.</p>
+<dt><strong>bins</strong><span class="classifier">int or list of [int, int]</span></dt><dd><p>The bin definition for dividing up the space. If 1d, can be integer.
+If 2d should be a list, defined as [number of x_bins, number of y_bins].</p>
 </dd>
-<dt><strong>bin_widths</strong><span class="classifier">1d array</span></dt><dd><p>Width of each position bin.</p>
+<dt><strong>position</strong><span class="classifier">1d or 2d array, optional</span></dt><dd><p>Position values across a 1d or 2d space.
+If provided, used to check consistency between position dimensionality and bin definition.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>speed</strong><span class="classifier">1d array</span></dt><dd><p>Vector of speeds across each position step.</p>
+<dt><strong>bins</strong><span class="classifier">list of [int] or list of [int, int]</span></dt><dd><p>Bin definition, after checking, and converted to being a list.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>AssertionError</dt><dd><p>Raised if there are any issues with the given bin definition.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<p>Compute speed across vectors of x- and y-positions:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bin_width</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_speed</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">)</span>
-<span class="go">array([1.41421356, 1.41421356, 2.82842712, 1.41421356])</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>

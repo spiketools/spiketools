@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.spatial.utils.compute_sample_durations &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.utils.checks.check_axis &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -95,33 +95,33 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-spatial-utils-compute-sample-durations">
-<h1>spiketools.spatial.utils.compute_sample_durations<a class="headerlink" href="#spiketools-spatial-utils-compute-sample-durations" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-utils-checks-check-axis">
+<h1>spiketools.utils.checks.check_axis<a class="headerlink" href="#spiketools-utils-checks-check-axis" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.spatial.utils.compute_sample_durations">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.utils.</span></span><span class="sig-name descname"><span class="pre">compute_sample_durations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/utils.html#compute_sample_durations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.utils.compute_sample_durations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the time duration of each sample.</p>
+<dt class="sig sig-object py" id="spiketools.utils.checks.check_axis">
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.checks.</span></span><span class="sig-name descname"><span class="pre">check_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/checks.html#check_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.checks.check_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check axis argument, and infer from array orientation if not defined.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>timestamps</strong><span class="classifier">1d array</span></dt><dd><p>Timestamps, in seconds.</p>
+<dt><strong>axis</strong><span class="classifier">{None, 0, 1, -1}</span></dt><dd><p>Axis argument.
+If not None, this value is returned.
+If None, the given array is checked to infer axis.</p>
+</dd>
+<dt><strong>arr</strong><span class="classifier">ndarray or list of ndarray</span></dt><dd><p>Array to check the axis argument for.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>1d array</dt><dd><p>Time duration of each sampling bin.</p>
+<dt><strong>axis</strong><span class="classifier">{0, 1, -1}</span></dt><dd><p>Axis argument.
+For 1d array, 0 is returned, reflecting a vector.
+For 2d array, 0 is for column, and 1 is for row.
+If the axis could not be inferred, -1 is returned.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<p>Compute times between timestamp samples:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_sample_durations</span><span class="p">(</span><span class="n">timestamps</span><span class="p">)</span>
-<span class="go">array([1., 2., 3., 2., 1., 0.])</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.spatial.position.compute_distances &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.plts.task.plot_task_events &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -95,33 +95,26 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-spatial-position-compute-distances">
-<h1>spiketools.spatial.position.compute_distances<a class="headerlink" href="#spiketools-spatial-position-compute-distances" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-plts-task-plot-task-events">
+<h1>spiketools.plts.task.plot_task_events<a class="headerlink" href="#spiketools-plts-task-plot-task-events" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.spatial.position.compute_distances">
-<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.position.</span></span><span class="sig-name descname"><span class="pre">compute_distances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/position.html#compute_distances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.position.compute_distances" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute distances across a sequence of positions.</p>
+<dt class="sig sig-object py" id="spiketools.plts.task.plot_task_events">
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.task.</span></span><span class="sig-name descname"><span class="pre">plot_task_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/task.html#plot_task_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.task.plot_task_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot task events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>xs, ys</strong><span class="classifier">1d array</span></dt><dd><p>Position data, of X and Y locations.</p>
+<dt><strong>events</strong><span class="classifier">array or dict or list</span></dt><dd><p>If array, indicates the times to plot event markers.
+If dict, should have the event markers as a ‘times’ key, plus any additional plot arguments.
+If list, can be a list of array or of dictionaries.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
+</dd>
+<dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>1d array</dt><dd><p>Vector of distances between positions.</p>
-</dd>
 </dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<p>Compute distances between vectors of x- and y-positions:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_distances</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
-<span class="go">array([1.41421356, 1.41421356, 1.41421356, 1.41421356])</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>

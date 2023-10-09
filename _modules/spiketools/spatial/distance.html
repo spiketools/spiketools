@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>spiketools.spatial.distance &#8212; spiketools 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          spiketools</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../api.html">API</a></li>
+                <li><a href="../../../glossary.html">Glossary</a></li>
+                <li><a href="../../../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="https://github.com/spiketools/spiketools">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for spiketools.spatial.distance</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Distance related functions.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_array_orientation</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">make_orientation</span>
+
+<span class="c1">###################################################################################################</span>
+<span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="compute_distance"><a class="viewcode-back" href="../../../generated/spiketools.spatial.distance.compute_distance.html#spiketools.spatial.distance.compute_distance">[docs]</a><span class="k">def</span> <span class="nf">compute_distance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the distance between two positions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    p1, p2 : list of float</span>
+<span class="sd">        The position values of the two positions to calculate distance between.</span>
+<span class="sd">        Can be 1d (a single value per position) or 2d (x and y values per position).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Distance between the two positions.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute distance between two 1d positions:</span>
+
+<span class="sd">    &gt;&gt;&gt; p1, p2 = [2], [5]</span>
+<span class="sd">    &gt;&gt;&gt; compute_distance(p1, p2)</span>
+<span class="sd">    3.0</span>
+
+<span class="sd">    Compute distance between the two 2d positions:</span>
+
+<span class="sd">    &gt;&gt;&gt; p1 = [1, 6]</span>
+<span class="sd">    &gt;&gt;&gt; p2 = [5, 9]</span>
+<span class="sd">    &gt;&gt;&gt; compute_distance(p1, p2)</span>
+<span class="sd">    5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">p2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="compute_distances"><a class="viewcode-back" href="../../../generated/spiketools.spatial.distance.compute_distances.html#spiketools.spatial.distance.compute_distances">[docs]</a><span class="k">def</span> <span class="nf">compute_distances</span><span class="p">(</span><span class="n">position</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute distances across a sequence of positions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    position : 1d or 2d array</span>
+<span class="sd">        Position values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    distances : 1d array</span>
+<span class="sd">        Vector of distances between positions.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute distances across a sequence of 1d positions:</span>
+
+<span class="sd">    &gt;&gt;&gt; position = np.array([1., 2., 4., 5.])</span>
+<span class="sd">    &gt;&gt;&gt; compute_distances(position)</span>
+<span class="sd">    array([1., 2., 1.])</span>
+
+<span class="sd">    Compute distances across a sequence of 2d positions:</span>
+
+<span class="sd">    &gt;&gt;&gt; position = np.array([[1, 2, 2, 3],</span>
+<span class="sd">    ...                      [1, 1, 2, 3]])</span>
+<span class="sd">    &gt;&gt;&gt; compute_distances(position)</span>
+<span class="sd">    array([1.        , 1.        , 1.41421356])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">position</span> <span class="o">=</span> <span class="n">make_orientation</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="s1">&#39;column&#39;</span><span class="p">)</span>
+
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">:])):</span>
+        <span class="n">distances</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_distance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">distances</span></div>
+
+
+<div class="viewcode-block" id="compute_cumulative_distances"><a class="viewcode-back" href="../../../generated/spiketools.spatial.distance.compute_cumulative_distances.html#spiketools.spatial.distance.compute_cumulative_distances">[docs]</a><span class="k">def</span> <span class="nf">compute_cumulative_distances</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">align_output</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute cumulative distance across a sequence of positions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    position : 1d or 2d array</span>
+<span class="sd">        Position values.</span>
+<span class="sd">    align_output : bool, optional, default: True</span>
+<span class="sd">        If True, aligns the output with the sampling of the input, to match length.</span>
+<span class="sd">        To do so, value of 0 is prepended to the output array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    1d array</span>
+<span class="sd">        Cumulative distances.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute cumulative distances across a sequence of 1d positions:</span>
+
+<span class="sd">    &gt;&gt;&gt; position = np.array([1., 2., 4., 5.])</span>
+<span class="sd">    &gt;&gt;&gt; compute_cumulative_distances(position)</span>
+<span class="sd">    array([0., 1., 3., 4.])</span>
+
+<span class="sd">    Compute cumulative distances across a sequence of 2d positions:</span>
+
+<span class="sd">    &gt;&gt;&gt; position = np.array([[1, 2, 2, 3],</span>
+<span class="sd">    ...                      [1, 1, 2, 3]])</span>
+<span class="sd">    &gt;&gt;&gt; compute_cumulative_distances(position)</span>
+<span class="sd">    array([0.        , 1.        , 2.        , 3.41421356])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cumul_dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">compute_distances</span><span class="p">(</span><span class="n">position</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">align_output</span><span class="p">:</span>
+        <span class="n">cumul_dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">cumul_dists</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cumul_dists</span></div>
+
+
+<div class="viewcode-block" id="compute_distances_to_location"><a class="viewcode-back" href="../../../generated/spiketools.spatial.distance.compute_distances_to_location.html#spiketools.spatial.distance.compute_distances_to_location">[docs]</a><span class="k">def</span> <span class="nf">compute_distances_to_location</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute distances between a sequence of positions and a specified location.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    position : 1d or 2d array</span>
+<span class="sd">        Position values.</span>
+<span class="sd">    location : list of float</span>
+<span class="sd">        The position values of the two positions to calculate distance between.</span>
+<span class="sd">        Can be 1d (a single value per position) or 2d (x and y values per position).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    distances : 1d array</span>
+<span class="sd">        Computed distances between each position in the sequence, and the specified location.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute distances to location across a sequence of 1d positions:</span>
+
+<span class="sd">    &gt;&gt;&gt; position = np.array([1., 2., 3., 4., 5.])</span>
+<span class="sd">    &gt;&gt;&gt; location = [3.]</span>
+<span class="sd">    &gt;&gt;&gt; compute_distances_to_location(position, location)</span>
+<span class="sd">    array([2., 1., 0., 1., 2.])</span>
+
+<span class="sd">    Compute distances to location across a sequence of 2d positions:</span>
+
+<span class="sd">    &gt;&gt;&gt; position = np.array([[1, 2, 2, 3],</span>
+<span class="sd">    ...                      [1, 1, 2, 3]])</span>
+<span class="sd">    &gt;&gt;&gt; location = [2, 2]</span>
+<span class="sd">    &gt;&gt;&gt; compute_distances_to_location(position, location)</span>
+<span class="sd">    array([1.41421356, 1.        , 0.        , 1.41421356])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">position</span> <span class="o">=</span> <span class="n">make_orientation</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="s1">&#39;column&#39;</span><span class="p">)</span>
+
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">position</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">position</span><span class="p">):</span>
+        <span class="n">distances</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_distance</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">distances</span></div>
+
+
+<div class="viewcode-block" id="get_closest_position"><a class="viewcode-back" href="../../../generated/spiketools.spatial.distance.get_closest_position.html#spiketools.spatial.distance.get_closest_position">[docs]</a><span class="k">def</span> <span class="nf">get_closest_position</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the index of the closest position value to a specified location.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    position : 1d or 2d array</span>
+<span class="sd">        Position values.</span>
+<span class="sd">    location : list of float</span>
+<span class="sd">        The position values of the two positions to calculate distance between.</span>
+<span class="sd">        Can be 1d (a single value per position) or 2d (x and y values per position).</span>
+<span class="sd">    threshold : float, optional</span>
+<span class="sd">        The threshold that the closest value must be within to be returned.</span>
+<span class="sd">        If the distance is greater than the threshold, output is -1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    min_ind : int</span>
+<span class="sd">        The index of the closest position value to the specified location.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If there are multiple positions that are equivalently close to the location,</span>
+<span class="sd">    this function will return the index of first one.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get the index of the closest 1d position to a specified location:</span>
+
+<span class="sd">    &gt;&gt;&gt; position = np.array([1., 2., 3., 4., 5.])</span>
+<span class="sd">    &gt;&gt;&gt; location = [3.]</span>
+<span class="sd">    &gt;&gt;&gt; get_closest_position(position, location)</span>
+<span class="sd">    2</span>
+
+<span class="sd">    Get the index of the closest 2d position to a specified location:</span>
+
+<span class="sd">    &gt;&gt;&gt; position = np.array([[1, 2, 2, 3],</span>
+<span class="sd">    ...                      [1, 1, 2, 3]])</span>
+<span class="sd">    &gt;&gt;&gt; location = [2, 2]</span>
+<span class="sd">    &gt;&gt;&gt; get_closest_position(position, location)</span>
+<span class="sd">    2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">compute_distances_to_location</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
+
+    <span class="n">min_ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">threshold</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">distances</span><span class="p">[</span><span class="n">min_ind</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">min_ind</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">min_ind</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

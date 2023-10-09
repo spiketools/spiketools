@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.utils.utils.set_random_state &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.spatial.distance.compute_distance &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -95,28 +95,41 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-utils-utils-set-random-state">
-<h1>spiketools.utils.utils.set_random_state<a class="headerlink" href="#spiketools-utils-utils-set-random-state" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-spatial-distance-compute-distance">
+<h1>spiketools.spatial.distance.compute_distance<a class="headerlink" href="#spiketools-spatial-distance-compute-distance" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.utils.utils.set_random_state">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.utils.</span></span><span class="sig-name descname"><span class="pre">set_random_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/utils.html#set_random_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.utils.set_random_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the random state in a RandomState object.</p>
+<dt class="sig sig-object py" id="spiketools.spatial.distance.compute_distance">
+<span class="sig-prename descclassname"><span class="pre">spiketools.spatial.distance.</span></span><span class="sig-name descname"><span class="pre">compute_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/spatial/distance.html#compute_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.spatial.distance.compute_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the distance between two positions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>seed_value</strong><span class="classifier">int, optional</span></dt><dd><p>Value to set the random seed as.</p>
+<dt><strong>p1, p2</strong><span class="classifier">list of float</span></dt><dd><p>The position values of the two positions to calculate distance between.
+Can be 1d (a single value per position) or 2d (x and y values per position).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>RandomState</dt><dd><p>An initialized numpy RandomState.</p>
+<dt>float</dt><dd><p>Distance between the two positions.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>This sets the random state of a new RandomState object, independent of the global numpy state.</p>
+<p class="rubric">Examples</p>
+<p>Compute distance between two 1d positions:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_distance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="go">3.0</span>
+</pre></div>
+</div>
+<p>Compute distance between the two 2d positions:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_distance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="go">5.0</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

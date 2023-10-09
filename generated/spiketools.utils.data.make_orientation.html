@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.stats.permutations.permute_vector &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.utils.data.make_orientation &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -95,42 +95,32 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-stats-permutations-permute-vector">
-<h1>spiketools.stats.permutations.permute_vector<a class="headerlink" href="#spiketools-stats-permutations-permute-vector" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-utils-data-make-orientation">
+<h1>spiketools.utils.data.make_orientation<a class="headerlink" href="#spiketools-utils-data-make-orientation" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.stats.permutations.permute_vector">
-<span class="sig-prename descclassname"><span class="pre">spiketools.stats.permutations.</span></span><span class="sig-name descname"><span class="pre">permute_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_permutations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/permutations.html#permute_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.permutations.permute_vector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create permutations of a vector of data.</p>
+<dt class="sig sig-object py" id="spiketools.utils.data.make_orientation">
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.data.</span></span><span class="sig-name descname"><span class="pre">make_orientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_orientation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_orientation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/data.html#make_orientation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.data.make_orientation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check and make sure a 2d array is in a specified orientation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">1d array</span></dt><dd><p>Vector to permute.</p>
+<dt><strong>arr</strong><span class="classifier">2d array</span></dt><dd><p>Array to check orientation.</p>
 </dd>
-<dt><strong>n_permutations</strong><span class="classifier">int, optional, default: 1000</span></dt><dd><p>Number of permutations to do.</p>
+<dt><strong>to_orientation</strong><span class="classifier">{‘row’, ‘column’}</span></dt><dd><p>The desired orientation of the output data.
+If the input is not already in this orientation, is transposed.</p>
+</dd>
+<dt><strong>from_orientation</strong><span class="classifier">{‘row’, ‘column’}, optional</span></dt><dd><p>The orientation of the input array.
+If not provided, is inferred from the input data.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>permutations</strong><span class="classifier">2d array</span></dt><dd><p>Permutations of the input data.</p>
+<dt><strong>arr</strong><span class="classifier">2d array</span></dt><dd><p>2d array in specified orientation.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>Code adapted from here: <a class="reference external" href="https://stackoverflow.com/questions/46859304/">https://stackoverflow.com/questions/46859304/</a></p>
-<p>This function doesn’t have any randomness - for a given array it will
-iterate through the same set of permutations, in sequence.</p>
-<p class="rubric">Examples</p>
-<p>Create permutations for a vector of data:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">permute_vector</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n_permutations</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="go">array([[ 0,  5, 10, 15, 20],</span>
-<span class="go">       [ 5, 10, 15, 20,  0],</span>
-<span class="go">       [10, 15, 20,  0,  5],</span>
-<span class="go">       [15, 20,  0,  5, 10]])</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>

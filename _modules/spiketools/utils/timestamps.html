@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.utils.timestamps &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.utils.timestamps &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -101,6 +101,39 @@
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
+
+<div class="viewcode-block" id="compute_sample_durations"><a class="viewcode-back" href="../../../generated/spiketools.utils.timestamps.compute_sample_durations.html#spiketools.utils.timestamps.compute_sample_durations">[docs]</a><span class="k">def</span> <span class="nf">compute_sample_durations</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">align_output</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the time duration of each sample.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timestamps : 1d array</span>
+<span class="sd">        Timestamps, in seconds.</span>
+<span class="sd">    align_output : bool, optional, default: True</span>
+<span class="sd">        If True, aligns the output with the sampling of the input, to match length.</span>
+<span class="sd">        To do so, value of 0 is appended to the output array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    1d array</span>
+<span class="sd">        Time duration of each sampling bin.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute times between timestamp samples:</span>
+
+<span class="sd">    &gt;&gt;&gt; timestamps = np.array([0, 1.0, 3.0, 6.0, 8.0, 9.0])</span>
+<span class="sd">    &gt;&gt;&gt; compute_sample_durations(timestamps)</span>
+<span class="sd">    array([1., 2., 3., 2., 1., 0.])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">time_diffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">timestamps</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">align_output</span><span class="p">:</span>
+        <span class="n">time_diffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_diffs</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">time_diffs</span></div>
+
 
 <div class="viewcode-block" id="infer_time_unit"><a class="viewcode-back" href="../../../generated/spiketools.utils.timestamps.infer_time_unit.html#spiketools.utils.timestamps.infer_time_unit">[docs]</a><span class="k">def</span> <span class="nf">infer_time_unit</span><span class="p">(</span><span class="n">time_values</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Infer the time unit of given time values.</span>

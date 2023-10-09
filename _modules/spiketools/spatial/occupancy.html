@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.spatial.occupancy &#8212; spiketools 0.0.0 documentation</title>
+    <title>spiketools.spatial.occupancy &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -104,9 +104,10 @@
 
 <span class="kn">from</span> <span class="nn">spiketools.utils.data</span> <span class="kn">import</span> <span class="n">assign_data_to_bins</span>
 <span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_array_orientation</span>
-<span class="kn">from</span> <span class="nn">spiketools.utils.extract</span> <span class="kn">import</span> <span class="n">get_values_by_time_range</span>
-<span class="kn">from</span> <span class="nn">spiketools.spatial.checks</span> <span class="kn">import</span> <span class="n">check_position</span><span class="p">,</span> <span class="n">check_spatial_bins</span>
-<span class="kn">from</span> <span class="nn">spiketools.spatial.utils</span> <span class="kn">import</span> <span class="n">get_position_xy</span><span class="p">,</span> <span class="n">compute_sample_durations</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.extract</span> <span class="kn">import</span> <span class="n">create_mask</span><span class="p">,</span> <span class="n">get_values_by_time_range</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.timestamps</span> <span class="kn">import</span> <span class="n">compute_sample_durations</span>
+<span class="kn">from</span> <span class="nn">spiketools.spatial.checks</span> <span class="kn">import</span> <span class="n">check_position</span><span class="p">,</span> <span class="n">check_bin_definition</span>
+<span class="kn">from</span> <span class="nn">spiketools.spatial.utils</span> <span class="kn">import</span> <span class="n">get_position_xy</span>
 
 <span class="c1">###################################################################################################</span>
 <span class="c1">###################################################################################################</span>
@@ -149,7 +150,7 @@
 <span class="sd">    (array([1. , 1.8, 2.6, 3.4, 4.2, 5. ]), array([ 6.,  7.,  8.,  9., 10.]))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_spatial_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_bin_definition</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
 
@@ -284,7 +285,7 @@
 <span class="sd">           [0, 2]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_spatial_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_bin_definition</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">position</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">bin_counts</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">range</span><span class="o">=</span><span class="n">area_range</span><span class="p">)</span>
@@ -348,7 +349,7 @@
 <span class="sd">           [1., 1.]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_spatial_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_bin_definition</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">ybins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -402,8 +403,8 @@
 
 
 <div class="viewcode-block" id="create_position_df"><a class="viewcode-back" href="../../../generated/spiketools.spatial.occupancy.create_position_df.html#spiketools.spatial.occupancy.create_position_df">[docs]</a><span class="k">def</span> <span class="nf">create_position_df</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">area_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">speed_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                       <span class="n">check_range</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                       <span class="n">min_speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_range</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a dataframe that stores information about position bins.</span>
 
 <span class="sd">    Parameters</span>
@@ -420,12 +421,12 @@
 <span class="sd">    speed : 1d array, optional</span>
 <span class="sd">        Current speed for each position.</span>
 <span class="sd">        Should be the same length as timestamps.</span>
-<span class="sd">    speed_threshold : float, optional</span>
-<span class="sd">        A minimum speed threshold to apply.</span>
-<span class="sd">        If provided, any position values with an associated speed below this value are dropped.</span>
-<span class="sd">    time_threshold : float, optional</span>
-<span class="sd">        A maximum time threshold, per bin observation, to apply.</span>
-<span class="sd">        If provided, any bin values with an associated time length above this value are dropped.</span>
+<span class="sd">    min_speed, max_speed : float, optional</span>
+<span class="sd">        Minimum and/or maximum speed thresholds to apply.</span>
+<span class="sd">        Any entries with an associated speed below the minimum or above maximum are dropped.</span>
+<span class="sd">    min_time, max_time : float, optional</span>
+<span class="sd">        Minimum and/or maximum time thresholds, per bin observation, to apply.</span>
+<span class="sd">        Any entries with an associated time length below the minimum or above maximum are dropped.</span>
 <span class="sd">    dropna : bool, optional, default: True</span>
 <span class="sd">        If True, drops any rows from the dataframe that contain NaN values.</span>
 <span class="sd">    check_range : bool, optional, default: True</span>
@@ -437,7 +438,7 @@
 <span class="sd">        Dataframe representation of position bin information.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_spatial_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_bin_definition</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
 
     <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;time&#39;</span> <span class="p">:</span> <span class="n">compute_sample_durations</span><span class="p">(</span><span class="n">timestamps</span><span class="p">)}</span>
     <span class="k">if</span> <span class="n">speed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -466,11 +467,10 @@
 
     <span class="n">bindf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">time_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">bindf</span> <span class="o">=</span> <span class="n">bindf</span><span class="p">[</span><span class="n">bindf</span><span class="o">.</span><span class="n">time</span> <span class="o">&lt;</span> <span class="n">time_threshold</span><span class="p">]</span>
+    <span class="n">bindf</span> <span class="o">=</span> <span class="n">bindf</span><span class="p">[</span><span class="n">create_mask</span><span class="p">(</span><span class="n">bindf</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">min_time</span><span class="p">,</span> <span class="n">max_time</span><span class="p">)]</span>
 
-    <span class="k">if</span> <span class="n">speed_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">bindf</span> <span class="o">=</span> <span class="n">bindf</span><span class="p">[</span><span class="n">bindf</span><span class="o">.</span><span class="n">speed</span> <span class="o">&gt;</span> <span class="n">speed_threshold</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">speed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bindf</span> <span class="o">=</span> <span class="n">bindf</span><span class="p">[</span><span class="n">create_mask</span><span class="p">(</span><span class="n">bindf</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="n">min_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">)]</span>
 
     <span class="k">if</span> <span class="n">dropna</span><span class="p">:</span>
         <span class="n">bindf</span> <span class="o">=</span> <span class="n">bindf</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
@@ -503,7 +503,7 @@
 <span class="sd">        For 2d, has shape [n_y_bins, n_x_bins] (see notes in `compute_occupancy`).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_spatial_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_bin_definition</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
 
     <span class="c1"># Group position samples into spatial bins, summing total time spent there</span>
     <span class="n">groupby</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">el</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">bindf</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;bin&#39;</span> <span class="ow">in</span> <span class="n">el</span><span class="p">])</span>
@@ -529,8 +529,8 @@
 
 
 <div class="viewcode-block" id="compute_occupancy"><a class="viewcode-back" href="../../../generated/spiketools.spatial.occupancy.compute_occupancy.html#spiketools.spatial.occupancy.compute_occupancy">[docs]</a><span class="k">def</span> <span class="nf">compute_occupancy</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">area_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">speed_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                      <span class="n">minimum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">set_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                      <span class="n">min_speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">check_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">minimum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">set_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute occupancy across spatial bin positions.</span>
 
 <span class="sd">    Parameters</span>
@@ -547,12 +547,12 @@
 <span class="sd">    speed : 1d array, optional</span>
 <span class="sd">        Current speed for each position.</span>
 <span class="sd">        Should be the same length as timestamps.</span>
-<span class="sd">    speed_threshold : float, optional</span>
-<span class="sd">        Speed threshold to apply.</span>
-<span class="sd">        If provided, any position values with an associated speed below this value are dropped.</span>
-<span class="sd">    time_threshold : float, optional</span>
-<span class="sd">        A maximum time threshold, per bin observation, to apply.</span>
-<span class="sd">        If provided, any bin values with an associated time length above this value are dropped.</span>
+<span class="sd">    min_speed, max_speed : float, optional</span>
+<span class="sd">        Minimum and/or maximum speed thresholds to apply.</span>
+<span class="sd">        Any entries with an associated speed below the minimum or above maximum are dropped.</span>
+<span class="sd">    min_time, max_time : float, optional</span>
+<span class="sd">        Minimum and/or maximum time thresholds, per bin observation, to apply.</span>
+<span class="sd">        Any entries with an associated time length below the minimum or above maximum are dropped.</span>
 <span class="sd">    check_range : bool, optional, default: True</span>
 <span class="sd">        Whether to check the given bin definition range against the position values.</span>
 <span class="sd">    minimum : float, optional</span>
@@ -595,16 +595,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">df</span> <span class="o">=</span> <span class="n">create_position_df</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">area_range</span><span class="p">,</span>
-                            <span class="n">speed</span><span class="p">,</span> <span class="n">speed_threshold</span><span class="p">,</span> <span class="n">time_threshold</span><span class="p">,</span>
+                            <span class="n">speed</span><span class="p">,</span> <span class="n">min_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">,</span> <span class="n">min_time</span><span class="p">,</span> <span class="n">max_time</span><span class="p">,</span>
                             <span class="n">check_range</span><span class="o">=</span><span class="n">check_range</span><span class="p">)</span>
     <span class="n">occupancy</span> <span class="o">=</span> <span class="n">compute_occupancy_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">minimum</span><span class="p">,</span> <span class="n">normalize</span><span class="p">,</span> <span class="n">set_nan</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">occupancy</span></div>
 
 
-<span class="k">def</span> <span class="nf">compute_trial_occupancy</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">start_times</span><span class="p">,</span> <span class="n">stop_times</span><span class="p">,</span>
-                            <span class="n">area_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">speed_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                            <span class="n">time_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">occupancy_kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="compute_trial_occupancy"><a class="viewcode-back" href="../../../generated/spiketools.spatial.occupancy.compute_trial_occupancy.html#spiketools.spatial.occupancy.compute_trial_occupancy">[docs]</a><span class="k">def</span> <span class="nf">compute_trial_occupancy</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">start_times</span><span class="p">,</span> <span class="n">stop_times</span><span class="p">,</span>
+                            <span class="n">area_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_speed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">min_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">occupancy_kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute trial-level occupancy across spatial bin positions.</span>
 
 <span class="sd">    Parameters</span>
@@ -623,12 +623,12 @@
 <span class="sd">    speed : 1d array, optional</span>
 <span class="sd">        Current speed for each position.</span>
 <span class="sd">        Should be the same length as timestamps.</span>
-<span class="sd">    speed_threshold : float, optional</span>
-<span class="sd">        Speed threshold to apply.</span>
-<span class="sd">        If provided, any position values with an associated speed below this value are dropped.</span>
-<span class="sd">    time_threshold : float, optional</span>
-<span class="sd">        A maximum time threshold, per bin observation, to apply.</span>
-<span class="sd">        If provided, any bin values with an associated time length above this value are dropped.</span>
+<span class="sd">    min_speed, max_speed : float, optional</span>
+<span class="sd">        Minimum and/or maximum speed thresholds to apply.</span>
+<span class="sd">        Any entries with an associated speed below the minimum or above maximum are dropped.</span>
+<span class="sd">    min_time, max_time : float, optional</span>
+<span class="sd">        Minimum and/or maximum time thresholds, per bin observation, to apply.</span>
+<span class="sd">        Any entries with an associated time length below the minimum or above maximum are dropped.</span>
 <span class="sd">    orientation : {&#39;row&#39;, &#39;column&#39;}, optional</span>
 <span class="sd">        The orientation of the position data.</span>
 <span class="sd">        If not provided, is inferred from the position data.</span>
@@ -669,8 +669,8 @@
 <span class="sd">            [ 5.,  0.]]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_spatial_bins</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
-    <span class="n">orientation</span> <span class="o">=</span> <span class="n">check_array_orientation</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">orientation</span> <span class="k">else</span> <span class="n">orientation</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">check_bin_definition</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+    <span class="n">orientation</span> <span class="o">=</span> <span class="n">check_array_orientation</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">orientation</span> <span class="k">else</span> <span class="n">orientation</span>
 
     <span class="n">t_speed</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">trial_occupancy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">start_times</span><span class="p">),</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">bins</span><span class="p">)])</span>
@@ -682,10 +682,11 @@
             <span class="n">_</span><span class="p">,</span> <span class="n">t_speed</span> <span class="o">=</span> <span class="n">get_values_by_time_range</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">speed</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
 
         <span class="n">trial_occupancy</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">compute_occupancy</span><span class="p">(</span>\
-            <span class="n">t_pos</span><span class="p">,</span> <span class="n">t_times</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">area_range</span><span class="p">,</span> <span class="n">t_speed</span><span class="p">,</span> <span class="n">speed_threshold</span><span class="p">,</span>
-            <span class="n">time_threshold</span><span class="p">,</span> <span class="o">**</span><span class="n">occupancy_kwargs</span><span class="p">)</span>
+            <span class="n">t_pos</span><span class="p">,</span> <span class="n">t_times</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">area_range</span><span class="p">,</span> <span class="n">t_speed</span><span class="p">,</span>
+            <span class="n">min_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">,</span> <span class="n">min_time</span><span class="p">,</span> <span class="n">max_time</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">occupancy_kwargs</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">trial_occupancy</span>
+    <span class="k">return</span> <span class="n">trial_occupancy</span></div>
 </pre></div>
 
     </div>

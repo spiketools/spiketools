@@ -39,7 +39,7 @@ from spiketools.measures.trials import (compute_trial_frs, compute_pre_post_rate
                                         compute_pre_post_diffs)
 
 # Import simulation functions
-from spiketools.sim import sim_spiketimes
+from spiketools.sim.times import sim_spiketimes
 
 # Import plot functions
 from spiketools.plts.spikes import plot_isis
