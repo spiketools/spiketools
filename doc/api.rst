@@ -299,8 +299,8 @@ Simulations
 
 Functionality for simulating spiking data, available in the `sim` sub-module.
 
-General Simulation Functions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+General
+~~~~~~~
 
 General simulation functions.
 
