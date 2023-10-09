@@ -1,8 +1,8 @@
-"""Tests for spiketools.utils.utils"""
+"""Tests for spiketools.utils.random"""
 
 import numpy as np
 
-from spiketools.utils.utils import *
+from spiketools.utils.random import *
 
 ###################################################################################################
 ###################################################################################################
