@@ -18,7 +18,19 @@ def test_sim_spiketimes_poisson():
 
     rate = 10
     duration = 2
-    times = sim_spiketimes_poisson(rate, duration)
 
+    times = sim_spiketimes_poisson(rate, duration)
     assert isinstance(times, np.ndarray)
     assert np.all(times < duration)
+
+    start_time = 2
+    times = sim_spiketimes_poisson(rate, duration, start_time)
+    assert isinstance(times, np.ndarray)
+    assert np.all(times > start_time)
+    assert np.all(times < start_time + duration)
+
+    start_time = -2
+    times = sim_spiketimes_poisson(rate, duration, start_time)
+    assert isinstance(times, np.ndarray)
+    assert np.all(times > start_time)
+    assert np.all(times < start_time + duration)
