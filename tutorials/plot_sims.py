@@ -11,6 +11,9 @@ This tutorial primarily covers the ``spiketools.sims`` module.
 # Simulating spiking data
 # -----------------------
 #
+# This tutorial explores functionality for simulating spiking activity, including simulating
+# spike times or spike trains, each with different available approaches.
+#
 # Sections
 # ~~~~~~~~
 #
@@ -35,8 +38,8 @@ from spiketools.sim.train import sim_spiketrain_binom, sim_spiketrain_poisson, s
 from spiketools.sim.utils import apply_refractory_times, apply_refractory_train
 
 # Import plot functions
+from spiketools.plts.data import plot_lines
 from spiketools.plts.trials import plot_rasters
-from spiketools.plts.data import plot_hist
 
 # Import utilities
 from spiketools.measures.conversions import convert_train_to_times
@@ -159,25 +162,29 @@ plot_rasters(spike_times_prob)
 #
 # In the above example, we specified a single spiking probability for all samples.
 #
-# We can also specify different spiking probability across samples,
+# We can also specify different spiking probabilities across samples,
 # such as in the following example.
 #
 
 ###################################################################################################
 
-# Simulate spike train of size 1000, based on a probability of spiking per sample
-p_spiking = np.random.random(1000)
-spike_train_prob_diff = sim_spiketrain_prob(p_spiking)
+# Simulate spike train of size 100, based on randomly sampled probability of spiking per sample
+n_probs = 100
+p_spiking = np.random.random(n_probs) / 10
+
+# Plot the continuous probabilities of spiking
+plot_lines(np.arange(n_probs), p_spiking)
 
 ###################################################################################################
+
+# Simulate spike train based on continuous probability of spiking
+spike_train_prob_diff = sim_spiketrain_prob(p_spiking)
 
 # Convert binary spike train to spike times in seconds
 spike_times_prob_diff = convert_train_to_times(spike_train_prob_diff, fs=1000)
 
-# Plot the empirical distribution of spike times probability across the simulated data
-plot_hist(spike_times_prob_diff, density=1, bins=50,
-          xlabel='Spike Times (seconds)', ylabel='Probability',
-          title='Probability Distribution of Spike Times')
+# Plot the spike times
+plot_rasters(spike_times_prob_diff)
 
 ###################################################################################################
 # Simulate spike trains based on probability distributions
@@ -192,21 +199,39 @@ plot_hist(spike_times_prob_diff, density=1, bins=50,
 #
 
 ###################################################################################################
+#
+# To simulate based on a binomial distribution, we define a probability of spiking, and
+# a number of samples to simulate.
+#
 
-# Define simulation settings
-p_spiking = 0.7
+###################################################################################################
+
+# Define simulation settings for binomial
+p_spiking = 0.125
+n_samples = 500
 
 # Simulate spike train from binomial probability distribution
-spike_train_binom = sim_spiketrain_binom(p_spiking, n_samples=100)
+spike_train_binom = sim_spiketrain_binom(p_spiking, n_samples)
 
-# Convert binary spike train to spike times in seconds & plot the spike times
+# Convert binary spike train to spike times in seconds and plot the spike times
 spike_times_binomial = convert_train_to_times(spike_train_binom, fs=1000)
 plot_rasters(spike_times_binomial)
 
 ###################################################################################################
+#
+# To simulate based on a Poisson distribution, we define a rate and a number of samples.
+#
+# You can can also optionally change the sampling rate (defaults to 1000).
+#
+
+###################################################################################################
+
+# Define simulation settings for binomial
+rate = 25
+n_samples = 500
 
 # Simulate spike train from a Poisson probability distribution
-spike_train_poisson = sim_spiketrain_poisson(16, 1000, 1000)
+spike_train_poisson = sim_spiketrain_poisson(rate, n_samples)
 
 # Convert the simulated binary spike train to spike times in seconds & plot the spike times
 spike_times_poisson = convert_train_to_times(spike_train_poisson, fs=1000)
@@ -232,12 +257,12 @@ spike_train2 = sim_spiketrain(12.0, 500, 'poisson')
 # Refractory periods for simulated spike trains
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
-# Similarly to the spike time simulations, when simulating spike trains we may
-# want to specify a refractory period, which we can again do with the
-# `refractory` parameter, which in this case accepts an integer value of the
-# number of samples that are refractory after a spike.
+# Similar to the spike time simulations, when simulating spike trains we may want to
+# specify a refractory period. This can be specified with the `refractory` parameter,
+# which in this case accepts an integer value of the number of samples that are refractory
+# after a spike.
 #
-# This `refractory` parameter is accepted by all spike train simulation functions,
+# The `refractory` parameter is accepted by all spike train simulation functions,
 # and has a default of 1 sample.
 #
 
