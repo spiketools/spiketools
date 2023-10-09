@@ -31,6 +31,7 @@ Measures for spike data.
    compute_isis
    compute_cv
    compute_fano_factor
+   compute_spike_presence
    compute_presence_ratio
 
 Conversions
@@ -84,6 +85,8 @@ Measures that can be applied to collections (groups) of neurons.
    :toctree: generated/
 
    detect_empty_time_ranges
+   find_empty_bins
+   find_empty_ranges
 
 Objects
 -------
@@ -190,11 +193,25 @@ Utilities related to spatial data.
 .. autosummary::
    :toctree: generated/
 
+   get_position_xy
    compute_nbins
    compute_bin_width
    compute_pos_ranges
    convert_2dindices
    convert_1dindices
+
+Checks
+~~~~~~
+
+Functions to check data and arguments to spatial related processes.
+
+.. currentmodule:: spiketools.spatial.checks
+.. autosummary::
+   :toctree: generated/
+
+   check_position
+   check_bin_definition
+   check_bin_widths
 
 Statistics
 ----------
@@ -271,13 +288,6 @@ Simulations
 
 Functionality for simulating spiking data, available in the `sim` sub-module.
 
-.. currentmodule:: spiketools.sim
-.. autosummary::
-   :toctree: generated/
-
-   sim_spiketimes
-   sim_spiketrain
-
 Spike Times
 ~~~~~~~~~~~
 
@@ -287,6 +297,7 @@ Simulate spike times.
 .. autosummary::
    :toctree: generated/
 
+   sim_spiketimes
    sim_spiketimes_poisson
 
 Spike Trains
@@ -298,6 +309,7 @@ Simulate spike trains.
 .. autosummary::
    :toctree: generated/
 
+   sim_spiketrain
    sim_spiketrain_prob
    sim_spiketrain_binom
    sim_spiketrain_poisson
@@ -348,7 +360,7 @@ Plots for spatial data.
    plot_position_by_time
    plot_heatmap
    plot_trial_heatmaps
-   create_heat_title
+   create_heatmap_title
 
 Task
 ~~~~
@@ -400,6 +412,7 @@ Basic plot function for different data types.
    plot_points
    plot_hist
    plot_bar
+   plot_barh
    plot_polar_hist
    plot_text
 
@@ -472,9 +485,9 @@ General utilities for basic data types.
    combine_dicts
    add_key_prefix
    drop_key_prefix
+   relabel_keys
    subset_dict
    check_keys
-   relabel_keys
    listify
 
 Data
@@ -486,7 +499,7 @@ Utilities for working with arrays of data.
 .. autosummary::
    :toctree: generated/
 
-   make_row_orientation
+   make_orientation
    compute_range
    smooth_data
    drop_nans
@@ -581,12 +594,32 @@ Utilities for helping with running analyses.
 
    create_methods_list
 
-Utils
-~~~~~
+Checks
+~~~~~~
 
-Other utilities.
+Utilities to check for basic properties of data / inputs.
 
-.. currentmodule:: spiketools.utils.utils
+.. currentmodule:: spiketools.utils.checks
+.. autosummary::
+   :toctree: generated/
+
+   check_param_range
+   check_param_options
+   check_param_lengths
+   check_param_type
+   check_list_options
+   check_array_orientation
+   check_array_lst_orientation
+   check_axis
+   check_bin_range
+   check_time_bins
+
+Random
+~~~~~~
+
+Utilities for managing random state.
+
+.. currentmodule:: spiketools.utils.random
 .. autosummary::
    :toctree: generated/
 
