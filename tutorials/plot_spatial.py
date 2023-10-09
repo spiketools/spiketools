@@ -235,12 +235,12 @@ print('The time durations of position samples are: ', sample_times)
 
 ###################################################################################################
 
-# Define speed threshold, used to remove position values if the speed is less than the threshold
-speed_thresh = .5e-3
+# Define minimum speed threshold, used to remove entries if the speed is less than the threshold
+min_speed = .5e-3
 
 # Compute the 2D occupancy
 occupancy = compute_occupancy(position, timestamps, bins,
-                              speed=speeds, speed_threshold=speed_thresh)
+                              speed=speeds, min_speed=min_speed)
 
 # Plot the compute 2D occupancy
 plot_heatmap(occupancy, cbar=True,
@@ -275,7 +275,7 @@ plot_heatmap(bin_counts_pos, cbar=True,
 
 # Compute the 1D occupancy
 occupancy_1d = compute_occupancy(position[0], timestamps, bins[0],
-                                 speed=speeds, speed_threshold=speed_thresh)
+                                 speed=speeds, min_speed=min_speed)
 
 # Plot the 1D occupancy
 plot_heatmap(occupancy_1d, title='X-occupancy heatmap w/ speed threshold')
