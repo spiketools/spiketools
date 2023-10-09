@@ -3,7 +3,7 @@
 Tutorials
 =========
 
-Tutorials, split up by sub-module, introducing the tools available in SpikeTools.
+Tutorials, split up by sub-module, introducing the tools available in spiketools.
 
 .. contents:: Contents
    :local:

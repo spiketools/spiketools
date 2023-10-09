@@ -63,7 +63,7 @@ The documentation includes:
 - `API List <https://spiketools.github.io/spiketools/api.html>`_: which lists and describes everything available in the module
 - `Glossary <https://spiketools.github.io/spiketools/glossary.html>`_: which defines key terms used in the module
 
-If you have a question about using SpikeTools that doesn't seem to be covered by the documentation, feel free to
+If you have a question about using ``spiketools`` that doesn't seem to be covered by the documentation, feel free to
 open an `issue <https://github.com/spiketools/spiketools/issues>`_ and ask!
 
 Dependencies
