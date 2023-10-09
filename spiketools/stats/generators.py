@@ -33,12 +33,15 @@ def poisson_generator(rate, duration, start_time=0):
     """
 
     isi = 1. / rate
+
     cur_time = start_time
-    while cur_time <= duration:
+    end_time = start_time + duration
+
+    while cur_time <= end_time:
 
         cur_time += isi * np.random.exponential()
 
-        if cur_time > duration:
+        if cur_time > end_time:
             return
 
         yield cur_time
