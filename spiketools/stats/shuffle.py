@@ -106,7 +106,7 @@ def drop_shuffle_range(func):
 
 
 @drop_shuffle_range
-def shuffle_isis(spikes, n_shuffles=1000):
+def shuffle_isis(spikes, n_shuffles=1000, start_time=0):
     """Create shuffled spike times using permuted inter-spike intervals.
 
     Parameters
@@ -115,6 +115,8 @@ def shuffle_isis(spikes, n_shuffles=1000):
         Spike times, in seconds.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
+    start_time : float, optional
+        The start time of the input spikes, used to set the time values of the shuffled outputs.
 
     Returns
     -------
@@ -134,13 +136,14 @@ def shuffle_isis(spikes, n_shuffles=1000):
 
     shuffled_spikes = np.zeros([n_shuffles, spikes.shape[-1]])
     for ind in range(n_shuffles):
-        shuffled_spikes[ind, :] = convert_isis_to_times(np.random.permutation(isis))
+        shuffled_spikes[ind, :] = convert_isis_to_times(\
+            np.random.permutation(isis), start_time=start_time)
 
     return shuffled_spikes
 
 
 @drop_shuffle_range
-def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
+def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000, start_time=0):
     """Shuffle spikes based on circularly shifting the spike train.
 
     Parameters
@@ -151,6 +154,8 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
         The minimum amount to rotate data, in terms of units of the spike train.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
+    start_time : float, optional
+        The start time of the input spikes, used to set the time values of the shuffled outputs.
 
     Returns
     -------
@@ -180,13 +185,13 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000):
 
     for ind, shuffle in enumerate(shuffles):
         temp_train = np.roll(spike_train, shuffle)
-        shuffled_spikes[ind, :] = convert_train_to_times(temp_train)
+        shuffled_spikes[ind, :] = convert_train_to_times(temp_train) + start_time
 
     return shuffled_spikes
 
 
 @drop_shuffle_range
-def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
+def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000, start_time=0):
     """Shuffle data with circular shuffles of randomly sized bins of the spike train.
 
     Parameters
@@ -197,6 +202,8 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
         Range of bin widths in seconds from which bin sizes are randomly selected.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
+    start_time : float, optional
+        The start time of the input spikes, used to set the time values of the shuffled outputs.
 
     Returns
     -------
@@ -260,13 +267,13 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000):
             shuffled_train[le:re] = np.roll(spike_train[le:re], shuff)
 
         # Convert back to spike times (with ms resolution) from the shuffled spike train
-        shuffled_spikes[ind, :] = convert_train_to_times(shuffled_train)
+        shuffled_spikes[ind, :] = convert_train_to_times(shuffled_train, start_time=start_time)
 
     return shuffled_spikes
 
 
 @drop_shuffle_range
-def shuffle_poisson(spikes, n_shuffles=1000):
+def shuffle_poisson(spikes, n_shuffles=1000, start_time=0):
     """Shuffle spikes based on generating new spike trains from a Poisson distribution.
 
     Parameters
@@ -275,6 +282,8 @@ def shuffle_poisson(spikes, n_shuffles=1000):
         Spike times, in seconds.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
+    start_time : float, optional
+        The start time of the input spikes, used to set the time values of the shuffled outputs.
 
     Returns
     -------
@@ -308,6 +317,6 @@ def shuffle_poisson(spikes, n_shuffles=1000):
 
     shuffled_spikes = [None] * n_shuffles
     for ind in range(n_shuffles):
-        shuffled_spikes[ind] = list(poisson_generator(rate, length)) + spikes[0]
+        shuffled_spikes[ind] = list(poisson_generator(rate, length, start_time))
 
     return shuffled_spikes
