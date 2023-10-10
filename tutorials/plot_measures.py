@@ -48,7 +48,6 @@ from spiketools.sim import sim_spiketimes
 # Import plot functions
 from spiketools.plts.spikes import plot_isis
 from spiketools.plts.trials import plot_rasters, plot_rate_by_time
-#from spiketools.plts.spatial import plot_heatmap
 
 ###################################################################################################
 # Convert spiking data
@@ -221,10 +220,10 @@ fr_post = 10
 trial_spikes = [None] * n_trials
 for trial_idx in range(n_trials):
 
-    # Generate pre-event spike times, to simulated pre-event range of [-time_pre, 0]
+    # Generate pre-event spike times, to simulate the pre-event range of [-time_pre, 0]
     spikes_pre = sim_spiketimes(fr_pre, time_pre, 'poisson', start_time=-time_pre)
 
-    # Generate post-event spike times, to simulate post-event range of [0, time_post]
+    # Generate post-event spike times, to simulate the post-event range of [0, time_post]
     spikes_post = sim_spiketimes(fr_post, time_post, 'poisson', start_time=0)
 
     # Combine pre and post event times, to make full trials
