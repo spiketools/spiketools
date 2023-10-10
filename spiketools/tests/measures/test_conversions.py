@@ -18,6 +18,19 @@ def test_convert_times_to_train(tspikes):
     assert spike_train.shape[-1] > tspikes.shape[-1]
     assert sum(spike_train) == tspikes.shape[-1]
 
+    # Test with non-zero start time
+    spike_train2 = convert_times_to_train(tspikes - 3)
+    assert isinstance(spike_train2, np.ndarray)
+    assert sum(spike_train2) == tspikes.shape[-1]
+    assert len(spike_train2) == len(spike_train)
+
+    # Test with specified time_range
+    time_range = [-2, 10]
+    spike_train3 = convert_times_to_train(tspikes - 1, time_range=time_range)
+    assert isinstance(spike_train3, np.ndarray)
+    assert sum(spike_train3) == tspikes.shape[-1]
+    assert len(spike_train3) == 1000 * (time_range[1] - time_range[0]) + 1
+
     # Check the error with times / sampling rate mismatch
     spikes = np.array([0.1000, 0.1500, 0.1505, 0.2000])
     with raises(ValueError):
@@ -42,6 +55,14 @@ def test_convert_train_to_times():
     assert spikes.shape[-1] == spike_inds.shape[-1]
     assert np.array_equal(spikes, expected * 2)
 
+    # Check different start times, including positive and negative start time offsets
+    start_time = 2
+    spikes = convert_train_to_times(train, fs=500, start_time=start_time)
+    spikes == expected + start_time
+    start_time = -2
+    spikes = convert_train_to_times(train, fs=500, start_time=start_time)
+    spikes == expected + start_time
+
 def test_convert_isis_to_times(tspikes):
 
     isis = compute_isis(tspikes)
@@ -49,13 +70,13 @@ def test_convert_isis_to_times(tspikes):
     spikes1 = convert_isis_to_times(isis)
     assert spikes1.shape[-1] == tspikes.shape[-1]
 
-    spikes2 = convert_isis_to_times(isis, offset=2.)
+    spikes2 = convert_isis_to_times(isis, start_time=2.)
     assert spikes2[0] == 2.
 
-    spikes3 = convert_isis_to_times(isis, add_offset=False)
+    spikes3 = convert_isis_to_times(isis, add_initial=False)
     assert len(spikes3) == len(isis)
 
-    spikes4 = convert_isis_to_times(isis, offset=tspikes[0])
+    spikes4 = convert_isis_to_times(isis, start_time=tspikes[0])
     assert np.array_equal(spikes4, tspikes)
 
 def test_convert_times_to_counts(tspikes):
