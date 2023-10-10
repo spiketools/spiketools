@@ -30,7 +30,7 @@ def convert_times_to_train(spikes, fs=1000, time_range=None):
     --------
     Convert spike times into a corresponding binary spike train:
 
-    >>> spikes = np.array([0.002, 0.250, 0.500, 0.750, 1.000, 1.250, 1.500])
+    >>> spikes = np.array([0.002, 0.250, 0.500, 0.750, 1.000, 1.250, 1.500, 2.000])
     >>> convert_times_to_train(spikes)
     array([0, 0, 1, ..., 0, 0, 1])
     """
