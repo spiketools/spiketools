@@ -277,6 +277,7 @@ Functionality for simulating spiking data, available in the `sim` sub-module.
 
    sim_spiketimes
    sim_spiketrain
+   sim_trials
 
 Spike Times
 ~~~~~~~~~~~
@@ -301,6 +302,17 @@ Simulate spike trains.
    sim_spiketrain_prob
    sim_spiketrain_binom
    sim_spiketrain_poisson
+
+Trials
+~~~~~~
+
+Simulate trial-structured data.
+
+.. currentmodule:: spiketools.sim.train
+.. autosummary::
+   :toctree: generated/
+
+   sim_trials_poisson
 
 Utilities
 ~~~~~~~~~
