@@ -11,7 +11,7 @@ from spiketools.measures.conversions import *
 ###################################################################################################
 ###################################################################################################
 
-def test_convert_times_to_train(tspikes):
+def test_convert_times_to_train(tspikes, tspikes_offset):
 
     spike_train = convert_times_to_train(tspikes)
     assert isinstance(spike_train, np.ndarray)
@@ -19,14 +19,14 @@ def test_convert_times_to_train(tspikes):
     assert sum(spike_train) == tspikes.shape[-1]
 
     # Test with non-zero start time
-    spike_train2 = convert_times_to_train(tspikes - 3)
+    spike_train2 = convert_times_to_train(tspikes_offset)
     assert isinstance(spike_train2, np.ndarray)
     assert sum(spike_train2) == tspikes.shape[-1]
     assert len(spike_train2) == len(spike_train)
 
     # Test with specified time_range
-    time_range = [-2, 10]
-    spike_train3 = convert_times_to_train(tspikes - 1, time_range=time_range)
+    time_range = [-10, 10]
+    spike_train3 = convert_times_to_train(tspikes_offset, time_range=time_range)
     assert isinstance(spike_train3, np.ndarray)
     assert sum(spike_train3) == tspikes.shape[-1]
     assert len(spike_train3) == 1000 * (time_range[1] - time_range[0]) + 1
