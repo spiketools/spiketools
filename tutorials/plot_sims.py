@@ -17,11 +17,11 @@ This tutorial primarily covers the ``spiketools.sims`` module.
 # Sections
 # ~~~~~~~~
 #
-# This tutorial contains the following topics:
+# This tutorial covers the following topics:
 #
 # 1. Simulating spike times, based on specified distributions
 # 2. Simulating spike trains, based on spike probability or specified distributions
-# 3. Utilities for working with simulated spiking data
+# 3. Simulating trials of spiking data
 #
 
 ###################################################################################################
@@ -32,9 +32,10 @@ This tutorial primarily covers the ``spiketools.sims`` module.
 import numpy as np
 
 # Import simulation-related functions
-from spiketools.sim import sim_spiketimes, sim_spiketrain
+from spiketools.sim import sim_spiketimes, sim_spiketrain, sim_trials
 from spiketools.sim.times import sim_spiketimes_poisson
 from spiketools.sim.train import sim_spiketrain_binom, sim_spiketrain_poisson, sim_spiketrain_prob
+from spiketools.sim.trials import sim_trials_poisson
 from spiketools.sim.utils import apply_refractory_times, apply_refractory_train
 
 # Import plot functions
@@ -65,7 +66,7 @@ spike_times_poisson = sim_spiketimes_poisson(rate=5, duration=2)
 plot_rasters(spike_times_poisson)
 
 ###################################################################################################
-# General function for simulation spike times
+# General function for simulating spike times
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # In the above, we used a specific function for the spike time generation approach.
@@ -238,7 +239,7 @@ spike_times_poisson = convert_train_to_times(spike_train_poisson, fs=1000)
 plot_rasters(spike_times_poisson)
 
 ###################################################################################################
-# General function for simulation spike trains
+# General function for simulating spike trains
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # In the above, we used a specific function for the spike train generation approach.
@@ -287,3 +288,63 @@ spike_train_ref2 = apply_refractory_train(spike_train2, 3)
 spike_times1 = convert_train_to_times(spike_train_ref1, fs=1000)
 spike_times2 = convert_train_to_times(spike_train_ref2, fs=1000)
 plot_rasters([spike_times1, spike_times2])
+
+###################################################################################################
+# Simulate trials
+# ~~~~~~~~~~~~~~~
+#
+# Finally, we can simulate some data organized into trials.
+#
+# Note that the functions for simulating trials simulate the underlying spiking activity the
+# same as the above functions. These functions provide a convenient way for organizing such
+# simulated data into trials.
+#
+# The trials functions simulate spike times. Similarly to the spike time simulations above,
+# the :func:`~.sim_trials_poisson` function does so based on a Poisson distribution.
+#
+# This function allows us to specify different rates for pre and post event time.
+#
+
+###################################################################################################
+
+# Define simulation settings
+n_trials = 4
+rate_pre = 7.5
+rate_post = 15
+
+# Simulate spiking activity across trials
+trial_spikes = sim_trials_poisson(n_trials, rate_pre, rate_post)
+
+###################################################################################################
+
+# Visualize the simulate trial related data
+plot_rasters(trial_spikes, vline=0)
+
+###################################################################################################
+# General function for simulating trials
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#
+# Just as we had for the simulations above, we can simulate trial data either by using a
+# specific simulation function, or by calling a more general function and specifying which
+# method to use.
+#
+# For trials data, the more general function is :func:`~.sim_trials`.
+#
+
+###################################################################################################
+
+# Define a new set of simulation settings
+rate_pre = 2.5
+rate_post = 5
+time_pre = 2
+time_post = 4
+
+# Simulate a new set of simulated trials
+trial_spikes2 = sim_trials(n_trials, 'poisson',
+                           rate_pre=rate_pre, rate_post=rate_post,
+                           time_pre=time_pre, time_post=time_post)
+
+###################################################################################################
+
+# Visualize the simulate trial related data
+plot_rasters(trial_spikes2, vline=0)
