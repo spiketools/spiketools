@@ -44,6 +44,7 @@ from spiketools.measures.trials import (compute_trial_frs, compute_pre_post_rate
 
 # Import simulation functions
 from spiketools.sim import sim_spiketimes
+from spiketools.sim.trials import sim_trials_poisson
 
 # Import plot functions
 from spiketools.plts.spikes import plot_isis
@@ -129,7 +130,7 @@ plot_rasters(spike_times[spike_times < 1], title='Raster spike times from spike 
 isis = compute_isis(spike_times)
 
 # Convert a vector of inter-spike intervals in seconds to spike times in seconds
-spike_times = convert_isis_to_times(isis, offset=0, add_offset=True)
+spike_times = convert_isis_to_times(isis)
 
 # Plot the first second of the spike times
 plot_rasters(spike_times[spike_times < 1], title='Raster spike times from ISIS')
@@ -207,27 +208,15 @@ print('Fano factor: {:1.3f}'.format(fano))
 
 ###################################################################################################
 
-# Number of trials
-n_trials = 5
-
 # Define simulation settings
+n_trials = 5
+rate_pre = 5
+rate_post = 10
 time_pre = 3
-fr_pre = 5
 time_post = 3
-fr_post = 10
 
 # Simulate spiking activity across trials
-trial_spikes = [None] * n_trials
-for trial_idx in range(n_trials):
-
-    # Generate pre-event spike times, to simulate the pre-event range of [-time_pre, 0]
-    spikes_pre = sim_spiketimes(fr_pre, time_pre, 'poisson', start_time=-time_pre)
-
-    # Generate post-event spike times, to simulate the post-event range of [0, time_post]
-    spikes_post = sim_spiketimes(fr_post, time_post, 'poisson', start_time=0)
-
-    # Combine pre and post event times, to make full trials
-    trial_spikes[trial_idx] = np.append(spikes_pre, spikes_post)
+trial_spikes = sim_trials_poisson(n_trials, rate_pre, rate_post, time_pre, time_post)
 
 ###################################################################################################
 #

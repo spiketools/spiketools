@@ -341,7 +341,7 @@ Trials
 
 Simulate trial-structured data.
 
-.. currentmodule:: spiketools.sim.train
+.. currentmodule:: spiketools.sim.trials
 .. autosummary::
    :toctree: generated/
 

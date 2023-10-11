@@ -43,6 +43,7 @@ from spiketools.stats.trials import (compute_pre_post_ttest, compare_pre_post_ac
 # Import other spiketools functions
 from spiketools.sim.times import sim_spiketimes
 from spiketools.sim.train import sim_spiketrain_binom
+from spiketools.sim.trials import sim_trials_poisson
 from spiketools.measures.trials import compute_pre_post_rates
 from spiketools.spatial.occupancy import (compute_bin_edges, compute_bin_assignment,
                                           compute_bin_counts_assgn)
@@ -130,27 +131,15 @@ plot_rasters(shuffled_spikes, xlim=[0, 6], title='Shuffled Spikes')
 
 ###################################################################################################
 
-# Set the number of trials to simulate
+# Define simulation settings
 n_trials = 10
-
-# Define settings for the simulation
+rate_pre = 5
+rate_post = 10
 time_pre = 3
-fr_pre = 5
 time_post = 3
-fr_post = 10
 
 # Simulate spiking activity across trials
-trial_spikes = [None] * n_trials
-for trial_idx in range(n_trials):
-
-    # Generate pre-event spike times, to simulate pre-event range of [-time_pre, 0]
-    spikes_pre = sim_spiketimes(fr_pre, time_pre, 'poisson', start_time=-time_pre)
-
-    # Generate post-event spike times, to simulate post-event range of [0, time_post]
-    spikes_post = sim_spiketimes(fr_post, time_post, 'poisson', start_time=0)
-
-    # Combine pre and post event times, to make full trials
-    trial_spikes[trial_idx] = np.append(spikes_pre, spikes_post)
+trial_spikes = sim_trials_poisson(n_trials, rate_pre, rate_post, time_pre, time_post)
 
 ###################################################################################################
 
