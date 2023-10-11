@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Statistical Analyses &#8212; spiketools 0.1.0 documentation</title>
+    <title>Statistical Analyses &#8212; spiketools 0.1.0rc2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0rc2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -230,7 +230,7 @@ the pre- and post-event time ranges.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The t-value is -5.336, with a p-value of 4.707e-04
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The t-value is -4.800, with a p-value of 9.735e-04
 </pre></div>
 </div>
 <p>In the above, we separately computed and then compared the firing rates around
@@ -249,9 +249,9 @@ that computes the average pre/post firing as well as the t-test comparing pre to
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 5.733
-Average FR post-event: 10.567
-The t-value is -5.336, with a p-value of 4.707e-04
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 5.200
+Average FR post-event: 9.933
+The t-value is -4.800, with a p-value of 9.735e-04
 </pre></div>
 </div>
 </section>
@@ -275,8 +275,8 @@ evidence for a difference in spiking activity across different trials.</p>
       <span class="n">post_between_halfs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">post_between_halfs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For pre bin comparison, the t-value is -0.940, a p-value of 3.746e-01.
-For post bin comparison, the t-value is -0.202, with a p-value of 8.453e-01.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>For pre bin comparison, the t-value is -0.666, a p-value of 5.244e-01.
+For post bin comparison, the t-value is -0.086, with a p-value of 9.335e-01.
 </pre></div>
 </div>
 </section>
@@ -338,31 +338,31 @@ To do so, we will first organize the data into a dictionary.</p>
   <tbody>
     <tr>
       <th>0</th>
-      <td>5.000000</td>
+      <td>3.666667</td>
       <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>8.333333</td>
+      <td>2.000000</td>
       <td>0</td>
       <td>1</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>5.333333</td>
+      <td>8.000000</td>
       <td>0</td>
       <td>2</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>4.333333</td>
+      <td>5.333333</td>
       <td>0</td>
       <td>3</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2.666667</td>
+      <td>5.000000</td>
       <td>0</td>
       <td>4</td>
     </tr>
@@ -391,10 +391,10 @@ the <a class="reference internal" href="../generated/spiketools.stats.anova.fit_
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;P-value, trial index: </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">anova_pre_post</span><span class="p">[</span><span class="s1">&#39;PR(&gt;F)&#39;</span><span class="p">][</span><span class="s1">&#39;C(trial_idx)&#39;</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value, pre vs post: 28.476
-P-value, pre vs post: 4.707e-04
-F-value, trial index: 0.516
-P-value, trial index: 8.307e-01
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value, pre vs post: 23.042
+P-value, pre vs post: 9.735e-04
+F-value, trial index: 0.793
+P-value, trial index: 6.325e-01
 </pre></div>
 </div>
 </section>
@@ -410,7 +410,7 @@ compute the empirical p-value and z-score for this using surrogates.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Difference in post-pre firing rate of real data: </span><span class="si">{:1.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fr_diff</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Difference in post-pre firing rate of real data: 4.83
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Difference in post-pre firing rate of real data: 4.73
 </pre></div>
 </div>
 <p>To compare the delta firing rate, we need to generate our distribution of surrogates.</p>
@@ -442,8 +442,8 @@ real data is greater than expected by change (in the shuffles).</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Maximum delta FR across surrogates: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">shuffled_diffs</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Minimum delta FR across surrogates: 7.800
-Maximum delta FR across surrogates: 9.600
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Minimum delta FR across surrogates: 7.100
+Maximum delta FR across surrogates: 8.600
 </pre></div>
 </div>
 <p>Now we can compute the empirical p-value and z-score of change in firing rate from
@@ -456,8 +456,8 @@ the distribution of surrogates, using the <a class="reference internal" href="..
     <span class="n">surr_zscore</span><span class="p">,</span> <span class="n">surr_pval</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>1.0 -9.599557166671095
-For the surrogate comparison, the z-score is -9.600, and the p-value is 1.000e+00
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>1.0 -10.136467109369793
+For the surrogate comparison, the z-score is -10.136, and the p-value is 1.000e+00
 </pre></div>
 </div>
 <p>Lastly, plot the distribution of surrogates with calculated delta firing rate.</p>
@@ -546,7 +546,7 @@ in this case we will create a dataframe using the <a class="reference internal" 
       <th>0</th>
       <td>0</td>
       <td>0</td>
-      <td>6.0</td>
+      <td>9.0</td>
     </tr>
     <tr>
       <th>1</th>
@@ -564,13 +564,13 @@ in this case we will create a dataframe using the <a class="reference internal" 
       <th>3</th>
       <td>0</td>
       <td>3</td>
-      <td>5.0</td>
+      <td>3.0</td>
     </tr>
     <tr>
       <th>4</th>
       <td>0</td>
       <td>4</td>
-      <td>1.0</td>
+      <td>3.0</td>
     </tr>
   </tbody>
 </table>
@@ -584,13 +584,13 @@ in this case we will create a dataframe using the <a class="reference internal" 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F-value: </span><span class="si">{:.3}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f_val</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value: 45.6
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value: 38.2
 </pre></div>
 </div>
 <p>Note that the procedure we employed here could also be combined with what we did above
 to shuffle the data, in order to calculate the ANOVA F-value across surrogates and
 then compare to the real data.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.777 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.871 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-stats-py">
 <div class="binder-badge docutils container">
 <a class="reference external image-reference" href="https://mybinder.org/v2/gh/spiketools/spiketools/gh-pages?filepath=notebooks/auto_tutorials/plot_stats.ipynb"><img alt="Launch binder" src="../_images/binder_badge_logo.svg" width="150px" /></a>
