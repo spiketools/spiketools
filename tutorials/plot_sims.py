@@ -348,3 +348,10 @@ trial_spikes2 = sim_trials(n_trials, 'poisson',
 
 # Visualize the simulate trial related data
 plot_rasters(trial_spikes2, vline=0)
+
+###################################################################################################
+# Conclusion
+# ~~~~~~~~~~
+#
+# In this tutorial, we covered simulations available in the spiketools module.
+#
