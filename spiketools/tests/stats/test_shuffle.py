@@ -42,8 +42,21 @@ def test_drop_shuffle_range():
     #   This test the spikes that get moved from the empty range (spikes @ ind: [1, 2])
     drop_time_range = [2, 4]
     out = _shuffle_spikes(spikes, n_shuffles, drop_time_range=drop_time_range)
-    toutput = np.array([0.5, 3.5, 3.9, 4.1, 5.4, 5.9])
-    assert np.allclose(out, np.array([toutput + 1] * n_shuffles))
+    toutput = np.array([1.5, 4.5, 4.9, 5.1, 6.4, 6.9])
+    assert np.allclose(out, np.array([toutput] * n_shuffles))
+
+    # Test that this all still works with negative values / different start time
+    spikes_off = np.array([-1.5, -1.1, -0.5, 0.1, 0.7, 4.1, 5.1])
+
+    # Check without activating decorator
+    out_off_no_drop = _shuffle_spikes(spikes_off, n_shuffles)
+    assert np.allclose(out_off_no_drop, np.array([spikes_off + 1] * n_shuffles))
+
+    # Check with activating decorator
+    drop_time_range_off = [1, 4]
+    out_off = _shuffle_spikes(spikes_off, n_shuffles, drop_time_range=drop_time_range_off)
+    toutput_off = np.array([-0.5, -0.1, 0.5, 4.1, 4.7, 5.1, 6.1])
+    assert np.allclose(out_off, np.array([toutput_off] * n_shuffles))
 
 def test_shuffle_isis(tspikes, tspikes_offset):
 
