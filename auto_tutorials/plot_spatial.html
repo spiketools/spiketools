@@ -106,16 +106,19 @@ to download the full example code or to run this example in your browser via Bin
 <p>This tutorial primarily covers the <code class="docutils literal notranslate"><span class="pre">spiketools.spatial</span></code> module.</p>
 <section id="apply-spatial-measures-to-spatial-data">
 <h2>Apply spatial measures to spatial data<a class="headerlink" href="#apply-spatial-measures-to-spatial-data" title="Permalink to this heading">¶</a></h2>
+<p>This tutorial explores functionality for analyzing how spiking data relates to space,
+including analysis such as place and target cells. To do so, we will use some example
+simulated data.</p>
 <section id="sections">
 <h3>Sections<a class="headerlink" href="#sections" title="Permalink to this heading">¶</a></h3>
 <p>This tutorial contains the following sections:</p>
 <ol class="arabic simple">
-<li><p>Compute and plot distances and speed using position</p></li>
-<li><p>Divide position in spatial bin edges</p></li>
+<li><p>Compute and plot distances and speed from position data</p></li>
+<li><p>Divide position in spatial bins</p></li>
 <li><p>Compute spatial bin assignment using spatial bin edges</p></li>
-<li><p>Compute time in each timestamp sample</p></li>
+<li><p>Compute time spent in each spatial bin</p></li>
 <li><p>Compute and plot occupancy and position counts</p></li>
-<li><p>Compute 2D and 1D spatial information</p></li>
+<li><p>Compute 1D and 2D spatial information</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import auxiliary libraries</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -152,9 +155,9 @@ to download the full example code or to run this example in your browser via Bin
 </section>
 <section id="compute-and-plot-distances-and-speed-using-position">
 <h3>Compute and plot distances and speed using position<a class="headerlink" href="#compute-and-plot-distances-and-speed-using-position" title="Permalink to this heading">¶</a></h3>
-<p>Use x- and y-position to compute distance between two or more points,
-cumulative distance traveled and speed.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Look at the range of our x and y positions</span>
+<p>First, we will explore some basic properties of the simulated position data, including
+visualizing the data.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the range of the x and y position data</span>
 <span class="n">ranges</span> <span class="o">=</span> <a href="../generated/spiketools.spatial.utils.compute_pos_ranges.html#spiketools.spatial.utils.compute_pos_ranges" title="spiketools.spatial.utils.compute_pos_ranges" class="sphx-glr-backref-module-spiketools-spatial-utils sphx-glr-backref-type-py-function"><span class="n">compute_pos_ranges</span></a><span class="p">(</span><span class="n">position</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The x-position ranges from </span><span class="si">{:1.1f}</span><span class="s1"> to </span><span class="si">{:1.1f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
@@ -186,7 +189,9 @@ The y-position ranges from 0.0 to 4.0
 <li><img src="../_images/sphx_glr_plot_spatial_002.png" srcset="../_images/sphx_glr_plot_spatial_002.png" alt="X-position by time" class = "sphx-glr-multi-img"/></li>
 <li><img src="../_images/sphx_glr_plot_spatial_003.png" srcset="../_images/sphx_glr_plot_spatial_003.png" alt="Y-position by time" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p>With our position data, we can use some function to compute distance measures, including:</p>
+<p>Next, we will use the x- and y-position values to compute distance between each set of points,
+cumulative distance traveled, and speed.</p>
+<p>With our position data, the following functions can be used for this, including:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../generated/spiketools.spatial.distance.compute_distance.html#spiketools.spatial.distance.compute_distance" title="spiketools.spatial.distance.compute_distance"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_distance()</span></code></a>: which computes the distance between two points</p></li>
 <li><p><a class="reference internal" href="../generated/spiketools.spatial.distance.compute_distances.html#spiketools.spatial.distance.compute_distances" title="spiketools.spatial.distance.compute_distances"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_distances()</span></code></a>: which computes distances across a sequence of positions</p></li>
@@ -207,32 +212,27 @@ The y-position ranges from 0.0 to 4.0
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot distance and speed measures</span>
 <span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span> <span class="o">=</span> <a href="../generated/spiketools.plts.utils.make_axes.html#spiketools.plts.utils.make_axes" title="spiketools.plts.utils.make_axes" class="sphx-glr-backref-module-spiketools-plts-utils sphx-glr-backref-type-py-function"><span class="n">make_axes</span></a><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;ls&#39;</span> <span class="p">:</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;marker&#39;</span> <span class="p">:</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;markersize&#39;</span> <span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
 
 <span class="c1"># Plot distance traveled at each time</span>
-<a href="../generated/spiketools.plts.spatial.plot_position_by_time.html#spiketools.plts.spatial.plot_position_by_time" title="spiketools.plts.spatial.plot_position_by_time" class="sphx-glr-backref-module-spiketools-plts-spatial sphx-glr-backref-type-py-function"><span class="n">plot_position_by_time</span></a><span class="p">(</span><span class="n">timestamps</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dist_traveled</span><span class="p">,</span>
-                      <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:pink&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distance traveled at each point&#39;</span><span class="p">,</span>
-                      <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;time (t)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;speed (u/t)&#39;</span><span class="p">)</span>
+<a href="../generated/spiketools.plts.spatial.plot_position_by_time.html#spiketools.plts.spatial.plot_position_by_time" title="spiketools.plts.spatial.plot_position_by_time" class="sphx-glr-backref-module-spiketools-plts-spatial sphx-glr-backref-type-py-function"><span class="n">plot_position_by_time</span></a><span class="p">(</span><span class="n">timestamps</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dist_traveled</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:pink&#39;</span><span class="p">,</span>
+                      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distance between each point&#39;</span><span class="p">,</span>
+                      <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (s)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Distance&#39;</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
 
 <span class="c1"># Plot cumulative distance traveled per time</span>
-<a href="../generated/spiketools.plts.spatial.plot_position_by_time.html#spiketools.plts.spatial.plot_position_by_time" title="spiketools.plts.spatial.plot_position_by_time" class="sphx-glr-backref-module-spiketools-plts-spatial sphx-glr-backref-type-py-function"><span class="n">plot_position_by_time</span></a><span class="p">(</span><span class="n">timestamps</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">cumulative_dist_traveled</span><span class="p">,</span>
-                      <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:olive&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Cumulative distance traveled at each point&#39;</span><span class="p">,</span>
-                      <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;time (t)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;speed (u/t)&#39;</span><span class="p">)</span>
+<a href="../generated/spiketools.plts.spatial.plot_position_by_time.html#spiketools.plts.spatial.plot_position_by_time" title="spiketools.plts.spatial.plot_position_by_time" class="sphx-glr-backref-module-spiketools-plts-spatial sphx-glr-backref-type-py-function"><span class="n">plot_position_by_time</span></a><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">cumulative_dist_traveled</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:olive&#39;</span><span class="p">,</span>
+                      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Cumulative distance traveled&#39;</span><span class="p">,</span>
+                      <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (s)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Cumulative Distance&#39;</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
 
 <span class="c1"># Plot speed at each time point</span>
-<a href="../generated/spiketools.plts.spatial.plot_position_by_time.html#spiketools.plts.spatial.plot_position_by_time" title="spiketools.plts.spatial.plot_position_by_time" class="sphx-glr-backref-module-spiketools-plts-spatial sphx-glr-backref-type-py-function"><span class="n">plot_position_by_time</span></a><span class="p">(</span><span class="n">timestamps</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">speeds</span><span class="p">,</span>
-                      <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:cyan&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Speed at each point&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;time (t)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;speed (u/t)&#39;</span><span class="p">)</span>
+<a href="../generated/spiketools.plts.spatial.plot_position_by_time.html#spiketools.plts.spatial.plot_position_by_time" title="spiketools.plts.spatial.plot_position_by_time" class="sphx-glr-backref-module-spiketools-plts-spatial sphx-glr-backref-type-py-function"><span class="n">plot_position_by_time</span></a><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">speeds</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:cyan&#39;</span><span class="p">,</span>
+                      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Speed&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (S)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Speed&#39;</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_spatial_004.png" srcset="../_images/sphx_glr_plot_spatial_004.png" alt="Distance traveled at each point, Cumulative distance traveled at each point, Speed at each point" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/tom/opt/anaconda3/envs/spike/lib/python3.8/site-packages/spiketools/plts/spatial.py:186: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify &#39;dtype=object&#39; when creating the ndarray.
-  plot_positions(np.array([timestamps, position]), spike_positions_plot,
-/Users/tom/opt/anaconda3/envs/spike/lib/python3.8/site-packages/spiketools/plts/spatial.py:186: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify &#39;dtype=object&#39; when creating the ndarray.
-  plot_positions(np.array([timestamps, position]), spike_positions_plot,
-</pre></div>
-</div>
-</section>
+<img src="../_images/sphx_glr_plot_spatial_004.png" srcset="../_images/sphx_glr_plot_spatial_004.png" alt="Distance between each point, Cumulative distance traveled, Speed" class = "sphx-glr-single-img"/></section>
 <section id="divide-position-in-spatial-bin-edges-and-plot">
 <h3>Divide position in spatial bin edges and plot<a class="headerlink" href="#divide-position-in-spatial-bin-edges-and-plot" title="Permalink to this heading">¶</a></h3>
 <p>Now we can start binning our position data.</p>
@@ -242,6 +242,7 @@ The y-position ranges from 0.0 to 4.0
 <a class="reference internal" href="../generated/spiketools.spatial.utils.compute_bin_width.html#spiketools.spatial.utils.compute_bin_width" title="spiketools.spatial.utils.compute_bin_width"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_bin_width()</span></code></a> function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define spatial binning: 3 x-bins and 5 y-bins</span>
 <span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
 <span class="c1"># Compute spatial bin edges</span>
 <span class="n">x_edges</span><span class="p">,</span> <span class="n">y_edges</span> <span class="o">=</span> <a href="../generated/spiketools.spatial.occupancy.compute_bin_edges.html#spiketools.spatial.occupancy.compute_bin_edges" title="spiketools.spatial.occupancy.compute_bin_edges" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_edges</span></a><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
 
@@ -271,8 +272,8 @@ The y spatial bins have width = 0.8
 <p>Next, we will compute the spatial bin assignment for the position data using the
 previously computed spatial bin edges.</p>
 <p>To do so, we will use the <a class="reference internal" href="../generated/spiketools.spatial.occupancy.compute_bin_assignment.html#spiketools.spatial.occupancy.compute_bin_assignment" title="spiketools.spatial.occupancy.compute_bin_assignment"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_bin_assignment()</span></code></a> function.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now let us check where the first 7 position data points using the same x_edges and y_edges</span>
-<span class="n">n_points</span> <span class="o">=</span> <span class="mi">7</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now let us check which bins the position values are in, using the same x_edges and y_edges</span>
+<span class="n">n_points</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">x_bins</span><span class="p">,</span> <span class="n">y_bins</span> <span class="o">=</span> <a href="../generated/spiketools.spatial.occupancy.compute_bin_assignment.html#spiketools.spatial.occupancy.compute_bin_assignment" title="spiketools.spatial.occupancy.compute_bin_assignment" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_assignment</span></a><span class="p">(</span><span class="n">position</span><span class="p">[:,</span> <span class="p">:</span><span class="n">n_points</span><span class="p">],</span> <span class="n">x_edges</span><span class="p">,</span> <span class="n">y_edges</span><span class="p">)</span>
 
 <span class="c1"># We can check they match the positions in plot (ii)</span>
@@ -286,14 +287,12 @@ The point (x, y) = (1.0, 0.0) is in x_bin 0 and y_bin 0.
 The point (x, y) = (2.0, 0.1) is in x_bin 1 and y_bin 0.
 The point (x, y) = (3.0, 1.0) is in x_bin 2 and y_bin 1.
 The point (x, y) = (4.0, 1.5) is in x_bin 2 and y_bin 1.
-The point (x, y) = (3.2, 1.0) is in x_bin 2 and y_bin 1.
-The point (x, y) = (2.1, 1.0) is in x_bin 1 and y_bin 1.
 </pre></div>
 </div>
 </section>
 <section id="compute-duration-of-each-sample">
 <h3>Compute duration of each sample<a class="headerlink" href="#compute-duration-of-each-sample" title="Permalink to this heading">¶</a></h3>
-<p>Compute the time duration of the position samples, using the
+<p>Next, we can compute the time duration of the position samples, using the
 <a class="reference internal" href="../generated/spiketools.utils.timestamps.compute_sample_durations.html#spiketools.utils.timestamps.compute_sample_durations" title="spiketools.utils.timestamps.compute_sample_durations"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_sample_durations()</span></code></a> function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the durations of the samples</span>
 <span class="n">sample_times</span> <span class="o">=</span> <a href="../generated/spiketools.utils.timestamps.compute_sample_durations.html#spiketools.utils.timestamps.compute_sample_durations" title="spiketools.utils.timestamps.compute_sample_durations" class="sphx-glr-backref-module-spiketools-utils-timestamps sphx-glr-backref-type-py-function"><span class="n">compute_sample_durations</span></a><span class="p">(</span><span class="n">timestamps</span><span class="p">)</span>
@@ -309,23 +308,24 @@ The point (x, y) = (2.1, 1.0) is in x_bin 1 and y_bin 1.
 <p>Now we are interested in how much time was spent in each bin of the spatial grid.</p>
 <p>To measure this, we will compute the occupancy across the spatial bins, using
 the <a class="reference internal" href="../generated/spiketools.spatial.occupancy.compute_occupancy.html#spiketools.spatial.occupancy.compute_occupancy" title="spiketools.spatial.occupancy.compute_occupancy"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_occupancy()</span></code></a> function.</p>
-<p>For 2D case, compute occupancy using position, timestamps, bins, speed, and a speed threshold.
-Also compute 2D position bin occurrence counts (no speed thresholding).
-Plot heatmaps of 2D occupancy and 2D position bin occurrence counts.</p>
+<p>For the 2D case, we compute occupancy using position, timestamps, bins.
+We can also optionally provide speed information, and set min or max speed threshold(s).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define minimum speed threshold, used to remove entries if the speed is less than the threshold</span>
 <span class="n">min_speed</span> <span class="o">=</span> <span class="mf">.5e-3</span>
 
 <span class="c1"># Compute the 2D occupancy</span>
-<span class="n">occupancy</span> <span class="o">=</span> <a href="../generated/spiketools.spatial.occupancy.compute_occupancy.html#spiketools.spatial.occupancy.compute_occupancy" title="spiketools.spatial.occupancy.compute_occupancy" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_occupancy</span></a><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span>
-                              <span class="n">speed</span><span class="o">=</span><span class="n">speeds</span><span class="p">,</span> <span class="n">min_speed</span><span class="o">=</span><span class="n">min_speed</span><span class="p">)</span>
-
-<span class="c1"># Plot the compute 2D occupancy</span>
+<span class="n">occupancy</span> <span class="o">=</span> <a href="../generated/spiketools.spatial.occupancy.compute_occupancy.html#spiketools.spatial.occupancy.compute_occupancy" title="spiketools.spatial.occupancy.compute_occupancy" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_occupancy</span></a><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="n">speeds</span><span class="p">,</span> <span class="n">min_speed</span><span class="o">=</span><span class="n">min_speed</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now that we have computed the occupancy, we can plot it using the
+<a class="reference internal" href="../generated/spiketools.plts.spatial.plot_heatmap.html#spiketools.plts.spatial.plot_heatmap" title="spiketools.plts.spatial.plot_heatmap"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_heatmap()</span></code></a> function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the compute 2D occupancy</span>
 <a href="../generated/spiketools.plts.spatial.plot_heatmap.html#spiketools.plts.spatial.plot_heatmap" title="spiketools.plts.spatial.plot_heatmap" class="sphx-glr-backref-module-spiketools-plts-spatial sphx-glr-backref-type-py-function"><span class="n">plot_heatmap</span></a><span class="p">(</span><span class="n">occupancy</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Occupancy heatmap w/ speed threshold&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <img src="../_images/sphx_glr_plot_spatial_006.png" srcset="../_images/sphx_glr_plot_spatial_006.png" alt="Occupancy heatmap w/ speed threshold" class = "sphx-glr-single-img"/><p>Another way to explore occupancy measures is to check the number of
-occurrences with each spatial bin.</p>
+occurrences within each spatial bin.</p>
 <p>This can be computed with the <a class="reference internal" href="../generated/spiketools.spatial.occupancy.compute_bin_counts_pos.html#spiketools.spatial.occupancy.compute_bin_counts_pos" title="spiketools.spatial.occupancy.compute_bin_counts_pos"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_bin_counts_pos()</span></code></a> function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the 2D position bin occurrence counts</span>
 <span class="n">bin_counts_pos</span> <span class="o">=</span> <a href="../generated/spiketools.spatial.occupancy.compute_bin_counts_pos.html#spiketools.spatial.occupancy.compute_bin_counts_pos" title="spiketools.spatial.occupancy.compute_bin_counts_pos" class="sphx-glr-backref-module-spiketools-spatial-occupancy sphx-glr-backref-type-py-function"><span class="n">compute_bin_counts_pos</span></a><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
@@ -353,11 +353,11 @@ same timestamps, x-bins, speed, and speed threshold as before.</p>
 </pre></div>
 </div>
 <img src="../_images/sphx_glr_plot_spatial_009.png" srcset="../_images/sphx_glr_plot_spatial_009.png" alt="X-position bin occurrence counts heatmap" class = "sphx-glr-single-img"/></section>
-<section id="compute-2d-and-1d-spatial-information">
-<h3>Compute 2D and 1D spatial information<a class="headerlink" href="#compute-2d-and-1d-spatial-information" title="Permalink to this heading">¶</a></h3>
-<p>Next, we want to measure to relationship between spiking and position data.</p>
+<section id="compute-1d-and-2d-spatial-information">
+<h3>Compute 1D and 2D spatial information<a class="headerlink" href="#compute-1d-and-2d-spatial-information" title="Permalink to this heading">¶</a></h3>
+<p>Next, we want to measure the relationship between spiking activity and position data.</p>
 <p>To do so, we will compute a spatial information measure between simulated spiking data
-and associated position data.</p>
+and the associated position data.</p>
 <p>To do so, we will use the <a class="reference internal" href="../generated/spiketools.spatial.information.compute_spatial_information.html#spiketools.spatial.information.compute_spatial_information" title="spiketools.spatial.information.compute_spatial_information"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_spatial_information()</span></code></a> function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate a spike train with chance level</span>
 <span class="n">spike_train</span> <span class="o">=</span> <a href="../generated/spiketools.sim.train.sim_spiketrain_binom.html#spiketools.sim.train.sim_spiketrain_binom" title="spiketools.sim.train.sim_spiketrain_binom" class="sphx-glr-backref-module-spiketools-sim-train sphx-glr-backref-type-py-function"><span class="n">sim_spiketrain_binom</span></a><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">x_pos</span><span class="p">))</span>
@@ -385,7 +385,7 @@ and associated position data.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The 1D spatial information is = </span><span class="si">{:.3}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">spatial_information_1d</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The 1D spatial information is = 0.13
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The 1D spatial information is = 0.0633
 </pre></div>
 </div>
 <p>We can also follow the same procedure to compute spatial information for 2D data.</p>
@@ -398,10 +398,10 @@ and associated position data.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The 2D spatial information is = </span><span class="si">{:.3}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">spatial_information_2d</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The 2D spatial information is = 0.692
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The 2D spatial information is = 0.386
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.652 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.715 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-spatial-py">
 <div class="binder-badge docutils container">
 <a class="reference external image-reference" href="https://mybinder.org/v2/gh/spiketools/spiketools/gh-pages?filepath=notebooks/auto_tutorials/plot_spatial.ipynb"><img alt="Launch binder" src="../_images/binder_badge_logo.svg" width="150px" /></a>

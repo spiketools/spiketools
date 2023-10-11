@@ -99,7 +99,7 @@
 <h1>spiketools.stats.shuffle.shuffle_poisson<a class="headerlink" href="#spiketools-stats-shuffle-shuffle-poisson" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.stats.shuffle.shuffle_poisson">
-<span class="sig-prename descclassname"><span class="pre">spiketools.stats.shuffle.</span></span><span class="sig-name descname"><span class="pre">shuffle_poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shuffles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/shuffle.html#shuffle_poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.shuffle.shuffle_poisson" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.stats.shuffle.</span></span><span class="sig-name descname"><span class="pre">shuffle_poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shuffles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/stats/shuffle.html#shuffle_poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.stats.shuffle.shuffle_poisson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shuffle spikes based on generating new spike trains from a Poisson distribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -107,6 +107,8 @@
 <dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times, in seconds.</p>
 </dd>
 <dt><strong>n_shuffles</strong><span class="classifier">int, optional, default: 1000</span></dt><dd><p>The number of shuffles to create.</p>
+</dd>
+<dt><strong>start_time</strong><span class="classifier">float, optional</span></dt><dd><p>The start time of the input spikes, used to set the time values of the shuffled outputs.</p>
 </dd>
 </dl>
 </dd>

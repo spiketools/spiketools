@@ -99,16 +99,16 @@
 <h1>spiketools.measures.conversions.convert_isis_to_times<a class="headerlink" href="#spiketools-measures-conversions-convert-isis-to-times" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.measures.conversions.convert_isis_to_times">
-<span class="sig-prename descclassname"><span class="pre">spiketools.measures.conversions.</span></span><span class="sig-name descname"><span class="pre">convert_isis_to_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/measures/conversions.html#convert_isis_to_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.measures.conversions.convert_isis_to_times" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.measures.conversions.</span></span><span class="sig-name descname"><span class="pre">convert_isis_to_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/measures/conversions.html#convert_isis_to_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.measures.conversions.convert_isis_to_times" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a sequence of inter-spike intervals to spike times.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>isis</strong><span class="classifier">1d array</span></dt><dd><p>Distribution of interspike intervals, in seconds.</p>
 </dd>
-<dt><strong>offset</strong><span class="classifier">float, optional</span></dt><dd><p>An offset value to add to generated spike times.</p>
+<dt><strong>add_initial</strong><span class="classifier">bool, optional, default: True</span></dt><dd><p>Whether to prepend the offset value to the beginning of the spike times.</p>
 </dd>
-<dt><strong>add_offset</strong><span class="classifier">bool, optional, default: True</span></dt><dd><p>Whether to prepend the offset value to the beginning of the spike times.</p>
+<dt><strong>start_time</strong><span class="classifier">float, optional</span></dt><dd><p>The initial start time for the converted spike times.</p>
 </dd>
 </dl>
 </dd>
@@ -122,7 +122,7 @@
 <p class="rubric">Examples</p>
 <p>Convert a sequence of inter-spike intervals to their corresponding spike times, in seconds:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">isis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">convert_isis_to_times</span><span class="p">(</span><span class="n">isis</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">add_offset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">convert_isis_to_times</span><span class="p">(</span><span class="n">isis</span><span class="p">)</span>
 <span class="go">array([0. , 0.3, 0.9, 1.7, 1.9, 2.6])</span>
 </pre></div>
 </div>

@@ -11,6 +11,10 @@ This tutorial primarily covers the ``spiketools.measures`` module.
 # Applying measures & conversions to spiking data
 # -----------------------------------------------
 #
+# This tutorial explores functionality for converting between different representations and
+# applying measures to spike data. To show this functionality, we will use some example
+# simulated data.
+#
 # Sections
 # ~~~~~~~~
 #
@@ -39,12 +43,12 @@ from spiketools.measures.trials import (compute_trial_frs, compute_pre_post_rate
                                         compute_pre_post_diffs)
 
 # Import simulation functions
-from spiketools.sim.times import sim_spiketimes
+from spiketools.sim import sim_spiketimes
+from spiketools.sim.trials import sim_trials_poisson
 
 # Import plot functions
 from spiketools.plts.spikes import plot_isis
-from spiketools.plts.trials import plot_rasters
-from spiketools.plts.spatial import plot_heatmap
+from spiketools.plts.trials import plot_rasters, plot_rate_by_time
 
 ###################################################################################################
 # Convert spiking data
@@ -86,9 +90,9 @@ print(spike_times[0:5])
 # Convert a vector of spike times in seconds to a binary spike train using sampling rate of 1000
 spike_train = convert_times_to_train(spike_times, fs=1000)
 
-# Print the first 20 spikes in the binary spike train
-print('Spike times:', spike_times[spike_times < (20 / 1000)])
-print('Corresponding spike train:', spike_train[:20])
+# Print the first 25 samples in the binary spike train
+print('Spike times:', spike_times[spike_times < (25 / 1000)])
+print('Corresponding spike train:', spike_train[:25])
 
 # Plot the first second of the spike times
 plot_rasters(spike_times[spike_times < 1], title='Raster of spike times')
@@ -111,13 +115,13 @@ plot_rasters(spike_times[spike_times < 1], title='Raster spike times from spike 
 
 ###################################################################################################
 #
-# Another representation of spike activity is the inter-spike intervals, which
+# Another representation of spike activity is the inter-spike interval, which
 # reflects the distribution of time-values between each spike.
 #
 # We can convert from the inter-spike intervals to spike times using the
 # :func:`~.convert_isis_to_times` function.
 #
-# Here we can see the converted data has the same raster plot as the original data, minus an offset.
+# Here we can see the converted data has the same raster plot as the original data.
 #
 
 ###################################################################################################
@@ -126,7 +130,7 @@ plot_rasters(spike_times[spike_times < 1], title='Raster spike times from spike 
 isis = compute_isis(spike_times)
 
 # Convert a vector of inter-spike intervals in seconds to spike times in seconds
-spike_times = convert_isis_to_times(isis, offset=0, add_offset=True)
+spike_times = convert_isis_to_times(isis)
 
 # Plot the first second of the spike times
 plot_rasters(spike_times[spike_times < 1], title='Raster spike times from ISIS')
@@ -135,7 +139,7 @@ plot_rasters(spike_times[spike_times < 1], title='Raster spike times from ISIS')
 # Compute measures of spiking activity
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# The firing rate of a neuron measures how fast the neuron is firing, providing
+# The firing rate of a neuron measures how fast the neuron is firing. The firing rate reflects
 # a measure of spiking activity in spikes / second, representing the rate of firing.
 #
 # We can use the :func:`~.compute_firing_rate` function to compute the firing rate
@@ -144,9 +148,9 @@ plot_rasters(spike_times[spike_times < 1], title='Raster spike times from ISIS')
 
 ###################################################################################################
 
-# Compute the spike rate from spike times
-spike_rate = compute_firing_rate(spike_times)
-print('The spike rate is {:1.3f} Hz'.format(spike_rate))
+# Compute the firing rate from spike times
+firing_rate = compute_firing_rate(spike_times)
+print('The firing rate is {:1.3f} Hz'.format(firing_rate))
 
 ###################################################################################################
 #
@@ -164,7 +168,7 @@ plot_isis(isis, bins=None, range=None, density=False, ax=None)
 
 ###################################################################################################
 #
-# Next, we can compute the coefficient of variation of ISIs that we just calculated.
+# Next, we can compute the coefficient of variation of the ISIs that we just calculated.
 #
 # The coefficient of variation measures the variability of the spiking activity.
 #
@@ -195,79 +199,104 @@ print('Fano factor: {:1.3f}'.format(fano))
 # Compute measures of trial spiking activity
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# In this section we explore measures of trial-epoched data.
+# In this section we will now explore measures of trial-epoched data.
 #
 # First, to do so, we will simulate a set of spike times for 5 different trials.
 #
-# For each trial, an event that changes the firing rate is simulated.
-# Plot the spiking activity across trials
-#
+# For each trial, we simulate an event that changes the firing rate, such that
+# there is a difference in firing rate before / after the event time.
 
 ###################################################################################################
 
-# Number of trials
-n_trials = 5
-
 # Define simulation settings
-time_pre = 2
-fr_pre = 5
-time_post = 4
-fr_post = 10
+n_trials = 5
+rate_pre = 5
+rate_post = 10
+time_pre = 3
+time_post = 3
 
 # Simulate spiking activity across trials
-trial_spikes = [None] * n_trials
-for trial_idx in range(n_trials):
+trial_spikes = sim_trials_poisson(n_trials, rate_pre, rate_post, time_pre, time_post)
 
-    # Generate pre-event spike times: spikes at 5 Hz for 2 seconds (time_pre)
-    spikes_pre = sim_spiketimes(fr_pre, time_pre, 'poisson', refractory=0.001)
+###################################################################################################
+#
+# First, lets visualize the simulated spiking activity across trials.
+#
 
-    # Generate post-event spike times: spikes at 10 Hz for 4 seconds (time_post)
-    # Add time_pre to the post spikes, since we will stack the pre and the post
-    spikes_post = sim_spiketimes(fr_post, time_post, 'poisson', refractory=0.001) + time_pre
-
-    # Stack pre and post, making each trial 6 seconds long
-    trial_spikes[trial_idx] = np.append(spikes_pre, spikes_post)
+###################################################################################################
 
 # Plot the spike times across trials
 plot_rasters(trial_spikes, title='Spikes per trial')
 
 ###################################################################################################
 #
-# Now we can compute the firing rates for each 2 second bin within each trial.
+# Now we can compute the firing rates across times for each trial.
 #
 # To do so, we can use the :func:`~.compute_trial_frs` function.
 #
 
 ###################################################################################################
 
-# Compute firing rates per trial, using a 2 second bin width
-bin_width = 2
-trial_times, trial_frs = compute_trial_frs(trial_spikes, bin_width, time_range=[0, 6], smooth=None)
+# Compute firing rates per trial
+time_bin_length = 1
+trial_times, trial_frs = compute_trial_frs(trial_spikes, time_bin_length,
+                                           time_range=[-time_pre, time_post])
 
-# Plot trial firing rates (2 second bins)
-plot_heatmap(trial_frs, title='Trial FRs, 2s bins')
+
+###################################################################################################
+
+# Plot continuous firing rates across, separately for each trial
+plot_rate_by_time(trial_times, trial_frs, vline=0,
+                  title='Continuous Firing Rates per Trial')
 
 ###################################################################################################
 #
-# Similarly, we can compute the firing rates for each segment within each trial.
+# Above, we used the :func:`~.plot_rate_by_time` function to plot the continuous firing rates.
 #
-# For this, we use the :func:`~.compute_segment_frs` function.
+# Using the same function, we can also visualize the average across trials.
+#
+
+###################################################################################################
+
+# Plot the average firing rate across trials, by specifying average and shade
+plot_rate_by_time(trial_times, trial_frs, average='mean', shade='sem', vline=0,
+                  title='Average Firing Rate Across Trials')
+
+###################################################################################################
+#
+# In the above, we compute the firing rates across evently distributed 1 second windows.
+#
+# If instead we wanted to compute firing rates for a specified set of time segments, we
+# we can use the :func:`~.compute_segment_frs` function.
+#
+# Computing the firing rates across segments can be useful if, for example, you want to
+# specify specific time ranges, that might occur at specific points in time and/or be unequal
+# length, rather than computing across a continuous set of windows. These segment definitions
+# can also vary by trial.
+#
+# As an example of this, we could define a time segment in which we expect a post stimulus
+# response, as compared to an equal length time segment before any stimulus response.
+#
+# Note that we can use different segments per trial.
 #
 
 ###################################################################################################
 
 # Compute firing rates for segments for two example trials
-# Note that we can use different segments per trial
-segments = np.array([[0, time_pre, time_pre + time_post],
-                     [1, time_pre + 1, time_pre + time_post]])
+segments = np.array([[-2, 0, 1, 2],
+                     [-2, 0, 1, 3]])
 segment_frs = compute_segment_frs(trial_spikes[:2], segments)
 
-# Plot trial firing rates (segments)
-plot_heatmap(segment_frs, title='Trial FRs, segments')
+# Plot trial firing rates across segments
+segment_labels = [0, 1, 2]
+plot_rate_by_time(segment_labels, segment_frs, xlabel='Segments',
+                  title='Firing Rates Across Segments')
 
 ###################################################################################################
 # Compute measures of spiking activity pre- and post-event
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# We can also compute measures of interest across event-related data.
 #
 # First, we calculate the firing rates before and after the event, with
 # the :func:`~.compute_pre_post_rates` function.
@@ -276,8 +305,8 @@ plot_heatmap(segment_frs, title='Trial FRs, segments')
 ###################################################################################################
 
 # Compute firing rates pre and post the event for all trials
-pre_window = [0, time_pre]
-post_window = [time_pre, time_pre + time_post]
+pre_window = [-time_pre, 0]
+post_window = [0, time_post]
 frs_pre, frs_post = compute_pre_post_rates(trial_spikes, pre_window, post_window)
 
 ###################################################################################################

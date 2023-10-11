@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.measures.conversions.convert_train_to_times &#8212; spiketools 0.1.0 documentation</title>
+    <title>spiketools.sim.trials.sim_trials_poisson &#8212; spiketools 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -95,37 +95,33 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-measures-conversions-convert-train-to-times">
-<h1>spiketools.measures.conversions.convert_train_to_times<a class="headerlink" href="#spiketools-measures-conversions-convert-train-to-times" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-sim-trials-sim-trials-poisson">
+<h1>spiketools.sim.trials.sim_trials_poisson<a class="headerlink" href="#spiketools-sim-trials-sim-trials-poisson" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.measures.conversions.convert_train_to_times">
-<span class="sig-prename descclassname"><span class="pre">spiketools.measures.conversions.</span></span><span class="sig-name descname"><span class="pre">convert_train_to_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spike_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/measures/conversions.html#convert_train_to_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.measures.conversions.convert_train_to_times" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a spike train representation into spike times, in seconds.</p>
+<dt class="sig sig-object py" id="spiketools.sim.trials.sim_trials_poisson">
+<span class="sig-prename descclassname"><span class="pre">spiketools.sim.trials.</span></span><span class="sig-name descname"><span class="pre">sim_trials_poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_trials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate_post</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_pre</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_post</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/sim/trials.html#sim_trials_poisson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.sim.trials.sim_trials_poisson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate a collection of trials, based on a Poisson spike time simulation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>spike_train</strong><span class="classifier">1d array</span></dt><dd><p>Spike train.</p>
+<dt><strong>n_trials</strong><span class="classifier">int</span></dt><dd><p>Number of trials to simulate.</p>
 </dd>
-<dt><strong>fs</strong><span class="classifier">int, optional, default: 1000</span></dt><dd><p>The sampling rate of the computed spike train, in Hz.</p>
+<dt><strong>rate_pre, rate_post</strong><span class="classifier">float</span></dt><dd><p>The firing rates for the pre and post event times.</p>
 </dd>
-<dt><strong>start_time</strong><span class="classifier">float</span></dt><dd><p>The initial start time for the converted spike times.</p>
+<dt><strong>time_pre, time_post</strong><span class="classifier">float</span></dt><dd><p>The amount of time to simulate pre / post the event.</p>
+</dd>
+<dt><strong>refractory</strong><span class="classifier">float, optional, default: 0.001</span></dt><dd><p>The refractory period to apply to the simulated data, in seconds.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>spikes</strong><span class="classifier">1d array</span></dt><dd><p>Spike times, in seconds.</p>
+<dt><strong>trial_spikes</strong><span class="classifier">list of 1d array</span></dt><dd><p>Simulated trials, where list has length of n_trials.
+Each simulated trial has simulated spike times for the time range [-time_pre, time_post].</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<p>Convert a spike train into spike times:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spike_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">convert_train_to_times</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span>
-<span class="go">array([0.004, 0.006, 0.009, 0.011, 0.012, 0.014])</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>

@@ -106,6 +106,9 @@ to download the full example code or to run this example in your browser via Bin
 <p>This tutorial primarily covers the <code class="docutils literal notranslate"><span class="pre">spiketools.measures</span></code> module.</p>
 <section id="applying-measures-conversions-to-spiking-data">
 <h2>Applying measures &amp; conversions to spiking data<a class="headerlink" href="#applying-measures-conversions-to-spiking-data" title="Permalink to this heading">¶</a></h2>
+<p>This tutorial explores functionality for converting between different representations and
+applying measures to spike data. To show this functionality, we will use some example
+simulated data.</p>
 <section id="sections">
 <h3>Sections<a class="headerlink" href="#sections" title="Permalink to this heading">¶</a></h3>
 <p>This tutorial contains the following sections:</p>
@@ -128,12 +131,12 @@ to download the full example code or to run this example in your browser via Bin
                                         <a href="../generated/spiketools.measures.trials.compute_pre_post_diffs.html#spiketools.measures.trials.compute_pre_post_diffs" title="spiketools.measures.trials.compute_pre_post_diffs" class="sphx-glr-backref-module-spiketools-measures-trials sphx-glr-backref-type-py-function"><span class="n">compute_pre_post_diffs</span></a><span class="p">)</span>
 
 <span class="c1"># Import simulation functions</span>
-<span class="kn">from</span> <span class="nn">spiketools.sim.times</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.sim</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.sim.trials</span> <span class="kn">import</span> <a href="../generated/spiketools.sim.trials.sim_trials_poisson.html#spiketools.sim.trials.sim_trials_poisson" title="spiketools.sim.trials.sim_trials_poisson" class="sphx-glr-backref-module-spiketools-sim-trials sphx-glr-backref-type-py-function"><span class="n">sim_trials_poisson</span></a>
 
 <span class="c1"># Import plot functions</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.spikes</span> <span class="kn">import</span> <a href="../generated/spiketools.plts.spikes.plot_isis.html#spiketools.plts.spikes.plot_isis" title="spiketools.plts.spikes.plot_isis" class="sphx-glr-backref-module-spiketools-plts-spikes sphx-glr-backref-type-py-function"><span class="n">plot_isis</span></a>
-<span class="kn">from</span> <span class="nn">spiketools.plts.trials</span> <span class="kn">import</span> <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a>
-<span class="kn">from</span> <span class="nn">spiketools.plts.spatial</span> <span class="kn">import</span> <a href="../generated/spiketools.plts.spatial.plot_heatmap.html#spiketools.plts.spatial.plot_heatmap" title="spiketools.plts.spatial.plot_heatmap" class="sphx-glr-backref-module-spiketools-plts-spatial sphx-glr-backref-type-py-function"><span class="n">plot_heatmap</span></a>
+<span class="kn">from</span> <span class="nn">spiketools.plts.trials</span> <span class="kn">import</span> <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">,</span> <a href="../generated/spiketools.plts.trials.plot_rate_by_time.html#spiketools.plts.trials.plot_rate_by_time" title="spiketools.plts.trials.plot_rate_by_time" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rate_by_time</span></a>
 </pre></div>
 </div>
 </section>
@@ -150,7 +153,7 @@ which spikes occur. By convention, spiketools encodes all spike times in seconds
 <span class="nb">print</span><span class="p">(</span><span class="n">spike_times</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.06418258 0.08793158 0.13562089 0.17355146 0.18915782]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.10495397 0.11615858 0.15871283 0.18988975 0.23892574]
 </pre></div>
 </div>
 <p>Now we can convert our simulated spike times to a binary spike train.</p>
@@ -164,16 +167,16 @@ as well as a raster plot of the spike times.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert a vector of spike times in seconds to a binary spike train using sampling rate of 1000</span>
 <span class="n">spike_train</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_times_to_train.html#spiketools.measures.conversions.convert_times_to_train" title="spiketools.measures.conversions.convert_times_to_train" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_times_to_train</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 
-<span class="c1"># Print the first 20 spikes in the binary spike train</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spike times:&#39;</span><span class="p">,</span> <span class="n">spike_times</span><span class="p">[</span><span class="n">spike_times</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">20</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Corresponding spike train:&#39;</span><span class="p">,</span> <span class="n">spike_train</span><span class="p">[:</span><span class="mi">20</span><span class="p">])</span>
+<span class="c1"># Print the first 25 samples in the binary spike train</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spike times:&#39;</span><span class="p">,</span> <span class="n">spike_times</span><span class="p">[</span><span class="n">spike_times</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">25</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Corresponding spike train:&#39;</span><span class="p">,</span> <span class="n">spike_train</span><span class="p">[:</span><span class="mi">25</span><span class="p">])</span>
 
 <span class="c1"># Plot the first second of the spike times</span>
 <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">[</span><span class="n">spike_times</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Raster of spike times&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <img src="../_images/sphx_glr_plot_measures_001.png" srcset="../_images/sphx_glr_plot_measures_001.png" alt="Raster of spike times" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Spike times: []
-Corresponding spike train: [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+Corresponding spike train: [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
 </pre></div>
 </div>
 <p>The inverse conversion, of converting a spike train to spike times, can be done with the
@@ -186,16 +189,16 @@ Corresponding spike train: [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
 <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">[</span><span class="n">spike_times</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Raster spike times from spike train&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_measures_002.png" srcset="../_images/sphx_glr_plot_measures_002.png" alt="Raster spike times from spike train" class = "sphx-glr-single-img"/><p>Another representation of spike activity is the inter-spike intervals, which
+<img src="../_images/sphx_glr_plot_measures_002.png" srcset="../_images/sphx_glr_plot_measures_002.png" alt="Raster spike times from spike train" class = "sphx-glr-single-img"/><p>Another representation of spike activity is the inter-spike interval, which
 reflects the distribution of time-values between each spike.</p>
 <p>We can convert from the inter-spike intervals to spike times using the
 <a class="reference internal" href="../generated/spiketools.measures.conversions.convert_isis_to_times.html#spiketools.measures.conversions.convert_isis_to_times" title="spiketools.measures.conversions.convert_isis_to_times"><code class="xref py py-func docutils literal notranslate"><span class="pre">convert_isis_to_times()</span></code></a> function.</p>
-<p>Here we can see the converted data has the same raster plot as the original data, minus an offset.</p>
+<p>Here we can see the converted data has the same raster plot as the original data.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the interval-spike intervals of a vector of spike times in seconds</span>
 <span class="n">isis</span> <span class="o">=</span> <a href="../generated/spiketools.measures.spikes.compute_isis.html#spiketools.measures.spikes.compute_isis" title="spiketools.measures.spikes.compute_isis" class="sphx-glr-backref-module-spiketools-measures-spikes sphx-glr-backref-type-py-function"><span class="n">compute_isis</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
 
 <span class="c1"># Convert a vector of inter-spike intervals in seconds to spike times in seconds</span>
-<span class="n">spike_times</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_isis_to_times.html#spiketools.measures.conversions.convert_isis_to_times" title="spiketools.measures.conversions.convert_isis_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_isis_to_times</span></a><span class="p">(</span><span class="n">isis</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">add_offset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">spike_times</span> <span class="o">=</span> <a href="../generated/spiketools.measures.conversions.convert_isis_to_times.html#spiketools.measures.conversions.convert_isis_to_times" title="spiketools.measures.conversions.convert_isis_to_times" class="sphx-glr-backref-module-spiketools-measures-conversions sphx-glr-backref-type-py-function"><span class="n">convert_isis_to_times</span></a><span class="p">(</span><span class="n">isis</span><span class="p">)</span>
 
 <span class="c1"># Plot the first second of the spike times</span>
 <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">[</span><span class="n">spike_times</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Raster spike times from ISIS&#39;</span><span class="p">)</span>
@@ -204,16 +207,16 @@ reflects the distribution of time-values between each spike.</p>
 <img src="../_images/sphx_glr_plot_measures_003.png" srcset="../_images/sphx_glr_plot_measures_003.png" alt="Raster spike times from ISIS" class = "sphx-glr-single-img"/></section>
 <section id="compute-measures-of-spiking-activity">
 <h3>Compute measures of spiking activity<a class="headerlink" href="#compute-measures-of-spiking-activity" title="Permalink to this heading">¶</a></h3>
-<p>The firing rate of a neuron measures how fast the neuron is firing, providing
+<p>The firing rate of a neuron measures how fast the neuron is firing. The firing rate reflects
 a measure of spiking activity in spikes / second, representing the rate of firing.</p>
 <p>We can use the <a class="reference internal" href="../generated/spiketools.measures.spikes.compute_firing_rate.html#spiketools.measures.spikes.compute_firing_rate" title="spiketools.measures.spikes.compute_firing_rate"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_firing_rate()</span></code></a> function to compute the firing rate
 from a vector of spike times.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the spike rate from spike times</span>
-<span class="n">spike_rate</span> <span class="o">=</span> <a href="../generated/spiketools.measures.spikes.compute_firing_rate.html#spiketools.measures.spikes.compute_firing_rate" title="spiketools.measures.spikes.compute_firing_rate" class="sphx-glr-backref-module-spiketools-measures-spikes sphx-glr-backref-type-py-function"><span class="n">compute_firing_rate</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The spike rate is </span><span class="si">{:1.3f}</span><span class="s1"> Hz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">spike_rate</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the firing rate from spike times</span>
+<span class="n">firing_rate</span> <span class="o">=</span> <a href="../generated/spiketools.measures.spikes.compute_firing_rate.html#spiketools.measures.spikes.compute_firing_rate" title="spiketools.measures.spikes.compute_firing_rate" class="sphx-glr-backref-module-spiketools-measures-spikes sphx-glr-backref-type-py-function"><span class="n">compute_firing_rate</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The firing rate is </span><span class="si">{:1.3f}</span><span class="s1"> Hz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">firing_rate</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The spike rate is 29.526 Hz
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The firing rate is 25.067 Hz
 </pre></div>
 </div>
 <p>To compute the inter-spike intervals, which measures the time intervals between
@@ -225,7 +228,7 @@ successive spikes, we can use the <a class="reference internal" href="../generat
 <a href="../generated/spiketools.plts.spikes.plot_isis.html#spiketools.plts.spikes.plot_isis" title="spiketools.plts.spikes.plot_isis" class="sphx-glr-backref-module-spiketools-plts-spikes sphx-glr-backref-type-py-function"><span class="n">plot_isis</span></a><span class="p">(</span><span class="n">isis</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_measures_004.png" srcset="../_images/sphx_glr_plot_measures_004.png" alt="ISIs" class = "sphx-glr-single-img"/><p>Next, we can compute the coefficient of variation of ISIs that we just calculated.</p>
+<img src="../_images/sphx_glr_plot_measures_004.png" srcset="../_images/sphx_glr_plot_measures_004.png" alt="ISIs" class = "sphx-glr-single-img"/><p>Next, we can compute the coefficient of variation of the ISIs that we just calculated.</p>
 <p>The coefficient of variation measures the variability of the spiking activity.</p>
 <p>We can compute the coefficient of variation using the <a class="reference internal" href="../generated/spiketools.measures.spikes.compute_cv.html#spiketools.measures.spikes.compute_cv" title="spiketools.measures.spikes.compute_cv"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_cv()</span></code></a> function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the coefficient of variation</span>
@@ -233,7 +236,7 @@ successive spikes, we can use the <a class="reference internal" href="../generat
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Coefficient of variation: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cv</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Coefficient of variation: 1.023
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Coefficient of variation: 0.892
 </pre></div>
 </div>
 <p>Finally, we can compute the fano factor, which is another measure of the variability
@@ -244,73 +247,82 @@ of spiking activity, computed from the spike train.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fano factor: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fano</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Fano factor: 0.971
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Fano factor: 0.976
 </pre></div>
 </div>
 </section>
 <section id="compute-measures-of-trial-spiking-activity">
 <h3>Compute measures of trial spiking activity<a class="headerlink" href="#compute-measures-of-trial-spiking-activity" title="Permalink to this heading">¶</a></h3>
-<p>In this section we explore measures of trial-epoched data.</p>
+<p>In this section we will now explore measures of trial-epoched data.</p>
 <p>First, to do so, we will simulate a set of spike times for 5 different trials.</p>
-<p>For each trial, an event that changes the firing rate is simulated.
-Plot the spiking activity across trials</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Number of trials</span>
+<p>For each trial, we simulate an event that changes the firing rate, such that
+there is a difference in firing rate before / after the event time.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define simulation settings</span>
 <span class="n">n_trials</span> <span class="o">=</span> <span class="mi">5</span>
-
-<span class="c1"># Define simulation settings</span>
-<span class="n">time_pre</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">fr_pre</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">time_post</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">fr_post</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">rate_pre</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">rate_post</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">time_pre</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">time_post</span> <span class="o">=</span> <span class="mi">3</span>
 
 <span class="c1"># Simulate spiking activity across trials</span>
-<span class="n">trial_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_trials</span>
-<span class="k">for</span> <span class="n">trial_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trials</span><span class="p">):</span>
-
-    <span class="c1"># Generate pre-event spike times: spikes at 5 Hz for 2 seconds (time_pre)</span>
-    <span class="n">spikes_pre</span> <span class="o">=</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a><span class="p">(</span><span class="n">fr_pre</span><span class="p">,</span> <span class="n">time_pre</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-
-    <span class="c1"># Generate post-event spike times: spikes at 10 Hz for 4 seconds (time_post)</span>
-    <span class="c1"># Add time_pre to the post spikes, since we will stack the pre and the post</span>
-    <span class="n">spikes_post</span> <span class="o">=</span> <a href="../generated/spiketools.sim.sim_spiketimes.html#spiketools.sim.sim_spiketimes" title="spiketools.sim.sim_spiketimes" class="sphx-glr-backref-module-spiketools-sim sphx-glr-backref-type-py-function"><span class="n">sim_spiketimes</span></a><span class="p">(</span><span class="n">fr_post</span><span class="p">,</span> <span class="n">time_post</span><span class="p">,</span> <span class="s1">&#39;poisson&#39;</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span> <span class="o">+</span> <span class="n">time_pre</span>
-
-    <span class="c1"># Stack pre and post, making each trial 6 seconds long</span>
-    <span class="n">trial_spikes</span><span class="p">[</span><span class="n">trial_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spikes_pre</span><span class="p">,</span> <span class="n">spikes_post</span><span class="p">)</span>
-
-<span class="c1"># Plot the spike times across trials</span>
+<span class="n">trial_spikes</span> <span class="o">=</span> <a href="../generated/spiketools.sim.trials.sim_trials_poisson.html#spiketools.sim.trials.sim_trials_poisson" title="spiketools.sim.trials.sim_trials_poisson" class="sphx-glr-backref-module-spiketools-sim-trials sphx-glr-backref-type-py-function"><span class="n">sim_trials_poisson</span></a><span class="p">(</span><span class="n">n_trials</span><span class="p">,</span> <span class="n">rate_pre</span><span class="p">,</span> <span class="n">rate_post</span><span class="p">,</span> <span class="n">time_pre</span><span class="p">,</span> <span class="n">time_post</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>First, lets visualize the simulated spiking activity across trials.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the spike times across trials</span>
 <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Spikes per trial&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_measures_005.png" srcset="../_images/sphx_glr_plot_measures_005.png" alt="Spikes per trial" class = "sphx-glr-single-img"/><p>Now we can compute the firing rates for each 2 second bin within each trial.</p>
+<img src="../_images/sphx_glr_plot_measures_005.png" srcset="../_images/sphx_glr_plot_measures_005.png" alt="Spikes per trial" class = "sphx-glr-single-img"/><p>Now we can compute the firing rates across times for each trial.</p>
 <p>To do so, we can use the <a class="reference internal" href="../generated/spiketools.measures.trials.compute_trial_frs.html#spiketools.measures.trials.compute_trial_frs" title="spiketools.measures.trials.compute_trial_frs"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_trial_frs()</span></code></a> function.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute firing rates per trial, using a 2 second bin width</span>
-<span class="n">bin_width</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">trial_times</span><span class="p">,</span> <span class="n">trial_frs</span> <span class="o">=</span> <a href="../generated/spiketools.measures.trials.compute_trial_frs.html#spiketools.measures.trials.compute_trial_frs" title="spiketools.measures.trials.compute_trial_frs" class="sphx-glr-backref-module-spiketools-measures-trials sphx-glr-backref-type-py-function"><span class="n">compute_trial_frs</span></a><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
-<span class="c1"># Plot trial firing rates (2 second bins)</span>
-<a href="../generated/spiketools.plts.spatial.plot_heatmap.html#spiketools.plts.spatial.plot_heatmap" title="spiketools.plts.spatial.plot_heatmap" class="sphx-glr-backref-module-spiketools-plts-spatial sphx-glr-backref-type-py-function"><span class="n">plot_heatmap</span></a><span class="p">(</span><span class="n">trial_frs</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Trial FRs, 2s bins&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute firing rates per trial</span>
+<span class="n">time_bin_length</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">trial_times</span><span class="p">,</span> <span class="n">trial_frs</span> <span class="o">=</span> <a href="../generated/spiketools.measures.trials.compute_trial_frs.html#spiketools.measures.trials.compute_trial_frs" title="spiketools.measures.trials.compute_trial_frs" class="sphx-glr-backref-module-spiketools-measures-trials sphx-glr-backref-type-py-function"><span class="n">compute_trial_frs</span></a><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">time_bin_length</span><span class="p">,</span>
+                                           <span class="n">time_range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">time_pre</span><span class="p">,</span> <span class="n">time_post</span><span class="p">])</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_measures_006.png" srcset="../_images/sphx_glr_plot_measures_006.png" alt="Trial FRs, 2s bins" class = "sphx-glr-single-img"/><p>Similarly, we can compute the firing rates for each segment within each trial.</p>
-<p>For this, we use the <a class="reference internal" href="../generated/spiketools.measures.trials.compute_segment_frs.html#spiketools.measures.trials.compute_segment_frs" title="spiketools.measures.trials.compute_segment_frs"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_segment_frs()</span></code></a> function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot continuous firing rates across, separately for each trial</span>
+<a href="../generated/spiketools.plts.trials.plot_rate_by_time.html#spiketools.plts.trials.plot_rate_by_time" title="spiketools.plts.trials.plot_rate_by_time" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rate_by_time</span></a><span class="p">(</span><span class="n">trial_times</span><span class="p">,</span> <span class="n">trial_frs</span><span class="p">,</span> <span class="n">vline</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                  <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Continuous Firing Rates per Trial&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_measures_006.png" srcset="../_images/sphx_glr_plot_measures_006.png" alt="Continuous Firing Rates per Trial" class = "sphx-glr-single-img"/><p>Above, we used the <a class="reference internal" href="../generated/spiketools.plts.trials.plot_rate_by_time.html#spiketools.plts.trials.plot_rate_by_time" title="spiketools.plts.trials.plot_rate_by_time"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_rate_by_time()</span></code></a> function to plot the continuous firing rates.</p>
+<p>Using the same function, we can also visualize the average across trials.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the average firing rate across trials, by specifying average and shade</span>
+<a href="../generated/spiketools.plts.trials.plot_rate_by_time.html#spiketools.plts.trials.plot_rate_by_time" title="spiketools.plts.trials.plot_rate_by_time" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rate_by_time</span></a><span class="p">(</span><span class="n">trial_times</span><span class="p">,</span> <span class="n">trial_frs</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">shade</span><span class="o">=</span><span class="s1">&#39;sem&#39;</span><span class="p">,</span> <span class="n">vline</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                  <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Average Firing Rate Across Trials&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_measures_007.png" srcset="../_images/sphx_glr_plot_measures_007.png" alt="Average Firing Rate Across Trials" class = "sphx-glr-single-img"/><p>In the above, we compute the firing rates across evently distributed 1 second windows.</p>
+<p>If instead we wanted to compute firing rates for a specified set of time segments, we
+we can use the <a class="reference internal" href="../generated/spiketools.measures.trials.compute_segment_frs.html#spiketools.measures.trials.compute_segment_frs" title="spiketools.measures.trials.compute_segment_frs"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_segment_frs()</span></code></a> function.</p>
+<p>Computing the firing rates across segments can be useful if, for example, you want to
+specify specific time ranges, that might occur at specific points in time and/or be unequal
+length, rather than computing across a continuous set of windows. These segment definitions
+can also vary by trial.</p>
+<p>As an example of this, we could define a time segment in which we expect a post stimulus
+response, as compared to an equal length time segment before any stimulus response.</p>
+<p>Note that we can use different segments per trial.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute firing rates for segments for two example trials</span>
-<span class="c1"># Note that we can use different segments per trial</span>
-<span class="n">segments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="n">time_pre</span><span class="p">,</span> <span class="n">time_pre</span> <span class="o">+</span> <span class="n">time_post</span><span class="p">],</span>
-                     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">time_pre</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">time_pre</span> <span class="o">+</span> <span class="n">time_post</span><span class="p">]])</span>
+<span class="n">segments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                     <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
 <span class="n">segment_frs</span> <span class="o">=</span> <a href="../generated/spiketools.measures.trials.compute_segment_frs.html#spiketools.measures.trials.compute_segment_frs" title="spiketools.measures.trials.compute_segment_frs" class="sphx-glr-backref-module-spiketools-measures-trials sphx-glr-backref-type-py-function"><span class="n">compute_segment_frs</span></a><span class="p">(</span><span class="n">trial_spikes</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">segments</span><span class="p">)</span>
 
-<span class="c1"># Plot trial firing rates (segments)</span>
-<a href="../generated/spiketools.plts.spatial.plot_heatmap.html#spiketools.plts.spatial.plot_heatmap" title="spiketools.plts.spatial.plot_heatmap" class="sphx-glr-backref-module-spiketools-plts-spatial sphx-glr-backref-type-py-function"><span class="n">plot_heatmap</span></a><span class="p">(</span><span class="n">segment_frs</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Trial FRs, segments&#39;</span><span class="p">)</span>
+<span class="c1"># Plot trial firing rates across segments</span>
+<span class="n">segment_labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<a href="../generated/spiketools.plts.trials.plot_rate_by_time.html#spiketools.plts.trials.plot_rate_by_time" title="spiketools.plts.trials.plot_rate_by_time" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rate_by_time</span></a><span class="p">(</span><span class="n">segment_labels</span><span class="p">,</span> <span class="n">segment_frs</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Segments&#39;</span><span class="p">,</span>
+                  <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Firing Rates Across Segments&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_measures_007.png" srcset="../_images/sphx_glr_plot_measures_007.png" alt="Trial FRs, segments" class = "sphx-glr-single-img"/></section>
+<img src="../_images/sphx_glr_plot_measures_008.png" srcset="../_images/sphx_glr_plot_measures_008.png" alt="Firing Rates Across Segments" class = "sphx-glr-single-img"/></section>
 <section id="compute-measures-of-spiking-activity-pre-and-post-event">
 <h3>Compute measures of spiking activity pre- and post-event<a class="headerlink" href="#compute-measures-of-spiking-activity-pre-and-post-event" title="Permalink to this heading">¶</a></h3>
+<p>We can also compute measures of interest across event-related data.</p>
 <p>First, we calculate the firing rates before and after the event, with
 the <a class="reference internal" href="../generated/spiketools.measures.trials.compute_pre_post_rates.html#spiketools.measures.trials.compute_pre_post_rates" title="spiketools.measures.trials.compute_pre_post_rates"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_pre_post_rates()</span></code></a> function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute firing rates pre and post the event for all trials</span>
-<span class="n">pre_window</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">time_pre</span><span class="p">]</span>
-<span class="n">post_window</span> <span class="o">=</span> <span class="p">[</span><span class="n">time_pre</span><span class="p">,</span> <span class="n">time_pre</span> <span class="o">+</span> <span class="n">time_post</span><span class="p">]</span>
+<span class="n">pre_window</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">time_pre</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">post_window</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">time_post</span><span class="p">]</span>
 <span class="n">frs_pre</span><span class="p">,</span> <span class="n">frs_post</span> <span class="o">=</span> <a href="../generated/spiketools.measures.trials.compute_pre_post_rates.html#spiketools.measures.trials.compute_pre_post_rates" title="spiketools.measures.trials.compute_pre_post_rates" class="sphx-glr-backref-module-spiketools-measures-trials sphx-glr-backref-type-py-function"><span class="n">compute_pre_post_rates</span></a><span class="p">(</span><span class="n">trial_spikes</span><span class="p">,</span> <span class="n">pre_window</span><span class="p">,</span> <span class="n">post_window</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -324,8 +336,8 @@ using the <a class="reference internal" href="../generated/spiketools.measures.t
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average FR post-event: </span><span class="si">{:1.3f}</span><span class="s1"> Hz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pre_post_avg</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 4.700 Hz
-Average FR post-event: 9.700 Hz
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 5.200 Hz
+Average FR post-event: 9.600 Hz
 </pre></div>
 </div>
 <p>We can also compute the difference between the firing rates before and after the event,
@@ -337,10 +349,10 @@ with the <a class="reference internal" href="../generated/spiketools.measures.tr
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Difference between pre- and post-event FR: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pre_post_diffs</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Difference between pre- and post-event FR: 5.000
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Difference between pre- and post-event FR: 4.400
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.483 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.596 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-measures-py">
 <div class="binder-badge docutils container">
 <a class="reference external image-reference" href="https://mybinder.org/v2/gh/spiketools/spiketools/gh-pages?filepath=notebooks/auto_tutorials/plot_measures.ipynb"><img alt="Launch binder" src="../_images/binder_badge_logo.svg" width="150px" /></a>

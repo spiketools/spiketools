@@ -130,12 +130,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">isi</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">rate</span>
+
     <span class="n">cur_time</span> <span class="o">=</span> <span class="n">start_time</span>
-    <span class="k">while</span> <span class="n">cur_time</span> <span class="o">&lt;=</span> <span class="n">duration</span><span class="p">:</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="o">+</span> <span class="n">duration</span>
+
+    <span class="k">while</span> <span class="n">cur_time</span> <span class="o">&lt;=</span> <span class="n">end_time</span><span class="p">:</span>
 
         <span class="n">cur_time</span> <span class="o">+=</span> <span class="n">isi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">cur_time</span> <span class="o">&gt;</span> <span class="n">duration</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cur_time</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="k">yield</span> <span class="n">cur_time</span></div>
