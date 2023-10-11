@@ -9,7 +9,7 @@ from spiketools.measures.spikes import *
 
 def test_compute_firing_rate(tspikes):
 
-    rate = compute_firing_rate(tspikes)
+    rate = compute_firing_rate(tspikes, time_range=[0, 10])
 
     assert isinstance(rate, float)
     assert np.isclose(rate, 2.0)
@@ -19,8 +19,8 @@ def test_compute_isis(tspikes):
     isis = compute_isis(tspikes)
     assert isinstance(isis, np.ndarray)
     assert isis.shape[-1] + 1 == tspikes.shape[-1]
-    assert np.allclose(isis, np.array([1.0, 0.5, 0.5, 0.5, 0.75, 0.25, 0.25,
-                                       0.75, 0.5, 0.25, 0.25, 1.0, 0.5, 0.5]))
+    assert np.allclose(isis, np.array([1.0, 0.5, 0.5, 0.5, 0.2, 0.5, 0.3, 0.2, 0.5, 0.3,
+                                       0.7, 0.3, 1.0, 0.5, 0.5, 0.2, 0.5, 0.5, 0.7]))
     assert sum(isis < 0) == 0
 
 def test_compute_cv():

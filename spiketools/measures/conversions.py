@@ -8,7 +8,7 @@ from spiketools.utils.checks import check_time_bins
 ###################################################################################################
 ###################################################################################################
 
-def convert_times_to_train(spikes, fs=1000, length=None):
+def convert_times_to_train(spikes, fs=1000, time_range=None):
     """Convert spike times into a binary spike train.
 
     Parameters
@@ -17,9 +17,9 @@ def convert_times_to_train(spikes, fs=1000, length=None):
         Spike times, in seconds.
     fs : int, optional, default: 1000
         The sampling rate to use for the computed spike train, in Hz.
-    length : float, optional
-        The total length of the spike train to create, in seconds.
-        If not provided, the length is set at the maximum timestamp in the input spike times.
+    time_range : list of [float, float], optional
+        Expected time range of the spikes, used to infer the length of the output spike train.
+        If not provided, the length is set as the observed time range of 'spikes'.
 
     Returns
     -------
@@ -30,13 +30,15 @@ def convert_times_to_train(spikes, fs=1000, length=None):
     --------
     Convert spike times into a corresponding binary spike train:
 
-    >>> spikes = np.array([0.002, 0.250, 0.500, 0.750, 1.000, 1.250, 1.500])
+    >>> spikes = np.array([0.002, 0.250, 0.500, 0.750, 1.000, 1.250, 1.500, 2.000])
     >>> convert_times_to_train(spikes)
     array([0, 0, 1, ..., 0, 0, 1])
     """
 
-    if not length:
-        length = np.max(spikes)
+    if not time_range:
+        time_range = [np.floor(spikes[0]), np.ceil(spikes[-1])]
+
+    length = time_range[1] - time_range[0]
 
     spike_train = np.zeros(int(length * fs) + 1).astype(int)
     inds = [int(ind * fs) for ind in spikes if ind * fs <= spike_train.shape[-1]]
@@ -52,7 +54,7 @@ def convert_times_to_train(spikes, fs=1000, length=None):
     return spike_train
 
 
-def convert_train_to_times(spike_train, fs=1000):
+def convert_train_to_times(spike_train, fs=1000, start_time=0):
     """Convert a spike train representation into spike times, in seconds.
 
     Parameters
@@ -61,6 +63,8 @@ def convert_train_to_times(spike_train, fs=1000):
         Spike train.
     fs : int, optional, default: 1000
         The sampling rate of the computed spike train, in Hz.
+    start_time : float
+        The initial start time for the converted spike times.
 
     Returns
     -------
@@ -77,22 +81,22 @@ def convert_train_to_times(spike_train, fs=1000):
     """
 
     spikes = np.where(spike_train)[0] + 1
-    spikes = spikes * (1 / fs)
+    spikes = spikes * (1 / fs) + start_time
 
     return spikes
 
 
-def convert_isis_to_times(isis, offset=0, add_offset=True):
+def convert_isis_to_times(isis, add_initial=True, start_time=0):
     """Convert a sequence of inter-spike intervals to spike times.
 
     Parameters
     ----------
     isis : 1d array
         Distribution of interspike intervals, in seconds.
-    offset : float, optional
-        An offset value to add to generated spike times.
-    add_offset : bool, optional, default: True
+    add_initial : bool, optional, default: True
         Whether to prepend the offset value to the beginning of the spike times.
+    start_time : float, optional
+        The initial start time for the converted spike times.
 
     Returns
     -------
@@ -104,16 +108,14 @@ def convert_isis_to_times(isis, offset=0, add_offset=True):
     Convert a sequence of inter-spike intervals to their corresponding spike times, in seconds:
 
     >>> isis = np.array([0.3, 0.6, 0.8, 0.2, 0.7])
-    >>> convert_isis_to_times(isis, offset=0, add_offset=True)
+    >>> convert_isis_to_times(isis)
     array([0. , 0.3, 0.9, 1.7, 1.9, 2.6])
     """
 
-    spikes = np.cumsum(isis, axis=-1)
+    spikes = np.cumsum(isis, axis=-1) + start_time
 
-    if offset:
-        spikes = spikes + offset
-    if add_offset:
-        spikes = np.concatenate((np.array([offset]), spikes))
+    if add_initial:
+        spikes = np.concatenate((np.array([start_time]), spikes))
 
     return spikes
 
