@@ -199,6 +199,8 @@ def sim_spiketrain_poisson(rate, n_samples, fs=1000, refractory=None):
 ###################################################################################################
 ## COLLECT SIM FUNCTION OPTIONS TOGETHER
 
-SPIKETRAIN_FUNCS = {'prob' : sim_spiketrain_prob,
-                    'binom' : sim_spiketrain_binom,
-                    'poisson' : sim_spiketrain_poisson}
+SPIKETRAIN_FUNCS = {
+    'prob' : sim_spiketrain_prob,
+    'binom' : sim_spiketrain_binom,
+    'poisson' : sim_spiketrain_poisson,
+}
