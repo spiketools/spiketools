@@ -1,4 +1,4 @@
-"""Plots for trials related measures and analyses."""
+"""Plots for trial related measures and analyses."""
 
 import numpy as np
 
@@ -14,13 +14,13 @@ from spiketools.plts.style import set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_rasters(data, vline=None, colors=None, vshade=None,
+def plot_rasters(spikes, vline=None, colors=None, vshade=None,
                  show_axis=False, ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 
     Parameters
     ----------
-    data : list of list of float
+    spikes : list of list of float
         Spike times per trial.
         Multiple conditions can also be passed in.
     vline : float or list of float, optional
@@ -46,7 +46,7 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
 
     # This process infers whether there is are embedded lists of multiple conditions
     check = False
-    for val in data:
+    for val in spikes:
         # The try / except is to deal with potentially empty lists (trials with no spikes)
         try:
             # This allows for plotting a raster with a single trial
@@ -61,12 +61,12 @@ def plot_rasters(data, vline=None, colors=None, vshade=None,
 
     # If multiple conditions, organize colors across trials, and flatten data for plotting
     if check:
-        lens = [len(el) for el in data]
+        lens = [len(el) for el in spikes]
         colors = DEFAULT_COLORS[0:len(lens)] if not colors else colors
         colors = flatten([[col] * ll for col, ll in zip(colors, lens)])
-        data = flatten(data)
+        spikes = flatten(spikes)
 
-    ax.eventplot(data, colors=colors, **plt_kwargs)
+    ax.eventplot(spikes, colors=colors, **plt_kwargs)
 
     add_vlines(vline, ax, zorder=0,
                color=custom_plt_kwargs.pop('line_color', 'green'),
@@ -91,7 +91,7 @@ def plot_rate_by_time(bin_times, trial_cfrs, average=None, shade=None, vline=Non
     bin_times : 1d array
         Values of the time bins, to be plotted on the x-axis.
     trial_cfrs : list of array
-        Firing rate values, to be plotted on the y-axis.
+        Continuous firing rate values, to be plotted on the y-axis.
         If each array is 1d values are plotted directly.
         If 2d, is to be averaged before plotting.
     average : {'mean', 'median'}, optional

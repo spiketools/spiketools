@@ -1,4 +1,4 @@
-"""Plots for various data."""
+"""Plots for different data types / layouts."""
 
 from itertools import repeat
 
