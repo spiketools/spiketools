@@ -82,4 +82,6 @@ def sim_spiketimes_poisson(rate, duration, start_time=0, refractory=0.001):
 ###################################################################################################
 ## COLLECT SIM FUNCTION OPTIONS TOGETHER
 
-SPIKETIME_FUNCS = {'poisson' : sim_spiketimes_poisson}
+SPIKETIME_FUNCS = {
+    'poisson' : sim_spiketimes_poisson,
+}
