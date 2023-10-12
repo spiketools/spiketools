@@ -14,7 +14,7 @@ from spiketools.utils.extract import drop_range, reinstate_range
 ###################################################################################################
 ###################################################################################################
 
-def shuffle_spikes(spikes, approach, n_shuffles=1000, **kwargs):
+def shuffle_spikes(spikes, approach, n_shuffles=1000, start_time=0, **kwargs):
     """Shuffle spikes.
 
     Parameters
@@ -26,6 +26,8 @@ def shuffle_spikes(spikes, approach, n_shuffles=1000, **kwargs):
         See shuffle sub-functions for details.
     n_shuffles : int, optional, default: 1000
         The number of shuffles to create.
+    start_time : float, optional
+        The start time of the input spikes, used to set the time values of the shuffled outputs.
     kwargs
         Additional keyword arguments for the shuffle procedure.
         See shuffle sub-functions for details.
@@ -56,14 +58,16 @@ def shuffle_spikes(spikes, approach, n_shuffles=1000, **kwargs):
 
     check_param_options(approach, 'approach', ['isi', 'circular', 'bincirc'])
 
+    shared_kwargs = {'n_shuffles' : n_shuffles, 'start_time' : start_time}
+
     if approach == 'isi':
-        shuffled_spikes = shuffle_isis(spikes, n_shuffles=n_shuffles)
+        shuffled_spikes = shuffle_isis(spikes, **shared_kwargs)
 
     elif approach == 'circular':
-        shuffled_spikes = shuffle_circular(spikes, n_shuffles=n_shuffles, **kwargs)
+        shuffled_spikes = shuffle_circular(spikes, **shared_kwargs, **kwargs)
 
     elif approach == 'bincirc':
-        shuffled_spikes = shuffle_bins(spikes, n_shuffles=n_shuffles, **kwargs)
+        shuffled_spikes = shuffle_bins(spikes, **shared_kwargs, **kwargs)
 
     return shuffled_spikes
 
