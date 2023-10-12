@@ -374,3 +374,8 @@ spatial_information_2d = compute_spatial_information(normalized_bin_fr, occupanc
 print('The 2D spatial information is = {:.3}'.format(spatial_information_2d))
 
 ###################################################################################################
+# Conclusion
+# ~~~~~~~~~~
+#
+# In this tutorial, we covered spatial measures available in the spiketools module.
+#

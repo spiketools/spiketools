@@ -339,3 +339,9 @@ pre_post_diffs = compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_typ
 print('Difference between pre- and post-event FR: {:1.3f}'.format(pre_post_diffs))
 
 ###################################################################################################
+# Conclusion
+# ~~~~~~~~~~
+#
+# In this tutorial, we covered measures and conversions available in the spiketools module.
+#
+
