@@ -101,14 +101,14 @@ def test_plot_trial_heatmaps():
     plot_trial_heatmaps(data,
                         file_path=TEST_PLOTS_PATH, file_name='tplot_trial_heatmaps.png')
 
-def test_create_heat_title():
+def test_create_heatmap_title():
 
     data = np.array([[0., 1., 2.], [0., 2., 1.], [0., 3., 2.]])
 
-    title1 = create_heat_title('label', data)
+    title1 = create_heatmap_title('label', data)
     assert isinstance(title1, str)
 
-    title2 = create_heat_title('label2', data, 2.5, 0.5)
+    title2 = create_heatmap_title('label2', data, 2.5, 0.5)
     assert isinstance(title2, str)
 
     assert title1 != title2

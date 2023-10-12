@@ -1,4 +1,4 @@
-"""Utility functions."""
+"""Random state related functions."""
 
 import numpy as np
 

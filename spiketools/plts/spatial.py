@@ -279,7 +279,7 @@ def plot_trial_heatmaps(trial_data, **plt_kwargs):
         plot_heatmap(data, **plt_kwargs, ax=ax)
 
 
-def create_heat_title(label, data, stat=None, p_val=None):
+def create_heatmap_title(label, data, stat=None, p_val=None):
     """Create a standardized title for an heatmap, listing the data range.
 
     Parameters

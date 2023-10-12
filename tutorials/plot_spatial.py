@@ -11,17 +11,21 @@ This tutorial primarily covers the ``spiketools.spatial`` module.
 # Apply spatial measures to spatial data
 # --------------------------------------
 #
+# This tutorial explores functionality for analyzing how spiking data relates to space,
+# including analysis such as place and target cells. To do so, we will use some example
+# simulated data.
+#
 # Sections
 # ~~~~~~~~
 #
 # This tutorial contains the following sections:
 #
-# 1. Compute and plot distances and speed using position
-# 2. Divide position in spatial bin edges
+# 1. Compute and plot distances and speed from position data
+# 2. Divide position in spatial bins
 # 3. Compute spatial bin assignment using spatial bin edges
-# 4. Compute time in each timestamp sample
+# 4. Compute time spent in each spatial bin
 # 5. Compute and plot occupancy and position counts
-# 6. Compute 2D and 1D spatial information
+# 6. Compute 1D and 2D spatial information
 #
 
 ###################################################################################################
@@ -68,13 +72,13 @@ timestamps = np.array([0, 1, 2, 3, 5, 6.5, 7.5, 8.5, 9.5, 11.5, 12.5, 13.5, 14.5
 # Compute and plot distances and speed using position
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# Use x- and y-position to compute distance between two or more points,
-# cumulative distance traveled and speed.
+# First, we will explore some basic properties of the simulated position data, including
+# visualizing the data.
 #
 
 ###################################################################################################
 
-# Look at the range of our x and y positions
+# Calculate the range of the x and y position data
 ranges = compute_pos_ranges(position)
 
 print('The x-position ranges from {:1.1f} to {:1.1f}'.format(ranges[0][0], ranges[0][1]))
@@ -101,7 +105,10 @@ plot_position_by_time(timestamps, y_pos, alpha=1, ls='-', marker='x', color='tab
 
 ###################################################################################################
 #
-# With our position data, we can use some function to compute distance measures, including:
+# Next, we will use the x- and y-position values to compute distance between each set of points,
+# cumulative distance traveled, and speed.
+#
+# With our position data, the following functions can be used for this, including:
 #
 # - :func:`~.compute_distance`: which computes the distance between two points
 # - :func:`~.compute_distances`: which computes distances across a sequence of positions
@@ -126,23 +133,24 @@ speeds = compute_speed(position, timestamps)
 
 # Plot distance and speed measures
 ax1, ax2, ax3 = make_axes(3, 1, sharex=True, hspace=0.4, figsize=(8, 6))
+plt_kwargs = {'alpha' : 1, 'ls' : '-', 'marker' : 'x', 'markersize' : 10}
 
 # Plot distance traveled at each time
-plot_position_by_time(timestamps[1:], dist_traveled,
-                      ax=ax1, alpha=1, ls='-', marker='x', color='tab:pink', markersize=10,
-                      title='Distance traveled at each point',
-                      xlabel='time (t)', ylabel='speed (u/t)')
+plot_position_by_time(timestamps[1:], dist_traveled, color='tab:pink',
+                      title='Distance between each point',
+                      xlabel='Time (s)', ylabel='Distance',
+                      **plt_kwargs, ax=ax1)
 
 # Plot cumulative distance traveled per time
-plot_position_by_time(timestamps[1:], cumulative_dist_traveled,
-                      ax=ax2, alpha=1, ls='-', marker='x', color='tab:olive', markersize=10,
-                      title='Cumulative distance traveled at each point',
-                      xlabel='time (t)', ylabel='speed (u/t)')
+plot_position_by_time(timestamps, cumulative_dist_traveled, color='tab:olive',
+                      title='Cumulative distance traveled',
+                      xlabel='Time (s)', ylabel='Cumulative Distance',
+                      **plt_kwargs, ax=ax2)
 
 # Plot speed at each time point
-plot_position_by_time(timestamps[1:], speeds,
-                      ax=ax3, alpha=1, ls='-', marker='x', color='tab:cyan', markersize=10,
-                      title='Speed at each point', xlabel='time (t)', ylabel='speed (u/t)')
+plot_position_by_time(timestamps, speeds, color='tab:cyan',
+                      title='Speed', xlabel='Time (S)', ylabel='Speed',
+                      **plt_kwargs, ax=ax3)
 
 ###################################################################################################
 # Divide position in spatial bin edges and plot
@@ -161,6 +169,7 @@ plot_position_by_time(timestamps[1:], speeds,
 
 # Define spatial binning: 3 x-bins and 5 y-bins
 bins = [3, 5]
+
 # Compute spatial bin edges
 x_edges, y_edges = compute_bin_edges(position, bins)
 
@@ -196,8 +205,8 @@ plot_positions(position, x_bins=x_edges, y_bins=y_edges,
 
 ###################################################################################################
 
-# Now let us check where the first 7 position data points using the same x_edges and y_edges
-n_points = 7
+# Now let us check which bins the position values are in, using the same x_edges and y_edges
+n_points = 5
 x_bins, y_bins = compute_bin_assignment(position[:, :n_points], x_edges, y_edges)
 
 # We can check they match the positions in plot (ii)
@@ -209,7 +218,7 @@ for ind in range(0, n_points):
 # Compute duration of each sample
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# Compute the time duration of the position samples, using the
+# Next, we can compute the time duration of the position samples, using the
 # :func:`~.compute_sample_durations` function.
 #
 
@@ -228,9 +237,8 @@ print('The time durations of position samples are: ', sample_times)
 # To measure this, we will compute the occupancy across the spatial bins, using
 # the :func:`~.compute_occupancy` function.
 #
-# For 2D case, compute occupancy using position, timestamps, bins, speed, and a speed threshold.
-# Also compute 2D position bin occurrence counts (no speed thresholding).
-# Plot heatmaps of 2D occupancy and 2D position bin occurrence counts.
+# For the 2D case, we compute occupancy using position, timestamps, bins.
+# We can also optionally provide speed information, and set min or max speed threshold(s).
 #
 
 ###################################################################################################
@@ -239,8 +247,15 @@ print('The time durations of position samples are: ', sample_times)
 min_speed = .5e-3
 
 # Compute the 2D occupancy
-occupancy = compute_occupancy(position, timestamps, bins,
-                              speed=speeds, min_speed=min_speed)
+occupancy = compute_occupancy(position, timestamps, bins, speed=speeds, min_speed=min_speed)
+
+###################################################################################################
+#
+# Now that we have computed the occupancy, we can plot it using the
+# :func:`~.plot_heatmap` function.
+#
+
+###################################################################################################
 
 # Plot the compute 2D occupancy
 plot_heatmap(occupancy, cbar=True,
@@ -249,9 +264,10 @@ plot_heatmap(occupancy, cbar=True,
 ###################################################################################################
 #
 # Another way to explore occupancy measures is to check the number of
-# occurrences with each spatial bin.
+# occurrences within each spatial bin.
 #
 # This can be computed with the :func:`~.compute_bin_counts_pos` function.
+#
 #
 
 ###################################################################################################
@@ -292,13 +308,13 @@ bin_counts_pos_1d = compute_bin_counts_pos(position[0], bins[0])
 plot_heatmap(bin_counts_pos_1d, title='X-position bin occurrence counts heatmap')
 
 ###################################################################################################
-# Compute 2D and 1D spatial information
+# Compute 1D and 2D spatial information
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# Next, we want to measure to relationship between spiking and position data.
+# Next, we want to measure the relationship between spiking activity and position data.
 #
 # To do so, we will compute a spatial information measure between simulated spiking data
-# and associated position data.
+# and the associated position data.
 #
 # To do so, we will use the :func:`~.compute_spatial_information` function.
 #
@@ -358,3 +374,8 @@ spatial_information_2d = compute_spatial_information(normalized_bin_fr, occupanc
 print('The 2D spatial information is = {:.3}'.format(spatial_information_2d))
 
 ###################################################################################################
+# Conclusion
+# ~~~~~~~~~~
+#
+# In this tutorial, we covered spatial measures available in the spiketools module.
+#
