@@ -138,7 +138,7 @@ def plot_position_by_time(timestamps, position, spikes=None, spike_positions=Non
                           event_times=None, event_positions=None, event_kwargs=None,
                           time_bins=None, position_bins=None, invert=None,
                           ax=None, **plt_kwargs):
-    """Plot the position across time for a single dimension.
+    """Plot position across time for a single dimension.
 
     Parameters
     ----------
@@ -226,7 +226,7 @@ def plot_heatmap(data, smooth=False, smoothing_kernel=1.5, ignore_zero=False,
     Notes
     -----
     This function uses `plt.imshow` to visualize the matrix.
-    Note that in doing so, it defaults to settings the origin to 'lower'.
+    Note that in doing so, it defaults to setting the origin to 'lower'.
     This setting can be overwritten by passing in a value for `origin`.
     """
 

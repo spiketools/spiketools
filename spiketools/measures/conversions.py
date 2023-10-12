@@ -63,7 +63,7 @@ def convert_train_to_times(spike_train, fs=1000, start_time=0):
         Spike train.
     fs : int, optional, default: 1000
         The sampling rate of the computed spike train, in Hz.
-    start_time : float
+    start_time : float, optional
         The initial start time for the converted spike times.
 
     Returns

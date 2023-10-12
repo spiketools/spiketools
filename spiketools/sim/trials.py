@@ -17,7 +17,7 @@ def sim_trials(n_trials, method=None, time_pre=1, time_post=2, refractory=0.001,
         Number of trials to simulate.
     method : {'poisson'}
         The method to use for the simulation.
-    time_pre, time_post : float
+    time_pre, time_post : float, optional, defaults: time_pre=1; time_post=2
         The amount of time to simulate pre / post the event.
     refractory : float, optional, default: 0.001
         The refractory period to apply to the simulated data, in seconds.
@@ -52,7 +52,7 @@ def sim_trials_poisson(n_trials, rate_pre, rate_post, time_pre=1, time_post=2, r
         Number of trials to simulate.
     rate_pre, rate_post : float
         The firing rates for the pre and post event times.
-    time_pre, time_post : float
+    time_pre, time_post : float, optional, defaults: time_pre=1; time_post=2
         The amount of time to simulate pre / post the event.
     refractory : float, optional, default: 0.001
         The refractory period to apply to the simulated data, in seconds.

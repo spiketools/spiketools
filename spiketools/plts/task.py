@@ -16,7 +16,7 @@ from spiketools.plts.settings import DEFAULT_COLORS
 def plot_task_structure(task_ranges=None, event_lines=None, data_points=None,
                         range_colors=None, line_colors=None, range_kwargs=None, line_kwargs=None,
                         ax=None, **plt_kwargs):
-    """Plot task structure, shaded ranges of event durations, and lines of point events.
+    """Plot task structure with shaded ranges of event durations and lines for point events.
 
     Parameters
     ----------
