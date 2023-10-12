@@ -229,7 +229,7 @@ the pre- and post-event time ranges.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The t-value is -6.264, with a p-value of 1.471e-04
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The t-value is -8.354, with a p-value of 1.564e-05
 </pre></div>
 </div>
 <p>In the above, we separately computed and then compared the firing rates around
@@ -248,9 +248,9 @@ that computes the average pre/post firing as well as the t-test comparing pre to
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The t-value is </span><span class="si">{:1.3f}</span><span class="s1">, with a p-value of </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tval_t</span><span class="p">,</span> <span class="n">pval_t</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 5.533
-Average FR post-event: 9.933
-The t-value is -6.264, with a p-value of 1.471e-04
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 5.300
+Average FR post-event: 9.900
+The t-value is -8.354, with a p-value of 1.564e-05
 </pre></div>
 </div>
 </section>
@@ -312,31 +312,31 @@ To do so, we will first organize the data into a dictionary.</p>
   <tbody>
     <tr>
       <th>0</th>
-      <td>3.666667</td>
+      <td>5.666667</td>
       <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>3.666667</td>
+      <td>4.333333</td>
       <td>0</td>
       <td>1</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>8.666667</td>
+      <td>5.000000</td>
       <td>0</td>
       <td>2</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>6.333333</td>
+      <td>7.666667</td>
       <td>0</td>
       <td>3</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>4.333333</td>
+      <td>6.000000</td>
       <td>0</td>
       <td>4</td>
     </tr>
@@ -365,10 +365,10 @@ the <a class="reference internal" href="../generated/spiketools.stats.anova.fit_
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;P-value, trial index: </span><span class="si">{:.3e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">anova_pre_post</span><span class="p">[</span><span class="s1">&#39;PR(&gt;F)&#39;</span><span class="p">][</span><span class="s1">&#39;C(trial_idx)&#39;</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value, pre vs post: 39.243
-P-value, pre vs post: 1.471e-04
-F-value, trial index: 1.472
-P-value, trial index: 2.868e-01
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value, pre vs post: 69.787
+P-value, pre vs post: 1.564e-05
+F-value, trial index: 0.881
+P-value, trial index: 5.732e-01
 </pre></div>
 </div>
 </section>
@@ -384,7 +384,7 @@ compute the empirical p-value and z-score for this using surrogates.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Difference in post-pre firing rate of real data: </span><span class="si">{:1.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fr_diff</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Difference in post-pre firing rate of real data: 4.40
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Difference in post-pre firing rate of real data: 4.60
 </pre></div>
 </div>
 <p>To compare the delta firing rate, we need to generate our distribution of surrogates.</p>
@@ -418,8 +418,8 @@ real data is greater than expected by change (in the shuffles).</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Maximum delta FR across surrogates: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">shuffled_diffs</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Minimum delta FR across surrogates: -2.333
-Maximum delta FR across surrogates: 1.067
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Minimum delta FR across surrogates: -2.667
+Maximum delta FR across surrogates: 1.000
 </pre></div>
 </div>
 <p>Now we can compute the empirical p-value and z-score of change in firing rate from
@@ -432,8 +432,8 @@ the distribution of surrogates, using the <a class="reference internal" href="..
     <span class="n">surr_zscore</span><span class="p">,</span> <span class="n">surr_pval</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>0.0 7.80763620760023
-For the surrogate comparison, the z-score is 7.808, and the p-value is 0.000e+00
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>0.0 7.065220037780371
+For the surrogate comparison, the z-score is 7.065, and the p-value is 0.000e+00
 </pre></div>
 </div>
 <p>Lastly, plot the distribution of surrogates with calculated delta firing rate.</p>
@@ -525,7 +525,7 @@ dataframe using the <a class="reference internal" href="../generated/spiketools.
       <th>0</th>
       <td>0</td>
       <td>0</td>
-      <td>7.0</td>
+      <td>6.0</td>
     </tr>
     <tr>
       <th>1</th>
@@ -543,13 +543,13 @@ dataframe using the <a class="reference internal" href="../generated/spiketools.
       <th>3</th>
       <td>0</td>
       <td>3</td>
-      <td>2.0</td>
+      <td>5.0</td>
     </tr>
     <tr>
       <th>4</th>
       <td>0</td>
       <td>4</td>
-      <td>3.0</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
@@ -565,7 +565,7 @@ position. To do so, we can test the formula ‘fr ~ C(bin)’.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F-value: </span><span class="si">{:.3}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f_val</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value: 39.7
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>F-value: 40.3
 </pre></div>
 </div>
 <p>Note that the procedure we employed here could also be combined with what we did above
@@ -575,7 +575,7 @@ then compare to the real data.</p>
 <section id="conclusion">
 <h3>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">¶</a></h3>
 <p>In this tutorial, we covered statistical measures available in the spiketools module.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.957 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.857 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-stats-py">
 <div class="binder-badge docutils container">
 <a class="reference external image-reference" href="https://mybinder.org/v2/gh/spiketools/spiketools/gh-pages?filepath=notebooks/auto_tutorials/plot_stats.ipynb"><img alt="Launch binder" src="../_images/binder_badge_logo.svg" width="150px" /></a>
