@@ -96,7 +96,7 @@ def test_shuffle_isis(tspikes, tspikes_offset_neg, tspikes_offset_pos):
     assert tspikes.shape[-1] == shuffled_off_pos.shape[-1]
     assert np.min(shuffled_off_pos) >= 5
 
-def test_shuffle_circular(tspikes, tspikes_offset):
+def test_shuffle_circular(tspikes, tspikes_offset_neg, tspikes_offset_pos):
 
     shuffled = shuffle_circular(tspikes, 10, n_shuffles=1)
     assert isinstance(shuffled, np.ndarray)
