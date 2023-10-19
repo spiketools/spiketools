@@ -10,13 +10,13 @@ from spiketools.stats.shuffle import *
 ###################################################################################################
 ###################################################################################################
 
-def test_shuffle_spikes(tspikes, tspikes_offset):
+def test_shuffle_spikes(tspikes, tspikes_offset_neg, tspikes_offset_pos):
 
     n_shuffles = 2
     approaches = ['ISI', 'CIRCULAR', 'BINCIRC']
     kwargs = [{}, {'shuffle_min' : 10}, {}]
 
-    for tdata in [tspikes, tspikes_offset]:
+    for tdata in [tspikes, tspikes_offset_neg, tspikes_offset_pos]:
         for approach, kwarg in zip(approaches, kwargs):
             shuffled = shuffle_spikes(tdata, approach=approach, n_shuffles=n_shuffles, **kwarg)
             assert isinstance(shuffled, np.ndarray)
@@ -32,33 +32,44 @@ def test_drop_shuffle_range():
         return np.array([spikes + 1] * n_shuffles)
 
     n_shuffles = 2
-    spikes = np.array([0.5, 1.5, 1.9, 4.1, 5.4, 5.9])
+    tspikes = np.array([0.5, 1.5, 1.9, 4.1, 5.4, 5.9])
 
     # Check without activating decorator
-    out = _shuffle_spikes(spikes, n_shuffles)
-    assert np.allclose(out, np.array([spikes + 1] * n_shuffles))
+    out = _shuffle_spikes(tspikes, n_shuffles)
+    assert np.allclose(out, np.array([tspikes + 1] * n_shuffles))
 
     # Check with applying a drop range
     #   This test the spikes that get moved from the empty range (spikes @ ind: [1, 2])
     drop_time_range = [2, 4]
-    out = _shuffle_spikes(spikes, n_shuffles, drop_time_range=drop_time_range)
+    out = _shuffle_spikes(tspikes, n_shuffles, drop_time_range=drop_time_range)
     toutput = np.array([1.5, 4.5, 4.9, 5.1, 6.4, 6.9])
     assert np.allclose(out, np.array([toutput] * n_shuffles))
 
-    # Test that this all still works with negative values / different start time
-    spikes_off = np.array([-1.5, -1.1, -0.5, 0.1, 0.7, 4.1, 5.1])
+    ## Test that this all still works with different start time: negative values
+    spikes_off_neg = np.array([-1.5, -1.1, -0.5, 0.1, 0.7, 4.1, 5.1])
 
     # Check without activating decorator
-    out_off_no_drop = _shuffle_spikes(spikes_off, n_shuffles)
-    assert np.allclose(out_off_no_drop, np.array([spikes_off + 1] * n_shuffles))
+    out_off_no_drop_neg = _shuffle_spikes(spikes_off_neg, n_shuffles)
+    assert np.allclose(out_off_no_drop_neg, np.array([spikes_off_neg + 1] * n_shuffles))
 
     # Check with activating decorator
-    drop_time_range_off = [1, 4]
-    out_off = _shuffle_spikes(spikes_off, n_shuffles, drop_time_range=drop_time_range_off)
-    toutput_off = np.array([-0.5, -0.1, 0.5, 4.1, 4.7, 5.1, 6.1])
-    assert np.allclose(out_off, np.array([toutput_off] * n_shuffles))
+    out_off_neg = _shuffle_spikes(spikes_off_neg, n_shuffles, drop_time_range=[1, 4])
+    toutput_off_neg = np.array([-0.5, -0.1, 0.5, 4.1, 4.7, 5.1, 6.1])
+    assert np.allclose(out_off_neg, np.array([toutput_off_neg] * n_shuffles))
 
-def test_shuffle_isis(tspikes, tspikes_offset):
+    ## Test that this all still works with different start time: positive values
+    spikes_off_pos = np.array([5.5, 6.5, 6.9, 9.1, 10.4, 10.9])
+
+    # Check without activating decorator
+    out_off_no_drop_pos = _shuffle_spikes(spikes_off_pos, n_shuffles)
+    assert np.allclose(out_off_no_drop_pos, np.array([spikes_off_pos + 1] * n_shuffles))
+
+    # Check with activating decorator
+    out_off_pos = _shuffle_spikes(spikes_off_pos, n_shuffles, drop_time_range=[7, 9])
+    toutput_off_pos = np.array([6.5, 9.5, 9.9, 10.1, 11.4, 11.9])
+    assert np.allclose(out_off_pos, np.array([toutput_off_pos] * n_shuffles))
+
+def test_shuffle_isis(tspikes, tspikes_offset_neg, tspikes_offset_pos):
 
     shuffled = shuffle_isis(tspikes, n_shuffles=1)
     assert isinstance(shuffled, np.ndarray)
@@ -72,15 +83,18 @@ def test_shuffle_isis(tspikes, tspikes_offset):
     out2 = shuffle_isis(tspikes, n_shuffles=1)
     assert not np.array_equal(out1, out2)
 
-    # Test spikes with start time
-    shuffled_start = shuffle_isis(tspikes_offset, n_shuffles=1, start_time=-5)
-    assert tspikes.shape[-1] == shuffled_start.shape[-1]
-    assert np.min(shuffled_start) < 0
-
     # Test with more shuffles
     n_shuffles = 5
     out_many = shuffle_isis(tspikes, n_shuffles=n_shuffles)
     assert out_many.shape == (n_shuffles, len(tspikes))
+
+    # Test start time / offset spike values
+    shuffled_off_neg = shuffle_isis(tspikes_offset_neg, n_shuffles=1, start_time=-5)
+    assert tspikes.shape[-1] == shuffled_off_neg.shape[-1]
+    assert np.min(shuffled_off_neg) < 0
+    shuffled_off_pos = shuffle_isis(tspikes_offset_pos, n_shuffles=1, start_time=5)
+    assert tspikes.shape[-1] == shuffled_off_pos.shape[-1]
+    assert np.min(shuffled_off_pos) >= 5
 
 def test_shuffle_circular(tspikes, tspikes_offset):
 
@@ -96,17 +110,20 @@ def test_shuffle_circular(tspikes, tspikes_offset):
     out2 = shuffle_circular(tspikes, 10, n_shuffles=1)
     assert not np.array_equal(out1, out2)
 
-    # Test start time
-    shuffled_start = shuffle_circular(tspikes_offset, 10, n_shuffles=1, start_time=-5)
-    assert tspikes.shape[-1] == shuffled_start.shape[-1]
-    assert np.min(shuffled_start) < 0
-
     # Test with more shuffles
     n_shuffles = 5
     out_many = shuffle_circular(tspikes, 10, n_shuffles=n_shuffles)
     assert out_many.shape == (n_shuffles, len(tspikes))
 
-def test_shuffle_bins(tspikes, tspikes_offset):
+    # Test start time / offset spike values
+    shuffled_off_neg = shuffle_circular(tspikes_offset_neg, 10, n_shuffles=1, start_time=-5)
+    assert tspikes.shape[-1] == shuffled_off_neg.shape[-1]
+    assert np.min(shuffled_off_neg) < 0
+    shuffled_off_pos = shuffle_circular(tspikes_offset_pos, 10, n_shuffles=1, start_time=5)
+    assert tspikes.shape[-1] == shuffled_off_pos.shape[-1]
+    assert np.min(shuffled_off_pos) >= 5
+
+def test_shuffle_bins(tspikes, tspikes_offset_neg, tspikes_offset_pos):
 
     shuffled = shuffle_bins(tspikes, n_shuffles=1)
     assert isinstance(shuffled, np.ndarray)
@@ -120,17 +137,20 @@ def test_shuffle_bins(tspikes, tspikes_offset):
     out2 = shuffle_bins(tspikes, n_shuffles=1)
     assert not np.array_equal(out1, out2)
 
-    # Test start time
-    shuffled_start = shuffle_bins(tspikes_offset, n_shuffles=1, start_time=-5)
-    assert tspikes.shape[-1] == shuffled_start.shape[-1]
-    assert np.min(shuffled_start) < 0
-
     # Test with more shuffles
     n_shuffles = 5
     out_many = shuffle_bins(tspikes, n_shuffles=n_shuffles)
     assert out_many.shape == (n_shuffles, len(tspikes))
 
-def test_shuffle_poisson(tspikes, tspikes_offset):
+    # Test start time / offset spike values
+    shuffled_off_neg = shuffle_bins(tspikes_offset_neg, n_shuffles=1, start_time=-5)
+    assert tspikes.shape[-1] == shuffled_off_neg.shape[-1]
+    assert np.min(shuffled_off_neg) < 0
+    shuffled_off_pos = shuffle_bins(tspikes_offset_pos, n_shuffles=1, start_time=5)
+    assert tspikes.shape[-1] == shuffled_off_pos.shape[-1]
+    assert np.min(shuffled_off_pos) >= 5
+
+def test_shuffle_poisson(tspikes, tspikes_offset_neg, tspikes_offset_pos):
 
     shuffled = shuffle_poisson(tspikes)
     assert isinstance(shuffled, list)
@@ -141,12 +161,14 @@ def test_shuffle_poisson(tspikes, tspikes_offset):
     out2 = shuffle_poisson(tspikes, n_shuffles=1)
     assert not np.array_equal(out1, out2)
 
-    # Test start time
-    shuffled_start = shuffle_poisson(tspikes_offset, n_shuffles=1, start_time=-5)
-    assert np.min(shuffled_start[0]) < 0
-
     # Test with more shuffles
     #   Note: checks the # of shuffles, but not the exact # of spikes, which is not guaranteed
     n_shuffles = 5
     out_many = shuffle_poisson(tspikes, n_shuffles=n_shuffles)
     assert len(out_many) == n_shuffles
+
+    # Test start time / offset spike values
+    shuffled_off_neg = shuffle_poisson(tspikes_offset_neg, n_shuffles=1, start_time=-5)
+    assert np.min(shuffled_off_neg[0]) < 0
+    shuffled_off_pos = shuffle_poisson(tspikes_offset_pos, n_shuffles=1, start_time=5)
+    assert np.min(shuffled_off_pos[0]) >= 5
