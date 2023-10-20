@@ -201,13 +201,16 @@ def test_threshold_spikes_by_values():
     spikes = np.array([0.5, 1., 1.5, 2., 2.5])
     times = np.array([0.5, 1.1, 1.9, 2.4])
     values = np.array([0, 1, 1, 0])
-    tthresh = 0.25
-    dthresh = 0.5
 
-    out1 = threshold_spikes_by_values(spikes, times, values, dthresh, tthresh, data_comparison='greater')
+    time_thresh = 0.25
+    data_thresh = 0.5
+
+    out1 = threshold_spikes_by_values(\
+        spikes, times, values, min_value=data_thresh, time_threshold=time_thresh)
     assert np.array_equal(out1, np.array([1., 2.]))
 
-    out2 = threshold_spikes_by_values(spikes, times, values, dthresh, tthresh, data_comparison='less')
+    out2 = threshold_spikes_by_values(\
+        spikes, times, values, max_value=data_thresh, time_threshold=time_thresh)
     assert np.array_equal(out2, np.array([0.5, 2.5]))
 
 def test_drop_range():

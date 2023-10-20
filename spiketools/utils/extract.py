@@ -3,7 +3,6 @@
 import numpy as np
 
 from spiketools.utils.checks import check_axis, check_param_type
-from spiketools.utils.options import get_comp_func
 
 ###################################################################################################
 ###################################################################################################
@@ -441,8 +440,8 @@ def threshold_spikes_by_times(spikes, timestamps, threshold):
     return spikes[mask]
 
 
-def threshold_spikes_by_values(spikes, timestamps, values, data_threshold,
-                               time_threshold=None, data_comparison='greater'):
+def threshold_spikes_by_values(spikes, timestamps, values, min_value=None,
+                               max_value=None,time_threshold=None):
     """Threshold spikes by sub-selecting based on thresholding values on another data stream.
 
     Parameters
@@ -453,14 +452,12 @@ def threshold_spikes_by_values(spikes, timestamps, values, data_threshold,
         Timestamps, in seconds.
     values : 1d array
         Data values, corresponding to the timestamps.
-    data_threshold : float
-        The threshold for the data, used to select spikes based on data values
+    min_value, max_value : float, optional
+        Minimum and/or maximum threshold value to select spikes based on.
+        The minimum value is inclusive, but the maximum value is exclusive.
     time_threshold : float, optional
         The threshold value for the time between the spike and a timestamp for the spike to be kept.
         Any spikes further in time from a timestamp value are dropped.
-    data_comparison : {'greater', 'less'}
-        Which comparison function to use for the data threshold.
-        This defines whether selected values must be greater than or less than the data threshold.
 
     Returns
     -------
@@ -482,7 +479,8 @@ def threshold_spikes_by_values(spikes, timestamps, values, data_threshold,
 
     mask = ~np.isnan(values)
     spikes, values = spikes[mask], values[mask]
-    spikes = spikes[get_comp_func(data_comparison)(values, data_threshold)]
+
+    spikes = spikes[create_mask(values, min_value, max_value)]
 
     return spikes
 
