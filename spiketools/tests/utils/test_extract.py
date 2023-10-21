@@ -191,11 +191,27 @@ def test_get_values_by_times():
     assert len(outputs) == len(timepoints)
     assert np.array_equal(outputs, np.array([8, 6]))
 
+    # Test with time_threshold
+    out_thresh = get_values_by_times(times, values_1d, timepoints, time_threshold=0.2)
+    assert np.array_equal(out_thresh, np.array([6]))
+
+    # Test without null dropping
+    out_thresh_null = get_values_by_times(times, values_1d, timepoints,
+                                          time_threshold=0.2, drop_null=False)
+    assert np.array_equal(out_thresh_null, np.array([np.nan, 6]), equal_nan=True)
+
     # Test 2d extraction (row data)
     values_2d = np.array([[5, 8, 4, 6, 7], [5, 8, 4, 6, 7]])
     outputs = get_values_by_times(times, values_2d, timepoints)
     assert len(outputs) == len(timepoints)
     assert np.array_equal(outputs, np.array([[8, 6], [8, 6]]))
+
+    # Time threshold & null dropping for 2d
+    out_thresh_2d = get_values_by_times(times, values_2d, timepoints, time_threshold=0.2)
+    assert np.array_equal(out_thresh_2d, np.array([[6], [6]]))
+    out_thresh_null_2d = get_values_by_times(times, values_2d, timepoints,
+                                             time_threshold=0.2, drop_null=False)
+    assert np.array_equal(out_thresh_null_2d, np.array([[np.nan, 6], [np.nan, 6]]), equal_nan=True)
 
     # Test 2d extraction (column data)
     outputs = get_values_by_times(times, values_2d.T, timepoints)
@@ -205,6 +221,10 @@ def test_get_values_by_times():
     # Test empty extraction
     outputs_empty = get_values_by_times(times, values_1d, np.array([]))
     assert len(outputs_empty) == 0
+
+    # Special case - test single element case
+    outputs_1 = get_values_by_times(times, values_1d, np.array([2.0]), drop_null=False)
+    assert len(outputs_1) == 1
 
 def test_get_values_by_time_range():
 

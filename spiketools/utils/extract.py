@@ -397,6 +397,7 @@ def get_values_by_times(timestamps, values, timepoints, time_threshold=None,
     array([2, 4, 6])
     """
 
+    axis = check_axis(axis, values)
     inds = get_inds_by_times(timestamps, timepoints, time_threshold, drop_null)
 
     if drop_null:
@@ -404,9 +405,9 @@ def get_values_by_times(timestamps, values, timepoints, time_threshold=None,
     else:
         outputs = np.full([np.atleast_2d(values).shape[0], len(timepoints)], np.nan)
         mask = inds >= 0
-        outputs[:, np.where(mask)[0]] = values.take(indices=inds[mask],
-                                                    axis=check_axis(axis, values))
-        outputs = np.squeeze(outputs)
+        outputs[:, np.where(mask)[0]] = values.take(indices=inds[mask], axis=axis)
+        # Squeeze, with a special check for single value shape with needs an axis setting
+        outputs = np.squeeze(outputs, axis=0 if outputs.shape == (1, 1) else None)
 
     return outputs
 
