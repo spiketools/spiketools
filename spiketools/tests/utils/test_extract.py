@@ -117,8 +117,8 @@ def test_get_ind_by_time():
     assert get_ind_by_time(times, 3.25) == 2
 
     # test with threshold
-    assert get_ind_by_time(times, 3.15, threshold=0.25) == 2
-    assert get_ind_by_time(times, 3.5, threshold=0.25) == -1
+    assert get_ind_by_time(times, 3.15, time_threshold=0.25) == 2
+    assert get_ind_by_time(times, 3.5, time_threshold=0.25) == -1
 
 def test_get_inds_by_values():
 
@@ -147,9 +147,9 @@ def test_get_inds_by_times():
     assert np.array_equal(inds, np.array([2, 3]))
 
     extract = [3.5, 4.15, 4.85]
-    inds = get_inds_by_times(times, extract, threshold=0.25, drop_null=True)
+    inds = get_inds_by_times(times, extract, time_threshold=0.25, drop_null=True)
     np.array_equal(inds, np.array([np.nan, 3, 4]), equal_nan=True)
-    inds = get_inds_by_times(times, extract, threshold=0.25, drop_null=False)
+    inds = get_inds_by_times(times, extract, time_threshold=0.25, drop_null=False)
     np.array_equal(inds, np.array([3, 4]), equal_nan=True)
 
 def test_get_value_by_time():

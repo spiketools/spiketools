@@ -120,7 +120,7 @@ def epoch_spikes_by_segment(spikes, segments):
     return segment_spikes
 
 
-def epoch_data_by_time(timestamps, values, timepoints, threshold=None):
+def epoch_data_by_time(timestamps, values, timepoints, time_threshold=None):
     """Epoch data into trials, based on individual timepoints of interest.
 
     Parameters
@@ -131,7 +131,7 @@ def epoch_data_by_time(timestamps, values, timepoints, threshold=None):
         Data values.
     timepoints : list of float
         The time value(s), in seconds, to extract per trial.
-    threshold : float, optional
+    time_threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
 
@@ -153,7 +153,7 @@ def epoch_data_by_time(timestamps, values, timepoints, threshold=None):
 
     trials = [None] * len(timepoints)
     for ind, timepoint in enumerate(timepoints):
-        trials[ind] = get_value_by_time(timestamps, values, timepoint, threshold=threshold)
+        trials[ind] = get_value_by_time(timestamps, values, timepoint, time_threshold)
 
     return trials
 

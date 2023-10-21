@@ -215,7 +215,7 @@ def get_ind_by_value(values, value, threshold=None):
     return ind
 
 
-def get_ind_by_time(timestamps, timepoint, threshold=None):
+def get_ind_by_time(timestamps, timepoint, time_threshold=None):
     """Get the index for a set of timepoints closest to a specified timepoint.
 
     Parameters
@@ -224,7 +224,7 @@ def get_ind_by_time(timestamps, timepoint, threshold=None):
         Timestamps, in seconds.
     timepoint : float
         The time value to extract the index for.
-    threshold : float, optional
+    time_threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is -1.
 
@@ -242,7 +242,7 @@ def get_ind_by_time(timestamps, timepoint, threshold=None):
     4
     """
 
-    return get_ind_by_value(timestamps, timepoint, threshold)
+    return get_ind_by_value(timestamps, timepoint, time_threshold)
 
 
 def get_inds_by_values(values, select, threshold=None, drop_null=True):
@@ -286,7 +286,7 @@ def get_inds_by_values(values, select, threshold=None, drop_null=True):
     return inds
 
 
-def get_inds_by_times(timestamps, timepoints, threshold=None, drop_null=True):
+def get_inds_by_times(timestamps, timepoints, time_threshold=None, drop_null=True):
     """Get indices for a set of specified time points.
 
     Parameters
@@ -295,7 +295,7 @@ def get_inds_by_times(timestamps, timepoints, threshold=None, drop_null=True):
         Timestamps, in seconds.
     timepoints : 1d array
         The time values, in seconds, to extract indices for.
-    threshold : float, optional
+    time_threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is -1.
     drop_null : bool, optional, default: True
@@ -317,10 +317,10 @@ def get_inds_by_times(timestamps, timepoints, threshold=None, drop_null=True):
     array([1, 3, 5])
     """
 
-    return get_inds_by_values(timestamps, timepoints, threshold, drop_null)
+    return get_inds_by_values(timestamps, timepoints, time_threshold, drop_null)
 
 
-def get_value_by_time(timestamps, values, timepoint, threshold=None, axis=None):
+def get_value_by_time(timestamps, values, timepoint, time_threshold=None, axis=None):
     """Get the value from a data array at a specific time point.
 
     Parameters
@@ -331,7 +331,7 @@ def get_value_by_time(timestamps, values, timepoint, threshold=None, axis=None):
         Data values, corresponding to the time values in `timestamps`.
     timepoint : float
         Time value to extract.
-    threshold : float, optional
+    time_threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is -1.
     axis : {0, 1}, optional
@@ -353,13 +353,14 @@ def get_value_by_time(timestamps, values, timepoint, threshold=None, axis=None):
     array([3, 9])
     """
 
-    idx = get_ind_by_time(timestamps, timepoint, threshold=threshold)
+    idx = get_ind_by_time(timestamps, timepoint, time_threshold=time_threshold)
     out = values.take(indices=idx, axis=check_axis(axis, values)) if idx >= 0 else np.nan
 
     return out
 
 
-def get_values_by_times(timestamps, values, timepoints, threshold=None, drop_null=True, axis=None):
+def get_values_by_times(timestamps, values, timepoints, time_threshold=None,
+                        drop_null=True, axis=None):
     """Get values from a data array for a set of specified time points.
 
     Parameters
@@ -370,7 +371,7 @@ def get_values_by_times(timestamps, values, timepoints, threshold=None, drop_nul
         Data values, corresponding to the time values in `timestamps`.
     timepoints : 1d array
         The time values, in seconds, to extract corresponding values for.
-    threshold : float, optional
+    time_threshold : float, optional
         The threshold that the closest time value must be within to be returned.
         If the temporal distance is greater than the threshold, output is NaN.
     drop_null : bool, optional, default: True
@@ -396,7 +397,7 @@ def get_values_by_times(timestamps, values, timepoints, threshold=None, drop_nul
     array([2, 4, 6])
     """
 
-    inds = get_inds_by_times(timestamps, timepoints, threshold, drop_null)
+    inds = get_inds_by_times(timestamps, timepoints, time_threshold, drop_null)
 
     if drop_null:
         outputs = values.take(indices=inds, axis=check_axis(axis, values))
@@ -448,7 +449,7 @@ def get_values_by_time_range(timestamps, values, t_min, t_max, axis=None):
     return timestamps[select], out
 
 
-def threshold_spikes_by_times(spikes, timestamps, threshold):
+def threshold_spikes_by_times(spikes, timestamps, time_threshold):
     """Threshold spikes by sub-selecting those that are temporally close to a set of time values.
 
     Parameters
@@ -457,9 +458,9 @@ def threshold_spikes_by_times(spikes, timestamps, threshold):
         Spike times, in seconds.
     timestamps : 1d array
         Timestamps, in seconds.
-    threshold : float
-        The threshold value for the time between the spike and a timestamp for the spike to be kept.
-        Any spikes further in time from a timestamp value are dropped.
+    time_threshold : float, optional
+        The threshold that the closest time value must be to a spike for it to be returned.
+        If the temporal distance is greater than the threshold, spike is dropped.
 
     Returns
     -------
@@ -472,13 +473,13 @@ def threshold_spikes_by_times(spikes, timestamps, threshold):
 
     >>> spikes = np.array([0.76, 1.12, 1.72, 2.05, 2.32, 2.92, 3.11, 3.63, 3.91])
     >>> timestamps = np.array([1.0, 1.25, 1.5, 1.75, 2.0, 3.5, 3.75, 4.0])
-    >>> threshold_spikes_by_times(spikes, timestamps, threshold=0.25)
+    >>> threshold_spikes_by_times(spikes, timestamps, time_threshold=0.25)
     array([0.76, 1.12, 1.72, 2.05, 3.63, 3.91])
     """
 
     mask = np.empty_like(spikes, dtype=bool)
     for ind, spike in enumerate(spikes):
-        mask[ind] = np.min(np.abs(timestamps - spike)) < threshold
+        mask[ind] = np.min(np.abs(timestamps - spike)) < time_threshold
 
     return spikes[mask]
 
