@@ -6,6 +6,7 @@ import numpy as np
 
 from scipy.ndimage import gaussian_filter
 
+from spiketools.utils.extract import create_nan_mask
 from spiketools.utils.checks import check_array_orientation, check_param_options, check_bin_range
 
 ###################################################################################################
@@ -128,12 +129,12 @@ def drop_nans(data):
     array([1. , 2. , 3.5, 6. , 2. , 1. ])
     """
 
-    nans = np.isnan(data)
+    mask = create_nan_mask(data)
 
     if data.ndim == 1:
-        data = data[np.where(~nans)]
+        data = data[mask]
     elif data.ndim == 2:
-        data = data[~nans].reshape(nans.shape[0], sum(~nans[0, :]))
+        data = data[mask].reshape(mask.shape[0], sum(mask[0, :]))
     else:
         raise ValueError('Only 1d or 2d arrays supported.')
 

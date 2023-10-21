@@ -37,6 +37,36 @@ def test_create_mask():
     mask2 = create_mask(data, min_value2, max_value2)
     assert np.array_equal(mask2, np.array([False, True, True, False, False]))
 
+def test_create_nan_mask():
+
+    data = np.array([0.5, 1.0, np.nan, 1.5, 2.0, np.nan, 2.5])
+    mask = create_nan_mask(data)
+    assert np.array_equal(mask, np.array([True, True, False, True, True, False, True]))
+
+def test_select_from_arrays():
+
+    data1 = np.array([1, 2, 3, 4])
+    data2 = np.array([5, 6, 7, 8])
+    data3 = np.array([9, 10, 11, 12])
+
+    mask = np.array([False, True, False, True])
+
+    expected1 = np.array([2, 4])
+    expected2 = np.array([6, 8])
+    expected3 = np.array([10, 12])
+
+    out1 = select_from_arrays(mask, data1)
+    assert np.array_equal(out1, expected1)
+
+    out1a, out2a = select_from_arrays(mask, data1, data2)
+    assert np.array_equal(out1a, expected1)
+    assert np.array_equal(out2a, expected2)
+
+    out1b, out2b, out3b = select_from_arrays(mask, data1, data2, data3)
+    assert np.array_equal(out1b, expected1)
+    assert np.array_equal(out2b, expected2)
+    assert np.array_equal(out3b, expected3)
+
 def test_get_range():
 
     data = np.array([0.5, 1., 1.5, 2., 2.5])

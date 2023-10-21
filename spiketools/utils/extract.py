@@ -37,10 +37,53 @@ def create_mask(data, min_value=None, max_value=None):
 
     # Make the mask inclusive for min / exclusive for max value
     #   If inclusive for both, there can be issues double-selecting spikes
-    #   For example, if a spike ==  time_range, and select contiguous segments
+    #   For example, if a spike == time_range, and select contiguous segments
     mask = np.logical_and(data >= min_value, data < max_value)
 
     return mask
+
+
+def create_nan_mask(data):
+    """Create a mask for non-nan array elements.
+
+    Parameters
+    ----------
+    data : 1d array
+        Array of data.
+
+    Returns
+    -------
+    mask : 1d array
+        Boolean array.
+    """
+
+    return ~np.isnan(data)
+
+
+def select_from_arrays(mask, *arrays):
+    """Select the same set of elements from a collection of arrays.
+
+    Parameters
+    ----------
+    mask : 1d array
+        Mask, specifying the elements to select from the array(s).
+    arrays : 1d array
+        Array(s) to sub-select elements from.
+        Each array should have the same length as each other, and as the mask.
+
+    Returns
+    -------
+    out_arrays : 1d array
+        Sub-selected array(s).
+    """
+
+    out = []
+    for array in arrays:
+        out.append(array[mask])
+
+    out = out[0] if len(out) == 1 else out
+
+    return out
 
 
 def get_range(data, min_value=None, max_value=None, reset=None):
@@ -213,7 +256,7 @@ def get_inds_by_values(values, select, threshold=None, drop_null=True):
         The values to extract indices for.
     threshold : float, optional
         The threshold that the closest value must be within to be returned.
-        If the distance is greater than the threshold, output is NaN.
+        If the distance is greater than the threshold, output is -1.
     drop_null : bool, optional, default: True
         Whether to drop any null indices from the outputs (outside threshold range).
         If False, indices for any null values are -1.
@@ -254,7 +297,7 @@ def get_inds_by_times(timestamps, timepoints, threshold=None, drop_null=True):
         The time values, in seconds, to extract indices for.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
-        If the temporal distance is greater than the threshold, output is NaN.
+        If the temporal distance is greater than the threshold, output is -1.
     drop_null : bool, optional, default: True
         Whether to drop any null indices from the outputs (outside threshold range).
         If False, indices for any null values are -1.
@@ -290,7 +333,7 @@ def get_value_by_time(timestamps, values, timepoint, threshold=None, axis=None):
         Time value to extract.
     threshold : float, optional
         The threshold that the closest time value must be within to be returned.
-        If the temporal distance is greater than the threshold, output is NaN.
+        If the temporal distance is greater than the threshold, output is -1.
     axis : {0, 1}, optional
         The axis argument for the `values` data, if it's a 2d array, as {0: column, 1: row}.
         If not provided, is inferred from the `values` array.
@@ -477,8 +520,7 @@ def threshold_spikes_by_values(spikes, timestamps, values, min_value=None,
 
     values = get_values_by_times(timestamps, values, spikes, time_threshold, drop_null=False)
 
-    mask = ~np.isnan(values)
-    spikes, values = spikes[mask], values[mask]
+    spikes, values = select_from_arrays(create_nan_mask(values), spikes, values)
 
     spikes = spikes[create_mask(values, min_value, max_value)]
 
