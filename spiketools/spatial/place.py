@@ -13,7 +13,7 @@ from spiketools.utils.extract import (get_range, get_values_by_time_range, get_v
 ###################################################################################################
 
 def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
-                       speed=None, speed_threshold=None, time_threshold=None,
+                       speed=None, min_speed=None, max_speed=None, time_threshold=None,
                        occupancy=None, orientation=None):
     """Compute the spatially binned spiking activity.
 
@@ -31,11 +31,11 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
-        Current speed for each position.
+        Speed values corresponding to each position.
         Should be the same length as timestamps.
-    speed_threshold : float, optional
-        Speed threshold to apply.
-        If provided, any position values with an associated speed below this value are dropped.
+    min_speed, max_speed : float, optional
+        Minimum and/or maximum speed thresholds to apply.
+        Any spikes with an associated speed below the minimum or above maximum are dropped.
     time_threshold : float, optional
         A maximum time threshold, per bin observation, to apply.
         If provided, any bin values with an associated time length above this value are dropped.
@@ -67,7 +67,7 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
 
     if speed is not None:
         spikes = threshold_spikes_by_values(\
-            spikes, timestamps, speed, speed_threshold, time_threshold)
+            spikes, timestamps, speed, min_speed, max_speed, time_threshold)
 
     spike_positions = get_values_by_times(timestamps, position, spikes, time_threshold)
     place_bins = compute_bin_counts_pos(spike_positions, bins, area_range, occupancy, orientation)
@@ -76,8 +76,9 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
 
 
 def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, stop_times,
-                             area_range=None, speed=None, speed_threshold=None, time_threshold=None,
-                             trial_occupancy=None, flatten=False, orientation=None):
+                             area_range=None, speed=None, min_speed=None, max_speed=None,
+                             time_threshold=None, trial_occupancy=None, flatten=False,
+                             orientation=None):
     """Compute the spatially binned spiking activity, across trials.
 
     Parameters
@@ -96,11 +97,11 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
-        Current speed for each position.
+        Speed values corresponding to each position.
         Should be the same length as timestamps.
-    speed_threshold : float, optional
-        Speed threshold to apply.
-        If provided, any position values with an associated speed below this value are dropped.
+    min_speed, max_speed : float, optional
+        Minimum and/or maximum speed thresholds to apply.
+        Any spikes with an associated speed below the minimum or above maximum are dropped.
     time_threshold : float, optional
         A maximum time threshold, per bin observation, to apply.
         If provided, any bin values with an associated time length above this value are dropped.
@@ -161,7 +162,7 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
             t_occ = trial_occupancy[ind, :]
 
         place_bins_trial[ind, :] = compute_place_bins(t_spikes, t_pos, t_times, bins, area_range,
-                                                      t_speed, speed_threshold, time_threshold,
+                                                      t_speed, min_speed, max_speed, time_threshold,
                                                       t_occ, orientation)
 
     if flatten:

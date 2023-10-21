@@ -322,7 +322,7 @@ def create_position_df(position, timestamps, bins, area_range=None, speed=None,
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
-        Current speed for each position.
+        Speed values corresponding to each position.
         Should be the same length as timestamps.
     min_speed, max_speed : float, optional
         Minimum and/or maximum speed thresholds to apply.
@@ -448,7 +448,7 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
-        Current speed for each position.
+        Speed values corresponding to each position.
         Should be the same length as timestamps.
     min_speed, max_speed : float, optional
         Minimum and/or maximum speed thresholds to apply.
@@ -524,7 +524,7 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
-        Current speed for each position.
+        Speed values corresponding to each position.
         Should be the same length as timestamps.
     min_speed, max_speed : float, optional
         Minimum and/or maximum speed thresholds to apply.

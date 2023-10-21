@@ -25,9 +25,9 @@ def test_compute_place_bins():
 
     # Check with speed dropping
     speed = np.array([0, 1, 1, 1, 0, 1, 1, 0, 1, 1])
-    speed_threshold = 0.5
+    min_speed = 0.5
     place_bins = compute_place_bins(spikes, position, timestamps, bins,
-                                    speed=speed, speed_threshold=speed_threshold)
+                                    speed=speed, min_speed=min_speed)
     expected = np.array([[3, 0], [0, 2], [0, 2]])
     assert np.array_equal(place_bins, expected)
 
@@ -51,10 +51,10 @@ def test_compute_trial_place_bins():
 
     # Check with speed dropping
     speed = np.array([0, 1, 1, 1, 0, 1, 1, 0, 1, 1])
-    speed_threshold = 0.5
+    min_speed = 0.5
     place_bins_trial = compute_trial_place_bins(spikes, position, timestamps, bins,
                                                 start_times, stop_times,
-                                                speed=speed, speed_threshold=speed_threshold)
+                                                speed=speed, min_speed=min_speed)
     expected = np.array([[[0, 0], [0, 3], [0, 0]],
                          [[0, 2], [0, 0], [0, 2]]])
     assert np.array_equal(place_bins_trial, expected)

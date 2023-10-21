@@ -484,7 +484,7 @@ def threshold_spikes_by_times(spikes, timestamps, threshold):
 
 
 def threshold_spikes_by_values(spikes, timestamps, values, min_value=None,
-                               max_value=None,time_threshold=None):
+                               max_value=None, time_threshold=None):
     """Threshold spikes by sub-selecting based on thresholding values on another data stream.
 
     Parameters
