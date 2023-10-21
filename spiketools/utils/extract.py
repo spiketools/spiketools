@@ -511,11 +511,11 @@ def threshold_spikes_by_values(spikes, timestamps, values, min_value=None,
     --------
     Threshold spikes based on a minimum data threshold:
 
-    >>> spikes = np.array([0.1, 0.3, 0.4, 0.5, 1, 1.2, 1.6, 1.8])
-    >>> timestamps = np.array([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4])
-    >>> values = np.array([1, 2, 3, 4, 5, 6, 7, 8])
-    >>> threshold_spikes_by_values(spikes, timestamps, values, 2)
-    array([1.6, 1.8])
+    >>> spikes = np.array([0.1, 0.4, 1.2, 1.6, 1.8, 2.5, 2.9])
+    >>> timestamps = np.array([0.5, 1.0, 1.5, 2.0, 2.5, 3.0])
+    >>> values = np.array([1.0, 2.0, 3.0, 2.0, 3.0, 2.0])
+    >>> threshold_spikes_by_values(spikes, timestamps, values, min_value=2.5)
+    array([1.6, 2.5])
     """
 
     values = get_values_by_times(timestamps, values, spikes, time_threshold, drop_null=False)
