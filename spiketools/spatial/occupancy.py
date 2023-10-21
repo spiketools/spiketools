@@ -54,6 +54,7 @@ def compute_bin_edges(position, bins, area_range=None):
     """
 
     bins = check_bin_definition(bins, position)
+    position = position if not position is None else np.array([])
 
     if len(bins) == 1:
 
@@ -63,8 +64,7 @@ def compute_bin_edges(position, bins, area_range=None):
 
     elif len(bins) == 2:
 
-        x_pos, y_pos = get_position_xy(position) \
-            if isinstance(position, np.ndarray) else (None, None)
+        x_pos, y_pos = get_position_xy(position) if position.size else (None, None)
         x_range, y_range = area_range if isinstance(area_range, list) else (None, None)
 
         x_edges = np.histogram_bin_edges(x_pos, bins=bins[0], range=x_range)
