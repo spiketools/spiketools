@@ -549,6 +549,8 @@ Utilities for extracting data segments of interest.
    :toctree: generated/
 
    create_mask
+   create_nan_mask
+   select_from_arrays
    get_range
    get_value_range
    get_ind_by_value

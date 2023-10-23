@@ -37,6 +37,36 @@ def test_create_mask():
     mask2 = create_mask(data, min_value2, max_value2)
     assert np.array_equal(mask2, np.array([False, True, True, False, False]))
 
+def test_create_nan_mask():
+
+    data = np.array([0.5, 1.0, np.nan, 1.5, 2.0, np.nan, 2.5])
+    mask = create_nan_mask(data)
+    assert np.array_equal(mask, np.array([True, True, False, True, True, False, True]))
+
+def test_select_from_arrays():
+
+    data1 = np.array([1, 2, 3, 4])
+    data2 = np.array([5, 6, 7, 8])
+    data3 = np.array([9, 10, 11, 12])
+
+    mask = np.array([False, True, False, True])
+
+    expected1 = np.array([2, 4])
+    expected2 = np.array([6, 8])
+    expected3 = np.array([10, 12])
+
+    out1 = select_from_arrays(mask, data1)
+    assert np.array_equal(out1, expected1)
+
+    out1a, out2a = select_from_arrays(mask, data1, data2)
+    assert np.array_equal(out1a, expected1)
+    assert np.array_equal(out2a, expected2)
+
+    out1b, out2b, out3b = select_from_arrays(mask, data1, data2, data3)
+    assert np.array_equal(out1b, expected1)
+    assert np.array_equal(out2b, expected2)
+    assert np.array_equal(out3b, expected3)
+
 def test_get_range():
 
     data = np.array([0.5, 1., 1.5, 2., 2.5])
@@ -87,8 +117,8 @@ def test_get_ind_by_time():
     assert get_ind_by_time(times, 3.25) == 2
 
     # test with threshold
-    assert get_ind_by_time(times, 3.15, threshold=0.25) == 2
-    assert get_ind_by_time(times, 3.5, threshold=0.25) == -1
+    assert get_ind_by_time(times, 3.15, time_threshold=0.25) == 2
+    assert get_ind_by_time(times, 3.5, time_threshold=0.25) == -1
 
 def test_get_inds_by_values():
 
@@ -108,6 +138,10 @@ def test_get_inds_by_values():
     with raises(AssertionError):
         ind = get_ind_by_time(values, np.nan)
 
+    # Test empty extraction
+    inds_empty = get_inds_by_values(values, np.array([]))
+    assert len(inds_empty) == 0
+
 def test_get_inds_by_times():
 
     times = np.array([1, 2, 3, 4, 5])
@@ -117,10 +151,14 @@ def test_get_inds_by_times():
     assert np.array_equal(inds, np.array([2, 3]))
 
     extract = [3.5, 4.15, 4.85]
-    inds = get_inds_by_times(times, extract, threshold=0.25, drop_null=True)
+    inds = get_inds_by_times(times, extract, time_threshold=0.25, drop_null=True)
     np.array_equal(inds, np.array([np.nan, 3, 4]), equal_nan=True)
-    inds = get_inds_by_times(times, extract, threshold=0.25, drop_null=False)
+    inds = get_inds_by_times(times, extract, time_threshold=0.25, drop_null=False)
     np.array_equal(inds, np.array([3, 4]), equal_nan=True)
+
+    # Test empty extraction
+    inds_empty = get_inds_by_times(times, np.array([]))
+    assert len(inds_empty) == 0
 
 def test_get_value_by_time():
 
@@ -153,16 +191,40 @@ def test_get_values_by_times():
     assert len(outputs) == len(timepoints)
     assert np.array_equal(outputs, np.array([8, 6]))
 
+    # Test with time_threshold
+    out_thresh = get_values_by_times(times, values_1d, timepoints, time_threshold=0.2)
+    assert np.array_equal(out_thresh, np.array([6]))
+
+    # Test without null dropping
+    out_thresh_null = get_values_by_times(times, values_1d, timepoints,
+                                          time_threshold=0.2, drop_null=False)
+    assert np.array_equal(out_thresh_null, np.array([np.nan, 6]), equal_nan=True)
+
     # Test 2d extraction (row data)
     values_2d = np.array([[5, 8, 4, 6, 7], [5, 8, 4, 6, 7]])
     outputs = get_values_by_times(times, values_2d, timepoints)
     assert len(outputs) == len(timepoints)
     assert np.array_equal(outputs, np.array([[8, 6], [8, 6]]))
 
+    # Time threshold & null dropping for 2d
+    out_thresh_2d = get_values_by_times(times, values_2d, timepoints, time_threshold=0.2)
+    assert np.array_equal(out_thresh_2d, np.array([[6], [6]]))
+    out_thresh_null_2d = get_values_by_times(times, values_2d, timepoints,
+                                             time_threshold=0.2, drop_null=False)
+    assert np.array_equal(out_thresh_null_2d, np.array([[np.nan, 6], [np.nan, 6]]), equal_nan=True)
+
     # Test 2d extraction (column data)
     outputs = get_values_by_times(times, values_2d.T, timepoints)
     assert len(outputs) == len(timepoints)
     assert np.array_equal(outputs, np.array([[8, 6], [8, 6]]).T)
+
+    # Test empty extraction
+    outputs_empty = get_values_by_times(times, values_1d, np.array([]))
+    assert len(outputs_empty) == 0
+
+    # Special case - test single element case
+    outputs_1 = get_values_by_times(times, values_1d, np.array([2.0]), drop_null=False)
+    assert len(outputs_1) == 1
 
 def test_get_values_by_time_range():
 
@@ -196,19 +258,30 @@ def test_threshold_spikes_by_times():
     assert isinstance(out, np.ndarray)
     assert np.array_equal(out, np.array([0.5, 1., 2.]))
 
+    # Test empty extraction
+    out_empty = threshold_spikes_by_times(np.array([]), times, threshold)
+    assert len(out_empty) == 0
+
 def test_threshold_spikes_by_values():
 
     spikes = np.array([0.5, 1., 1.5, 2., 2.5])
     times = np.array([0.5, 1.1, 1.9, 2.4])
     values = np.array([0, 1, 1, 0])
-    tthresh = 0.25
-    dthresh = 0.5
 
-    out1 = threshold_spikes_by_values(spikes, times, values, dthresh, tthresh, data_comparison='greater')
+    time_thresh = 0.25
+    data_thresh = 0.5
+
+    out1 = threshold_spikes_by_values(\
+        spikes, times, values, min_value=data_thresh, time_threshold=time_thresh)
     assert np.array_equal(out1, np.array([1., 2.]))
 
-    out2 = threshold_spikes_by_values(spikes, times, values, dthresh, tthresh, data_comparison='less')
+    out2 = threshold_spikes_by_values(\
+        spikes, times, values, max_value=data_thresh, time_threshold=time_thresh)
     assert np.array_equal(out2, np.array([0.5, 2.5]))
+
+    # Test empty extraction
+    out_empty = threshold_spikes_by_values(np.array([]), times, values, min_value=data_thresh)
+    assert len(out_empty) == 0
 
 def test_drop_range():
 
@@ -232,10 +305,10 @@ def test_drop_range():
     assert spikes.shape == out.shape
     assert np.allclose(out, np.array([0.5, 1.5, 1.9, 2.1, 3.4, 3.9, 4.2, 5.7]))
 
-    # check that it works if passed an empty time range
+    # Test empty extraction
     time_range = []
-    out = drop_range(spikes, time_range)
-    assert np.array_equal(out, spikes)
+    out_empty = drop_range(spikes, time_range)
+    assert np.array_equal(out_empty, spikes)
 
 def test_reinstate_range_1d():
 

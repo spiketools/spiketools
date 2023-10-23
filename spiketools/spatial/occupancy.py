@@ -54,6 +54,7 @@ def compute_bin_edges(position, bins, area_range=None):
     """
 
     bins = check_bin_definition(bins, position)
+    position = position if not position is None else np.array([])
 
     if len(bins) == 1:
 
@@ -63,8 +64,7 @@ def compute_bin_edges(position, bins, area_range=None):
 
     elif len(bins) == 2:
 
-        x_pos, y_pos = get_position_xy(position) \
-            if isinstance(position, np.ndarray) else (None, None)
+        x_pos, y_pos = get_position_xy(position) if position.size else (None, None)
         x_range, y_range = area_range if isinstance(area_range, list) else (None, None)
 
         x_edges = np.histogram_bin_edges(x_pos, bins=bins[0], range=x_range)
@@ -322,7 +322,7 @@ def create_position_df(position, timestamps, bins, area_range=None, speed=None,
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
-        Current speed for each position.
+        Speed values corresponding to each position.
         Should be the same length as timestamps.
     min_speed, max_speed : float, optional
         Minimum and/or maximum speed thresholds to apply.
@@ -448,7 +448,7 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
-        Current speed for each position.
+        Speed values corresponding to each position.
         Should be the same length as timestamps.
     min_speed, max_speed : float, optional
         Minimum and/or maximum speed thresholds to apply.
@@ -524,7 +524,7 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
     area_range : list of list, optional
         Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].
     speed : 1d array, optional
-        Current speed for each position.
+        Speed values corresponding to each position.
         Should be the same length as timestamps.
     min_speed, max_speed : float, optional
         Minimum and/or maximum speed thresholds to apply.
