@@ -41,7 +41,7 @@ def convert_times_to_train(spikes, fs=1000, time_range=None):
     length = time_range[1] - time_range[0]
 
     spike_train = np.zeros(int(length * fs) + 1).astype(int)
-    inds = [int(ind * fs) for ind in spikes if ind * fs <= spike_train.shape[-1]]
+    inds = [int(ind * fs) for ind in spikes - time_range[0] if ind * fs <= spike_train.shape[-1]]
     spike_train[inds] = 1
 
     # Check that the spike times are fully encoded into the spike train

@@ -11,25 +11,26 @@ from spiketools.measures.conversions import *
 ###################################################################################################
 ###################################################################################################
 
-def test_convert_times_to_train(tspikes, tspikes_offset):
+def test_convert_times_to_train(tspikes, tspikes_offset_neg, tspikes_offset_pos):
 
     spike_train = convert_times_to_train(tspikes)
     assert isinstance(spike_train, np.ndarray)
     assert spike_train.shape[-1] > tspikes.shape[-1]
     assert sum(spike_train) == tspikes.shape[-1]
 
-    # Test with non-zero start time
-    spike_train2 = convert_times_to_train(tspikes_offset)
-    assert isinstance(spike_train2, np.ndarray)
-    assert sum(spike_train2) == tspikes.shape[-1]
-    assert len(spike_train2) == len(spike_train)
+    # Test with offset spike times
+    for tspikes_offset in [tspikes_offset_neg, tspikes_offset_pos]:
+        spike_train_off = convert_times_to_train(tspikes_offset)
+        assert isinstance(spike_train_off, np.ndarray)
+        assert sum(spike_train_off) == tspikes.shape[-1]
+        assert len(spike_train_off) == len(spike_train)
 
-    # Test with specified time_range
+    # Test with specified time_ranges - using negative offset spike times
     time_range = [-10, 10]
-    spike_train3 = convert_times_to_train(tspikes_offset, time_range=time_range)
-    assert isinstance(spike_train3, np.ndarray)
-    assert sum(spike_train3) == tspikes.shape[-1]
-    assert len(spike_train3) == 1000 * (time_range[1] - time_range[0]) + 1
+    spike_train_tr = convert_times_to_train(tspikes_offset_neg, time_range=time_range)
+    assert isinstance(spike_train_tr, np.ndarray)
+    assert sum(spike_train_tr) == tspikes.shape[-1]
+    assert len(spike_train_tr) == 1000 * (time_range[1] - time_range[0]) + 1
 
     # Check the error with times / sampling rate mismatch
     spikes = np.array([0.1000, 0.1500, 0.1505, 0.2000])

@@ -33,19 +33,25 @@ def check_dir():
 
 ## TEST OBJECTS
 
+def get_tspikes():
+
+    return np.array([0.5, 1.5, 2.0, 2.5, 3.0, 3.2, 3.7, 4.0, 4.2, 4.7,
+                     5.0, 5.7, 6.0, 7.0, 7.5, 8.0, 8.2, 8.7, 9.2, 9.9])
+
 @pytest.fixture(scope='session')
 def tspikes():
 
-    yield np.array([0.5, 1.5, 2.0, 2.5, 3.0, 3.2, 3.7, 4.0, 4.2, 4.7,
-                    5.0, 5.7, 6.0, 7.0, 7.5, 8.0, 8.2, 8.7, 9.2, 9.9])
+    yield get_tspikes()
 
 @pytest.fixture(scope='session')
-def tspikes_offset():
+def tspikes_offset_neg():
 
-    tspikes = np.array([0.5, 1.5, 2.0, 2.5, 3.0, 3.2, 3.7, 4.0, 4.2, 4.7,
-                        5.0, 5.7, 6.0, 7.0, 7.5, 8.0, 8.2, 8.7, 9.2, 9.9])
+    yield get_tspikes() - 5
 
-    yield tspikes - 5
+@pytest.fixture(scope='session')
+def tspikes_offset_pos():
+
+    yield get_tspikes() + 5
 
 @pytest.fixture(scope='session')
 def ttrial_spikes():
