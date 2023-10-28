@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it using the metadata from this file.
+type: software
+title: 'spiketools'
+authors:
+- given-names: 'Thomas'
+  family-names: 'Donoghue'
+  orcid: 'https://orcid.org/0000-0001-5911-0472'
+- given-names: 'Sandra'
+  family-names: 'Maesta Pereira'
+  orcid: 'https://orcid.org/0000-0001-6522-8311'
+- given-names: 'Claire Z'
+  family-names: 'Han'
+  orcid: 'https://orcid.org/0000-0001-9710-8381'
+- given-names: 'Salman E'
+  family-names: 'Qasim'
+  orcid: 'https://orcid.org/0000-0001-8739-5962'
+- given-names: 'Joshua'
+  family-names: 'Jacobs'
+  orcid: 'https://orcid.org/0000-0003-1807-6882'
+repository-code: 'https://github.com/spiketools/spiketools'
+url: 'https://spiketools.github.io/'
+license: Apache-2.0
