@@ -268,7 +268,7 @@ def sum_time_ranges(ranges):
 
 
 def create_bin_times(bins):
-    """Create a timepoints definitions for a set of time bins.
+    """Create a timepoints definition for a set of time bins.
 
     Parameters
     ----------

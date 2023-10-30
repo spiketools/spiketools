@@ -54,7 +54,7 @@ def compute_bin_edges(position, bins, area_range=None):
     """
 
     bins = check_bin_definition(bins, position)
-    position = position if not position is None else np.array([])
+    position = position if position is not None else np.array([])
 
     if len(bins) == 1:
 

@@ -34,6 +34,7 @@ def split_trials_by_condition(trials, conditions):
 
     return out
 
+
 def split_trials_by_condition_list(trials, conditions):
     """Split trial data by condition label, for trial data as a list.
 
@@ -60,6 +61,7 @@ def split_trials_by_condition_list(trials, conditions):
         out[condition].append(trial)
 
     return out
+
 
 def split_trials_by_condition_array(trials, conditions):
     """Split trial data by condition label, for trial data as an array.
