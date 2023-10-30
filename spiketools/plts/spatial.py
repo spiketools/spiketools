@@ -71,6 +71,7 @@ def plot_positions(position, spike_positions=None, landmarks=None, x_bins=None,
                      ax=ax, **{**defaults, **spike_positions})
 
     if landmarks is not None:
+        landmarks = deepcopy(landmarks)
         defaults = {'alpha' : 0.85, 'ms' : 12}
         for landmark in [landmarks] if not isinstance(landmarks, list) else landmarks:
             if isinstance(landmark, np.ndarray):
