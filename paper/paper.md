@@ -52,7 +52,7 @@ Modules in ``spiketools`` include:
 
 * numpy : used for managing and computing with arrays [@harris_numpy_2020]
 * scipy : used for some existing algorithms [@virtanen_scipy_2020]
-* pandas : used for managing heterogeneous data [@mckinney_pandas_2011]
+* pandas : used for managing heterogeneous data [@mckinney_pandas_2010]
 * matplotlib : used for plotting [@hunter_matplotlib_2007]
 
 ``spiketools`` also has some optional dependencies that offer extra functionality:
