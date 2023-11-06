@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>API Documentation &#8212; spiketools 0.1.0 documentation</title>
+    <title>API Documentation &#8212; spiketools 0.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -901,6 +901,12 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.utils.extract.create_mask.html#spiketools.utils.extract.create_mask" title="spiketools.utils.extract.create_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_mask</span></code></a>(data[, min_value, max_value])</p></td>
 <td><p>Create a mask to select data points based on value.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.utils.extract.create_nan_mask.html#spiketools.utils.extract.create_nan_mask" title="spiketools.utils.extract.create_nan_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_nan_mask</span></code></a>(data)</p></td>
+<td><p>Create a mask for non-nan array elements.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.utils.extract.select_from_arrays.html#spiketools.utils.extract.select_from_arrays" title="spiketools.utils.extract.select_from_arrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_from_arrays</span></code></a>(mask, *arrays)</p></td>
+<td><p>Select the same set of elements from a collection of arrays.</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.utils.extract.get_range.html#spiketools.utils.extract.get_range" title="spiketools.utils.extract.get_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_range</span></code></a>(data[, min_value, max_value, reset])</p></td>
 <td><p>Get a specified range from a vector of data.</p></td>
 </tr>
@@ -976,7 +982,7 @@
 <td><p>Sum the total amount of time defined by time range(s).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/spiketools.utils.timestamps.create_bin_times.html#spiketools.utils.timestamps.create_bin_times" title="spiketools.utils.timestamps.create_bin_times"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_bin_times</span></code></a>(bins)</p></td>
-<td><p>Create a timepoints definitions for a set of time bins.</p></td>
+<td><p>Create a timepoints definition for a set of time bins.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/spiketools.utils.timestamps.split_time_value.html#spiketools.utils.timestamps.split_time_value" title="spiketools.utils.timestamps.split_time_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split_time_value</span></code></a>(sec)</p></td>
 <td><p>Split a time value from seconds to hours / minutes / seconds.</p></td>

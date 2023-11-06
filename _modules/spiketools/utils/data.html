@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.utils.data &#8212; spiketools 0.1.0 documentation</title>
+    <title>spiketools.utils.data &#8212; spiketools 0.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -103,6 +103,7 @@
 
 <span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">gaussian_filter</span>
 
+<span class="kn">from</span> <span class="nn">spiketools.utils.extract</span> <span class="kn">import</span> <span class="n">create_nan_mask</span>
 <span class="kn">from</span> <span class="nn">spiketools.utils.checks</span> <span class="kn">import</span> <span class="n">check_array_orientation</span><span class="p">,</span> <span class="n">check_param_options</span><span class="p">,</span> <span class="n">check_bin_range</span>
 
 <span class="c1">###################################################################################################</span>
@@ -225,12 +226,12 @@
 <span class="sd">    array([1. , 2. , 3.5, 6. , 2. , 1. ])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">nans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">create_nan_mask</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">nans</span><span class="p">)]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
     <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="n">nans</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nans</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">sum</span><span class="p">(</span><span class="o">~</span><span class="n">nans</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only 1d or 2d arrays supported.&#39;</span><span class="p">)</span>
 

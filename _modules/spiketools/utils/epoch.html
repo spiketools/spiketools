@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.utils.epoch &#8212; spiketools 0.1.0 documentation</title>
+    <title>spiketools.utils.epoch &#8212; spiketools 0.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -217,7 +217,7 @@
     <span class="k">return</span> <span class="n">segment_spikes</span></div>
 
 
-<div class="viewcode-block" id="epoch_data_by_time"><a class="viewcode-back" href="../../../generated/spiketools.utils.epoch.epoch_data_by_time.html#spiketools.utils.epoch.epoch_data_by_time">[docs]</a><span class="k">def</span> <span class="nf">epoch_data_by_time</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoints</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="epoch_data_by_time"><a class="viewcode-back" href="../../../generated/spiketools.utils.epoch.epoch_data_by_time.html#spiketools.utils.epoch.epoch_data_by_time">[docs]</a><span class="k">def</span> <span class="nf">epoch_data_by_time</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoints</span><span class="p">,</span> <span class="n">time_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Epoch data into trials, based on individual timepoints of interest.</span>
 
 <span class="sd">    Parameters</span>
@@ -228,7 +228,7 @@
 <span class="sd">        Data values.</span>
 <span class="sd">    timepoints : list of float</span>
 <span class="sd">        The time value(s), in seconds, to extract per trial.</span>
-<span class="sd">    threshold : float, optional</span>
+<span class="sd">    time_threshold : float, optional</span>
 <span class="sd">        The threshold that the closest time value must be within to be returned.</span>
 <span class="sd">        If the temporal distance is greater than the threshold, output is NaN.</span>
 
@@ -250,7 +250,7 @@
 
     <span class="n">trials</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">timepoints</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">timepoint</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">timepoints</span><span class="p">):</span>
-        <span class="n">trials</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_value_by_time</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span>
+        <span class="n">trials</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_value_by_time</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">timepoint</span><span class="p">,</span> <span class="n">time_threshold</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">trials</span></div>
 

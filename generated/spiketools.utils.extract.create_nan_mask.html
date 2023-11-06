@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.utils.random.set_random_seed &#8212; spiketools 0.2.0 documentation</title>
+    <title>spiketools.utils.extract.create_nan_mask &#8212; spiketools 0.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -95,22 +95,26 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-utils-random-set-random-seed">
-<h1>spiketools.utils.random.set_random_seed<a class="headerlink" href="#spiketools-utils-random-set-random-seed" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-utils-extract-create-nan-mask">
+<h1>spiketools.utils.extract.create_nan_mask<a class="headerlink" href="#spiketools-utils-extract-create-nan-mask" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.utils.random.set_random_seed">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.random.</span></span><span class="sig-name descname"><span class="pre">set_random_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/random.html#set_random_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.random.set_random_seed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the random seed value.</p>
+<dt class="sig sig-object py" id="spiketools.utils.extract.create_nan_mask">
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.extract.</span></span><span class="sig-name descname"><span class="pre">create_nan_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/extract.html#create_nan_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.extract.create_nan_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a mask for non-nan array elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>seed_value</strong><span class="classifier">int, optional</span></dt><dd><p>Value to set the random seed as.</p>
+<dt><strong>data</strong><span class="classifier">1d array</span></dt><dd><p>Array of data.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mask</strong><span class="classifier">1d array</span></dt><dd><p>Boolean array.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>This sets the random state of the global numpy state.</p>
 </dd></dl>
 
 </section>

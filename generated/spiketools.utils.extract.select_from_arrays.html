@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.utils.random.set_random_seed &#8212; spiketools 0.2.0 documentation</title>
+    <title>spiketools.utils.extract.select_from_arrays &#8212; spiketools 0.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -95,22 +95,29 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-utils-random-set-random-seed">
-<h1>spiketools.utils.random.set_random_seed<a class="headerlink" href="#spiketools-utils-random-set-random-seed" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-utils-extract-select-from-arrays">
+<h1>spiketools.utils.extract.select_from_arrays<a class="headerlink" href="#spiketools-utils-extract-select-from-arrays" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.utils.random.set_random_seed">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.random.</span></span><span class="sig-name descname"><span class="pre">set_random_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/random.html#set_random_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.random.set_random_seed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the random seed value.</p>
+<dt class="sig sig-object py" id="spiketools.utils.extract.select_from_arrays">
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.extract.</span></span><span class="sig-name descname"><span class="pre">select_from_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">arrays</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/extract.html#select_from_arrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.extract.select_from_arrays" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select the same set of elements from a collection of arrays.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>seed_value</strong><span class="classifier">int, optional</span></dt><dd><p>Value to set the random seed as.</p>
+<dt><strong>mask</strong><span class="classifier">1d array</span></dt><dd><p>Mask, specifying the elements to select from the array(s).</p>
+</dd>
+<dt><strong>arrays</strong><span class="classifier">1d array</span></dt><dd><p>Array(s) to sub-select elements from.
+Each array should have the same length as each other, and as the mask.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out_arrays</strong><span class="classifier">1d array</span></dt><dd><p>Sub-selected array(s).</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>This sets the random state of the global numpy state.</p>
 </dd></dl>
 
 </section>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.spatial.occupancy &#8212; spiketools 0.1.0 documentation</title>
+    <title>spiketools.spatial.occupancy &#8212; spiketools 0.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -151,6 +151,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">bins</span> <span class="o">=</span> <span class="n">check_bin_definition</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">position</span> <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
 
@@ -160,8 +161,7 @@
 
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
 
-        <span class="n">x_pos</span><span class="p">,</span> <span class="n">y_pos</span> <span class="o">=</span> <span class="n">get_position_xy</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> \
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">x_pos</span><span class="p">,</span> <span class="n">y_pos</span> <span class="o">=</span> <span class="n">get_position_xy</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="k">if</span> <span class="n">position</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span> <span class="o">=</span> <span class="n">area_range</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">area_range</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="n">x_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram_bin_edges</span><span class="p">(</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">range</span><span class="o">=</span><span class="n">x_range</span><span class="p">)</span>
@@ -419,7 +419,7 @@
 <span class="sd">    area_range : list of list, optional</span>
 <span class="sd">        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].</span>
 <span class="sd">    speed : 1d array, optional</span>
-<span class="sd">        Current speed for each position.</span>
+<span class="sd">        Speed values corresponding to each position.</span>
 <span class="sd">        Should be the same length as timestamps.</span>
 <span class="sd">    min_speed, max_speed : float, optional</span>
 <span class="sd">        Minimum and/or maximum speed thresholds to apply.</span>
@@ -545,7 +545,7 @@
 <span class="sd">    area_range : list of list, optional</span>
 <span class="sd">        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].</span>
 <span class="sd">    speed : 1d array, optional</span>
-<span class="sd">        Current speed for each position.</span>
+<span class="sd">        Speed values corresponding to each position.</span>
 <span class="sd">        Should be the same length as timestamps.</span>
 <span class="sd">    min_speed, max_speed : float, optional</span>
 <span class="sd">        Minimum and/or maximum speed thresholds to apply.</span>
@@ -621,7 +621,7 @@
 <span class="sd">    area_range : list of list, optional</span>
 <span class="sd">        Edges of the area to bin, defined as [[x_min, x_max], [y_min, y_max]].</span>
 <span class="sd">    speed : 1d array, optional</span>
-<span class="sd">        Current speed for each position.</span>
+<span class="sd">        Speed values corresponding to each position.</span>
 <span class="sd">        Should be the same length as timestamps.</span>
 <span class="sd">    min_speed, max_speed : float, optional</span>
 <span class="sd">        Minimum and/or maximum speed thresholds to apply.</span>

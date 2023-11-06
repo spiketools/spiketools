@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>spiketools.utils.extract.threshold_spikes_by_values &#8212; spiketools 0.1.0 documentation</title>
+    <title>spiketools.utils.extract.threshold_spikes_by_values &#8212; spiketools 0.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -45,7 +45,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -99,7 +99,7 @@
 <h1>spiketools.utils.extract.threshold_spikes_by_values<a class="headerlink" href="#spiketools-utils-extract-threshold-spikes-by-values" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="spiketools.utils.extract.threshold_spikes_by_values">
-<span class="sig-prename descclassname"><span class="pre">spiketools.utils.extract.</span></span><span class="sig-name descname"><span class="pre">threshold_spikes_by_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_threshold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_comparison</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'greater'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/extract.html#threshold_spikes_by_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.extract.threshold_spikes_by_values" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">spiketools.utils.extract.</span></span><span class="sig-name descname"><span class="pre">threshold_spikes_by_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/utils/extract.html#threshold_spikes_by_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.utils.extract.threshold_spikes_by_values" title="Permalink to this definition">¶</a></dt>
 <dd><p>Threshold spikes by sub-selecting based on thresholding values on another data stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -110,13 +110,11 @@
 </dd>
 <dt><strong>values</strong><span class="classifier">1d array</span></dt><dd><p>Data values, corresponding to the timestamps.</p>
 </dd>
-<dt><strong>data_threshold</strong><span class="classifier">float</span></dt><dd><p>The threshold for the data, used to select spikes based on data values</p>
+<dt><strong>min_value, max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Minimum and/or maximum threshold value to select spikes based on.
+The minimum value is inclusive, but the maximum value is exclusive.</p>
 </dd>
 <dt><strong>time_threshold</strong><span class="classifier">float, optional</span></dt><dd><p>The threshold value for the time between the spike and a timestamp for the spike to be kept.
 Any spikes further in time from a timestamp value are dropped.</p>
-</dd>
-<dt><strong>data_comparison</strong><span class="classifier">{‘greater’, ‘less’}</span></dt><dd><p>Which comparison function to use for the data threshold.
-This defines whether selected values must be greater than or less than the data threshold.</p>
 </dd>
 </dl>
 </dd>
@@ -129,11 +127,11 @@ This defines whether selected values must be greater than or less than the data 
 </dl>
 <p class="rubric">Examples</p>
 <p>Threshold spikes based on a minimum data threshold:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">threshold_spikes_by_values</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="go">array([1.6, 1.8])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">threshold_spikes_by_values</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="go">array([1.6, 2.5])</span>
 </pre></div>
 </div>
 </dd></dl>
