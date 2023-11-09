@@ -87,7 +87,10 @@ def plot_points(data, label=None, ax=None, **plt_kwargs):
     n_points = len(data)
     xs = np.zeros(n_points) + 0.1 * np.random.rand(n_points)
 
-    ax.plot(xs, data, '.', ms=20, alpha=0.5)
+    ax.plot(xs, data, '.',
+            ms=plt_kwargs.pop('ms', 20),
+            alpha=plt_kwargs.pop('alpha', 0.5),
+            **plt_kwargs)
 
     ax.set_xlim([-0.25, 0.25])
 
