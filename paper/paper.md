@@ -22,11 +22,11 @@ authors:
     orcid: 0000-0003-1807-6882
     affiliation: "1, 3"
 affiliations:
-  - name: Department of Biomedical Engineering, Columbia University
+  - name: Department of Biomedical Engineering, Columbia University, New York, United States of America
     index: 1
-  - name: Department of Psychiatry. Icahn School of Medicine at Mount Sinai
+  - name: Department of Psychiatry. Icahn School of Medicine at Mount Sinai, New York, United States of America
     index: 2
-  - name: Department of Neurological Surgery, Columbia University
+  - name: Department of Neurological Surgery, Columbia University, New York, United States of America
     index: 3
 date: 11 October, 2023
 bibliography: paper.bib
