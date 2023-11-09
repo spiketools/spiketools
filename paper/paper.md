@@ -24,7 +24,7 @@ authors:
 affiliations:
   - name: Department of Biomedical Engineering, Columbia University, New York, United States of America
     index: 1
-  - name: Department of Psychiatry. Icahn School of Medicine at Mount Sinai, New York, United States of America
+  - name: Department of Psychiatry, Icahn School of Medicine at Mount Sinai, New York, United States of America
     index: 2
   - name: Department of Neurological Surgery, Columbia University, New York, United States of America
     index: 3
