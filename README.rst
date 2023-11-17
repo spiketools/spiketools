@@ -59,9 +59,12 @@ Documentation for ``spiketools`` is available
 
 The documentation includes:
 
-- `Tutorials <https://spiketools.github.io/spiketools/auto_tutorials/index.html>`_: which describe and provide examples for each sub-module
-- `API List <https://spiketools.github.io/spiketools/api.html>`_: which lists and describes everything available in the module
-- `Glossary <https://spiketools.github.io/spiketools/glossary.html>`_: which defines key terms used in the module
+- `Tutorials <https://spiketools.github.io/spiketools/auto_tutorials/index.html>`_:
+  which describe and provide examples for each sub-module
+- `API List <https://spiketools.github.io/spiketools/api.html>`_:
+  which lists and describes everything available in the module
+- `Glossary <https://spiketools.github.io/spiketools/glossary.html>`_:
+  which defines key terms used in the module
 
 If you have a question about using ``spiketools`` that doesn't seem to be covered by the documentation, feel free to
 open an `issue <https://github.com/spiketools/spiketools/issues>`_ and ask!
@@ -80,8 +83,10 @@ It has the following required dependencies:
 
 There are also optional dependencies, that offer extra functionality:
 
-- `statsmodels <https://github.com/statsmodels/statsmodels>`_ is needed for some statistical measures, for example ANOVAs
-- `pytest <https://github.com/pytest-dev/pytest>`_ is needed to run the test suite locally
+- `statsmodels <https://github.com/statsmodels/statsmodels>`_
+  is needed for some statistical measures, for example ANOVAs
+- `pytest <https://github.com/pytest-dev/pytest>`_
+  is needed to run the test suite locally
 
 We recommend using the `Anaconda <https://www.anaconda.com/distribution/>`_ distribution to manage these requirements.
 
@@ -135,8 +140,9 @@ If you use this code in your project, please cite:
 
 .. code-block:: text
 
-    Donoghue, T., Maesta-Pereira, S., Han C. Z., Qasim, S. E., & Jacobs, J. (2023) spiketools: A Python package for
-    analyzing single-unit neural activity. Journal of Open Source Software, 8(91), 5268. DOI: 10.21105/joss.05268
+    Donoghue, T., Maesta-Pereira, S., Han C. Z., Qasim, S. E., & Jacobs, J. (2023)
+    spiketools: A Python package for analyzing single-unit neural activity.
+    Journal of Open Source Software, 8(91), 5268. DOI: 10.21105/joss.05268
 
 Direct Link: https://doi.org/10.21105/joss.05268
 
@@ -153,8 +159,10 @@ To file bug reports and/or ask questions about this project, please use the
 
 To see and get involved in discussions about the module, check out:
 
-- the `issues board <https://github.com/spiketools/spiketools/issues>`_ for topics relating to code updates, bugs, and fixes
-- the `development page <https://github.com/spiketools/Development>`_ for discussion of potential major updates to the module
+- the `issues board <https://github.com/spiketools/spiketools/issues>`_
+  for topics relating to code updates, bugs, and fixes
+- the `development page <https://github.com/spiketools/Development>`_
+  for discussion of potential major updates to the module
 
 When interacting with this project, please use the
 `contribution guidelines <https://github.com/spiketools/spiketools/blob/main/CONTRIBUTING.md>`_
