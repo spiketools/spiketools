@@ -80,6 +80,7 @@ pygments_style = 'sphinx'
 # Settings for sphinx_copybutton
 copybutton_prompt_text = "$ "
 
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.
@@ -97,7 +98,7 @@ html_theme_options = {
         ("API", "api"),
         ("Glossary", "glossary"),
         ("Tutorials", "auto_tutorials/index"),
-        #("Reference", "reference"),
+        ("Reference", "reference"),
         ("GitHub", "https://github.com/spiketools/spiketools", True),
     ],
 
