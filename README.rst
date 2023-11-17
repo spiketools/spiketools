@@ -135,12 +135,12 @@ If you use this code in your project, please cite:
 
 .. code-block:: text
 
-    Donoghue, T., Maesta-Pereira, S., Han C. Z., Qasim, S. E., & Jacobs, J. (2023) spiketools: A Python package for 
+    Donoghue, T., Maesta-Pereira, S., Han C. Z., Qasim, S. E., & Jacobs, J. (2023) spiketools: A Python package for
     analyzing single-unit neural activity. Journal of Open Source Software, 8(91), 5268. DOI: 10.21105/joss.05268
 
 Direct Link: https://doi.org/10.21105/joss.05268
 
-For bibtex citation information, see the
+For citation information, see also the
 `citation file <https://github.com/spiketools/spiketools/blob/main/CITATION.cff>`_.
 
 Contribute
