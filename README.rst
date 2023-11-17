@@ -1,7 +1,7 @@
 spiketools
 ==========
 
-|ProjectStatus|_ |Version|_ |BuildStatus|_ |Coverage|_ |License|_ |PythonVersions|_
+|ProjectStatus|_ |Version|_ |BuildStatus|_ |Coverage|_ |License|_ |PythonVersions|_ |Publication|_
 
 .. |ProjectStatus| image:: http://www.repostatus.org/badges/latest/active.svg
 .. _ProjectStatus: https://www.repostatus.org/#active
@@ -21,8 +21,8 @@ spiketools
 .. |PythonVersions| image:: https://img.shields.io/pypi/pyversions/spiketools.svg
 .. _PythonVersions: https://pypi.python.org/pypi/spiketools/
 
-.. |Publication| image:: XX
-.. _Publication: XX
+.. |Publication| image:: https://joss.theoj.org/papers/10.21105/joss.05268/status.svg
+.. _Publication: https://doi.org/10.21105/joss.05268
 
 ``spiketools`` is a collection of tools and utilities for analyzing spiking data.
 
@@ -127,6 +127,21 @@ To install an editable version, download the development version as above, and r
 .. code-block:: shell
 
     $ pip install -e .
+
+Reference
+---------
+
+If you use this code in your project, please cite:
+
+.. code-block:: text
+
+    Donoghue, T., Maesta-Pereira, S., Han C. Z., Qasim, S. E., & Jacobs, J. (2023) spiketools: A Python package for 
+    analyzing single-unit neural activity. Journal of Open Source Software, 8(91), 5268. DOI: 10.21105/joss.05268
+
+Direct Link: https://doi.org/10.21105/joss.05268
+
+For bibtex citation information, see the
+`citation file <https://github.com/spiketools/spiketools/blob/main/CITATION.cff>`_.
 
 Contribute
 ----------
