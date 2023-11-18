@@ -154,7 +154,7 @@ which spikes occur. By convention, spiketools encodes all spike times in seconds
 <span class="nb">print</span><span class="p">(</span><span class="n">spike_times</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.03595045 0.04522784 0.12229818 0.1744196  0.18524317]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.02421029 0.02552167 0.04249046 0.14786901 0.18236396]
 </pre></div>
 </div>
 <p>Now we can convert our simulated spike times to a binary spike train.</p>
@@ -176,8 +176,8 @@ as well as a raster plot of the spike times.</p>
 <a href="../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters" title="spiketools.plts.trials.plot_rasters" class="sphx-glr-backref-module-spiketools-plts-trials sphx-glr-backref-type-py-function"><span class="n">plot_rasters</span></a><span class="p">(</span><span class="n">spike_times</span><span class="p">[</span><span class="n">spike_times</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Raster of spike times&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_measures_001.png" srcset="../_images/sphx_glr_plot_measures_001.png" alt="Raster of spike times" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Spike times: []
-Corresponding spike train: [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+<img src="../_images/sphx_glr_plot_measures_001.png" srcset="../_images/sphx_glr_plot_measures_001.png" alt="Raster of spike times" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Spike times: [0.02421029]
+Corresponding spike train: [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1]
 </pre></div>
 </div>
 <p>The inverse conversion, of converting a spike train to spike times, can be done with the
@@ -217,7 +217,7 @@ from a vector of spike times.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The firing rate is </span><span class="si">{:1.3f}</span><span class="s1"> Hz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">firing_rate</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The firing rate is 23.232 Hz
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The firing rate is 26.162 Hz
 </pre></div>
 </div>
 <p>To compute the inter-spike intervals, which measures the time intervals between
@@ -237,7 +237,7 @@ successive spikes, we can use the <a class="reference internal" href="../generat
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Coefficient of variation: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cv</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Coefficient of variation: 0.859
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Coefficient of variation: 0.968
 </pre></div>
 </div>
 <p>Finally, we can compute the fano factor, which is another measure of the variability
@@ -248,7 +248,7 @@ of spiking activity, computed from the spike train.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fano factor: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fano</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Fano factor: 0.977
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Fano factor: 0.974
 </pre></div>
 </div>
 </section>
@@ -337,8 +337,8 @@ using the <a class="reference internal" href="../generated/spiketools.measures.t
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average FR post-event: </span><span class="si">{:1.3f}</span><span class="s1"> Hz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pre_post_avg</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 4.733 Hz
-Average FR post-event: 9.467 Hz
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Average FR pre-event: 4.533 Hz
+Average FR post-event: 10.133 Hz
 </pre></div>
 </div>
 <p>We can also compute the difference between the firing rates before and after the event,
@@ -350,14 +350,14 @@ with the <a class="reference internal" href="../generated/spiketools.measures.tr
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Difference between pre- and post-event FR: </span><span class="si">{:1.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pre_post_diffs</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Difference between pre- and post-event FR: 4.733
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Difference between pre- and post-event FR: 5.600
 </pre></div>
 </div>
 </section>
 <section id="conclusion">
 <h3>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">¶</a></h3>
 <p>In this tutorial, we covered measures and conversions available in the spiketools module.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.696 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.587 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-plot-measures-py">
 <div class="binder-badge docutils container">
 <a class="reference external image-reference" href="https://mybinder.org/v2/gh/spiketools/spiketools/gh-pages?filepath=notebooks/auto_tutorials/plot_measures.ipynb"><img alt="Launch binder" src="../_images/binder_badge_logo.svg" width="150px" /></a>
