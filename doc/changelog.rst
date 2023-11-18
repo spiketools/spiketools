@@ -11,6 +11,11 @@ for minor releases, see the `release page <https://github.com/spiketools/spiketo
 
 The 0.X.X series is the initial and current release series.
 
+0.2.0
+~~~~~
+
+The 0.2.0 release is a minor update in the 0.X.X series, with minor updates and bug fixes from the prior release.
+
 0.1.0
 ~~~~~
 

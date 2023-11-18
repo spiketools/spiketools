@@ -25,7 +25,7 @@ Direct Link: https://doi.org/10.21105/joss.05268
 Referencing Specific Methods
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In some cases, a method or process available in spiketools may be a re-implementation
+In some cases, a method or process available in `spiketools` may be a re-implementation
 that has a specific source and reference point, in which case the original should
 also be cited. In such cases, there will be a 'Reference' section in the function
 documentation, providing a reference to cite.
