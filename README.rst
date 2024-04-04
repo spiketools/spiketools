@@ -1,28 +1,35 @@
 spiketools
 ==========
 
-|ProjectStatus|_ |Version|_ |BuildStatus|_ |Coverage|_ |License|_ |PythonVersions|_ |Publication|_
+|ProjectStatus| |Version| |BuildStatus| |Coverage| |License| |PythonVersions| |Publication|
 
 .. |ProjectStatus| image:: http://www.repostatus.org/badges/latest/active.svg
-.. _ProjectStatus: https://www.repostatus.org/#active
+   :target: https://www.repostatus.org/#active
+   :alt: project status
 
 .. |Version| image:: https://img.shields.io/pypi/v/spiketools.svg
-.. _Version: https://pypi.python.org/pypi/spiketools/
+   :target: https://pypi.python.org/pypi/spiketools/
+   :alt: version
 
 .. |BuildStatus| image:: https://github.com/spiketools/SpikeTools/actions/workflows/build.yml/badge.svg
-.. _BuildStatus: https://github.com/spiketools/SpikeTools/actions/workflows/build.yml
+   :target: https://github.com/spiketools/SpikeTools/actions/workflows/build.yml
+   :alt: build statue
 
 .. |Coverage| image:: https://codecov.io/gh/spiketools/spiketools/branch/main/graph/badge.svg
-.. _Coverage: https://codecov.io/gh/spiketools/spiketools
+   :target: https://codecov.io/gh/spiketools/spiketools
+   :alt: coverage
 
 .. |License| image:: https://img.shields.io/pypi/l/spiketools.svg
-.. _License: https://opensource.org/licenses/Apache-2.0
+   :target: https://opensource.org/licenses/Apache-2.0
+   :alt: license
 
 .. |PythonVersions| image:: https://img.shields.io/pypi/pyversions/spiketools.svg
-.. _PythonVersions: https://pypi.python.org/pypi/spiketools/
+   :target: https://pypi.python.org/pypi/spiketools/
+   :alt: python versions
 
 .. |Publication| image:: https://joss.theoj.org/papers/10.21105/joss.05268/status.svg
-.. _Publication: https://doi.org/10.21105/joss.05268
+   :target: https://doi.org/10.21105/joss.05268
+   :alt: publication
 
 ``spiketools`` is a collection of tools and utilities for analyzing spiking data.
 
