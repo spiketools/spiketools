@@ -13,17 +13,20 @@ from spiketools.plts.trials import *
 @plot_test
 def test_plot_rasters():
 
-    data0 = [-0.5, -0.25, 0.250, 1.0]
-    data1 = [[-0.75, -0.30, 0.125, 0.250, 0.750],
-             [-0.50, -0.40, -0.50, 0.10, 0.125, 0.50, 0.80],
-             [-0.85, -0.50, -0.25, 0.10, 0.40, 0.750, 0.950]]
-    data2 = [data1, [[-0.40, 0.15, 0.50], [-0.50, 0.25, 0.80]]]
+    d_one_trial = [-0.5, -0.25, 0.250, 1.0]
+    d_multi_trial1 = [[-0.75, -0.30, 0.125, 0.250, 0.750],
+                      [-0.50, -0.40, -0.50, 0.10, 0.125, 0.50, 0.80],
+                      [-0.85, -0.50, -0.25, 0.10, 0.40, 0.750, 0.950]]
+    d_multi_trial2 = [[-0.40, 0.15, 0.50],
+                      [-0.50, 0.25, 0.80]]
 
-    plot_rasters(data0, file_path=TEST_PLOTS_PATH, file_name='tplot_rasters0.png')
-    plot_rasters(data1, file_path=TEST_PLOTS_PATH, file_name='tplot_rasters1.png')
-    plot_rasters(data2, colors=['blue', 'red'],
+    plot_rasters(d_one_trial, file_path=TEST_PLOTS_PATH, file_name='tplot_rasters0.png')
+    plot_rasters(d_multi_trial1, file_path=TEST_PLOTS_PATH, file_name='tplot_rasters1.png')
+    plot_rasters([d_multi_trial1, d_multi_trial2], colors=['blue', 'red'],
                  file_path=TEST_PLOTS_PATH, file_name='tplot_rasters2.png')
-
+    plot_rasters({'d0' : d_multi_trial1, 'd1' : d_multi_trial2},
+                 colors={'d0' : 'blue', 'd1' : 'red'},
+                 file_path=TEST_PLOTS_PATH, file_name='tplot_rasters3.png')
 
 @plot_test
 def test_plot_rate_by_time():

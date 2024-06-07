@@ -20,14 +20,15 @@ def plot_rasters(spikes, vline=None, colors=None, vshade=None,
 
     Parameters
     ----------
-    spikes : list of list of float
+    spikes : list of list of float or dict
         Spike times per trial.
-        Multiple conditions can also be passed in.
+        Multiple conditions can also be passed in, as dictionary key labels and spike values.
     vline : float or list of float, optional
         Location(s) to draw a vertical line. If None, no line is drawn.
-    colors : str or list of str, optional
+    colors : str or list of str or dict, optional
         Color(s) to plot the raster ticks.
         If more than one, should match the number of conditions.
+        If a dictionary, the labels should match the spike condition labels.
     vshade : list of float or list of list of float, optional
         Vertical region(s) of the plot to shade in.
     show_axis : bool, optional, default: False
@@ -43,6 +44,13 @@ def plot_rasters(spikes, vline=None, colors=None, vshade=None,
 
     custom_kwargs = ['line_color', 'line_lw', 'line_alpha', 'shade_color', 'shade_alpha']
     custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
+
+    if isinstance(spikes, dict):
+        spike_keys = list(spikes.keys())
+        spikes = list(spikes.values())
+        if isinstance(colors, dict):
+            assert list(colors.keys()) == spike_keys, 'Colors do not match spike labels.'
+            colors = list(colors.values())
 
     # This process infers whether there is are embedded lists of multiple conditions
     check = False
