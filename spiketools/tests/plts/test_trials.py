@@ -47,6 +47,24 @@ def test_plot_rate_by_time():
                       colors = {'c0' : 'red', 'c1' : 'blue'},
                       file_path=TEST_PLOTS_PATH, file_name='tplot_time_rates3.png')
 
+
+def test_plot_raster_and_rates():
+
+    trial_spikes = [[-0.75, -0.30, 0.125, 0.250, 0.750],
+                    [-0.50, -0.40, -0.50, 0.10, 0.125, 0.50, 0.80],
+                    [-0.85, -0.50, -0.25, 0.10, 0.40, 0.750, 0.950],
+                    [-0.40, 0.15, 0.50],
+                    [-0.50, 0.25, 0.80]]
+    trial_spikes = [np.array(el) for el in trial_spikes]
+
+    plot_raster_and_rates(trial_spikes, 0.5, [-1, 1],
+                          file_path=TEST_PLOTS_PATH, file_name='tplot_raster_rates1.png')
+
+    plot_raster_and_rates(trial_spikes, 0.5, [-1, 1],
+                          conditions=['l', 'r', 'l', 'r', 'l'],
+                          colors={'l' : 'red', 'r' : 'blue'},
+                          file_path=TEST_PLOTS_PATH, file_name='tplot_raster_rates2.png')
+
 def test_create_raster_title():
 
     title1 = create_raster_title('label1', 1.0, 2.0)

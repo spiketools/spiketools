@@ -145,7 +145,9 @@ def extract_conditions_dict(data, metadata=None):
         labels = list(data.keys())
         data = list(data.values())
         if isinstance(metadata, dict):
-            assert list(metadata.keys()) == labels, 'Condition labels do not match.'
+            assert set(labels) == set(metadata.keys()), 'Condition labels do not match.'
+            # This sorts the metadata dictionary to ensure it matches order of the data
+            metadata = dict(sorted(metadata.items(), key=lambda items: labels.index(items[0])))
             metadata = list(metadata.values())
 
     return data, metadata
