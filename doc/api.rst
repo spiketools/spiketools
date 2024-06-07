@@ -418,6 +418,7 @@ Plots for trial-epoched data.
 
    plot_rasters
    plot_rate_by_time
+   plot_raster_and_rates
    create_raster_title
 
 Stats
