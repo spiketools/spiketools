@@ -234,7 +234,8 @@ def plot_raster_and_rates(spikes, bins, time_range, conditions=None, colors=None
 
     plot_rate_by_time(tbins, trial_frs, average='mean', shade='sem',
                       **rate_kwargs, colors=colors, ax=axes[1])
-    axes[1].spines[['right', 'top']].set_visible(False)
+    for side in ['right', 'top']:
+        axes[1].spines[side].set_visible(False)
 
     # Add vertical line across axes
     line_kwargs = {
