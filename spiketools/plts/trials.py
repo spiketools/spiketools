@@ -22,7 +22,8 @@ def plot_rasters(spikes, vline=None, colors=None, vshade=None,
     ----------
     spikes : list of list of float or dict
         Spike times per trial.
-        Multiple conditions can also be passed in, as dictionary key labels and spike values.
+        Multiple conditions can also be passed in.
+        If dict, each key is a condition label and each value the list of list of spikes times.
     vline : float or list of float, optional
         Location(s) to draw a vertical line. If None, no line is drawn.
     colors : str or list of str or dict, optional
@@ -49,7 +50,7 @@ def plot_rasters(spikes, vline=None, colors=None, vshade=None,
         spike_keys = list(spikes.keys())
         spikes = list(spikes.values())
         if isinstance(colors, dict):
-            assert list(colors.keys()) == spike_keys, 'Colors do not match spike labels.'
+            assert list(colors.keys()) == spike_keys, 'Colors do not match condition labels.'
             colors = list(colors.values())
 
     # This process infers whether there is are embedded lists of multiple conditions
@@ -98,19 +99,21 @@ def plot_rate_by_time(bin_times, trial_cfrs, average=None, shade=None, vline=Non
     ----------
     bin_times : 1d array
         Values of the time bins, to be plotted on the x-axis.
-    trial_cfrs : list of array
+    trial_cfrs : list of array or dict
         Continuous firing rate values, to be plotted on the y-axis.
         If each array is 1d values are plotted directly.
         If 2d, is to be averaged before plotting.
+        If dict, each key is a condition label and each value the array of firing rates.
     average : {'mean', 'median'}, optional
         Averaging to apply to firing rate activity before plotting.
     shade : {'sem', 'std'} or list of array, optional
         Measure of variance to compute and/or plot as shading.
     vline : float or list of float, optional
         Location(s) to draw a vertical line. If None, no line is drawn.
-    colors : str or list of str, optional
+    colors : str or list of str or dict, optional
         Color(s) to plot the firing rates.
         If more than one, should match the number of conditions.
+        If a dictionary, the labels should match the spike condition labels.
     labels : list of str, optional
         Labels for each set of y-values.
         If provided, a legend is added to the plot.
@@ -129,6 +132,13 @@ def plot_rate_by_time(bin_times, trial_cfrs, average=None, shade=None, vline=Non
 
     custom_kwargs = ['shade_alpha', 'legend_loc','line_color', 'line_lw', 'line_alpha']
     custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
+
+    if isinstance(trial_cfrs, dict):
+        cfrs_keys = list(trial_cfrs.keys())
+        trial_cfrs = list(trial_cfrs.values())
+        if isinstance(colors, dict):
+            assert list(colors.keys()) == cfrs_keys, 'Colors do not match condition labels.'
+            colors = list(colors.values())
 
     # If not a list of arrays, embed in a list to allow for looping (to support multiple inputs)
     if not isinstance(trial_cfrs[0], np.ndarray):
@@ -170,6 +180,8 @@ def plot_rate_by_time(bin_times, trial_cfrs, average=None, shade=None, vline=Non
     if stats:
         add_significance(stats, sig_level=sig_level, ax=ax)
 
+
+## Trial plot utilities
 
 def create_raster_title(label, avg_pre, avg_post, t_val=None, p_val=None):
     """Create a standardized title for an event-related raster plot.

@@ -24,8 +24,8 @@ def test_plot_rasters():
     plot_rasters(d_multi_trial1, file_path=TEST_PLOTS_PATH, file_name='tplot_rasters1.png')
     plot_rasters([d_multi_trial1, d_multi_trial2], colors=['blue', 'red'],
                  file_path=TEST_PLOTS_PATH, file_name='tplot_rasters2.png')
-    plot_rasters({'d0' : d_multi_trial1, 'd1' : d_multi_trial2},
-                 colors={'d0' : 'blue', 'd1' : 'red'},
+    plot_rasters({'c0' : d_multi_trial1, 'c1' : d_multi_trial2},
+                 colors={'c0' : 'blue', 'c1' : 'red'},
                  file_path=TEST_PLOTS_PATH, file_name='tplot_rasters3.png')
 
 @plot_test
@@ -41,6 +41,11 @@ def test_plot_rate_by_time():
     plot_rate_by_time(x_vals, [y_vals1, y_vals2], average='median', shade='sem',
                       labels=['A', 'B'], stats=[0.5, 0.01, 0.5, 0.01, 0.5],
                       file_path=TEST_PLOTS_PATH, file_name='tplot_time_rates2.png')
+
+    plot_rate_by_time(x_vals, {'c0' : y_vals1, 'c1' : y_vals2},
+                      average='median', shade='sem',
+                      colors = {'c0' : 'red', 'c1' : 'blue'},
+                      file_path=TEST_PLOTS_PATH, file_name='tplot_time_rates3.png')
 
 def test_create_raster_title():
 
