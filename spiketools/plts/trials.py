@@ -3,6 +3,7 @@
 import numpy as np
 
 from spiketools.utils.base import flatten
+from spiketools.utils.trials import extract_conditions_dict
 from spiketools.utils.options import get_avg_func, get_var_func
 from spiketools.plts.settings import DEFAULT_COLORS
 from spiketools.plts.annotate import add_vlines, add_vshades, add_significance
@@ -46,12 +47,8 @@ def plot_rasters(spikes, vline=None, colors=None, vshade=None,
     custom_kwargs = ['line_color', 'line_lw', 'line_alpha', 'shade_color', 'shade_alpha']
     custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
 
-    if isinstance(spikes, dict):
-        spike_keys = list(spikes.keys())
-        spikes = list(spikes.values())
-        if isinstance(colors, dict):
-            assert list(colors.keys()) == spike_keys, 'Colors do not match condition labels.'
-            colors = list(colors.values())
+    # Check and unpack condition data, if provided as a dictionary input
+    spikes, colors = extract_conditions_dict(spikes, colors)
 
     # This process infers whether there is are embedded lists of multiple conditions
     check = False
@@ -133,12 +130,8 @@ def plot_rate_by_time(bin_times, trial_cfrs, average=None, shade=None, vline=Non
     custom_kwargs = ['shade_alpha', 'legend_loc','line_color', 'line_lw', 'line_alpha']
     custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
 
-    if isinstance(trial_cfrs, dict):
-        cfrs_keys = list(trial_cfrs.keys())
-        trial_cfrs = list(trial_cfrs.values())
-        if isinstance(colors, dict):
-            assert list(colors.keys()) == cfrs_keys, 'Colors do not match condition labels.'
-            colors = list(colors.values())
+    # Check and unpack condition data, if provided as a dictionary input
+    trial_cfrs, colors = extract_conditions_dict(trial_cfrs, colors)
 
     # If not a list of arrays, embed in a list to allow for looping (to support multiple inputs)
     if not isinstance(trial_cfrs[0], np.ndarray):
