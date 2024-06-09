@@ -20,13 +20,20 @@ def test_plot_rasters():
     d_multi_trial2 = [[-0.40, 0.15, 0.50],
                       [-0.50, 0.25, 0.80]]
 
-    plot_rasters(d_one_trial, file_path=TEST_PLOTS_PATH, file_name='tplot_rasters0.png')
-    plot_rasters(d_multi_trial1, file_path=TEST_PLOTS_PATH, file_name='tplot_rasters1.png')
+    plot_rasters(d_one_trial,
+                 file_path=TEST_PLOTS_PATH, file_name='tplot_rasters0.png')
+    plot_rasters(d_multi_trial1,
+                 file_path=TEST_PLOTS_PATH, file_name='tplot_rasters1.png')
     plot_rasters([d_multi_trial1, d_multi_trial2], colors=['blue', 'red'],
                  file_path=TEST_PLOTS_PATH, file_name='tplot_rasters2.png')
     plot_rasters({'c0' : d_multi_trial1, 'c1' : d_multi_trial2},
                  colors={'c0' : 'blue', 'c1' : 'red'},
                  file_path=TEST_PLOTS_PATH, file_name='tplot_rasters3.png')
+    plot_rasters(d_multi_trial1, events=[0.5, 0.6, 0.4],
+                 file_path=TEST_PLOTS_PATH, file_name='tplot_rasters4.png')
+    plot_rasters([d_multi_trial1, d_multi_trial2],
+                 events=[[0.25, 0.5], [0.6], [0.4], [0.6], [0.5]],
+                 file_path=TEST_PLOTS_PATH, file_name='tplot_rasters5.png')
 
 @plot_test
 def test_plot_rate_by_time():

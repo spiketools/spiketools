@@ -17,7 +17,7 @@ from spiketools.plts.style import set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_rasters(spikes, vline=None, colors=None, vshade=None,
+def plot_rasters(spikes, events=None, vline=None, colors=None, vshade=None,
                  show_axis=False, ax=None, **plt_kwargs):
     """Plot rasters across multiple trials.
 
@@ -27,6 +27,8 @@ def plot_rasters(spikes, vline=None, colors=None, vshade=None,
         Spike times per trial.
         Multiple conditions can also be passed in.
         If dict, each key is a condition label and each value the list of list of spikes times.
+    events : list
+        Events to indicate on the raster plot. Should have length of number of trials.
     vline : float or list of float, optional
         Location(s) to draw a vertical line. If None, no line is drawn.
     colors : str or list of str or dict, optional
@@ -41,12 +43,17 @@ def plot_rasters(spikes, vline=None, colors=None, vshade=None,
         Axis object upon which to plot.
     plt_kwargs
         Additional arguments to pass into the plot function.
-        Custom kwargs: 'line_color', 'line_lw', 'line_alpha', 'shade_color', 'shade_alpha'.
+        Custom kwargs:
+            line: 'line_color', 'line_lw', 'line_alpha'
+            shade: 'shade_color', 'shade_alpha'
+            events: 'event_color', 'event_linewidths', 'event_linelengths'
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    custom_kwargs = ['line_color', 'line_lw', 'line_alpha', 'shade_color', 'shade_alpha']
+    custom_kwargs = ['line_color', 'line_lw', 'line_alpha',
+                     'shade_color', 'shade_alpha',
+                     'event_color', 'event_linewidths', 'event_linelengths']
     custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
 
     # Check and unpack condition data, if provided as a dictionary input
@@ -75,6 +82,15 @@ def plot_rasters(spikes, vline=None, colors=None, vshade=None,
         spikes = flatten(spikes)
 
     ax.eventplot(spikes, colors=colors, **plt_kwargs)
+
+    # If provided, add events to plot
+    if events is not None:
+        if isinstance(events[0], float):
+            events = [[el] for el in events]
+        ax.eventplot(events,
+                     color=custom_plt_kwargs.pop('event_color', 'red'),
+                     linelengths=custom_plt_kwargs.pop('event_linelengths', 1.25),
+                     linewidths=custom_plt_kwargs.pop('event_linewidths', 3));
 
     add_vlines(vline, ax, zorder=0,
                color=custom_plt_kwargs.pop('line_color', 'green'),
