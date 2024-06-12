@@ -117,3 +117,37 @@ def recombine_trial_data(times_trials, values_trials, axis=None):
     values = np.concatenate(values_trials, axis=check_axis(axis, values_trials[0]))
 
     return times, values
+
+
+def extract_conditions_dict(data, metadata=None):
+    """Extract a dictionary of data organized by condition into a list condition data.
+
+    Parameters
+    ----------
+    data : dict or object
+        A dictionary of
+        If not a dictionary, is returned as is.
+    metadata : dict or object
+        Dictionary of related metadata for the conditions.
+        If a dictonary, should have the same labels as `data`.
+        If not a dictionary, is returned as is.
+
+    Returns
+    -------
+    data : list
+        Extracted condition data.
+    metadata : list
+        Extracted condition metadata.
+        Only extracted if metadata input is not None.
+    """
+
+    if isinstance(data, dict):
+        labels = list(data.keys())
+        data = list(data.values())
+        if isinstance(metadata, dict):
+            assert set(labels) == set(metadata.keys()), 'Condition labels do not match.'
+            # This sorts the metadata dictionary to ensure it matches order of the data
+            metadata = dict(sorted(metadata.items(), key=lambda items: labels.index(items[0])))
+            metadata = list(metadata.values())
+
+    return data, metadata

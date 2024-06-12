@@ -180,7 +180,8 @@ def make_axes(n_axes, n_cols=5, figsize=None, row_size=4, col_size=3.6,
 
     if title:
         plt.suptitle(title,
-                     fontsize=title_kwargs.pop('title_fontsize', 24),
+                     fontsize=title_kwargs.pop('fontsize', 24),
+                     y=title_kwargs.pop('y', 0.95),
                      **title_kwargs)
 
     return axes.flatten()
@@ -206,8 +207,8 @@ def make_grid(nrows, ncols, title=None, **plt_kwargs):
 
     if title:
         plt.suptitle(title,
-                     fontsize=title_kwargs.pop('title_fontsize', 24),
-                     y=title_kwargs.pop('title_y', 0.95),
+                     fontsize=title_kwargs.pop('fontsize', 24),
+                     y=title_kwargs.pop('y', 0.95),
                      **title_kwargs)
 
     return grid

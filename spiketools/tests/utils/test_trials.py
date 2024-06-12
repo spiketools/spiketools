@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from pytest import raises
+
 from spiketools.utils.trials import *
 
 ###################################################################################################
@@ -68,3 +70,23 @@ def test_recombine_trial_data():
     times_missing, values_missing = recombine_trial_data(trial_times_missing, trial_values_missing)
     assert np.array_equal(times_missing, expected_times)
     assert np.array_equal(values_missing, np.array([10, 11, 12, 1, 2]))
+
+def test_extract_conditions_dict():
+
+    d0 = np.array([1, 2, 3, 4])
+    d1 = np.array([5, 6, 7, 8])
+    cond_dict = {'d0' : d0, 'd1' : d1}
+
+    out1, _ = extract_conditions_dict(cond_dict, None)
+    assert isinstance(out1, list)
+    assert np.array_equal(out1[0], d0)
+    assert np.array_equal(out1[1], d1)
+
+    colors = {'d0' : 'red', 'd1' : 'blue'}
+    out2, colors2 = extract_conditions_dict(cond_dict, colors)
+    assert isinstance(out2, list)
+    assert isinstance(colors2, list)
+    assert colors2 == list(colors.values())
+
+    with raises(AssertionError):
+        out3, colors3 = extract_conditions_dict(cond_dict, {'d1' : 'k', 'd2' : 'b'})
