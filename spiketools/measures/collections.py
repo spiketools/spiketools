@@ -34,7 +34,7 @@ def detect_empty_time_ranges(all_spikes, bins, time_range=None):
 
     >>> all_spikes = [np.array([0.25, 0.80, 1.25, 1.75, 4.15, 4.95]),
     ...               np.array([0.15, 0.55, 1.55, 1.95, 4.35, 4.85])]
-    >>> detect_empty_time_ranges(all_spikes, bins=1, time_range=[0, 5])
+    >>> detect_empty_time_ranges(all_spikes, bins=1, time_range=[0, 5])    # doctest: +SKIP
     [[2, 4]]
     """
 

@@ -34,7 +34,7 @@ def compute_distance(p1, p2):
 
     >>> p1 = [1, 6]
     >>> p2 = [5, 9]
-    >>> compute_distance(p1, p2)
+    >>> float(compute_distance(p1, p2))
     5.0
     """
 
@@ -206,7 +206,7 @@ def get_closest_position(position, location, threshold=None):
 
     distances = compute_distances_to_location(position, location)
 
-    min_ind = np.argmin(distances)
+    min_ind = int(np.argmin(distances))
 
     if threshold:
         if distances[min_ind] > threshold:
