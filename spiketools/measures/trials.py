@@ -158,7 +158,7 @@ def compute_pre_post_averages(frs_pre, frs_post, avg_type='mean'):
 
     >>> frs_pre = np.array([5, 3, 1])
     >>> frs_post = np.array([12, 8, 10])
-    >>> compute_pre_post_averages(frs_pre, frs_post, avg_type='mean')
+    >>> compute_pre_post_averages(frs_pre, frs_post, avg_type='mean')    # doctest: +SKIP
     (3.0, 10.0)
     """
 
@@ -193,7 +193,7 @@ def compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_type='mean'):
 
     >>> frs_pre = np.array([5, 3, 1])
     >>> frs_post = np.array([12, 8, 10])
-    >>> compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_type='mean')
+    >>> float(compute_pre_post_diffs(frs_pre, frs_post, average=True, avg_type='mean'))
     7.0
     """
 

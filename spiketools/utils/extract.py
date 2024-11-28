@@ -206,7 +206,7 @@ def get_ind_by_value(values, value, threshold=None):
     check_param_type(value, 'value', (int, float, np.int64, np.float64))
     assert not np.isnan(value), "The given `value` is nan - cannot continue."
 
-    ind = np.abs(values - value).argmin()
+    ind = int(np.abs(values - value).argmin())
 
     if threshold:
         if np.abs(values[ind] - value) > threshold:

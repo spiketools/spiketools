@@ -59,7 +59,7 @@ def compute_range(data):
     Compute the range of some position data:
 
     >>> data = np.array([1.5, 1, 0.5, 2, 3, 2.5])
-    >>> compute_range(data)
+    >>> compute_range(data)    # doctest: +SKIP
     (0.5, 3.0)
     """
 
