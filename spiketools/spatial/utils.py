@@ -132,7 +132,7 @@ def compute_bin_width(bin_edges):
     Compute bin width from an array of 5 bin edges:
 
     >>> bin_edges = [1.5, 3.5, 5.5, 7.5, 9.5]
-    >>> compute_bin_width(bin_edges)
+    >>> float(compute_bin_width(bin_edges))
     2.0
     """
 

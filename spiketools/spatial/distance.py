@@ -27,7 +27,7 @@ def compute_distance(p1, p2):
     Compute distance between two 1d positions:
 
     >>> p1, p2 = [2], [5]
-    >>> compute_distance(p1, p2)
+    >>> float(compute_distance(p1, p2))
     3.0
 
     Compute distance between the two 2d positions:
