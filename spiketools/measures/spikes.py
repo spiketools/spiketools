@@ -28,7 +28,7 @@ def compute_firing_rate(spikes, time_range=None):
     Compute spike rate from spike times:
 
     >>> spikes = np.array([0.5, 1, 1.5, 2, 2.5, 3])
-    >>> compute_firing_rate(spikes)
+    >>> float(compute_firing_rate(spikes))
     2.4
     """
 
@@ -86,7 +86,7 @@ def compute_cv(isis):
     Compute the coefficient of variation from interval-spike intervals:
 
     >>> isis = [0.3, 0.6, 0.6, 0.2, 0.7]
-    >>> compute_cv(isis)
+    >>> float(compute_cv(isis))
     0.4039733214513607
     """
 
@@ -111,7 +111,7 @@ def compute_fano_factor(spike_train):
     Compute the fano factor from a spike train:
 
     >>> spike_train = [0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0]
-    >>> compute_fano_factor(spike_train)
+    >>> float(compute_fano_factor(spike_train))
     0.5
     """
 
@@ -182,7 +182,7 @@ def compute_presence_ratio(spikes, bins, time_range=None):
     Compute the presence ratio from spike times:
 
     >>> spikes = np.array([0.25, 1.15, 1.75, 2.25, 2.75, 4.5])
-    >>> compute_presence_ratio(spikes, bins=1, time_range=[0, 5])
+    >>> float(compute_presence_ratio(spikes, bins=1, time_range=[0, 5]))
     0.8
     """
 
