@@ -46,7 +46,7 @@ def compute_trial_frs(trial_spikes, bins, time_range=None, smooth=None):
     >>> bins = 0.5
     >>> time_range = [0.0, 1.0]
     >>> bin_times, trial_cfrs = compute_trial_frs(trial_spikes, bins, time_range)
-    >>> trial_cfrs    # doctest: +SKIP
+    >>> trial_cfrs
     array([[6., 0.],
            [8., 2.],
            [4., 4.]])
@@ -85,7 +85,7 @@ def compute_pre_post_rates(trial_spikes, pre_window, post_window):
     ...                 np.array([-0.250, 0.275, 0.290, 0.3, 0.350, 0.6]),
     ...                 np.array([0.550, 0.650, 0.70, 0.9, 0.950])]
     >>> pre_window, post_window = [-0.5, 0.0], [0.5, 0.9]
-    >>> compute_pre_post_rates(trial_spikes, pre_window, post_window)    # doctest: +SKIP
+    >>> compute_pre_post_rates(trial_spikes, pre_window, post_window)
     (array([6., 2., 0.]), array([2.5, 2.5, 7.5]))
     """
 
