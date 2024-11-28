@@ -1,4 +1,4 @@
-"""spiketools setup script."""
+"""Setup script for spiketools."""
 
 import os
 from setuptools import setup, find_packages
@@ -44,12 +44,13 @@ setup(
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
     ],
     platforms = 'any',
     project_urls = {
         'Documentation' : 'https://spiketools.github.io/',
         'Bug Reports' : 'https://github.com/spiketools/spike/issues',
-        'Source' : 'https://github.com/spiketools/spiketools'
+        'Source' : 'https://github.com/spiketools/spiketools',
     },
     download_url = 'https://github.com/spiketools/spiketools/releases',
     keywords = ['neuroscience', 'single units', 'spike analyses', 'electrophysiology'],
