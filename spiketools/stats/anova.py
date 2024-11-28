@@ -170,7 +170,7 @@ def fit_anova(df, formula, feature=None, return_type='f_val', anova_type=2):
     >>> df = create_dataframe_bins(data)
     >>> formula = 'fr ~ C(bin)'
     >>> f_val = fit_anova(df, formula, feature='C(bin)', return_type='f_val', anova_type=1)
-    >>> round(f_val, 4)
+    >>> float(round(f_val, 4))
     0.4249
     """
 

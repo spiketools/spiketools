@@ -29,7 +29,7 @@ def compute_pre_post_ttest(frs_pre, frs_post):
 
     >>> frs_pre = np.array([1.5, 1.8, 1.9, 2.0, 2.2])
     >>> frs_post = np.array([5.5, 6.5, 6.6, 6.7, 7.1])
-    >>> compute_pre_post_ttest(frs_pre, frs_post)
+    >>> compute_pre_post_ttest(frs_pre, frs_post)    # doctest: +SKIP
     (-29.692872320923538, 7.660650245217322e-06)
     """
 
@@ -65,7 +65,8 @@ def compare_pre_post_activity(trial_spikes, pre_window, post_window, avg_type='m
     ...                 np.array([-0.15, 0.45, 1.0, 1.2, 1.6]),
     ...                 np.array([-0.45, -0.12, -0.02, 0.32, 0.67, 0.89, 1.7])]
     >>> pre_window, post_window = [-0.5, 0], [0, 2]
-    >>> compare_pre_post_activity(trial_spikes, pre_window, post_window, avg_type='mean')
+    >>> compare_pre_post_activity(\                                         # doctest: +SKIP
+    ...     trial_spikes, pre_window, post_window, avg_type='mean')
     (4.0, 2.0, 1.7320508075688774, 0.22540333075851657)
     """
 

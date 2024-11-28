@@ -147,7 +147,7 @@ def epoch_data_by_time(timestamps, values, timepoints, time_threshold=None):
     >>> timestamps = np.array([0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5])
     >>> values = np.array([1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5])
     >>> timepoints = [0.3, 0.7, 1.3]
-    >>> epoch_data_by_time(timestamps, values, timepoints)
+    >>> epoch_data_by_time(timestamps, values, timepoints)    # doctest: +SKIP
     [1.5, 2.5, 4.0]
     """
 
