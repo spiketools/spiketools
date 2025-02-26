@@ -65,8 +65,7 @@ def compare_pre_post_activity(trial_spikes, pre_window, post_window, avg_type='m
     ...                 np.array([-0.15, 0.45, 1.0, 1.2, 1.6]),
     ...                 np.array([-0.45, -0.12, -0.02, 0.32, 0.67, 0.89, 1.7])]
     >>> pre_window, post_window = [-0.5, 0], [0, 2]
-    >>> compare_pre_post_activity(\                                         # doctest: +SKIP
-    ...     trial_spikes, pre_window, post_window, avg_type='mean')
+    >>> compare_pre_post_activity(trial_spikes, pre_window, post_window, avg_type='mean')
     (4.0, 2.0, 1.7320508075688774, 0.22540333075851657)
     """
 
