@@ -59,7 +59,7 @@ def compute_surrogate_zscore(value, surrogates):
     >>> zscore = compute_surrogate_zscore(value, surrogates)
     """
 
-    return zmap(value, surrogates)[0]
+    return zmap(value, surrogates, axis=None)[0]
 
 
 def compute_surrogate_stats(data_value, surrogates, plot=False, verbose=False, **plt_kwargs):
