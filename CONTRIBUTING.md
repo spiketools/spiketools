@@ -38,7 +38,7 @@ We welcome all kinds of contributions to the project, including suggested featur
 If you have a new idea you would like to suggest or contribute, please do the following:
 
 1. Check if the idea is already being discussed on the
-   [issues](https://github.com/spiketools/spiketools/issues)
+   [issues](https://github.com/spiketools/spiketools/issues) page
 2. Check that your idea is within the [project scope](#project-scope)
 3. Open an [issue](https://github.com/spiketools/spiketools/issues) describing
    what you would like to see added / changed, and why
@@ -48,28 +48,28 @@ If you have a new idea you would like to suggest or contribute, please do the fo
 
 If you are interested in getting involved and helping with the project, a great place to start is to visit the
 [issues](https://github.com/spiketools/spiketools/issues) page
-and see if there is anything you would be interested in helping with. If so, join the conversation, and project developers can help get you started.
+and see if there is anything you would be interested in helping with.
+If so, join the conversation, and project developers can help get you started.
 
 ## Project Scope
 
 All contributions must be within the scope of the module.
 
-`spiketools` is a module for analyzing neural spiking data.
+`spiketools` is a module for analyzing neural spiking data. All analysis code in spiketools should operate on spike train and/or spike time data organized into arrays, and not presume any particular data files or organization. The module is primarily oriented around supporting analyses of single-neuron activity as recorded from human neuro-surgical patients. As such, it does not currently include population based analyses (though this could potentially be integrated in the future). `spiketools` does not include pre-processing, such as spike sorting.
 
 ## Making a Contribution
 
-If there is a feature you would like to add, or an issue you saw that you think you can help with, you are ready to make a submission to the project!
+If there is a feature you would like to add, or an issue you saw that you think you can help with, you are ready to make a submission to the project! If you are working on a feature, please indicate so in the relevant issue, so that we can keep track of who is working on what.
 
-If you are working on a feature, please indicate so in the relevant issue, so that we can keep track of who is working on what.
+All contributions are managed through Github.
+If you are ready to start working on a contribution, you should follow the Github
+[guidelines for contributing to a project](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project), which include forking the repository, making your suggested changes to the code, and then opening a pull request (PR) to suggest the code to the project.
 
-Once you're ready to start working on your contribution, do the following:
+Once you open a PR, developers will review the code. Please make sure to check and follow the
+[project conventions](#project-conventions) so that all new or updated code follows the guidelines.
 
-1. [Fork this repository](https://help.github.com/articles/fork-a-repo/), which makes your own version of this project you can edit
-2. [Make your changes](https://guides.github.com/activities/forking/#making-changes), updating or adding code to add the desired functionality
-3. [Check the project conventions](#project-conventions), and make sure all new or updated code follows the guidelines
-4. [Submit a pull request](https://help.github.com/articles/proposing-changes-to-a-project-with-pull-requests/), to start the process of merging the new code to the main branch
-
-If it's your first time contributing to open source software, check out this free resource on [how to contribute to an open-source project on GitHub](https://app.egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github).
+If it's your first time contributing to open source software, check out this free resource on
+[how to contribute to open-source projects on GitHub](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github).
 
 ## Project Conventions
 
@@ -116,9 +116,7 @@ All code contributed to the module should follow these conventions:
     * Any new functionality should be added and described in the tutorials and/or examples
         * If a new approach is added, a new tutorial or example may be appropriate
     * To build and check the documentation locally:
-        * Install the requirements for the docsite (`pip install -r requirements-doc.txt`)
+        * Install the requirements for the docsite (`pip install -r requirements-docs.txt`)
         * Move to the `spiketools/doc` directory (`cd doc`)
         * Run `make html` to create a local copy of the documentation website
         * The documentation can then be opened in a web browser by opening the file `spiketools/doc/_build/html/index.html`
-
-For more guidelines on how to write well formated and organized code, check out the [Python API Checklist](http://python.apichecklist.com).
