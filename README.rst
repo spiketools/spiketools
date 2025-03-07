@@ -8,7 +8,7 @@ spiketools
    :alt: project status
 
 .. |Version| image:: https://img.shields.io/pypi/v/spiketools.svg
-   :target: https://pypi.python.org/pypi/spiketools/
+   :target: https://pypi.org/project/spiketools/
    :alt: version
 
 .. |BuildStatus| image:: https://github.com/spiketools/SpikeTools/actions/workflows/build.yml/badge.svg
@@ -24,7 +24,7 @@ spiketools
    :alt: license
 
 .. |PythonVersions| image:: https://img.shields.io/pypi/pyversions/spiketools.svg
-   :target: https://pypi.python.org/pypi/spiketools/
+   :target: https://pypi.org/project/spiketools/
    :alt: python versions
 
 .. |Publication| image:: https://joss.theoj.org/papers/10.21105/joss.05268/status.svg
