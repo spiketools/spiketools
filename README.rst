@@ -3,7 +3,7 @@ spiketools
 
 |ProjectStatus| |Version| |BuildStatus| |Coverage| |License| |PythonVersions| |Publication|
 
-.. |ProjectStatus| image:: http://www.repostatus.org/badges/latest/active.svg
+.. |ProjectStatus| image:: https://www.repostatus.org/badges/latest/active.svg
    :target: https://www.repostatus.org/#active
    :alt: project status
 
@@ -20,7 +20,7 @@ spiketools
    :alt: coverage
 
 .. |License| image:: https://img.shields.io/pypi/l/spiketools.svg
-   :target: https://opensource.org/licenses/Apache-2.0
+   :target: https://opensource.org/license/apache-2-0
    :alt: license
 
 .. |PythonVersions| image:: https://img.shields.io/pypi/pyversions/spiketools.svg
@@ -94,8 +94,6 @@ There are also optional dependencies, that offer extra functionality:
   is needed for some statistical measures, for example ANOVAs
 - `pytest <https://github.com/pytest-dev/pytest>`_
   is needed to run the test suite locally
-
-We recommend using the `Anaconda <https://www.anaconda.com/distribution/>`_ distribution to manage these requirements.
 
 Installation
 ------------
