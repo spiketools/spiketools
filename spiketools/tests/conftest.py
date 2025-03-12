@@ -8,6 +8,8 @@ import numpy as np
 
 from spiketools.objects import Unit, Session
 from spiketools.utils import set_random_seed
+
+from spiketools.tests.tdata import get_tspikes
 from spiketools.tests.tsettings import BASE_TEST_FILE_PATH, TEST_PLOTS_PATH
 
 ###################################################################################################
@@ -32,11 +34,6 @@ def check_dir():
     os.mkdir(TEST_PLOTS_PATH)
 
 ## TEST OBJECTS
-
-def get_tspikes():
-
-    return np.array([0.5, 1.5, 2.0, 2.5, 3.0, 3.2, 3.7, 4.0, 4.2, 4.7,
-                     5.0, 5.7, 6.0, 7.0, 7.5, 8.0, 8.2, 8.7, 9.2, 9.9])
 
 @pytest.fixture(scope='session')
 def tspikes():
