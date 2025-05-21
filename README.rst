@@ -79,7 +79,7 @@ open an `issue <https://github.com/spiketools/spiketools/issues>`_ and ask!
 Dependencies
 ------------
 
-``spiketools`` is written in Python, and requires Python >= 3.6 to run.
+``spiketools`` is written in Python, and requires Python >= 3.7 to run.
 
 It has the following required dependencies:
 
