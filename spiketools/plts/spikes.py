@@ -70,6 +70,7 @@ def plot_waveform(waveform, timestamps=None, average=None, shade=None, add_trace
 
     if shade is not None:
         ax.fill_between(timestamps, waveform - shade, waveform + shade,
+                        color=ax.lines[0].get_color(),
                         alpha=custom_plt_kwargs.pop('shade_alpha', 0.25))
 
 
