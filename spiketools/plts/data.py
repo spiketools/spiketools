@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from spiketools.measures.circular import bin_circular
 from spiketools.utils.options import get_avg_func
-from spiketools.plts.annotate import add_vlines, add_text_labels
+from spiketools.plts.annotate import add_vlines, add_hlines, add_text_labels
 from spiketools.plts.utils import check_ax, savefig
 from spiketools.plts.style import set_plt_kwargs
 from spiketools.plts.settings import TEXT_SETTINGS
@@ -134,7 +134,8 @@ def plot_hist(data, bins=None, range=None, density=None,
 
 @savefig
 @set_plt_kwargs
-def plot_bar(data, labels=None, add_text=False, ax=None, **plt_kwargs):
+def plot_bar(data, labels=None, add_text=False, hline=None, hline_kwargs=None,
+             ax=None, **plt_kwargs):
     """Plot data in a bar graph.
 
     Parameters
@@ -145,6 +146,10 @@ def plot_bar(data, labels=None, add_text=False, ax=None, **plt_kwargs):
         Labels for the bar plot.
     add_text : bool, optional, default: False
         Whether to annotate the bars with text showing their numerical values.
+    hline : float, optional
+        Horizontal line to add to the plot.
+    hline_kwargs : dict, optional
+        Keyword arguments for drawing the horizontal line.
     ax : Axes, optional
         Axis object upon which to plot.
     plt_kwargs
@@ -158,6 +163,12 @@ def plot_bar(data, labels=None, add_text=False, ax=None, **plt_kwargs):
 
     ax.bar(labels, data, **plt_kwargs)
     ax.set(xlim=[-0.5, len(data)-0.5])
+
+    if hline:
+        hline_kwargs = {} if not hline_kwargs else hline_kwargs
+        if not hline_kwargs:
+            add_hlines(hline, ax=ax, linestyle=hline_kwargs.pop('linestyle', '--'),
+                       color=hline_kwargs.pop('color', 'black'), **hline_kwargs)
 
     if add_text:
         add_text_labels(data, axis='x', location=data, colors='white')
