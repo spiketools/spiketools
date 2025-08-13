@@ -1,6 +1,9 @@
 from spiketools.plts.utils import check_ax, get_kwargs, savefig
 from spiketools.plts.style import set_plt_kwargs
 
+###################################################################################################
+###################################################################################################
+
 @savefig
 @set_plt_kwargs
 def plot_firing_rate(data,ax=None,**plt_kwargs):

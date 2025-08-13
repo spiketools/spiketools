@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 from spiketools.plts.utils import check_ax
 from spiketools.plts.style import set_plt_kwargs
 
+###################################################################################################
+###################################################################################################
+
 @set_plt_kwargs
 def method_method_comparison(method_A, method_B, param_vals, color_map, cbar = True, ax=None,cbar_kwargs=None, vmin=None, vmax=None,    **plt_kwargs):
 
