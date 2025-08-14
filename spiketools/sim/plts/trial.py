@@ -51,8 +51,7 @@ def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, sha
         
     if isinstance(average, str):
         trial_placefield = get_avg_func(average)(trial_placefield, 0)
-        
-
+    
     xlabel = 'Time (s)'
     if spatial_bins is None:
         spatial_bins = np.arange(trial_placefield.shape[-1])

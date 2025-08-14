@@ -1,19 +1,11 @@
 import numpy as np
-import matplotlib.pyplot as plt
-
-from spiketools.plts.utils import make_grid,get_grid_subplot
-from spiketools.plts.style import drop_spines
-
-from placefield import sim_placefield,sim_skew_placefield,sim_multi_placefield,sim_multi_skew_placefield
-
-import sys
-sys.path.append('../code/plts')
-from trial import plot_trial_placefield
+from spiketools.sim.sim.placefield import sim_placefield, sim_skew_placefield, sim_multi_placefield, sim_multi_skew_placefield
 
 ###################################################################################################
 ###################################################################################################
 
-def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, plot=True, presence_ratio=0.6):
+def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std,
+ n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=0.6):
     """Simulate multiple trials of place fields with optional variability in height, width, and location.
     
     Parameters
@@ -94,25 +86,13 @@ def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_l
     # Calculate presence ratio if not provided (based on all trials, including empty)
     if presence_ratio is None:
         presence_ratio = np.mean(trial_placefield  > 0, axis=0)  # Fraction of non-zero values across trials for each bin
-
-    if plot:
-        grid = make_grid(1, 2, wspace=.5, hspace=1, figsize=(15, 5))
-
-        plt.rcParams.update({'font.size': 25})
-        ax = get_grid_subplot(grid,0, 0)
-        drop_spines(['top','right'],ax=ax)
-        plot_trial_placefield(trial_placefield,average='mean',add_traces = False,shade='sem',trace_cmap = 'Greys',ax=ax)
-        ax = get_grid_subplot(grid,0,1 )
-        plot_trial_placefield(trial_placefield,average='mean',add_traces = True,trace_cmap = 'Greys',ax=ax)
-        drop_spines(['top','right'],ax=ax)
-        
-
     return trial_placefield
 
 
 
 
-def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins, noise_std, base_mean, base_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True, plot=True, presence_ratio=1):
+def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins,
+ noise_std, base_mean, base_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True,  presence_ratio=1):
     """Simulate multiple trials of skewed place fields with optional variability in height, width, location, and skewness.
     
     Parameters
@@ -189,23 +169,11 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, pl
     # Calculate presence ratio if not provided (based on all trials, including empty)
     if presence_ratio is None:
         presence_ratio = np.mean(trial_placefield > 0, axis=0)  # Fraction of non-zero values across trials for each bin
-
-    if plot:
-        grid = make_grid(1, 2, wspace=.5, hspace=1, figsize=(15, 5))
-
-        plt.rcParams.update({'font.size': 25})
-        ax = get_grid_subplot(grid,0, 0)
-        drop_spines(['top','right'],ax=ax)
-        plot_trial_placefield(trial_placefield,average='mean',add_traces = False,shade='sem',trace_cmap = 'Greys',ax=ax)
-        ax = get_grid_subplot(grid,0,1 )
-        plot_trial_placefield(trial_placefield,average='mean',add_traces = True,trace_cmap = 'Greys',ax=ax)
-        drop_spines(['top','right'],ax=ax)
-        
-
     return trial_placefield
 
 
-def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, plot=True, presence_ratio=None):
+def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, 
+n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=None):
     """ Simulate multiple trials of multi-peak place fields with specified parameters
     
     Parameters
@@ -276,21 +244,11 @@ def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_wid
     # Calculate presence ratio if not provided (based on all trials, including empty)
     if presence_ratio is None:
         presence_ratio = np.mean(trial_placefields > 0, axis=0)  # Fraction of non-zero values across trials for each bin
-
-    if plot:
-        grid = make_grid(1, 2, wspace=.5, hspace=1, figsize=(15, 5))
-
-        plt.rcParams.update({'font.size': 25})
-        ax = get_grid_subplot(grid,0, 0)
-        drop_spines(['top','right'],ax=ax)
-        plot_trial_placefield(trial_placefields,average='mean',add_traces = False,shade='sem',trace_cmap = 'Greys',ax=ax)
-        ax = get_grid_subplot(grid,0,1 )
-        plot_trial_placefield(trial_placefields,average='mean',add_traces = True,trace_cmap = 'Greys',ax=ax)
-        drop_spines(['top','right'],ax=ax)
     return trial_placefields
 
 
-def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, n_place_loc_std, n_skewness_mean, n_skewness_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True, plot=True, presence_ratio=None):
+def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, n_place_loc_std, n_skewness_mean, n_skewness_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, 
+                                    vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True, presence_ratio=None):
     """ Simulate multiple trials of multi-peak place fields with specified parameters, including skewness variability
     
     Parameters
@@ -369,15 +327,4 @@ def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
     # Calculate presence ratio if not provided (based on all trials, including empty)
     if presence_ratio is None:
         presence_ratio = np.mean(trial_placefields > 0, axis=0)  # Fraction of non-zero values across trials for each bin
-
-    if plot:
-        grid = make_grid(1, 2, wspace=.5, hspace=1, figsize=(15, 5))
-
-        plt.rcParams.update({'font.size': 25})
-        ax = get_grid_subplot(grid,0, 0)
-        drop_spines(['top','right'],ax=ax)
-        plot_trial_placefield(trial_placefields,average='mean',add_traces = False,shade='sem',trace_cmap = 'Greys',ax=ax)
-        ax = get_grid_subplot(grid,0,1 )
-        plot_trial_placefield(trial_placefields,average='mean',add_traces = True,trace_cmap = 'Greys',ax=ax)
-        drop_spines(['top','right'],ax=ax)
     return trial_placefields

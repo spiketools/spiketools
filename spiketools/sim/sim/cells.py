@@ -1,4 +1,4 @@
-from trials import sim_trial_placefield, sim_skew_trial_placefield, sim_trial_multi_placefields, sim_trial_multi_skew_placefields
+from spiketools.sim.sim.trials import sim_trial_placefield, sim_skew_trial_placefield, sim_trial_multi_placefields, sim_trial_multi_skew_placefields
 
 ###################################################################################################
 ###################################################################################################
@@ -25,7 +25,7 @@ def sim_neuron_placefield(param_gen, vary_height = False, vary_width = False, va
     
     cell_place_bins = []
     for cur_params in param_gen:
-        trial_place_bins = sim_trial_placefield(**cur_params, vary_height=vary_height, vary_width=vary_width, vary_place_loc=vary_place_loc, plot=False)
+        trial_place_bins = sim_trial_placefield(**cur_params, vary_height=vary_height, vary_width=vary_width, vary_place_loc=vary_place_loc)
         cell_place_bins.append(trial_place_bins)
     return cell_place_bins
 
@@ -55,7 +55,7 @@ def sim_neuron_skew_placefield(param_gen, vary_height=False, vary_width=False, v
     cell_place_bins = []
     for cur_params in param_gen:
         
-        trial_place_bins = sim_skew_trial_placefield(**cur_params, vary_height=vary_height, vary_width=vary_width, vary_place_loc=vary_place_loc, vary_skewness=vary_skewness, plot=False)
+        trial_place_bins = sim_skew_trial_placefield(**cur_params, vary_height=vary_height, vary_width=vary_width, vary_place_loc=vary_place_loc, vary_skewness=vary_skewness)
         cell_place_bins.append(trial_place_bins)
     return cell_place_bins
 
@@ -82,7 +82,7 @@ def sim_neuron_multi_placefield(param_gen, vary_height=False, vary_width=False, 
     cell_place_bins = []
     for cur_params in param_gen:
  
-        trial_place_bins = sim_trial_multi_placefields(**cur_params, vary_height=vary_height, vary_width=vary_width, vary_place_loc=vary_place_loc, plot=False)
+        trial_place_bins = sim_trial_multi_placefields(**cur_params, vary_height=vary_height, vary_width=vary_width, vary_place_loc=vary_place_loc)
         cell_place_bins.append(trial_place_bins)
     return cell_place_bins
 
