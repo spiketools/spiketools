@@ -1,5 +1,7 @@
 from trials import sim_trial_placefield,sim_skew_trial_placefield, sim_trial_multi_placefields, sim_trial_multi_skew_placefields
 
+###################################################################################################
+###################################################################################################
 
 def sim_cell_placefield(param_gen,vary_height = False, vary_width = False,vary_place_loc = False):
     """

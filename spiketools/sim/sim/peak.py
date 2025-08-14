@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import skewnorm
 
 ###################################################################################################
+###################################################################################################
 
 def sim_placefield_peak(height,width,n_bins,place_loc,plot = False):
     

@@ -2,6 +2,9 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 
+###################################################################################################
+###################################################################################################
+
 def _sim_random(mean, std, n_bins):    
     return np.random.normal(mean, std, size=n_bins)
 
