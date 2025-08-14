@@ -4,7 +4,7 @@ import numpy as np
 ###################################################################################################
 
 def single_trial_occ(num_bins, min_occ, max_occ):
-    """Simulate occupancy for a single trial
+    """Simulate occupancy for a single trial.
 
     Parameters
     ----------
@@ -21,7 +21,7 @@ def single_trial_occ(num_bins, min_occ, max_occ):
         Occupancy for a single trial.
     """
 
-    return np.random.uniform(min_occ, max_occ, size=num_bins)  # Uniform occupancy in the range [0.5, 1.5] seconds
+    return np.random.uniform(min_occ, max_occ, size=num_bins)  
 
 
 def single_uniform_occ(num_bins, scale):
@@ -57,9 +57,9 @@ def sim_occ_trials(num_trials, num_bins, min_occ, max_occ, use_random=False, uni
     max_occ: float
         Maximum occupancy.
     use_random: bool
-        Whether to use random occupancy
+        Whether to use random occupancy.
     uniform_scale: float
-        Scale of the occupancy
+        Scale of the occupancy.
 
     Returns
     -------
@@ -70,7 +70,6 @@ def sim_occ_trials(num_trials, num_bins, min_occ, max_occ, use_random=False, uni
     """
 
     all_trials_occ=[]
-
     for _ in range(num_trials):
         if use_random:
             trial_occ=np.random.uniform(min_occ, max_occ, size=num_bins)
