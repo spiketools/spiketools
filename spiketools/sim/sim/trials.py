@@ -160,8 +160,8 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, pl
     -------
     trial_place_bins : 2D array
         Simulated place field firing rates across trials. Each trial is represented by a 1D array.
-
     """
+
     if presence_ratio is not None:
         n_simulated_trials = int(n_trials * presence_ratio)  # Calculate number of trials to simulate
     else:
@@ -249,7 +249,6 @@ def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_wid
     -------
     trial_placefields : 2D array
         Simulated place field firing rates across trials.
-
     """
     
     if presence_ratio is not None:
@@ -344,7 +343,6 @@ def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
     -------
     trial_placefields : 2D array
         Simulated place field firing rates across trials.
-
     """
     
     if presence_ratio is not None:

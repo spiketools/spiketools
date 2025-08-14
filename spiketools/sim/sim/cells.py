@@ -79,6 +79,7 @@ def sim_cell_multi_placefield(param_gen, vary_height=False, vary_width=False, va
     cell_place_bins : list
         List of cell place bins : (num_cells, num_trials, num_bins).
     """
+
     cell_place_bins = []
     for cur_params in param_gen:
  
@@ -107,6 +108,7 @@ def sim_cell_multi_skew_placefield(param_gen, vary_height=False, vary_width=Fals
     cell_place_bins : list
         List of cell place bins : (num_cells, num_trials, num_bins).
     """
+    
     cell_place_bins = []
     for cur_params in param_gen:
         trial_place_bins = sim_trial_multi_skew_placefields(**cur_params, vary_height=vary_height, vary_width=vary_width, vary_place_loc=vary_place_loc, vary_skewness=vary_skewness, plot=False)

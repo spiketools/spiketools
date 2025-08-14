@@ -18,6 +18,7 @@ def plot_firing_rate(data, ax=None, **plt_kwargs):
     plt_kwargs: dict
         Additional plotting arguments to be passed to the main plot functions.
     """
+    
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
     
     custom_kwargs = ['data_value_color', 'data_value_linestyle', 'data_value_lw']

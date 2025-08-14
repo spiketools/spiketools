@@ -37,7 +37,8 @@ def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, sha
         Custom kwargs include:
         - 'traces_lw': Line width for individual traces.
         - 'traces_alpha': Transparency level for individual traces.
-        - 'shade_alpha': Transparency level for the shaded region."""
+        - 'shade_alpha': Transparency level for the shaded region.
+    """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
