@@ -12,9 +12,9 @@ def plot_firing_rate(data, ax=None, **plt_kwargs):
     Parameters
     ----------
     data: array-like
-        Firing rate data
+        Firing rate data.
     ax: matplotlib.axes.Axes
-        Axes object
+        Axes object.
     plt_kwargs: dict
         Additional plotting arguments to be passed to the main plot functions.
     """

@@ -16,11 +16,11 @@ def sim_placefield_peak(height, width, n_bins, place_loc, plot=False):
     height: int
             Place field's peak firing rate.
     width:  int
-            Width of the place field 
+            Width of the place field. 
     nbins: int
-            Number of spatial bins 
+            Number of spatial bins.
     place loc: int
-            Center of the place field location 
+            Center of the place field location.
     
     Returns
     -------
@@ -48,11 +48,11 @@ def sim_skew_placefield_peak(height, width, n_bins, place_loc, skewness, plot=Fa
     height: int
             Place field's peak firing rate.
     width:  int
-            Width of the place field 
+            Width of the place field.
     nbins: int
-            Number of spatial bins 
+            Number of spatial bins.
     place loc: int
-            Center of the place field location 
+            Center of the place field location.
     skewness: int
             Skewness parameter that introduces asymmetry to the place field (Positive skewness values cause the place field to skew to the right, while negative values result in leftward skewing)
     

@@ -9,13 +9,13 @@ def sim_cell_placefield(param_gen, vary_height = False, vary_width = False, vary
     Parameters
     ----------
     param_gen : generator
-        Generator of parameters
+        Generator of parameters.
     vary_height : bool
-        Whether to vary height
+        Whether to vary height.
     vary_width : bool
-        Whether to vary width
+        Whether to vary width.
     vary_place_loc : bool
-        Whether to vary place location
+        Whether to vary place location.
 
     Returns
     -------
@@ -36,15 +36,15 @@ def sim_cell_skew_placefield(param_gen, vary_height=False, vary_width=False, var
     Parameters
     ----------
     param_gen : generator
-        Generator of parameters
+        Generator of parameters.
     vary_height : bool
-        Whether to vary height
+        Whether to vary height.
     vary_width : bool
-        Whether to vary width
+        Whether to vary width.
     vary_place_loc : bool
-        Whether to vary place location
+        Whether to vary place location.
     vary_skewness : bool
-        Whether to vary skewness
+        Whether to vary skewness.
     
     Returns
     -------
@@ -66,13 +66,13 @@ def sim_cell_multi_placefield(param_gen, vary_height=False, vary_width=False, va
     Parameters
     ----------
     param_gen : generator
-        Generator of parameters
+        Generator of parameters.
     vary_height : bool
-        Whether to vary height
+        Whether to vary height.
     vary_width : bool
-        Whether to vary width
+        Whether to vary width.
     vary_place_loc : bool
-        Whether to vary place location
+        Whether to vary place location.
     
     Returns
     -------
@@ -92,15 +92,15 @@ def sim_cell_multi_skew_placefield(param_gen, vary_height=False, vary_width=Fals
     Parameters
     ----------
     param_gen : generator
-        Generator of parameters
+        Generator of parameters.
     vary_height : bool
-        Whether to vary height
+        Whether to vary height.
     vary_width : bool
-        Whether to vary width   
+        Whether to vary width.
     vary_place_loc : bool
-        Whether to vary place location
+        Whether to vary place location.
     vary_skewness : bool
-        Whether to vary skewness
+        Whether to vary skewness.
     
     Returns
     -------

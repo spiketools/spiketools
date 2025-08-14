@@ -8,24 +8,24 @@ from noise import sim_baseline,sim_noise
 
 
 def sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_std, plot=True):
-    """ Simulate place field on a linear track
+    """ Simulate place field on a linear track.
     
     Parameters
     -----------
     height: int
             Place field's peak firing rate.
     width:  int
-            Width of the place field 
+            Width of the place field.
     nbins: int
-            Number of spatial bins 
+            Number of spatial bins.
     place loc: int
-            Center of the place field location 
+            Center of the place field location.
     base_mean: int
-            Average firing rate 
+            Average firing rate.
     base_std: int
-            Standard deviation of the firing rate
+            Standard deviation of the firing rate.
     noise_std: int
-            Standard deviation of the firing rate
+            Standard deviation of the firing rate.
             
     
     Returns
@@ -50,21 +50,17 @@ def sim_skew_placefield(height, width, skewness, n_bins, place_loc, base_mean, b
     height: int
             Place field's peak firing rate.
     width:  int
-            Width of the place field 
+            Width of the place field.
     nbins: int
-            Number of spatial bins 
+            Number of spatial bins.
     place loc: int
-            Center of the place field location 
-            
+            Center of the place field location.
     base_mean: int
-            Average firing rate 
-            
+            Average firing rate.      
     base_std: int
-            Standard deviation of the firing rate
-            
+            Standard deviation of the firing rate.      
     noise_std: int
-            Standard deviation of the firing rate
-            
+            Standard deviation of the firing rate.      
     skewness: int
             Skewness parameter that introduces asymmetry to the place field (Positive skewness values cause the place field to skew to the right, while negative values result in leftward skewing)
             
@@ -95,15 +91,15 @@ def sim_multi_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, base_m
     num_bins : int
         The number of spatial bins across the linear track.
     n_place_loc : array-like
-        An array of integers specifying the centers of each place field.
+        An array of integers specifyin  g the centers of each place field.
     num_peaks : int
         The number of place field peaks to simulate.
             
     base_mean: int
-            Average firing rate 
+        Average firing rate.
             
     base_std: int
-            Standard deviation of the firing rate
+        Standard deviation of the firing rate.
             
     noise_std: int
             Standard deviation of the firing rate
@@ -141,13 +137,13 @@ def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, n
     n_peaks : int
         The number of place field peaks to simulate.
     n_skewness: array-like
-        Skewness of the place field 
+        Skewness of the place field.
     base_mean: int
-            Average firing rate            
+        Average firing rate.            
     base_std: int
-            Standard deviation of the firing rate      
+        Standard deviation of the firing rate.      
     noise_std: int
-            Standard deviation of the firing rate
+        Standard deviation of the firing rate.
             
     
     Returns

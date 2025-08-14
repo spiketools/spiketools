@@ -9,11 +9,11 @@ def single_trial_occ(num_bins, min_occ, max_occ):
     Parameters
     ----------
     num_bins: int
-        Number of spatial bins
+        Number of spatial bins.
     min_occ: float
-        Minimum occupancy
+        Minimum occupancy.
     max_occ: float 
-        Maximum occupancy
+        Maximum occupancy.
 
     Returns
     -------
@@ -29,9 +29,9 @@ def single_uniform_occ(num_bins, scale):
     Parameters
     ----------
     num_bins: int
-        Number of spatial bins
+        Number of spatial bins.
     scale: float
-        Scale of the occupancy
+        Scale of the occupancy.
 
     Returns
     -------
@@ -47,13 +47,13 @@ def sim_occ_trials(num_trials, num_bins, min_occ, max_occ, use_random=False, uni
     Parameters
     ----------
     num_trials: int
-        Number of trials
+        Number of trials.
     num_bins: int
-        Number of spatial bins
+        Number of spatial bins.
     min_occ: float
-        Minimum occupancy
+        Minimum occupancy.
     max_occ: float
-        Maximum occupancy
+        Maximum occupancy.
     use_random: bool
         Whether to use random occupancy
     uniform_scale: float

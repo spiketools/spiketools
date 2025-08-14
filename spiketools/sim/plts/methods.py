@@ -14,23 +14,23 @@ def method_method_comparison(method_A, method_B, param_vals, color_map, cbar = T
     Parameters
     ----------
     method_A: array-like
-        Method A data
+        Method A data.
     method_B: array-like
-        Method B data
+        Method B data.
     param_vals: array-like
-        Parameter values
+        Parameter values.
     color_map: str
-        Color map
+        Color map.
     cbar: bool
-        Whether to add a color bar
+        Whether to add a color bar.
     ax: matplotlib.axes.Axes
-        Axes object
+        Axes object.
     cbar_kwargs: dict
-        Color bar kwargs
+        Color bar kwargs.
     vmin: float
-        Minimum value for the color map
+        Minimum value for the color map.
     vmax: float
-        Maximum value for the color map
+        Maximum value for the color map.
     plt_kwargs: dict
         Additional plotting arguments to be passed to the main plot functions.
     """

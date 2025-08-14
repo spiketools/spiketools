@@ -11,9 +11,9 @@ def _sim_random(mean, std, n_bins):
     Parameters
     ----------
     mean: float
-        Mean of the noise
+        Mean of the noise.
     std: float
-        Standard deviation of the noise
+        Standard deviation of the noise.
     n_bins: int
         Number of spatial bins
 
@@ -31,11 +31,11 @@ def sim_baseline(n_bins, base_mean, base_std, plot=False):
     Parameters
     -----------
     num_bins: int
-            Number of spatial bins 
+            Number of spatial bins.
     base_mean: int
-            Average firing rate  
+            Average firing rate.
     base_std: int
-            Standard deviation of the firing rate
+            Standard deviation of the firing rate.
 
     Returns
     -------
@@ -55,9 +55,9 @@ def sim_noise(n_bins, noise_std, plot=False):
     Parameters
     -----------
     num_bins: int
-            Number of spatial bins 
+            Number of spatial bins.
     noise_std: int
-            Standard deviation of the firing rate
+            Standard deviation of the firing rate.
 
     Returns
     -------

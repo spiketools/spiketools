@@ -16,13 +16,13 @@ def plot_cell_placefield(vals:np.ndarray, cell_place_bins:np.ndarray, colormap_n
     Parameters
     ----------
     vals: array-like
-        Values to be plotted
+        Values to be plotted.
     cell_place_bins: array-like
-        Cell place bins to be plotted
+        Cell place bins to be plotted.
     colormap_name: str
-        Colormap name to be used
+        Colormap name to be used.
     ax: matplotlib.axes.Axes
-        Axes object
+        Axes object.    
     plt_kwargs: dict
         Additional plotting arguments to be passed to the main plot functions.
     """

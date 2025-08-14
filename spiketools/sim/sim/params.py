@@ -87,9 +87,9 @@ def upd_skew_npeaks(params, val):
     Parameters
     ----------
     params: dict
-        Dictionary of parameters
+        Dictionary of parameters.
     val: int
-        Number of peaks
+        Number of peaks.
 
     Returns
     -------
@@ -136,11 +136,11 @@ def update_vals(sim_params, values, update):
     Parameters
     ----------
     sim_params: dict
-        Dictionary of parameters
+        Dictionary of parameters.
     values: list
-        List of values to update
+        List of values to update.
     update: function
-        Function to update the parameters
+        Function to update the parameters.
 
     Returns
     -------
@@ -161,20 +161,20 @@ def update_paired_vals(sim_params, values1, values2, update1,  update2):
     Parameters
     ----------
     sim_params: dict
-        Dictionary of parameters
+        Dictionary of parameters.
     values1: list
-        List of values to update
+        List of values to update.
     values2: list
-        List of values to update
+        List of values to update.
     update1: function
-        Function to update the first parameter
+        Function to update the first parameter.
     update2: function
         Function to update the second parameter
 
     Returns
     -------
     sim_params: dict
-        Dictionary of parameters
+        Dictionary of parameters.
     """
 
     for v1 in values1:
@@ -189,13 +189,13 @@ def sampler(sample_size,min_val,max_val,plot = True):
     Parameters
     ----------
     sample_size: int
-        Number of samples to draw
+        Number of samples to draw.
     min_val: float
-        Minimum value
+        Minimum value.
     max_val: float
-        Maximum value
+        Maximum value.
     plot: bool
-        Whether to plot the samples
+        Whether to plot the samples.
 
     Returns
     -------
