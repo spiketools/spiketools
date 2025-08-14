@@ -210,7 +210,7 @@ def sampler(sample_size, min_val, max_val, plot=True):
         Minimum value.
     max_val: float
         Maximum value.
-    plot: bool
+    plot: bool, default: True
         Whether to plot the samples.
 
     Returns
@@ -219,13 +219,13 @@ def sampler(sample_size, min_val, max_val, plot=True):
         Sampled values.
     """
 
-    sample_vals = np.random.uniform(min_val, max_val, sample_size)
+    sample_vals=np.random.uniform(min_val, max_val, sample_size)
     if plot:
-        norm = plt.Normalize(sample_vals.min(), sample_vals.max())
-        cmap = plt.get_cmap('inferno')
+        norm=plt.Normalize(sample_vals.min(), sample_vals.max())
+        cmap=plt.get_cmap('inferno')
 
 
-        plt.scatter(range(1, sample_size + 1), sample_vals, c=sample_vals, cmap=cmap, marker='o',s=20,norm = norm)
+        plt.scatter(range(1, sample_size + 1), sample_vals, c=sample_vals, cmap=cmap, marker='o',s=20, norm=norm)
         plt.xlabel('Sample Size')
         plt.ylabel('Sampled Values')
         plt.colorbar(label='Sample Values')
