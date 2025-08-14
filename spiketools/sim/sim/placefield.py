@@ -7,7 +7,7 @@ from noise import sim_baseline,sim_noise
 ###################################################################################################
 
 
-def sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_std, plot=True):
+def sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_std):
     """ Simulate place field on a linear track.
     
     Parameters
@@ -35,11 +35,9 @@ def sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_
     """
         
     placefield = sim_placefield_peak(height, width, n_bins, place_loc) + sim_baseline(n_bins, base_mean, base_std)+sim_noise(n_bins, noise_std)
-    if plot:
-        plt.plot(placefield)
     return placefield 
     
-def sim_skew_placefield(height, width, skewness, n_bins, place_loc, base_mean, base_std, noise_std, plot = True):
+def sim_skew_placefield(height, width, skewness, n_bins, place_loc, base_mean, base_std, noise_std):
     """ Simulate place field on a linear track
     
     Parameters
@@ -69,11 +67,9 @@ def sim_skew_placefield(height, width, skewness, n_bins, place_loc, base_mean, b
     """
         
     skew_placefield = sim_skew_placefield_peak(height, width, n_bins, place_loc, skewness) + sim_baseline(n_bins, base_mean, base_std)+sim_noise(n_bins, noise_std)
-    if plot:
-        plt.plot(skew_placefield)
     return skew_placefield 
 
-def sim_multi_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, base_mean, base_std, noise_std, plot=True):
+def sim_multi_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, base_mean, base_std, noise_std):
     """ Simulate place field on a linear track
     
     Parameters
@@ -104,14 +100,12 @@ def sim_multi_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, base_m
             Simulated multipeak place field firing rate, in Hz. 
     """
         
-    placefield = sim_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks, plot=False) + sim_baseline(n_bins, base_mean, base_std)+sim_noise(n_bins, noise_std)
-    if plot:
-        plt.plot(placefield)
+    placefield = sim_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks) + sim_baseline(n_bins, base_mean, base_std)+sim_noise(n_bins, noise_std)
     return placefield 
 
 
 
-def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness, base_mean, base_std, noise_std, plot=True):
+def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness, base_mean, base_std, noise_std):
     """ Simulate place field on a linear track
     
     Parameters
@@ -142,8 +136,6 @@ def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, n
             Simulated skewed multipeak place field firing rate, in Hz. 
             
     """
-    
-    placefield = sim_skew_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness, plot=False) + sim_baseline(n_bins, base_mean, base_std)+sim_noise(n_bins, noise_std)
-    if plot:
-        plt.plot(placefield)
+
+    placefield = sim_skew_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness) + sim_baseline(n_bins, base_mean, base_std)+sim_noise(n_bins, noise_std)
     return placefield 

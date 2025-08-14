@@ -13,49 +13,49 @@ import matplotlib.pyplot as plt
 """Update the height of the place field.
 """
 
-upd_height = lambda params, val : params.update({'height_mean' : val})
+upd_height=lambda params, val: params.update({'height_mean':val})
 
 # Update Width 
 """Update the width of the place field.
 """
 
-upd_width = lambda params, val: params.update({'width_mean': val})
+upd_width=lambda params, val: params.update({'width_mean':val})
 
 # Update Noise
 """Update the noise of the place field.
 """
 
-upd_noise = lambda params, val: params.update({'noise_std':val})
+upd_noise=lambda params, val: params.update({'noise_std':val})
 
 # Update Place field Center Consistency location 
 """Update the place field center consistency location.
 """
 
-upd_placeloc = lambda params, val: params.update({'place_loc_std': val})
+upd_placeloc=lambda params, val: params.update({'place_loc_std':val})
 
 # Update Skewness
 """Update the skewness of the place field.
 """
 
-upd_skewness = lambda params, val: params.update({'skewness_mean': val})
+upd_skewness=lambda params, val: params.update({'skewness_mean':val})
 
 # Update Presence Ratio
 """Update the presence ratio of the place field.
 """
 
-upd_presence_ratio = lambda params, val: params.update({'presence_ratio': val})
+upd_presence_ratio=lambda params, val: params.update({'presence_ratio':val})
 
 # Update Base
 """Update the baseline firing rate of the place field.
 """
 
-upd_base = lambda params, val: params.update({'base_mean':val})
+upd_base=lambda params, val: params.update({'base_mean':val})
 
 # Update Trials
 """Update the number of trials.
 """
 
-upd_trials = lambda params, val: params.update({'n_trials':val})
+upd_trials=lambda params, val: params.update({'n_trials':val})
 
 # Update Number of Peaks
 def upd_npeaks(params, val):
@@ -74,9 +74,9 @@ def upd_npeaks(params, val):
         Dictionary of parameters.
     """
     # Calculate evenly spaced locations across the spatial bins
-    n_bins = params['n_bins']
-    spacing = n_bins / (val + 1)  # Add 1 to val to create margins at edges
-    locations = [int(spacing * (i + 1)) for i in range(val)]
+    n_bins=params['n_bins']
+    spacing=n_bins / (val + 1)  # Add 1 to val to create margins at edges
+    locations=[int(spacing * (i + 1)) for i in range(val)]
     
     params.update({
         'n_peaks': val,
@@ -126,7 +126,7 @@ def upd_skew_npeaks(params, val):
 ## Collect together all update function 
 
 UPDATES = {
-'update_height' : upd_height,
+'update_height': upd_height,
 'update_width': upd_width,
 'update_noise': upd_noise,     
 'update_placeloc':upd_placeloc,
@@ -163,7 +163,7 @@ def update_vals(sim_params, values, update):
 
         
 ## Functions for updating / sampling parameters 
-def update_paired_vals(sim_params, values1, values2, update1,  update2):
+def update_paired_vals(sim_params, values1, values2, update1, update2):
     """Update simulation parameter values for paired parameters.
     
     Parameters
@@ -191,7 +191,7 @@ def update_paired_vals(sim_params, values1, values2, update1,  update2):
             update2(sim_params, v2)
             yield sim_params
             
-def sampler(sample_size,min_val,max_val,plot = True):
+def sampler(sample_size, min_val, max_val, plot=True):
     """Sample values from a uniform distribution.
     
     Parameters
