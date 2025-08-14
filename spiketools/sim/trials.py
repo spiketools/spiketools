@@ -152,7 +152,7 @@ def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_l
         else:
             place_loc = place_loc_mean
             
-        place_bins = sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_std, plot=False)
+        place_bins = sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_std)
    
         trial_placefield.append(place_bins)
 
@@ -234,7 +234,7 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, pl
         skewness = np.random.normal(skewness_mean, skewness_std) if vary_skewness else skewness_mean
         
         # Generate skewed place field for this trial
-        place_bins = sim_skew_placefield(height, width, skewness, n_bins, place_loc, base_mean, base_std, noise_std, plot=False)
+        place_bins = sim_skew_placefield(height, width, skewness, n_bins, place_loc, base_mean, base_std, noise_std)
         trial_placefield.append(place_bins)
 
     # Fill the remaining trials with empty arrays (zeros)
@@ -309,7 +309,7 @@ n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary
         n_width = np.random.normal(n_width_mean, n_width_std) if vary_width else n_width_mean
         n_place_loc = np.random.normal(n_place_locs_mean, n_place_loc_std) if vary_place_loc else n_place_locs_mean
 
-        placefield=sim_multi_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, base_mean, base_std, noise_std,plot=False,)
+        placefield=sim_multi_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, base_mean, base_std, noise_std)
         trial_placefields.append(placefield)
 
     # Fill the remaining trials with empty arrays (zeros)
@@ -392,7 +392,7 @@ def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
         n_skewness = np.random.normal(n_skewness_mean, n_skewness_std) if vary_skewness else n_skewness_mean
 
         # Generate multi-peak place field with skewness
-        placefield = sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness, base_mean, base_std, noise_std, plot=False)
+        placefield = sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness, base_mean, base_std, noise_std)
         trial_placefields.append(placefield)
 
     # Fill the remaining trials with empty arrays (zeros)
