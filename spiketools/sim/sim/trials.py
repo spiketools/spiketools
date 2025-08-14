@@ -287,10 +287,7 @@ def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_wid
         ax = get_grid_subplot(grid,0,1 )
         plot_trial_placefield(trial_placefields,average='mean',add_traces = True,trace_cmap = 'Greys',ax=ax)
         drop_spines(['top','right'],ax=ax)
-        
-
     return trial_placefields
-
 
 
 def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, n_place_loc_std, n_skewness_mean, n_skewness_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True, plot=True, presence_ratio=None):

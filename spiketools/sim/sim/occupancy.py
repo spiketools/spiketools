@@ -79,5 +79,4 @@ def sim_occ_trials(num_trials, num_bins, min_occ, max_occ, use_random=False, uni
 
     all_trials_occ = np.array(all_trials_occ)
     avg_occ= np.sum(all_trials_occ, axis=0)/num_trials
-
     return all_trials_occ, avg_occ

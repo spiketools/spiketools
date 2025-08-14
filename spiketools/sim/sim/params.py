@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 
 upd_height=lambda params, val: params.update({'height_mean':val})
 
+
 # Update Width 
 """Update the width of the place field.
 """
@@ -27,11 +28,13 @@ upd_width=lambda params, val: params.update({'width_mean':val})
 
 upd_noise=lambda params, val: params.update({'noise_std':val})
 
+
 # Update Place field Center Consistency location 
 """Update the place field center consistency location.
 """
 
 upd_placeloc=lambda params, val: params.update({'place_loc_std':val})
+
 
 # Update Skewness
 """Update the skewness of the place field.
@@ -39,11 +42,13 @@ upd_placeloc=lambda params, val: params.update({'place_loc_std':val})
 
 upd_skewness=lambda params, val: params.update({'skewness_mean':val})
 
+
 # Update Presence Ratio
 """Update the presence ratio of the place field.
 """
 
 upd_presence_ratio=lambda params, val: params.update({'presence_ratio':val})
+
 
 # Update Base
 """Update the baseline firing rate of the place field.
@@ -51,11 +56,13 @@ upd_presence_ratio=lambda params, val: params.update({'presence_ratio':val})
 
 upd_base=lambda params, val: params.update({'base_mean':val})
 
+
 # Update Trials
 """Update the number of trials.
 """
 
 upd_trials=lambda params, val: params.update({'n_trials':val})
+
 
 # Update Number of Peaks
 def upd_npeaks(params, val):
@@ -88,6 +95,7 @@ def upd_npeaks(params, val):
         'n_place_loc_std': [params['n_place_loc_std'][0]] * val
     })
     return params
+
 
 def upd_skew_npeaks(params, val):
     """Update number of peaks and corresponding parameter arrays for multiple place fields.
@@ -137,6 +145,7 @@ UPDATES = {
 'update_presence_ratio':upd_presence_ratio
 }
 
+
 ## Functions for updating / sampling parameters 
 def update_vals(sim_params, values, update):
     """Update simulation parameter values.
@@ -160,8 +169,7 @@ def update_vals(sim_params, values, update):
         update(sim_params, val)
         yield sim_params
 
-
-        
+ 
 ## Functions for updating / sampling parameters 
 def update_paired_vals(sim_params, values1, values2, update1, update2):
     """Update simulation parameter values for paired parameters.
@@ -190,6 +198,7 @@ def update_paired_vals(sim_params, values1, values2, update1, update2):
         for v2 in values2:
             update2(sim_params, v2)
             yield sim_params
+      
             
 def sampler(sample_size, min_val, max_val, plot=True):
     """Sample values from a uniform distribution.

@@ -23,6 +23,7 @@ def _sim_random(mean, std, n_bins):
     """
     return np.random.normal(mean, std, size=n_bins)
 
+
 def sim_baseline(n_bins, base_mean, base_std):
     
     """ Simulate place field's baseline firing rate - randomization.
@@ -45,6 +46,7 @@ def sim_baseline(n_bins, base_mean, base_std):
     baseline = _sim_random(base_mean, base_std, n_bins)
  
     return baseline
+
 
 def sim_noise(n_bins, noise_std):
     """ Simulate place field's baseline firing rate - randomization.
