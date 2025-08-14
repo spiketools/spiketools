@@ -32,16 +32,16 @@ def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_l
         Standard deviation of the baseline firing rate. 
     n_trials : int
         Number of trials to simulate. 
-    vary_height : bool, optional
-        If True, the height of the place field varies across trials. Default is True.
-    vary_width : bool, optional
-        If True, the width of the place field varies across trials. Default is True.
-    vary_place_loc : bool, optional
-        If True, the location of the place field center varies across trials. Default is True.
-    plot : bool, optional
-        If True, plots the individual trials and their average. Default is True. 
-    presence_ratio : float, optional
-        The fraction of trials to simulate with data, with the remainder being filled with zeros. Default is 0.6.
+    vary_height : bool, default: True
+        If True, the height of the place field varies across trials. 
+    vary_width : bool, default: True
+        If True, the width of the place field varies across trials. 
+    vary_place_loc : bool, default: True
+        If True, the location of the place field center varies across trials. 
+    plot : bool, default: True
+        If True, plots the individual trials and their average. 
+    presence_ratio : float, default: 0.6
+        The fraction of trials to simulate with data, with the remainder being filled with zeros. 
 
     Returns
     -------
@@ -123,18 +123,18 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, pl
         Standard deviation of the baseline firing rate.
     n_trials : int
         Number of trials to simulate.
-    vary_height : bool, optional
-        If True, the height of the place field varies across trials. Default is True.
-    vary_width : bool, optional
-        If True, the width of the place field varies across trials. Default is True.
-    vary_place_loc : bool, optional
-        If True, the location of the place field center varies across trials. Default is True.
-    vary_skewness : bool, optional
-        If True, the skewness of the place field varies across trials. Default is True.
-    plot : bool, optional
-        If True, plots the individual trials and their average with error bands. Default is True.
-    presence_ratio : float, optional
-        The fraction of trials to simulate with data, with the remainder being filled with zeros. Default is 1 (all trials).
+    vary_height : bool, default: True
+        If True, the height of the place field varies across trials. 
+    vary_width : bool, default: True
+        If True, the width of the place field varies across trials. 
+    vary_place_loc : bool, default: True
+        If True, the location of the place field center varies across trials. 
+    vary_skewness : bool, default: True
+        If True, the skewness of the place field varies across trials. 
+    plot : bool, default: True
+        If True, plots the individual trials and their average with error bands. 
+    presence_ratio : float, default: 1
+        The fraction of trials to simulate with data, with the remainder being filled with zeros. 
 
     Returns
     -------
@@ -202,15 +202,15 @@ n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary
         Standard deviation for added noise.
     n_trials : int
         Number of trials to simulate.
-    vary_height : bool, optional
+    vary_height : bool, default: True
         If True, vary the height for each trial.
-    vary_width : bool, optional
+    vary_width : bool, default: True
         If True, vary the width for each trial.
-    vary_place_loc : bool, optional
+    vary_place_loc : bool, default: True
         If True, vary the place field centers for each trial.
-    plot : bool, optional
+    plot : bool, default: True
         If True, plot the simulated data.
-    presence_ratio : float, optional
+    presence_ratio : float, default: None
         Ratio of trials to simulate, with the rest being empty.
 
     Returns
@@ -281,18 +281,18 @@ def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
         Standard deviation for added noise.
     n_trials : int
         Number of trials to simulate.
-    vary_height : bool, optional
-        If True, vary the height for each trial. Default is True.
-    vary_width : bool, optional
-        If True, vary the width for each trial. Default is True.
-    vary_place_loc : bool, optional
-        If True, vary the place field centers for each trial. Default is True.
-    vary_skewness : bool, optional
-        If True, vary the skewness for each trial. Default is True.
-    plot : bool, optional
-        If True, plot the simulated data. Default is True.
-    presence_ratio : float, optional
-        Ratio of trials to simulate, with the rest being empty. Default is None.
+    vary_height : bool, default: True
+        If True, vary the height for each trial. 
+    vary_width : bool, default: True
+        If True, vary the width for each trial. 
+    vary_place_loc : bool, default: True
+        If True, vary the place field centers for each trial. 
+    vary_skewness : bool, default: True
+        If True, vary the skewness for each trial. 
+    plot : bool, default: True
+        If True, plot the simulated data. 
+    presence_ratio : float, default: None
+        Ratio of trials to simulate, with the rest being empty. 
 
     Returns
     -------
