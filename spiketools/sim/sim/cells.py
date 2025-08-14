@@ -20,7 +20,7 @@ def sim_cell_placefield(param_gen, vary_height = False, vary_width = False, vary
     Returns
     -------
     cell_place_bins : list
-        List of cell place bins : (num_cells, num_trials, num_bins)
+        List of cell place bins : (num_cells, num_trials, num_bins).
     """
     
     cell_place_bins = []
@@ -77,7 +77,7 @@ def sim_cell_multi_placefield(param_gen, vary_height=False, vary_width=False, va
     Returns
     -------
     cell_place_bins : list
-        List of cell place bins : (num_cells, num_trials, num_bins)
+        List of cell place bins : (num_cells, num_trials, num_bins).
     """
     cell_place_bins = []
     for cur_params in param_gen:
@@ -105,7 +105,7 @@ def sim_cell_multi_skew_placefield(param_gen, vary_height=False, vary_width=Fals
     Returns
     -------
     cell_place_bins : list
-        List of cell place bins : (num_cells, num_trials, num_bins)
+        List of cell place bins : (num_cells, num_trials, num_bins).
     """
     cell_place_bins = []
     for cur_params in param_gen:

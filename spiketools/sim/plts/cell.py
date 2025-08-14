@@ -11,7 +11,7 @@ from spiketools.plts.style import set_plt_kwargs
 @savefig
 @set_plt_kwargs
 def plot_cell_placefield(vals:np.ndarray, cell_place_bins:np.ndarray, colormap_name='Greys', ax=None, **plt_kwargs):
-    """Plot cell place field data with a colormap visualization
+    """Plot cell place field data with a colormap visualization.
 
     Parameters
     ----------
@@ -21,6 +21,10 @@ def plot_cell_placefield(vals:np.ndarray, cell_place_bins:np.ndarray, colormap_n
         Cell place bins to be plotted
     colormap_name: str
         Colormap name to be used
+    ax: matplotlib.axes.Axes
+        Axes object
+    plt_kwargs: dict
+        Additional plotting arguments to be passed to the main plot functions.
     """
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))

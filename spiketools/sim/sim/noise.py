@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 ###################################################################################################
 
 def _sim_random(mean, std, n_bins):   
-    """ Simulate random noise
+    """ Simulate random noise.
     
     Parameters
     ----------
@@ -26,7 +26,7 @@ def _sim_random(mean, std, n_bins):
 
 def sim_baseline(n_bins, base_mean, base_std, plot=False):
     
-    """ Simulate place field's baseline firing rate - randomization
+    """ Simulate place field's baseline firing rate - randomization.
     
     Parameters
     -----------
@@ -50,7 +50,7 @@ def sim_baseline(n_bins, base_mean, base_std, plot=False):
     return baseline
 
 def sim_noise(n_bins, noise_std, plot=False):
-    """ Simulate place field's baseline firing rate - randomization
+    """ Simulate place field's baseline firing rate - randomization.
     
     Parameters
     -----------

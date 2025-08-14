@@ -7,12 +7,16 @@ from spiketools.plts.style import set_plt_kwargs
 @savefig
 @set_plt_kwargs
 def plot_firing_rate(data, ax=None, **plt_kwargs):
-    """Plot firing rate data
+    """Plot firing rate data.
     
     Parameters
     ----------
     data: array-like
         Firing rate data
+    ax: matplotlib.axes.Axes
+        Axes object
+    plt_kwargs: dict
+        Additional plotting arguments to be passed to the main plot functions.
     """
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
     

@@ -10,48 +10,48 @@ import matplotlib.pyplot as plt
 ## Define update functions 
 
 # Update Heights
-"""Update the height of the place field
+"""Update the height of the place field.
 """
 upd_height = lambda params, val : params.update({'height_mean' : val})
 
 # Update Width 
-"""Update the width of the place field
+"""Update the width of the place field.
 """
 upd_width = lambda params, val: params.update({'width_mean': val})
 
 # Update Noise
-"""Update the noise of the place field
+"""Update the noise of the place field.
 """
 upd_noise = lambda params, val: params.update({'noise_std':val})
 
 # Update Place field Center Consistency location 
-"""Update the place field center consistency location
+"""Update the place field center consistency location.
 """
 upd_placeloc = lambda params, val: params.update({'place_loc_std': val})
 
 # Update Skewness
-"""Update the skewness of the place field
+"""Update the skewness of the place field.
 """
 upd_skewness = lambda params, val: params.update({'skewness_mean': val})
 
 # Update Presence Ratio
-"""Update the presence ratio of the place field
+"""Update the presence ratio of the place field.
 """
 upd_presence_ratio = lambda params, val: params.update({'presence_ratio': val})
 
 # Update Base
-"""Update the baseline firing rate of the place field
+"""Update the baseline firing rate of the place field.
 """
 upd_base = lambda params, val: params.update({'base_mean':val})
 
 # Update Trials
-"""Update the number of trials
+"""Update the number of trials.
 """
 upd_trials = lambda params, val: params.update({'n_trials':val})
 
 # Update Number of Peaks
 def upd_npeaks(params, val):
-    """Update number of peaks and corresponding parameter arrays for multiple place fields
+    """Update number of peaks and corresponding parameter arrays for multiple place fields.
     
     Parameters
     ----------
@@ -63,7 +63,7 @@ def upd_npeaks(params, val):
     Returns
     -------
     params: dict
-        Dictionary of parameters
+        Dictionary of parameters.
     """
     # Calculate evenly spaced locations across the spatial bins
     n_bins = params['n_bins']
@@ -82,7 +82,7 @@ def upd_npeaks(params, val):
     return params
 
 def upd_skew_npeaks(params, val):
-    """Update number of peaks and corresponding parameter arrays for multiple place fields
+    """Update number of peaks and corresponding parameter arrays for multiple place fields.
 
     Parameters
     ----------
@@ -94,7 +94,7 @@ def upd_skew_npeaks(params, val):
     Returns
     -------
     params: dict
-        Dictionary of parameters    
+        Dictionary of parameters.
     """
     # Calculate evenly spaced locations across the spatial bins
     n_bins = params['n_bins']
@@ -141,6 +141,11 @@ def update_vals(sim_params, values, update):
         List of values to update
     update: function
         Function to update the parameters
+
+    Returns
+    -------
+    sim_params: dict
+        Dictionary of parameters.
     """
 
     for val in values:
@@ -151,7 +156,7 @@ def update_vals(sim_params, values, update):
         
 ## Functions for updating / sampling parameters 
 def update_paired_vals(sim_params, values1, values2, update1,  update2):
-    """Update simulation parameter values.
+    """Update simulation parameter values for paired parameters.
     
     Parameters
     ----------
@@ -162,6 +167,14 @@ def update_paired_vals(sim_params, values1, values2, update1,  update2):
     values2: list
         List of values to update
     update1: function
+        Function to update the first parameter
+    update2: function
+        Function to update the second parameter
+
+    Returns
+    -------
+    sim_params: dict
+        Dictionary of parameters
     """
 
     for v1 in values1:
@@ -171,7 +184,8 @@ def update_paired_vals(sim_params, values1, values2, update1,  update2):
             yield sim_params
             
 def sampler(sample_size,min_val,max_val,plot = True):
-    """Sample values from a uniform distribution
+    """Sample values from a uniform distribution.
+    
     Parameters
     ----------
     sample_size: int
@@ -186,7 +200,7 @@ def sampler(sample_size,min_val,max_val,plot = True):
     Returns
     -------
     sample_vals: array-like
-        Sampled values
+        Sampled values.
     """
 
     sample_vals = np.random.uniform(min_val, max_val, sample_size)

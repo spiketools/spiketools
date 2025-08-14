@@ -60,7 +60,6 @@ def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, sha
     plot_lines(spatial_bins, trial_placefield, ax=ax,
                xlabel=plt_kwargs.pop('xlabel', xlabel),
                ylabel=plt_kwargs.pop('ylabel', 'Firing Rate (Hz)'),
-               #title=plt_kwargs.pop('title', 'Firing Rate'),
                **plt_kwargs)
 
     if add_traces:
@@ -88,4 +87,4 @@ def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, sha
     if shade is not None:
         ax.fill_between(spatial_bins, trial_placefield - shade, trial_placefield + shade,
                         alpha=custom_plt_kwargs.pop('shade_alpha', 0.25),
-                        color=custom_plt_kwargs.pop('shade_color',ax.lines[0].get_color()))
+                        color=custom_plt_kwargs.pop('shade_color', ax.lines[0].get_color()))

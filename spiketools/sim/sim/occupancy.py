@@ -18,13 +18,13 @@ def single_trial_occ(num_bins, min_occ, max_occ):
     Returns
     -------
     occupancy: array-like
-        Occupancy for a single trial
+        Occupancy for a single trial.
     """
     return np.random.uniform(min_occ, max_occ, size=num_bins)  # Uniform occupancy in the range [0.5, 1.5] seconds
 
 
 def single_uniform_occ(num_bins, scale):
-    """Simulate uniform occupancy for a single trial
+    """Simulate uniform occupancy for a single trial.
 
     Parameters
     ----------
@@ -36,13 +36,14 @@ def single_uniform_occ(num_bins, scale):
     Returns
     -------
     occupancy: array-like
-        Occupancy for a single trial
+        Occupancy for a single trial.
     """
     return np.ones(num_bins) * scale
 
 
 def sim_occ_trials(num_trials, num_bins, min_occ, max_occ, use_random=False, uniform_scale=1):
-    """Simulate occupancy for multiple trials
+    """Simulate occupancy for multiple trials.
+    
     Parameters
     ----------
     num_trials: int
@@ -61,9 +62,9 @@ def sim_occ_trials(num_trials, num_bins, min_occ, max_occ, use_random=False, uni
     Returns
     -------
     all_trials_occ: array-like
-        Occupancy for all trials
+        Occupancy for all trials.
     avg_occ: array-like
-        Average occupancy
+        Average occupancy.
     """
     all_trials_occ = []
 
