@@ -20,13 +20,10 @@ def sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_
             Number of spatial bins 
     place loc: int
             Center of the place field location 
-            
     base_mean: int
             Average firing rate 
-            
     base_std: int
             Standard deviation of the firing rate
-            
     noise_std: int
             Standard deviation of the firing rate
             

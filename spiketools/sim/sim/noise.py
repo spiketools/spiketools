@@ -32,10 +32,8 @@ def sim_baseline(n_bins, base_mean, base_std, plot=False):
     -----------
     num_bins: int
             Number of spatial bins 
-            
     base_mean: int
-            Average firing rate 
-            
+            Average firing rate  
     base_std: int
             Standard deviation of the firing rate
 
@@ -58,7 +56,6 @@ def sim_noise(n_bins, noise_std, plot=False):
     -----------
     num_bins: int
             Number of spatial bins 
-              
     noise_std: int
             Standard deviation of the firing rate
 

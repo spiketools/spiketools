@@ -21,49 +21,34 @@ def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_l
     ----------
     height_mean : float
         Mean peak firing rate for the place field.
-        
     height_std : float
         Standard deviation for the peak firing rate.
-        
     width_mean : float
         Mean width of the place field.
-        
     width_std : float
         Standard deviation for the width of the place field.
-        
     place_loc_mean : float
         Mean location of the center of the place field.
-        
     place_loc_std : float
         Standard deviation for the location of the center of the place field.
-        
     n_bins : int
         Number of spatial bins over which the place field is simulated.
-        
     noise_std : float
         Standard deviation for the noise added to the place field.
-        
     base_mean : float
         Mean baseline firing rate.
-        
     base_std : float
-        Standard deviation of the baseline firing rate.
-        
+        Standard deviation of the baseline firing rate. 
     n_trials : int
-        Number of trials to simulate.
-        
+        Number of trials to simulate. 
     vary_height : bool, optional
         If True, the height of the place field varies across trials. Default is True.
-        
     vary_width : bool, optional
         If True, the width of the place field varies across trials. Default is True.
-        
     vary_place_loc : bool, optional
         If True, the location of the place field center varies across trials. Default is True.
-        
     plot : bool, optional
-        If True, plots the individual trials and their average. Default is True.
-        
+        If True, plots the individual trials and their average. Default is True. 
     presence_ratio : float, optional
         The fraction of trials to simulate with data, with the remainder being filled with zeros. Default is 0.6.
 
@@ -136,58 +121,40 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, pl
     ----------
     height_mean : float
         Mean peak firing rate for the place field.
-        
     height_std : float
         Standard deviation for the peak firing rate.
-        
     width_mean : float
         Mean width of the place field.
-        
     width_std : float
         Standard deviation for the width of the place field.
-        
     place_loc_mean : float
         Mean location of the center of the place field.
-        
     place_loc_std : float
         Standard deviation for the location of the center of the place field.
-        
     skewness_mean : float
         Mean skewness value of the place field, controlling its asymmetry.
-        
     skewness_std : float
         Standard deviation for the skewness value.
-        
     n_bins : int
         Number of spatial bins over which the place field is simulated.
-        
     noise_std : float
         Standard deviation for the noise added to the place field.
-        
     base_mean : float
-        Mean baseline firing rate.
-        
+        Mean baseline firing rate. 
     base_std : float
         Standard deviation of the baseline firing rate.
-        
     n_trials : int
         Number of trials to simulate.
-        
     vary_height : bool, optional
         If True, the height of the place field varies across trials. Default is True.
-        
     vary_width : bool, optional
         If True, the width of the place field varies across trials. Default is True.
-        
     vary_place_loc : bool, optional
         If True, the location of the place field center varies across trials. Default is True.
-        
     vary_skewness : bool, optional
         If True, the skewness of the place field varies across trials. Default is True.
-        
     plot : bool, optional
         If True, plots the individual trials and their average with error bands. Default is True.
-        
     presence_ratio : float, optional
         The fraction of trials to simulate with data, with the remainder being filled with zeros. Default is 1 (all trials).
 
@@ -247,52 +214,36 @@ def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_wid
     -----------
     n_height_mean : array-like
         Mean peak firing rates for each place field.
-        
     n_height_std : array-like
         Standard deviation for the peak firing rates for each place field.
-        
     n_width_mean : array-like
         Mean widths for each place field.
-        
     n_width_std : array-like
         Standard deviation for the widths for each place field.
-        
     n_place_locs_mean : array-like
         Mean positions of the centers of each place field.
-        
     n_place_loc_std : array-like
         Standard deviation for the place field centers.
-        
     n_bins : int
         Number of spatial bins.
-        
     n_peaks : int
         Number of peaks to simulate for each trial.
-        
     base_mean : float
         Mean baseline firing rate.
-        
     base_std : float
         Standard deviation of baseline firing rate.
-        
     noise_std : float
         Standard deviation for added noise.
-        
     n_trials : int
         Number of trials to simulate.
-        
     vary_height : bool, optional
         If True, vary the height for each trial.
-        
     vary_width : bool, optional
         If True, vary the width for each trial.
-        
     vary_place_loc : bool, optional
         If True, vary the place field centers for each trial.
-        
     plot : bool, optional
         If True, plot the simulated data.
-        
     presence_ratio : float, optional
         Ratio of trials to simulate, with the rest being empty.
 
@@ -352,61 +303,42 @@ def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
     -----------
     n_height_mean : array-like
         Mean peak firing rates for each place field.
-        
     n_height_std : array-like
         Standard deviation for the peak firing rates for each place field.
-        
     n_width_mean : array-like
-        Mean widths for each place field.
-        
+        Mean widths for each place field. 
     n_width_std : array-like
-        Standard deviation for the widths for each place field.
-        
+        Standard deviation for the widths for each place field. 
     n_place_locs_mean : array-like
-        Mean positions of the centers of each place field.
-        
+        Mean positions of the centers of each place field. 
     n_place_loc_std : array-like
-        Standard deviation for the place field centers.
-        
+        Standard deviation for the place field centers.  
     n_skewness_mean : array-like
-        Mean skewness values for each peak.
-        
+        Mean skewness values for each peak.  
     n_skewness_std : array-like
-        Standard deviation for the skewness values for each peak.
-        
+        Standard deviation for the skewness values for each peak.  
     n_bins : int
         Number of spatial bins.
-        
     n_peaks : int
         Number of peaks to simulate for each trial.
-        
     base_mean : float
         Mean baseline firing rate.
-        
     base_std : float
         Standard deviation of baseline firing rate.
-        
     noise_std : float
         Standard deviation for added noise.
-        
     n_trials : int
         Number of trials to simulate.
-        
     vary_height : bool, optional
         If True, vary the height for each trial. Default is True.
-        
     vary_width : bool, optional
         If True, vary the width for each trial. Default is True.
-        
     vary_place_loc : bool, optional
         If True, vary the place field centers for each trial. Default is True.
-        
     vary_skewness : bool, optional
         If True, vary the skewness for each trial. Default is True.
-        
     plot : bool, optional
         If True, plot the simulated data. Default is True.
-        
     presence_ratio : float, optional
         Ratio of trials to simulate, with the rest being empty. Default is None.
 

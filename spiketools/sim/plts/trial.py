@@ -13,36 +13,28 @@ from spiketools.utils.options import get_avg_func, get_var_func
 def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, shade=None, add_traces=False,
                           trace_cmap=None, ax=None, **plt_kwargs):
     """
-    Plot a trial placefield 
-
+    Plot a trial placefield
+    
     Parameters
     ----------
     trial_placefield : 1D or 2D array
         The data representing trial placefields.
         If 2D, the array should have shape [n_trials, n_samples], with each row representing a trial.
-        
     spatial_bins : 1D array, optional
         Binning or x-axis values corresponding to the trial placefield data. If not provided, indices are used.
-        
     average : {'mean', 'median'}, optional
         Specifies averaging method to apply across trials if `trial_placefield` is a 2D array.
         When set, calculates and plots the average across all trials.
-        
     shade : {'sem', 'std'} or 1D array, optional
         Variance measure to compute and plot as shaded regions around the average, or directly as a provided array.
-        
     add_traces : bool, optional, default: False
         If True and `trial_placefield` is a 2D array, individual trial traces will be plotted on top of any averaged plot.
-        
     cmap : str, optional
-        Colormap name to use for individual traces if `add_traces` is True.
-        
+        Colormap name to use for individual traces if `add_traces` is True. 
     ax : Axes, optional
         The Matplotlib axis object to plot on. If not provided, a new axis will be created.
-        
     plt_kwargs : dict
         Additional plotting arguments to be passed to the main plot functions.
-        
         Custom kwargs include:
         - 'traces_lw': Line width for individual traces.
         - 'traces_alpha': Transparency level for individual traces.
