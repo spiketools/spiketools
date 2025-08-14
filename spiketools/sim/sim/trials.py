@@ -91,8 +91,6 @@ def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_l
     return trial_placefield
 
 
-
-
 def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins,
  noise_std, base_mean, base_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True,  presence_ratio=1):
     """Simulate multiple trials of skewed place fields with optional variability in height, width, location, and skewness.
