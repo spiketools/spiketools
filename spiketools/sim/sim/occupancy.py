@@ -3,7 +3,7 @@ import numpy as np
 ###################################################################################################
 ###################################################################################################
 
-def single_trial_occ(num_bins,min_occ,max_occ):
+def single_trial_occ(num_bins, min_occ, max_occ):
     """
     Simulate occupancy for a single trial
 

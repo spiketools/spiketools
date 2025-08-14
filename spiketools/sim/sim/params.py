@@ -158,7 +158,7 @@ def update_vals(sim_params, values, update):
 
         
 ## Functions for updating / sampling parameters 
-def update_paired_vals(sim_params, values1,values2, update1,update2):
+def update_paired_vals(sim_params, values1, values2, update1,  update2):
     """Update simulation parameter values.
     
     Parameters

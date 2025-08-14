@@ -223,7 +223,7 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, pl
     
     # Calculate presence ratio if not provided (based on all trials, including empty)
     if presence_ratio is None:
-        presence_ratio = np.mean(trial_place_bins > 0, axis=0)  # Fraction of non-zero values across trials for each bin
+        presence_ratio = np.mean(trial_placefield > 0, axis=0)  # Fraction of non-zero values across trials for each bin
 
     if plot:
         grid = make_grid(1, 2, wspace=.5, hspace=1, figsize=(15, 5))

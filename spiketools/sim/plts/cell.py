@@ -10,7 +10,7 @@ from spiketools.plts.style import set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_cell_placefield(vals : np.ndarray, cell_place_bins : np.ndarray, colormap_name='Greys', ax=None,**plt_kwargs):
+def plot_cell_placefield(vals:np.ndarray, cell_place_bins:np.ndarray, colormap_name='Greys', ax=None, **plt_kwargs):
     """
     Plot cell place field data with a colormap visualization
 

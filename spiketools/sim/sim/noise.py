@@ -5,10 +5,26 @@ import matplotlib.pyplot as plt
 ###################################################################################################
 ###################################################################################################
 
-def _sim_random(mean, std, n_bins):    
+def _sim_random(mean, std, n_bins):   
+    """ Simulate random noise
+    
+    Parameters
+    ----------
+    mean: float
+        Mean of the noise
+    std: float
+        Standard deviation of the noise
+    n_bins: int
+        Number of spatial bins
+
+    Returns
+    -------
+    noise: array-like
+        Simulated noise, in Hz.
+    """
     return np.random.normal(mean, std, size=n_bins)
 
-def sim_baseline(n_bins,base_mean,base_std,plot = False):
+def sim_baseline(n_bins, base_mean, base_std, plot=False):
     
     """ Simulate place field's baseline firing rate - randomization
     
@@ -35,7 +51,7 @@ def sim_baseline(n_bins,base_mean,base_std,plot = False):
         plt.plot(baseline)
     return baseline
 
-def sim_noise(n_bins, noise_std, plot = False):
+def sim_noise(n_bins, noise_std, plot=False):
     """ Simulate place field's baseline firing rate - randomization
     
     Parameters
