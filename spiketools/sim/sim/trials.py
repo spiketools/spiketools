@@ -1,3 +1,5 @@
+"""Simulate trials."""
+
 import numpy as np
 from spiketools.sim.sim.placefield import sim_placefield, sim_skew_placefield, sim_multi_placefield, sim_multi_skew_placefield
 

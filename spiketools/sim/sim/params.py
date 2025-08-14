@@ -1,6 +1,5 @@
 """Utilities for managing and updating simulation parameters"""
 
-
 import numpy as np 
 import matplotlib.pyplot as plt
 
@@ -198,8 +197,8 @@ def update_paired_vals(sim_params, values1, values2, update1, update2):
         for v2 in values2:
             update2(sim_params, v2)
             yield sim_params
-      
-            
+
+
 def sampler(sample_size, min_val, max_val, plot=True):
     """Sample values from a uniform distribution.
     

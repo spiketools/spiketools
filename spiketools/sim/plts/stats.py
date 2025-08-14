@@ -1,3 +1,5 @@
+"""Plot the statistics as a function of a parameter."""
+
 from spiketools.plts.utils import check_ax
 from spiketools.plts.style import set_plt_kwargs
 
@@ -19,6 +21,6 @@ def plot_param_stats(param_vals, stats, ax=None, **plt_kwargs):
     plt_kwargs : dict
         Additional plotting arguments to be passed to the main plot functions.  
     """
-    
+
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
     ax.plot(param_vals, stats, **plt_kwargs)

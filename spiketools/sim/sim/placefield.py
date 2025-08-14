@@ -1,7 +1,7 @@
-import matplotlib.pyplot as plt
+"""Simulate place field."""
 
 from spiketools.sim.sim.peak import sim_placefield_peak, sim_skew_placefield_peak,sim_placefield_multipeaks,sim_skew_placefield_multipeaks
-from noise import sim_baseline,sim_noise
+from spiketools.sim.sim.noise import sim_baseline,sim_noise
 
 ###################################################################################################
 ###################################################################################################

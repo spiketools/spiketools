@@ -1,8 +1,9 @@
+"""Plot cell place field data with a colormap visualization."""
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-from spiketools.plts.utils import check_ax, get_kwargs,savefig
+from spiketools.plts.utils import check_ax, savefig
 from spiketools.plts.style import set_plt_kwargs
 
 ###################################################################################################

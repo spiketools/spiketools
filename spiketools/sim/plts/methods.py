@@ -1,3 +1,4 @@
+"""Plot a comparison of two methods."""
 
 import matplotlib.pyplot as plt
 

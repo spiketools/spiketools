@@ -1,3 +1,5 @@
+"""Plot a trial placefield."""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
