@@ -98,5 +98,3 @@ def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, sha
         ax.fill_between(spatial_bins, trial_placefield - shade, trial_placefield + shade,
                         alpha=custom_plt_kwargs.pop('shade_alpha', 0.25),
                         color=custom_plt_kwargs.pop('shade_color',ax.lines[0].get_color()))
-
-    

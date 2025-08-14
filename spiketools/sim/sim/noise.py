@@ -32,9 +32,6 @@ def sim_baseline(n_bins,base_mean,base_std,plot = False):
         plt.plot(baseline)
     return baseline
 
-
-
-
 def sim_noise(n_bins, noise_std, plot = False):
     """ Simulate place field's baseline firing rate - randomization
     

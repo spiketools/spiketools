@@ -117,6 +117,3 @@ def sampler(sample_size,min_val,max_val,plot = True):
         plt.colorbar(label='Sample Values')
         plt.show()
     return sample_vals
-
-
-        

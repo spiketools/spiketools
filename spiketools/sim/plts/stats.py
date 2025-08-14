@@ -22,4 +22,3 @@ def plot_param_stats(param_vals, stats, ax=None, **plt_kwargs):
     """
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
     ax.plot(param_vals, stats, **plt_kwargs)
-

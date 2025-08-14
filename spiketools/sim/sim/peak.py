@@ -142,4 +142,3 @@ def sim_skew_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_pea
     if plot:
         plt.plot(skew_placefield_multipeaks)
     return skew_placefield_multipeaks
-

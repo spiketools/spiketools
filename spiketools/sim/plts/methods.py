@@ -17,4 +17,3 @@ def method_method_comparison(method_A, method_B, param_vals, color_map, cbar = T
         cbar = plt.colorbar(scatter, ax=ax)
         if 'ylabel' in cbar_kwargs:
             cbar.ax.set_ylabel(cbar_kwargs['ylabel'])
-

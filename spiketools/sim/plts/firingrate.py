@@ -14,6 +14,3 @@ def plot_firing_rate(data,ax=None,**plt_kwargs):
     custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
     
     ax.plot(data, **custom_plt_kwargs)
-
-
-    
