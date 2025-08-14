@@ -3,7 +3,7 @@ from trials import sim_trial_placefield, sim_skew_trial_placefield, sim_trial_mu
 ###################################################################################################
 ###################################################################################################
 
-def sim_cell_placefield(param_gen, vary_height = False, vary_width = False, vary_place_loc = False):
+def sim_neuron_placefield(param_gen, vary_height = False, vary_width = False, vary_place_loc = False):
     """Simulate cell place fields for a given set of parameters.
     
     Parameters
@@ -30,7 +30,7 @@ def sim_cell_placefield(param_gen, vary_height = False, vary_width = False, vary
     return cell_place_bins
 
 
-def sim_cell_skew_placefield(param_gen, vary_height=False, vary_width=False, vary_place_loc=False, vary_skewness=True):
+def sim_neuron_skew_placefield(param_gen, vary_height=False, vary_width=False, vary_place_loc=False, vary_skewness=True):
     """Simulate cell place fields for a given set of parameters.
 
     Parameters
@@ -61,7 +61,7 @@ def sim_cell_skew_placefield(param_gen, vary_height=False, vary_width=False, var
 
 
 
-def sim_cell_multi_placefield(param_gen, vary_height=False, vary_width=False, vary_place_loc=False):
+def sim_neuron_multi_placefield(param_gen, vary_height=False, vary_width=False, vary_place_loc=False):
     """Simulate cell place fields for a given set of parameters.
     Parameters
     ----------
@@ -87,7 +87,7 @@ def sim_cell_multi_placefield(param_gen, vary_height=False, vary_width=False, va
         cell_place_bins.append(trial_place_bins)
     return cell_place_bins
 
-def sim_cell_multi_skew_placefield(param_gen, vary_height=False, vary_width=False, vary_place_loc=False, vary_skewness=False):
+def sim_neuron_multi_skew_placefield(param_gen, vary_height=False, vary_width=False, vary_place_loc=False, vary_skewness=False):
     """Simulate cell skew place fields for a given set of parameters.
 
     Parameters
@@ -108,7 +108,7 @@ def sim_cell_multi_skew_placefield(param_gen, vary_height=False, vary_width=Fals
     cell_place_bins : list
         List of cell place bins : (num_cells, num_trials, num_bins).
     """
-    
+
     cell_place_bins = []
     for cur_params in param_gen:
         trial_place_bins = sim_trial_multi_skew_placefields(**cur_params, vary_height=vary_height, vary_width=vary_width, vary_place_loc=vary_place_loc, vary_skewness=vary_skewness, plot=False)
