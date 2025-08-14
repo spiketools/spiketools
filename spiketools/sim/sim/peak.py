@@ -1,4 +1,4 @@
-''' Simulate place field's peak'''
+""" Simulate place field's peak. """
 
 import numpy as np 
 from scipy.stats import skewnorm
