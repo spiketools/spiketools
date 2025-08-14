@@ -122,6 +122,6 @@ def sim_skew_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_pea
     
     skew_placefield_multipeaks = 0
     for i in range(n_peaks):
-        skew_placefield_peak = sim_skew_placefield_peak(n_height[i], n_width[i], n_bins, n_place_loc[i],n_skewness[i],plot = False)
+        skew_placefield_peak = sim_skew_placefield_peak(n_height[i], n_width[i], n_bins, n_place_loc[i],n_skewness[i])
         skew_placefield_multipeaks += skew_placefield_peak
     return skew_placefield_multipeaks

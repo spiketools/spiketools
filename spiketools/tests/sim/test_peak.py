@@ -42,12 +42,12 @@ def test_sim_placefield_multipeaks():
 
 def test_sim_skew_placefield_multipeaks():
 
-    n_height = [10, 20, 30]
-    n_width = [10, 20, 30]
-    n_bins = 100
-    n_place_loc = [50, 60, 70]
+    n_height = [5.0, 5.0, 5.0]
+    n_width = [2.0, 2.0, 2.0]
+    n_place_loc = [5, 25, 45]
     n_peaks = 3
-    n_skewness = [1, 2, 3]
+    n_skewness = [5, 5, 5]
+    n_bins = 50
 
     placefield_multipeaks = sim_skew_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness)
     assert isinstance(placefield_multipeaks, np.ndarray)
