@@ -2,7 +2,6 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-
 from spiketools.plts.utils import check_ax, get_kwargs
 from spiketools.plts.style import set_plt_kwargs
 from spiketools.plts.data import  plot_lines
