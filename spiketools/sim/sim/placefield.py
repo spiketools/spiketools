@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-from peak import sim_placefield_peak, sim_skew_placefield_peak,sim_placefield_multipeaks,sim_skew_placefield_multipeaks
+from spiketools.sim.sim.peak import sim_placefield_peak, sim_skew_placefield_peak,sim_placefield_multipeaks,sim_skew_placefield_multipeaks
 from noise import sim_baseline,sim_noise
 
 ###################################################################################################
