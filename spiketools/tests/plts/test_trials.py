@@ -90,4 +90,4 @@ def test_plot_trial_placefield():
     trial_place_bins = np.array([[0,1,2,1,0,0,0,0,0,0],
                         [0,.5,1,.5,0,0,0,0,0,0],
                         [0,1,2,1,0,0,0,0,0,0]])
-    plot_trial_placefield(trial_place_bins, add_traces=True, trace_cmap='Greys', file_path=TEST_PLOTS_PATH, file_name='tplot_trial_placefield.png')
+    plot_trial_placefield(trial_place_bins, average='mean', shade='sem', add_traces=True, trace_cmap='Greys', file_path=TEST_PLOTS_PATH, file_name='tplot_trial_placefield.png')
