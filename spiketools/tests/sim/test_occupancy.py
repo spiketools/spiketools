@@ -40,3 +40,10 @@ def test_sim_occ_trials():
     assert isinstance(avg_occ, np.ndarray)
     assert all_trials_occ.shape == (num_trials, num_bins)
     assert avg_occ.shape == (num_bins,)
+
+    use_random = True
+    all_trials_occ_random, avg_occ_random = sim_occ_trials(num_trials, num_bins, min_occ, max_occ, use_random, uniform_scale)
+    assert isinstance(all_trials_occ_random, np.ndarray)
+    assert isinstance(avg_occ_random, np.ndarray)
+    assert all_trials_occ_random.shape == (num_trials, num_bins)
+    assert avg_occ_random.shape == (num_bins,)
