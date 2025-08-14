@@ -15,55 +15,27 @@ import matplotlib.pyplot as plt
 upd_height=lambda params, val: params.update({'height_mean':val})
 
 
-# Update Width 
-"""Update the width of the place field.
-"""
-
 upd_width=lambda params, val: params.update({'width_mean':val})
 
-# Update Noise
-"""Update the noise of the place field.
-"""
 
 upd_noise=lambda params, val: params.update({'noise_std':val})
 
 
-# Update Place field Center Consistency location 
-"""Update the place field center consistency location.
-"""
-
 upd_placeloc=lambda params, val: params.update({'place_loc_std':val})
 
-
-# Update Skewness
-"""Update the skewness of the place field.
-"""
 
 upd_skewness=lambda params, val: params.update({'skewness_mean':val})
 
 
-# Update Presence Ratio
-"""Update the presence ratio of the place field.
-"""
-
 upd_presence_ratio=lambda params, val: params.update({'presence_ratio':val})
 
-
-# Update Base
-"""Update the baseline firing rate of the place field.
-"""
 
 upd_base=lambda params, val: params.update({'base_mean':val})
 
 
-# Update Trials
-"""Update the number of trials.
-"""
-
 upd_trials=lambda params, val: params.update({'n_trials':val})
 
 
-# Update Number of Peaks
 def upd_npeaks(params, val):
     """Update number of peaks and corresponding parameter arrays for multiple place fields.
     
@@ -129,8 +101,6 @@ def upd_skew_npeaks(params, val):
     })
     return params
 
-###########################################################
-## Collect together all update function 
 
 UPDATES = {
 'update_height': upd_height,
@@ -145,7 +115,6 @@ UPDATES = {
 }
 
 
-## Functions for updating / sampling parameters 
 def update_vals(sim_params, values, update):
     """Update simulation parameter values.
     
@@ -169,7 +138,6 @@ def update_vals(sim_params, values, update):
         yield sim_params
 
  
-## Functions for updating / sampling parameters 
 def update_paired_vals(sim_params, values1, values2, update1, update2):
     """Update simulation parameter values for paired parameters.
     
