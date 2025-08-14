@@ -7,32 +7,28 @@ import matplotlib.pyplot as plt
 ###################################################################################################
 
 ## Define update functions 
-
-# Update Heights
-"""Update the height of the place field.
-"""
-
+"""Update the height of the place field."""
 upd_height=lambda params, val: params.update({'height_mean':val})
 
-
+"""Update the width of the place field."""
 upd_width=lambda params, val: params.update({'width_mean':val})
 
-
+"""Update the noise of the place field."""
 upd_noise=lambda params, val: params.update({'noise_std':val})
 
-
+"""Update the place location standard deviation of the place field."""
 upd_placeloc=lambda params, val: params.update({'place_loc_std':val})
 
-
+"""Update the skewness of the place field."""
 upd_skewness=lambda params, val: params.update({'skewness_mean':val})
 
-
+"""Update the presence ratio of the place field."""
 upd_presence_ratio=lambda params, val: params.update({'presence_ratio':val})
 
-
+"""Update the base mean of the place field."""
 upd_base=lambda params, val: params.update({'base_mean':val})
 
-
+"""Update the number of trials of the place field."""
 upd_trials=lambda params, val: params.update({'n_trials':val})
 
 
@@ -101,20 +97,6 @@ def upd_skew_npeaks(params, val):
     })
     return params
 
-
-UPDATES = {
-'update_height': upd_height,
-'update_width': upd_width,
-'update_noise': upd_noise,     
-'update_placeloc':upd_placeloc,
-'update_skewness':upd_skewness,
-'update_base':upd_base,
-'update_npeaks':upd_npeaks,
-'update_skew_npeaks':upd_skew_npeaks,
-'update_presence_ratio':upd_presence_ratio
-}
-
-
 def update_vals(sim_params, values, update):
     """Update simulation parameter values.
     
@@ -165,37 +147,3 @@ def update_paired_vals(sim_params, values1, values2, update1, update2):
         for v2 in values2:
             update2(sim_params, v2)
             yield sim_params
-
-
-def sampler(sample_size, min_val, max_val, plot=True):
-    """Sample values from a uniform distribution.
-    
-    Parameters
-    ----------
-    sample_size: int
-        Number of samples to draw.
-    min_val: float
-        Minimum value.
-    max_val: float
-        Maximum value.
-    plot: bool, default: True
-        Whether to plot the samples.
-
-    Returns
-    -------
-    sample_vals: array-like
-        Sampled values.
-    """
-
-    sample_vals=np.random.uniform(min_val, max_val, sample_size)
-    if plot:
-        norm=plt.Normalize(sample_vals.min(), sample_vals.max())
-        cmap=plt.get_cmap('inferno')
-
-
-        plt.scatter(range(1, sample_size + 1), sample_vals, c=sample_vals, cmap=cmap, marker='o',s=20, norm=norm)
-        plt.xlabel('Sample Size')
-        plt.ylabel('Sampled Values')
-        plt.colorbar(label='Sample Values')
-        plt.show()
-    return sample_vals
