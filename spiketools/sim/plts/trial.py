@@ -12,9 +12,8 @@ from spiketools.utils.options import get_avg_func, get_var_func
 @set_plt_kwargs
 def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, shade=None, add_traces=False,
                           trace_cmap=None, ax=None, **plt_kwargs):
-    """
-    Plot a trial placefield
-    
+    """Plot a trial placefield
+
     Parameters
     ----------
     trial_placefield : 1D or 2D array

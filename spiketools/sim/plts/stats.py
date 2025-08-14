@@ -6,8 +6,7 @@ from spiketools.plts.style import set_plt_kwargs
 
 @set_plt_kwargs
 def plot_param_stats(param_vals, stats, ax=None, **plt_kwargs):
-    """
-    Plot the statistics as a function of a parameter.
+    """Plot the statistics as a function of a parameter.
 
     Parameters
     ----------

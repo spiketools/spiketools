@@ -10,50 +10,42 @@ import matplotlib.pyplot as plt
 ## Define update functions 
 
 # Update Heights
-"""
-Update the height of the place field
+"""Update the height of the place field
 """
 upd_height = lambda params, val : params.update({'height_mean' : val})
 
 # Update Width 
-"""
-Update the width of the place field
+"""Update the width of the place field
 """
 upd_width = lambda params, val: params.update({'width_mean': val})
 
 # Update Noise
-"""
-Update the noise of the place field
+"""Update the noise of the place field
 """
 upd_noise = lambda params, val: params.update({'noise_std':val})
 
 # Update Place field Center Consistency location 
-"""
-Update the place field center consistency location
+"""Update the place field center consistency location
 """
 upd_placeloc = lambda params, val: params.update({'place_loc_std': val})
 
 # Update Skewness
-"""
-Update the skewness of the place field
+"""Update the skewness of the place field
 """
 upd_skewness = lambda params, val: params.update({'skewness_mean': val})
 
 # Update Presence Ratio
-"""
-Update the presence ratio of the place field
+"""Update the presence ratio of the place field
 """
 upd_presence_ratio = lambda params, val: params.update({'presence_ratio': val})
 
 # Update Base
-"""
-Update the baseline firing rate of the place field
+"""Update the baseline firing rate of the place field
 """
 upd_base = lambda params, val: params.update({'base_mean':val})
 
 # Update Trials
-"""
-Update the number of trials
+"""Update the number of trials
 """
 upd_trials = lambda params, val: params.update({'n_trials':val})
 
@@ -179,8 +171,7 @@ def update_paired_vals(sim_params, values1, values2, update1,  update2):
             yield sim_params
             
 def sampler(sample_size,min_val,max_val,plot = True):
-    """
-    Sample values from a uniform distribution
+    """Sample values from a uniform distribution
     Parameters
     ----------
     sample_size: int

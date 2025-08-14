@@ -155,7 +155,6 @@ def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, n
     skewed multi placefield: 1d array
             Simulated skewed multipeak place field firing rate, in Hz. 
             
-
     """
         
     
