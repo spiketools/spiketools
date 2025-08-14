@@ -2,6 +2,7 @@
 
 import numpy as np
 
+from spiketools.sim import trials
 from spiketools.tests.tutils import plot_test
 from spiketools.tests.tsettings import TEST_PLOTS_PATH
 
@@ -82,3 +83,11 @@ def test_create_raster_title():
     assert isinstance(title2, str)
 
     assert title1 != title2
+
+
+def test_plot_trial_placefield():
+    
+    trial_place_bins = np.array([[0,1,2,1,0,0,0,0,0,0],
+                        [0,.5,1,.5,0,0,0,0,0,0],
+                        [0,1,2,1,0,0,0,0,0,0]])
+    plot_trial_placefield(trial_place_bins, file_path=TEST_PLOTS_PATH, file_name='tplot_trial_placefield.png')
