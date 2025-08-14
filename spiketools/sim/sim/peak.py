@@ -47,7 +47,9 @@ def sim_skew_placefield_peak(height, width, n_bins, place_loc, skewness):
     place loc: int
             Center of the place field location.
     skewness: int
-            Skewness parameter that introduces asymmetry to the place field (Positive skewness values cause the place field to skew to the right, while negative values result in leftward skewing)
+            Skewness parameter that introduces asymmetry to the place field 
+            (Positive skewness values cause the place field to skew to the right, while 
+            negative values result in leftward skewing).
     
     Returns
     -------
