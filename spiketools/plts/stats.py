@@ -46,6 +46,7 @@ def plot_surrogates(surrogates, data_value=None, p_value=None, ax=None, **plt_kw
                 verticalalignment='center',
                 transform=ax.transAxes)
 
+
 @set_plt_kwargs
 def plot_param_stats(param_vals, stats, ax=None, **plt_kwargs):
     
