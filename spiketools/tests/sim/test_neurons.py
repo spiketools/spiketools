@@ -40,6 +40,7 @@ def test_sim_neuron_multi_placefield():
     assert (cell_place_bins[1].shape) == (10, 100)
     assert (cell_place_bins[2].shape) == (10, 100)
 
+
 def test_sim_neuron_multi_skew_placefield():
     """Test sim_neuron_multi_skew_placefield"""
     params = {'n_height_mean' : [5], 'n_width_mean' : [5], 'n_place_locs_mean' : [5], 'n_place_loc_std' : [5], 'n_height_std' : [5], 'n_width_std' : [5], 'base_mean' : 1, 'base_std' : 1,
