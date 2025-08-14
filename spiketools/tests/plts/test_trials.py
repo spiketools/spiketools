@@ -1,5 +1,6 @@
 """Tests for spiketools.plts.trials"""
 
+from re import A, S
 import numpy as np
 
 from spiketools.tests.tutils import plot_test
@@ -81,3 +82,88 @@ def test_create_raster_title():
     assert isinstance(title2, str)
 
     assert title1 != title2
+
+
+def test_sim_trial_placefield():
+
+    height_mean = 10
+    height_std = 2
+    width_mean = 10
+    width_std = 2
+    noise_std = 1
+    base_mean = 0
+    base_std = 0
+    n_trials = 10
+    place_loc_mean = 50
+    place_loc_std = 10
+    n_bins = 100
+
+    trial_placefield = sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std,
+ n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=0.6)
+    assert isinstance(trial_placefield, np.ndarray)
+    assert trial_placefield.shape == (n_trials, n_bins)
+
+
+def test_sim_skew_trial_placefield():
+
+    height_mean = 10
+    height_std = 2
+    width_mean = 10
+    width_std = 2
+    noise_std = 1
+    base_mean = 0
+    base_std = 0
+    n_trials = 10
+    place_loc_mean = 50
+    place_loc_std = 10
+    skewness_mean = 0
+    skewness_std = 1
+    n_bins = 100
+
+    trial_placefield = sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins, noise_std, base_mean, base_std,
+ n_trials, vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True, presence_ratio=0.6)
+    assert isinstance(trial_placefield, np.ndarray)
+    assert trial_placefield.shape == (n_trials, n_bins)
+
+
+def test_sim_trial_multi_placefields():
+
+    n_height_mean = [10, 20, 30]
+    n_height_std = [2, 2, 2]
+    n_width_mean = [10, 20, 30]
+    n_width_std = [2, 2, 2]
+    n_place_locs_mean = [50, 60, 70]
+    n_place_loc_std = [10, 10, 10]
+    n_bins = 100
+    n_peaks = 3
+    base_mean = 0
+    base_std = 0
+    noise_std = 1
+    n_trials = 10
+
+    trial_placefield = sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=0.6)
+    assert isinstance(trial_placefield, np.ndarray)
+    assert trial_placefield.shape == (n_trials, n_bins)
+    assert np.all(trial_placefield >= 0)
+
+def test_sim_trial_multi_skew_placefields():
+
+    n_height_mean = [10, 20, 30]
+    n_height_std = [2, 2, 2]
+    n_width_mean = [10, 20, 30]
+    n_width_std = [2, 2, 2]
+    n_place_locs_mean = [50, 60, 70]
+    n_place_loc_std = [10, 10, 10]
+    n_bins = 100
+    n_peaks = 3
+    n_skewness_mean = [0, 1, 2]
+    n_skewness_std = [1, 1, 1]
+    base_mean = 0
+    base_std = 0
+    noise_std = 1
+    n_trials = 10
+
+    trial_placefield = sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True, presence_ratio=0.6)
+    assert isinstance(trial_placefield, np.ndarray)
+    assert trial_placefield.shape == (n_trials, n_bins)
+    assert np.all(trial_placefield >= 0)

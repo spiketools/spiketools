@@ -82,6 +82,7 @@ SPIKETRIAL_FUNCS = {
     'poisson' : sim_trials_poisson,
 }
 
+
 def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std,
  n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=0.6):
     """Simulate multiple trials of place fields with optional variability in height, width, and location.
