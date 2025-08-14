@@ -1,6 +1,6 @@
 """Simulate cells."""
 
-from spiketools.sim.sim.trials import sim_trial_placefield, sim_skew_trial_placefield, sim_trial_multi_placefields, sim_trial_multi_skew_placefields
+from spiketools.sim.trials import sim_trial_placefield, sim_skew_trial_placefield, sim_trial_multi_placefields, sim_trial_multi_skew_placefields
 
 ########################################################################################################################################################
 ########################################################################################################################################################
