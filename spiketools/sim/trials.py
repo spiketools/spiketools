@@ -227,7 +227,7 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean,
     """
 
     if presence_ratio is not None:
-        n_simulated_trials = int(n_trials * presence_ratio)  # Calculate number of trials to simulate
+        n_simulated_trials = int(n_trials * presence_ratio)  
     else:
         n_simulated_trials = n_trials  # Default to simulating all trials
 
@@ -237,8 +237,10 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean,
         # Vary parameters for each trial if specified
         height = np.random.normal(height_mean, height_std) if vary_height else height_mean
         width = np.random.normal(width_mean, width_std) if vary_width else width_mean
-        place_loc = np.random.normal(place_loc_mean, place_loc_std) if vary_place_loc else place_loc_mean
-        skewness = np.random.normal(skewness_mean, skewness_std) if vary_skewness else skewness_mean
+        place_loc = np.random.normal(place_loc_mean, 
+                                     place_loc_std) if vary_place_loc else place_loc_mean
+        skewness = np.random.normal(skewness_mean, 
+                                    skewness_std) if vary_skewness else skewness_mean
         
         # Generate skewed place field for this trial
         place_bins = sim_skew_placefield(height, width, skewness, 
@@ -253,14 +255,15 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean,
     
     # Calculate presence ratio if not provided (based on all trials, including empty)
     if presence_ratio is None:
-        presence_ratio = np.mean(trial_placefield > 0, axis=0)  # Fraction of non-zero values across trials for each bin
+        presence_ratio = np.mean(trial_placefield > 0, axis=0)  
     return trial_placefield
 
 
-def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, 
-                                n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, 
-                                vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=None):
-    """ Simulate multiple trials of multi-peak place fields with specified parameters
+def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, 
+                                n_place_locs_mean, n_place_loc_std, n_bins, n_peaks, base_mean, 
+                                base_std, noise_std,n_trials, vary_height=True, vary_width=True, 
+                                vary_place_loc=True, presence_ratio=None):
+    """Simulate multiple trials of multi-peak place fields with specified parameters.
     
     Parameters
     -----------
@@ -316,7 +319,8 @@ def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_wid
     for _ in range(n_simulated_trials):
         n_height = np.random.normal(n_height_mean, n_height_std) if vary_height else n_height_mean
         n_width = np.random.normal(n_width_mean, n_width_std) if vary_width else n_width_mean
-        n_place_loc = np.random.normal(n_place_locs_mean, n_place_loc_std) if vary_place_loc else n_place_locs_mean
+        n_place_loc = np.random.normal(n_place_locs_mean,
+                                       n_place_loc_std) if vary_place_loc else n_place_locs_mean
 
         placefield=sim_multi_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, 
                                         base_mean, base_std, noise_std)
@@ -335,10 +339,12 @@ def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_wid
 
 
 def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, 
-                                    n_place_locs_mean, n_place_loc_std, n_skewness_mean, n_skewness_std, n_bins, 
-                                    n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True,
-                                    vary_place_loc=True, vary_skewness=True, presence_ratio=None):
-    """Simulate multiple trials of multi-peak place fields with specified parameters, including skewness variability
+                                     n_place_locs_mean, n_place_loc_std, n_skewness_mean, 
+                                     n_skewness_std, n_bins, n_peaks, base_mean, base_std,
+                                     noise_std, n_trials, vary_height=True, vary_width=True,
+                                     vary_place_loc=True, vary_skewness=True, presence_ratio=None):
+    """Simulate multiple trials of multi-peak place fields with specified parameters, 
+       including skewness variability.
     
     Parameters
     -----------
