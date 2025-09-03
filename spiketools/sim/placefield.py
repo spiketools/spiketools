@@ -70,9 +70,10 @@ def sim_skew_placefield(height, width, skewness, n_bins, place_loc,
             Simulated Asymmetrical place field skew peak firing rate, in Hz.  
     """
         
-    skew_placefield = sim_skew_placefield_peak(height, width, n_bins, 
-                  place_loc, skewness) + sim_baseline(n_bins, 
-                  base_mean, base_std)+sim_noise(n_bins, noise_std)
+    skew_placefield = sim_skew_placefield_peak(height, width, n_bins, place_loc, skewness) + \
+                      sim_baseline(n_bins, base_mean, base_std) + \
+                      sim_noise(n_bins, noise_std)
+                 
     return skew_placefield 
 
 
@@ -108,16 +109,16 @@ def sim_multi_placefield(n_height, n_width, n_bins, n_place_loc,
             Simulated multipeak place field firing rate, in Hz. 
     """
         
-    placefield = sim_placefield_multipeaks(n_height, n_width, 
-                 n_bins, n_place_loc, n_peaks) + sim_baseline(n_bins, 
-                 base_mean, base_std)+sim_noise(n_bins, noise_std)
+    placefield = sim_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks) + \
+                 sim_baseline(n_bins, base_mean, base_std) + \
+                 sim_noise(n_bins, noise_std)
     return placefield 
 
 
 def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, 
-                             n_skewness, base_mean, base_std, noise_std):
+                              n_skewness, base_mean, base_std, noise_std):
     """Simulate place field on a linear track.
-    
+
     Parameters
     -----------
     n_height : array-like
@@ -146,7 +147,8 @@ def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks,
             Simulated skewed multipeak place field firing rate, in Hz.  
     """
 
-    placefield = sim_skew_placefield_multipeaks(n_height, n_width, n_bins, 
-                n_place_loc, n_peaks, n_skewness) + sim_baseline(n_bins, 
-                base_mean, base_std)+sim_noise(n_bins, noise_std)
+    placefield = sim_skew_placefield_multipeaks(n_height, n_width, n_bins,
+                                               n_place_loc, n_peaks, n_skewness) + \
+                 sim_baseline(n_bins, base_mean, base_std) + \
+                 sim_noise(n_bins, noise_std)
     return placefield 

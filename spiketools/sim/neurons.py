@@ -29,13 +29,14 @@ def sim_neuron_placefield(param_gen, vary_height=False, vary_width=False, vary_p
     cell_place_bins = []
     for cur_params in param_gen:
         trial_place_bins = sim_trial_placefield(**cur_params, vary_height=vary_height, 
-                                            vary_width=vary_width, vary_place_loc=vary_place_loc)
+                                                vary_width=vary_width,
+                                                vary_place_loc=vary_place_loc)
         cell_place_bins.append(trial_place_bins)
     return cell_place_bins
 
 
-def sim_neuron_skew_placefield(param_gen, vary_height=False,
-                                      vary_width=False, vary_place_loc=False, vary_skewness=True):
+def sim_neuron_skew_placefield(param_gen, vary_height=False,vary_width=False,
+                               vary_place_loc=False, vary_skewness=True):
     """Simulate cell place fields for a given set of parameters.
 
     Parameters
@@ -61,7 +62,9 @@ def sim_neuron_skew_placefield(param_gen, vary_height=False,
     for cur_params in param_gen:
         
         trial_place_bins = sim_skew_trial_placefield(**cur_params, vary_height=vary_height, 
-            vary_width=vary_width, vary_place_loc=vary_place_loc, vary_skewness=vary_skewness)
+                                                     vary_width=vary_width, 
+                                                     vary_place_loc=vary_place_loc, 
+                                                     vary_skewness=vary_skewness)
         cell_place_bins.append(trial_place_bins)
     return cell_place_bins
 
@@ -91,15 +94,16 @@ def sim_neuron_multi_placefield(param_gen, vary_height=False,
     for cur_params in param_gen:
  
         trial_place_bins = sim_trial_multi_placefields(**cur_params, vary_height=vary_height,
-                                             vary_width=vary_width, vary_place_loc=vary_place_loc)
+                                                       vary_width=vary_width, 
+                                                       vary_place_loc=vary_place_loc)
         cell_place_bins.append(trial_place_bins)
     return cell_place_bins
 
 
 def sim_neuron_multi_skew_placefield(param_gen, vary_height=False,
-                                    vary_width=False, vary_place_loc=False, vary_skewness=False):
+                                     vary_width=False, vary_place_loc=False, vary_skewness=False):
     """Simulate cell skew place fields for a given set of parameters.
-    
+
     Parameters
     ----------
     param_gen : generator
@@ -122,6 +126,8 @@ def sim_neuron_multi_skew_placefield(param_gen, vary_height=False,
     cell_place_bins = []
     for cur_params in param_gen:
         trial_place_bins = sim_trial_multi_skew_placefields(**cur_params, vary_height=vary_height, 
-            vary_width=vary_width, vary_place_loc=vary_place_loc, vary_skewness=vary_skewness)
+                                                            vary_width=vary_width, 
+                                                            vary_place_loc=vary_place_loc, 
+                                                            vary_skewness=vary_skewness)
         cell_place_bins.append(trial_place_bins)
     return cell_place_bins

@@ -85,8 +85,9 @@ SPIKETRIAL_FUNCS = {
 
 
 def sim_trial_placefield(height_mean, height_std, width_mean, width_std,
- place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std,
- n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=0.6):
+                        place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std,
+                        n_trials, vary_height=True, vary_width=True, vary_place_loc=True, 
+                        presence_ratio=0.6):
     """Simulate multiple trials of place fields with optional variability
       in height, width, and location.
     
@@ -173,9 +174,10 @@ def sim_trial_placefield(height_mean, height_std, width_mean, width_std,
 
 
 def sim_skew_trial_placefield(height_mean, height_std, width_mean,
-                width_std, place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins,
-                noise_std, base_mean, base_std, n_trials, vary_height=True, vary_width=True, 
-                vary_place_loc=True, vary_skewness=True, presence_ratio=1):
+                            width_std, place_loc_mean, place_loc_std, skewness_mean,
+                            skewness_std, n_bins, noise_std, base_mean, base_std, n_trials,
+                            vary_height=True, vary_width=True, vary_place_loc=True, 
+                            vary_skewness=True, presence_ratio=1):
     """Simulate multiple trials of skewed place fields with 
     optional variability in height, width, location, and skewness.
     
@@ -406,12 +408,14 @@ def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
     for _ in range(n_simulated_trials):
         n_height = np.random.normal(n_height_mean, n_height_std) if vary_height else n_height_mean
         n_width = np.random.normal(n_width_mean, n_width_std) if vary_width else n_width_mean
-        n_place_loc = np.random.normal(n_place_locs_mean, n_place_loc_std) if vary_place_loc else n_place_locs_mean
-        n_skewness = np.random.normal(n_skewness_mean, n_skewness_std) if vary_skewness else n_skewness_mean
+        n_place_loc = np.random.normal(n_place_locs_mean,
+                                       n_place_loc_std) if vary_place_loc else n_place_locs_mean
+        n_skewness = np.random.normal(n_skewness_mean, 
+                                      n_skewness_std) if vary_skewness else n_skewness_mean
 
         # Generate multi-peak place field with skewness
         placefield = sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, 
-                                             n_peaks, n_skewness, base_mean, base_std, noise_std)
+                                               n_peaks, n_skewness, base_mean, base_std, noise_std)
         trial_placefields.append(placefield)
 
     # Fill the remaining trials with empty arrays (zeros)

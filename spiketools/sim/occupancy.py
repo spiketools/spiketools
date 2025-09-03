@@ -44,7 +44,8 @@ def sim_uniform_occupancy(num_bins, scale):
     return np.ones(num_bins) * scale
 
 
-def sim_occupancy_trials(num_trials, num_bins, min_occ, max_occ, use_random=False, uniform_scale=1):
+def sim_occupancy_trials(num_trials, num_bins, min_occ, max_occ, use_random=False, 
+                         uniform_scale=1):
     """Simulate occupancy for multiple trials.
 
     Parameters
