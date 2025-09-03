@@ -12,6 +12,7 @@ from spiketools.plts.annotate import add_vlines, add_vshades, add_significance
 from spiketools.plts.utils import check_ax, make_axes, get_kwargs, savefig
 from spiketools.plts.style import set_plt_kwargs
 from spiketools.plts.data import  plot_lines
+
 ###################################################################################################
 ###################################################################################################
 

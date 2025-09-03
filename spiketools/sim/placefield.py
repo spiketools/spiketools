@@ -3,8 +3,8 @@
 from spiketools.sim.peak import sim_placefield_peak, sim_skew_placefield_peak,sim_placefield_multipeaks,sim_skew_placefield_multipeaks
 from spiketools.sim.noise import sim_baseline,sim_noise
 
-########################################################################################################################################################
-########################################################################################################################################################
+###################################################################################################
+###################################################################################################
 
 def sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_std):
     """ Simulate place field on a linear track.
