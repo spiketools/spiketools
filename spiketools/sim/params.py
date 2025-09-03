@@ -3,6 +3,7 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 
+
 ###################################################################################################
 ###################################################################################################
 
@@ -123,7 +124,7 @@ def update_vals(sim_params, values, update):
 
 def update_paired_vals(sim_params, values1, values2, update1, update2):
     """Update simulation parameter values for paired parameters.
-    
+
     Parameters
     ----------
     sim_params: dict
