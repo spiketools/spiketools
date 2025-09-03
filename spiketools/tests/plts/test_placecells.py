@@ -4,9 +4,9 @@ import numpy as np
 
 from spiketools.tests.tutils import plot_test
 from spiketools.tests.tsettings import TEST_PLOTS_PATH
-from spiketools.plts.neuron import *
+from spiketools.plts.placecells import *
 from spiketools.sim.params import *
-from spiketools.sim.neurons import *
+from spiketools.sim.placecells import *
 from spiketools.sim.trials import *
 from copy import deepcopy
 
