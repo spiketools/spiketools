@@ -15,7 +15,7 @@ def test_sim_neuron_placefield(t_place_sim_params):
     cell_place_bins = sim_neuron_placefield(param_gen)
 
     assert len(cell_place_bins) == 10
-    assert (cell_place_bins[0].shape) == (10, 100)
+    assert (cell_place_bins[0].shape) == (20, 100)
 
 
 def test_sim_neuron_skew_placefield(t_place_sim_skew_params):
@@ -25,7 +25,7 @@ def test_sim_neuron_skew_placefield(t_place_sim_skew_params):
     cell_place_bins = sim_neuron_skew_placefield(param_gen)
 
     assert len(cell_place_bins) == 10
-    assert (cell_place_bins[0].shape) == (10, 100)
+    assert (cell_place_bins[0].shape) == (20, 100)
 
 
 def test_sim_neuron_multi_placefield(t_place_sim_params_npeaks):
