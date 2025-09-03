@@ -102,20 +102,39 @@ def tsession():
 def t_place_sim_params():
     """Fixture returning default params dict (fresh copy per test)."""
     return {
-        "height_mean": 5,
-        "height_std": 1,
-        "width_mean": 5,
-        "width_std": 1,
-        "noise_std": 1,
-        "place_loc_mean": 5,
-        "place_loc_std": 1,
-        "presence_ratio": 0.5,
-        "base_mean": 1,
-        "base_std": 1,
-        "n_trials": 10,
-        "n_bins": 100,
-        "skewness_mean": 1,
-        "skewness_std": 1,
+        'height_mean': 5,
+        'height_std': 1,
+        'width_mean': 5,
+        'width_std': 1,
+        'noise_std': 1,
+        'place_loc_mean': 5,
+        'place_loc_std': 1,
+        'presence_ratio': .5,
+        'base_mean': 1,
+        'base_std': 1,
+        'n_trials': 20,
+        'n_bins': 100
+    }
+
+
+@pytest.fixture
+def t_place_sim_skew_params():
+    """Fixture returning default params dict with n_peaks set to 2."""
+    return {
+        'height_mean': 5,
+        'height_std': 1,
+        'width_mean': 5,
+        'width_std': 1,
+        'noise_std': 1,
+        'place_loc_mean': 5,
+        'place_loc_std': 1,
+        'presence_ratio': .5,
+        'base_mean': 1,
+        'base_std': 1,
+        'skewness_mean': 1,
+        'skewness_std': 1,
+        'n_trials': 20,
+        'n_bins': 100
     }
 
 
@@ -124,14 +143,39 @@ def t_place_sim_params_npeaks():
     """Fixture returning default params dict with n_peaks set to 2."""
     return {
         'n_height_mean': [5],
+        'n_width_mean': [5],
+        'n_place_locs_mean': [5],
+        'n_place_loc_std': [5], 
+        'n_height_std': [5],
+        'n_width_std': [5],
+        'base_mean': 1,
+        'base_std': 1,
+        'noise_std': 1,
+        'presence_ratio': .5,
+        'n_trials': 10,
+        'n_bins': 100,
+        'n_peaks': 1
+    }
+
+
+@pytest.fixture
+def t_place_sim_params_npeaks_skew():
+    """Fixture returning default params dict with n_peaks and skew set to 2."""
+    return {
+        'n_height_mean': [5],
         'n_width_mean': [5], 
         'n_place_locs_mean': [5],
         'n_place_loc_std': [5],
         'n_height_std': [5],
         'n_width_std': [5],
-        'n_skewness_mean': [5],
+        'base_mean': 1,
+        'base_std': 1,
+        'n_skewness_mean': [1],
         'n_skewness_std': [1],
+        'noise_std': 1,
+        'presence_ratio': .5,
         'n_trials': 10,
-        'n_bins': 10,
+        'n_bins': 100,
         'n_peaks': 1
     }
+    
