@@ -112,6 +112,8 @@ def params():
         "base_std": 1,
         "n_trials": 10,
         "n_bins": 100,
+        "skewness_mean": 1,
+        "skewness_std": 1,
     }
     def _make_params():
         return copy.deepcopy(base)
