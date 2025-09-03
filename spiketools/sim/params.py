@@ -34,7 +34,6 @@ upd_trials=lambda params, val: params.update({'n_trials':val})
 
 def upd_npeaks(params, val):
     """Update number of peaks and corresponding parameter arrays for multiple place fields.
-    
     Parameters
     ----------
     params: dict
@@ -66,7 +65,6 @@ def upd_npeaks(params, val):
 
 def upd_skew_npeaks(params, val):
     """Update number of peaks and corresponding parameter arrays for multiple place fields.
-
     Parameters
     ----------
     params: dict
@@ -99,7 +97,6 @@ def upd_skew_npeaks(params, val):
 
 def update_vals(sim_params, values, update):
     """Update simulation parameter values.
-    
     Parameters
     ----------
     sim_params: dict
@@ -122,7 +119,6 @@ def update_vals(sim_params, values, update):
  
 def update_paired_vals(sim_params, values1, values2, update1, update2):
     """Update simulation parameter values for paired parameters.
-    
     Parameters
     ----------
     sim_params: dict

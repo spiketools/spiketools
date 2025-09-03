@@ -85,7 +85,7 @@ REFRACTORY_FUNCTIONS = {
 
 def apply_refractory(spike_representation):
     """Decorator for applying a refractory period to simulated spiking data.
-
+    
     Parameters
     ----------
     spike_representation : {'times', 'train'}

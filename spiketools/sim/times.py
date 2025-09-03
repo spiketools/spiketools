@@ -11,7 +11,6 @@ from spiketools.utils.checks import check_param_options
 
 def sim_spiketimes(spike_param, duration, method, refractory=0.001, **kwargs):
     """Simulate spike times.
-
     Parameters
     ----------
     spike_param : float
@@ -51,7 +50,6 @@ def sim_spiketimes(spike_param, duration, method, refractory=0.001, **kwargs):
 @apply_refractory('times')
 def sim_spiketimes_poisson(rate, duration, start_time=0, refractory=0.001):
     """Simulate spike times based on a Poisson distribution.
-
     Parameters
     ----------
     rate : float

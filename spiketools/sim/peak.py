@@ -99,7 +99,6 @@ def sim_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks):
 def sim_skew_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness):
     """ Simulate a place field with multiple peaks based on Gaussian distributions
      on a linear track.
-    
     Parameters
     ----------
     n_height : array-like
@@ -115,7 +114,6 @@ def sim_skew_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_pea
     n_skewness: array-like
         Skewness of the place field 
         
-    
     Returns
     -------
     placefield_multipeaks : 1D array
