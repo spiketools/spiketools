@@ -314,6 +314,7 @@ General simulation functions.
    sim_noise
    sim_baseline
    sim_placefield_peak
+   sim_trial_placefield
    sim_neuron_placefield
    sim_occupancy
 
