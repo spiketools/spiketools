@@ -1,6 +1,7 @@
 """Pytest configuration file for testing spiketools."""
 
 import os
+import re
 import shutil
 import pytest
 import copy
@@ -115,4 +116,22 @@ def params():
         "n_bins": 100,
         "skewness_mean": 1,
         "skewness_std": 1,
+    }
+
+
+@pytest.fixture
+def params_npeaks():
+    """Fixture returning default params dict with n_peaks set to 2."""
+    return {
+        'n_height_mean': [5],
+        'n_width_mean': [5], 
+        'n_place_locs_mean': [5],
+        'n_place_loc_std': [5],
+        'n_height_std': [5],
+        'n_width_std': [5],
+        'n_skewness_mean': [5],
+        'n_skewness_std': [1],
+        'n_trials': 10,
+        'n_bins': 10,
+        'n_peaks': 1
     }

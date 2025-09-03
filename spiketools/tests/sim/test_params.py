@@ -1,7 +1,7 @@
 """Tests for spiketools.sim.params"""
 
 from spiketools.sim.params import *
-from spiketools.tests.conftest import params
+from spiketools.tests.conftest import params, params_npeaks
 import copy
 
 ###################################################################################################
@@ -69,36 +69,33 @@ def test_upd_trials(params):
     assert params_copy['n_trials'] == 20
 
 
-def test_upd_npeaks(params):
+def test_upd_npeaks(params_npeaks):
     """Test upd_npeaks"""
-    params_test = {'n_height_mean' : [5], 'n_width_mean' : [5], 'n_place_locs_mean' : [5], 
-    'n_place_loc_std' : [5], 'n_height_std' : [5], 'n_width_std' : [5], 
-    'n_skewness_mean' : [5], 'n_skewness_std' : [1], 'n_trials' : 10, 'n_bins' : 10, 'n_peaks' : 1}
-    upd_npeaks(params_test, 2)
-    assert params_test['n_peaks'] == 2
-    assert len(params_test['n_height_mean']) == 2
-    assert len(params_test['n_width_mean']) == 2
-    assert len(params_test['n_place_locs_mean']) == 2
-    assert len(params_test['n_place_loc_std']) == 2
-    assert len(params_test['n_height_std']) == 2
-    assert len(params_test['n_width_std']) == 2
+    params_copy = copy.deepcopy(params_npeaks)
+    upd_npeaks(params_copy, 2)
+    assert params_copy['n_peaks'] == 2
+    assert len(params_copy['n_height_mean']) == 2
+    assert len(params_npeaks['n_width_mean']) == 2
+    assert len(params_copy['n_place_locs_mean']) == 2
+    assert len(params_copy['n_place_loc_std']) == 2
+    assert len(params_copy['n_height_std']) == 2
+    assert len(params_npeaks['n_width_std']) == 2
 
 
-def test_upd_skew_npeaks():
+def test_upd_skew_npeaks(params_npeaks):
     """Test upd_skew_npeaks"""
-    params_test = {'n_height_mean' : [5], 'n_width_mean' : [5], 'n_place_locs_mean' : [5], 
-    'n_place_loc_std' : [5], 'n_height_std' : [5], 'n_width_std' : [5], 
-    'n_skewness_mean' : [5], 'n_skewness_std' : [1], 'n_trials' : 10, 'n_bins' : 10, 'n_peaks' : 1}
-    upd_skew_npeaks(params_test, 3)
-    assert params_test['n_peaks'] == 3
-    assert len(params_test['n_height_mean']) == 3
-    assert len(params_test['n_width_mean']) == 3 
-    assert len(params['n_place_locs_mean']) == 3
-    assert len(params['n_place_loc_std']) == 3
-    assert len(params['n_height_std']) == 3
-    assert len(params['n_width_std']) == 3
-    assert len(params['n_skewness_mean']) == 3
-    assert len(params['n_skewness_std']) == 3
+    params_copy = copy.deepcopy(params_npeaks)
+
+    upd_skew_npeaks(params_copy, 3)
+    assert params_copy['n_peaks'] == 3
+    assert len(params_copy['n_height_mean']) == 3
+    assert len(params_copy['n_width_mean']) == 3 
+    assert len(params_copy['n_place_locs_mean']) == 3
+    assert len(params_copy['n_place_loc_std']) == 3
+    assert len(params_copy['n_height_std']) == 3
+    assert len(params_copy['n_width_std']) == 3
+    assert len(params_copy['n_skewness_mean']) == 3
+    assert len(params_copy['n_skewness_std']) == 3
 
 
 def test_update_vals(params):
