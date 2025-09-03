@@ -3,7 +3,7 @@
 import os
 import shutil
 import pytest
-
+import copy
 import numpy as np
 
 from spiketools.objects import Unit, Session
@@ -95,3 +95,24 @@ def tsession():
     yield Session(subject='SubjectCode',
                   session='SessionCode',
                   task='TaskCode')
+
+
+@pytest.fixture(scope="session")
+def params():
+    base = {
+        "height_mean": 5,
+        "height_std": 1,
+        "width_mean": 5,
+        "width_std": 1,
+        "noise_std": 1,
+        "place_loc_mean": 5,
+        "place_loc_std": 1,
+        "presence_ratio": 0.5,
+        "base_mean": 1,
+        "base_std": 1,
+        "n_trials": 10,
+        "n_bins": 100,
+    }
+    def _make_params():
+        return copy.deepcopy(base)
+    return _make_params

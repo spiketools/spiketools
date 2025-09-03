@@ -1,16 +1,18 @@
 """Tests for spiketools.sim.params"""
 
 from spiketools.sim.params import *
+from spiketools.tests.conftest import params
 
 ###################################################################################################
 ###################################################################################################
 
-def test_upd_height():
+def test_upd_height(params):
     """Test upd_height"""
-    params = {'height_mean' : 5, 'width_mean' : 5, 'noise_std' : 1, 'place_loc_std' : 1, 
-    'skewness_mean' : 1, 'presence_ratio' : 1, 'base_mean' : 1, 'n_trials' : 10}
-    upd_height(params, 10)
-    assert params['height_mean'] == 10
+    # params = {'height_mean' : 5, 'width_mean' : 5, 'noise_std' : 1, 'place_loc_std' : 1, 
+    # 'skewness_mean' : 1, 'presence_ratio' : 1, 'base_mean' : 1, 'n_trials' : 10}
+    params_copy = params()
+    upd_height(params_copy, 10)
+    assert params_copy['height_mean'] == 10
 
 
 def test_upd_width():
