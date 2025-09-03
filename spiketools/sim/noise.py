@@ -7,7 +7,6 @@ import numpy as np
 
 def _sim_random(mean, std, n_bins):   
     """ Simulate random noise.
-    
     Parameters
     ----------
     mean: float
@@ -28,7 +27,6 @@ def _sim_random(mean, std, n_bins):
 def sim_baseline(n_bins, base_mean, base_std):
     
     """ Simulate place field's baseline firing rate - randomization.
-    
     Parameters
     -----------
     num_bins: int
@@ -51,7 +49,6 @@ def sim_baseline(n_bins, base_mean, base_std):
 
 def sim_noise(n_bins, noise_std):
     """ Simulate place field's baseline firing rate - randomization.
-    
     Parameters
     -----------
     num_bins: int

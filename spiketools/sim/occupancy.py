@@ -7,7 +7,6 @@ import numpy as np
 
 def single_trial_occ(num_bins, min_occ, max_occ):
     """Simulate occupancy for a single trial.
-
     Parameters
     ----------
     num_bins: int
@@ -28,7 +27,6 @@ def single_trial_occ(num_bins, min_occ, max_occ):
 
 def single_uniform_occ(num_bins, scale):
     """Simulate uniform occupancy for a single trial.
-
     Parameters
     ----------
     num_bins: int
@@ -47,7 +45,6 @@ def single_uniform_occ(num_bins, scale):
 
 def sim_occ_trials(num_trials, num_bins, min_occ, max_occ, use_random=False, uniform_scale=1):
     """Simulate occupancy for multiple trials.
-    
     Parameters
     ----------
     num_trials: int

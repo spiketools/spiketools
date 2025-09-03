@@ -147,7 +147,7 @@ def test_sim_trial_multi_skew_placefields():
                 vary_width=True, vary_place_loc=True, vary_skewness=True, presence_ratio=0.6)
     trial_placefield_no_var = sim_trial_multi_skew_placefields(n_height_mean, n_height_std,
                                 n_width_mean,n_width_std, n_skewness_mean, n_skewness_std, 
-                                n_place_locs_mean, n_place_loc_std, n_bins, peaks, base_mean, 
+                                n_place_locs_mean, n_place_loc_std, n_bins, n_peaks, base_mean, 
                                 base_std, noise_std, n_trials, vary_height=False, 
                                 vary_width=False, vary_place_loc=False, vary_skewness=False,
                                 presence_ratio=None)
