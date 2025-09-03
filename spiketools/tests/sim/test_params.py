@@ -75,11 +75,11 @@ def test_upd_npeaks(params_npeaks):
     upd_npeaks(params_copy, 2)
     assert params_copy['n_peaks'] == 2
     assert len(params_copy['n_height_mean']) == 2
-    assert len(params_npeaks['n_width_mean']) == 2
+    assert len(params_copy['n_width_mean']) == 2
     assert len(params_copy['n_place_locs_mean']) == 2
     assert len(params_copy['n_place_loc_std']) == 2
     assert len(params_copy['n_height_std']) == 2
-    assert len(params_npeaks['n_width_std']) == 2
+    assert len(params_copy['n_width_std']) == 2
 
 
 def test_upd_skew_npeaks(params_npeaks):
