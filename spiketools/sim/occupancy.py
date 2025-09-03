@@ -60,7 +60,7 @@ def sim_occupancy_trials(num_trials, num_bins, min_occ, max_occ, use_random=Fals
         Maximum occupancy.
     use_random: bool
         Whether to use random occupancy.
-    uniform_scale: float
+    uniform_scale: float, default=1
         Scale of the occupancy.
 
     Returns

@@ -13,11 +13,11 @@ def sim_neuron_placefield(param_gen, vary_height=False, vary_width=False, vary_p
     ----------
     param_gen : generator
         Generator of parameters.
-    vary_height : bool
+    vary_height : bool, optional, default=False
         Whether to vary height.
-    vary_width : bool
+    vary_width : bool, optional, default=False
         Whether to vary width.
-    vary_place_loc : bool
+    vary_place_loc : bool, optional, default=False
         Whether to vary place location.
 
     Returns
@@ -43,13 +43,13 @@ def sim_neuron_skew_placefield(param_gen, vary_height=False,vary_width=False,
     ----------
     param_gen : generator
         Generator of parameters.
-    vary_height : bool
+    vary_height : bool, optional, default=False
         Whether to vary height.
-    vary_width : bool
+    vary_width : bool, optional, default=False
         Whether to vary width.
-    vary_place_loc : bool
+    vary_place_loc : bool, optional, default=False
         Whether to vary place location.
-    vary_skewness : bool
+    vary_skewness : bool, optional, default=True
         Whether to vary skewness.
     
     Returns
@@ -77,11 +77,11 @@ def sim_neuron_multi_placefield(param_gen, vary_height=False,
     ----------
     param_gen : generator
         Generator of parameters.
-    vary_height : bool
+    vary_height : bool, optional, default=False
         Whether to vary height.
-    vary_width : bool
+    vary_width : bool, optional, default=False
         Whether to vary width.
-    vary_place_loc : bool
+    vary_place_loc : bool, optional, default=False
         Whether to vary place location.
     
     Returns
@@ -108,13 +108,13 @@ def sim_neuron_multi_skew_placefield(param_gen, vary_height=False,
     ----------
     param_gen : generator
         Generator of parameters.
-    vary_height : bool
+    vary_height : bool, optional, default=False
         Whether to vary height.
-    vary_width : bool
+    vary_width : bool, optional, default=False
         Whether to vary width.
-    vary_place_loc : bool
+    vary_place_loc : bool, optional, default=False
         Whether to vary place location.
-    vary_skewness : bool
+    vary_skewness : bool, optional, default=False
         Whether to vary skewness.
     
     Returns
