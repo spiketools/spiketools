@@ -1,6 +1,6 @@
 """Tests for spiketools.sim.place_cells"""
 
-from spiketools.sim.place_cells import *
+from spiketools.sim.placecells import *
 from spiketools.sim.params import *
 from spiketools.tests.conftest import t_place_sim_params, t_place_sim_skew_params, t_place_sim_params_npeaks, t_place_sim_params_npeaks_skew
 import copy
