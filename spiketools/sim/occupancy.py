@@ -26,7 +26,7 @@ def sim_single_trial_occupancy(num_bins, min_occ, max_occ):
     return np.random.uniform(min_occ, max_occ, size=num_bins)  
 
 
-def sim_uniform_occupancyå(num_bins, scale):
+def sim_uniform_occupancy(num_bins, scale):
     """Simulate uniform occupancy for a single trial.
     Parameters
     ----------
