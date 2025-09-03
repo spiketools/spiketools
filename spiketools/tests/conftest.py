@@ -97,9 +97,10 @@ def tsession():
                   task='TaskCode')
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def params():
-    base = {
+    """Fixture returning default params dict (fresh copy per test)."""
+    return {
         "height_mean": 5,
         "height_std": 1,
         "width_mean": 5,
@@ -115,6 +116,3 @@ def params():
         "skewness_mean": 1,
         "skewness_std": 1,
     }
-    def _make_params():
-        return copy.deepcopy(base)
-    return _make_params
