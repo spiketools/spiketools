@@ -34,7 +34,8 @@ def sim_placefield_peak(height, width, n_bins, place_loc):
 
 def sim_skew_placefield_peak(height, width, n_bins, place_loc, skewness):
 
-    """ Simulate place field's peak based on Skewed Gaussian distribution on a linear track
+    """ Simulate place field's peak based on Skewed Gaussian distribution
+    on a linear track.
     
     Parameters
     -----------
@@ -65,7 +66,8 @@ def sim_skew_placefield_peak(height, width, n_bins, place_loc, skewness):
 
 
 def sim_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks):
-    """ Simulate a place field with multiple peaks based on Gaussian distributions on a linear track.
+    """ Simulate a place field with multiple peaks based on 
+    Gaussian distributions on a linear track.
     
     Parameters
     ----------
@@ -95,7 +97,8 @@ def sim_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks):
 
 
 def sim_skew_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness):
-    """ Simulate a place field with multiple peaks based on Gaussian distributions on a linear track.
+    """ Simulate a place field with multiple peaks based on Gaussian distributions
+     on a linear track.
     
     Parameters
     ----------
@@ -122,6 +125,7 @@ def sim_skew_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_pea
     
     skew_placefield_multipeaks = 0
     for i in range(n_peaks):
-        skew_placefield_peak = sim_skew_placefield_peak(n_height[i], n_width[i], n_bins, n_place_loc[i],n_skewness[i])
+        skew_placefield_peak = sim_skew_placefield_peak(n_height[i], n_width[i],
+                                     n_bins, n_place_loc[i],n_skewness[i])
         skew_placefield_multipeaks += skew_placefield_peak
     return skew_placefield_multipeaks

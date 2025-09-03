@@ -1,6 +1,7 @@
 """Tests for spiketools.sim.sim.peak"""
 
-from spiketools.sim.peak import sim_placefield_peak, sim_skew_placefield_peak, sim_placefield_multipeaks, sim_skew_placefield_multipeaks
+from spiketools.sim.peak import (sim_placefield_peak, sim_skew_placefield_peak, 
+                                sim_placefield_multipeaks, sim_skew_placefield_multipeaks)
 import numpy as np
 
 ###################################################################################################
@@ -36,7 +37,8 @@ def test_sim_placefield_multipeaks():
     n_place_loc = [50, 60, 70]
     n_peaks = 3
 
-    placefield_multipeaks = sim_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks)
+    placefield_multipeaks = sim_placefield_multipeaks(n_height, n_width, n_bins, 
+    n_place_loc, n_peaks)
     assert isinstance(placefield_multipeaks, np.ndarray)
 
 
@@ -49,5 +51,6 @@ def test_sim_skew_placefield_multipeaks():
     n_skewness = [5, 5, 5]
     n_bins = 50
 
-    placefield_multipeaks = sim_skew_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness)
+    placefield_multipeaks = sim_skew_placefield_multipeaks(n_height, n_width, 
+                n_bins, n_place_loc, n_peaks, n_skewness)
     assert isinstance(placefield_multipeaks, np.ndarray)

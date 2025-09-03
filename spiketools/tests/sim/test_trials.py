@@ -50,10 +50,13 @@ def test_sim_trial_placefield():
     place_loc_std = 10
     n_bins = 100
 
-    trial_placefield = sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std,
- n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=0.6)
+    trial_placefield = sim_trial_placefield(height_mean, height_std, width_mean, width_std, 
+                    place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std,
+        n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=0.6)
 
-    trial_placefield_no_var = sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std, n_trials, vary_height=False, vary_width=False, vary_place_loc=False, presence_ratio=None)
+    trial_placefield_no_var = sim_trial_placefield(height_mean, height_std, width_mean, width_std, 
+            place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std, n_trials, 
+            vary_height=False, vary_width=False, vary_place_loc=False, presence_ratio=None)
     assert isinstance(trial_placefield, np.ndarray)
     assert trial_placefield.shape == (n_trials, n_bins)
     assert np.all(trial_placefield >= 0)
@@ -76,11 +79,15 @@ def test_sim_skew_trial_placefield():
     skewness_std = 1
     n_bins = 100
 
-    trial_placefield = sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins, noise_std, base_mean, base_std,
- n_trials, vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True, presence_ratio=0.6)
+    trial_placefield = sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, 
+                place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins, 
+                noise_std, base_mean, base_std, n_trials, vary_height=True, vary_width=True, 
+                vary_place_loc=True, vary_skewness=True, presence_ratio=0.6)
      
-    trial_placefield_no_var = sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins, noise_std, base_mean, base_std,
- n_trials, vary_height=False, vary_width=False, vary_place_loc=False, vary_skewness=False, presence_ratio=None)
+    trial_placefield_no_var = sim_skew_trial_placefield(height_mean, height_std, 
+    width_mean, width_std, place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins,
+    noise_std, base_mean, base_std, n_trials, vary_height=False, vary_width=False, 
+    vary_place_loc=False, vary_skewness=False, presence_ratio=None)
 
     assert isinstance(trial_placefield, np.ndarray)
     assert trial_placefield.shape == (n_trials, n_bins)
@@ -103,8 +110,14 @@ def test_sim_trial_multi_placefields():
     noise_std = 1
     n_trials = 10
 
-    trial_placefield = sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=0.6)
-    trial_placefield_no_var = sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=False, vary_width=False, vary_place_loc=False, presence_ratio=None)
+    trial_placefield = sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, 
+                n_width_std, n_place_locs_mean, n_place_loc_std, n_bins, n_peaks, base_mean, 
+                base_std, noise_std, n_trials, vary_height=True, vary_width=True, 
+                vary_place_loc=True, presence_ratio=0.6)
+    trial_placefield_no_var = sim_trial_multi_placefields(n_height_mean, n_height_std, 
+            n_width_mean, n_width_std, n_place_locs_mean, n_place_loc_std, n_bins, n_peaks,
+            base_mean, base_std, noise_std, n_trials, vary_height=False, vary_width=False,
+            vary_place_loc=False, presence_ratio=None)
     assert isinstance(trial_placefield, np.ndarray)
     assert trial_placefield.shape == (n_trials, n_bins)
     assert trial_placefield_no_var.shape == (n_trials, n_bins)
@@ -128,8 +141,16 @@ def test_sim_trial_multi_skew_placefields():
     noise_std = 1
     n_trials = 10
 
-    trial_placefield = sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_skewness_mean, n_skewness_std, n_place_locs_mean, n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True, presence_ratio=0.6)
-    trial_placefield_no_var = sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_skewness_mean, n_skewness_std, n_place_locs_mean, n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=False, vary_width=False, vary_place_loc=False, vary_skewness=False, presence_ratio=None)
+    trial_placefield = sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
+                n_width_std, n_skewness_mean, n_skewness_std, n_place_locs_mean, n_place_loc_std, 
+                n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True,
+                vary_width=True, vary_place_loc=True, vary_skewness=True, presence_ratio=0.6)
+    trial_placefield_no_var = sim_trial_multi_skew_placefields(n_height_mean, n_height_std,
+                                n_width_mean,n_width_std, n_skewness_mean, n_skewness_std, 
+                                n_place_locs_mean, n_place_loc_std, n_bins, peaks, base_mean, 
+                                base_std, noise_std, n_trials, vary_height=False, 
+                                vary_width=False, vary_place_loc=False, vary_skewness=False,
+                                presence_ratio=None)
     assert isinstance(trial_placefield, np.ndarray)
     assert trial_placefield.shape == (n_trials, n_bins)
     assert np.all(trial_placefield >= 0)

@@ -4,7 +4,8 @@ import numpy as np
 
 from spiketools.sim.times import sim_spiketimes_poisson
 from spiketools.utils.checks import check_param_options
-from spiketools.sim.placefield import sim_placefield, sim_skew_placefield, sim_multi_placefield, sim_multi_skew_placefield
+from spiketools.sim.placefield import (sim_placefield, sim_skew_placefield, 
+                                sim_multi_placefield, sim_multi_skew_placefield)
 
 ###################################################################################################
 ###################################################################################################
@@ -83,9 +84,11 @@ SPIKETRIAL_FUNCS = {
 }
 
 
-def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std,
+def sim_trial_placefield(height_mean, height_std, width_mean, width_std,
+ place_loc_mean, place_loc_std, n_bins, noise_std, base_mean, base_std,
  n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=0.6):
-    """Simulate multiple trials of place fields with optional variability in height, width, and location.
+    """Simulate multiple trials of place fields with optional variability
+      in height, width, and location.
     
     Parameters
     ----------
@@ -152,7 +155,8 @@ def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_l
         else:
             place_loc = place_loc_mean
             
-        place_bins = sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_std)
+        place_bins = sim_placefield(height, width, n_bins, place_loc, base_mean, 
+                                    base_std, noise_std)
    
         trial_placefield.append(place_bins)
 
@@ -164,13 +168,16 @@ def sim_trial_placefield(height_mean, height_std, width_mean, width_std, place_l
     
     # Calculate presence ratio if not provided (based on all trials, including empty)
     if presence_ratio is None:
-        presence_ratio = np.mean(trial_placefield  > 0, axis=0)  # Fraction of non-zero values across trials for each bin
+        presence_ratio = np.mean(trial_placefield  > 0, axis=0)  
     return trial_placefield
 
 
-def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins,
- noise_std, base_mean, base_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True,  presence_ratio=1):
-    """Simulate multiple trials of skewed place fields with optional variability in height, width, location, and skewness.
+def sim_skew_trial_placefield(height_mean, height_std, width_mean,
+                width_std, place_loc_mean, place_loc_std, skewness_mean, skewness_std, n_bins,
+                noise_std, base_mean, base_std, n_trials, vary_height=True, vary_width=True, 
+                vary_place_loc=True, vary_skewness=True, presence_ratio=1):
+    """Simulate multiple trials of skewed place fields with 
+    optional variability in height, width, location, and skewness.
     
     Parameters
     ----------
@@ -234,7 +241,8 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, pl
         skewness = np.random.normal(skewness_mean, skewness_std) if vary_skewness else skewness_mean
         
         # Generate skewed place field for this trial
-        place_bins = sim_skew_placefield(height, width, skewness, n_bins, place_loc, base_mean, base_std, noise_std)
+        place_bins = sim_skew_placefield(height, width, skewness, 
+            n_bins, place_loc, base_mean, base_std, noise_std)
         trial_placefield.append(place_bins)
 
     # Fill the remaining trials with empty arrays (zeros)
@@ -250,7 +258,8 @@ def sim_skew_trial_placefield(height_mean, height_std, width_mean, width_std, pl
 
 
 def sim_trial_multi_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, 
-n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=None):
+                                n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, 
+                                vary_height=True, vary_width=True, vary_place_loc=True, presence_ratio=None):
     """ Simulate multiple trials of multi-peak place fields with specified parameters
     
     Parameters
@@ -309,7 +318,8 @@ n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary
         n_width = np.random.normal(n_width_mean, n_width_std) if vary_width else n_width_mean
         n_place_loc = np.random.normal(n_place_locs_mean, n_place_loc_std) if vary_place_loc else n_place_locs_mean
 
-        placefield=sim_multi_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, base_mean, base_std, noise_std)
+        placefield=sim_multi_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, 
+                                        base_mean, base_std, noise_std)
         trial_placefields.append(placefield)
 
     # Fill the remaining trials with empty arrays (zeros)
@@ -320,12 +330,14 @@ n_place_loc_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, vary
     
     # Calculate presence ratio if not provided (based on all trials, including empty)
     if presence_ratio is None:
-        presence_ratio = np.mean(trial_placefields > 0, axis=0)  # Fraction of non-zero values across trials for each bin
+        presence_ratio = np.mean(trial_placefields > 0, axis=0) 
     return trial_placefields
 
 
-def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, n_place_locs_mean, n_place_loc_std, n_skewness_mean, n_skewness_std, n_bins, n_peaks, base_mean, base_std, noise_std, n_trials, 
-                                    vary_height=True, vary_width=True, vary_place_loc=True, vary_skewness=True, presence_ratio=None):
+def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, n_width_std, 
+                                    n_place_locs_mean, n_place_loc_std, n_skewness_mean, n_skewness_std, n_bins, 
+                                    n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True,
+                                    vary_place_loc=True, vary_skewness=True, presence_ratio=None):
     """ Simulate multiple trials of multi-peak place fields with specified parameters, including skewness variability
     
     Parameters
@@ -378,7 +390,7 @@ def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
     """
     
     if presence_ratio is not None:
-        n_simulated_trials = int(n_trials * presence_ratio)  # Calculate number of trials to simulate
+        n_simulated_trials = int(n_trials * presence_ratio)  
     else:
         n_simulated_trials = n_trials  # Default to simulating all trials
 
@@ -392,7 +404,8 @@ def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
         n_skewness = np.random.normal(n_skewness_mean, n_skewness_std) if vary_skewness else n_skewness_mean
 
         # Generate multi-peak place field with skewness
-        placefield = sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, n_skewness, base_mean, base_std, noise_std)
+        placefield = sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, 
+                                             n_peaks, n_skewness, base_mean, base_std, noise_std)
         trial_placefields.append(placefield)
 
     # Fill the remaining trials with empty arrays (zeros)
@@ -403,5 +416,5 @@ def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
     
     # Calculate presence ratio if not provided (based on all trials, including empty)
     if presence_ratio is None:
-        presence_ratio = np.mean(trial_placefields > 0, axis=0)  # Fraction of non-zero values across trials for each bin
+        presence_ratio = np.mean(trial_placefields > 0, axis=0)  
     return trial_placefields
