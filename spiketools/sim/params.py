@@ -49,6 +49,7 @@ def upd_npeaks(params, val):
         Dictionary of parameters.
     """
     # Calculate evenly spaced locations across the spatial bins
+    val = int(val)
     n_bins=params['n_bins']
     spacing=n_bins / (val + 1)  # Add 1 to val to create margins at edges
     locations=[int(spacing * (i + 1)) for i in range(val)]
@@ -81,6 +82,7 @@ def upd_skew_npeaks(params, val):
         Dictionary of parameters.
     """
     # Calculate evenly spaced locations across the spatial bins
+    val = int(val)
     n_bins = params['n_bins']
     spacing = n_bins / (val + 1)  # Add 1 to val to create margins at edges
     locations = [int(spacing * (i + 1)) for i in range(val)]

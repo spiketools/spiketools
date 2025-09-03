@@ -1,7 +1,7 @@
 """Tests for spiketools.sim.params"""
 
 from spiketools.sim.params import *
-from spiketools.tests.conftest import t_place_sim_params, t_place_sim_params_npeaks
+from spiketools.tests.conftest import t_place_sim_params, t_place_sim_skew_params, t_place_sim_params_npeaks, t_place_sim_params_npeaks_skew
 import copy
 
 ###################################################################################################
@@ -37,10 +37,10 @@ def test_upd_placeloc(t_place_sim_params):
     assert params_copy['place_loc_std'] == 5
 
 
-def test_upd_skewness(t_place_sim_params):
+def test_upd_skewness(t_place_sim_skew_params):
     """Test upd_skewness""" 
 
-    params_copy = copy.deepcopy(t_place_sim_params)
+    params_copy = copy.deepcopy(t_place_sim_skew_params)
     upd_skewness(params_copy, 2)
     assert params_copy['skewness_mean'] == 2
 
@@ -82,9 +82,9 @@ def test_upd_npeaks(t_place_sim_params_npeaks):
     assert len(params_copy['n_width_std']) == 2
 
 
-def test_upd_skew_npeaks(t_place_sim_params_npeaks):
+def test_upd_skew_npeaks(t_place_sim_params_npeaks_skew):
     """Test upd_skew_npeaks"""
-    params_copy = copy.deepcopy(t_place_sim_params_npeaks)
+    params_copy = copy.deepcopy(t_place_sim_params_npeaks_skew)
 
     upd_skew_npeaks(params_copy, 3)
     assert params_copy['n_peaks'] == 3
@@ -98,9 +98,9 @@ def test_upd_skew_npeaks(t_place_sim_params_npeaks):
     assert len(params_copy['n_skewness_std']) == 3
 
 
-def test_update_vals(t_place_sim_params):
+def test_update_vals(t_place_sim_skew_params):
     """Test update_vals"""
-    params_copy = copy.deepcopy(t_place_sim_params)
+    params_copy = copy.deepcopy(t_place_sim_skew_params)
     # Need to iterate through generator returned by update_vals
     for updated_params in update_vals(params_copy, [10], upd_height):
         pass
