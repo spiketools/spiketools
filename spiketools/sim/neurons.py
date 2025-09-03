@@ -8,6 +8,7 @@ from spiketools.sim.trials import (sim_trial_placefield, sim_skew_trial_placefie
 
 def sim_neuron_placefield(param_gen, vary_height=False, vary_width=False, vary_place_loc=False):
     """Simulate cell place fields for a given set of parameters.
+
     Parameters
     ----------
     param_gen : generator
@@ -36,6 +37,7 @@ def sim_neuron_placefield(param_gen, vary_height=False, vary_width=False, vary_p
 def sim_neuron_skew_placefield(param_gen, vary_height=False,
                                       vary_width=False, vary_place_loc=False, vary_skewness=True):
     """Simulate cell place fields for a given set of parameters.
+
     Parameters
     ----------
     param_gen : generator
@@ -67,6 +69,7 @@ def sim_neuron_skew_placefield(param_gen, vary_height=False,
 def sim_neuron_multi_placefield(param_gen, vary_height=False, 
                                 vary_width=False, vary_place_loc=False):
     """Simulate cell place fields for a given set of parameters.
+
     Parameters
     ----------
     param_gen : generator
@@ -96,6 +99,7 @@ def sim_neuron_multi_placefield(param_gen, vary_height=False,
 def sim_neuron_multi_skew_placefield(param_gen, vary_height=False,
                                     vary_width=False, vary_place_loc=False, vary_skewness=False):
     """Simulate cell skew place fields for a given set of parameters.
+    
     Parameters
     ----------
     param_gen : generator

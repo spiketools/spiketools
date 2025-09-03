@@ -114,7 +114,7 @@ def sim_multi_placefield(n_height, n_width, n_bins, n_place_loc,
 
 def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, 
                              n_skewness, base_mean, base_std, noise_std):
-    """ Simulate place field on a linear track
+    """Simulate place field on a linear track
     Parameters
     -----------
     n_height : array-like

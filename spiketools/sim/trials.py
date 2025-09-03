@@ -338,7 +338,7 @@ def sim_trial_multi_skew_placefields(n_height_mean, n_height_std, n_width_mean, 
                                     n_place_locs_mean, n_place_loc_std, n_skewness_mean, n_skewness_std, n_bins, 
                                     n_peaks, base_mean, base_std, noise_std, n_trials, vary_height=True, vary_width=True,
                                     vary_place_loc=True, vary_skewness=True, presence_ratio=None):
-    """ Simulate multiple trials of multi-peak place fields with specified parameters, including skewness variability
+    """Simulate multiple trials of multi-peak place fields with specified parameters, including skewness variability
     
     Parameters
     -----------
