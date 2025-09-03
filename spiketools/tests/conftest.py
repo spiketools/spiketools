@@ -99,7 +99,7 @@ def tsession():
 
 
 @pytest.fixture
-def params():
+def t_place_sim_params():
     """Fixture returning default params dict (fresh copy per test)."""
     return {
         "height_mean": 5,
@@ -120,7 +120,7 @@ def params():
 
 
 @pytest.fixture
-def params_npeaks():
+def t_place_sim_params_npeaks():
     """Fixture returning default params dict with n_peaks set to 2."""
     return {
         'n_height_mean': [5],
