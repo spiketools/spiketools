@@ -10,7 +10,7 @@ import copy
 def test_upd_height(params):
     """Test upd_height"""
 
-    params_copy = params.deepcopy()
+    params_copy = copy.deepcopy(params) 
     upd_height(params_copy, 10)
     assert params_copy['height_mean'] == 10
 
@@ -18,7 +18,7 @@ def test_upd_height(params):
 def test_upd_width(params):
     """Test upd_width"""
 
-    params_copy = params.deepcopy()
+    params_copy = copy.deepcopy(params) 
     upd_width(params_copy, 10)
     assert params['width_mean'] == 10
 
@@ -26,7 +26,7 @@ def test_upd_width(params):
 def test_upd_noise(params):
     """Test upd_noise"""
 
-    params_copy = params.deepcopy()
+    params_copy = copy.deepcopy(params)
     upd_noise(params_copy, 2)
     assert params_copy['noise_std'] == 2
 
@@ -34,7 +34,7 @@ def test_upd_noise(params):
 def test_upd_placeloc(params):
     """Test upd_placeloc"""
     
-    params_copy = params.deepcopy()
+    params_copy = copy.deepcopy(params)
     upd_placeloc(params_copy, 5)
     assert params_copy['place_loc_std'] == 5
 
@@ -42,7 +42,7 @@ def test_upd_placeloc(params):
 def test_upd_skewness(params):
     """Test upd_skewness""" 
 
-    params_copy = params.deepcopy()
+    params_copy = copy.deepcopy(params)
     upd_skewness(params_copy, 2)
     assert params_copy['skewness_mean'] == 2
 
@@ -50,7 +50,7 @@ def test_upd_skewness(params):
 def test_upd_presence_ratio(params):
     """Test upd_presence_ratio"""
 
-    params_copy = params.deepcopy()
+    params_copy = copy.deepcopy(params)
     upd_presence_ratio(params_copy, 0.5)
     assert params_copy['presence_ratio'] == 0.5
 
@@ -58,7 +58,7 @@ def test_upd_presence_ratio(params):
 def test_upd_base(params):
     """Test upd_base"""
 
-    params_copy = params.deepcopy()
+    params_copy = copy.deepcopy(params)
     upd_base(params_copy, 2)
     assert params_copy['base_mean'] == 2
 
@@ -66,7 +66,7 @@ def test_upd_base(params):
 def test_upd_trials(params):
     """Test upd_trials"""
 
-    params_copy = params.deepcopy()
+    params_copy = copy.deepcopy(params)
     upd_trials(params_copy, 20)
     assert params_copy['n_trials'] == 20
 
@@ -105,7 +105,7 @@ def test_upd_skew_npeaks():
 
 def test_update_vals(params):
     """Test update_vals"""
-    params_copy = params.deepcopy()
+    params_copy = copy.deepcopy(params)
     # Need to iterate through generator returned by update_vals
     for updated_params in update_vals(params_copy, [10], upd_height):
         pass
@@ -132,7 +132,7 @@ def test_update_vals(params):
 
 def test_update_paired_vals(params):
     """Test update_paired_vals"""
-    params_copy = params.deepcopy() 
+    params_copy = copy.deepcopy(params)
     for updated_params in update_paired_vals(params_copy, [10], [10], upd_height, upd_width):
         pass
     assert updated_params['height_mean'] == 10
