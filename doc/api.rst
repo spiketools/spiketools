@@ -311,6 +311,12 @@ General simulation functions.
    sim_spiketimes
    sim_spiketrain
    sim_trials
+   sim_noise
+   sim_baseline
+   sim_placefield_peak
+   sim_neuron_placefield
+   sim_occupancy
+
 
 Spike Times
 ~~~~~~~~~~~
