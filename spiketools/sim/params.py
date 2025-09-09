@@ -1,13 +1,10 @@
-"""Utilities for managing and updating simulation parameters"""
-
-import numpy as np 
-import matplotlib.pyplot as plt
-
+"""Utilities for managing and updating simulation parameters."""
+import numpy as np
 
 ###################################################################################################
 ###################################################################################################
 
-## Define update functions 
+
 """Update the height of the place field."""
 upd_height=lambda params, val: params.update({'height_mean':val})
 
@@ -53,7 +50,7 @@ def upd_npeaks(params, val):
     n_bins=params['n_bins']
     spacing=n_bins / (val + 1)  # Add 1 to val to create margins at edges
     locations=[int(spacing * (i + 1)) for i in range(val)]
-    
+
     params.update({
         'n_peaks': val,
         'n_height_mean': [params['n_height_mean'][0]] * val,
@@ -86,7 +83,7 @@ def upd_skew_npeaks(params, val):
     n_bins = params['n_bins']
     spacing = n_bins / (val + 1)  # Add 1 to val to create margins at edges
     locations = [int(spacing * (i + 1)) for i in range(val)]
-    
+
     params.update({
         'n_peaks': val,
         'n_height_mean': [params['n_height_mean'][0]] * val,

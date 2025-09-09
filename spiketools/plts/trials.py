@@ -69,7 +69,7 @@ def plot_rasters(spikes, events=None, vline=None, colors=None, vshade=None,
             if isinstance(val, float):
                 break
             # If this value is a collection, there are multiple conditions
-            elif isinstance(val[0], (list, np.ndarray)):
+            if isinstance(val[0], (list, np.ndarray)):
                 check = True
                 break
         except (IndexError, TypeError):
@@ -91,7 +91,7 @@ def plot_rasters(spikes, events=None, vline=None, colors=None, vshade=None,
         ax.eventplot(events,
                      color=custom_plt_kwargs.pop('event_color', 'red'),
                      linelengths=custom_plt_kwargs.pop('event_linelengths', 1.25),
-                     linewidths=custom_plt_kwargs.pop('event_linewidths', 3));
+                     linewidths=custom_plt_kwargs.pop('event_linewidths', 3))
 
     add_vlines(vline, ax, zorder=0,
                color=custom_plt_kwargs.pop('line_color', 'green'),
@@ -295,26 +295,30 @@ def create_raster_title(label, avg_pre, avg_post, t_val=None, p_val=None):
 
 
 @set_plt_kwargs
-def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, shade=None, add_traces=False,
-                          trace_cmap=None, ax=None, **plt_kwargs):
+def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, shade=None,
+                                add_traces=False, trace_cmap=None, ax=None, **plt_kwargs):
     """Plot a trial placefield
 
     Parameters
     ----------
     trial_placefield : 1D or 2D array
         The data representing trial placefields.
-        If 2D, the array should have shape [n_trials, n_samples], with each row representing a trial.
+        If 2D, the array should have shape [n_trials, n_samples],
+        with each row representing a trial.
     spatial_bins : 1D array, optional
-        Binning or x-axis values corresponding to the trial placefield data. If not provided, indices are used.
+        Binning or x-axis values corresponding to the trial placefield data.
+        If not provided, indices are used.
     average : {'mean', 'median'}, optional
         Specifies averaging method to apply across trials if `trial_placefield` is a 2D array.
         When set, calculates and plots the average across all trials.
     shade : {'sem', 'std'} or 1D array, optional
-        Variance measure to compute and plot as shaded regions around the average, or directly as a provided array.
+        Variance measure to compute and plot as shaded regions around the average,
+        or directly as a provided array.
     add_traces : bool, optional, default: False
-        If True and `trial_placefield` is a 2D array, individual trial traces will be plotted on top of any averaged plot.
+        If True and `trial_placefield` is a 2D array, individual trial traces
+        will be plotted on top of any averaged plot.
     cmap : str, optional
-        Colormap name to use for individual traces if `add_traces` is True. 
+        Colormap name to use for individual traces if `add_traces` is True.
     ax : Axes, optional
         The Matplotlib axis object to plot on. If not provided, a new axis will be created.
     plt_kwargs : dict
@@ -329,14 +333,14 @@ def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, sha
 
     custom_kwargs = ['traces_lw', 'traces_alpha', 'shade_alpha', 'shade_color', 'traces_color']
     custom_plt_kwargs = get_kwargs(plt_kwargs, custom_kwargs)
-    
+
     all_trial_placefield = trial_placefield
     if isinstance(shade, str):
         shade = get_var_func(shade)(trial_placefield, 0)
-        
+
     if isinstance(average, str):
         trial_placefield = get_avg_func(average)(trial_placefield, 0)
-    
+
     xlabel = 'Time (s)'
     if spatial_bins is None:
         spatial_bins = np.arange(trial_placefield.shape[-1])
@@ -351,18 +355,18 @@ def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, sha
         if trace_cmap is not None:
             colormap = plt.get_cmap(trace_cmap)
             num_traces = all_trial_placefield.shape[0]
-            
+
             for i in range(num_traces):
                 color = colormap(i / num_traces)  # Normalize and get a color from the colormap
                 ax.plot(
-                    spatial_bins, 
+                    spatial_bins,
                     all_trial_placefield[i].T,
                     lw=custom_plt_kwargs.pop('traces_lw', 1),
                     alpha=custom_plt_kwargs.pop('traces_alpha', 0.5),
                     color=color )
         else:
             ax.plot(
-                spatial_bins, 
+                spatial_bins,
                 all_trial_placefield.T,
                 lw=custom_plt_kwargs.pop('traces_lw', 1),
                 alpha=custom_plt_kwargs.pop('traces_alpha', 0.5),

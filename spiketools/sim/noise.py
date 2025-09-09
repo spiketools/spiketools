@@ -1,11 +1,11 @@
 """Simulate noise."""
 
-import numpy as np 
+import numpy as np
 
 ###################################################################################################
 ###################################################################################################
 
-def _sim_random(mean, std, n_bins):   
+def _sim_random(mean, std, n_bins):
     """Simulate random noise.
 
     Parameters
@@ -44,13 +44,13 @@ def sim_baseline(n_bins, base_mean, base_std):
     """
 
     baseline = _sim_random(base_mean, base_std, n_bins)
- 
+
     return baseline
 
 
 def sim_noise(n_bins, noise_std):
     """Simulate place field's baseline firing rate - randomization.
-    
+
     Parameters
     -----------
     num_bins: int
@@ -66,4 +66,3 @@ def sim_noise(n_bins, noise_std):
 
     noise =  _sim_random(0, noise_std, n_bins)
     return noise
-    

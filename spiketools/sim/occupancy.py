@@ -14,7 +14,7 @@ def sim_single_trial_occupancy(num_bins, min_occ, max_occ):
         Number of spatial bins.
     min_occ: float
         Minimum occupancy.
-    max_occ: float 
+    max_occ: float
         Maximum occupancy.
 
     Returns
@@ -23,7 +23,7 @@ def sim_single_trial_occupancy(num_bins, min_occ, max_occ):
         Occupancy for a single trial.
     """
 
-    return np.random.uniform(min_occ, max_occ, size=num_bins)  
+    return np.random.uniform(min_occ, max_occ, size=num_bins)
 
 
 def sim_uniform_occupancy(num_bins, scale):
@@ -44,7 +44,7 @@ def sim_uniform_occupancy(num_bins, scale):
     return np.ones(num_bins) * scale
 
 
-def sim_occupancy_trials(num_trials, num_bins, min_occ, max_occ, use_random=False, 
+def sim_occupancy_trials(num_trials, num_bins, min_occ, max_occ, use_random=False,
                          uniform_scale=1):
     """Simulate occupancy for multiple trials.
 

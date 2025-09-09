@@ -25,23 +25,23 @@ def sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_
             Standard deviation of the firing rate.
     noise_std: int
             Standard deviation of the firing rate.
-            
-    
+
+
     Returns
     -------
     placefield: 1d array
-            Simulated symmetrical place field firing rate, in Hz. 
+            Simulated symmetrical place field firing rate, in Hz.
     """
-        
-    placefield = sim_placefield_peak(height, width, n_bins, place_loc) + sim_baseline(n_bins, 
+
+    placefield = sim_placefield_peak(height, width, n_bins, place_loc) + sim_baseline(n_bins,
                                         base_mean, base_std)+sim_noise(n_bins, noise_std)
-    return placefield 
-    
+    return placefield
+
 
 def sim_skew_placefield(height, width, skewness, n_bins, place_loc,
                          base_mean, base_std, noise_std):
     """Simulate place field on a linear track.
-    
+
     Parameters
     -----------
     height: int
@@ -53,31 +53,31 @@ def sim_skew_placefield(height, width, skewness, n_bins, place_loc,
     place loc: int
             Center of the place field location.
     base_mean: int
-            Average firing rate.      
+            Average firing rate.
     base_std: int
-            Standard deviation of the firing rate.      
+            Standard deviation of the firing rate.
     noise_std: int
-            Standard deviation of the firing rate.      
+            Standard deviation of the firing rate.
     skewness: int
-            Skewness parameter that introduces asymmetry to the place field 
-            (Positive skewness values cause the place field to skew to the right, 
+            Skewness parameter that introduces asymmetry to the place field
+            (Positive skewness values cause the place field to skew to the right,
             while negative values result in leftward skewing)
-            
-    
+
+
     Returns
     -------
     skew_placefield_peak: 1d array
-            Simulated Asymmetrical place field skew peak firing rate, in Hz.  
+            Simulated Asymmetrical place field skew peak firing rate, in Hz.
     """
-        
+
     skew_placefield = sim_skew_placefield_peak(height, width, n_bins, place_loc, skewness) + \
                       sim_baseline(n_bins, base_mean, base_std) + \
                       sim_noise(n_bins, noise_std)
-                 
-    return skew_placefield 
+
+    return skew_placefield
 
 
-def sim_multi_placefield(n_height, n_width, n_bins, n_place_loc, 
+def sim_multi_placefield(n_height, n_width, n_bins, n_place_loc,
                         n_peaks, base_mean, base_std, noise_std):
     """Simulate place field on a linear track.
 
@@ -93,29 +93,29 @@ def sim_multi_placefield(n_height, n_width, n_bins, n_place_loc,
         An array of integers specifyin  g the centers of each place field.
     num_peaks : int
         The number of place field peaks to simulate.
-            
+
     base_mean: int
         Average firing rate.
-            
+
     base_std: int
         Standard deviation of the firing rate.
-            
+
     noise_std: int
             Standard deviation of the firing rate
-    
+
     Returns
     -------
     placefield: 1d array
-            Simulated multipeak place field firing rate, in Hz. 
+            Simulated multipeak place field firing rate, in Hz.
     """
-        
+
     placefield = sim_placefield_multipeaks(n_height, n_width, n_bins, n_place_loc, n_peaks) + \
                  sim_baseline(n_bins, base_mean, base_std) + \
                  sim_noise(n_bins, noise_std)
-    return placefield 
+    return placefield
 
 
-def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks, 
+def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks,
                               n_skewness, base_mean, base_std, noise_std):
     """Simulate place field on a linear track.
 
@@ -134,21 +134,21 @@ def sim_multi_skew_placefield(n_height, n_width, n_bins, n_place_loc, n_peaks,
     n_skewness: array-like
         Skewness of the place field.
     base_mean: int
-        Average firing rate.            
+        Average firing rate.
     base_std: int
-        Standard deviation of the firing rate.      
+        Standard deviation of the firing rate.
     noise_std: int
         Standard deviation of the firing rate.
-            
-    
+
+
     Returns
     -------
     skewed multi placefield: 1d array
-            Simulated skewed multipeak place field firing rate, in Hz.  
+            Simulated skewed multipeak place field firing rate, in Hz.
     """
 
     placefield = sim_skew_placefield_multipeaks(n_height, n_width, n_bins,
                                                n_place_loc, n_peaks, n_skewness) + \
                  sim_baseline(n_bins, base_mean, base_std) + \
                  sim_noise(n_bins, noise_std)
-    return placefield 
+    return placefield

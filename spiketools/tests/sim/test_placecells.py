@@ -1,5 +1,6 @@
 """Tests for spiketools.sim.place_cells"""
 
+import numpy as np
 from spiketools.sim.placecells import *
 from spiketools.sim.params import *
 from spiketools.tests.conftest import t_place_sim_params, t_place_sim_skew_params, t_place_sim_params_npeaks, t_place_sim_params_npeaks_skew
@@ -51,4 +52,3 @@ def test_sim_neuron_multi_skew_placefield(t_place_sim_params_npeaks_skew):
     assert (cell_place_bins[0].shape) == (10, 100)
     assert (cell_place_bins[1].shape) == (10, 100)
     assert (cell_place_bins[2].shape) == (10, 100)
-    
