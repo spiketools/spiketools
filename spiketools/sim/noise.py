@@ -26,10 +26,10 @@ def _sim_random(mean, std, n_bins):
 
 
 def sim_baseline(n_bins, base_mean, base_std):
-    """Simulate place field's baseline firing rate - randomization.
+    """Simulate place field's baseline firing rate.
 
     Parameters
-    -----------
+    ----------
     num_bins: int
             Number of spatial bins.
     base_mean: int
@@ -49,10 +49,10 @@ def sim_baseline(n_bins, base_mean, base_std):
 
 
 def sim_noise(n_bins, noise_std):
-    """Simulate place field's baseline firing rate - randomization.
+    """Simulate place field's noise.
 
     Parameters
-    -----------
+    ----------
     num_bins: int
             Number of spatial bins.
     noise_std: int

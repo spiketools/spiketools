@@ -297,7 +297,7 @@ def create_raster_title(label, avg_pre, avg_post, t_val=None, p_val=None):
 @set_plt_kwargs
 def plot_trial_placefield(trial_placefield, spatial_bins=None, average=None, shade=None,
                                 add_traces=False, trace_cmap=None, ax=None, **plt_kwargs):
-    """Plot a trial placefield
+    """Plot a trial placefield.
 
     Parameters
     ----------

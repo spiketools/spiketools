@@ -9,8 +9,9 @@ from spiketools.sim.noise import sim_baseline,sim_noise
 
 def sim_placefield(height, width, n_bins, place_loc, base_mean, base_std, noise_std):
     """Simulate place field on a linear track.
+
     Parameters
-    -----------
+    ----------
     height: int
             Place field's peak firing rate.
     width:  int

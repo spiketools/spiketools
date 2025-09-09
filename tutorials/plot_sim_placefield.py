@@ -1,15 +1,15 @@
 """
-Simulations
-===========
+Simulate Place Field
+====================
 
-Simulate spiking activity.
+Simulate Place Field Activity.
 
 This tutorial primarily covers the ``spiketools.sims`` module.
 """
 
 ###################################################################################################
 # Simulating Place Field Activity
-# -----------------------------
+# --------------------------------
 #
 # This tutorial demonstrates how to simulate neural spiking activity that exhibits
 # spatial selectivity, specifically place field responses. We'll explore methods for
@@ -40,11 +40,11 @@ from spiketools.plts.placecells import plot_neuron_placefield
 
 # Define simulation parameters
 peak_config = {'height': 5.0, 'width': 5.0, 'place_loc': 25, 'n_bins': 50}
-placefield_peak = sim_placefield_peak(**peak_config,plot=False)
+placefield_peak = sim_placefield_peak(**peak_config)
 
 ###################################################################################################
 
 # Plot the place field peak
-plot_neuron_placefield(placefield_peak, colormap_name='Greys')
+#plot_neuron_placefield(placefield_peak, colormap_name='Greys')
 
 ###################################################################################################
