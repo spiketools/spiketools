@@ -1,6 +1,5 @@
 """Plot cell place field data with a colormap visualization."""
 
-import numpy as np
 import matplotlib.pyplot as plt
 from spiketools.plts.utils import check_ax, savefig
 from spiketools.plts.style import set_plt_kwargs
@@ -10,7 +9,7 @@ from spiketools.plts.style import set_plt_kwargs
 
 @savefig
 @set_plt_kwargs
-def plot_neuron_placefield(vals:np.ndarray, neuron_place_bins:np.ndarray, 
+def plot_neuron_placefield(vals, neuron_place_bins,
                           colormap_name='Greys', ax=None, **plt_kwargs):
     """Plot cell place field data with a colormap visualization.
 
@@ -18,12 +17,12 @@ def plot_neuron_placefield(vals:np.ndarray, neuron_place_bins:np.ndarray,
     ----------
     vals: array-like
         Values to be plotted.
-    cell_place_bins: array-like
+    neuron_place_bins: array-like
         Cell place bins to be plotted.
     colormap_name: str
         Colormap name to be used.
     ax: matplotlib.axes.Axes
-        Axes object.    
+        Axes object.
     plt_kwargs: dict
         Additional plotting arguments to be passed to the main plot functions.
     """
