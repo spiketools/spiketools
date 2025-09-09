@@ -23,3 +23,6 @@ dist/*
 build/*
 _build/*
 *.egg-info/*
+
+## Ignore DS_Store
+.DS_Store

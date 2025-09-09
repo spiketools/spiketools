@@ -44,7 +44,7 @@ def sim_baseline(n_bins, base_mean, base_std):
     """
 
     baseline = _sim_random(base_mean, base_std, n_bins)
-
+    baseline = np.abs(baseline)
     return baseline
 
 
@@ -65,4 +65,5 @@ def sim_noise(n_bins, noise_std):
     """
 
     noise =  _sim_random(0, noise_std, n_bins)
+    noise = np.abs(noise)
     return noise

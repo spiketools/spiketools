@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:00.002** total execution time for 5 files **from all galleries**:
+**00:00.267** total execution time for 5 files **from all galleries**:
 
 .. container::
 
@@ -33,7 +33,7 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_tutorials_plot_sim_placefield.py` (``../tutorials/plot_sim_placefield.py``)
-     - 00:00.002
+     - 00:00.267
      - 0.0
    * - :ref:`sphx_glr_auto_tutorials_plot_measures.py` (``../tutorials/plot_measures.py``)
      - 00:00.000
