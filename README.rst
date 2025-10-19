@@ -31,12 +31,12 @@ spiketools
    :target: https://doi.org/10.21105/joss.05268
    :alt: publication
 
-``spiketools`` is a collection of tools and utilities for analyzing spiking data.
+``spiketools`` is a collection of tools and utilities for analyzing single-neuron data.
 
 Overview
 --------
 
-``spiketools`` is an open-source module for processing and analyzing single-unit activity from neuro-electrophysiological recordings.
+``spiketools`` is an open-source module for processing and analyzing single-neuron activity from neuro-electrophysiological recordings.
 
 Available sub-modules in ``spiketools`` include:
 
@@ -51,7 +51,7 @@ Available sub-modules in ``spiketools`` include:
 Scope
 -----
 
-``spiketools`` is currently organized around analyses of single cell activity.
+``spiketools`` is currently focused on analyses of single-neuron activity.
 
 The current scope does not include population measures, though this may be extended in the future.
 
