@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>spiketools.plts.trials.plot_rasters &#8212; spiketools 0.2.1 documentation</title>
+    <title>spiketools.plts.trials.plot_raster_and_rates &#8212; spiketools 0.2.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=284a2d1d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -93,40 +93,43 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="spiketools-plts-trials-plot-rasters">
-<h1>spiketools.plts.trials.plot_rasters<a class="headerlink" href="#spiketools-plts-trials-plot-rasters" title="Permalink to this heading">¶</a></h1>
+  <section id="spiketools-plts-trials-plot-raster-and-rates">
+<h1>spiketools.plts.trials.plot_raster_and_rates<a class="headerlink" href="#spiketools-plts-trials-plot-raster-and-rates" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="spiketools.plts.trials.plot_rasters">
-<span class="sig-prename descclassname"><span class="pre">spiketools.plts.trials.</span></span><span class="sig-name descname"><span class="pre">plot_rasters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vshade</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/trials.html#plot_rasters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.trials.plot_rasters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot rasters across multiple trials.</p>
-<dl class="field-list">
+<dt class="sig sig-object py" id="spiketools.plts.trials.plot_raster_and_rates">
+<span class="sig-prename descclassname"><span class="pre">spiketools.plts.trials.</span></span><span class="sig-name descname"><span class="pre">plot_raster_and_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spikes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conditions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raster_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spiketools/plts/trials.html#plot_raster_and_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spiketools.plts.trials.plot_raster_and_rates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot event-related raster plot with corresponding binned firing rate plot.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>spikes</strong><span class="classifier">list of list of float or dict</span></dt><dd><p>Spike times per trial.
 Multiple conditions can also be passed in.
 If dict, each key is a condition label and each value the list of list of spikes times.</p>
 </dd>
-<dt><strong>events</strong><span class="classifier">list</span></dt><dd><p>Events to indicate on the raster plot. Should have length of number of trials.</p>
+<dt><strong>bins</strong><span class="classifier">float or 1d array</span></dt><dd><p>The binning to apply to the spiking data.
+If float, the length of each bin.
+If array, precomputed bin definitions.</p>
 </dd>
-<dt><strong>vline</strong><span class="classifier">float or list of float, optional</span></dt><dd><p>Location(s) to draw a vertical line. If None, no line is drawn.</p>
+<dt><strong>time_range</strong><span class="classifier">list of [float, float], optional</span></dt><dd><p>Time range, in seconds, to create the binned firing rate across.
+Only used if <cite>bins</cite> is a float.</p>
 </dd>
-<dt><strong>colors</strong><span class="classifier">str or list of str or dict, optional</span></dt><dd><p>Color(s) to plot the raster ticks.
+<dt><strong>conditions</strong><span class="classifier">list, optional</span></dt><dd><p>Condition labels for each trial.
+If provided, used to split the data by condition before plotting.</p>
+</dd>
+<dt><strong>colors</strong><span class="classifier">str or list of str or dict, optional</span></dt><dd><p>Color(s) to plot the firing rates.
 If more than one, should match the number of conditions.
 If a dictionary, the labels should match the spike condition labels.</p>
 </dd>
-<dt><strong>vshade</strong><span class="classifier">list of float or list of list of float, optional</span></dt><dd><p>Vertical region(s) of the plot to shade in.</p>
+<dt><strong>raster_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments for the raster plot, passed into <cite>plot_rasters</cite>.</p>
 </dd>
-<dt><strong>show_axis</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>Whether to show the axis around the plot.</p>
+<dt><strong>rate_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments for the firing rate plot, passed into <cite>plot_rate_by_time</cite>.</p>
 </dd>
-<dt><strong>ax</strong><span class="classifier">Axes, optional</span></dt><dd><p>Axis object upon which to plot.</p>
+<dt><strong>figsize</strong><span class="classifier">tuple, optional, default: (6, 4)</span></dt><dd><p>Size of the figure to create. Only used if <cite>axes</cite> is None.</p>
+</dd>
+<dt><strong>axes</strong><span class="classifier">list of [Axes, Axes]</span></dt><dd><p>Axes objects upon which to plot.</p>
 </dd>
 <dt><strong>plt_kwargs</strong></dt><dd><p>Additional arguments to pass into the plot function.
-Custom kwargs:</p>
-<blockquote>
-<div><p>line: ‘line_color’, ‘line_lw’, ‘line_alpha’
-shade: ‘shade_color’, ‘shade_alpha’
-events: ‘event_color’, ‘event_linewidths’, ‘event_linelengths’</p>
-</div></blockquote>
+Custom kwargs: ‘line_color’, ‘line_lw’, ‘line_alpha’, ‘line_linestyle’.</p>
 </dd>
 </dl>
 </dd>

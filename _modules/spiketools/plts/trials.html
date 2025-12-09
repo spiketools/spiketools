@@ -4,22 +4,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>spiketools.plts.trials &#8212; spiketools 0.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <title>spiketools.plts.trials &#8212; spiketools 0.2.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css?v=284a2d1d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=070abaa9"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=a56c686a"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
 <meta charset='utf-8'>
@@ -44,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           spiketools</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -100,11 +97,14 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="kn">from</span> <span class="nn">spiketools.measures.trials</span> <span class="kn">import</span> <span class="n">compute_trial_frs</span>
 <span class="kn">from</span> <span class="nn">spiketools.utils.base</span> <span class="kn">import</span> <span class="n">flatten</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.trials</span> <span class="kn">import</span> <span class="n">extract_conditions_dict</span>
+<span class="kn">from</span> <span class="nn">spiketools.utils.trials</span> <span class="kn">import</span> <span class="n">split_trials_by_condition</span>
 <span class="kn">from</span> <span class="nn">spiketools.utils.options</span> <span class="kn">import</span> <span class="n">get_avg_func</span><span class="p">,</span> <span class="n">get_var_func</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.settings</span> <span class="kn">import</span> <span class="n">DEFAULT_COLORS</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.annotate</span> <span class="kn">import</span> <span class="n">add_vlines</span><span class="p">,</span> <span class="n">add_vshades</span><span class="p">,</span> <span class="n">add_significance</span>
-<span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span><span class="p">,</span> <span class="n">get_kwargs</span><span class="p">,</span> <span class="n">savefig</span>
+<span class="kn">from</span> <span class="nn">spiketools.plts.utils</span> <span class="kn">import</span> <span class="n">check_ax</span><span class="p">,</span> <span class="n">make_axes</span><span class="p">,</span> <span class="n">get_kwargs</span><span class="p">,</span> <span class="n">savefig</span>
 <span class="kn">from</span> <span class="nn">spiketools.plts.style</span> <span class="kn">import</span> <span class="n">set_plt_kwargs</span>
 
 <span class="c1">###################################################################################################</span>
@@ -112,20 +112,24 @@
 
 <div class="viewcode-block" id="plot_rasters"><a class="viewcode-back" href="../../../generated/spiketools.plts.trials.plot_rasters.html#spiketools.plts.trials.plot_rasters">[docs]</a><span class="nd">@savefig</span>
 <span class="nd">@set_plt_kwargs</span>
-<span class="k">def</span> <span class="nf">plot_rasters</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">vline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vshade</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">plot_rasters</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vshade</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">show_axis</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot rasters across multiple trials.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    spikes : list of list of float</span>
+<span class="sd">    spikes : list of list of float or dict</span>
 <span class="sd">        Spike times per trial.</span>
 <span class="sd">        Multiple conditions can also be passed in.</span>
+<span class="sd">        If dict, each key is a condition label and each value the list of list of spikes times.</span>
+<span class="sd">    events : list</span>
+<span class="sd">        Events to indicate on the raster plot. Should have length of number of trials.</span>
 <span class="sd">    vline : float or list of float, optional</span>
 <span class="sd">        Location(s) to draw a vertical line. If None, no line is drawn.</span>
-<span class="sd">    colors : str or list of str, optional</span>
+<span class="sd">    colors : str or list of str or dict, optional</span>
 <span class="sd">        Color(s) to plot the raster ticks.</span>
 <span class="sd">        If more than one, should match the number of conditions.</span>
+<span class="sd">        If a dictionary, the labels should match the spike condition labels.</span>
 <span class="sd">    vshade : list of float or list of list of float, optional</span>
 <span class="sd">        Vertical region(s) of the plot to shade in.</span>
 <span class="sd">    show_axis : bool, optional, default: False</span>
@@ -134,13 +138,21 @@
 <span class="sd">        Axis object upon which to plot.</span>
 <span class="sd">    plt_kwargs</span>
 <span class="sd">        Additional arguments to pass into the plot function.</span>
-<span class="sd">        Custom kwargs: &#39;line_color&#39;, &#39;line_lw&#39;, &#39;line_alpha&#39;, &#39;shade_color&#39;, &#39;shade_alpha&#39;.</span>
+<span class="sd">        Custom kwargs:</span>
+<span class="sd">            line: &#39;line_color&#39;, &#39;line_lw&#39;, &#39;line_alpha&#39;</span>
+<span class="sd">            shade: &#39;shade_color&#39;, &#39;shade_alpha&#39;</span>
+<span class="sd">            events: &#39;event_color&#39;, &#39;event_linewidths&#39;, &#39;event_linelengths&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ax</span> <span class="o">=</span> <span class="n">check_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;figsize&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
 
-    <span class="n">custom_kwargs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;line_color&#39;</span><span class="p">,</span> <span class="s1">&#39;line_lw&#39;</span><span class="p">,</span> <span class="s1">&#39;line_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;shade_color&#39;</span><span class="p">,</span> <span class="s1">&#39;shade_alpha&#39;</span><span class="p">]</span>
+    <span class="n">custom_kwargs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;line_color&#39;</span><span class="p">,</span> <span class="s1">&#39;line_lw&#39;</span><span class="p">,</span> <span class="s1">&#39;line_alpha&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;shade_color&#39;</span><span class="p">,</span> <span class="s1">&#39;shade_alpha&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;event_color&#39;</span><span class="p">,</span> <span class="s1">&#39;event_linewidths&#39;</span><span class="p">,</span> <span class="s1">&#39;event_linelengths&#39;</span><span class="p">]</span>
     <span class="n">custom_plt_kwargs</span> <span class="o">=</span> <span class="n">get_kwargs</span><span class="p">(</span><span class="n">plt_kwargs</span><span class="p">,</span> <span class="n">custom_kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Check and unpack condition data, if provided as a dictionary input</span>
+    <span class="n">spikes</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="n">extract_conditions_dict</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span>
 
     <span class="c1"># This process infers whether there is are embedded lists of multiple conditions</span>
     <span class="n">check</span> <span class="o">=</span> <span class="kc">False</span>
@@ -166,6 +178,15 @@
 
     <span class="n">ax</span><span class="o">.</span><span class="n">eventplot</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">)</span>
 
+    <span class="c1"># If provided, add events to plot</span>
+    <span class="k">if</span> <span class="n">events</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">events</span> <span class="o">=</span> <span class="p">[[</span><span class="n">el</span><span class="p">]</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">events</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">eventplot</span><span class="p">(</span><span class="n">events</span><span class="p">,</span>
+                     <span class="n">color</span><span class="o">=</span><span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;event_color&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">),</span>
+                     <span class="n">linelengths</span><span class="o">=</span><span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;event_linelengths&#39;</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">),</span>
+                     <span class="n">linewidths</span><span class="o">=</span><span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;event_linewidths&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
     <span class="n">add_vlines</span><span class="p">(</span><span class="n">vline</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                <span class="n">color</span><span class="o">=</span><span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;line_color&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">),</span>
                <span class="n">lw</span><span class="o">=</span><span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;line_lw&#39;</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span>
@@ -188,19 +209,21 @@
 <span class="sd">    ----------</span>
 <span class="sd">    bin_times : 1d array</span>
 <span class="sd">        Values of the time bins, to be plotted on the x-axis.</span>
-<span class="sd">    trial_cfrs : list of array</span>
+<span class="sd">    trial_cfrs : list of array or dict</span>
 <span class="sd">        Continuous firing rate values, to be plotted on the y-axis.</span>
 <span class="sd">        If each array is 1d values are plotted directly.</span>
 <span class="sd">        If 2d, is to be averaged before plotting.</span>
+<span class="sd">        If dict, each key is a condition label and each value the array of firing rates.</span>
 <span class="sd">    average : {&#39;mean&#39;, &#39;median&#39;}, optional</span>
 <span class="sd">        Averaging to apply to firing rate activity before plotting.</span>
 <span class="sd">    shade : {&#39;sem&#39;, &#39;std&#39;} or list of array, optional</span>
 <span class="sd">        Measure of variance to compute and/or plot as shading.</span>
 <span class="sd">    vline : float or list of float, optional</span>
 <span class="sd">        Location(s) to draw a vertical line. If None, no line is drawn.</span>
-<span class="sd">    colors : str or list of str, optional</span>
+<span class="sd">    colors : str or list of str or dict, optional</span>
 <span class="sd">        Color(s) to plot the firing rates.</span>
 <span class="sd">        If more than one, should match the number of conditions.</span>
+<span class="sd">        If a dictionary, the labels should match the spike condition labels.</span>
 <span class="sd">    labels : list of str, optional</span>
 <span class="sd">        Labels for each set of y-values.</span>
 <span class="sd">        If provided, a legend is added to the plot.</span>
@@ -219,6 +242,9 @@
 
     <span class="n">custom_kwargs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;shade_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;legend_loc&#39;</span><span class="p">,</span><span class="s1">&#39;line_color&#39;</span><span class="p">,</span> <span class="s1">&#39;line_lw&#39;</span><span class="p">,</span> <span class="s1">&#39;line_alpha&#39;</span><span class="p">]</span>
     <span class="n">custom_plt_kwargs</span> <span class="o">=</span> <span class="n">get_kwargs</span><span class="p">(</span><span class="n">plt_kwargs</span><span class="p">,</span> <span class="n">custom_kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Check and unpack condition data, if provided as a dictionary input</span>
+    <span class="n">trial_cfrs</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="n">extract_conditions_dict</span><span class="p">(</span><span class="n">trial_cfrs</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span>
 
     <span class="c1"># If not a list of arrays, embed in a list to allow for looping (to support multiple inputs)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial_cfrs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
@@ -261,6 +287,80 @@
         <span class="n">add_significance</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">sig_level</span><span class="o">=</span><span class="n">sig_level</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="plot_raster_and_rates"><a class="viewcode-back" href="../../../generated/spiketools.plts.trials.plot_raster_and_rates.html#spiketools.plts.trials.plot_raster_and_rates">[docs]</a><span class="nd">@savefig</span>
+<span class="k">def</span> <span class="nf">plot_raster_and_rates</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">conditions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">raster_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rate_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">plt_kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot event-related raster plot with corresponding binned firing rate plot.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spikes : list of list of float or dict</span>
+<span class="sd">        Spike times per trial.</span>
+<span class="sd">        Multiple conditions can also be passed in.</span>
+<span class="sd">        If dict, each key is a condition label and each value the list of list of spikes times.</span>
+<span class="sd">    bins : float or 1d array</span>
+<span class="sd">        The binning to apply to the spiking data.</span>
+<span class="sd">        If float, the length of each bin.</span>
+<span class="sd">        If array, precomputed bin definitions.</span>
+<span class="sd">    time_range : list of [float, float], optional</span>
+<span class="sd">        Time range, in seconds, to create the binned firing rate across.</span>
+<span class="sd">        Only used if `bins` is a float.</span>
+<span class="sd">    conditions : list, optional</span>
+<span class="sd">        Condition labels for each trial.</span>
+<span class="sd">        If provided, used to split the data by condition before plotting.</span>
+<span class="sd">    colors : str or list of str or dict, optional</span>
+<span class="sd">        Color(s) to plot the firing rates.</span>
+<span class="sd">        If more than one, should match the number of conditions.</span>
+<span class="sd">        If a dictionary, the labels should match the spike condition labels.</span>
+<span class="sd">    raster_kwargs : dict, optional</span>
+<span class="sd">        Additional keyword arguments for the raster plot, passed into `plot_rasters`.</span>
+<span class="sd">    rate_kwargs : dict, optional</span>
+<span class="sd">        Additional keyword arguments for the firing rate plot, passed into `plot_rate_by_time`.</span>
+<span class="sd">    figsize : tuple, optional, default: (6, 4)</span>
+<span class="sd">        Size of the figure to create. Only used if `axes` is None.</span>
+<span class="sd">    axes : list of [Axes, Axes]</span>
+<span class="sd">        Axes objects upon which to plot.</span>
+<span class="sd">    plt_kwargs</span>
+<span class="sd">        Additional arguments to pass into the plot function.</span>
+<span class="sd">        Custom kwargs: &#39;line_color&#39;, &#39;line_lw&#39;, &#39;line_alpha&#39;, &#39;line_linestyle&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">custom_kwargs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;line_color&#39;</span><span class="p">,</span> <span class="s1">&#39;line_lw&#39;</span><span class="p">,</span> <span class="s1">&#39;line_alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;line_linestyle&#39;</span><span class="p">]</span>
+    <span class="n">custom_plt_kwargs</span> <span class="o">=</span> <span class="n">get_kwargs</span><span class="p">(</span><span class="n">plt_kwargs</span><span class="p">,</span> <span class="n">custom_kwargs</span><span class="p">)</span>
+
+    <span class="n">raster_kwargs</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">raster_kwargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">raster_kwargs</span>
+    <span class="n">rate_kwargs</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">rate_kwargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rate_kwargs</span>
+
+    <span class="n">tbins</span><span class="p">,</span> <span class="n">trial_frs</span> <span class="o">=</span> <span class="n">compute_trial_frs</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">time_range</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">conditions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">spikes</span> <span class="o">=</span> <span class="n">split_trials_by_condition</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">conditions</span><span class="p">)</span>
+        <span class="n">trial_frs</span> <span class="o">=</span> <span class="n">split_trials_by_condition</span><span class="p">(</span><span class="n">trial_frs</span><span class="p">,</span> <span class="n">conditions</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">axes</span><span class="p">:</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="n">make_axes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+
+    <span class="n">plot_rasters</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="o">**</span><span class="n">raster_kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">plot_rate_by_time</span><span class="p">(</span><span class="n">tbins</span><span class="p">,</span> <span class="n">trial_frs</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">shade</span><span class="o">=</span><span class="s1">&#39;sem&#39;</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">rate_kwargs</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">]:</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">side</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Add vertical line across axes</span>
+    <span class="n">line_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;color&#39;</span> <span class="p">:</span> <span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;line_color&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;lw&#39;</span> <span class="p">:</span> <span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;line_lw&#39;</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span>
+        <span class="s1">&#39;alpha&#39;</span> <span class="p">:</span> <span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;line_alpha&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="s1">&#39;linestyle&#39;</span> <span class="p">:</span> <span class="n">custom_plt_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;line_linestyle&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.25</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">line_kwargs</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">line_kwargs</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<span class="c1">## Trial plot utilities</span>
+
 <div class="viewcode-block" id="create_raster_title"><a class="viewcode-back" href="../../../generated/spiketools.plts.trials.create_raster_title.html#spiketools.plts.trials.create_raster_title">[docs]</a><span class="k">def</span> <span class="nf">create_raster_title</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">avg_pre</span><span class="p">,</span> <span class="n">avg_post</span><span class="p">,</span> <span class="n">t_val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p_val</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a standardized title for an event-related raster plot.</span>
 
@@ -299,8 +399,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2023, Thomas Donoghue.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br/>
+        &copy; Copyright 2021-2025, Thomas Donoghue.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.1.2.<br/>
     </p>
   </div>
 </footer>
