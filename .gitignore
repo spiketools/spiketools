@@ -16,6 +16,7 @@ doc/auto_examples/
 doc/auto_tutorials/
 doc/generated/
 doc/requirements.txt
+doc/sg_execution_times.rst
 
 # Ignore module build files
 dist/*
