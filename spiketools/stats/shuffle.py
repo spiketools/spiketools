@@ -299,8 +299,8 @@ def shuffle_poisson(spikes, n_shuffles=1000, start_time=0):
     This approach creates "shuffles" by simulating new spike trains from a Poisson distribution.
 
     Note that this approach is therefore not strictly a "shuffle" in the sense that the outputs
-    are not literally 'shuffled' versions of the input, and are instead new / simulated set of spikes
-    sampled based on the statistics of the input.
+    are not literally 'shuffled' versions of the input, and are instead new / simulated set of
+    spikes sampled based on the statistics of the input.
 
     In addition, since this approach simulates new spike trains based on an average rate, different
     iterations of the shuffles are not guaranteed to have the same number of spikes (and are not

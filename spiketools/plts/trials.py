@@ -90,7 +90,7 @@ def plot_rasters(spikes, events=None, vline=None, colors=None, vshade=None,
         ax.eventplot(events,
                      color=custom_plt_kwargs.pop('event_color', 'red'),
                      linelengths=custom_plt_kwargs.pop('event_linelengths', 1.25),
-                     linewidths=custom_plt_kwargs.pop('event_linewidths', 3));
+                     linewidths=custom_plt_kwargs.pop('event_linewidths', 3))
 
     add_vlines(vline, ax, zorder=0,
                color=custom_plt_kwargs.pop('line_color', 'green'),

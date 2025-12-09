@@ -104,12 +104,12 @@ def find_empty_ranges(bin_emptiness, bins, time_range=None):
     empty_ranges = []
 
     # Special case: first bin is empty
-    if bin_emptiness[0] == True:
+    if bin_emptiness[0]:
         empty_ranges.append([bins[0], bins[diff_inds[0]]])
         diff_inds = np.delete(diff_inds, 0)
 
     # Special case: last bin is empty
-    if bin_emptiness[-1] == True:
+    if bin_emptiness[-1]:
         empty_ranges.append([bins[diff_inds[-1]], bins[-1]])
         diff_inds = np.delete(diff_inds, -1)
 

@@ -2,7 +2,6 @@
 
 import numpy as np
 
-from spiketools.utils.checks import check_array_orientation
 from spiketools.utils.data import make_orientation
 
 ###################################################################################################
