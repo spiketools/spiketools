@@ -312,6 +312,45 @@ General simulation functions.
    sim_spiketrain
    sim_trials
 
+
+Simulate Place Field
+~~~~~~~~~~~~~~~~~~~~
+
+Simulate place field activity.
+
+.. currentmodule:: spiketools.sim
+.. autosummary::
+   :toctree: generated/
+
+   sim_placefield
+   sim_neuron_placefield
+   sim_occupancy_trials
+
+Simulate Noise
+~~~~~~~~~~~~~~
+
+Simulate noise activity.
+
+.. currentmodule:: spiketools.sim.noise
+.. autosummary::
+   :toctree: generated/
+
+   sim_noise
+   sim_baseline
+
+
+Simulate Place Field Peak
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Simulate place field peak activity.
+
+.. currentmodule:: spiketools.sim.peak
+.. autosummary::
+   :toctree: generated/
+
+   sim_placefield_peak
+
+
 Spike Times
 ~~~~~~~~~~~
 
@@ -346,6 +385,7 @@ Simulate trial-structured data.
    :toctree: generated/
 
    sim_trials_poisson
+   sim_trial_placefield
 
 Utilities
 ~~~~~~~~~

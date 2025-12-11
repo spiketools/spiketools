@@ -10,7 +10,6 @@ from spiketools.plts.utils import check_ax
 
 ###################################################################################################
 ###################################################################################################
-
 def color_pvalue(p_value, alpha=0.05, significant_color='red', null_color='black'):
     """Select a color based on the significance of a p-value.
 
