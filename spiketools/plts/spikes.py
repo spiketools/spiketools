@@ -185,9 +185,9 @@ def plot_firing_rates(rates, ax=None, **plt_kwargs):
     """
 
     plot_bar(rates, labels=['U' + str(ind) for ind in range(len(rates))], ax=ax,
-             xlabel=plt_kwargs.pop('xlabel', 'Units'),
+             xlabel=plt_kwargs.pop('xlabel', 'Neurons'),
              ylabel=plt_kwargs.pop('xlabel', 'Firing Rate (Hz)'),
-             title=plt_kwargs.pop('title', 'Firing Rates of all Units'),
+             title=plt_kwargs.pop('title', 'Firing Rates of all Neurons'),
              **plt_kwargs)
 
 
@@ -207,7 +207,7 @@ def plot_presence_ratios(ratios, ax=None, **plt_kwargs):
     """
 
     plot_bar(ratios, labels=['U' + str(ind) for ind in range(len(ratios))], ax=ax,
-             xlabel=plt_kwargs.pop('xlabel', 'Units'),
+             xlabel=plt_kwargs.pop('xlabel', 'Neurons'),
              ylabel=plt_kwargs.pop('xlabel', 'Presence Ratio'),
-             title=plt_kwargs.pop('title', 'Presence Ratios of all Units'),
+             title=plt_kwargs.pop('title', 'Presence Ratios of all Neurons'),
              **plt_kwargs)
