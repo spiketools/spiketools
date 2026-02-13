@@ -189,3 +189,25 @@ def plot_firing_rates(rates, ax=None, **plt_kwargs):
              ylabel=plt_kwargs.pop('xlabel', 'Firing Rate (Hz)'),
              title=plt_kwargs.pop('title', 'Firing Rates of all Units'),
              **plt_kwargs)
+
+
+@savefig
+@set_plt_kwargs
+def plot_presence_ratios(ratios, ax=None, **plt_kwargs):
+    """Plot presence ratios for a group of neurons.
+
+    Parameters
+    ----------
+    ratios : list of float
+        Presence ratios.
+    ax : Axes, optional
+        Axis object upon which to plot.
+    plt_kwargs
+        Additional arguments to pass into the plot function.
+    """
+
+    plot_bar(ratios, labels=['U' + str(ind) for ind in range(len(ratios))], ax=ax,
+             xlabel=plt_kwargs.pop('xlabel', 'Units'),
+             ylabel=plt_kwargs.pop('xlabel', 'Presence Ratio'),
+             title=plt_kwargs.pop('title', 'Presence Ratios of all Units'),
+             **plt_kwargs)

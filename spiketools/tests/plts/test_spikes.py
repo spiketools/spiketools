@@ -43,3 +43,9 @@ def test_plot_firing_rates():
 
     plot_firing_rates(np.array([2.5, 0.5, 1.2, 3.4]),
                       file_path=TEST_PLOTS_PATH, file_name='tplot_firing_rates.png')
+
+@plot_test
+def test_plot_presence_ratios():
+
+    plot_presence_ratios(np.array([0.5, 0.75, 0.25, 0.8]),
+                      file_path=TEST_PLOTS_PATH, file_name='tplot_presence_ratios.png')
