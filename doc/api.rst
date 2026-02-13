@@ -378,6 +378,7 @@ Plots for spike data.
    plot_waveform_density
    plot_isis
    plot_firing_rates
+   plot_presence_ratios
 
 Spatial
 ~~~~~~~

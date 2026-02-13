@@ -199,7 +199,7 @@ def test_compute_occupancy_df():
     assert np.array_equal(occ, np.array([[10, 5, 5], [10, 10, 5]]))
 
     # check minimum
-    occ = compute_occupancy_df(bindf, bins, minimum=6)
+    occ = compute_occupancy_df(bindf, bins, minimum=6.)
     assert np.array_equal(occ, np.array([[10, 0, 0], [10, 10, 0]]))
 
     # check normalization
