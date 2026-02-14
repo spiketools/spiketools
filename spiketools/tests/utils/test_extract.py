@@ -104,6 +104,9 @@ def test_get_ind_by_value():
     assert get_ind_by_value(values, 22) == 1
     assert get_ind_by_value(values, 23) == 3
 
+    # test with NaN input
+    assert get_ind_by_value(values, np.nan) == -1
+
     # test with threshold
     assert get_ind_by_value(values, 26, threshold=2) == 3
     assert get_ind_by_value(values, 30, threshold=1) == -1
@@ -133,10 +136,6 @@ def test_get_inds_by_values():
     np.array_equal(inds, np.array([np.nan, 3]), equal_nan=True)
     inds = get_inds_by_values(values, extract, threshold=0.25, drop_null=False)
     np.array_equal(inds, np.array([3]), equal_nan=True)
-
-    # test for error with nan input
-    with raises(AssertionError):
-        ind = get_ind_by_time(values, np.nan)
 
     # Test empty extraction
     inds_empty = get_inds_by_values(values, np.array([]))
