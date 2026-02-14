@@ -63,6 +63,11 @@ def test_epoch_data_by_time():
     assert len(tvalues) == len(timepoints)
     assert np.array_equal(tvalues, np.array([3, 7, 11]))
 
+    # Test with NaN input
+    timepoints_nan = np.array([5, np.nan, 10])
+    tvalues_nan = epoch_data_by_time(times, values, timepoints_nan)
+    assert len(tvalues_nan) == len(timepoints_nan)
+
     # Test 2d array
     values_2d = np.array([[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]])

@@ -192,7 +192,8 @@ def get_ind_by_value(values, value, threshold=None):
     Returns
     -------
     ind : int
-        The index value for the requested value, or -1 if out of threshold range.
+        The index value for the requested value.
+        Ind value is -1 if `value` input is NaN, or index out of threshold range.
 
     Examples
     --------
@@ -204,13 +205,15 @@ def get_ind_by_value(values, value, threshold=None):
     """
 
     check_param_type(value, 'value', (int, float, np.int64, np.float64))
-    assert not np.isnan(value), "The given `value` is nan - cannot continue."
 
-    ind = int(np.abs(values - value).argmin())
+    if np.isnan(value):
+        ind = -1
 
-    if threshold:
-        if np.abs(values[ind] - value) > threshold:
-            ind = -1
+    else:
+        ind = int(np.abs(values - value).argmin())
+        if threshold:
+            if np.abs(values[ind] - value) > threshold:
+                ind = -1
 
     return ind
 
