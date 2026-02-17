@@ -410,7 +410,7 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
 
     # Group position samples into spatial bins, summing total time spent there
     groupby = sorted([el for el in list(bindf.columns) if 'bin' in el])
-    bingroup = bindf.groupby(groupby)['time'].sum()
+    bingroup = bindf.groupby(groupby, observed=False)['time'].sum()
     # This standardizes any unobserved values to be zero
     #   This can otherwise vary by code version (sometimes being NaN instead)
     bingroup = bingroup.fillna(0)
