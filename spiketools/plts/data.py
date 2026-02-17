@@ -158,7 +158,7 @@ def plot_bar(data, labels=None, add_text=False, hline=None, hline_kwargs=None,
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    if not labels:
+    if labels is None:
         labels = ['d' + str(ind) for ind in range(len(data))]
 
     ax.bar(labels, data, **plt_kwargs)
@@ -195,7 +195,7 @@ def plot_barh(data, labels=None, add_text=False, ax=None, **plt_kwargs):
 
     ax = check_ax(ax, figsize=plt_kwargs.pop('figsize', None))
 
-    if not labels:
+    if labels is None:
         labels = ['d' + str(ind) for ind in range(len(data))]
 
     ax.barh(labels, data, **plt_kwargs)
