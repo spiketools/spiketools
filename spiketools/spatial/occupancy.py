@@ -488,7 +488,7 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     position value is defined as the time duration from the corresponding timestamp to the
     subsequent timestamp, summed across all position values.
     Note that this means that that the final position marker will not be assigned any
-    occupancy time, as there is next timestamp and thus no duration to be assigned.
+    occupancy time, as there is no next timestamp and thus no duration to be assigned.
 
     Examples
     --------
@@ -557,8 +557,8 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
 
     Notes
     -----
-    Since occupancy is computed per trial, keep in mind that parameters that manage
-    occupancy determination will be applied separately for each trial level calculation,
+    Note that since occupancy is computed per trial, parameters that manage occupancy
+    determination will be applied separately for each trial level calculation, and
     not across the overall task.
 
     Examples
