@@ -28,6 +28,12 @@ def test_compute_spatial_information():
     assert isinstance(spatial_info3, float)
     assert np.isclose(spatial_info3, spatial_info2)
 
+    # Test for bits per second output
+    spatial_info_second = compute_spatial_information(\
+        binned_firing_new, occupancy, output='second')
+    assert isinstance(spatial_info_second, float)
+    assert spatial_info2 != spatial_info_second
+
     # 2d case: set baseline test values, with no spatial info
     occupancy = np.array([[1, 1, 1, 1], [1, 1, 1, 1]])
     binned_firing = np.array([[1, 1, 1, 1], [1, 1, 1, 1]])
