@@ -7,7 +7,7 @@ from spiketools.spatial.occupancy import normalize_bin_counts
 ###################################################################################################
 ###################################################################################################
 
-def compute_spatial_information(bin_firing, occupancy, normalize=False):
+def compute_spatial_information(bin_firing, occupancy, normalize=False, output='spike'):
     """Compute spatial information.
 
     Parameters
@@ -19,6 +19,8 @@ def compute_spatial_information(bin_firing, occupancy, normalize=False):
     normalize : bool, optional, default: False
         If True, normalize the binned firing rate data by the occupancy.
         If False, it is assumed that the binned firing has already been normalized.
+    output : {'spike', 'second'}
+        Specify whether to return the output as bits per spike or bits per second.
 
     Returns
     -------
@@ -27,11 +29,16 @@ def compute_spatial_information(bin_firing, occupancy, normalize=False):
 
     Notes
     -----
-    This measure computes the spatial information between the firing and spatial location, as:
+    This measure computes the spatial information between the firing and
+    spatial location, as defined in Skaggs et al, 1992, as:
 
     .. math::
 
         I = \\sum{\\lambda (x) log_2 \\frac{\\lambda(x)} {\\lambda} p(x)dx}
+
+    The above formula returns the spatial information as bits per second.
+    In order to gets bits per spike, this value is further divided by the firing rate.
+    Which value is returned here is controlled by the 'output' parameter.
 
     References
     ----------
@@ -76,6 +83,10 @@ def compute_spatial_information(bin_firing, occupancy, normalize=False):
 
     # Calculate the spatial information, using a mask for nonzero values
     nz = np.nonzero(bin_firing)
-    info = np.nansum(occ_prob[nz] * bin_firing[nz] * np.log2(bin_firing[nz] / rate)) / rate
+    info = np.nansum(occ_prob[nz] * bin_firing[nz] * np.log2(bin_firing[nz] / rate))
+
+    # If requested converted output to bits per spike (otherwise is bits per second)
+    if output == 'spike':
+        info = info / rate
 
     return info
