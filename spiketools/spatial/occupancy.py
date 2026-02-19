@@ -484,6 +484,12 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     the output of this function, being a 2d array, follows the numpy convention in which
     columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
 
+    Occupancy is defined as the total time per location bin, whereby time in location for each
+    position value is defined as the time duration from the corresponding timestamp to the
+    subsequent timestamp, summed across all position values.
+    Note that this means that that the final position marker will not be assigned any
+    occupancy time, as there is next timestamp and thus no duration to be assigned.
+
     Examples
     --------
     Compute occupancy for a set of 1d position values:
