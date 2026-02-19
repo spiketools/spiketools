@@ -37,8 +37,9 @@ def compute_place_bins(spikes, position, timestamps, bins, area_range=None,
         Minimum and/or maximum speed thresholds to apply.
         Any spikes with an associated speed below the minimum or above maximum are dropped.
     time_threshold : float, optional
-        A maximum time threshold, per bin observation, to apply.
-        If provided, any bin values with an associated time length above this value are dropped.
+        A maximum time threshold to apply for selecting position values from spikes.
+        If provided, any spikes for which the associated position value is beyond
+        this threshold, typically indicating stationary time in the bin, will be dropped.
     occupancy : 1d or 2d array, optional
         Computed occupancy across the space.
         If provided, used to normalize bin counts.
@@ -103,8 +104,9 @@ def compute_trial_place_bins(spikes, position, timestamps, bins, start_times, st
         Minimum and/or maximum speed thresholds to apply.
         Any spikes with an associated speed below the minimum or above maximum are dropped.
     time_threshold : float, optional
-        A maximum time threshold, per bin observation, to apply.
-        If provided, any bin values with an associated time length above this value are dropped.
+        A maximum time threshold to apply for selecting position values from spikes.
+        If provided, any spikes for which the associated position value is beyond
+        this threshold, typically indicating stationary time in the bin, will be dropped.
     trial_occupancy : 2d or 3d array, optional
         Computed occupancy across the space, across trials.
         If provided, used to normalize bin counts per trial.
