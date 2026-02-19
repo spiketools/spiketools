@@ -166,7 +166,9 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None, orie
     Returns
     -------
     bin_counts : 1d or 2d array
-        Amount of events in each bin.
+        Count data per bin.
+        If 'occupancy' is provided as input, this is normalized by occupancy, such that
+        output values are rates (floats), otherwise is raw counts (integers).
         For 2d, has shape [n_y_bins, n_x_bins] (see notes).
 
     Notes
@@ -206,7 +208,7 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None, orie
 
 
 def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
-    """Compute number of counts per bin, from bin assignments.
+    """Compute counts per bin, from bin assignments.
 
     Parameters
     ----------
@@ -224,7 +226,9 @@ def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
     Returns
     -------
     bin_counts : 1d or 2d array
-        Amount of counts in each bin.
+        Count data per bin.
+        If 'occupancy' is provided as input, this is normalized by occupancy, such that
+        output values are rates (floats), otherwise is raw counts (integers).
         For 2d, has shape [n_y_bins, n_x_bins] (see notes).
 
     Notes
