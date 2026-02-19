@@ -329,7 +329,7 @@ def create_position_df(position, timestamps, bins, area_range=None, speed=None,
         Speed values corresponding to each position.
         Should be the same length as timestamps.
     min_speed, max_speed : float, optional
-        Minimum and/or maximum speed thresholds to apply.
+        Minimum and/or maximum speed thresholds to apply. Requires `speed` be provided.
         Any entries with an associated speed below the minimum or above maximum are dropped.
     min_time, max_time : float, optional
         Minimum and/or maximum time thresholds, per bin observation, to apply.
@@ -348,6 +348,8 @@ def create_position_df(position, timestamps, bins, area_range=None, speed=None,
     bins = check_bin_definition(bins, position)
 
     data_dict = {'time' : compute_sample_durations(timestamps)}
+    if (min_speed or max_speed) and speed is None:
+        raise ValueError('speed values must be passed in to use speed thresholding.')
     if speed is not None:
         data_dict['speed'] = speed
 
@@ -455,7 +457,7 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
         Speed values corresponding to each position.
         Should be the same length as timestamps.
     min_speed, max_speed : float, optional
-        Minimum and/or maximum speed thresholds to apply.
+        Minimum and/or maximum speed thresholds to apply. Requires `speed` be provided.
         Any entries with an associated speed below the minimum or above maximum are dropped.
     min_time, max_time : float, optional
         Minimum and/or maximum time thresholds, per bin observation, to apply.
