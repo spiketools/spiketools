@@ -398,8 +398,8 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     minimum : float, optional
-        The minimum required occupancy.
-        If defined, any values below this are set to zero.
+        The minimum required overall occupancy, per bin.
+        If defined, any bin values in the total occupancy below this are set to zero.
     normalize : bool, optional, default: False
         Whether to normalize occupancy to sum to 1.
     set_nan : bool, optional, default: False
@@ -465,8 +465,8 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     check_range : bool, optional, default: True
         Whether to check the given bin definition range against the position values.
     minimum : float, optional
-        The minimum required occupancy.
-        If defined, any values below this are set to zero.
+        The minimum required overall occupancy, per bin.
+        If defined, any bin values in the total occupancy below this are set to zero.
     normalize : bool, optional, default: False
         Whether to normalize occupancy to sum to 1.
     set_nan : bool, optional, default: False
