@@ -461,7 +461,7 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
         Any entries with an associated speed below the minimum or above maximum are dropped.
     min_time, max_time : float, optional
         Minimum and/or maximum time thresholds, per bin observation, to apply.
-        Any entries with an associated time length below the minimum or above maximum are dropped.
+        Any entries with an associated duration below the minimum or above the maximum are dropped.
     check_range : bool, optional, default: True
         Whether to check the given bin definition range against the position values.
     minimum : float, optional
@@ -543,7 +543,7 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
         Any entries with an associated speed below the minimum or above maximum are dropped.
     min_time, max_time : float, optional
         Minimum and/or maximum time thresholds, per bin observation, to apply.
-        Any entries with an associated time length below the minimum or above maximum are dropped.
+        Any entries with an associated duration below the minimum or above the maximum are dropped.
     orientation : {'row', 'column'}, optional
         The orientation of the position data.
         If not provided, is inferred from the position data.
@@ -554,6 +554,12 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
     -------
     trial_occupancy : ndarray
         Occupancy data across trials.
+
+    Notes
+    -----
+    Since occupancy is computed per trial, keep in mind that parameters that manage
+    occupancy determination will be applied separately for each trial level calculation,
+    not across the overall task.
 
     Examples
     --------
