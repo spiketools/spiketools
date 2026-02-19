@@ -166,7 +166,9 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None, orie
     Returns
     -------
     bin_counts : 1d or 2d array
-        Amount of events in each bin.
+        Count data per bin.
+        If 'occupancy' is provided as input, this is normalized by occupancy, such that
+        output values are rates (floats), otherwise is raw counts (integers).
         For 2d, has shape [n_y_bins, n_x_bins] (see notes).
 
     Notes
@@ -206,7 +208,7 @@ def compute_bin_counts_pos(position, bins, area_range=None, occupancy=None, orie
 
 
 def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
-    """Compute number of counts per bin, from bin assignments.
+    """Compute counts per bin, from bin assignments.
 
     Parameters
     ----------
@@ -224,7 +226,9 @@ def compute_bin_counts_assgn(bins, xbins, ybins=None, occupancy=None):
     Returns
     -------
     bin_counts : 1d or 2d array
-        Amount of counts in each bin.
+        Count data per bin.
+        If 'occupancy' is provided as input, this is normalized by occupancy, such that
+        output values are rates (floats), otherwise is raw counts (integers).
         For 2d, has shape [n_y_bins, n_x_bins] (see notes).
 
     Notes
@@ -325,7 +329,7 @@ def create_position_df(position, timestamps, bins, area_range=None, speed=None,
         Speed values corresponding to each position.
         Should be the same length as timestamps.
     min_speed, max_speed : float, optional
-        Minimum and/or maximum speed thresholds to apply.
+        Minimum and/or maximum speed thresholds to apply. Requires `speed` be provided.
         Any entries with an associated speed below the minimum or above maximum are dropped.
     min_time, max_time : float, optional
         Minimum and/or maximum time thresholds, per bin observation, to apply.
@@ -344,6 +348,8 @@ def create_position_df(position, timestamps, bins, area_range=None, speed=None,
     bins = check_bin_definition(bins, position)
 
     data_dict = {'time' : compute_sample_durations(timestamps)}
+    if (min_speed or max_speed) and speed is None:
+        raise ValueError('speed values must be passed in to use speed thresholding.')
     if speed is not None:
         data_dict['speed'] = speed
 
@@ -392,8 +398,8 @@ def compute_occupancy_df(bindf, bins, minimum=None, normalize=False, set_nan=Fal
         The bin definition for dividing up the space. If 1d, can be integer.
         If 2d should be a list, defined as [number of x_bins, number of y_bins].
     minimum : float, optional
-        The minimum required occupancy.
-        If defined, any values below this are set to zero.
+        The minimum required overall occupancy, per bin.
+        If defined, any bin values in the total occupancy below this are set to zero.
     normalize : bool, optional, default: False
         Whether to normalize occupancy to sum to 1.
     set_nan : bool, optional, default: False
@@ -451,16 +457,16 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
         Speed values corresponding to each position.
         Should be the same length as timestamps.
     min_speed, max_speed : float, optional
-        Minimum and/or maximum speed thresholds to apply.
+        Minimum and/or maximum speed thresholds to apply. Requires `speed` be provided.
         Any entries with an associated speed below the minimum or above maximum are dropped.
     min_time, max_time : float, optional
         Minimum and/or maximum time thresholds, per bin observation, to apply.
-        Any entries with an associated time length below the minimum or above maximum are dropped.
+        Any entries with an associated duration below the minimum or above the maximum are dropped.
     check_range : bool, optional, default: True
         Whether to check the given bin definition range against the position values.
     minimum : float, optional
-        The minimum required occupancy.
-        If defined, any values below this are set to zero.
+        The minimum required overall occupancy, per bin.
+        If defined, any bin values in the total occupancy below this are set to zero.
     normalize : bool, optional, default: False
         Whether to normalize occupancy to sum to 1.
     set_nan : bool, optional, default: False
@@ -477,6 +483,12 @@ def compute_occupancy(position, timestamps, bins, area_range=None, speed=None,
     For the 2d case, note that while the inputs to this function list the x-axis first,
     the output of this function, being a 2d array, follows the numpy convention in which
     columns (y-axis) are on the 0th dimension, and rows (x-axis) are on the 1th dimension.
+
+    Occupancy is defined as the total time per location bin, whereby time in location for each
+    position value is defined as the time duration from the corresponding timestamp to the
+    subsequent timestamp, summed across all position values.
+    Note that this means that that the final position marker will not be assigned any
+    occupancy time, as there is no next timestamp and thus no duration to be assigned.
 
     Examples
     --------
@@ -531,7 +543,7 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
         Any entries with an associated speed below the minimum or above maximum are dropped.
     min_time, max_time : float, optional
         Minimum and/or maximum time thresholds, per bin observation, to apply.
-        Any entries with an associated time length below the minimum or above maximum are dropped.
+        Any entries with an associated duration below the minimum or above the maximum are dropped.
     orientation : {'row', 'column'}, optional
         The orientation of the position data.
         If not provided, is inferred from the position data.
@@ -542,6 +554,12 @@ def compute_trial_occupancy(position, timestamps, bins, start_times, stop_times,
     -------
     trial_occupancy : ndarray
         Occupancy data across trials.
+
+    Notes
+    -----
+    Note that since occupancy is computed per trial, parameters that manage occupancy
+    determination will be applied separately for each trial level calculation, and
+    not across the overall task.
 
     Examples
     --------
