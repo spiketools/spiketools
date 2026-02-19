@@ -1,0 +1,69 @@
+"""Simulate noise."""
+
+import numpy as np
+
+###################################################################################################
+###################################################################################################
+
+def _sim_random(mean, std, n_bins):
+    """Simulate random noise.
+
+    Parameters
+    ----------
+    mean: float
+        Mean of the noise.
+    std: float
+        Standard deviation of the noise.
+    n_bins: int
+        Number of spatial bins
+
+    Returns
+    -------
+    noise: array-like
+        Simulated noise, in Hz.
+    """
+    return np.random.normal(mean, std, size=n_bins)
+
+
+def sim_baseline(n_bins, base_mean, base_std):
+    """Simulate place field's baseline firing rate.
+
+    Parameters
+    ----------
+    num_bins: int
+            Number of spatial bins.
+    base_mean: int
+            Average firing rate.
+    base_std: int
+            Standard deviation of the firing rate.
+
+    Returns
+    -------
+    baseline: 1d array
+            Simulated baseline firing rate, in Hz.
+    """
+
+    baseline = _sim_random(base_mean, base_std, n_bins)
+    baseline = np.abs(baseline)
+    return baseline
+
+
+def sim_noise(n_bins, noise_std):
+    """Simulate place field's noise.
+
+    Parameters
+    ----------
+    num_bins: int
+            Number of spatial bins.
+    noise_std: int
+            Standard deviation of the firing rate.
+
+    Returns
+    -------
+    noise: 1d array
+            Simulated noise, in Hz.
+    """
+
+    noise =  _sim_random(0, noise_std, n_bins)
+    noise = np.abs(noise)
+    return noise
