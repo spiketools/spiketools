@@ -51,9 +51,14 @@ Available sub-modules in ``spiketools`` include:
 Scope
 -----
 
-``spiketools`` is currently focused on analyses of single-neuron activity.
+``spiketools`` is focused on processing and analyzing single-neuron activity,
+as well as related simulations.
 
-The current scope does not include population measures, though this may be extended in the future.
+The current approach is largely oriented around neuron-by-neuron analyses, and the scope does
+not include population measures (though this may be extended in the future).
+
+``spiketools`` can be used for analyzing human single-neuron recordings, including
+as part of the `Human Single Neuron Pipeline <https://hsnpipeline.github.io/>`_.
 
 Note that ``spiketools`` does *not* cover spike sorting.
 Check out `spikeinterface <https://github.com/SpikeInterface/>`_ for spike sorting.
@@ -73,8 +78,8 @@ The documentation includes:
 - `Glossary <https://spiketools.github.io/spiketools/glossary.html>`_:
   which defines key terms used in the module
 
-If you have a question about using ``spiketools`` that doesn't seem to be covered by the documentation, feel free to
-open an `issue <https://github.com/spiketools/spiketools/issues>`_ and ask!
+If you have a question about ``spiketools`` that isn't answered covered by the documentation,
+please open an `issue <https://github.com/spiketools/spiketools/issues>`_ and ask!
 
 Dependencies
 ------------
@@ -100,7 +105,8 @@ Installation
 
 The current release version of `spiketools` is the 0.X.X series.
 
-See the `changelog <https://spiketools.github.io/spiketools/changelog.html>`_ for notes on major version releases.
+See the `changelog <https://spiketools.github.io/spiketools/changelog.html>`_
+for notes on major version releases.
 
 **Stable Release Version**
 
