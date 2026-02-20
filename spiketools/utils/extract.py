@@ -541,7 +541,7 @@ def drop_range(spikes, time_range, check_empty=True):
         Spike times, in seconds.
     time_range : list of [float, float] or list of list of [float, float]
         Time range(s), in seconds, to drop from spike times.
-        Each time range should be defined as [start_add_time, end_add_time].
+        Each time range should be defined as [start_drop_time, end_drop_time].
     check_empty : bool, optional, default: True
         Whether to check if the dropped range is empty of spikes.
         If True, and there are spikes within the drop `time_range`, an error is raised.

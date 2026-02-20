@@ -37,6 +37,19 @@ def shuffle_spikes(spikes, approach, n_shuffles=1000, start_time=0, **kwargs):
     shuffled_spikes : 2d array
         Shuffled spike times.
 
+    Notes
+    -----
+    Spike shuffling also supports dropping time ranges from shuffling.
+
+    This is applied via a decorator which catches the following optional inputs:
+
+    drop_time_range : list of [float, float] or list of list of [float, float]
+        Time range(s), in seconds, to drop from spike times before shuffling.
+        Each time range should be defined as [start_drop_time, end_drop_time].
+    check_empty : bool, optional, default: True
+        Whether to check if the dropped range is empty of spikes.
+        If True, and there are spikes within the `drop_time_range`, an error is raised.
+
     Examples
     --------
     Simulate some example spikes for examples:
@@ -127,6 +140,12 @@ def shuffle_isis(spikes, n_shuffles=1000, start_time=0):
     shuffled_spikes : 2d array
         Shuffled spike times.
 
+    Notes
+    -----
+    Spike shuffling also supports dropping time ranges from shuffling, using optional inputs
+    `drop_time_range` and `check_empty` which are caught by a decorator and applied.
+    See additional notes on doing this in the `shuffle_spikes` function.
+
     Examples
     --------
     Shuffle spike times using the ISI shuffle method:
@@ -169,6 +188,10 @@ def shuffle_circular(spikes, shuffle_min=20000, n_shuffles=1000, start_time=0):
     Notes
     -----
     The input shuffle_min should always be less than the maximum time in which a spike occurred.
+
+    Spike shuffling also supports dropping time ranges from shuffling, using optional inputs
+    `drop_time_range` and `check_empty` which are caught by a decorator and applied.
+    See additional notes on doing this in the `shuffle_spikes` function.
 
     Examples
     --------
@@ -216,16 +239,21 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000, start_time=0)
 
     Notes
     -----
-    This approach shuffles spikes by creating bins of varying length and then
-    circularly shuffling within those bins.
-    This should disturb the spike to spike structure in a dynamic way while also
-    conserving structure uniformly across the distribution of lags.
-    This function can be a little slow when running a lot.
-    The main holdup is `np.roll` (unclear if / how to optimize).
-    The next biggest hold up is converting the spike train to spike times.
+    This approach shuffles spikes by creating bins of varying length and then circularly shuffling
+    within each bin. This shuffles the time stamps of all spikes within bins, while avoiding
+    a simple circular rotation and preserving slow dynamics.
+
     This shuffling process is very dependent on the `bin_width_range` argument.
     It is recommended that `bin_width_range[1] > 3`, and that the difference
     between the two values of `bin_width_range` is at least 1.
+
+    Note that this approach is slower than simpler approaches, due to spending time on
+    the multiple calls to `np.roll` to rotate within each bin, as well as due to converting
+    between spike times and spike trains.
+
+    Spike shuffling also supports dropping time ranges from shuffling, using optional inputs
+    `drop_time_range` and `check_empty` which are caught by a decorator and applied.
+    See additional notes on doing this in the `shuffle_spikes` function.
 
     Examples
     --------
@@ -236,7 +264,8 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000, start_time=0)
     >>> shuffled_spikes = shuffle_bins(spikes, bin_width_range=[3, 4], n_shuffles=5)
     """
 
-    spike_train = convert_times_to_train(spikes)
+    fs = 1000
+    spike_train = convert_times_to_train(spikes, fs=fs)
 
     shuffled_spikes = np.zeros([n_shuffles, spikes.shape[-1]])
 
@@ -245,8 +274,8 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000, start_time=0)
         # Define the bins to use for shuffling
         #  This creates the maximum number of bins, then sub-selects to bins that tile the space
         #  This approach is a little quicker than iterating through and stopping space is tiled
-        temp = np.random.randint(bin_width_range[0] * 1000, bin_width_range[1] * 1000,
-                                 int(spike_train.shape[-1] / (bin_width_range[0] * 1000)))
+        temp = np.random.randint(bin_width_range[0] * fs, bin_width_range[1] * fs,
+                                 int(spike_train.shape[-1] / (bin_width_range[0] * fs)))
         right_edges = np.cumsum(temp)
         right_edges = right_edges[right_edges < spike_train.shape[-1]]
         right_edges[-1] = spike_train.shape[-1]
@@ -259,10 +288,10 @@ def shuffle_bins(spikes, bin_width_range=[.5, 7], n_shuffles=1000, start_time=0)
         if np.sum([re - le for le, re in zip(left_edges, right_edges)]) != spike_train.shape[-1]:
             raise ValueError('Problem with bins covering the whole length.')
 
+        # QUESTION / CHECK: should the low range here be divided by two?
         # Assign a shuffle amount to each bin
-        #   QUESTION / CHECK: should the low range here be divided by two?
-        shuffle_num = np.random.randint(low=(bin_width_range[0] * 1000) / 2,
-                                        high=bin_width_range[1] * 1000,
+        shuffle_num = np.random.randint(low=(bin_width_range[0] * fs) / 2,
+                                        high=bin_width_range[1] * fs,
                                         size=len(left_edges))
 
         # Circularly shuffle each bin
@@ -299,13 +328,17 @@ def shuffle_poisson(spikes, n_shuffles=1000, start_time=0):
     This approach creates "shuffles" by simulating new spike trains from a Poisson distribution.
 
     Note that this approach is therefore not strictly a "shuffle" in the sense that the outputs
-    are not literally 'shuffled' versions of the input, and are instead new / simulated set of
-    spikes sampled based on the statistics of the input.
+    are not literally actually shuffled versions of the input, and are instead new simulated sets
+    of spikes sampled based on the statistics of the input.
 
-    In addition, since this approach simulates new spike trains based on an average rate, different
-    iterations of the shuffles are not guaranteed to have the same number of spikes (and are not
-    guaranteed to have the same number of spikes as the input). This is why the outputs are returned
-    are a list of shuffles.
+    In addition, since this approach simulates new spike trains based on an average rate,
+    shuffles are not guaranteed to have the same number of spikes as the input, nor are different
+    iterations of the shuffles guaranteed to have the same number of spikes as each other.
+    This is why the outputs are returned as a list of shuffles, due to inconsistent shape.
+
+    Spike shuffling also supports dropping time ranges from shuffling, using optional inputs
+    `drop_time_range` and `check_empty` which are caught by a decorator and applied.
+    See additional notes on doing this in the `shuffle_spikes` function.
 
     Examples
     --------
