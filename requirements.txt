@@ -1,5 +1,5 @@
 numpy
-# Note: tag pandas below 3 while are some quirks with access numpy arrays
+# Note: tag pandas below 3 while are some quirks with accessing numpy arrays
 pandas < 3.0.0
 scipy
 matplotlib
